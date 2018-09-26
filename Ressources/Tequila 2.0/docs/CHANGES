@@ -1,0 +1,90 @@
+Changes with Tequila server 1.0
+
+  1) Resources.
+
+     Resources are predefined application clients. Everything this client needs
+     must be in the definition of the resource. Resources files are placed in the
+     <tequila_dir>/Resources. The name of the file is the name of the resource.
+     Resources must present a valid SSL certificate when they request user
+     attributes. This certificate must be signed by the local organization CA.
+
+     Apart from the client attributes, there is 3 specific attributes to describe
+     the resource :
+
+	- contact : The email address of the person responsible for this resource.
+	- checkresource : If value is anything else than 'n', Tequila checks the
+	  cn of the certificate to match the resource name itself.
+	- allowedhosts : The list of hosts that are allowed host the resource.
+	  If specified, the cn of the resource certificate must match one of these
+	  hostnames. Use only if you have checkresource to 'n'.
+
+  2) Attribute policy.
+
+     The SensitiveAttributes from Tequila-1.0 has vanished. It is replaced with a
+     much more powerful tool called policies.  At the server level, each attribute
+     known to Tequila has a policy associated. This policy has one of the following
+     value : Always, Confirm and Never. 'Always' attributes are given to applications
+     without notice, 'Confirm' attributes are delivered only with user agreement,
+    'Never' attributes are not delivered to client applications.
+
+     Attribute policies are associated with resources. Each attribute has (can have)
+     a different policy for each resource. The default server policy is user for
+     anonymous clients (i.e. not associated with a resource).
+
+     More than that, all users known to the Tequila server can manage their own
+     private attribute policy. There is a special tool called Tape (Tequila
+     Attribute Policy Editor) for this purpose.
+
+  3) Plugin support (limited).
+
+     A limited plugin support has been added. They must be Perl modules. They are can
+     be used to extend the set of command understood by Tequila. The AuthDigest extension
+     is written as a plugin ans can be used as an example.
+
+  3) Portal support.
+
+     Resources with the attribute 'portal' set can impersonate users and login to other
+     Tequila applications, and to 'digest' protected web resources. see 'portallogin',
+     'gendigestresponse', 'gendigestchallenge' and 'checkdigestresponse' commands. Digest
+     support is implemented as a plugin.
+
+  4) Session manager - dsm.
+  2) User info.
+
+  4) Server certificate check.
+
+  5) Shibbboleth interface
+
+	Tequila.conf
+	DoWAYF
+
+  6) Software keyboard.
+
+	SoftwareKeyboard
+
+  7) Service description
+
+  8) Messages translations are now in a separate file : Messages.conf.
+
+  9) Default charset.
+
+	DefaultCharset
+
+
+ 10) UserCanOverridePolicy: on|off
+     FixedPolicy: list of attributes.
+
+ 11) AlwaysConfirmUser
+
+ 12) AlwaysConfirmAttrs
+
+ 13) AllowAnonymous
+
+ 14) Support for case insensitive file systems (GLOUP).
+
+ 15) AllowsUnknownUsers / categorie = unknown
+
+ 16) User preferences.
+
+ 17) Multiple identities.
+
