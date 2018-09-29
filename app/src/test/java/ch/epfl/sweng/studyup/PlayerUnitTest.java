@@ -16,14 +16,14 @@ public class PlayerUnitTest {
         Player player = new Player();
         assertEquals(player.getLevelProgress(), 0.0, 10e-6);
 
-        player.addExperience(20);
+        player.addExperience(Player.XP_TO_LEVEL_UP/2);
         assertEquals(player.getLevel(), 0);
-        assertEquals(player.getExperience(), 20);
-        assertEquals(player.getLevelProgress(), 0.2, 10e-6);
+        assertEquals(player.getExperience(), Player.XP_TO_LEVEL_UP/2);
+        assertEquals(player.getLevelProgress(), 0.5, 10e-2);
 
-        player.addExperience(100);
+        player.addExperience(Player.XP_TO_LEVEL_UP);
         assertEquals(player.getLevel(), 1);
-        assertEquals(player.getExperience(), 120);
-        assertEquals(player.getLevelProgress(), 0.2, 10e-6);
+        assertEquals(player.getExperience(), (Player.XP_TO_LEVEL_UP * 3) / 2);
+        assertEquals(player.getLevelProgress(), 0.5, 10e-2);
     }
 }

@@ -3,7 +3,7 @@ package ch.epfl.sweng.studyup;
 public class Player {
     private int experience;
     private int level;
-    public static int xpToLevelUp = 100;
+    public final static int XP_TO_LEVEL_UP = 100;
 
     public Player(){
         experience = 0;
@@ -19,7 +19,7 @@ public class Player {
     }
 
     private void updateLevel(){
-        level = experience / xpToLevelUp;
+        level = experience / XP_TO_LEVEL_UP;
     }
 
     public void addExperience(int xp){
@@ -28,6 +28,6 @@ public class Player {
     }
 
     public double getLevelProgress(){
-        return (experience % xpToLevelUp) * 1.0/xpToLevelUp;
+        return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
 }
