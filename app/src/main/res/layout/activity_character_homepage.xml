@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         plainpie:inner_pie_padding="30"
         plainpie:inner_text_visibility="true"
-        plainpie:percentage="@string/xp_percentage"
+        plainpie:percentage="0"
         plainpie:percentage_size="50" />
 
     <Button
