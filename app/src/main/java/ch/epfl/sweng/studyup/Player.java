@@ -1,5 +1,7 @@
 package ch.epfl.sweng.studyup;
 
+import az.plainpie.PieView;
+
 public class Player {
     private int experience;
     private int level;

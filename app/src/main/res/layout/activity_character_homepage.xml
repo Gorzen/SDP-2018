@@ -9,8 +9,8 @@
 
     <az.plainpie.PieView
         android:id="@+id/pieView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,17 +18,18 @@
         plainpie:inner_pie_padding="30"
         plainpie:inner_text_visibility="true"
         plainpie:percentage="@string/xp_percentage"
-        plainpie:percentage_size="70" />
+        plainpie:percentage_size="50" />
 
     <Button
         android:id="@+id/xpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         android:onClick="addExpPlayer"
         plainpie:layout_constraintBottom_toBottomOf="parent"
-        plainpie:layout_constraintEnd_toEndOf="parent" />
+        plainpie:layout_constraintEnd_toEndOf="parent"
+        tools:text="add XP" />
 
 </android.support.constraint.ConstraintLayout>
