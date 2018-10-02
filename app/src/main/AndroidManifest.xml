@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CharacterHomepageActivity"
+            android:label="@string/character_homepage"
+            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity" >
+            //The meta-data is to be compatible with Android 4.0 and lower
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.epfl.sweng.studyup.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
