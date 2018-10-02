@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CharacterHomepageActivity">
+
+    <az.plainpie.PieView
+        android:id="@+id/pieView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        plainpie:inner_pie_padding="30"
+        plainpie:inner_text_visibility="true"
+        plainpie:percentage="0"
+        plainpie:percentage_size="50" />
+
+    <Button
+        android:id="@+id/xpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="addExpPlayer"
+        plainpie:layout_constraintBottom_toBottomOf="parent"
+        plainpie:layout_constraintEnd_toEndOf="parent"
+        tools:text="add XP" />
+
+</android.support.constraint.ConstraintLayout>
