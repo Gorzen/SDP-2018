@@ -24,4 +24,6 @@ public class CharacterHomepageActivity extends AppCompatActivity {
         animation.setDuration(5000); //This is the duration of the animation in millis
         pieView.startAnimation(animation);
     }
+
+
 }

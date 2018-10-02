@@ -3,11 +3,14 @@ package ch.epfl.sweng.studyup;
 public class Player {
     private int experience;
     private int level;
+    private int currency;
     public final static int XP_TO_LEVEL_UP = 100;
+    private final static int CURRENCY_PER_LEVEL = 10;
 
     public Player(){
         experience = 0;
         level = 0;
+        currency = 0;
     }
 
     public int getExperience() {
@@ -18,8 +21,11 @@ public class Player {
         return level;
     }
 
-    private void updateLevel(){
+    public int getCurrency() { return currency; }
+
+    private void updateLevel() {
         level = experience / XP_TO_LEVEL_UP;
+        currency += CURRENCY_PER_LEVEL;
     }
 
     public void addExperience(int xp){
