@@ -1,13 +1,14 @@
 package ch.epfl.sweng.studyup;
 
+import android.net.Uri;
 import android.widget.ImageView;
 
 public class Question {
 
-    private ImageView question;
-
+    private Uri question;
     boolean[] answers;
-    public Question(ImageView image, boolean trueFalse, int answerNumber) {
+
+    public Question(Uri image, boolean trueFalse, int answerNumber) {
         if (answerNumber < 0 || answerNumber > 4 || image == null){
             throw new IllegalArgumentException();
         }
@@ -22,7 +23,7 @@ public class Question {
         }
     }
 
-    public Question(ImageView image, boolean[] answers) {
+    public Question(Uri image, boolean[] answers) {
         if (image == null || answers.length != 2 && answers.length != 4){
             throw new IllegalArgumentException();
         }
@@ -30,7 +31,7 @@ public class Question {
         answers = answers;
     }
 
-    public ImageView getQuestion() {
+    public Uri getQuestionUri() {
         return question;
     }
 }

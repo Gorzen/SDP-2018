@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/display_question_path"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -34,10 +34,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:checkedButton="@id/mcq_radio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/display_question_path">
 
         <RadioButton
             android:id="@+id/true_false_radio"
@@ -72,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:checkedButton="@id/radio_answer1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +84,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1" />
+            android:text="1"
+            android:tag="1" />
 
         <RadioButton
             android:id="@+id/radio_answer2"
@@ -90,7 +93,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="2"
-            tools:text="2" />
+            tools:text="2"
+            android:tag="2" />
+
+        <RadioButton
+            android:id="@+id/radio_answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="3"
+            android:tag="3" />
+
+        <RadioButton
+            android:id="@+id/radio_answer4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="4"
+            android:tag="4" />
     </RadioGroup>
 
     <Button
