@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CharacterHomepageActivity.class);
         startActivity(intent);
     }
+
+    public void questionAddTest(View view) {
+        Intent intent = new Intent(this, AddQuestionActivity.class);
+        startActivity(intent);
+    }
 }
