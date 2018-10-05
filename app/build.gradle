@@ -37,7 +37,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    implementation 'com.github.zurche:plain-pie:v0.2.9' //the "plain pie" graphic
 }
 
 tasks.withType(Test) {
