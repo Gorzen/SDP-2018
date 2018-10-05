@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-
     public void toCharacterHomePage(View view) {
         Intent intent = new Intent(this, CharacterHomepageActivity.class);
         startActivity(intent);
