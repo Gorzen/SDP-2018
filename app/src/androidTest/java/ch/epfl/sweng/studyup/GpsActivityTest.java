@@ -56,7 +56,7 @@ public class GpsActivityTest {
 
         if(lm.getAllProviders().contains("gps")){
             //lm.setTestProviderLocation("gps", location);
-            lm.setTestProviderEnabled("gps", false);
+            //lm.setTestProviderEnabled("gps", false);
         }
         /*
         if(lm.getAllProviders().contains("network")){
