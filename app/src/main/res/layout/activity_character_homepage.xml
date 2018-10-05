@@ -6,14 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".CharacterHomepageActivity">
 
+    <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+        android:id="@+id/level_progress"
+        android:layout_width="205dp"
+        android:layout_height="201dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="144dp"
+        android:soundEffectsEnabled="false"
+        app:direction="clockwise"
+        app:enableProgressAnimation="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/xpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
         android:onClick="addExpPlayer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="add XP" />
 
 </android.support.constraint.ConstraintLayout>
