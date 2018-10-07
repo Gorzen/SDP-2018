@@ -4,11 +4,12 @@ import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Looper;
 import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,20 +19,22 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class GpsActivityTest {
+    private double latitude = 10.0;
+    private double longitude = 20.0;
+    private LocationManager lm = null;
+
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Test
-    public void testGPS(){
+    @Before
+    public void prepare(){
         double latitude = 10.0;
         double longitude = 20.0;
 
-        LocationManager lm = (LocationManager) mActivityRule.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm = (LocationManager) mActivityRule.getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if(lm.getAllProviders().contains("test")){
             lm.removeTestProvider("test");
@@ -47,20 +50,17 @@ public class GpsActivityTest {
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
         lm.setTestProviderLocation("test", location);
+    }
 
-        Looper.prepare();
-
-        LocationTracker locationTracker = new LocationTracker(mActivityRule.getActivity().getApplicationContext());
-        Location loc = locationTracker.getLocation();
-
-        assertNotNull(loc);
-        assertEquals(latitude, loc.getLatitude(), 10e-4);
-        assertEquals(longitude, loc.getLongitude(), 10e-4);
-
+    @Test
+    public void testGPSActivity(){
         onView(withId(R.id.locButton)).perform(click());
 
         onView(withId(R.id.helloWorld)).check(matches(withText("Latitude: " + latitude + "\nLongitude: " + longitude)));
+    }
 
+    @After
+    public void cleanUp(){
         lm.removeTestProvider("test");
     }
 }
