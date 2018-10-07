@@ -51,11 +51,11 @@ public class GpsActivityTest {
         Looper.prepare();
 
         LocationTracker locationTracker = new LocationTracker(mActivityRule.getActivity().getApplicationContext());
-        Location currLoc = locationTracker.getLocation();
+        Location loc = locationTracker.getLocation();
 
-        assertNotNull(currLoc);
-        assertEquals(latitude, currLoc.getLatitude(), 10e-4);
-        assertEquals(longitude, currLoc.getLongitude(), 10e-4);
+        assertNotNull(loc);
+        assertEquals(latitude, loc.getLatitude(), 10e-4);
+        assertEquals(longitude, loc.getLongitude(), 10e-4);
 
         onView(withId(R.id.locButton)).perform(click());
 
