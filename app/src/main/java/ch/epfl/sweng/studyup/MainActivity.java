@@ -2,11 +2,12 @@ package ch.epfl.sweng.studyup;
 
 import android.Manifest;
 import android.content.Intent;
+import android.location.Location;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.location.Location;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Latitude: " + currLat + "\nLongitude: " + currLong,
                     Toast.LENGTH_LONG).show();
+
+            TextView test = findViewById(R.id.helloWorld);
+            test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);
         }
     }
 }

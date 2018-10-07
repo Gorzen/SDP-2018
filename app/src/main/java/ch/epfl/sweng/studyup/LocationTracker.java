@@ -19,6 +19,7 @@ public class LocationTracker implements LocationListener {
     }
 
     public Location getLocation() {
+        String provider = LocationManager.GPS_PROVIDER;
 
         if (ContextCompat.checkSelfPermission(this.context,
                 Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
@@ -28,11 +29,21 @@ public class LocationTracker implements LocationListener {
         }
 
         LocationManager locationManager = (LocationManager)context.getSystemService(this.context.LOCATION_SERVICE);
-        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if(locationManager.getAllProviders().contains("test")){
+            provider = "test";
+        }
+
+        boolean isGpsEnabled = locationManager.isProviderEnabled(provider);
 
         if (isGpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
-            Location currLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            locationManager.requestLocationUpdates(provider, 1000, 10, this);
+            Location currLoc = locationManager.getLastKnownLocation(provider);
+
+            if(currLoc == null){
+                Toast.makeText(this.context, "Unable to retrieve GPS position.", Toast.LENGTH_LONG).show();
+            }
+
             return currLoc;
         }
         else {
