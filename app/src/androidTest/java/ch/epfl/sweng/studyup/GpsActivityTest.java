@@ -20,6 +20,7 @@ import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class GpsActivityTest {
@@ -54,23 +55,14 @@ public class GpsActivityTest {
         location.setTime(System.currentTimeMillis());
         lm.setTestProviderLocation("Test", location);
 
-        if(lm.getAllProviders().contains("gps")){
-            //lm.setTestProviderLocation("gps", location);
-            //lm.setTestProviderEnabled("gps", false);
-        }
-        /*
-        if(lm.getAllProviders().contains("network")){
-            lm.setTestProviderLocation("network", location);
-        }
-        */
+        LocationTracker locationTracker = new LocationTracker(mActivityRule.getActivity().getApplicationContext());
+        Location currLoc = locationTracker.getLocation();
+
+        assertNotNull(currLoc);
+        assertEquals(latitude, currLoc.getLatitude(), 10e-4);
+        assertEquals(longitude, currLoc.getLongitude(), 10e-4);
 
         onView(withId(R.id.locButton)).perform(click());
-
-        try{
-            Thread.sleep(5000);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        }
 
         onView(withId(R.id.helloWorld)).check(matches(withText("Latitude: " + latitude + "\nLongitude: " + longitude)));
 
