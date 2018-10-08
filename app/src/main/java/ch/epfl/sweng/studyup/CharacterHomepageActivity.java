@@ -4,35 +4,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import az.plainpie.PieView;
-import az.plainpie.animation.PieAngleAnimation;
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+
+import static java.sql.DriverManager.println; //DEBUG
+
 
 public class CharacterHomepageActivity extends AppCompatActivity {
-    private Player player;
-    public static final int XP_STEP = 10;
-    private PieView pieView;
+    CircularProgressIndicator levelProgress;
+
+    //Texte that will be displayed in the levelProgress layout
+    private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
+        @Override
+        public String formatText(double progress) {
+            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()+1));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_homepage);
-        pieView = (PieView) findViewById(R.id.pieView);
-        pieViewAnimation();
-        player = Player.get();
-    }
-
-    /**
-     * Start the animation of the pieView which display the percentage of progression
-     */
-    private void pieViewAnimation() {
-        PieAngleAnimation animation = new PieAngleAnimation(pieView);
-        animation.setDuration(5000); //This is the duration of the animation in millis
-        pieView.startAnimation(animation);
+        levelProgress = findViewById(R.id.level_progress);
+        levelProgress.setProgress(Player.get().getLevelProgress(), 1);
+        levelProgress.setStartAngle(270);
+        levelProgress.setProgressTextAdapter(null);
     }
 
     public void addExpPlayer(View view) {
-        player.addExperience(XP_STEP);
-        pieView.setPercentage(player.getExperience());
-        pieViewAnimation();
+        Player.get().addExperience(Player.XP_STEP);
+        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
+        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
     }
 }

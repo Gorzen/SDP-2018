@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 123);
     }
 
-
     public void toCharacterHomePage(View view) {
         Intent intent = new Intent(this, CharacterHomepageActivity.class);
         startActivity(intent);
