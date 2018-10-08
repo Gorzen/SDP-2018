@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-public class LocationTracker implements LocationListener {
+public class LocationTracker {
 
     private Context context;
 
@@ -18,58 +18,49 @@ public class LocationTracker implements LocationListener {
         this.context = context;
     }
 
+    public String getProvider(LocationManager lm){
+        if(lm.getAllProviders().contains("test")){
+            return "test";
+        }else{
+            return LocationManager.GPS_PROVIDER;
+        }
+    }
+
     public Location getLocation() {
-        String provider = LocationManager.GPS_PROVIDER;
+        String message = "";
+        Location retValue = null;
 
-        if (ContextCompat.checkSelfPermission(this.context,
-                Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+        if(ContextCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            message = "Please grant position permission.";
+        } else {
+            LocationManager locationManager = (LocationManager) context.getSystemService(this.context.LOCATION_SERVICE);
+            String provider = getProvider(locationManager);
 
-            Toast.makeText(this.context, "Permission denied for location access.", Toast.LENGTH_LONG).show();
-            return null;
-        }
+            if (locationManager.isProviderEnabled(provider)) {
+                locationManager.requestLocationUpdates(provider, 1000, 10, new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {}
+                    @Override
+                    public void onStatusChanged(String s, int i, Bundle bundle) {}
+                    @Override
+                    public void onProviderEnabled(String s) {}
+                    @Override
+                    public void onProviderDisabled(String s) {}});
 
-        LocationManager locationManager = (LocationManager)context.getSystemService(this.context.LOCATION_SERVICE);
+                Location currLoc = locationManager.getLastKnownLocation(provider);
 
-        if(locationManager.getAllProviders().contains("test")){
-            provider = "test";
-        }
+                if (currLoc == null) {
+                    message = "Unable to retrieve GPS position.";
+                }
 
-        boolean isGpsEnabled = locationManager.isProviderEnabled(provider);
-
-        if (isGpsEnabled) {
-            locationManager.requestLocationUpdates(provider, 1000, 10, this);
-            Location currLoc = locationManager.getLastKnownLocation(provider);
-
-            if(currLoc == null){
-                Toast.makeText(this.context, "Unable to retrieve GPS position.", Toast.LENGTH_LONG).show();
+                retValue = currLoc;
+            } else {
+                message = "Please enable GPS.";
             }
-
-            return currLoc;
-        }
-        else {
-            Toast.makeText(this.context, "Please enable GPS.", Toast.LENGTH_LONG).show();
         }
 
-        return null;
-    }
+        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show();
 
-    @Override
-    public void onLocationChanged(android.location.Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
+        return retValue;
     }
 }
