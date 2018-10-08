@@ -18,7 +18,7 @@ public class CharacterHomepageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_character_homepage);
         pieView = (PieView) findViewById(R.id.pieView);
         pieViewAnimation();
-        player = new Player();
+        player = Player.get();
     }
 
     /**
