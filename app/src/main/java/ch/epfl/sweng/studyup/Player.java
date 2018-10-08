@@ -1,18 +1,24 @@
 package ch.epfl.sweng.studyup;
 
-import az.plainpie.PieView;
-
 public class Player {
+    private static Player instance = null;
     private int experience;
     private int level;
     private int currency;
     public final static int XP_TO_LEVEL_UP = 100;
-    private final static int CURRENCY_PER_LEVEL = 10;
+    public final static int CURRENCY_PER_LEVEL = 10;
 
-    public Player(){
+    private Player(){
         experience = 0;
         level = 0;
         currency = 0;
+    }
+
+    public static Player get(){
+        if(instance == null){
+            instance = new Player();
+        }
+        return instance;
     }
 
     public int getExperience() {
@@ -26,8 +32,17 @@ public class Player {
     public int getCurrency() { return currency; }
 
     private void updateLevel() {
-        level = experience / XP_TO_LEVEL_UP;
-        currency += CURRENCY_PER_LEVEL;
+        int newLevel = experience / XP_TO_LEVEL_UP;
+
+        if(newLevel - level > 0){
+            currency += (newLevel - level) * CURRENCY_PER_LEVEL;
+        }
+
+        level = newLevel;
+    }
+
+    public void addCurrency(int curr){
+        currency += curr;
     }
 
     public void addExperience(int xp){
@@ -37,5 +52,10 @@ public class Player {
 
     public double getLevelProgress(){
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
+    }
+
+    //Changes the Player to the basic state, right after constructor
+    public void reset(){
+        instance = new Player();
     }
 }
