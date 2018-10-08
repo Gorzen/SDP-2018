@@ -71,6 +71,27 @@ public class GpsActivityTest {
     }
 
     @Test
+    public void getLastLocationTest(){
+        if(mockEnabled){
+            Location loc = locationTracker.getLastLocation(lm, "test");
+            assertNotNull(loc);
+            assertEquals(latitude, loc.getLatitude(), 10e-4);
+            assertEquals(longitude, loc.getLongitude(), 10e-4);
+        }else{
+            Location loc = locationTracker.getLastLocation(lm, LocationManager.GPS_PROVIDER);
+
+            Location locGps = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(locGps != null){
+                assertNotNull(loc);
+                assertEquals(locGps.getLatitude(), loc.getLatitude(), 10e-4);
+                assertEquals(locGps.getLongitude(), loc.getLongitude(), 10e-4);
+            }else{
+                assertEquals(loc, null);
+            }
+        }
+    }
+
+    @Test
     public void getProviderTest(){
         if(mockEnabled){
             assertEquals("test", locationTracker.getProvider(lm));

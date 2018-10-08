@@ -14,6 +14,28 @@ public class LocationTracker {
 
     private Context context;
 
+    private LocationListener listener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
     public LocationTracker(Context context) {
         this.context = context;
     }
@@ -27,40 +49,35 @@ public class LocationTracker {
     }
 
     public Location getLocation() {
-        String message = "";
-        Location retValue = null;
-
         if(ContextCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            message = "Please grant position permission.";
+            Toast.makeText(this.context, "Please grant position permission.", Toast.LENGTH_LONG).show();
+            return null;
         } else {
             LocationManager locationManager = (LocationManager) context.getSystemService(this.context.LOCATION_SERVICE);
             String provider = getProvider(locationManager);
 
             if (locationManager.isProviderEnabled(provider)) {
-                locationManager.requestLocationUpdates(provider, 1000, 10, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {}
-                    @Override
-                    public void onStatusChanged(String s, int i, Bundle bundle) {}
-                    @Override
-                    public void onProviderEnabled(String s) {}
-                    @Override
-                    public void onProviderDisabled(String s) {}});
+                locationManager.requestLocationUpdates(provider, 1000, 10, listener);
 
-                Location currLoc = locationManager.getLastKnownLocation(provider);
-
-                if (currLoc == null) {
-                    message = "Unable to retrieve GPS position.";
+                Location location = getLastLocation(locationManager, provider);
+                if(location == null){
+                    Toast.makeText(this.context, "Unable to retrieve GPS position.", Toast.LENGTH_LONG).show();
                 }
-
-                retValue = currLoc;
+                return location;
             } else {
-                message = "Please enable GPS.";
+                Toast.makeText(this.context, "Please enable GPS.", Toast.LENGTH_LONG).show();
+                return null;
             }
         }
+    }
 
-        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show();
+    public Location getLastLocation(LocationManager locationManager, String provider){
+        if(ContextCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            return null;
+        }else {
+            Location currLoc = locationManager.getLastKnownLocation(provider);
 
-        return retValue;
+            return currLoc;
+        }
     }
 }
