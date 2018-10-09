@@ -23,8 +23,8 @@
         android:layout_marginLeft="271dp"
         android:layout_marginStart="271dp"
         android:layout_marginTop="3dp"
+        android:onClick="toTequilaAuth"
         android:text="@string/character_homepage"
-        android:onClick="toCharacterHomePage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

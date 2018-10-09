@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CharacterHomepageActivity.class);
         startActivity(intent);
     }
+
+    public void toTequilaAuth(View view) {
+        Intent intent = new Intent(this, TequilaAuth.class);
+        startActivity(intent);
+    }
 }

@@ -4,6 +4,7 @@ package ch.epfl.sweng.studyup.tequila;
  * Client code for Tequila authentication.
  *
  * @author Solal Pirelli
+ * modified by us
  */
 public final class AuthClient {
     public static String createCodeRequestUrl(OAuth2Config config) {

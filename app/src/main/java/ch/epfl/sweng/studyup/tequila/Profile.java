@@ -4,36 +4,79 @@ package ch.epfl.sweng.studyup.tequila;
  * Tequila user profile information.
  *
  * @author Solal Pirelli
+ * Modified by us
  */
 public final class Profile {
     /**
      * This is the user ID, it is guaranteed to be unique.
      */
-    public final String sciper;
+    private final String sciper;
     /**
      * This is probably unique, but you shouldn't depend on it.
      */
-    public final String gaspar;
+    private final String gaspar;
     /**
      * Don't spam your users! Use this carefully.
      */
-    public final String email;
+    private final String email;
     /**
      * Do not assume anything about what exactly this contains.
      * Some people have one name, some have multiple, some have honorary prefixes, ...
      */
-    public final String firstNames;
+    private final String firstNames;
     /**
      * Same remark as `firstNames`.
      */
-    public final String lastNames;
+    private final String lastNames;
 
+    /** Constructor for a Profile. Must not be empty.
+     *
+     * @param sciper This is the user ID, it is guaranteed to be unique.
+     * @param gaspar This is probably unique, but you shouldn't depend on it.
+     * @param email Don't spam your users! Use this carefully.
+     * @param firstNames Same remark as `firstNames`.
+     * @param lastNames Same remark as `firstNames`.
+     */
     public Profile(String sciper, String gaspar, String email, String firstNames, String lastNames) {
-        this.sciper = sciper;
-        this.gaspar = gaspar;
-        this.email = email;
-        this.firstNames = firstNames;
-        this.lastNames = lastNames;
+        if(sciper != null && !sciper.isEmpty()) {
+            this.sciper = sciper;
+        }
+
+        if(gaspar != null && !gaspar.isEmpty()) {
+            this.gaspar = gaspar;
+        }
+
+        if(email != null && !email.isEmpty()) {
+            this.email = email;
+        }
+
+        if(firstNames != null && !firstNames.isEmpty()) {
+            this.firstNames = firstNames;
+        }
+
+        if(lastNames != null && !lastNames.isEmpty()) {
+            this.lastNames = lastNames;
+        }
+    }
+
+    public String getSciper() {
+        return sciper;
+    }
+
+    public String getGaspar() {
+        return gaspar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirstNames() {
+        return firstNames;
+    }
+
+    public String getLastNames() {
+        return lastNames;
     }
 
     @Override

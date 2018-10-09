@@ -1,4 +1,6 @@
 package ch.epfl.sweng.studyup.tequila;
+
+import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

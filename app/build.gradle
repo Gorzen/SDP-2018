@@ -39,7 +39,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
     implementation 'com.github.zurche:plain-pie:v0.2.9'
     //the "plain pie" graphic
-    implementation files('libs/tequila-client.jar')
+    implementation 'com.google.code.gson:gson:2.8.2' // GSon use
 }
 
 tasks.withType(Test) {

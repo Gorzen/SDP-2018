@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    tools:context=".TequilaAuth">
 
     <EditText
         android:id="@+id/username"
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="GASPAR username"
         android:inputType="textPersonName"
         android:text="Nom d'utilisateur"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="GASPAR password"
         android:inputType="textPassword"
         android:text="Mot de passe"
         app:layout_constraintEnd_toEndOf="parent"
