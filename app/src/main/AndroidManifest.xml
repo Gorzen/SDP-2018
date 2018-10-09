@@ -24,6 +24,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.epfl.sweng.studyup.MainActivity" />
         </activity>
+        <activity
+            android:name=".TequilaAuth"
+            android:label="Login Tequila">
+            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity" >
+        </activity>
     </application>
 
 </manifest>

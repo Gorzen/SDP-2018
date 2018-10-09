@@ -40,22 +40,36 @@ public final class Profile {
     public Profile(String sciper, String gaspar, String email, String firstNames, String lastNames) {
         if(sciper != null && !sciper.isEmpty()) {
             this.sciper = sciper;
+        } else {
+            this.sciper = null;
         }
 
         if(gaspar != null && !gaspar.isEmpty()) {
             this.gaspar = gaspar;
+        } else {
+            this.gaspar = null;
+
         }
 
         if(email != null && !email.isEmpty()) {
             this.email = email;
+        } else {
+            this.email = null;
+
         }
 
         if(firstNames != null && !firstNames.isEmpty()) {
             this.firstNames = firstNames;
+        } else {
+            this.firstNames = null;
+
         }
 
         if(lastNames != null && !lastNames.isEmpty()) {
             this.lastNames = lastNames;
+        } else {
+            this.lastNames = null;
+
         }
     }
 

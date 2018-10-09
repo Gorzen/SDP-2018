@@ -16,27 +16,23 @@ public class TequilaAuth extends AppCompatActivity {
         setContentView(R.layout.tequila_auth);
 
         try {
-            String codeRequestUrl, redirectUri;
-
+            // Step 1: String[] scopes, String clientId, String clientSecret, String redirectUri
             OAuth2Config config = readConfig();
-            codeRequestUrl = AuthClient.createCodeRequestUrl(config);
 
+            // Step 2: the app requests an authentication token from the "server"
+            String codeRequestUrl = AuthClient.createCodeRequestUrl(config);
+
+            // Step 3: we have to connect
             System.out.println(codeRequestUrl);
-            try {
-                redirectUri = read("Go to the above URL, authenticate, then enter the redirect URI");
+            /*String redirectUri = read("Go to the above URL, authenticate, then enter the redirect URI");
 
-                String code = AuthClient.extractCode(redirectUri);
-                Map<String, String> tokens = AuthServer.fetchTokens(config, code);
+            String code = AuthClient.extractCode(redirectUri);
+            Map<String, String> tokens = AuthServer.fetchTokens(config, code);
 
-                Profile profile = AuthServer.fetchProfile(tokens.get("Tequila.profile"));
-                System.out.println(profile);
-            } catch(IOException e) {
-                System.out.println("Exception occurred: OAuth2Config readConfig()");
-            }
-
-
-        } catch(IOException e) {
-            System.out.println("Exception occurred: OAuth2Config readConfig()");
+            Profile profile = AuthServer.fetchProfile(tokens.get("Tequila.profile"));
+            System.out.println(profile);*/
+        } catch (IOException e) {
+            //
         }
     }
 
@@ -54,12 +50,18 @@ public class TequilaAuth extends AppCompatActivity {
         System.out.println(profile);
     }*/
 
+    /**
+     * Totally secure way to authenticate our app.
+     *
+     * @return A OAuth2Config that we can use to authenticate
+     * @throws IOException
+     */
     private static OAuth2Config readConfig() throws IOException {
-        return new OAuth2Config(new String[]{"Tequila.profile"}, read("Client ID"), read("Client secret"), read("Redirect URI"));
+        return new OAuth2Config(new String[]{"Tequila.profile"}, "05deebf93b675fe41ce9415f@epfl.ch", "875fb85762667d798d3ad90c2d3d2971", "studyup://login");
     }
 
-    private static String read(String prompt) throws IOException {
+    /*private static String read(String prompt) throws IOException {
         System.out.print(prompt + ": ");
         return new BufferedReader(new InputStreamReader(System.in)).readLine().trim();
-    }
+    }*/
 }

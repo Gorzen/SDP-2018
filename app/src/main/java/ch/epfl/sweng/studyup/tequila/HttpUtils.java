@@ -14,8 +14,15 @@ import java.util.Scanner;
  * Utilities for HTTP requests.
  *
  * @author Solal Pirelli
+ * modified by us
  */
 public final class HttpUtils {
+    /**
+     * Encode a String into a valid URL format.
+     *
+     * @param value What to encode
+     * @return The thingly encoded
+     */
     public static String urlEncode(String value) {
         try {
             return URLEncoder.encode(value, "UTF-8");
@@ -24,6 +31,14 @@ public final class HttpUtils {
         }
     }
 
+    /**
+     * Retrieves a given object from a given URL
+     * @param url The given URL
+     * @param classOfT The class of the given object
+     * @param <T> The type of the given object
+     * @return The given object
+     * @throws IOException
+     */
     public static <T> T fetch(String url, Class<T> classOfT) throws IOException {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
