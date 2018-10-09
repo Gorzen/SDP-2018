@@ -27,6 +27,22 @@
         android:onClick="toCharacterHomePage"
         android:text="@string/character_homepage"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" 
+         android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/locButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onLocButtonClick"
+        android:text="Get Location"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -192,30 +208,4 @@
         app:layout_constraintStart_toStartOf="@+id/chatButton"
         app:layout_constraintTop_toTopOf="@+id/chatButton"
         app:layout_constraintVertical_bias="1.0" />
-
-
-</android.support.constraint.ConstraintLayout>
-        android:layout_marginLeft="220dp"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="16dp"
-        android:onClick="toCharacterHomePage"
-        android:text="@string/character_homepage"
-
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/locButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onLocButtonClick"
-        android:text="Get Location"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
