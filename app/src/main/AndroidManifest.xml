@@ -21,7 +21,7 @@
         <activity
             android:name=".CharacterHomepageActivity"
             android:label="@string/character_homepage"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity">
             //The meta-data is to be compatible with Android 4.0 and lower
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
