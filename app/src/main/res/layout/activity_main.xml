@@ -7,6 +7,16 @@
     android:visibility="visible"
     tools:context=".MainActivity">
 
+     <TextView
+        android:id="@+id/helloWorld"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
@@ -183,5 +193,29 @@
         app:layout_constraintTop_toTopOf="@+id/chatButton"
         app:layout_constraintVertical_bias="1.0" />
 
+
+</android.support.constraint.ConstraintLayout>
+        android:layout_marginLeft="220dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="16dp"
+        android:onClick="toCharacterHomePage"
+        android:text="@string/character_homepage"
+
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/locButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onLocButtonClick"
+        android:text="Get Location"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
