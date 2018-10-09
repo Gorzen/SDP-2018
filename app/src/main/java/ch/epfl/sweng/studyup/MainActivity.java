@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public void questionAddTest(View view) {
         Intent intent = new Intent(this, AddQuestionActivity.class);
         startActivity(intent);
+    }
 
     public void onLocButtonClick(View view) {
         LocationTracker locationTracker = new LocationTracker(getApplicationContext());
