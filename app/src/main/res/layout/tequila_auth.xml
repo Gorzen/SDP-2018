@@ -5,30 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Tequila filtering -->
-    <filter>
-        <filter-name>TequilaFilter</filter-name>
-        <filter-class>ch.epfl.tequila.client.system.TequilaFilter</filter-class>
-        <init-param>
-            <param-name>host</param-name>
-            <param-value>tequila.epfl.ch</param-value>
-        </init-param>
-        <init-param>
-            <param-name>service</param-name>
-            <param-value>StudyUp</param-value>
-        </init-param>
-        <init-param>
-            <param-name>request</param-name>
-            <param-value>uniqueid firstname name</param-value>
-        </init-param>
-    </filter>
-
-    <!-- This mapping is used to protect uris -->
-    <!-- <filter-mapping>
-        <filter-name>TequilaFilter</filter-name>
-        <url-pattern>/protected/*</url-pattern>
-    </filter-mapping> -->
-
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
