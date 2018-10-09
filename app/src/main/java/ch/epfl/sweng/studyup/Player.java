@@ -7,6 +7,7 @@ public class Player {
     private int currency;
     public final static int XP_TO_LEVEL_UP = 100;
     public final static int CURRENCY_PER_LEVEL = 10;
+    public static final int XP_STEP = 10;
 
     private Player(){
         experience = 0;
