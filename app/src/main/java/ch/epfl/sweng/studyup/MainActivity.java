@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import ch.epfl.sweng.studyup.question.AddQuestionActivity;
+=======
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CharacterHomepageActivity.class);
         startActivity(intent);
     }
+
+    public void questionAddTest(View view) {
+        Intent intent = new Intent(this, AddQuestionActivity.class);
+        startActivity(intent);
 
     public void onLocButtonClick(View view) {
         LocationTracker locationTracker = new LocationTracker(getApplicationContext());
