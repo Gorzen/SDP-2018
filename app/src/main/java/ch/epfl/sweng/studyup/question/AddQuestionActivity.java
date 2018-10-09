@@ -2,9 +2,12 @@ package ch.epfl.sweng.studyup.question;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,6 +26,8 @@ import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 
 public class AddQuestionActivity extends AppCompatActivity {
+
+    private static final String TAG = "AddQuestionActivity";
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
@@ -52,34 +57,6 @@ public class AddQuestionActivity extends AppCompatActivity {
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
-    public void addQuestion(View current) {
-        if (imageURI != null) {
-            RadioGroup answerGroup = (RadioGroup) findViewById(R.id.question_radio_group);
-            RadioButton checkedButton = (RadioButton) findViewById(answerGroup.getCheckedRadioButtonId());
-            //get the tag of the button to know the answer number
-            int answerNumber = Integer.parseInt(checkedButton.getTag().toString());
-
-            boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
-
-            //TODO: create the question, but first find a way to save them to the disk
-            String newQuestionFileID = UUID.randomUUID().toString();
-            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
-            try {
-                copyFile(new File(imageURI.getPath()), questionFile);
-            }catch (IOException e){
-                Toast.makeText(this.getApplicationContext(), "An error occured when importing the file, please retry", Toast.LENGTH_SHORT).show();
-            }
-            Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
-            ArrayList<Question> list = new ArrayList<>();
-            list.add(q);
-            QuestionParser.writeQuestions(list, this.getApplicationContext(), false);
-            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT);
-            Intent goToMain = new Intent(this, MainActivity.class);
-            startActivity(goToMain);
-        }
-
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
@@ -102,7 +79,38 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
 
-    private void addRadioListener(){
+    public void addQuestion(View current) {
+        if (imageURI != null) {
+            RadioGroup answerGroup = (RadioGroup) findViewById(R.id.question_radio_group);
+            RadioButton checkedButton = (RadioButton) findViewById(answerGroup.getCheckedRadioButtonId());
+            //get the tag of the button to know the answer number
+            int answerNumber = Integer.parseInt(checkedButton.getTag().toString());
+
+            boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
+
+            //TODO: create the question, but first find a way to save them to the disk
+            String newQuestionFileID = UUID.randomUUID().toString();
+            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
+            String imagePath = getPath(imageURI);
+            try {
+                copyFile(new File(imagePath), questionFile);
+            } catch (IOException e) {
+                Log.e(TAG, "Error while copying the file\n" + e.getStackTrace());
+                Toast.makeText(this.getApplicationContext(), "An error occured when importing the file, please retry", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
+            ArrayList<Question> list = new ArrayList<>();
+            list.add(q);
+            QuestionParser.writeQuestions(list, this.getApplicationContext(), false);
+            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT);
+            Intent goToMain = new Intent(this, MainActivity.class);
+            startActivity(goToMain);
+        }
+
+    }
+
+    private void addRadioListener() {
         trueFalseRadioGroup = (RadioGroup) findViewById(R.id.true_false_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -112,7 +120,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
                 RadioButton fourthRadioButton = findViewById(R.id.radio_answer4);
 
-                if (checkedId == R.id.true_false_radio){
+                if (checkedId == R.id.true_false_radio) {
                     //mask the 3rd and 4th radio button and uncheck them
                     thirdRadioButton.setVisibility(View.INVISIBLE);
                     thirdRadioButton.setChecked(false);
@@ -163,4 +171,14 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
 
+    private String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+        cursor.close();
+        return path;
+    }
 }

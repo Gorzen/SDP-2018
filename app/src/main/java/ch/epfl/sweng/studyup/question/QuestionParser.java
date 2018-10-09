@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup.question;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,6 +20,7 @@ import java.util.List;
 
 
 public abstract class QuestionParser {
+
     /**
      * Format: line by line:
      * -The path of the image
@@ -27,6 +29,7 @@ public abstract class QuestionParser {
      */
 
     private static String fileName = "questions.info";
+    private static final String TAG = "QuestionParser";
 
     /**
      * Retrieve the list of questions from the data file
@@ -52,12 +55,14 @@ public abstract class QuestionParser {
                 imageUri = Uri.fromFile(new File(line));
 
                 if ((line = bufferedReader.readLine()) == null) {
+                    Log.e(TAG, "While reading the file: second line is empty");
                     toast.show();
                     return null;
                 }
                 trueFalse = Boolean.parseBoolean(line);
 
                 if ((line = bufferedReader.readLine()) == null) {
+                    Log.e(TAG, "While reading the file: third line is empty");
                     toast.show();
                     return null;
                 }
@@ -67,9 +72,11 @@ public abstract class QuestionParser {
             }
 
         }catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Unsupported encoding \n" + e.getStackTrace());
             toast.show();
             return null;
         }catch(IOException e) {
+            Log.e(TAG, "IOException while reading the file\n" + e.getStackTrace());
             toast.show();
             return null;
         }
@@ -100,11 +107,11 @@ public abstract class QuestionParser {
             writer.close();
 
         }catch(IOException e){
+            Log.e(TAG, "IOException while writing the file\n" + e.getStackTrace());
             return false;
         }
 
         return true;
     }
 
-//TODO: log exceptions somewhere
 }
