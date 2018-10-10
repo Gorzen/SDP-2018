@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StudyUp</string>
     <string name="character_homepage">Your Character</string>
+    <string name="tequila_auth">Tequila Auth</string>
 </resources>
