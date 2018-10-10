@@ -21,12 +21,14 @@
         <activity
             android:name=".CharacterHomepageActivity"
             android:label="@string/character_homepage"
-            android:parentActivityName=".MainActivity">
+
+            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity">
             //The meta-data is to be compatible with Android 4.0 and lower
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.epfl.sweng.studyup.MainActivity" />
         </activity>
+
         <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +44,9 @@
                 <data android:host="login" android:scheme="studyup" android:pathPattern=".*"></data>
             </intent-filter>
         </activity>
+
+        <activity android:name=".question.AddQuestionActivity"
+            android:label="Add a question"></activity>
     </application>
 
 </manifest>
