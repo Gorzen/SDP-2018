@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.question;
+package ch.epfl.sweng.studyup;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +24,8 @@ import java.util.UUID;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.question.Question;
+import ch.epfl.sweng.studyup.question.QuestionParser;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
