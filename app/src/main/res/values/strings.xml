@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StudyUp</string>
     <string name="character_homepage">Your Character</string>
+    <string name="title_activity_auth_redirect">AuthRedirectActivity</string>
 </resources>
