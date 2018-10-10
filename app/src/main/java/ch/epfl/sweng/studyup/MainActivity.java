@@ -14,9 +14,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
+import ch.epfl.sweng.studyup.question.Question;
+
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
+
+import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends AppCompatActivity {
