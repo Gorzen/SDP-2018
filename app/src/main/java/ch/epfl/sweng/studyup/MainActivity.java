@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toTequilaAuth(View view) {
+        Intent intent = new Intent(this, TequilaAuth.class);
+        startActivity(intent);
+    }
+
     public void questionAddTest(View view) {
         Intent intent = new Intent(this, AddQuestionActivity.class);
         startActivity(intent);
