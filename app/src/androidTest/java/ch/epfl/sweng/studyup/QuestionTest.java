@@ -16,13 +16,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class QuestionTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
-
     @Test
-    public void testCanGreetUsers() {
-        onView(withId(R.id.helloWorld)).check(matches(withText("Hello World!")));
+    public void testQuestionInit() {
+        
     }
 }
