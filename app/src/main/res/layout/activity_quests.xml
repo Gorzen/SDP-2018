@@ -24,21 +24,7 @@
         android:layout_marginEnd="160dp"
         android:layout_marginRight="160dp"
         android:layout_marginBottom="241dp"
-        android:text="HomeActivity" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="211dp"
-        android:layout_marginLeft="211dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:onClick="toCharacterHomePage"
-        android:text="@string/character_homepage"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="QuestsActivity" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,32 +46,35 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
 
             </android.support.v7.widget.Toolbar>
 
         </RelativeLayout>
 
 
-
         <RelativeLayout
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/bottomBar"
             android:layout_alignParentBottom="true">
 
             <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavView_Bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/bottomNavView_Bar"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/navigation"
-                app:labelVisibilityMode="labeled"> <!--display both icons and text labels when there are more than 3 items.-->
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/navigation">
 
 
             </android.support.design.widget.BottomNavigationView>
         </RelativeLayout>
 
+
     </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

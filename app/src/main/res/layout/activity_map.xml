@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottomBar"
@@ -24,21 +24,7 @@
         android:layout_marginEnd="160dp"
         android:layout_marginRight="160dp"
         android:layout_marginBottom="241dp"
-        android:text="HomeActivity" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="211dp"
-        android:layout_marginLeft="211dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:onClick="toCharacterHomePage"
-        android:text="@string/character_homepage"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="MapActivity" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,11 +46,32 @@
                 app:theme="@style/ThemeOverlay.AppCompat.Dark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
 
             </android.support.v7.widget.Toolbar>
 
         </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_below="@+id/topBar"
+            android:layout_above="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:textSize="30sp"
+                android:id="@+id/activityTitle3"
+                android:textAlignment="center"/>
+
+        </RelativeLayout>
+
+
 
 
 
@@ -80,12 +87,14 @@
                 android:id="@+id/bottomNavView_Bar"
                 android:background="@drawable/white_grey_border_top"
                 app:menu="@menu/navigation"
-                app:labelVisibilityMode="labeled"> <!--display both icons and text labels when there are more than 3 items.-->
+                app:labelVisibilityMode="labeled">
+
 
 
             </android.support.design.widget.BottomNavigationView>
         </RelativeLayout>
 
     </RelativeLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

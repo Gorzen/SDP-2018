@@ -5,35 +5,25 @@ import static org.junit.Assert.*;
 
 public class PlayerUnitTest {
     @Test
-    public void resetPlayer() {
-        Player.get().reset();
-
-        assertEquals(0, Player.get().getExperience());
-        assertEquals(0, Player.get().getLevel());
-        assertEquals(0, Player.get().getCurrency());
+    public void constructorPlayer() {
+        Player player = new Player();
+        assertEquals(player.getExperience(), 0);
+        assertEquals(player.getLevel(), 0);
     }
 
     @Test
-    public void addXpPlayerAndCurrencyTest(){
-        Player.get().reset();
-        assertEquals(0, Player.get().getExperience());
-        assertEquals(0, Player.get().getLevel());
-        assertEquals(0, Player.get().getCurrency());
+    public void addXpPlayer(){
+        Player player = new Player();
+        assertEquals(player.getLevelProgress(), 0.0, 10e-6);
 
-        assertEquals(0.0, Player.get().getLevelProgress(), 10e-6);
+        player.addExperience(Player.XP_TO_LEVEL_UP/2);
+        assertEquals(player.getLevel(), 0);
+        assertEquals(player.getExperience(), Player.XP_TO_LEVEL_UP/2);
+        assertEquals(player.getLevelProgress(), 0.5, 10e-2);
 
-        Player.get().addExperience(Player.XP_TO_LEVEL_UP/2);
-        assertEquals(0, Player.get().getLevel());
-        assertEquals(Player.XP_TO_LEVEL_UP/2, Player.get().getExperience());
-        assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
-
-        Player.get().addExperience(Player.XP_TO_LEVEL_UP);
-        assertEquals(1, Player.get().getLevel());
-        assertEquals(Player.CURRENCY_PER_LEVEL, Player.get().getCurrency());
-        assertEquals((Player.XP_TO_LEVEL_UP * 3) / 2, Player.get().getExperience());
-        assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
-
-        Player.get().addCurrency(100);
-        assertEquals(Player.CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
+        player.addExperience(Player.XP_TO_LEVEL_UP);
+        assertEquals(player.getLevel(), 1);
+        assertEquals(player.getExperience(), (Player.XP_TO_LEVEL_UP * 3) / 2);
+        assertEquals(player.getLevelProgress(), 0.5, 10e-2);
     }
 }
