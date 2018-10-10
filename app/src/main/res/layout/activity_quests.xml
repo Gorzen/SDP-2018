@@ -18,6 +18,7 @@
         android:layout_alignLeft="@+id/topBar"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="200dp"
         android:layout_marginTop="241dp"
