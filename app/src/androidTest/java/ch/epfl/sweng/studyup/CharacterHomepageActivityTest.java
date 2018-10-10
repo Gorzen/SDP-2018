@@ -21,6 +21,11 @@ public class CharacterHomepageActivityTest {
             new ActivityTestRule<>(CharacterHomepageActivity.class);
 
     @Test
+    public void unlockScreen() {
+        unlockScreen();
+    }
+
+    @Test
     /**
      * Hardcode of the implementation of player's function: getExperience
      */
