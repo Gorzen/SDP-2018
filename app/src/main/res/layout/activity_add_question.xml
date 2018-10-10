@@ -23,19 +23,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/no_image_selected_text"         app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/no_image_selected_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
 
     <RadioGroup
-        android:id="@+id/true_false_radio_group"
+        android:id="@+id/true_false_or_mcq_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="192dp"
         android:checkedButton="@id/mcq_radio"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/display_question_path">
 
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/true_false_question_text" />
+
         <RadioButton
             android:id="@+id/mcq_radio"
             android:layout_width="wrap_content"
@@ -57,21 +59,21 @@
         android:id="@+id/answer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginStart="140dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:text="@string/select_image_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/true_false_or_mcq_radio_group" />
+
     <RadioGroup
         android:id="@+id/question_radio_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="336dp"
         android:checkedButton="@id/radio_answer1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/answer_text">
 
@@ -80,33 +82,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="1"
-            android:tag="1" />
+            android:tag="1"
+            android:text="1" />
 
         <RadioButton
             android:id="@+id/radio_answer2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:tag="2"
             android:text="2"
-            tools:text="2"
-            android:tag="2" />
+            tools:text="2" />
 
         <RadioButton
             android:id="@+id/radio_answer3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="3"
-            android:tag="3" />
+            android:tag="3"
+            android:text="3" />
 
         <RadioButton
             android:id="@+id/radio_answer4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="4"
-            android:tag="4" />
+            android:tag="4"
+            android:text="4" />
     </RadioGroup>
 
     <Button
@@ -114,11 +116,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="addQuestion"
         android:text="@string/add_text"
         app:layout_constraintBottom_toBottomOf="parent"

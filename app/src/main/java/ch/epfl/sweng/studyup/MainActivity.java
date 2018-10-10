@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true); //give color to the selected item
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        levelProgress.setProgressTextAdapter(null);
+        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
     }
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     "Latitude: " + currLat + "\nLongitude: " + currLong,
                     Toast.LENGTH_LONG).show();
             TextView test = findViewById(R.id.helloWorld);
-            test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);
+            test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);  //TODO not recommended to concatenate here, should use resource string with placeholders (+hardcoded literals)
         }
     }
 

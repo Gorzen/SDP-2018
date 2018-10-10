@@ -8,15 +8,10 @@
     <string name="title_map">Map</string>
     <string name="title_chat">Chat</string>
     <string name="title_infos">Infos</string>
-    <string name="character_homepage_name">Your Character</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
     <string name="get_location_text">Get Location</string>
-    <string name="home_text">Home</string>
-    <string name="quests_text">Quests</string>
-    <string name="rankings_text">Rankings</string>
-    <string name="chat_text">Chat</string>
-    <string name="add_question_text">Image Test</string>
+    <string name="add_question_text">Add question</string>
     <string name="select_image_text">Select an image</string>
     <string name="no_image_selected_text">No image selected</string>
     <string name="true_false_question_text">True or false question</string>

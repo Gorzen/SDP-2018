@@ -41,7 +41,7 @@ public class LocationTracker {
         } else {
             LocationManager locationManager = (LocationManager) context.getSystemService(this.context.LOCATION_SERVICE);
             String provider = getProvider(locationManager);
-            if (locationManager.isProviderEnabled(provider)) {
+            if (locationManager.isProviderEnabled(provider)) {      //TODO may invoke NullPointerException
                 locationManager.requestLocationUpdates(provider, 1000, 10, listener);
                 Location location = getLastLocation(locationManager, provider);
                 if(location == null){

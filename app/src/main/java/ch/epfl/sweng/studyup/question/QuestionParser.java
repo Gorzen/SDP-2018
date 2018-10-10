@@ -103,13 +103,9 @@ public abstract class QuestionParser {
         try{
             File file = new File(c.getFilesDir(), fileName);
             //The createNewFile() method return true and create the file if and only if the file doesn't yet exists
-            file.createNewFile();
             if(!file.createNewFile() && replace) {
-            }else if (replace) {
                 if (!file.delete()) return false;
-                file.delete();
                 if (!file.createNewFile()) {
-                    file.createNewFile();
                     System.err.println("Unable to create the file.");
                     return false;
                 }
@@ -122,7 +118,6 @@ public abstract class QuestionParser {
             writer.close();
 
         } catch(IOException e){
-            Log.e(TAG, "IOException while writing the file\n" + e.getStackTrace());
             Log.e(TAG, "IOException while writing the file\n" + e.getMessage());
             return false;
         } catch(SecurityException e) {

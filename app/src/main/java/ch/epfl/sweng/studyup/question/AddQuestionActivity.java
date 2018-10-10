@@ -48,7 +48,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);        //TODO not compatible with API < 19 (our minAPI is 15)
 
         // Filter to only show results that can be "opened"
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -83,8 +83,8 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     public void addQuestion(View current) {
         if (imageURI != null) {
-            RadioGroup answerGroup = (RadioGroup) findViewById(R.id.question_radio_group);
-            RadioButton checkedButton = (RadioButton) findViewById(answerGroup.getCheckedRadioButtonId());
+            RadioGroup answerGroup = findViewById(R.id.question_radio_group);
+            RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
             int answerNumber = Integer.parseInt(checkedButton.getTag().toString());
 
