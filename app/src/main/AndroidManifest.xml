@@ -26,7 +26,7 @@
                 android:value="ch.epfl.sweng.studyup.MainActivity" />
         </activity>
         <activity
-            android:name=".AddQuestionActivity"
+            android:name=".question.AddQuestionActivity"
             android:label="Add a question" />
         <activity android:name=".QuestsActivity" />
         <activity android:name=".MapActivity" />

@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 package ch.epfl.sweng.studyup;
 
-=======
->>>>>>> fb-interface
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -23,10 +20,7 @@ public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
-<<<<<<< HEAD
 
-=======
->>>>>>> fb-interface
     @Test
     public void testCanGreetUsers() {
         onView(withId(R.id.helloWorld)).check(matches(withText("Hello World!")));

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.question;
 
 import android.app.Activity;
 import android.content.Intent;
