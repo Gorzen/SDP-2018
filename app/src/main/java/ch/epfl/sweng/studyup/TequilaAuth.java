@@ -75,11 +75,15 @@ public class TequilaAuth extends AppCompatActivity {
      * @return Code URL
      */
     public static String createCodeRequestUrl(OAuth2Config config) {
+        String scopesConcat = new String();
+        for(int i = 0; i < config.scopes.length; ++i) {
+            scopesConcat = scopesConcat.concat(","+config.scopes[i]);
+        }
         return "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/auth" +
                 "?response_type=code" +
                 "&client_id=" + HttpUtils.urlEncode(config.clientId) +
                 "&redirect_uri=" + HttpUtils.urlEncode(config.redirectUri) +
-                "&scope=" + String.join(",", config.scopes);
+                "&scope=" + scopesConcat;
     }
 
     /**
