@@ -23,7 +23,7 @@ public class Question {
         if (trueFalse && answerNumber > 1) {
             throw new IllegalArgumentException();
         }
-        trueFalse = trueFalse;
+        this.trueFalse = trueFalse;
         question = image;
         answer = answerNumber;
     }

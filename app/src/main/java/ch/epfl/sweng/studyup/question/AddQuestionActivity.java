@@ -48,7 +48,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);        //TODO not compatible with API < 19 (our minAPI is 15)
 
         // Filter to only show results that can be "opened"
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -83,8 +83,8 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     public void addQuestion(View current) {
         if (imageURI != null) {
-            RadioGroup answerGroup = (RadioGroup) findViewById(R.id.question_radio_group);
-            RadioButton checkedButton = (RadioButton) findViewById(answerGroup.getCheckedRadioButtonId());
+            RadioGroup answerGroup = findViewById(R.id.question_radio_group);
+            RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
             int answerNumber = Integer.parseInt(checkedButton.getTag().toString());
 
@@ -97,15 +97,15 @@ public class AddQuestionActivity extends AppCompatActivity {
             try {
                 copyFile(new File(imagePath), questionFile);
             } catch (IOException e) {
-                Log.e(TAG, "Error while copying the file\n" + e.getStackTrace());
+                Log.e(TAG, "Error while copying the file\n" + e.getMessage());
                 Toast.makeText(this.getApplicationContext(), "An error occured when importing the file, please retry", Toast.LENGTH_SHORT).show();
                 return;
             }
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();
             list.add(q);
-            QuestionParser.writeQuestions(list, this.getApplicationContext(), false);
-            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT);
+            QuestionParser.writeQuestions(list, this.getApplicationContext(), false);   //TODO check return value of writeQuestion
+            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT);   //TODO toast not used
             Intent goToMain = new Intent(this, MainActivity.class);
             startActivity(goToMain);
         }
@@ -113,7 +113,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     }
 
     private void addRadioListener() {
-        trueFalseRadioGroup = (RadioGroup) findViewById(R.id.true_false_radio_group);
+        trueFalseRadioGroup = (RadioGroup) findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -130,8 +130,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                     fourthRadioButton.setChecked(false);
 
                     //Change the text to the 1st and second button to True and False
-                    firstRadioButton.setText("True");
-                    secondRadioButton.setText("False");
+                    firstRadioButton.setText(R.string.truth_value);
+                    secondRadioButton.setText(R.string.false_value);
 
                 } else {
                     //unmask the last two buttons and set the text to the first ones to numbers
@@ -150,10 +150,10 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     private void copyFile(File sourceFile, File destFile) throws IOException {
         if (!destFile.getParentFile().exists())
-            destFile.getParentFile().mkdirs();
+            destFile.getParentFile().mkdirs();      //TODO check return value of mkdirs
 
         if (!destFile.exists()) {
-            destFile.createNewFile();
+            destFile.createNewFile();               //TODO check return value of createNewFile
         }
 
         FileChannel source = null;
