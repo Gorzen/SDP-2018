@@ -1,25 +1,18 @@
 package ch.epfl.sweng.studyup;
-
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-
 @RunWith(AndroidJUnit4.class)
 public class CharacterHomepageActivityTest {
     @Rule
     public final ActivityTestRule<CharacterHomepageActivity> mActivityRule =
             new ActivityTestRule<>(CharacterHomepageActivity.class);
-
     @Test
     /**
      * Hardcode of the implementation of player's function: getExperience
@@ -33,7 +26,6 @@ public class CharacterHomepageActivityTest {
                     "xpButton doesn't update player's xp as expected.";
         }
     }
-
     @Test
     public void checkPlayerProgressionDisplay() {
         final int numberOfPush = 5;
