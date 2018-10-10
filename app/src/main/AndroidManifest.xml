@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.epfl.sweng.studyup">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,13 +18,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CharacterHomepageActivity"
+        <activity
+            android:name=".CharacterHomepageActivity"
             android:label="@string/character_homepage"
-            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity" >
+            android:parentActivityName=".MainActivity">
             //The meta-data is to be compatible with Android 4.0 and lower
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.epfl.sweng.studyup.MainActivity" />
+        </activity>
+        <activity android:name=".login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:host="login" android:scheme="studyup" android:pathPattern=".*"></data>
+            </intent-filter>
         </activity>
     </application>
 
