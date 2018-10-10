@@ -1,14 +1,14 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -21,6 +21,15 @@ public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void initiateIntents(){
+        Intents.init();
+    }
+    @After
+    public void releaseIntents() {
+        Intents.release();
+    }
 
     @Test
     public void testCanGreetUsers() {
@@ -51,4 +60,12 @@ public class MainActivityTest {
                     "Player's level display isn't well updated when pushing button.";
         }
     }
+
+     /*
+    @Test
+    public void testToAddQuestionButton() {
+        onView(withId(R.id.questButton)).perform(click());
+        intended(hasComponent(AddQuestionActivity.class.getName()));
+    }*/
+
 }

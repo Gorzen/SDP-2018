@@ -72,11 +72,20 @@ public abstract class QuestionParser {
             }
 
         }catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unsupported encoding \n" + e.getStackTrace());
+            Log.e(TAG, "Unsupported encoding: \n" + e.getMessage());
+
+            /*
+                Version with stackTrace:
+                Log.e(TAG, "Unsupported encoding: \n");
+                for(StackTraceElement elem: e.getStackTrace()) {
+                    System.err.println("-File:"+elem.getClassName()+" -Method:L"+elem.getMethodName()+" -Line:"+elem.getLineNumber());
+                }
+            */
+
             toast.show();
             return null;
         }catch(IOException e) {
-            Log.e(TAG, "IOException while reading the file\n" + e.getStackTrace());
+            Log.e(TAG, "IOException while reading the file\n" + e.getMessage());
             toast.show();
             return null;
         }
@@ -93,11 +102,13 @@ public abstract class QuestionParser {
     public static boolean writeQuestions(List<Question> list, Context c, boolean replace) {
         try{
             File file = new File(c.getFilesDir(), fileName);
-            if (!file.exists()) {
-                file.createNewFile();
-            }else if (replace) {
-                file.delete();
-                file.createNewFile();
+            //The createNewFile() method return true and create the file if and only if the file doesn't yet exists
+            if(!file.createNewFile() && replace) {
+                if (!file.delete()) return false;
+                if (!file.createNewFile()) {
+                    System.err.println("Unable to create the file.");
+                    return false;
+                }
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             for (Question q : list) {
@@ -106,8 +117,11 @@ public abstract class QuestionParser {
             }
             writer.close();
 
-        }catch(IOException e){
-            Log.e(TAG, "IOException while writing the file\n" + e.getStackTrace());
+        } catch(IOException e){
+            Log.e(TAG, "IOException while writing the file\n" + e.getMessage());
+            return false;
+        } catch(SecurityException e) {
+            Log.e(TAG, "SecurityException while writing the file\n" + e.getMessage());
             return false;
         }
 
