@@ -22,6 +22,5 @@ public class QuestionTest {
             new ActivityTestRule<>(MainActivity.class);
     @Test
     public void testQuestionInit() {
-        
     }
 }
