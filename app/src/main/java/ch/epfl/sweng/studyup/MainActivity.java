@@ -17,10 +17,20 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends AppCompatActivity {
+    CircularProgressIndicator levelProgress;
+
+    //Texte that will be displayed in the levelProgress layout
+    private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
+        @Override
+        public String formatText(double progress) {
+            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()+1));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 123);
 
+        levelProgress = findViewById(R.id.level_progress);
+        levelProgress.setProgress(Player.get().getLevelProgress(), 1);
+        levelProgress.setStartAngle(270);
+        levelProgress.setProgressTextAdapter(null);
+
     }
 
     //Display the toolbar
@@ -107,11 +122,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void toCharacterHomePage(View view) {
-        Intent intent = new Intent(this, CharacterHomepageActivity.class);
-        startActivity(intent);
-    }
-
     public void questionAddTest(View view) {
         Intent intent = new Intent(this, AddQuestionActivity.class);
         startActivity(intent);
@@ -129,5 +139,16 @@ public class MainActivity extends AppCompatActivity {
             TextView test = findViewById(R.id.helloWorld);
             test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);
         }
+    }
+
+    /**
+     * Function that is called when adding xp with the button
+     *
+     * @param view
+     */
+    public void addExpPlayer(View view) {
+        Player.get().addExperience(Player.XP_STEP);
+        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
+        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
     }
 }

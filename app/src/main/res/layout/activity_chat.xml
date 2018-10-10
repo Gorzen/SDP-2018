@@ -7,25 +7,6 @@
     android:layout_height="match_parent"
     tools:context="ch.epfl.sweng.studyup.MainActivity">
 
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomBar"
-        android:layout_below="@+id/topBar"
-        android:layout_alignStart="@+id/topBar"
-        android:layout_alignLeft="@+id/topBar"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="241dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginRight="160dp"
-        android:layout_marginBottom="241dp"
-        android:text="ChatActivity" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
