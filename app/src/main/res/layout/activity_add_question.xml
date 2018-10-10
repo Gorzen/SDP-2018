@@ -7,12 +7,12 @@
     tools:context=".question.AddQuestionActivity">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/selectImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:onClick="performFileSearch"
-        android:text="Chose an image"
+        android:text="@string/select_image_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,15 +23,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="No image chosen"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/no_image_selected_text"         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
 
     <RadioGroup
         android:id="@+id/true_false_radio_group"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:checkedButton="@id/mcq_radio"
@@ -45,15 +44,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="True/False question" />
-
+            android:text="@string/true_false_question_text" />
         <RadioButton
             android:id="@+id/mcq_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Multiple Choice Question" />
-
+            android:text="@string/multiple_choice_question_text" />
     </RadioGroup>
 
     <TextView
@@ -64,10 +61,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:text="Correct Answer:"
+        android:text="@string/select_image_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/true_false_radio_group" />
-
+        app:layout_constraintTop_toBottomOf="@+id/true_false_or_mcq_radio_group" />
     <RadioGroup
         android:id="@+id/question_radio_group"
         android:layout_width="wrap_content"
@@ -114,7 +110,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/addInQuestionAddActButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -124,7 +120,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
         android:onClick="addQuestion"
-        android:text="Add"
+        android:text="@string/add_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
