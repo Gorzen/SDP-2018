@@ -24,6 +24,8 @@ import java.util.UUID;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.question.Question;
+import ch.epfl.sweng.studyup.question.QuestionParser;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
