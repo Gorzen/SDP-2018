@@ -28,7 +28,7 @@ public abstract class QuestionParser {
      * -The correct answer (unsigned int between 0 and 4)
      */
 
-    private static String fileName = "questions.info";
+    public static String fileName = "questions.info";
     private static final String TAG = "QuestionParser";
 
     /**
@@ -112,7 +112,7 @@ public abstract class QuestionParser {
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             for (Question q : list) {
-                    String text = "\n" + q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer();
+                    String text = q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer() + "\n";
                     writer.write(text);
             }
             writer.close();

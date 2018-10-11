@@ -29,6 +29,8 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCat
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
 
@@ -102,6 +104,20 @@ public class AddQuestionActivityTest {
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
         i.setData(uri);
-        AddQuestionActivity.onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
+        AddQuestionActivity qa = new AddQuestionActivity();
+        qa.onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
+        onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText("Image at: " + fakePath)));
+    }
+
+    @Test
+    private void activityResultFalseTest(){
+        //The text should not change because the activity returned with a error code
+        Intent i = new Intent();
+        String fakePath = "/test.jpg";
+        Uri uri = Uri.fromFile(new File(fakePath));
+        i.setData(uri);
+        AddQuestionActivity qa = new AddQuestionActivity();
+        qa.onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
+        onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText(R.id.display_question_path)));
     }
 }
