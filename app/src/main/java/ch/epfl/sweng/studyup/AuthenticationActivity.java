@@ -26,14 +26,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private String getToken(String code) throws IOException, JSONException {
-
-        String tokenURL = "https://studyup-authenticate.herokuapp.com/getToken" + "?code=" + code;
-        HttpURLConnection connection = (HttpURLConnection) new URL(tokenURL).openConnection();
-        InputStream stream = connection.getInputStream();
-        String tokenResponse = new Scanner(stream).useDelimiter("\\A").next();
-
-        JSONObject tokenResponseJSON = new JSONObject(tokenResponse);
+    private String getTokenFromResponse(String response) throws JSONException {
+        JSONObject tokenResponseJSON = new JSONObject(response);
 
         if (tokenResponseJSON.has("error")) {
             String error = tokenResponseJSON.getString("error");
@@ -46,14 +40,19 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-    private void displayProfileData(String token) throws IOException, JSONException {
+    private String getToken(String code) throws IOException, JSONException {
 
-        String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
-        HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
-        InputStream profStream = profConnection.getInputStream();
-        String profileResponse = new Scanner(profStream).useDelimiter("\\A").next();
+        String tokenURL = "https://studyup-authenticate.herokuapp.com/getToken" + "?code=" + code;
+        HttpURLConnection connection = (HttpURLConnection) new URL(tokenURL).openConnection();
+        InputStream stream = connection.getInputStream();
+        String tokenResponse = new Scanner(stream).useDelimiter("\\A").next();
 
-        JSONObject profileResponseJSON = new JSONObject(profileResponse);
+        return getTokenFromResponse(tokenResponse);
+    }
+
+    private void displayProfileDataFromResponse(String response) throws JSONException {
+
+        JSONObject profileResponseJSON = new JSONObject(response);
         if (profileResponseJSON.has("error")) {
             String error = profileResponseJSON.getString("error");
             reportAuthError(error);
@@ -67,6 +66,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
+    private void displayProfileData(String token) throws IOException, JSONException {
+
+        String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
+        HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
+        InputStream profStream = profConnection.getInputStream();
+        String profileResponse = new Scanner(profStream).useDelimiter("\\A").next();
+
+        displayProfileDataFromResponse(profileResponse);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,25 +86,21 @@ public class AuthenticationActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         Uri authCodeURI = getIntent().getData();
-        if (authCodeURI != null) {
 
-            String code = authCodeURI.getQueryParameter("code");
-            String error = authCodeURI.getQueryParameter("error");
+        String code = authCodeURI.getQueryParameter("code");
+        String error = authCodeURI.getQueryParameter("error");
 
-            if (!TextUtils.isEmpty(error)) {
-                reportAuthError(error);
-            }
-            if (!TextUtils.isEmpty(code)) {
-                try {
-                    String token = getToken(code);
-                    if (token != null) {
-                        displayProfileData(token);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (!TextUtils.isEmpty(error)) {
+            reportAuthError(error);
+        }
+        else {
+            try {
+                String token = getToken(code);
+                if (token != null) {
+                    displayProfileData(token);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
