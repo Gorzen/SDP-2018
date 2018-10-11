@@ -1,20 +1,24 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
@@ -36,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("GPS_MAP", "Started main");
+        //GPS Job scheduler
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(10 * 1000).build();
+        scheduler.schedule(jobInfo);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.navigation_map:
-                        Intent intent_m = new Intent(MainActivity.this, MapActivity.class);
+                        Intent intent_m = new Intent(MainActivity.this, MapsActivity.class);
                         startActivity(intent_m);
                         overridePendingTransition(0, 0);
                         break;
@@ -93,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-
     }
 
     //Display the toolbar
