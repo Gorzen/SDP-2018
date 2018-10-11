@@ -51,7 +51,7 @@ public abstract class QuestionParser {
 
             while ((line = bufferedReader.readLine()) != null) {
                 File nf = new File(line);
-                if(!nf.exists()){throw new FileNotFoundException("The image for the question has not be found"); }
+                if(!nf.exists()){throw new FileNotFoundException("The image for the question has not been found"); }
                 imageUri = Uri.fromFile(new File(line));
 
                 if ((line = bufferedReader.readLine()) == null) {

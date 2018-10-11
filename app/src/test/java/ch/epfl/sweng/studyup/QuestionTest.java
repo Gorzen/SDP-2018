@@ -4,18 +4,21 @@ import android.net.Uri;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+
 import static org.junit.Assert.*;
 import java.io.File;
 
 import ch.epfl.sweng.studyup.question.Question;
 
-
+@RunWith(RobolectricTestRunner.class)
 public class QuestionTest {
 
     private Uri uri;
 
     @Before
-    private void init() {
+    public void init() {
         uri = Uri.fromFile(new File("test.test"));
     }
 
@@ -29,22 +32,22 @@ public class QuestionTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    private void wrongAnswerNumberHighTest() {
+    public void wrongAnswerNumberHighTest() {
         Question q = new Question(uri, true, 2);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    private void wrongAnswerNumberNegTest() {
+    public void wrongAnswerNumberNegTest() {
         Question q = new Question(uri, true, -1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    private void wrongAnswerNumberMCQTest() {
+    public void wrongAnswerNumberMCQTest() {
         Question q = new Question(uri, false, 4);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    private void nullUriTest() {
+    public void nullUriTest() {
         Question q = new Question(null, true, 0);
     }
 

@@ -17,7 +17,7 @@ public class Question {
      * @param answerNumber The number of the answer, starting at 0 (0 is the first answer)
      */
     public Question(Uri image, boolean trueFalse, int answerNumber) {
-        if (answerNumber < 0 || answerNumber > 4 || image == null){
+        if (answerNumber < 0 || answerNumber > 3 || image == null){
             throw new IllegalArgumentException();
         }
         if (trueFalse && answerNumber > 1) {
