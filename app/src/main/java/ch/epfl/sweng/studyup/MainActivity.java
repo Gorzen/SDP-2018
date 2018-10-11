@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup;
 import android.Manifest;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -141,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onLoginButtonClick(View view) {
+        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
+        Intent authIntent = new Intent(Intent.ACTION_VIEW);
+        authIntent.setData(Uri.parse(authURL));
+        startActivity(authIntent);
+    }
     /**
      * Function that is called when adding xp with the button
      *
