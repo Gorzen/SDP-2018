@@ -144,15 +144,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLoginButtonClick(View view) {
-        String authURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/auth" +
-                "?response_type=code" +
-                "&client_id=" + "05deebf93b675fe41ce9415f@epfl.ch" +
-                "&client_secret=" + "875fb85762667d798d3ad90c2d3d2971" +
-                "&redirect_uri=" + "studyup://login" +
-                "&scope=" + "Tequila.profile";
+        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
         Intent authIntent = new Intent(Intent.ACTION_VIEW);
         authIntent.setData(Uri.parse(authURL));
         startActivity(authIntent);
+    }
     /**
      * Function that is called when adding xp with the button
      *

@@ -21,4 +21,7 @@
     <string name="true_false_question_text">True or false question</string>
     <string name="multiple_choice_question_text">Multiple choice question</string>
     <string name="add_text">Add</string>
+    <string name="login">Log In</string>
+
+    <string name="auth_error">Auth Error</string>
 </resources>
