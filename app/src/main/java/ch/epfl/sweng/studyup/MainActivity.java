@@ -21,11 +21,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.LatLng;
+
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static FusedLocationProviderClient locationProviderClient = null;
+    public static Context mainContext = null;
+    public static LatLng position = null;
     CircularProgressIndicator levelProgress;
 
     //Texte that will be displayed in the levelProgress layout
@@ -43,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GPS_MAP", "Started main");
         //GPS Job scheduler
+        mainContext = this.getApplicationContext();
+        locationProviderClient = new FusedLocationProviderClient(this);
         JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(10 * 1000).build();
+        JobInfo jobInfo = new JobInfo.Builder(0, new ComponentName(this, BackgroundLocation.class)).setPeriodic(20 * 60 * 1000).build();
         scheduler.schedule(jobInfo);
+        for(JobInfo job : scheduler.getAllPendingJobs()){
+            Log.d("GPS_MAP", job.toString());
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Log.d("GPS_MAP", "Map ready position = " + MainActivity.position);
+        onLocationUpdate(MainActivity.position);
     }
 
     @Override
@@ -55,8 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(location != null){
                 location.remove();
             }
-            location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLong));
+            if(latLong != null) {
+                location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLong));
+            }
         }
     }
 }

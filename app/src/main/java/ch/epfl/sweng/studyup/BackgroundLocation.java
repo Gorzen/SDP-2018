@@ -21,9 +21,9 @@ public class BackgroundLocation extends JobService {
     */
 
     public BackgroundLocation(){
-        context = null;
-        locationProviderClient = null;
         Log.d("GPS_MAP", "Created background location, default constructor");
+        this.context = MainActivity.mainContext;
+        this.locationProviderClient = MainActivity.locationProviderClient;
     }
 
     @Override

@@ -32,24 +32,31 @@ public class GetLocation extends AsyncTask<Object, Void, JobParameters> {
         assert(objects.length == 2);
         assert(objects[0] instanceof FusedLocationProviderClient);
         assert(objects[1] instanceof Context);
+        Log.d("GPS_MAP", "Do in background");
 
         FusedLocationProviderClient locationProviderClient = (FusedLocationProviderClient) objects[0];
         final Context context = (Context) objects[1];
 
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
-                        latLong = new LatLng(location.getLatitude(), location.getLongitude());
-                    }else{
-                        Log.d("GPS_MAP", "NEW POS: null");
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("GPS_MAP", "Permission granted");
+            //while(latLong == null) {
+                locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
+                            latLong = new LatLng(location.getLatitude(), location.getLongitude());
+                            MainActivity.position = new LatLng(location.getLatitude(), location.getLongitude());
+                            Log.d("GPS_MAP", "Changed position of Main ACtivity" + location);
+                        } else {
+                            Log.d("GPS_MAP", "NEW POS: null");
+                        }
                     }
-                }
-            });
+                });
+            //}
+        }else{
+            Log.d("GPS_MAP", "No permission");
         }
 
         if(latLong != null){
@@ -68,4 +75,6 @@ public class GetLocation extends AsyncTask<Object, Void, JobParameters> {
         super.onPostExecute(jobParameters);
         jobService.jobFinished(jobParameters, false);
     }
+
+
 }
