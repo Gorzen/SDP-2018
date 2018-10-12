@@ -21,10 +21,23 @@ import org.json.*;
 public class AuthenticationActivity extends AppCompatActivity {
 
     private void reportAuthError() {
-
         Toast.makeText(AuthenticationActivity.this,
                 "Unable to authenticate.",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private void checkErrorJSON(JSONObject obj) {
+        if (obj.has("error")) {
+            String error;
+            try {
+                error = obj.getString("error");
+            } catch(JSONException e) {
+                e.printStackTrace();
+                return;
+            }
+            reportAuthError();
+            Log.e(getString(R.string.auth_error), error);
+        }
     }
 
     private String getTokenFromResponse(String response) throws JSONException, UnsupportedEncodingException {
@@ -35,11 +48,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             String token = tokenResponseJSON.getString("access_token");
             return URLEncoder.encode(token, "UTF-8");
         }
-        if (tokenResponseJSON.has("error")) {
-            String error = tokenResponseJSON.getString("error");
-            reportAuthError();
-            Log.e(getString(R.string.auth_error), error);
-        }
+
+        checkErrorJSON(tokenResponseJSON);
         return null;
     }
 
@@ -64,11 +74,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
             profileDataDisplay.setText("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
         }
-        if (profileResponseJSON.has("error")) {
-            String error = profileResponseJSON.getString("error");
-            reportAuthError();
-            Log.e(getString(R.string.auth_error), error);
-        }
+
+        checkErrorJSON(profileResponseJSON);
     }
 
     private void displayProfileData(String token) throws IOException, JSONException {
