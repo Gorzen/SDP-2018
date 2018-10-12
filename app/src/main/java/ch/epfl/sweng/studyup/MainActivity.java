@@ -1,14 +1,9 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,10 +20,10 @@ import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Navigation {
     CircularProgressIndicator levelProgress;
 
-    //Texte that will be displayed in the levelProgress layout
+    //Text that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
@@ -63,48 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //bottom navigation bar
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true); //give color to the selected item
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        break;
-
-                    case R.id.navigation_quests:
-                        Intent intent_q = new Intent(MainActivity.this, QuestsActivity.class);
-                        startActivity(intent_q);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_rankings:
-                        Intent intent_r = new Intent(MainActivity.this, RankingsActivity.class);
-                        startActivity(intent_r);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_map:
-                        Intent intent_m = new Intent(MainActivity.this, MapActivity.class);
-                        startActivity(intent_m);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_chat:
-                        Intent intent_c = new Intent(MainActivity.this, ChatActivity.class);
-                        startActivity(intent_c);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    default:
-                        return false;
-                }
-                return false;
-            }
-        });
+        navigationSwitcher(MainActivity.this, MainActivity.class, 0);
 
         //level progression bar
         ActivityCompat.requestPermissions(
@@ -118,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
     }
-
 
     //Display the toolbar
     @Override
@@ -174,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         Player.get().addExperience(Player.XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-    }
 
+    }
 
 }

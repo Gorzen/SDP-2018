@@ -29,6 +29,7 @@
         <activity android:name=".RankingsActivity" />
         <activity android:name=".ChatActivity"></activity>
         <activity android:name=".CustomActivity"></activity>
+        <activity android:name=".Navigation"/>
     </application>
 
 </manifest>
