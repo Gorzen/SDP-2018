@@ -1,6 +1,8 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -13,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -32,14 +36,33 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private ImageButton pic_button;
+    private ImageView imageview;
+    private static final String IMAGE_DIRECTORY = "/studyup_photos";
+    private int GALLERY = 0, CAMERA = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //user picture
+        pic_button = (ImageButton) findViewById(R.id.pic_btn);
+        imageview = (ImageView) findViewById(R.id.pic_imageview);
+        pic_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+            }
+        });
+
+        //toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
@@ -55,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_quests:
                         Intent intent_q = new Intent(MainActivity.this, QuestsActivity.class);
                         startActivity(intent_q);
-                        //todo R.anim.### does not work if we want better transitions
                         overridePendingTransition(0, 0);
                         break;
 
@@ -84,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //level progression bar
         ActivityCompat.requestPermissions(
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -95,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
     }
+
 
     //Display the toolbar
     @Override
@@ -151,4 +175,6 @@ public class MainActivity extends AppCompatActivity {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
     }
+
+
 }
