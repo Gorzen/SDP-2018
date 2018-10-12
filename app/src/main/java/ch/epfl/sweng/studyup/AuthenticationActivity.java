@@ -11,33 +11,36 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Scanner;
 import org.json.*;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
-    private void reportAuthError(String error) {
+    private void reportAuthError() {
 
-        Log.e(getString(R.string.auth_error), error);
         Toast.makeText(AuthenticationActivity.this,
                 "Unable to authenticate.",
                 Toast.LENGTH_SHORT).show();
     }
 
-    private String getTokenFromResponse(String response) throws JSONException {
+    private String getTokenFromResponse(String response) throws JSONException, UnsupportedEncodingException {
+
         JSONObject tokenResponseJSON = new JSONObject(response);
 
+        if (tokenResponseJSON.has("access_token")) {
+            String token = tokenResponseJSON.getString("access_token");
+            return URLEncoder.encode(token, "UTF-8");
+        }
         if (tokenResponseJSON.has("error")) {
             String error = tokenResponseJSON.getString("error");
-            reportAuthError(error);
-            return null;
+            reportAuthError();
+            Log.e(getString(R.string.auth_error), error);
         }
-        else {
-            String token = tokenResponseJSON.getString("access_token");
-            return token;
-        }
+        return null;
     }
 
     private String getToken(String code) throws IOException, JSONException {
@@ -53,11 +56,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     private void displayProfileDataFromResponse(String response) throws JSONException {
 
         JSONObject profileResponseJSON = new JSONObject(response);
-        if (profileResponseJSON.has("error")) {
-            String error = profileResponseJSON.getString("error");
-            reportAuthError(error);
-        }
-        else {
+
+        if (profileResponseJSON.has("Firstname") && profileResponseJSON.has("Sciper")) {
             String firstName = profileResponseJSON.getString("Firstname");
             String sciperNumber = profileResponseJSON.getString("Sciper");
 
@@ -65,11 +65,17 @@ public class AuthenticationActivity extends AppCompatActivity {
             profileDataDisplay.setText("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
             System.out.println("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
         }
+        if (profileResponseJSON.has("error")) {
+            String error = profileResponseJSON.getString("error");
+            reportAuthError();
+            Log.e(getString(R.string.auth_error), error);
+        }
     }
 
     private void displayProfileData(String token) throws IOException, JSONException {
 
         String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
+
         HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
         InputStream profStream = profConnection.getInputStream();
         String profileResponse = new Scanner(profStream).useDelimiter("\\A").next();
@@ -92,7 +98,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         String error = authCodeURI.getQueryParameter("error");
 
         if (!TextUtils.isEmpty(error)) {
-            reportAuthError(error);
+            reportAuthError();
+            Log.e(getString(R.string.auth_error), error);
         }
         else {
             try {
@@ -101,6 +108,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     displayProfileData(token);
                 }
             } catch (Exception e) {
+                reportAuthError();
                 e.printStackTrace();
             }
         }
