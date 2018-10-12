@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mainContext = this.getApplicationContext();
         locationProviderClient = new FusedLocationProviderClient(this);
         JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(0, new ComponentName(this, BackgroundLocation.class)).setPeriodic(20 * 60 * 1000).build();
+        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
         scheduler.schedule(jobInfo);
         for(JobInfo job : scheduler.getAllPendingJobs()){
             Log.d("GPS_MAP", job.toString());
