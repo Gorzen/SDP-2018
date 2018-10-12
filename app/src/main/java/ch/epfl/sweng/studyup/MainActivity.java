@@ -26,7 +26,7 @@ import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 public class MainActivity extends AppCompatActivity {
     CircularProgressIndicator levelProgress;
 
-    //Texte that will be displayed in the levelProgress layout
+    // Text that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true); //give color to the selected item
+        menuItem.setChecked(true); // Give color to the selected item
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Display the toolbar
+    // Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater i = getMenuInflater();
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Redirect to the auth webpage, which in turns redirects to the auth page
     public void onLoginButtonClick(View view) {
         String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
         Intent authIntent = new Intent(Intent.ACTION_VIEW);

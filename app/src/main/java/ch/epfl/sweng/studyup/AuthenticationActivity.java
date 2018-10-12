@@ -63,6 +63,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
             profileDataDisplay.setText("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
+            System.out.println("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
         }
     }
 
