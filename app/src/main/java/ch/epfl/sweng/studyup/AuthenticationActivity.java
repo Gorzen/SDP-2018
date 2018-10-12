@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Scanner;
 import org.json.*;
 
@@ -25,13 +27,13 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    private String getTokenFromResponse(String response) throws JSONException {
+    private String getTokenFromResponse(String response) throws JSONException, UnsupportedEncodingException {
 
         JSONObject tokenResponseJSON = new JSONObject(response);
 
         if (tokenResponseJSON.has("access_token")) {
             String token = tokenResponseJSON.getString("access_token");
-            return token;
+            return URLEncoder.encode(token, "UTF-8");
         }
         if (tokenResponseJSON.has("error")) {
             String error = tokenResponseJSON.getString("error");
@@ -71,15 +73,14 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private void displayProfileData(String token) throws IOException, JSONException {
 
-        System.setProperty("http.agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
-
         String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
+        System.out.println(profileUrl);
         HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
 
         int profConnectionResponseCode = profConnection.getResponseCode();
         if (profConnectionResponseCode >= 400) {
             System.out.println("ERROR, SERVER RESPONSE CODE: " + profConnectionResponseCode);
-            InputStream errorStream = profConnection.getInputStream();
+            InputStream errorStream = profConnection.getErrorStream();
             String errorResponse = new Scanner(errorStream).useDelimiter("\\A").next();
             System.out.println(errorResponse);
         }
