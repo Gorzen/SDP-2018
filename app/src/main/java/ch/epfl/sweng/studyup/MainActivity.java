@@ -19,12 +19,17 @@ import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends AppCompatActivity {
     CircularProgressIndicator levelProgress;
+
+    // FirebaseAuth instance, for further identifications
+    private FirebaseAuth mAuth;
 
     // Text that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
@@ -145,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Redirect to the auth webpage, which in turns redirects to the auth page
     public void onLoginButtonClick(View view) {
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
         String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
         Intent authIntent = new Intent(Intent.ACTION_VIEW);
         authIntent.setData(Uri.parse(authURL));
