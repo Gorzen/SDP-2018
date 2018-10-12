@@ -74,17 +74,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     private void displayProfileData(String token) throws IOException, JSONException {
 
         String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
-        System.out.println(profileUrl);
+
         HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
-
-        int profConnectionResponseCode = profConnection.getResponseCode();
-        if (profConnectionResponseCode >= 400) {
-            System.out.println("ERROR, SERVER RESPONSE CODE: " + profConnectionResponseCode);
-            InputStream errorStream = profConnection.getErrorStream();
-            String errorResponse = new Scanner(errorStream).useDelimiter("\\A").next();
-            System.out.println(errorResponse);
-        }
-
         InputStream profStream = profConnection.getInputStream();
         String profileResponse = new Scanner(profStream).useDelimiter("\\A").next();
 
