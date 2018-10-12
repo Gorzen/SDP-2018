@@ -75,7 +75,7 @@ public class BackgroundLocation extends JobService {
         @Override
         protected void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            jobService.jobFinished(jobParameters, false);
+            jobService.jobFinished(jobParameters, true);
         }
 
 
