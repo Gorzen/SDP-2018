@@ -2,12 +2,23 @@ package ch.epfl.sweng.studyup;
 
 import android.net.Uri;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +29,12 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import org.json.*;
 
+import static java.sql.DriverManager.println; //DEBUG TODO
+
 public class AuthenticationActivity extends AppCompatActivity {
+    private final String TAG = AuthenticationActivity.class.getSimpleName();
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore fbFirestore;
 
     private void reportAuthError() {
         Toast.makeText(AuthenticationActivity.this,
@@ -36,7 +52,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 return;
             }
             reportAuthError();
-            Log.e(getString(R.string.auth_error), error);
+            Log.e(getString(R.string.auth_error_tequila), error);
         }
     }
 
@@ -101,23 +117,72 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Uri authCodeURI = getIntent().getData();
 
-        String code = authCodeURI.getQueryParameter("code");
+        String code;
+        try {
+            code = authCodeURI.getQueryParameter("code");
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+            return;
+        }
         String error = authCodeURI.getQueryParameter("error");
 
         if (!TextUtils.isEmpty(error)) {
             reportAuthError();
-            Log.e(getString(R.string.auth_error), error);
+            Log.e(getString(R.string.auth_error_tequila), error);
         }
         else {
+            String token;
             try {
-                String token = getToken(code);
+                token = getToken(code);
                 if (token != null) {
                     displayProfileData(token);
                 }
             } catch (Exception e) {
                 reportAuthError();
                 e.printStackTrace();
+
+                return;
             }
+
+            firebaseAuth = FirebaseAuth.getInstance();
+            setupTokenFireBaseAuth(token);
+            fbFirestore = FirebaseFirestore.getInstance();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Log.i(TAG, fbFirestore.collection("users").get().toString());
+    }
+
+    /**
+     * Method that setup the connection to Firebase Authenticate service using the
+     * tequila token
+     *
+     * @param token
+     */
+    private void setupTokenFireBaseAuth(String token) {
+        firebaseAuth.signInWithCustomToken(token)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            Log.d(TAG, getString(R.string.auth_firebase_success));
+                            Toast.makeText(AuthenticationActivity.this,
+                                    getString(R.string.auth_firebase_success),
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            //update firebaseUser in Player
+                        } else {
+                            Log.w(TAG, getString(R.string.auth_firebase_failure));
+                            Toast.makeText(AuthenticationActivity.this,
+                                    getString(R.string.auth_firebase_failure),
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
     }
 }

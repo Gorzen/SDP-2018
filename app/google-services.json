@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "1062075506278-gkqdeufk895n5oir792tntc9d1vae0mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.studyup",
+            "certificate_hash": "c822071fee71c295633b275cabb6651a53d892ed"
+          }
+        },
+        {
           "client_id": "1062075506278-gfi6dfg0d5vm2kf7im0gj33ugvqir9h4.apps.googleusercontent.com",
           "client_type": 3
         }
