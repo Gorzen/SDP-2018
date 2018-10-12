@@ -43,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+        Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
