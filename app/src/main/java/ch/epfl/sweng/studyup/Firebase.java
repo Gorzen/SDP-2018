@@ -16,6 +16,7 @@ import java.util.Map;
 public class Firebase {
     private static Firebase instance = null;
     private static FirebaseFirestore db;
+    private static Map<String, Object> userData;
 
     private Firebase() {
         // Access a Cloud Firestore instance from your Activity
@@ -36,7 +37,11 @@ public class Firebase {
         return instance;
     }
 
-    public Map<String, Object> getUser(int sciper) {
+    public Map<String, Object> getUserData(final int sciper) throws IllegalArgumentException {
+        if(sciper < 100000 || sciper > 999999) {
+            throw new IllegalArgumentException("Error: SCIPER number should be a six digits number.");
+        }
+
         db.collection("users").document(Integer.toString(sciper))
             .get()
             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -45,15 +50,17 @@ public class Firebase {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        userData = document.getData();
                     } else {
-                        Log.d(TAG, "No such document");
+                        System.out.println("Error: No such user (" + sciper + ").");
                     }
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    System.out.println("get failed with " + task.getException());
                 }
             }
         });
+
+        return userData;
     }
 }
 
