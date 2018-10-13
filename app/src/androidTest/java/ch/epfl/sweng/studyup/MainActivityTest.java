@@ -22,6 +22,7 @@ public class MainActivityTest {
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
 
+
     @Before
     public void initiateIntents(){
         Intents.init();

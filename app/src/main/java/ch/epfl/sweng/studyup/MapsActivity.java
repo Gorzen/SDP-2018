@@ -63,8 +63,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Log.d("GPS_MAP", "Map ready position = " + MainActivity.position);
-        onLocationUpdate(MainActivity.position);
+        Log.d("GPS_MAP", "Map ready position = " + Utils.position);
+        onLocationUpdate(Utils.position);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(latLong != null) {
                 Log.d("GPS_MAP", "New position map: " + latLong);
                 location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
-                MainActivity.position = new LatLng(latLong.latitude, latLong.longitude);
+                Utils.position = new LatLng(latLong.latitude, latLong.longitude);
             }
         }
     }

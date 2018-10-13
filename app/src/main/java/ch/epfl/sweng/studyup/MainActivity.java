@@ -1,11 +1,13 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,27 +31,25 @@ import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static FusedLocationProviderClient locationProviderClient = null;
-    public static Context mainContext = null;
-    public static LatLng position = null;
     CircularProgressIndicator levelProgress;
 
     //Texte that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()+1));
+            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel() + 1));
         }
     };
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
         Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GPS_MAP", "Started main");
         //GPS Job scheduler
-        mainContext = this.getApplicationContext();
-        locationProviderClient = new FusedLocationProviderClient(this);
+        Utils.mainContext = this.getApplicationContext();
+        Utils.locationProviderClient = new FusedLocationProviderClient(this);
+        if (Utils.isMockEnabled) {
+            Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
+        }
         JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
         scheduler.schedule(jobInfo);
         for(JobInfo job : scheduler.getAllPendingJobs()){
             Log.d("GPS_MAP", job.toString());
         }
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

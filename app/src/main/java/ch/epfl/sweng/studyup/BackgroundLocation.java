@@ -21,8 +21,8 @@ public class BackgroundLocation extends JobService {
 
     public BackgroundLocation(){
         Log.d("GPS_MAP", "Created background location, default constructor");
-        this.context = MainActivity.mainContext;
-        this.locationProviderClient = MainActivity.locationProviderClient;
+        this.context = Utils.mainContext;
+        this.locationProviderClient = Utils.locationProviderClient;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class BackgroundLocation extends JobService {
                     public void onSuccess(Location location) {
                         if (location != null) {
                             Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
-                            MainActivity.position = new LatLng(location.getLatitude(), location.getLongitude());
+                            Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
                             Log.d("GPS_MAP", "Changed position of Main Activity " + location);
                         } else {
                             Log.d("GPS_MAP", "NEW POS: null");
