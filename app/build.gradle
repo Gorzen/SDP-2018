@@ -16,6 +16,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -46,7 +47,8 @@ dependencies {
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.4' // Core
     implementation 'com.google.firebase:firebase-auth:16.0.4' // Auth
-    implementation 'com.google.firebase:firebase-firestore:11.8.0' // Database
+    implementation 'com.google.firebase:firebase-firestore:17.1.1' // Database
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 tasks.withType(Test) {
