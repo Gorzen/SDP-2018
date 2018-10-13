@@ -32,8 +32,9 @@ import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 import static android.support.v4.app.ActivityCompat.requestPermissions;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
     CircularProgressIndicator levelProgress;
+    private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
     //Texte that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("GPS_MAP", "Started main");
         //GPS Job scheduler
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_PERMISSION_REQUEST_FINE_LOCATION);
         Utils.mainContext = this.getApplicationContext();
         Utils.locationProviderClient = new FusedLocationProviderClient(this);
         if (Utils.isMockEnabled) {
@@ -119,11 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ActivityCompat.requestPermissions(
-                MainActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                123);
-
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
@@ -138,6 +138,23 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode) {
+            case MY_PERMISSION_REQUEST_FINE_LOCATION:
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("GPS_MAP", "Permission granted");
+                } else {
+                    Toast.makeText(getApplicationContext(), "This app requires location", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+                break;
+        }
+    }
 
     //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     //Corresponding activities are not created yet
