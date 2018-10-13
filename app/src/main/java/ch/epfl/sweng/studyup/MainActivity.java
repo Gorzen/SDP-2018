@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
+import static android.support.v4.app.ActivityCompat.requestPermissions;
+
 
 public class MainActivity extends AppCompatActivity {
     CircularProgressIndicator levelProgress;
@@ -60,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
         Utils.mainContext = this.getApplicationContext();
         Utils.locationProviderClient = new FusedLocationProviderClient(this);
         if (Utils.isMockEnabled) {
+            Utils.locationProviderClient.setMockMode(true);
             Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
+            Log.d("GPS_MAP", "Mock location set");
         }
         JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();

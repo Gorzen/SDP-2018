@@ -11,6 +11,7 @@ public class Utils {
     public static FusedLocationProviderClient locationProviderClient;
     public static Context mainContext;
 
+
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc;

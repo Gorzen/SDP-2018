@@ -15,14 +15,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 public class BackgroundLocation extends JobService {
-    private final FusedLocationProviderClient locationProviderClient;
     private final Context context;
     public static int BACKGROUND_LOCATION_ID = 0;
 
     public BackgroundLocation(){
         Log.d("GPS_MAP", "Created background location, default constructor");
         this.context = Utils.mainContext;
-        this.locationProviderClient = Utils.locationProviderClient;
     }
 
     @Override
@@ -53,7 +51,7 @@ public class BackgroundLocation extends JobService {
             if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
-                locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
