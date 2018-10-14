@@ -38,7 +38,6 @@ public class QuestionParserTest {
             List<Question> parsedList = QuestionParser.parseQuestions(c, false);
             ArrayList<Question> newList = new ArrayList<>(parsedList);
             System.out.println(newList.toString());
-            //assertTrue("pared list should be the same", list.equals(newList));
             assertArrayEquals("parsed list should be the same as input", list.toArray(), newList.toArray());
         }catch(FileNotFoundException e){
             assertTrue("No exception should occur", false);
