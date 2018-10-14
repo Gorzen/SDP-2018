@@ -15,14 +15,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 public class BackgroundLocation extends JobService {
-    private final FusedLocationProviderClient locationProviderClient;
     private final Context context;
     public static int BACKGROUND_LOCATION_ID = 0;
 
     public BackgroundLocation(){
         Log.d("GPS_MAP", "Created background location, default constructor");
-        this.context = MainActivity.mainContext;
-        this.locationProviderClient = MainActivity.locationProviderClient;
+        this.context = Utils.mainContext;
     }
 
     @Override
@@ -53,12 +51,12 @@ public class BackgroundLocation extends JobService {
             if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
-                locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
                             Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
-                            MainActivity.position = new LatLng(location.getLatitude(), location.getLongitude());
+                            Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
                             Log.d("GPS_MAP", "Changed position of Main Activity " + location);
                         } else {
                             Log.d("GPS_MAP", "NEW POS: null");
