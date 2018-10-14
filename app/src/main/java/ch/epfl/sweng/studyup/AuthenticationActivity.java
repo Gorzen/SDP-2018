@@ -1,10 +1,10 @@
 package ch.epfl.sweng.studyup;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -12,13 +12,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,9 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
-import org.json.*;
-
-import static java.sql.DriverManager.println; //DEBUG TODO
 
 public class AuthenticationActivity extends AppCompatActivity {
     private final String TAG = AuthenticationActivity.class.getSimpleName();
@@ -83,13 +80,18 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         JSONObject profileResponseJSON = new JSONObject(response);
 
-        if (profileResponseJSON.has("Firstname") && profileResponseJSON.has("Sciper")) {
+        //TODO suggestion: use of the static fields FB_SCIPER, FB_FIRSTNAME and FB_LASTNAME
+        if (profileResponseJSON.has("Firstname") && profileResponseJSON.has("Sciper") && profileResponseJSON.has("Name")) {
             String firstName = profileResponseJSON.getString("Firstname");
             String sciperNumber = profileResponseJSON.getString("Sciper");
+            String lastName = profileResponseJSON.getString("Name");
 
             TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
             profileDataDisplay.setText("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
             System.out.println("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
+
+            Player.get().setName(firstName, lastName);
+            Player.get().setSciper(Integer.parseInt(sciperNumber));
         }
 
         checkErrorJSON(profileResponseJSON);
@@ -146,15 +148,12 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             firebaseAuth = FirebaseAuth.getInstance();
             setupTokenFireBaseAuth(token);
-            fbFirestore = FirebaseFirestore.getInstance();
+
+            Firebase.get().getAndSetUserData(
+                    Player.get().getSciper(),
+                    Player.get().getFirstName(),
+                    Player.get().getLastName());
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        Log.i(TAG, fbFirestore.collection("users").get().toString());
     }
 
     /**
@@ -177,9 +176,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                             //update firebaseUser in Player
                         } else {
                             Log.w(TAG, getString(R.string.auth_firebase_failure));
-                            Toast.makeText(AuthenticationActivity.this,
+                            /*Toast.makeText(AuthenticationActivity.this,
                                     getString(R.string.auth_firebase_failure),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_SHORT).show();*/
 
                         }
                     }

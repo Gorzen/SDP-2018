@@ -9,26 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.*;
-import com.google.firebase.firestore.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
@@ -41,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()+1));
+            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()));
         }
     };
 
