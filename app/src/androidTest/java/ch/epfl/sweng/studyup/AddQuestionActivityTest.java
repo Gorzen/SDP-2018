@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -101,14 +102,12 @@ public class AddQuestionActivityTest {
         Intents.intending(anyIntent()).respondWith(intentResult);
     }
 
-    //Can't test onActivityResult because inferred from a static context
-    private void activityResultTest(){
+    public void activityResultTest(){
         Intent i = new Intent();
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
         i.setData(uri);
-        AddQuestionActivity qa = new AddQuestionActivity();
-        qa.onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
+        mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText("Image at: " + fakePath)));
     }
 
@@ -119,8 +118,7 @@ public class AddQuestionActivityTest {
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
         i.setData(uri);
-        AddQuestionActivity qa = new AddQuestionActivity();
-        qa.onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
+        mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(isDisplayed()));
     }
 }
