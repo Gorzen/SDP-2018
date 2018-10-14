@@ -96,4 +96,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    public long getIntervals() {
+        return locationRequest.getInterval();
+    }
+
+    public long getFastedIntervals() {
+        return locationRequest.getFastestInterval();
+    }
+
+    public int getPriority() {
+        return locationRequest.getPriority();
+    }
+
+    public LatLng getMarkerPos() {
+        return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
+    }
 }
