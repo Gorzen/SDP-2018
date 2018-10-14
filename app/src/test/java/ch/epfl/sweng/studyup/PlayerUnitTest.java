@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup;
 import android.util.Log;
 
 import org.junit.Test;
+
+import static ch.epfl.sweng.studyup.Utils.waitAndTag;
 import static org.junit.Assert.*;
 
 public class PlayerUnitTest {
@@ -48,30 +50,21 @@ public class PlayerUnitTest {
         final String testFirstName1 = "testFirstName";
         final String testLastName1 = "testLastName";
         Firebase.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
-        try{
-            Thread.sleep(500);
-        } catch(InterruptedException e) {
-            Log.w(TAG, "Test was interrupted: "+e.getMessage());
-            return;
-        }
+
+        waitAndTag(500, TAG);
+
         Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
         Player.get().addExperience(numberLevelToUpgrade*Player.XP_TO_LEVEL_UP + Player.XP_TO_LEVEL_UP/2);
 
         //To over-write the local state
         Firebase.get().getAndSetUserData(testSciper1+1, testFirstName1+"1", testLastName1+"1");
-        try{
-            Thread.sleep(500);
-        } catch(InterruptedException e) {
-            Log.w(TAG, "Test was interrupted: "+e.getMessage());
-            return;
-        }
+
+        waitAndTag(500, TAG);
+
         Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
-        try{
-            Thread.sleep(1500);
-        } catch(InterruptedException e) {
-            Log.w(TAG, "Test was interrupted: "+e.getMessage());
-            return;
-        }
+
+        waitAndTag(500, TAG);
+
         assert(Player.get().getLevel() == Player.INITIAL_LEVEL+numberLevelToUpgrade);
         assert(Player.get().getCurrency() == Player.INITIAL_CURRENCY+Player.CURRENCY_PER_LEVEL*numberLevelToUpgrade);
     }
