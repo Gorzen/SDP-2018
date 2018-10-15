@@ -28,7 +28,7 @@ public abstract class QuestionParser {
      * -The correct answer (unsigned int between 0 and 4)
      */
 
-    public static String fileName = "questions.info";
+    public static final String fileName = "questions.info";
     private static final String TAG = "QuestionParser";
 
     /**
@@ -49,21 +49,28 @@ public abstract class QuestionParser {
             Uri imageUri;
             boolean trueFalse;
             int answerNumber;
-
             while ((line = bufferedReader.readLine()) != null) {
                 File nf = new File(line);
-                if(checkIfFileExists && !nf.exists()){throw new FileNotFoundException("The image for the question has not been found"); }
+                if (checkIfFileExists && !nf.exists()) {
+                    bufferedReader.close();
+                    isr.close();
+                    throw new FileNotFoundException("The image for the question has not been found");
+                }
                 imageUri = Uri.parse(line);
 
                 if ((line = bufferedReader.readLine()) == null) {
-                    Log.e(TAG, "While reading the file: second line is empty");
+                    bufferedReader.close();
+                    isr.close();
+                    Log.e(TAG, "While reading the questions file: second line is empty");
                     toast.show();
                     return null;
                 }
                 trueFalse = Boolean.parseBoolean(line);
 
                 if ((line = bufferedReader.readLine()) == null) {
-                    Log.e(TAG, "While reading the file: third line is empty");
+                    bufferedReader.close();
+                    isr.close();
+                    Log.e(TAG, "While reading the questions  file: third line is empty");
                     toast.show();
                     return null;
                 }
@@ -71,22 +78,13 @@ public abstract class QuestionParser {
 
                 list.add(new Question(imageUri, trueFalse, answerNumber));
             }
-
-        }catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unsupported encoding: \n" + e.getMessage());
-
-            /*
-                Version with stackTrace:
-                Log.e(TAG, "Unsupported encoding: \n");
-                for(StackTraceElement elem: e.getStackTrace()) {
-                    System.err.println("-File:"+elem.getClassName()+" -Method:L"+elem.getMethodName()+" -Line:"+elem.getLineNumber());
-                }
-            */
-
-            toast.show();
-            return null;
+        }catch (FileNotFoundException e) {
+            throw e;
         }catch(IOException e) {
-            Log.e(TAG, "IOException while reading the file\n" + e.getMessage());
+            Log.e(TAG, "IOException: \n");
+            for(StackTraceElement elem: e.getStackTrace()) {
+                System.err.println("-File:" + elem.getClassName() + " -Method:L" + elem.getMethodName() + " -Line:" + elem.getLineNumber());
+            }
             toast.show();
             return null;
         }
@@ -99,7 +97,7 @@ public abstract class QuestionParser {
      * @return The list of questions or null if the file has not the correct format
      * @throws FileNotFoundException if the file does not exist
      */
-    public List<Question> parseQuestions(Context c) throws FileNotFoundException {
+    public static List<Question> parseQuestions(Context c) throws FileNotFoundException {
         //the default value is true
         return parseQuestions(c, true);
     }
@@ -115,10 +113,10 @@ public abstract class QuestionParser {
         try{
             File file = new File(c.getFilesDir(), fileName);
             //The createNewFile() method return true and create the file if and only if the file doesn't yet exists
-            if(!file.createNewFile() && replace) {
+            if(replace && !file.createNewFile()) {
                 if (!file.delete()) return false;
                 if (!file.createNewFile()) {
-                    System.err.println("Unable to create the file.");
+                    Log.e(TAG, "Unable to create the file.");
                     return false;
                 }
             }

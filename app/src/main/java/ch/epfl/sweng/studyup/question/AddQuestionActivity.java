@@ -2,17 +2,14 @@ package ch.epfl.sweng.studyup.question;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,17 +17,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.question.Question;
-import ch.epfl.sweng.studyup.question.QuestionParser;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
@@ -39,7 +32,6 @@ public class AddQuestionActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private RadioGroup trueFalseRadioGroup;
-    private RadioButton checkedRadio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +71,13 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 imageURI = resultData.getData();
-                TextView displayName = (TextView) findViewById(R.id.display_question_path);
-                displayName.setText("Image at: " + imageURI.getPath());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView displayName = findViewById(R.id.display_question_path);
+                        displayName.setText(imageURI.toString());
+                    }
+                });
             }
         }
     }
@@ -94,7 +91,6 @@ public class AddQuestionActivity extends AppCompatActivity {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            //TODO: create the question, but first find a way to save them to the disk
             String newQuestionFileID = UUID.randomUUID().toString() + ".png";
             File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
             try {
@@ -113,16 +109,15 @@ public class AddQuestionActivity extends AppCompatActivity {
                 Log.e(TAG, "Error while writing the file");
                 Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
             }else {
-                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();   //TODO toast not used
+                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
                 Intent goToMain = new Intent(this, MainActivity.class);
                 startActivity(goToMain);
             }
         }
-
     }
 
     private void addRadioListener() {
-        trueFalseRadioGroup = (RadioGroup) findViewById(R.id.true_false_or_mcq_radio_group);
+        trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {

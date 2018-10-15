@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
@@ -20,19 +21,25 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 import ch.epfl.sweng.studyup.question.Question;
+import ch.epfl.sweng.studyup.question.QuestionParser;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCategories;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -56,17 +63,17 @@ public class AddQuestionActivityTest {
     @Test
     public void testCheckOfTrueFalse() {
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click()).check(matches(isChecked()));
-        //onView(withId(R.id.???)).perform(ViewActions.click()).check(matches(isChecked()));
-        //onView(withId(R.id.???)).perform(ViewActions.click()).check(matches(isChecked()));
+        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
+        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked()));
     }
 
     @Test
     public void testCheckOfMCQ() {
         onView(withId(R.id.mcq_radio)).perform(ViewActions.click()).check(matches(isChecked()));
-        /*onView(withId(R.id.radio_answer4)).perform(ViewActions.click()).check(matches(isChecked()));
+        onView(withId(R.id.radio_answer4)).perform(ViewActions.click()).check(matches(isChecked()));
         onView(withId(R.id.radio_answer3)).perform(ViewActions.click()).check(matches(isChecked()));
         onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));*/ //TODO Doesn't work for some reason
+        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -95,20 +102,26 @@ public class AddQuestionActivityTest {
     @Test
     public void zperformSearchTest(){
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
-        TreeSet<String> catSet = new TreeSet<String>();
+        TreeSet<String> catSet = new TreeSet<>();
         catSet.add(Intent.CATEGORY_OPENABLE);
         Intent i = new Intent();
         Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK,i);
         Intents.intending(anyIntent()).respondWith(intentResult);
     }
 
+    @Test
     public void activityResultTest(){
         Intent i = new Intent();
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
         i.setData(uri);
         mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
-        onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText("Image at: " + fakePath)));
+        try {
+            Thread.sleep(2000);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText(uri.toString())));
     }
 
     @Test
@@ -120,5 +133,25 @@ public class AddQuestionActivityTest {
         i.setData(uri);
         mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addQuestionTest(){
+        //Question: MCQ, answer: 0
+        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
+        Intent i = new Intent();
+        String fakePath = "/test.jpg";
+        Uri uri = Uri.fromFile(new File(fakePath));
+        i.setData(uri);
+        mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
+        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
+        try{
+            ArrayList<Question> parsedList = new ArrayList<>(QuestionParser.parseQuestions(InstrumentationRegistry.getContext(), false));
+            assertEquals(parsedList.get(0), new Question(uri, false, 0));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        Intents.intending(hasComponent(MainActivity.class.getName()));
     }
 }
