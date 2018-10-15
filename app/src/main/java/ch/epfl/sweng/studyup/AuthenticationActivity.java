@@ -10,11 +10,6 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
@@ -30,8 +25,6 @@ import java.util.Scanner;
 
 public class AuthenticationActivity extends AppCompatActivity {
     private final String TAG = AuthenticationActivity.class.getSimpleName();
-    private FirebaseAuth firebaseAuth;
-    private FirebaseFirestore fbFirestore;
 
     private void reportAuthError() {
         Toast.makeText(AuthenticationActivity.this,
@@ -146,42 +139,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 return;
             }
 
-            firebaseAuth = FirebaseAuth.getInstance();
-            setupTokenFireBaseAuth(token);
-
             Firebase.get().getAndSetUserData(
                     Player.get().getSciper(),
                     Player.get().getFirstName(),
                     Player.get().getLastName());
         }
-    }
-
-    /**
-     * Method that setup the connection to Firebase Authenticate service using the
-     * tequila token
-     *
-     * @param token
-     */
-    private void setupTokenFireBaseAuth(String token) {
-        firebaseAuth.signInWithCustomToken(token)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            Log.d(TAG, getString(R.string.auth_firebase_success));
-                            Toast.makeText(AuthenticationActivity.this,
-                                    getString(R.string.auth_firebase_success),
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            //update firebaseUser in Player
-                        } else {
-                            Log.w(TAG, getString(R.string.auth_firebase_failure));
-                            /*Toast.makeText(AuthenticationActivity.this,
-                                    getString(R.string.auth_firebase_failure),
-                                    Toast.LENGTH_SHORT).show();*/
-
-                        }
-                    }
-                });
     }
 }

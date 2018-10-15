@@ -31,13 +31,10 @@ public class Firebase {
     private static final String TAG = Firebase.class.getSimpleName();
 
     private static Firebase instance = null;
-    private static FirebaseFirestore db;
+    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static Map<String, Object> userData;
 
     private Firebase() {
-        // Access a Cloud Firestore instance from your Activity
-        db = FirebaseFirestore.getInstance();
-
         // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
