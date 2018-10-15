@@ -178,20 +178,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         startActivity(intent);
     }
 
-    public void onLocButtonClick(View view) {
-        LocationTracker locationTracker = new LocationTracker(getApplicationContext());
-        Location currLoc = locationTracker.getLocation();
-        if (currLoc != null) {
-            double currLat = currLoc.getLatitude();
-            double currLong = currLoc.getLongitude();
-            Toast.makeText(getApplicationContext(),
-                    "Latitude: " + currLat + "\nLongitude: " + currLong,
-                    Toast.LENGTH_LONG).show();
-            TextView test = findViewById(R.id.helloWorld);
-            test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);  //TODO not recommended to concatenate here, should use resource string with placeholders (+hardcoded literals)
-        }
-    }
-
     public void onLoginButtonClick(View view) {
         String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
         Intent authIntent = new Intent(Intent.ACTION_VIEW);
