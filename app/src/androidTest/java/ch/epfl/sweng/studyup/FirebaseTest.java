@@ -43,6 +43,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class FirebaseTest {
     private static final String TAG = FirebaseTest.class.getSimpleName();
+    private static final int WAIT_TIME_MILLIS = 500;
 
     // "Truth values"
     // Existing user
@@ -80,7 +81,8 @@ public class FirebaseTest {
     public void setup() {
         // Player
         Player.get().setSciper(sciper);
-        Player.get().setName(firstname, lastname);
+        Player.get().setFirstName(firstname);
+        Player.get().setLastName(lastname);
 
         resetData();
     }
@@ -93,7 +95,7 @@ public class FirebaseTest {
         resetData();
 
         Firebase.get().resetUserInfos(sciper, firstname, lastname);
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().reset();
     }
@@ -125,13 +127,13 @@ public class FirebaseTest {
     @Test
     public void deleteUserTest() {
         Firebase.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().addExperience(XP_STEP);
         Firebase.get().deleteUserFromDatabase(MAX_SCIPER);
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firebase.getData(MAX_SCIPER);
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         resetData();
         for(Map.Entry<String, Object> entry : dummy.entrySet()) {
@@ -143,11 +145,12 @@ public class FirebaseTest {
     public void addNewUserToDBTest() {
         Firebase.get().deleteUserFromDatabase(MAX_SCIPER);
         Firebase.get().getAndSetUserData( MAX_SCIPER, "John", "Doe");
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firebase.getData(MAX_SCIPER);
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        assertEquals("John", dbStaticInfo.get(FB_FIRSTNAME));
+        assertEquals("John", Player.get().getFirstName());
         assertEquals("Doe", dbStaticInfo.get(FB_LASTNAME));
     }
 
@@ -156,7 +159,7 @@ public class FirebaseTest {
         Firebase.get().setUserInfos(sciper, dummy);
 
         Firebase.getData(sciper);
-        waitAndTag(1000, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         for(Map.Entry<String, Object> entry : dummy.entrySet()) {
             assert(dbStaticInfo.get(entry.getKey()) == entry.getValue());
@@ -218,7 +221,7 @@ public class FirebaseTest {
         final String testLastName1 = lastname;
         Firebase.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
 
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
         Player.get().addExperience(numberLevelToUpgrade*Player.XP_TO_LEVEL_UP + Player.XP_TO_LEVEL_UP/2);
@@ -226,11 +229,11 @@ public class FirebaseTest {
         //To over-write the local state
         Firebase.get().getAndSetUserData(testSciper1+1, testFirstName1+"1", testLastName1+"1");
 
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
 
-        waitAndTag(500, TAG);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         assert(Player.get().getLevel() == Player.INITIAL_LEVEL+numberLevelToUpgrade);
         assert(Player.get().getCurrency() == Player.INITIAL_CURRENCY+Player.CURRENCY_PER_LEVEL*numberLevelToUpgrade);

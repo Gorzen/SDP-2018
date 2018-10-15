@@ -110,7 +110,6 @@ public class Firebase {
                                     Log.i(TAG, "getAndSetUserData: Success: User was already logged in:" + sciper);
                                     return;
                                 }
-
                                 //New login but user is already in database
                                 Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
                                 Player.get().updatePlayerData();
@@ -118,12 +117,14 @@ public class Firebase {
                                 //User is new to the application
                                 Log.i(TAG, "getAndSetUserData: Success: New user:" + sciper);
                                 Player.get().reset();
-                                Player.get().setName(firstName, lastName);
+                                Player.get().setFirstName(firstName);
+                                Player.get().setLastName(lastName);
                                 Player.get().setSciper(sciper);
                                 savePlayerData();
                             }
                         } else {
                             Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
+
                         }
                     }
                 });
@@ -270,16 +271,17 @@ public class Firebase {
     public void deleteUserFromDatabase(int sciper) {
         db.collection(FB_USERS).document(Integer.toString(sciper)).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
-                    Log.i(TAG, "The user has been deleted from the database.");
-                } else {
-                    Log.w(TAG, "Failed to delete the user from the database.");
-                }
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i(TAG, "The user has been deleted from the database.");
+                        } else {
+                            Log.w(TAG, "Failed to delete the user from the database.");
+                        }
+                    }
+                });
     }
 }
+
 
 

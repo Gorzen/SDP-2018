@@ -95,7 +95,8 @@ public class Player {
     public void reset(){
         instance = new Player();
         instance.setSciper(INITIAL_SCIPER);
-        instance.setName(FB_FIRSTNAME, FB_LASTNAME);
+        instance.setFirstName(FB_FIRSTNAME);
+        instance.setLastName(FB_LASTNAME);
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
@@ -118,8 +119,11 @@ public class Player {
         updateLevel();
     }
 
-    public void setName(String firstName, String lastName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
         this.lastName = lastName;
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);

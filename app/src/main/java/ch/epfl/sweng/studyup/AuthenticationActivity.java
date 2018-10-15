@@ -3,106 +3,39 @@ package ch.epfl.sweng.studyup;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Scanner;
-
 public class AuthenticationActivity extends AppCompatActivity {
     private final String TAG = AuthenticationActivity.class.getSimpleName();
 
-    private void reportAuthError() {
+    public void reportAuthError() {
         Toast.makeText(AuthenticationActivity.this,
                 "Unable to authenticate.",
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void checkErrorJSON(JSONObject obj) {
-        if (obj.has("error")) {
-            String error;
-            try {
-                error = obj.getString("error");
-            } catch(JSONException e) {
-                e.printStackTrace();
-                return;
-            }
-            reportAuthError();
-            Log.e(getString(R.string.auth_error_tequila), error);
+    public void runAuthentication(String code) {
+
+        String token = Authenticator.getToken(code);
+
+        if (token != null) {
+            String greeting = Authenticator.getGreeting(token);
+                if (greeting != null) {
+                    TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
+                    profileDataDisplay.setText(greeting);
+                    return;
+                }
         }
-    }
-
-    private String getTokenFromResponse(String response) throws JSONException, UnsupportedEncodingException {
-
-        JSONObject tokenResponseJSON = new JSONObject(response);
-
-        if (tokenResponseJSON.has("access_token")) {
-            String token = tokenResponseJSON.getString("access_token");
-            return URLEncoder.encode(token, "UTF-8");
-        }
-
-        checkErrorJSON(tokenResponseJSON);
-        return null;
-    }
-
-    private String getToken(String code) throws IOException, JSONException {
-
-        String tokenURL = "https://studyup-authenticate.herokuapp.com/getToken" + "?code=" + code;
-        HttpURLConnection connection = (HttpURLConnection) new URL(tokenURL).openConnection();
-        InputStream stream = connection.getInputStream();
-        String tokenResponse = new Scanner(stream).useDelimiter("\\A").next();
-
-        return getTokenFromResponse(tokenResponse);
-    }
-
-    private void displayProfileDataFromResponse(String response) throws JSONException {
-
-        JSONObject profileResponseJSON = new JSONObject(response);
-
-        //TODO suggestion: use of the static fields FB_SCIPER, FB_FIRSTNAME and FB_LASTNAME
-        if (profileResponseJSON.has("Firstname") && profileResponseJSON.has("Sciper") && profileResponseJSON.has("Name")) {
-            String firstName = profileResponseJSON.getString("Firstname");
-            String sciperNumber = profileResponseJSON.getString("Sciper");
-            String lastName = profileResponseJSON.getString("Name");
-
-            TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
-            profileDataDisplay.setText("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
-            System.out.println("Welcome, " + firstName + ".\nYour Sciper number is " + sciperNumber + ".");
-
-            Player.get().setName(firstName, lastName);
-            Player.get().setSciper(Integer.parseInt(sciperNumber));
-        }
-
-        checkErrorJSON(profileResponseJSON);
-    }
-
-    private void displayProfileData(String token) throws IOException, JSONException {
-
-        String profileUrl = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
-
-        HttpURLConnection profConnection = (HttpURLConnection) new URL(profileUrl).openConnection();
-        InputStream profStream = profConnection.getInputStream();
-        String profileResponse = new Scanner(profStream).useDelimiter("\\A").next();
-
-        displayProfileDataFromResponse(profileResponse);
+        reportAuthError();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
@@ -112,37 +45,20 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Uri authCodeURI = getIntent().getData();
 
-        String code;
-        try {
-            code = authCodeURI.getQueryParameter("code");
-        } catch(NullPointerException e) {
-            e.printStackTrace();
-            return;
-        }
+        String code = authCodeURI.getQueryParameter("code");
         String error = authCodeURI.getQueryParameter("error");
 
-        if (!TextUtils.isEmpty(error)) {
-            reportAuthError();
-            Log.e(getString(R.string.auth_error_tequila), error);
+        if (TextUtils.isEmpty(error)) {
+            runAuthentication(code);
         }
         else {
-            String token;
-            try {
-                token = getToken(code);
-                if (token != null) {
-                    displayProfileData(token);
-                }
-            } catch (Exception e) {
-                reportAuthError();
-                e.printStackTrace();
-
-                return;
-            }
-
-            Firebase.get().getAndSetUserData(
-                    Player.get().getSciper(),
-                    Player.get().getFirstName(),
-                    Player.get().getLastName());
+            reportAuthError();
+            Log.e("AUTH ERROR", error);
         }
+
+        Firebase.get().getAndSetUserData(
+                Player.get().getSciper(),
+                Player.get().getFirstName(),
+                Player.get().getLastName());
     }
 }
