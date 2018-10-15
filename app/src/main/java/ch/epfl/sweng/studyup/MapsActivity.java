@@ -25,10 +25,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
     private LocationRequest locationRequest;
-    private LocationCallback locationCallback = new LocationCallback(){
+    private LocationCallback locationCallback = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult){
-            if(locationResult != null) {
+        public void onLocationResult(LocationResult locationResult) {
+            if (locationResult != null) {
                 Location lastLocation = locationResult.getLastLocation();
                 onLocationUpdate(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
             }
@@ -77,23 +77,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+            Log.d("GPS_MAP", "Request location updates map");
         }
         Log.d("GPS_MAP", "Resume map");
     }
 
     public void onLocationUpdate(LatLng latLong) {
-        if(mMap != null){
-            if(location != null){
-                location.remove();
-            }
-            if(latLong != null) {
-                Log.d("GPS_MAP", "New position map: " + latLong);
+        // au lieu de if(mMap != null) {...}
+        if (latLong != null) {
+            Log.d("GPS_MAP", "New position map: " + latLong);
+            if (mMap != null) {
+                if(location != null){
+                    location.remove();
+                }
                 location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
-                Utils.position = new LatLng(latLong.latitude, latLong.longitude);
             }
+            Utils.position = new LatLng(latLong.latitude, latLong.longitude);
         }
     }
 
@@ -110,6 +112,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public LatLng getMarkerPos() {
-        return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
+        //Test fail sur travis car null pointer exception surement car la map est null et donc loation n'a pas été update
+        if(location != null) {
+            return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
+        }else{
+            return null;
+        }
     }
 }

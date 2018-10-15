@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
@@ -67,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Utils.mainContext = this.getApplicationContext();
         Utils.locationProviderClient = new FusedLocationProviderClient(this);
         if (Utils.isMockEnabled) {
-            Utils.locationProviderClient.setMockMode(true);
+            Task<Void> task = Utils.locationProviderClient.setMockMode(true);
+            Log.d("GPS_MAP", "Set mock mode was successful " + task.isSuccessful());
             Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
             Log.d("GPS_MAP", "Mock location set");
         }
