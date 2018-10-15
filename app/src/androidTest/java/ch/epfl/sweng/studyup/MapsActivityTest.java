@@ -38,18 +38,6 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void onLocationUpdateChangesMarker() {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.onLocationUpdate(latlng);
-                assertEquals(LAT, mActivity.getMarkerPos().latitude, 0.0);
-                assertEquals(LONG, mActivity.getMarkerPos().longitude, 0.0);
-            }
-        });
-    }
-
-    @Test
     public void onLocationUpdateChangesUtilsPos() {
         mActivity.runOnUiThread(new Runnable() {
             @Override

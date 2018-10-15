@@ -15,6 +15,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -60,6 +62,12 @@ public class MainActivityTest {
             assert mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() :"\n" +
                     "Player's level display isn't well updated when pushing button.";
         }
+    }
+
+    @Test
+    public void initializationGps(){
+        assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(Utils.locationProviderClient);
     }
 
      /*
