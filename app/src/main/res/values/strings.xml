@@ -20,9 +20,10 @@
     <string name="no_image_selected_text">No image selected</string>
     <string name="true_false_question_text">True or false question</string>
     <string name="multiple_choice_question_text">Multiple choice question</string>
+    <string name="answer_number_text">Indicate the answer</string>
     <string name="add_text">Add</string>
+    <string name="title_activity_maps">Map</string>
     <string name="login">Log In</string>
-
     <string name="auth_error_tequila">Auth Error for Tequila</string>
     <string name="auth_error_firebase">Auth Error for Firebase</string>
     <string name="auth_firebase_success">Sign in to Firebase Authenticate: success</string>
