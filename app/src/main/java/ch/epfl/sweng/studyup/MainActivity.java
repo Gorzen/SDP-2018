@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     Log.i("GPS_MAP", "Permission granted");
                 } else {
                     Toast.makeText(getApplicationContext(), "This app requires location", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
 
                 break;
