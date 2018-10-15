@@ -44,8 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(5 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
+        locationRequest.setInterval(Utils.LOCATION_REQ_INTERVAL);
+        locationRequest.setFastestInterval(Utils.LOCATION_REQ_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
     }
