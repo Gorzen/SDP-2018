@@ -35,7 +35,7 @@ public class AuthUnitTest {
         assertThat(Authenticator.getGreetingFromResponse(validResponse),
                 is("Welcome, Bob.\nYour Sciper number is 1234."));
     }
-    
+
 
     @Test
     public void testTokenFromResponseInvalid() {
