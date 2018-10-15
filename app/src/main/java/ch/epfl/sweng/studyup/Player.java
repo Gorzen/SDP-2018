@@ -4,12 +4,7 @@ import ch.epfl.sweng.studyup.Utils.SECTION_SHORT;
 import ch.epfl.sweng.studyup.Utils.YEAR;
 
 import static ch.epfl.sweng.studyup.Firebase.userData;
-import static ch.epfl.sweng.studyup.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.Utils.*;
 
 public class Player {
     private static Player instance = null;
@@ -66,6 +61,7 @@ public class Player {
 
         if(newLevel - level > 0){
             currency += (newLevel - level) * CURRENCY_PER_LEVEL;
+            putUserData(FB_CURRENCY, currency);
         }
 
         if(level != newLevel) {
@@ -73,16 +69,19 @@ public class Player {
         }
 
         level = newLevel;
+        putUserData(FB_LEVEL, level);
     }
 
     public void addCurrency(int curr){
         currency += curr;
+        putUserData(FB_CURRENCY, currency);
         Firebase.get().setUserData(FB_CURRENCY, currency);
 
     }
 
     public void addExperience(int xp){
         experience += xp;
+        putUserData(FB_XP, experience);
         Firebase.get().setUserData(FB_XP, experience);
 
         updateLevel();
@@ -96,7 +95,10 @@ public class Player {
     public void reset(){
         instance = new Player();
         instance.setSciper(INITIAL_SCIPER);
-        instance.setName("", "");
+        instance.setName(FB_FIRSTNAME, FB_LASTNAME);
+        putUserData(FB_SCIPER, sciper);
+        putUserData(FB_FIRSTNAME, firstName);
+        putUserData(FB_LASTNAME, lastName);
     }
 
     /**
@@ -119,6 +121,8 @@ public class Player {
     public void setName(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        putUserData(FB_FIRSTNAME, firstName);
+        putUserData(FB_LASTNAME, lastName);
     }
 
     public String getFirstName() {
@@ -131,6 +135,7 @@ public class Player {
 
     public void setSciper(int sciper) {
         this.sciper = sciper;
+        putUserData(FB_SCIPER, sciper);
     }
 
     public int getSciper() {

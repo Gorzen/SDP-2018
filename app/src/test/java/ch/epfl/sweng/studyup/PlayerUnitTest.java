@@ -20,30 +20,6 @@ public class PlayerUnitTest {
     }
 
     @Test
-    public void addXpPlayerAndCurrencyTest(){
-        Player.get().reset();
-        assertEquals(Player.INITIAL_XP, Player.get().getExperience());
-        assertEquals(Player.INITIAL_LEVEL, Player.get().getLevel());
-        assertEquals(Player.INITIAL_CURRENCY, Player.get().getCurrency());
-
-        assertEquals(0.0, Player.get().getLevelProgress(), 10e-6);
-
-        Player.get().addExperience(Player.XP_TO_LEVEL_UP/2);
-        assertEquals(Player.INITIAL_LEVEL, Player.get().getLevel());
-        assertEquals(Player.XP_TO_LEVEL_UP/2, Player.get().getExperience());
-        assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
-
-        Player.get().addExperience(Player.XP_TO_LEVEL_UP);
-        assertEquals(Player.INITIAL_LEVEL+1, Player.get().getLevel());
-        assertEquals(Player.CURRENCY_PER_LEVEL, Player.get().getCurrency());
-        assertEquals((Player.XP_TO_LEVEL_UP * 3) / 2, Player.get().getExperience());
-        assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
-
-        Player.get().addCurrency(100);
-        assertEquals(Player.CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
-    }
-
-    @Test
     public void updateLevelAndCurrencyPropagateToServer() {
         final int numberLevelToUpgrade = 5;
         final int testSciper1 = 100000;

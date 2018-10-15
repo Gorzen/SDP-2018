@@ -4,7 +4,11 @@ import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+
+import static ch.epfl.sweng.studyup.Firebase.userData;
 
 public class Utils {
     public enum SECTION_SHORT {
@@ -44,6 +48,17 @@ public class Utils {
     );
 
     /**
+     * Constant of firebase (mostly testing purpose)
+     *
+     * Reserved sciper:
+     * MIN_SCIPER, MAX_SCIPER, 123456: reserved to manipulate in tests
+     * MIN_SCIPER+1: user present in database but with empty document (not valid format)
+     */
+    public static final int MAX_SCIPER = 999999;
+    public static final int MIN_SCIPER = 100000;
+    public static Map<String, Object> dbStaticInfo = null;
+
+    /**
      * Wait for a given action to be completed. Return an error message if any.
      *
      * @param time time in ms to wait
@@ -58,4 +73,14 @@ public class Utils {
         }
     }
 
+    /**
+     * Put the given information in Firebase.userData
+     */
+    public static void putUserData(String key, Object value) {
+        if(userData == null) {
+            userData = new HashMap<>();
+        }
+
+        userData.put(key, value);
+    }
 }

@@ -26,13 +26,15 @@ import static ch.epfl.sweng.studyup.Utils.FB_SCIPER;
 import static ch.epfl.sweng.studyup.Utils.FB_TOKEN;
 import static ch.epfl.sweng.studyup.Utils.FB_USERS;
 import static ch.epfl.sweng.studyup.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.Utils.putUserData;
 
 public class Firebase {
+    public static final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firebase.class.getSimpleName();
-
+    public static Map<String, Object> userData = null;
     private static Firebase instance = null;
-    private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static Map<String, Object> userData;
 
     private Firebase() {
         // DB settings
@@ -43,7 +45,7 @@ public class Firebase {
     }
 
     public static Firebase get() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Firebase();
         }
 
@@ -51,55 +53,80 @@ public class Firebase {
     }
 
     /**
+     * Retrieve the current state on the DB.
+     * <p>
+     * This function put the current data of a given user into the dbStaticInfo object (Utils.java).
+     */
+    public static void getData(final int sciper) {
+        db.collection(FB_USERS).document(Integer.toString(sciper))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot document) {
+                        if (document.exists()) {
+                            Utils.dbStaticInfo = document.getData();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "Error: getData" + sciper);
+                    }
+                });
+    }
+
+    /**
      * Function used when entering the app. It will get all the player's informations and set
      * the state of the player as it were the last time he/she was connected.
      *
-     * @param sciper The sciper of the player
+     * @param sciper    The sciper of the player
      * @param firstName The first name of the player
-     * @param lastName The last name of the player
-     *
+     * @param lastName  The last name of the player
      * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
      */
     public void getAndSetUserData(final int sciper, final String firstName, final String lastName) throws IllegalArgumentException {
-        if(sciper < 100000 || sciper > 999999) {
+        if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
             throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be a six digits number.");
         }
 
-        db.document(FB_USERS+"/"+Integer.toString(sciper))
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        userData = document.getData();
-                        if(userData.isEmpty()) {
-                            throw new NullPointerException("The data got from server is null.");
-                        }
+        db.collection(FB_USERS).document(Integer.toString(sciper))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
 
-                        if(userData.get(FB_FIRSTNAME) == firstName && userData.get(FB_LASTNAME) == lastName) {
-                            //User is already logged in
-                            Log.i(TAG, "getAndSetUserData: Success: User was already logged in:" + sciper);
-                            return;
-                        }
+                            if (document.exists()) {
+                                userData = document.getData();
+                                if (userData.isEmpty()) {
+                                    throw new NullPointerException("The data got from server is null. The user either " +
+                                            "shouldn't be present in the database or should have informations stored.");
+                                }
 
-                        //New login but user is already in database
-                        Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
-                        Player.get().updatePlayerData();
-                    } else {
-                        //User is new to the application
-                        Log.i(TAG, "getAndSetUserData: Success: New user:" + sciper);
-                        Player.get().reset();
-                        Player.get().setName(firstName, lastName);
-                        Player.get().setSciper(sciper);
-                        savePlayerData();
+                                if (userData.get(FB_FIRSTNAME) == firstName && userData.get(FB_LASTNAME) == lastName) {
+                                    //User is already logged in
+                                    Log.i(TAG, "getAndSetUserData: Success: User was already logged in:" + sciper);
+                                    return;
+                                }
+
+                                //New login but user is already in database
+                                Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
+                                Player.get().updatePlayerData();
+                            } else {
+                                //User is new to the application
+                                Log.i(TAG, "getAndSetUserData: Success: New user:" + sciper);
+                                Player.get().reset();
+                                Player.get().setName(firstName, lastName);
+                                Player.get().setSciper(sciper);
+                                savePlayerData();
+                            }
+                        } else {
+                            Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
+                        }
                     }
-                } else {
-                    Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
-                }
-            }
-        });
+                });
     }
 
     /*
@@ -108,7 +135,7 @@ public class Firebase {
             Log.i(TAG, "The key is not valid.");
             return null;
         }
-        userData.put(key, value);
+        putUserData(key, value);
 
         db.document(FB_USERS+"/"+Integer.toString(Player.get().getSciper())+key)
                 .get()
@@ -134,11 +161,11 @@ public class Firebase {
      * with the current player's state and push it to the server.
      */
     public void savePlayerData() {
-        userData.put(FB_XP, Player.get().getExperience());
-        userData.put(FB_LEVEL, Player.get().getLevel());
-        userData.put(FB_CURRENCY, Player.get().getCurrency());
+        putUserData(FB_XP, Player.get().getExperience());
+        putUserData(FB_LEVEL, Player.get().getLevel());
+        putUserData(FB_CURRENCY, Player.get().getCurrency());
 
-        db.document(FB_USERS+"/"+Player.get().getSciper()).set(userData)
+        db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -158,21 +185,22 @@ public class Firebase {
      * Method used to update a value for the current player in the database
      * The method suppose that the player is already present in the database,
      * otherwise the form of its informations will be unpredictable.
-     * @param key the key where the value will be put
+     *
+     * @param key   the key where the value will be put
      * @param value the value
      */
     public void setUserData(final String key, final Object value) {
-        if(Player.get().getSciper() == Player.INITIAL_SCIPER){
+        if (Player.get().getSciper() == Player.INITIAL_SCIPER) {
             return;
         }
 
-        if(!FB_ALL_ENTRIES.contains(key)) {
+        if (!FB_ALL_ENTRIES.contains(key)) {
             Log.i(TAG, "The key is not valid.");
             return;
         }
-        userData.put(key, value);
+        putUserData(key, value);
 
-        db.document(FB_USERS+"/"+Integer.toString(Player.get().getSciper()))
+        db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
                 .set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -195,9 +223,9 @@ public class Firebase {
      * @param infos
      */
     public void setUserInfos(final int sciper, Map<String, Object> infos) {
-        for(String key : infos.keySet()) {
-            if(!FB_ALL_ENTRIES.contains(key)){
-                Log.i(TAG, "The key "+key+" is not valid.");
+        for (String key : infos.keySet()) {
+            if (!FB_ALL_ENTRIES.contains(key)) {
+                Log.i(TAG, "The key " + key + " is not valid.");
                 return;
             }
         }
@@ -237,6 +265,20 @@ public class Firebase {
         initialInfos.put(FB_TOKEN, null);
 
         setUserInfos(sciper, initialInfos);
+    }
+
+    public void deleteUserFromDatabase(int sciper) {
+        db.collection(FB_USERS).document(Integer.toString(sciper)).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Log.i(TAG, "The user has been deleted from the database.");
+                } else {
+                    Log.w(TAG, "Failed to delete the user from the database.");
+                }
+            }
+        });
     }
 }
 
