@@ -16,6 +16,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -43,8 +44,12 @@ dependencies {
     implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.2.2'
     implementation 'com.github.zurche:plain-pie:v0.2.9'
     implementation 'com.android.support:design:28.0.0-rc02' //the "plain pie" graphic
-    testImplementation 'org.json:json:20180813'
     implementation 'com.google.code.gson:gson:2.8.5'
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.4' // Core
+    implementation 'com.google.firebase:firebase-auth:16.0.4' // Auth
+    implementation 'com.google.firebase:firebase-firestore:17.1.1' // Database
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 tasks.withType(Test) {
@@ -68,3 +73,5 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
 }
+
+apply plugin: 'com.google.gms.google-services'

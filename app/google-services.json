@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "1062075506278",
+    "firebase_url": "https://studyup-73177.firebaseio.com",
+    "project_id": "studyup-73177",
+    "storage_bucket": "studyup-73177.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062075506278:android:7e49ce3d2a5c6c14",
+        "android_client_info": {
+          "package_name": "ch.epfl.sweng.studyup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062075506278-b5lvrr2ovdbsquav7d3m6ub0e0gigqb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.studyup",
+            "certificate_hash": "31bbe5f039d6ad25199cba1febe4c20e60d2afa2"
+          }
+        },
+        {
+          "client_id": "1062075506278-gkqdeufk895n5oir792tntc9d1vae0mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.studyup",
+            "certificate_hash": "c822071fee71c295633b275cabb6651a53d892ed"
+          }
+        },
+        {
+          "client_id": "1062075506278-gfi6dfg0d5vm2kf7im0gj33ugvqir9h4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd0sEVuSCbOzUp7k4TZRjQGdSNG1BnO-8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062075506278-gfi6dfg0d5vm2kf7im0gj33ugvqir9h4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

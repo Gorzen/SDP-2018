@@ -1,7 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -55,8 +53,13 @@ public class Authenticator {
         if (profileContainer.error == null && profileContainer.sciperNo != null) {
 
             String greeting = "";
+
+            Player currPlayer = Player.get();
+            currPlayer.setSciper(Integer.parseInt(profileContainer.sciperNo));
+
             if (profileContainer.firstName != null) {
                 greeting += "Welcome, " + profileContainer.firstName + ".\n";
+                currPlayer.setFirstName(profileContainer.firstName);
             }
             greeting += "Your Sciper number is " + profileContainer.sciperNo + ".";
 

@@ -1,18 +1,16 @@
 package ch.epfl.sweng.studyup;
 
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-
-
 public class AuthenticationActivity extends AppCompatActivity {
+    private final String TAG = AuthenticationActivity.class.getSimpleName();
 
     public void reportAuthError() {
         Toast.makeText(AuthenticationActivity.this,
@@ -25,10 +23,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         String token = Authenticator.getToken(code);
 
         if (token != null) {
-
             String greeting = Authenticator.getGreeting(token);
                 if (greeting != null) {
-
                     TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
                     profileDataDisplay.setText(greeting);
                     return;
@@ -59,5 +55,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             reportAuthError();
             Log.e("AUTH ERROR", error);
         }
+
+        Firebase.get().getAndSetUserData(
+                Player.get().getSciper(),
+                Player.get().getFirstName(),
+                Player.get().getLastName());
     }
 }
