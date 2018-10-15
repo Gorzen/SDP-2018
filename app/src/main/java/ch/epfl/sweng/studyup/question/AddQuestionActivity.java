@@ -3,18 +3,23 @@ package ch.epfl.sweng.studyup.question;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -74,7 +79,6 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Pull that URI using resultData.getData().
             if (resultData != null) {
                 imageURI = resultData.getData();
-                //TODO: Display the name of the image on the textView
                 TextView displayName = (TextView) findViewById(R.id.display_question_path);
                 displayName.setText("Image at: " + imageURI.getPath());
             }
@@ -86,28 +90,33 @@ public class AddQuestionActivity extends AppCompatActivity {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
-            int answerNumber = Integer.parseInt(checkedButton.getTag().toString());
+            int answerNumber = Integer.parseInt(checkedButton.getTag().toString()) - 1;
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
             //TODO: create the question, but first find a way to save them to the disk
-            String newQuestionFileID = UUID.randomUUID().toString();
+            String newQuestionFileID = UUID.randomUUID().toString() + ".png";
             File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
-            String imagePath = getPath(imageURI);
             try {
-                copyFile(new File(imagePath), questionFile);
+                Bitmap imageBitmap = getBitmapFromUri(imageURI);
+                FileOutputStream out = new FileOutputStream(questionFile);
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
             } catch (IOException e) {
-                Log.e(TAG, "Error while copying the file\n" + e.getMessage());
-                Toast.makeText(this.getApplicationContext(), "An error occured when importing the file, please retry", Toast.LENGTH_SHORT).show();
-                return;
+                Log.e(TAG, e.getMessage());
             }
+
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();
             list.add(q);
-            QuestionParser.writeQuestions(list, this.getApplicationContext(), false);   //TODO check return value of writeQuestion
-            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT);   //TODO toast not used
-            Intent goToMain = new Intent(this, MainActivity.class);
-            startActivity(goToMain);
+            if (!QuestionParser.writeQuestions(list, this.getApplicationContext(), false)){
+                Log.e(TAG, "Error while writing the file");
+                Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();   //TODO toast not used
+                Intent goToMain = new Intent(this, MainActivity.class);
+                startActivity(goToMain);
+            }
         }
 
     }
@@ -148,39 +157,12 @@ public class AddQuestionActivity extends AppCompatActivity {
         });
     }
 
-    private void copyFile(File sourceFile, File destFile) throws IOException {
-        if (!destFile.getParentFile().exists())
-            destFile.getParentFile().mkdirs();      //TODO check return value of mkdirs
-
-        if (!destFile.exists()) {
-            destFile.createNewFile();               //TODO check return value of createNewFile
-        }
-
-        FileChannel source = null;
-        FileChannel destination = null;
-
-        try {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            destination.transferFrom(source, 0, source.size());
-        } finally {
-            if (source != null) {
-                source.close();
-            }
-            if (destination != null) {
-                destination.close();
-            }
-        }
-    }
-
-    private String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        startManagingCursor(cursor);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        return path;
+    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContentResolver().openFileDescriptor(uri, "r");
+        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+        parcelFileDescriptor.close();
+        return image;
     }
 }
