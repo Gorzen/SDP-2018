@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">StudyUp</string>
     <string name="character_homepage">Your Character</string>
+
+    <string name="title_activity_auth_redirect">AuthRedirectActivity</string>
+
     <string name="title_quests">Quests</string>
     <string name="title_rankings">Rankings</string>
     <string name="title_settings">Settings</string>
@@ -8,6 +11,7 @@
     <string name="title_map">Map</string>
     <string name="title_chat">Chat</string>
     <string name="title_infos">Infos</string>
+
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
     <string name="get_location_text">Get Location</string>
@@ -16,6 +20,9 @@
     <string name="no_image_selected_text">No image selected</string>
     <string name="true_false_question_text">True or false question</string>
     <string name="multiple_choice_question_text">Multiple choice question</string>
+    <string name="answer_number_text">Indicate the answer</string>
     <string name="add_text">Add</string>
     <string name="title_activity_maps">Map</string>
+    <string name="login">Log In</string>
+    <string name="auth_error">Auth Error</string>
 </resources>

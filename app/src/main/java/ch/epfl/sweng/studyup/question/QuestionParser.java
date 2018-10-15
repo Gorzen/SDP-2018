@@ -28,16 +28,17 @@ public abstract class QuestionParser {
      * -The correct answer (unsigned int between 0 and 4)
      */
 
-    private static String fileName = "questions.info";
+    public static String fileName = "questions.info";
     private static final String TAG = "QuestionParser";
 
     /**
      * Retrieve the list of questions from the data file
      * @param c The context of the app (to get the FilesDir)
+     * @param checkIfFileExists Throw an IllegalArgumentException if the image in the file doesn't exist.
      * @return The list of questions or null if the file has not the correct format
-     * @throws FileNotFoundException if the file does not exist
+     * @throws FileNotFoundException if the file does not exist and the check is required
      */
-    public static List<Question> parseQuestions(Context c) throws FileNotFoundException {
+    public static List<Question> parseQuestions(Context c, boolean checkIfFileExists) throws FileNotFoundException {
         FileInputStream inputStream = c.openFileInput(fileName);
         Toast toast = Toast.makeText(c, "Error while opening the file. It may be corrupted", Toast.LENGTH_SHORT);
         ArrayList<Question> list = new ArrayList<>();
@@ -51,8 +52,8 @@ public abstract class QuestionParser {
 
             while ((line = bufferedReader.readLine()) != null) {
                 File nf = new File(line);
-                if(!nf.exists()){throw new FileNotFoundException("The image for the question has not be found"); }
-                imageUri = Uri.fromFile(new File(line));
+                if(checkIfFileExists && !nf.exists()){throw new FileNotFoundException("The image for the question has not been found"); }
+                imageUri = Uri.parse(line);
 
                 if ((line = bufferedReader.readLine()) == null) {
                     Log.e(TAG, "While reading the file: second line is empty");
@@ -93,6 +94,17 @@ public abstract class QuestionParser {
     }
 
     /**
+     * Retrieve the list of questions from the data file
+     * @param c The context of the app (to get the FilesDir)
+     * @return The list of questions or null if the file has not the correct format
+     * @throws FileNotFoundException if the file does not exist
+     */
+    public List<Question> parseQuestions(Context c) throws FileNotFoundException {
+        //the default value is true
+        return parseQuestions(c, true);
+    }
+
+    /**
      * Write the list of questions on the disk to save them.
      * @param list The list of questions
      * @param c The context of the app (to the FilesDir)
@@ -112,7 +124,7 @@ public abstract class QuestionParser {
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             for (Question q : list) {
-                    String text = "\n" + q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer();
+                    String text = q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer() + "\n";
                     writer.write(text);
             }
             writer.close();
