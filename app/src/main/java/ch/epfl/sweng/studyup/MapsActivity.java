@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationUpdate(LatLng latLong) {
         // au lieu de if(mMap != null) {...}
         if (latLong != null) {
-            Log.d("GPS_MAP", "New position map: " + latLong);
+            Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
                 if(location != null){
                     location.remove();
