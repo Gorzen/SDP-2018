@@ -49,6 +49,7 @@ public class Authenticator {
 
     public static String getGreetingFromResponse(String response) {
 
+        System.out.println(response);
         JSONProfileContainer profileContainer = new Gson().fromJson(response, JSONProfileContainer.class);
 
         if (profileContainer.error == null && profileContainer.sciperNo != null) {
