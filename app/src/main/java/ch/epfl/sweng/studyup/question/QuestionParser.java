@@ -38,11 +38,11 @@ public abstract class QuestionParser {
      * @return The list of questions or null if the file has not the correct format
      * @throws FileNotFoundException if the file does not exist and the check is required
      */
-    public static List<Question> parseQuestions(Context c, boolean checkIfFileExists) throws FileNotFoundException {
-        FileInputStream inputStream = c.openFileInput(fileName);
+    public static List<Question> parseQuestions(Context c, boolean checkIfFileExists){
         Toast toast = Toast.makeText(c, "Error while opening the file. It may be corrupted", Toast.LENGTH_SHORT);
         ArrayList<Question> list = new ArrayList<>();
         try {
+            FileInputStream inputStream = c.openFileInput(fileName);
             InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(isr);
             String line;
@@ -78,8 +78,6 @@ public abstract class QuestionParser {
 
                 list.add(new Question(imageUri, trueFalse, answerNumber));
             }
-        }catch (FileNotFoundException e) {
-            throw e;
         }catch(IOException e) {
             Log.e(TAG, "IOException: \n");
             for(StackTraceElement elem: e.getStackTrace()) {

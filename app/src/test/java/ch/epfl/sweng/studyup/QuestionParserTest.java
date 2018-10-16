@@ -48,15 +48,11 @@ public class QuestionParserTest {
         list.add(q1);
         list.add(q2);
         assertTrue(QuestionParser.writeQuestions(list, context, true));
-        try {
-            System.out.println(list.toString());
-            List<Question> parsedList = QuestionParser.parseQuestions(context, false);
-            ArrayList<Question> newList = new ArrayList<>(parsedList);
-            System.out.println(newList.toString());
-            assertArrayEquals("parsed list should be the same as input", list.toArray(), newList.toArray());
-        }catch(FileNotFoundException e){
-            assertTrue("No exception should occur", false);
-        }
+        System.out.println(list.toString());
+        List<Question> parsedList = QuestionParser.parseQuestions(context, false);
+        ArrayList<Question> newList = new ArrayList<>(parsedList);
+        System.out.println(newList.toString());
+        assertArrayEquals("parsed list should be the same as input", list.toArray(), newList.toArray());
     }
 
     @Test
@@ -117,22 +113,16 @@ public class QuestionParserTest {
     }
 
     @Test
-    public void throwExceptionIfFileDoesNotExist(){
-        try {
-            File testFile = new File(context.getFilesDir(), "test.png");
-            Uri u1 = Uri.fromFile(testFile);
-            Question q1 =  new Question(u1, true, 0);
-            ArrayList<Question> list = new ArrayList<>();
-            list.add(q1);
-            assertTrue(QuestionParser.writeQuestions(list, context, true));
-            List<Question> parsedList = QuestionParser.parseQuestions(context, true);
-            System.out.println(parsedList);
-            assertFalse(parsedList.isEmpty());
-            ArrayList<Question> newList = new ArrayList<>(parsedList);
-            assertArrayEquals("Both lists should be equals", list.toArray(), newList.toArray());
-        }catch(FileNotFoundException e){
-            assertTrue("The exception has been thrown !", true);
-        }
+    public void ReturnNullWhenFileDoesNotExist(){
+        File testFile = new File(context.getFilesDir(), "test.png");
+        Uri u1 = Uri.fromFile(testFile);
+        Question q1 =  new Question(u1, true, 0);
+        ArrayList<Question> list = new ArrayList<>();
+        list.add(q1);
+        assertTrue(QuestionParser.writeQuestions(list, context, true));
+        List<Question> parsedList = QuestionParser.parseQuestions(context, true);
+        assertNull(parsedList);
+
     }
 
 }
