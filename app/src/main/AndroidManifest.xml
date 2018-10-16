@@ -40,7 +40,6 @@
             android:name=".question.AddQuestionActivity"
             android:label="Add a question"/>
         <activity android:name=".QuestsActivity" />
-        <activity android:name=".MapActivity" />
         <activity android:name=".RankingsActivity" />
         <activity android:name=".ChatActivity"/>
         <activity android:name=".CustomActivity"/>
