@@ -41,10 +41,11 @@ public class MainActivity extends Navigation {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
     //Text that will be displayed in the levelProgress layout
+
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel() + 1));
+            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()));
         }
     };
 
@@ -98,6 +99,7 @@ public class MainActivity extends Navigation {
         rbd.setCircular(true);
         image_view.setImageDrawable(rbd);
 
+
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +142,7 @@ public class MainActivity extends Navigation {
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
     }
 
-    //Display the toolbar
+    // Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater i = getMenuInflater();

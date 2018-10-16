@@ -10,5 +10,4 @@
 /captures
 .externalNativeBuild
 /.idea/misc.xml
-authentication_server/.git
 authentication_server/env
