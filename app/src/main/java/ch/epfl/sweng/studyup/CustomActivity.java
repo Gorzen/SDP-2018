@@ -148,7 +148,7 @@ public class CustomActivity extends Navigation {
             saveAndSetImage(bitmap);       }
     }
 
-    //Not sure about the name -consistency of this function
+    //Not sure about the name-consistency of this function
     private void saveAndSetImage(Bitmap bitmap) {
         saveImage(bitmap);
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
@@ -160,8 +160,7 @@ public class CustomActivity extends Navigation {
     public String saveImage(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
         // have the object build the directory structure, if needed.
         if (!wallpaperDirectory.exists()) {
             wallpaperDirectory.mkdirs();
