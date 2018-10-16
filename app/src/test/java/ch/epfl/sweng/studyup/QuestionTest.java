@@ -51,4 +51,9 @@ public class QuestionTest {
         Question q = new Question(null, true, 0);
     }
 
+    @Test
+    public void falseEqualsTest(){
+        Question q = new Question(uri, true, 0);
+        assertFalse(q.equals(null));
+    }
 }
