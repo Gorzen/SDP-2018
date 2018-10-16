@@ -17,8 +17,10 @@ public class MapActivity extends Navigation {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(MapActivity.this, MapActivity.class, 3);
+
+        navigationSwitcher(MapActivity.this, MapActivity.class, MAP_INDEX);
     }
 
 

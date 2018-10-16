@@ -17,4 +17,10 @@
     <string name="true_false_question_text">True or false question</string>
     <string name="multiple_choice_question_text">Multiple choice question</string>
     <string name="add_text">Add</string>
+    <string name="user_photo">User Photo</string>
+    <string name="user_photo_btn">User Photo Button</string>
+    <string name="username">User Name</string>
+    <string name="user_email">user.name@epfl.ch</string>
+
+
 </resources>

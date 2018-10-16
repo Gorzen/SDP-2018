@@ -2,18 +2,20 @@ package ch.epfl.sweng.studyup;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
@@ -32,9 +34,8 @@ public class MainActivity extends Navigation {
     };
 
     private ImageButton pic_button;
-    private ImageView imageview;
-    private static final String IMAGE_DIRECTORY = "/studyup_photos";
-    private int GALLERY = 0, CAMERA = 1;
+    private ImageButton pic_button2;
+    private ImageView image_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +43,41 @@ public class MainActivity extends Navigation {
         setContentView(R.layout.activity_main);
 
         //user picture
-        pic_button = (ImageButton) findViewById(R.id.pic_btn);
-        imageview = (ImageView) findViewById(R.id.pic_imageview);
+        pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
+
+        image_view = findViewById(R.id.pic_imageview);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
+        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+        rbd.setCircular(true);
+        image_view.setImageDrawable(rbd);
+
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CustomActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
+        pic_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
+                pic_button2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
+            }
+        });
+
+        //username
+        view_username = findViewById(R.id.view_username);
+
 
         //toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         //bottom navigation bar
         navigationSwitcher(MainActivity.this, MainActivity.class, 0);
@@ -113,8 +135,6 @@ public class MainActivity extends Navigation {
             Toast.makeText(getApplicationContext(),
                     "Latitude: " + currLat + "\nLongitude: " + currLong,
                     Toast.LENGTH_LONG).show();
-            TextView test = findViewById(R.id.helloWorld);
-            test.setText("Latitude: " + currLat + "\nLongitude: " + currLong);  //TODO not recommended to concatenate here, should use resource string with placeholders (+hardcoded literals)
         }
     }
 
@@ -123,11 +143,13 @@ public class MainActivity extends Navigation {
      *
      * @param view
      */
+
     public void addExpPlayer(View view) {
         Player.get().addExperience(Player.XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
     }
-
 }
+
+

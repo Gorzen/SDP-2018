@@ -17,8 +17,10 @@ public class RankingsActivity extends Navigation {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, 2);
+
+        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
     }
 
     //Display the toolbar

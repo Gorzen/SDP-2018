@@ -16,8 +16,10 @@ public class QuestsActivity extends Navigation {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, 1);
+
+        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, QUESTS_INDEX);
     }
 
 
