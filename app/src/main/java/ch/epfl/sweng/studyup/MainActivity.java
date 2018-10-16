@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     CircularProgressIndicator levelProgress;
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
-    //Texte that will be displayed in the levelProgress layout
+    // Text that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel() + 1));
+            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()));
         }
     };
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true); //give color to the selected item
+        menuItem.setChecked(true); // Give color to the selected item
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
     }
 
-    //Display the toolbar
+    // Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater i = getMenuInflater();
