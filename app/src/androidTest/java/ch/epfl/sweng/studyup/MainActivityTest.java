@@ -35,11 +35,6 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testCanGreetUsers() {
-        onView(withId(R.id.helloWorld)).check(matches(withText("Hello World!")));
-    }
-
-    @Test
     /**
      * Hardcode of the implementation of player's function: getExperience
      */

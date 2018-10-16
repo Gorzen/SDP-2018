@@ -3,6 +3,9 @@
     package="ch.epfl.sweng.studyup">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
   
@@ -20,16 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CharacterHomepageActivity"
-            android:label="@string/character_homepage"
-
-            android:parentActivityName="ch.epfl.sweng.studyup.MainActivity">
-            //The meta-data is to be compatible with Android 4.0 and lower
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.epfl.sweng.studyup.MainActivity" />
-        </activity>
 
         <activity android:name=".AuthenticationActivity">
 
@@ -39,16 +32,18 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:host="login" android:scheme="studyup"></data>
+                <data android:host="login" android:scheme="studyup"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".question.AddQuestionActivity"
-            android:label="Add a question"></activity>
+        <activity
+            android:name=".question.AddQuestionActivity"
+            android:label="Add a question"/>
         <activity android:name=".QuestsActivity" />
-        <activity android:name=".MapActivity" />
         <activity android:name=".RankingsActivity" />
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".CustomActivity"/>
+        <activity android:name=".Navigation"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -62,7 +57,7 @@
             android:value="@string/google_maps_key" />
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"/>
         <service android:name=".BackgroundLocation"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>

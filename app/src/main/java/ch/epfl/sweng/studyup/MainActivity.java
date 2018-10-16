@@ -7,21 +7,25 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,11 +35,13 @@ import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends Navigation {
+
     CircularProgressIndicator levelProgress;
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
-    // Text that will be displayed in the levelProgress layout
+    //Text that will be displayed in the levelProgress layout
+
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
@@ -43,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     };
 
+    private ImageButton pic_button;
+    private ImageButton pic_button2;
+    private ImageView image_view;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -56,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //user picture
+        pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
 
         Log.d("GPS_MAP", "Started main");
         //GPS Job scheduler
@@ -77,52 +92,49 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         for(JobInfo job : scheduler.getAllPendingJobs()){
             Log.d("GPS_MAP", job.toString());
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(0);
-        menuItem.setChecked(true); // Give color to the selected item
+        image_view = findViewById(R.id.pic_imageview);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
+        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+        rbd.setCircular(true);
+        image_view.setImageDrawable(rbd);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        break;
-
-                    case R.id.navigation_quests:
-                        Intent intent_q = new Intent(MainActivity.this, QuestsActivity.class);
-                        startActivity(intent_q);
-                        //todo R.anim.### does not work if we want better transitions
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_rankings:
-                        Intent intent_r = new Intent(MainActivity.this, RankingsActivity.class);
-                        startActivity(intent_r);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_map:
-                        Intent intent_m = new Intent(MainActivity.this, MapsActivity.class);
-                        startActivity(intent_m);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    case R.id.navigation_chat:
-                        Intent intent_c = new Intent(MainActivity.this, ChatActivity.class);
-                        startActivity(intent_c);
-                        overridePendingTransition(0, 0);
-                        break;
-
-                    default:
-                        return false;
-                }
-                return false;
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
+        pic_button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
+                pic_button2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
+            }
+        });
+
+        //username
+        view_username = findViewById(R.id.view_username);
+
+
+        //toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
+        //bottom navigation bar
+        navigationSwitcher(MainActivity.this, MainActivity.class, 0);
+
+        //level progression bar
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                123);
 
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
@@ -177,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         startActivity(intent);
     }
 
+
     public void onLoginButtonClick(View view) {
         String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
         Intent authIntent = new Intent(Intent.ACTION_VIEW);
@@ -188,9 +201,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
      *
      * @param view
      */
+
     public void addExpPlayer(View view) {
         Player.get().addExperience(Player.XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+
     }
 }
+
+

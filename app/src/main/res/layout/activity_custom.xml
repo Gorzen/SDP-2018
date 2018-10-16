@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/topBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/colorPrimaryDark"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+                <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_below="@+id/topBar"
+            android:layout_above="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="59dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/username"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/user_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="119dp"
+                android:text="@string/user_email" />
+
+            <ImageButton
+                android:id="@+id/valid_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="71dp"
+                android:layout_marginEnd="42dp"
+                android:layout_marginRight="42dp"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_check_black_24dp" />
+
+            <TextView
+                android:id="@+id/view_username"
+                android:layout_width="197dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="106dp"
+                android:layout_marginLeft="106dp"
+                android:layout_marginTop="216dp"
+                android:layout_marginEnd="108dp"
+                android:layout_marginRight="108dp"
+                android:textAlignment="center"
+                android:text="TEST" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/bottomBar"
+            android:layout_alignParentBottom="true">
+
+            <android.support.design.widget.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bottomNavView_Bar"
+                android:background="@drawable/white_grey_border_top"
+                app:menu="@menu/navigation"
+                app:labelVisibilityMode="labeled">
+
+            </android.support.design.widget.BottomNavigationView>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/pic_imageview"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_alignStart="@+id/level_progress"
+        android:layout_alignLeft="@+id/level_progress"
+        android:layout_alignTop="@+id/level_progress"
+        android:layout_alignEnd="@+id/level_progress"
+        android:layout_alignRight="@+id/level_progress"
+        android:layout_alignBottom="@+id/level_progress"
+        android:layout_marginStart="145dp"
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/user_photo"
+        android:scaleType="centerCrop"
+        android:src="@drawable/user_init_pic"/>
+
+
+
+    <ImageButton
+        android:id="@+id/pic_btn"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignStart="@+id/pic_imageview"
+        android:layout_alignLeft="@+id/pic_imageview"
+        android:layout_alignTop="@+id/pic_imageview"
+        android:layout_alignEnd="@+id/pic_imageview"
+        android:layout_alignRight="@+id/pic_imageview"
+        android:layout_alignBottom="@+id/pic_imageview"
+        android:layout_marginStart="145dp"
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginRight="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/user_photo_btn" />
+
+</android.support.design.widget.CoordinatorLayout>
