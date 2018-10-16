@@ -67,6 +67,7 @@ public class Player {
             putUserData(FB_LEVEL, newLevel);
             Firebase.get().setUserData(FB_CURRENCY, currency);
             Firebase.get().setUserData(FB_LEVEL, newLevel);
+            level = newLevel;
         }
     }
 

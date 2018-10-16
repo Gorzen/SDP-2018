@@ -30,7 +30,7 @@ public class CustomActivityTest {
 
     }
 
-    @Test
+
     public void addPictureCameraPermissionRequest() throws Exception {
         assertTrue(shouldDisplayPermissionRequest(Utils.CAMERA));
     }
