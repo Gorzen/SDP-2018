@@ -5,7 +5,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.annotation.UiThreadTest;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -21,9 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeSet;
 
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
@@ -33,7 +30,6 @@ import ch.epfl.sweng.studyup.question.QuestionParser;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCategories;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -146,12 +142,8 @@ public class AddQuestionActivityTest {
         i.setData(uri);
         mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
-        try{
-            ArrayList<Question> parsedList = new ArrayList<>(QuestionParser.parseQuestions(InstrumentationRegistry.getContext(), false));
-            assertEquals(parsedList.get(0), new Question(uri, false, 0));
-        }catch(FileNotFoundException e){
-            e.printStackTrace();
-        }
+        ArrayList<Question> parsedList = new ArrayList<>(QuestionParser.parseQuestions(InstrumentationRegistry.getContext(), false));
+        assertEquals(parsedList.get(0), new Question(uri, false, 0));
         Intents.intending(hasComponent(MainActivity.class.getName()));
     }
 }

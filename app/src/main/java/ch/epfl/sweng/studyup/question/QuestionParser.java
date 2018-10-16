@@ -36,7 +36,6 @@ public abstract class QuestionParser {
      * @param c The context of the app (to get the FilesDir)
      * @param checkIfFileExists Throw an IllegalArgumentException if the image in the file doesn't exist.
      * @return The list of questions or null if the file has not the correct format
-     * @throws FileNotFoundException if the file does not exist and the check is required
      */
     public static List<Question> parseQuestions(Context c, boolean checkIfFileExists){
         Toast toast = Toast.makeText(c, "Error while opening the file. It may be corrupted", Toast.LENGTH_SHORT);
