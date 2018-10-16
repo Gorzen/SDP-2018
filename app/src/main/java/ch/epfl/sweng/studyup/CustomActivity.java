@@ -83,8 +83,7 @@ public class CustomActivity extends Navigation {
 
         final String[] items = {"Gallery", "Camera", "Cancel"};
 
-        dialogBuilder.setItems(items,
-                new DialogInterface.OnClickListener() {
+        dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -95,19 +94,14 @@ public class CustomActivity extends Navigation {
                         else if (which == CAMERA) {
                             if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                                 openCamera();
-                            }
-                            else {
+                            } else {
                                 //we are here if we dont already have permission to invoke the camera, although we have the permission in the manifest
                                 //we now have to override the method invoked for permissions: onRequestPermissionsResult()
                                 String[] permissionRequest = {Manifest.permission.CAMERA};
                                 requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
                             }
-                        }
-                        else {
-                            dialog.dismiss();
-                        }
-                    }
-                });
+                        } else { dialog.dismiss(); }
+                    }});
         dialogBuilder.show();
     }
 
@@ -143,25 +137,24 @@ public class CustomActivity extends Navigation {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    saveImage(bitmap);
-                    RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                    rbd.setCircular(true);
-                    Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageview.setImageDrawable(rbd);
-
+                    saveAndSetImage(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(CustomActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
-
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            saveImage(bitmap);
-            RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-            rbd.setCircular(true);
-            Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-            imageview.setImageDrawable(rbd);        }
+            saveAndSetImage(bitmap);       }
+    }
+
+    //Not sure about the name -consistency of this function
+    private void saveAndSetImage(Bitmap bitmap) {
+        saveImage(bitmap);
+        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+        rbd.setCircular(true);
+        Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        imageview.setImageDrawable(rbd);
     }
 
     public String saveImage(Bitmap myBitmap) {
