@@ -1,25 +1,36 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+    private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -65,6 +76,13 @@ public class MainActivityTest {
     public void initializationGps(){
         assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
         assertNotNull(Utils.locationProviderClient);
+    }
+
+    @Test
+    public void A_shouldDisplayPermissionRequestGPS() throws UiObjectNotFoundException {
+        assertTrue(device.findObject(new UiSelector().text("ALLOW")).exists());
+        assertTrue(device.findObject(new UiSelector().text("DENY")).exists());
+        device.findObject(new UiSelector().text(Utils.ALLOW)).click();
     }
 
      /*

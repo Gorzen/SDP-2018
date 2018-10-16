@@ -97,6 +97,11 @@ public class Utils {
     public static Context mainContext;
     public static final long LOCATION_REQ_INTERVAL = 5*1000;
     public static final long LOCATION_REQ_FASTEST_INTERVAL = 5*1000;
+    public static final String ALLOW = "ALLOW";
+    public static final String DENY = "DENY";
+    public static final String CAMERA = "Camera";
+    public static final String GALLERY = "Gallery";
+
 
     //test purpose
     public static Boolean isMockEnabled = false;
@@ -111,7 +116,7 @@ public class Utils {
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
         tempMap.put(R.id.navigation_map, MapsActivity.class);
         tempMap.put(R.id.navigation_chat, ChatActivity.class);
-
         idToAct = Collections.unmodifiableMap(tempMap);
     }
+
 }
