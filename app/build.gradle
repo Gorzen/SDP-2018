@@ -29,14 +29,6 @@ android {
     }
     productFlavors {
     }
-<<<<<<< HEAD
-    lintOptions {
-        abortOnError false
-=======
-    testOptions {
-        unitTests.returnDefaultValues = true
->>>>>>> 64cf3e00e377e045df1646913bce440b38175e18
-    }
 }
 
 dependencies {
