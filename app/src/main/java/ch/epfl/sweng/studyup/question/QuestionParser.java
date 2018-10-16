@@ -38,7 +38,6 @@ public abstract class QuestionParser {
      * @return The list of questions or null if the file has not the correct format
      */
     public static List<Question> parseQuestions(Context c, boolean checkIfFileExists){
-        Toast toast = Toast.makeText(c, "Error while opening the file. It may be corrupted", Toast.LENGTH_SHORT);
         ArrayList<Question> list = new ArrayList<>();
         try {
             FileInputStream inputStream = c.openFileInput(fileName);
@@ -61,7 +60,6 @@ public abstract class QuestionParser {
                     bufferedReader.close();
                     isr.close();
                     Log.e(TAG, "While reading the questions file: second line is empty");
-                    toast.show();
                     return null;
                 }
                 trueFalse = Boolean.parseBoolean(line);
@@ -70,7 +68,6 @@ public abstract class QuestionParser {
                     bufferedReader.close();
                     isr.close();
                     Log.e(TAG, "While reading the questions  file: third line is empty");
-                    toast.show();
                     return null;
                 }
                 answerNumber = Integer.parseInt(line);
@@ -82,7 +79,6 @@ public abstract class QuestionParser {
             for(StackTraceElement elem: e.getStackTrace()) {
                 System.err.println("-File:" + elem.getClassName() + " -Method:L" + elem.getMethodName() + " -Line:" + elem.getLineNumber());
             }
-            toast.show();
             return null;
         }
         return list;

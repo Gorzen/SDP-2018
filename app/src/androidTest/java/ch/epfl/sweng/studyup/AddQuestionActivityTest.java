@@ -21,7 +21,7 @@ import org.junit.runners.MethodSorters;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 import ch.epfl.sweng.studyup.question.Question;
@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -51,6 +52,7 @@ public class AddQuestionActivityTest {
     public void initiateIntents() {
         Intents.init();
     }
+
     @After
     public void releaseIntents() {
         Intents.release();
@@ -98,8 +100,6 @@ public class AddQuestionActivityTest {
     @Test
     public void zperformSearchTest(){
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
-        TreeSet<String> catSet = new TreeSet<>();
-        catSet.add(Intent.CATEGORY_OPENABLE);
         Intent i = new Intent();
         Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK,i);
         Intents.intending(anyIntent()).respondWith(intentResult);
@@ -140,10 +140,13 @@ public class AddQuestionActivityTest {
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
         i.setData(uri);
-        mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_CANCELED, i);
+        mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
-        ArrayList<Question> parsedList = new ArrayList<>(QuestionParser.parseQuestions(InstrumentationRegistry.getContext(), false));
-        assertEquals(parsedList.get(0), new Question(uri, false, 0));
+        List<Question> list = QuestionParser.parseQuestions(mActivityRule.getActivity().getApplicationContext(), false);
+        assertNotNull(list);
+        ArrayList<Question> parsedList = new ArrayList<>(list);
+        assertEquals(0, parsedList.get(0).getAnswer());
+        assertEquals(false, parsedList.get(0).isTrueFalseQuestion());
         Intents.intending(hasComponent(MainActivity.class.getName()));
     }
 }
