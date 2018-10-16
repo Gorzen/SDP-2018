@@ -1,14 +1,21 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
@@ -19,12 +26,15 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     private static final String TAG = MainActivityTest.class.getSimpleName();
+    private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
@@ -53,6 +63,7 @@ public class MainActivityTest {
                     "xpButton doesn't update player's xp as expected.";
         }
     }
+
     @Test
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
@@ -72,7 +83,6 @@ public class MainActivityTest {
         assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
         assertNotNull(Utils.locationProviderClient);
     }
-
 
     @Test
     public void testToAddQuestionButton() {
@@ -95,7 +105,7 @@ public class MainActivityTest {
      @Test
     public void testLogin() {
          onView(withId(R.id.loginButton)).perform(click());
-         Utils.waitAndTag(10000, TAG);
+         Utils.waitAndTag(1000, TAG);
      }
 
     @Test

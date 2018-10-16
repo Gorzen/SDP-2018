@@ -22,6 +22,8 @@ public class Player {
     public static final int INITIAL_CURRENCY = 0;
     public static final int INITIAL_LEVEL = 1;
     public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_FIRSTNAME = "Jean-Louis";
+    public static final String INITIAL_LASTNAME = "Reymond";
     private static final String TAG = Player.class.getSimpleName();
 
     /**
@@ -32,6 +34,8 @@ public class Player {
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
         sciper = INITIAL_SCIPER;
+        firstName = INITIAL_FIRSTNAME;
+        lastName = INITIAL_LASTNAME;
     }
 
     public static Player get(){
@@ -60,7 +64,7 @@ public class Player {
         if(newLevel - level > 0){
             currency += (newLevel - level) * CURRENCY_PER_LEVEL;
             putUserData(FB_CURRENCY, currency);
-            putUserData(FB_LEVEL, level);
+            putUserData(FB_LEVEL, newLevel);
             Firebase.get().setUserData(FB_CURRENCY, currency);
             Firebase.get().setUserData(FB_LEVEL, newLevel);
         }
@@ -137,6 +141,10 @@ public class Player {
     }
 
     public int getSciper() {
+        //to remove later
+        if(sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
+            return INITIAL_SCIPER;
+        }
         return sciper;
     }
 }
