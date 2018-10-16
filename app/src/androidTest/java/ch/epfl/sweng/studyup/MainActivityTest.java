@@ -54,13 +54,15 @@ public class MainActivityTest {
     }
     @Test
     public void checkPlayerProgressionDisplay() {
+        Player.get().reset();
+        Firebase.get().getAndSetUserData(Player.get().getSciper(),
+                Player.get().getFirstName(), Player.get().getLastName());
+        try{Thread.sleep(500);} catch(InterruptedException e) {}
         final int numberOfPush = 5;
-        assert mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() : "\n" +
-                "Player's level display mismatch actual progression.";
+        assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() );
         for(int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() :"\n" +
-                    "Player's level display isn't well updated when pushing button.";
+            assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
         }
     }
 
