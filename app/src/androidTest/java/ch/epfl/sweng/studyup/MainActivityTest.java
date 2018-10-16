@@ -15,12 +15,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
 
     @Before
     public void initiateIntents(){
@@ -51,14 +54,22 @@ public class MainActivityTest {
     }
     @Test
     public void checkPlayerProgressionDisplay() {
+        Player.get().reset();
+        Firebase.get().getAndSetUserData(Player.get().getSciper(),
+                Player.get().getFirstName(), Player.get().getLastName());
+        try{Thread.sleep(500);} catch(InterruptedException e) {}
         final int numberOfPush = 5;
-        assert mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() : "\n" +
-                "Player's level display mismatch actual progression.";
+        assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() );
         for(int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() :"\n" +
-                    "Player's level display isn't well updated when pushing button.";
+            assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
         }
+    }
+
+    @Test
+    public void initializationGps(){
+        assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(Utils.locationProviderClient);
     }
 
      /*

@@ -23,7 +23,10 @@
     <string name="answer_number_text">Indicate the answer</string>
     <string name="image_at">Image at: </string>
     <string name="add_text">Add</string>
+    <string name="title_activity_maps">Map</string>
     <string name="login">Log In</string>
-
-    <string name="auth_error">Auth Error</string>
+    <string name="auth_error_tequila">Auth Error for Tequila</string>
+    <string name="auth_error_firebase">Auth Error for Firebase</string>
+    <string name="auth_firebase_success">Sign in to Firebase Authenticate: success</string>
+    <string name="auth_firebase_failure">Sign in to Firebase Authenticate: failure</string>
 </resources>
