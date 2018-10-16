@@ -1,9 +1,11 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -99,4 +101,17 @@ public class Utils {
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc;
+
+    //Map that links item id to activities
+    public static final Map<Integer, Class> idToAct;
+    static {
+        Map<Integer, Class> tempMap = new HashMap<>();
+        tempMap.put(R.id.navigation_home, MainActivity.class);
+        tempMap.put(R.id.navigation_quests, QuestsActivity.class);
+        tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
+        tempMap.put(R.id.navigation_map, MapsActivity.class);
+        tempMap.put(R.id.navigation_chat, ChatActivity.class);
+
+        idToAct = Collections.unmodifiableMap(tempMap);
+    }
 }

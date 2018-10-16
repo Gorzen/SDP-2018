@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import static ch.epfl.sweng.studyup.Utils.idToAct;
+
 public class Navigation extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     public TextView view_username; //todo make it private in MainActivity when linking with firebase
@@ -27,55 +29,23 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home: //destination
-                        if (!c.equals(MainActivity.class)) {
-                            Intent intent_m = new Intent(cn, MainActivity.class);
-                            startActivity(intent_m);
-                            //overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
-                            transitionForNavigation(current_index, DEFAULT_INDEX);
-                        }
-                        break;
+                try {
+                    Class activity = idToAct.get(item.getItemId());
 
-                    case R.id.navigation_quests:
-                        if (!c.equals(QuestsActivity.class)) {
-                            Intent intent_q = new Intent(cn, QuestsActivity.class);
-                            startActivity(intent_q);
-                            transitionForNavigation(current_index, QUESTS_INDEX);
-                        }
-                        break;
-
-                    case R.id.navigation_rankings:
-                        if (!c.equals(RankingsActivity.class)) {
-                            Intent intent_r = new Intent(cn, RankingsActivity.class);
-                            startActivity(intent_r);
-                            transitionForNavigation(current_index, RANKINGS_INDEX);
-                        }
-                        break;
-
-                    case R.id.navigation_map:
-                        if (!c.equals(MapActivity.class)) {
-                            Intent intent_m = new Intent(cn, MapsActivity.class);
-                            startActivity(intent_m);
-                            transitionForNavigation(current_index, MAP_INDEX);
-                        }
-                        break;
-
-                    case R.id.navigation_chat:
-                        if (!c.equals(ChatActivity.class)) {
-                            Intent intent_c = new Intent(cn, ChatActivity.class);
-                            startActivity(intent_c);
-                            transitionForNavigation(current_index, CHAT_INDEX);
-                        }
-                        break;
-
-                    default:
-                        return false;
+                    if(!this.getClass().getName().equals(activity.getName())) {
+                        Intent intent_m = new Intent(cn, activity);
+                        startActivity(intent_m);
+                        //overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
+                        transitionForNavigation(current_index, DEFAULT_INDEX);
+                    }
+                    return true;
+                } catch (NullPointerException e) {
+                    return false;
                 }
-                return false;
             }
         });
     }
+
     public void transitionForNavigation(int current_index, int destination_index) {
         if(destination_index>current_index) {
             overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
