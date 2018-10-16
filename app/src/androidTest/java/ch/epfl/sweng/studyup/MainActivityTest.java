@@ -61,7 +61,7 @@ public class MainActivityTest {
             onView(withId(R.id.xpButton)).perform(click());
             assert Player.get().getExperience() == (currExp+(i+1)*Player.XP_STEP%Player.XP_TO_LEVEL_UP) / Player.XP_TO_LEVEL_UP:
                     "xpButton doesn't update player's xp as expected.";
-            onView(withId(R.id.currText)).check(matches(withText("Money: "+Player.get().getCurrency())));
+            onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY+Player.get().getCurrency())));
         }
     }
 
@@ -73,11 +73,11 @@ public class MainActivityTest {
         try{Thread.sleep(500);} catch(InterruptedException e) {}
         final int numberOfPush = 5;
         assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() );
-        onView(withId(R.id.levelText)).check(matches(withText("Level: "+Player.get().getLevel())));
+        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
         for(int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
             assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText("Level: "+Player.get().getLevel())));
+            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
         }
     }
 

@@ -102,4 +102,8 @@ public class Utils {
         idToAct = Collections.unmodifiableMap(tempMap);
     }
 
+    //Better in resources?
+    public static final String LEVEL_DISPLAY = "Level: \n";
+    public static final String CURR_DISPLAY = "Money: \n";
+
 }

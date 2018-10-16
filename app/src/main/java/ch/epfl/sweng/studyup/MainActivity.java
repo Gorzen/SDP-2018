@@ -35,13 +35,9 @@ import com.google.android.gms.tasks.Task;
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
-
 public class MainActivity extends Navigation {
     CircularProgressIndicator levelProgress;
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
-    //Better in resources?
-    private static final String LEVEL_DISPLAY = "Level: \n";
-    private static final String CURR_DISPLAY = "Money: \n";
 
     //Text that will be displayed in the levelProgress layout
 
@@ -146,8 +142,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
 
     }
 
@@ -159,8 +155,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
     }
 
     // Display the toolbar
@@ -232,8 +228,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
     }
 }
 
