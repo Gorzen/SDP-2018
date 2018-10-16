@@ -55,7 +55,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
 
                     case R.id.navigation_map:
                         if (!c.equals(MapActivity.class)) {
-                            Intent intent_m = new Intent(cn, MapActivity.class);
+                            Intent intent_m = new Intent(cn, MapsActivity.class);
                             startActivity(intent_m);
                             transitionForNavigation(current_index, MAP_INDEX);
                         }
