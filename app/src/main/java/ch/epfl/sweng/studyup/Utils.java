@@ -19,23 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 public class Utils {
-    public enum SECTION_SHORT {
-        IN,
-        SC,
-        SV,
-        PH,
-        CH,
-
-    }
-
-    public enum YEAR {
-        BA1,
-        BA2,
-        BA3,
-        BA4,
-        BA5,
-        BA6,
-    }
 
     //Firebase entries
     public static final String FB_USERS = "users";

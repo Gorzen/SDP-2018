@@ -10,9 +10,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.question.AddQuestionActivity;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +24,8 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+    private static final String TAG = MainActivityTest.class.getSimpleName();
+
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -67,11 +73,34 @@ public class MainActivityTest {
         assertNotNull(Utils.locationProviderClient);
     }
 
-     /*
+
     @Test
     public void testToAddQuestionButton() {
-        onView(withId(R.id.questButton)).perform(click());
+        onView(withId(R.id.questionButton)).perform(click());
         intended(hasComponent(AddQuestionActivity.class.getName()));
-    }*/
+    }
 
+    @Test
+    public void testToCustomActWithB1() {
+        onView(withId(R.id.pic_btn)).perform(click());
+        intended(hasComponent(CustomActivity.class.getName()));
+    }
+
+    @Test
+    public void testToCustomActWithB2() {
+        onView(withId(R.id.pic_btn2)).perform(click());
+        intended(hasComponent(CustomActivity.class.getName()));
+    }
+
+     @Test
+    public void testLogin() {
+         onView(withId(R.id.loginButton)).perform(click());
+         Utils.waitAndTag(10000, TAG);
+     }
+
+    @Test
+    public void testOptionNoException() {
+        onView(withId(R.id.top_navigation_infos)).perform(click());
+        onView(withId(R.id.top_navigation_settings)).perform(click());
+    }
 }
