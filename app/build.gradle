@@ -10,7 +10,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "ch.epfl.sweng.studyup"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -28,6 +28,9 @@ android {
     }
     productFlavors {
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -35,7 +38,12 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:design:28.0.0'
+    implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.2.2'
+    implementation 'com.github.zurche:plain-pie:v0.2.9'
+    implementation 'com.android.support:design:28.0.0-rc02' //the "plain pie" graphic
     testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.4.2"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
@@ -43,6 +51,10 @@ dependencies {
     implementation 'com.github.antonKozyriatskyi:CircularProgressIndicator:1.2.2'
     implementation 'com.github.zurche:plain-pie:v0.2.9'
     implementation 'com.android.support:design:28.0.0-rc02' //the "plain pie" graphic
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:support-media-compat:28.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
 }
 
 tasks.withType(Test) {

@@ -1,15 +1,25 @@
 package ch.epfl.sweng.studyup;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,18 +28,23 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.Task;
+
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 
 public class MainActivity extends Navigation {
+
     CircularProgressIndicator levelProgress;
+    private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
     //Text that will be displayed in the levelProgress layout
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()+1));
+            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel() + 1));
         }
     };
 
@@ -37,6 +52,16 @@ public class MainActivity extends Navigation {
     private ImageButton pic_button2;
     private ImageView image_view;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+    }
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +70,27 @@ public class MainActivity extends Navigation {
         //user picture
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
+
+        Log.d("GPS_MAP", "Started main");
+        //GPS Job scheduler
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                MY_PERMISSION_REQUEST_FINE_LOCATION);
+        Utils.mainContext = this.getApplicationContext();
+        Utils.locationProviderClient = new FusedLocationProviderClient(this);
+        if (Utils.isMockEnabled) {
+            Task<Void> task = Utils.locationProviderClient.setMockMode(true);
+            Log.d("GPS_MAP", "Set mock mode was successful " + task.isSuccessful());
+            Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
+            Log.d("GPS_MAP", "Mock location set");
+        }
+        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
+        scheduler.schedule(jobInfo);
+        for(JobInfo job : scheduler.getAllPendingJobs()){
+            Log.d("GPS_MAP", job.toString());
+        }
 
         image_view = findViewById(R.id.pic_imageview);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
@@ -92,7 +138,6 @@ public class MainActivity extends Navigation {
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-
     }
 
     //Display the toolbar
@@ -103,6 +148,22 @@ public class MainActivity extends Navigation {
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode) {
+            case MY_PERMISSION_REQUEST_FINE_LOCATION:
+
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i("GPS_MAP", "Permission granted");
+                } else {
+                    Toast.makeText(getApplicationContext(), "This app requires location", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
+    }
 
     //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     //Corresponding activities are not created yet
@@ -126,18 +187,13 @@ public class MainActivity extends Navigation {
         startActivity(intent);
     }
 
-    public void onLocButtonClick(View view) {
-        LocationTracker locationTracker = new LocationTracker(getApplicationContext());
-        Location currLoc = locationTracker.getLocation();
-        if (currLoc != null) {
-            double currLat = currLoc.getLatitude();
-            double currLong = currLoc.getLongitude();
-            Toast.makeText(getApplicationContext(),
-                    "Latitude: " + currLat + "\nLongitude: " + currLong,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
 
+    public void onLoginButtonClick(View view) {
+        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
+        Intent authIntent = new Intent(Intent.ACTION_VIEW);
+        authIntent.setData(Uri.parse(authURL));
+        startActivity(authIntent);
+    }
     /**
      * Function that is called when adding xp with the button
      *
