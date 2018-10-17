@@ -103,7 +103,7 @@ public class Utils {
     }
 
     //Better in resources?
-    public static final String LEVEL_DISPLAY = "Level: \n";
-    public static final String CURR_DISPLAY = "Money: \n";
+    public static final String LEVEL_DISPLAY = "LEVEL ";
+    public static final String CURR_DISPLAY = "MONEY: \n";
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,11 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <!--TOP TOOL BAR-->
-        <RelativeLayout
+
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="190dp"
             android:background="?attr/colorPrimaryDark">
 
             <android.support.v7.widget.Toolbar
@@ -27,132 +30,138 @@
                 android:background="?attr/colorPrimaryDark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark">
-
                 <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
-
             </android.support.v7.widget.Toolbar>
-
 
             <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
                 android:id="@+id/level_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/toolbar"
-                android:layout_alignLeft="@+id/toolbar"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/toolbar"
-                android:layout_alignStart="@+id/toolbar"
-                android:layout_alignTop="@+id/toolbar"
-                android:layout_alignWithParentIfMissing="true"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical|top"
-                android:layout_marginBottom="70dp"
-                android:layout_marginEnd="144dp"
-                android:layout_marginLeft="145dp"
-                android:layout_marginRight="144dp"
-                android:layout_marginStart="145dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:clickable="false"
                 android:soundEffectsEnabled="false"
                 app:direction="clockwise"
                 app:enableProgressAnimation="true"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toolbar"
+                app:layout_constraintVertical_bias="0.0"
                 app:progressBackgroundColor="@color/colorProgression"
                 app:progressColor="@color/colorProgression2"
                 app:progressStrokeWidth="5dp"
                 app:textColor="@android:color/transparent"
                 app:textSize="24sp"
                 tools:layout_alignParentBottom="true" />
-            <!-- todo change where the text is and remove the transparency-->
-
 
             <ImageView
                 android:id="@+id/pic_imageview"
-                android:layout_width="115dp"
-                android:layout_height="115dp"
-                android:layout_alignBottom="@+id/level_progress"
-                android:layout_alignEnd="@+id/level_progress"
-                android:layout_alignLeft="@+id/level_progress"
-                android:layout_alignRight="@+id/level_progress"
-                android:layout_alignStart="@+id/level_progress"
-                android:layout_alignTop="@+id/level_progress"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="@string/user_photo"
                 android:scaleType="centerCrop"
-                android:src="@drawable/user_init_pic" />
+                android:src="@drawable/user_init_pic"
+                app:layout_constraintBottom_toBottomOf="@+id/level_progress"
+                app:layout_constraintEnd_toEndOf="@+id/pic_btn"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/pic_btn"
+                app:layout_constraintTop_toTopOf="@+id/pic_btn"
+                app:layout_constraintVertical_bias="1.0" />
 
             <ImageButton
                 android:id="@+id/pic_btn"
-                android:layout_width="115dp"
-                android:layout_height="115dp"
-                android:layout_alignBottom="@+id/pic_imageview"
-                android:layout_alignEnd="@+id/pic_imageview"
-                android:layout_alignLeft="@+id/pic_imageview"
-                android:layout_alignRight="@+id/pic_imageview"
-                android:layout_alignStart="@+id/pic_imageview"
-                android:layout_alignTop="@+id/pic_imageview"
-                android:layout_alignWithParentIfMissing="false"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/user_photo_btn" />
+                android:contentDescription="@string/user_photo_btn"
+                app:layout_constraintBottom_toBottomOf="@+id/level_progress"
+                app:layout_constraintEnd_toEndOf="@+id/level_progress"
+                app:layout_constraintStart_toStartOf="@+id/level_progress"
+                app:layout_constraintTop_toTopOf="@+id/toolbar"
+                app:layout_constraintVertical_bias="0.3" />
 
             <ImageButton
                 android:id="@+id/pic_btn2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/level_progress"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/level_progress"
-                android:layout_marginBottom="-4dp"
-                android:layout_marginEnd="133dp"
-                android:layout_marginRight="133dp"
-                android:layout_marginTop="102dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/user_photo_btn"
+                app:layout_constraintBottom_toBottomOf="@+id/view_username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/pic_btn"
+                app:layout_constraintTop_toTopOf="@+id/pic_btn"
+                app:layout_constraintVertical_bias="0.733"
                 app:srcCompat="@drawable/ic_mode_edit_not_clicked_24dp" />
 
             <TextView
                 android:id="@+id/view_username"
                 android:layout_width="183dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="32dp"
-                android:layout_marginEnd="113dp"
-                android:layout_marginLeft="115dp"
-                android:layout_marginRight="113dp"
-                android:layout_marginStart="115dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/username"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.518"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintTop_toBottomOf="@+id/pic_imageview"
+                app:layout_constraintVertical_bias="0.0" />
 
-        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/levelText"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/level_x"
+                android:textColor="@color/colorProgression"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                app:layout_constraintHorizontal_bias="0.25"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/currText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/money"
+                android:textAlignment="center"
+                android:textColor="@color/colorProgression"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/levelText"
+                app:layout_constraintTop_toBottomOf="@+id/levelText"
+                app:layout_constraintVertical_bias="0.17000002" />
+
+        </android.support.constraint.ConstraintLayout>
 
 
-        <!--CENTER OF THE SCREEN-->
-        <RelativeLayout
+        <!--MIDDLE SPACE-->
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottomBar"
@@ -162,46 +171,54 @@
                 android:id="@+id/xpButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="151dp"
+                android:layout_marginStart="8dp"
                 android:onClick="addExpPlayer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="add XP" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/questionButton"
+                app:layout_constraintVertical_bias="0.0"
+                android:text="@string/add_xp" />
 
             <Button
                 android:id="@+id/questionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:onClick="questionAddTest"
                 android:text="@string/add_question_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:onClick="onLoginButtonClick"
-                android:text="@string/login" />
+                android:text="@string/login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
         <!--BOTTOM NAV BAR-->
-        <RelativeLayout
-            android:id="@+id/bottomBar"
+
+        <android.support.constraint.ConstraintLayout
+
+        android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true">
@@ -213,24 +230,15 @@
                 android:background="@drawable/white_grey_border_top"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/navigation"> <!--display both icons and text labels when there are more than 3 items.-->
-
-
             </android.support.design.widget.BottomNavigationView>
-        </RelativeLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/levelText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/currText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="24sp" />
+    <!--OVERLAPPING THINGS-->
 
-</android.support.design.widget.CoordinatorLayout>
+
+
+</android.support.constraint.ConstraintLayout>
