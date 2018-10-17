@@ -7,18 +7,18 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,18 +41,16 @@ import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public class MainActivity extends Navigation {
-    CircularProgressIndicator levelProgress;
-    private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
-
-    //Text that will be displayed in the levelProgress layout
-
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
-            return (progress*100+"% of level ").concat(String.valueOf(Player.get().getLevel()));
+            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel()));
         }
     };
+    private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
+    //Text that will be displayed in the levelProgress layout
+    CircularProgressIndicator levelProgress;
     private ImageButton pic_button;
     private ImageButton pic_button2;
     private ImageView image_view;
@@ -62,7 +60,7 @@ public class MainActivity extends Navigation {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
-        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
     }
 
@@ -90,10 +88,10 @@ public class MainActivity extends Navigation {
             Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
             Log.d("GPS_MAP", "Mock location set");
         }
-        JobScheduler scheduler = (JobScheduler)getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
         scheduler.schedule(jobInfo);
-        for(JobInfo job : scheduler.getAllPendingJobs()){
+        for (JobInfo job : scheduler.getAllPendingJobs()) {
             Log.d("GPS_MAP", job.toString());
         }
 
@@ -147,8 +145,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
 
     }
 
@@ -160,8 +158,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
 
     // Display the toolbar
@@ -176,7 +174,7 @@ public class MainActivity extends Navigation {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch(requestCode) {
+        switch (requestCode) {
             case MY_PERMISSION_REQUEST_FINE_LOCATION:
 
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -218,6 +216,7 @@ public class MainActivity extends Navigation {
         authIntent.setData(Uri.parse(authURL));
         startActivity(authIntent);
     }
+
     /**
      * Function that is called when adding xp with the button
      *
@@ -233,8 +232,8 @@ public class MainActivity extends Navigation {
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 
-        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
+        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
 }
 

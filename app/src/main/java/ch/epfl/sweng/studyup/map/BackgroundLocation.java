@@ -16,10 +16,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public class BackgroundLocation extends JobService {
-    private final Context context;
     public static int BACKGROUND_LOCATION_ID = 0;
+    private final Context context;
 
-    public BackgroundLocation(){
+    public BackgroundLocation() {
         Log.d("GPS_MAP", "Created background location, default constructor");
         this.context = Utils.mainContext;
     }
@@ -37,19 +37,18 @@ public class BackgroundLocation extends JobService {
     }
 
 
-
     private class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
 
-        public GetLocation(JobService jobService, JobParameters jobParameters){
+        public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = jobService;
             this.jobParameters = jobParameters;
         }
 
         @Override
         protected JobParameters doInBackground(Void[] voids) {
-            if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
                 Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -64,7 +63,7 @@ public class BackgroundLocation extends JobService {
                         }
                     }
                 });
-            }else{
+            } else {
                 Log.d("GPS_MAP", "No permission");
             }
 

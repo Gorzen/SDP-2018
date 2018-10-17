@@ -3,9 +3,27 @@ package ch.epfl.sweng.studyup.player;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 public class Player {
+    public final static int XP_TO_LEVEL_UP = 100;
+    public final static int CURRENCY_PER_LEVEL = 10;
+    public static final int XP_STEP = 10;
+    public static final int INITIAL_XP = 0;
+    public static final int INITIAL_CURRENCY = 0;
+    public static final int INITIAL_LEVEL = 1;
+    public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_FIRSTNAME = "Jean-Louis";
+    public static final String INITIAL_LASTNAME = "Reymond";
+    private static final String TAG = Player.class.getSimpleName();
     private static Player instance = null;
     private int experience;
     private int level;
@@ -17,21 +35,11 @@ public class Player {
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
-    public final static int XP_TO_LEVEL_UP = 100;
-    public final static int CURRENCY_PER_LEVEL = 10;
-    public static final int XP_STEP = 10;
-    public static final int INITIAL_XP = 0;
-    public static final int INITIAL_CURRENCY = 0;
-    public static final int INITIAL_LEVEL = 1;
-    public static final int INITIAL_SCIPER = MIN_SCIPER;
-    public static final String INITIAL_FIRSTNAME = "Jean-Louis";
-    public static final String INITIAL_LASTNAME = "Reymond";
-    private static final String TAG = Player.class.getSimpleName();
 
     /**
      * Constructor called before someone is login.
      */
-    private Player(){
+    private Player() {
         experience = INITIAL_XP;
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
@@ -40,8 +48,8 @@ public class Player {
         lastName = INITIAL_LASTNAME;
     }
 
-    public static Player get(){
-        if(instance == null){
+    public static Player get() {
+        if (instance == null) {
             instance = new Player();
         }
         return instance;
@@ -55,7 +63,9 @@ public class Player {
         return level;
     }
 
-    public int getCurrency() { return currency; }
+    public int getCurrency() {
+        return currency;
+    }
 
     /**
      * Method suppose that we can only gain experience
@@ -63,7 +73,7 @@ public class Player {
     private void updateLevel() {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
-        if(newLevel - level > 0){
+        if (newLevel - level > 0) {
             currency += (newLevel - level) * CURRENCY_PER_LEVEL;
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
@@ -73,14 +83,14 @@ public class Player {
         }
     }
 
-    public void addCurrency(int curr){
+    public void addCurrency(int curr) {
         currency += curr;
         putUserData(FB_CURRENCY, currency);
         Firestore.get().setUserData(FB_CURRENCY, currency);
 
     }
 
-    public void addExperience(int xp){
+    public void addExperience(int xp) {
         experience += xp;
         putUserData(FB_XP, experience);
         Firestore.get().setUserData(FB_XP, experience);
@@ -88,12 +98,12 @@ public class Player {
         updateLevel();
     }
 
-    public double getLevelProgress(){
+    public double getLevelProgress() {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
 
     //Changes the Player to the basic state, right after constructor
-    public void reset(){
+    public void reset() {
         instance = new Player();
         instance.setSciper(INITIAL_SCIPER);
         instance.setFirstName(FB_FIRSTNAME);
@@ -120,10 +130,18 @@ public class Player {
         updateLevel();
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
 
         putUserData(FB_FIRSTNAME, firstName);
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
@@ -132,24 +150,16 @@ public class Player {
         putUserData(FB_LASTNAME, lastName);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public int getSciper() {
+        //to remove later
+        if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
+            return INITIAL_SCIPER;
+        }
+        return sciper;
     }
 
     public void setSciper(int sciper) {
         this.sciper = sciper;
         putUserData(FB_SCIPER, sciper);
-    }
-
-    public int getSciper() {
-        //to remove later
-        if(sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
-            return INITIAL_SCIPER;
-        }
-        return sciper;
     }
 }

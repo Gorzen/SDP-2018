@@ -7,8 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import ch.epfl.sweng.studyup.map.Navigation;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.Navigation;
 
 public class ChatActivity extends Navigation {
 
@@ -40,12 +40,12 @@ public class ChatActivity extends Navigation {
     //Corresponding activities are not created yet
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.top_navigation_settings) {
+        if (item.getItemId() == R.id.top_navigation_settings) {
             Toast.makeText(ChatActivity.this,
                     "You have clicked on Settings :)",
                     Toast.LENGTH_SHORT).show();
         }
-        if(item.getItemId()==R.id.top_navigation_infos) {
+        if (item.getItemId() == R.id.top_navigation_infos) {
             Toast.makeText(ChatActivity.this,
                     "You have clicked on Infos :)",
                     Toast.LENGTH_SHORT).show();

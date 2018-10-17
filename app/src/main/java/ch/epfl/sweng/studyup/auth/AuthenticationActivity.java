@@ -28,11 +28,11 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (token != null) {
             String greeting = Authenticator.getGreeting(token);
-                if (greeting != null) {
-                    TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
-                    profileDataDisplay.setText(greeting);
-                    return;
-                }
+            if (greeting != null) {
+                TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
+                profileDataDisplay.setText(greeting);
+                return;
+            }
         }
         reportAuthError();
     }
@@ -53,13 +53,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         try {
             code = authCodeURI.getQueryParameter("code");
             error = authCodeURI.getQueryParameter("error");
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             Log.i(TAG, "Problem extracting data from Intent's Uri.");
         }
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
-        }
-        else {
+        } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);
         }

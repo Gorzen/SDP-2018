@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (latLong != null) {
             Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
-                if(location != null){
+                if (location != null) {
                     location.remove();
                 }
                 location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
@@ -116,9 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public LatLng getMarkerPos() {
         //Test fail sur travis car null pointer exception surement car la map est null et donc loation n'a pas été update
-        if(location != null) {
+        if (location != null) {
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
-        }else{
+        } else {
             return null;
         }
     }

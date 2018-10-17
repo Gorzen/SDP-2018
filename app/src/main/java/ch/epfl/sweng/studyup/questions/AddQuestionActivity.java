@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -105,10 +105,10 @@ public class AddQuestionActivity extends AppCompatActivity {
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();
             list.add(q);
-            if (!QuestionParser.writeQuestions(list, this.getApplicationContext(), false)){
+            if (!QuestionParser.writeQuestions(list, this.getApplicationContext(), false)) {
                 Log.e(TAG, "Error while writing the file");
                 Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
                 Intent goToMain = new Intent(this, MainActivity.class);
                 startActivity(goToMain);

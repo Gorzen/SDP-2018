@@ -10,11 +10,11 @@ import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
@@ -30,20 +30,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-import ch.epfl.sweng.studyup.map.Navigation;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.Navigation;
 
 public class CustomActivity extends Navigation {
 
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
+    private static final String IMAGE_DIRECTORY = "/studyup_photos";
+    private static final int GALLERY = 0, CAMERA = 1;
     private ImageView imageview;
     private ImageButton pic_button;
     private ImageButton valid_button;
     private EditText edit_username;
-    private static final String IMAGE_DIRECTORY = "/studyup_photos";
-    private static final int GALLERY = 0, CAMERA = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,30 +78,32 @@ public class CustomActivity extends Navigation {
     }
 
 
-    private void selectImage(){
+    private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle("Add an image");
         final String[] items = {"Gallery", "Camera", "Cancel"};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == GALLERY) {
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, GALLERY);
-                        }
-                        else if (which == CAMERA) {
-                            if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                                openCamera();
-                            } else {
-                                //we are here if we dont already have permission to invoke the camera, although we have the permission in the manifest
-                                //we now have to override the method invoked for permissions: onRequestPermissionsResult()
-                                String[] permissionRequest = {Manifest.permission.CAMERA};
-                                requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
-                            }
-                        } else { dialog.dismiss(); }
-                    }});
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == GALLERY) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, GALLERY);
+                } else if (which == CAMERA) {
+                    if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        openCamera();
+                    } else {
+                        //we are here if we dont already have permission to invoke the camera, although we have the permission in the manifest
+                        //we now have to override the method invoked for permissions: onRequestPermissionsResult()
+                        String[] permissionRequest = {Manifest.permission.CAMERA};
+                        requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
+                    }
+                } else {
+                    dialog.dismiss();
+                }
+            }
+        });
         dialogBuilder.show();
     }
 
@@ -114,16 +115,14 @@ public class CustomActivity extends Navigation {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Can't take photos without permission.", Toast.LENGTH_LONG).show();
             }
         }
     }
-
 
 
     @Override
@@ -146,7 +145,8 @@ public class CustomActivity extends Navigation {
             }
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            saveAndSetImage(bitmap);       }
+            saveAndSetImage(bitmap);
+        }
     }
 
     //Not sure about the name-consistency of this function

@@ -31,11 +31,12 @@ public abstract class QuestionParser {
 
     /**
      * Retrieve the list of questions from the data file
-     * @param c The context of the app (to get the FilesDir)
+     *
+     * @param c                 The context of the app (to get the FilesDir)
      * @param checkIfFileExists Throw an IllegalArgumentException if the image in the file doesn't exist.
      * @return The list of questions or null if the file has not the correct format
      */
-    public static List<Question> parseQuestions(Context c, boolean checkIfFileExists){
+    public static List<Question> parseQuestions(Context c, boolean checkIfFileExists) {
         ArrayList<Question> list = new ArrayList<>();
         try {
             FileInputStream inputStream = c.openFileInput(fileName);
@@ -72,9 +73,9 @@ public abstract class QuestionParser {
 
                 list.add(new Question(imageUri, trueFalse, answerNumber));
             }
-        }catch(IOException e) {
+        } catch (IOException e) {
             Log.e(TAG, "IOException: \n");
-            for(StackTraceElement elem: e.getStackTrace()) {
+            for (StackTraceElement elem : e.getStackTrace()) {
                 System.err.println("-File:" + elem.getClassName() + " -Method:L" + elem.getMethodName() + " -Line:" + elem.getLineNumber());
             }
             return null;
@@ -84,6 +85,7 @@ public abstract class QuestionParser {
 
     /**
      * Retrieve the list of questions from the data file
+     *
      * @param c The context of the app (to get the FilesDir)
      * @return The list of questions or null if the file has not the correct format
      * @throws FileNotFoundException if the file does not exist
@@ -95,16 +97,17 @@ public abstract class QuestionParser {
 
     /**
      * Write the list of questions on the disk to save them.
-     * @param list The list of questions
-     * @param c The context of the app (to the FilesDir)
+     *
+     * @param list    The list of questions
+     * @param c       The context of the app (to the FilesDir)
      * @param replace Overwrites the file if true
-     * @return  if the write has succeeded or not
+     * @return if the write has succeeded or not
      */
     public static boolean writeQuestions(List<Question> list, Context c, boolean replace) {
-        try{
+        try {
             File file = new File(c.getFilesDir(), fileName);
             //The createNewFile() method return true and create the file if and only if the file doesn't yet exists
-            if(replace && !file.createNewFile()) {
+            if (replace && !file.createNewFile()) {
                 if (!file.delete()) return false;
                 if (!file.createNewFile()) {
                     Log.e(TAG, "Unable to create the file.");
@@ -113,15 +116,15 @@ public abstract class QuestionParser {
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             for (Question q : list) {
-                    String text = q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer() + "\n";
-                    writer.write(text);
+                String text = q.getQuestionUri().toString() + "\n" + q.isTrueFalseQuestion() + "\n" + q.getAnswer() + "\n";
+                writer.write(text);
             }
             writer.close();
 
-        } catch(IOException e){
+        } catch (IOException e) {
             Log.e(TAG, "IOException while writing the file\n" + e.getMessage());
             return false;
-        } catch(SecurityException e) {
+        } catch (SecurityException e) {
             Log.e(TAG, "SecurityException while writing the file\n" + e.getMessage());
             return false;
         }

@@ -16,9 +16,8 @@ import static ch.epfl.sweng.studyup.utils.Utils.idToAct;
 
 public class Navigation extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
+    public final static int DEFAULT_INDEX = 0, QUESTS_INDEX = 1, RANKINGS_INDEX = 2, MAP_INDEX = 3, CHAT_INDEX = 4;
     public TextView view_username; //todo make it private in MainActivity when linking with firebase
-
-    public final static int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, CHAT_INDEX=4;
 
     public void navigationSwitcher(final Context cn, final Class<?> c, final int current_index) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
@@ -34,7 +33,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
                 try {
                     Class activity = idToAct.get(item.getItemId());
 
-                    if(!this.getClass().getName().equals(activity.getName())) {
+                    if (!this.getClass().getName().equals(activity.getName())) {
                         Intent intent_m = new Intent(cn, activity);
                         startActivity(intent_m);
                         //overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
@@ -49,10 +48,9 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
     }
 
     public void transitionForNavigation(int current_index, int destination_index) {
-        if(destination_index>current_index) {
+        if (destination_index > current_index) {
             overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
-        }
-        else if(destination_index<current_index) {
+        } else if (destination_index < current_index) {
             overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
         }
     }

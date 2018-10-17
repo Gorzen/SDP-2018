@@ -13,25 +13,6 @@ import ch.epfl.sweng.studyup.player.Player;
 
 public class Authenticator {
 
-    private static final class JSONTokenContainer {
-        @SerializedName("error")
-        public String error;
-
-        @SerializedName("access_token")
-        public String token;
-    }
-
-    private static final class JSONProfileContainer {
-        @SerializedName("error")
-        public String error;
-
-        @SerializedName("Firstname")
-        public String firstName;
-
-        @SerializedName("Sciper")
-        public String sciperNo;
-    }
-
     public static String getResponse(String requestURL) {
 
         try {
@@ -40,8 +21,7 @@ public class Authenticator {
             String response = new Scanner(stream).useDelimiter("\\A").next();
 
             return response;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -87,8 +67,7 @@ public class Authenticator {
             try {
                 token = URLEncoder.encode(token, "UTF-8");
                 return token;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -103,5 +82,24 @@ public class Authenticator {
         String response = getResponse(requestURL);
 
         return getTokenFromResponse(response);
+    }
+
+    private static final class JSONTokenContainer {
+        @SerializedName("error")
+        public String error;
+
+        @SerializedName("access_token")
+        public String token;
+    }
+
+    private static final class JSONProfileContainer {
+        @SerializedName("error")
+        public String error;
+
+        @SerializedName("Firstname")
+        public String firstName;
+
+        @SerializedName("Sciper")
+        public String sciperNo;
     }
 }
