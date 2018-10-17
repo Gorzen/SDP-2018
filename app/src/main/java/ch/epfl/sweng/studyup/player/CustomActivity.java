@@ -33,9 +33,12 @@ import java.util.Calendar;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.Navigation;
 
+/**
+ * CustomActivity
+ *
+ * Code used in the activity_custom to personnalize a Player.
+ */
 public class CustomActivity extends Navigation {
-
-
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
     private static final String IMAGE_DIRECTORY = "/studyup_photos";
     private static final int GALLERY = 0, CAMERA = 1;
@@ -57,7 +60,8 @@ public class CustomActivity extends Navigation {
 
         view_username = findViewById(R.id.view_username);//todo
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
+        // TODO: Change with the user pic
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
         imageview.setImageDrawable(rbd);
@@ -77,7 +81,6 @@ public class CustomActivity extends Navigation {
 
     }
 
-
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle("Add an image");
@@ -88,14 +91,18 @@ public class CustomActivity extends Navigation {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == GALLERY) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, GALLERY);
                 } else if (which == CAMERA) {
-                    if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    if (checkSelfPermission(Manifest.permission.CAMERA)
+                            == PackageManager.PERMISSION_GRANTED) {
                         openCamera();
                     } else {
-                        //we are here if we dont already have permission to invoke the camera, although we have the permission in the manifest
-                        //we now have to override the method invoked for permissions: onRequestPermissionsResult()
+                        // We are here if we dont already have permission to invoke the camera,
+                        // although we have the permission in the manifest
+                        // We now have to override the method invoked for permissions:
+                        // onRequestPermissionsResult()
                         String[] permissionRequest = {Manifest.permission.CAMERA};
                         requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE);
                     }
@@ -113,13 +120,15 @@ public class CustomActivity extends Navigation {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(this, "Can't take photos without permission.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Can't take photos without permission.",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

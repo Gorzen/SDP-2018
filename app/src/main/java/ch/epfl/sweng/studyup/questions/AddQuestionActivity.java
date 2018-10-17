@@ -45,7 +45,8 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);        //TODO not compatible with API < 19 (our minAPI is 15)
+        // TODO: Not compatible with API < 19 (our minAPI is 15)
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
         // Filter to only show results that can be "opened"
         intent.addCategory(Intent.CATEGORY_OPENABLE);

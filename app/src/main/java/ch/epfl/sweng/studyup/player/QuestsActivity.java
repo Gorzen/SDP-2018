@@ -10,6 +10,11 @@ import android.widget.Toast;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.Navigation;
 
+/**
+ * QuestsActivity
+ *
+ * Quests.
+ */
 public class QuestsActivity extends Navigation {
 
     @Override
@@ -21,12 +26,10 @@ public class QuestsActivity extends Navigation {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-
         navigationSwitcher(QuestsActivity.this, QuestsActivity.class, QUESTS_INDEX);
     }
 
-
-    //Display the toolbar
+    // Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater i = getMenuInflater();
@@ -34,9 +37,8 @@ public class QuestsActivity extends Navigation {
         return true;
     }
 
-
-    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    //Corresponding activities are not created yet
+    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    // Corresponding activities are not created yet
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
