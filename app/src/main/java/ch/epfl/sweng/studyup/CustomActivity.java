@@ -47,14 +47,14 @@ public class CustomActivity extends Navigation {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
-        navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX);
+        navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX);
 
         pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
 
-        view_username = findViewById(R.id.view_username);//todo
+        final TextView view_username = findViewById(R.id.view_username);//todo
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);

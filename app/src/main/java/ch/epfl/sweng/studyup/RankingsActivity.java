@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 public class RankingsActivity extends Navigation {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +19,7 @@ public class RankingsActivity extends Navigation {
         getSupportActionBar().setTitle(null);
 
 
-        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
+        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, Utils.RANKINGS_INDEX);
     }
 
     //Display the toolbar

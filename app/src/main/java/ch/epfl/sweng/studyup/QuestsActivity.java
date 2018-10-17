@@ -19,7 +19,7 @@ public class QuestsActivity extends Navigation {
         getSupportActionBar().setTitle(null);
 
 
-        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, QUESTS_INDEX);
+        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
     }
 
 

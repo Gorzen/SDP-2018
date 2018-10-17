@@ -19,8 +19,7 @@ public class ChatActivity extends Navigation {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-
-        navigationSwitcher(ChatActivity.this, ChatActivity.class, CHAT_INDEX);
+        navigationSwitcher(ChatActivity.this, ChatActivity.class, Utils.MAX_INDEX);
     }
 
 
