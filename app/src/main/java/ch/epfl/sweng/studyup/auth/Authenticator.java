@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
+
+import ch.epfl.sweng.studyup.player.Player;
 
 public class Authenticator {
 

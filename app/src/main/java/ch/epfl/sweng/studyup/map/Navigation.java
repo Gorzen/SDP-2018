@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.map;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import static ch.epfl.sweng.studyup.Utils.idToAct;
+import ch.epfl.sweng.studyup.R;
+
+import static ch.epfl.sweng.studyup.utils.Utils.idToAct;
 
 public class Navigation extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 

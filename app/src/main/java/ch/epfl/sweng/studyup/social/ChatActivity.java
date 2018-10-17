@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.social;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import ch.epfl.sweng.studyup.map.Navigation;
+import ch.epfl.sweng.studyup.R;
 
 public class ChatActivity extends Navigation {
 

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.app.job.JobParameters;
@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import ch.epfl.sweng.studyup.utils.Utils;
 
 public class BackgroundLocation extends JobService {
     private final Context context;

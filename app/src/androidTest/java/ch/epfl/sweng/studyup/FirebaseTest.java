@@ -1,15 +1,7 @@
 package ch.epfl.sweng.studyup;
 
-import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,26 +12,28 @@ import org.junit.runner.RunWith;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ch.epfl.sweng.studyup.Player.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.Player.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.Player.INITIAL_LASTNAME;
-import static ch.epfl.sweng.studyup.Player.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.Player.INITIAL_XP;
-import static ch.epfl.sweng.studyup.Player.XP_STEP;
-import static ch.epfl.sweng.studyup.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.FB_SECTION;
-import static ch.epfl.sweng.studyup.Utils.FB_TOKEN;
-import static ch.epfl.sweng.studyup.Utils.FB_USERS;
-import static ch.epfl.sweng.studyup.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.Utils.FB_YEAR;
-import static ch.epfl.sweng.studyup.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.waitAndTag;
-import static ch.epfl.sweng.studyup.Utils.dbStaticInfo;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
+
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_XP;
+import static ch.epfl.sweng.studyup.player.Player.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SECTION;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_TOKEN;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_YEAR;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static ch.epfl.sweng.studyup.utils.Utils.dbStaticInfo;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -75,7 +69,7 @@ public class FirebaseTest {
     }
 
     /**
-     * Initialisation of Firebase data
+     * Initialisation of Firestore data
      */
     @Before
     public void setup() {
@@ -94,7 +88,7 @@ public class FirebaseTest {
     public void cleanup() {
         resetData();
 
-        Firebase.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().reset();
@@ -102,37 +96,37 @@ public class FirebaseTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooLowTest() {
-        Firebase.get().getAndSetUserData(Utils.MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(Utils.MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
-        Firebase.get().getAndSetUserData(Utils.MAX_SCIPER+1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(Utils.MAX_SCIPER+1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperNegativeTest() {
-        Firebase.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
 
     /*
     @Test(expected = NullPointerException.class)
     public void documentOnDBButEmptyTest() {
-        Firebase.get().getAndSetUserData(MIN_SCIPER+1, "testFirstName", "testLastName");
+        Firestore.get().getAndSetUserData(MIN_SCIPER+1, "testFirstName", "testLastName");
         waitAndTag(500, TAG);
     }*/
 
     @Test
     public void deleteUserTest() {
-        Firebase.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().addExperience(XP_STEP);
-        Firebase.get().deleteUserFromDatabase(MAX_SCIPER);
+        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firebase.getData(MAX_SCIPER);
+        Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         resetData();
@@ -143,11 +137,11 @@ public class FirebaseTest {
 
     @Test
     public void addNewUserToDBTest() {
-        Firebase.get().deleteUserFromDatabase(MAX_SCIPER);
-        Firebase.get().getAndSetUserData( MAX_SCIPER, "John", "Doe");
+        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
+        Firestore.get().getAndSetUserData( MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Firebase.getData(MAX_SCIPER);
+        Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         assertEquals("John", Player.get().getFirstName());
@@ -156,9 +150,9 @@ public class FirebaseTest {
 
     @Test
     public void setInfosTest() {
-        Firebase.get().setUserInfos(sciper, dummy);
+        Firestore.get().setUserInfos(sciper, dummy);
 
-        Firebase.getData(sciper);
+        Firestore.getData(sciper);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         for(Map.Entry<String, Object> entry : dummy.entrySet()) {
@@ -171,8 +165,8 @@ public class FirebaseTest {
     public void
     resetUser() {
         Player.get().setSciper(sciper);
-        Firebase.get().setUserData(FB_XP, INITIAL_XP+1);
-        Firebase.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().setUserData(FB_XP, INITIAL_XP+1);
+        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
         dummy.put(FB_SCIPER, sciper);
         dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
@@ -182,7 +176,7 @@ public class FirebaseTest {
         dummy.put(FB_XP, INITIAL_XP);
         dummy.put(FB_TOKEN, null);
 
-        Firebase.getData(sciper);
+        Firestore.getData(sciper);
 
         for(Map.Entry<String, Object> entry : dummy.entrySet()) {
             assert(dbStaticInfo.get(entry.getKey()) == entry.getValue());
@@ -219,19 +213,19 @@ public class FirebaseTest {
         final int testSciper1 = sciper;
         final String testFirstName1 = INITIAL_FIRSTNAME;
         final String testLastName1 = INITIAL_LASTNAME;
-        Firebase.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
+        Firestore.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
+        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
         Player.get().addExperience(numberLevelToUpgrade*Player.XP_TO_LEVEL_UP + Player.XP_TO_LEVEL_UP/2);
 
         //To over-write the local state
-        Firebase.get().getAndSetUserData(testSciper1+1, testFirstName1+"1", testLastName1+"1");
+        Firestore.get().getAndSetUserData(testSciper1+1, testFirstName1+"1", testLastName1+"1");
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Firebase.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
+        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 

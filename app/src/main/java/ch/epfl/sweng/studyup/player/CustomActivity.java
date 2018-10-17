@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -22,7 +22,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -30,6 +29,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+
+import ch.epfl.sweng.studyup.map.Navigation;
+import ch.epfl.sweng.studyup.R;
 
 public class CustomActivity extends Navigation {
 

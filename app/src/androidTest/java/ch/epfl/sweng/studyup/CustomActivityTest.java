@@ -9,7 +9,10 @@ import android.support.test.uiautomator.UiSelector;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;

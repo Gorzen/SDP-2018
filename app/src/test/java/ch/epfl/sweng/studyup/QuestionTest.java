@@ -10,7 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 import static org.junit.Assert.*;
 import java.io.File;
 
-import ch.epfl.sweng.studyup.question.Question;
+import ch.epfl.sweng.studyup.questions.Question;
 
 @RunWith(RobolectricTestRunner.class)
 public class QuestionTest {

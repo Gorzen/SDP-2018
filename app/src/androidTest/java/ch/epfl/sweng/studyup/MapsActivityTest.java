@@ -1,9 +1,7 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
@@ -12,6 +10,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
 

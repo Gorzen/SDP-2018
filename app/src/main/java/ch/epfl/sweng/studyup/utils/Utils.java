@@ -1,6 +1,5 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.utils;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
@@ -10,17 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static ch.epfl.sweng.studyup.Firebase.userData;
+import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 import android.content.Context;
 import android.location.Location;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivity;
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.social.RankingsActivity;
+
 
 public class Utils {
 
-    //Firebase entries
+    //Firestore entries
     public static final String FB_USERS = "users";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
@@ -65,7 +71,7 @@ public class Utils {
     }
 
     /**
-     * Put the given information in Firebase.userData
+     * Put the given information in Firestore.userData
      */
     public static void putUserData(String key, Object value) {
         if(userData == null) {

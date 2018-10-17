@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -19,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private Marker location;

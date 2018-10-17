@@ -1,7 +1,9 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.player;
 
-import static ch.epfl.sweng.studyup.Firebase.userData;
-import static ch.epfl.sweng.studyup.Utils.*;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+
+import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
 
 public class Player {
     private static Player instance = null;
@@ -65,8 +67,8 @@ public class Player {
             currency += (newLevel - level) * CURRENCY_PER_LEVEL;
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
-            Firebase.get().setUserData(FB_CURRENCY, currency);
-            Firebase.get().setUserData(FB_LEVEL, newLevel);
+            Firestore.get().setUserData(FB_CURRENCY, currency);
+            Firestore.get().setUserData(FB_LEVEL, newLevel);
             level = newLevel;
         }
     }
@@ -74,14 +76,14 @@ public class Player {
     public void addCurrency(int curr){
         currency += curr;
         putUserData(FB_CURRENCY, currency);
-        Firebase.get().setUserData(FB_CURRENCY, currency);
+        Firestore.get().setUserData(FB_CURRENCY, currency);
 
     }
 
     public void addExperience(int xp){
         experience += xp;
         putUserData(FB_XP, experience);
-        Firebase.get().setUserData(FB_XP, experience);
+        Firestore.get().setUserData(FB_XP, experience);
 
         updateLevel();
     }
@@ -102,7 +104,7 @@ public class Player {
     }
 
     /**
-     * Method used to save the state contained in the userData attribute of the class Firebase in
+     * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      * (currently only saving experience, currency, names and sciper)
      */

@@ -1,9 +1,6 @@
-package ch.epfl.sweng.studyup.question;
+package ch.epfl.sweng.studyup.questions;
 
 import android.net.Uri;
-import android.widget.ImageView;
-
-import java.util.Objects;
 
 public class Question {
 

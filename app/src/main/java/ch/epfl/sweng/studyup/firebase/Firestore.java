@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.firebase;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,29 +14,32 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ch.epfl.sweng.studyup.Player.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.Player.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.Player.INITIAL_XP;
-import static ch.epfl.sweng.studyup.Utils.FB_ALL_ENTRIES;
-import static ch.epfl.sweng.studyup.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.FB_TOKEN;
-import static ch.epfl.sweng.studyup.Utils.FB_USERS;
-import static ch.epfl.sweng.studyup.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.putUserData;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
-public class Firebase {
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.player.Player.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ALL_ENTRIES;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_TOKEN;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
+
+public class Firestore {
     public static final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final String TAG = Firebase.class.getSimpleName();
+    private static final String TAG = Firestore.class.getSimpleName();
     public static Map<String, Object> userData = null;
-    private static Firebase instance = null;
+    private static Firestore instance = null;
 
-    private Firebase() {
+    private Firestore() {
         // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
@@ -44,9 +47,9 @@ public class Firebase {
         db.setFirestoreSettings(settings);
     }
 
-    public static Firebase get() {
+    public static Firestore get() {
         if (instance == null) {
-            instance = new Firebase();
+            instance = new Firestore();
         }
 
         return instance;

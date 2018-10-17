@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -23,9 +22,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.question.AddQuestionActivity;
-import ch.epfl.sweng.studyup.question.Question;
-import ch.epfl.sweng.studyup.question.QuestionParser;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
