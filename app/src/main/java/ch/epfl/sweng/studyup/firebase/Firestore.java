@@ -17,21 +17,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 
-import static ch.epfl.sweng.studyup.player.Player.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.player.Player.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.player.Player.INITIAL_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ALL_ENTRIES;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_TOKEN;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_USERS;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
 
 /**
  * Firestore
@@ -178,7 +164,7 @@ public class Firestore {
      * @param value The value.
      */
     public void setUserData(final String key, final Object value) {
-        if (Player.get().getSciper() == Player.INITIAL_SCIPER) {
+        if (Player.get().getSciper() == INITIAL_SCIPER) {
             return;
         }
 

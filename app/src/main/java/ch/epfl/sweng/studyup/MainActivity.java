@@ -40,6 +40,8 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+
 public class MainActivity extends Navigation {
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
@@ -224,7 +226,7 @@ public class MainActivity extends Navigation {
      */
 
     public void addExpPlayer(View view) {
-        Player.get().addExperience(Player.XP_STEP);
+        Player.get().addExperience(XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
