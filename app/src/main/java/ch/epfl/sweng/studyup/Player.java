@@ -120,11 +120,13 @@ public class Player {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+
+        putUserData(FB_FIRSTNAME, firstName);
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-        putUserData(FB_FIRSTNAME, firstName);
+
         putUserData(FB_LASTNAME, lastName);
     }
 
