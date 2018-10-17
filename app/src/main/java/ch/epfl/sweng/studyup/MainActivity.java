@@ -119,10 +119,8 @@ public class MainActivity extends Navigation {
             }
         });
 
-
         //username
         TextView view_username = findViewById(R.id.view_username);
-
 
         //toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
