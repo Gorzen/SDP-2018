@@ -14,10 +14,18 @@ import ch.epfl.sweng.studyup.R;
 
 import static ch.epfl.sweng.studyup.utils.Utils.idToAct;
 
-public class Navigation extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+/**
+ * Navigation
+ *
+ * Used to indicate objects on the map.
+ */
+public class Navigation extends AppCompatActivity implements ActivityCompat
+        .OnRequestPermissionsResultCallback {
 
-    public final static int DEFAULT_INDEX = 0, QUESTS_INDEX = 1, RANKINGS_INDEX = 2, MAP_INDEX = 3, CHAT_INDEX = 4;
-    public TextView view_username; //todo make it private in MainActivity when linking with firebase
+    public final static int DEFAULT_INDEX = 0, QUESTS_INDEX = 1, RANKINGS_INDEX = 2,
+            MAP_INDEX = 3, CHAT_INDEX = 4;
+    //TODO Make it private in MainActivity when linking with firebase
+    public TextView view_username;
 
     public void navigationSwitcher(final Context cn, final Class<?> c, final int current_index) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
@@ -25,7 +33,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
 
         MenuItem menuItem = menu.getItem(current_index);
 
-        menuItem.setChecked(true); //give color to the selected item
+        menuItem.setChecked(true); // Give color to the selected item
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -36,7 +44,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat.OnRe
                     if (!this.getClass().getName().equals(activity.getName())) {
                         Intent intent_m = new Intent(cn, activity);
                         startActivity(intent_m);
-                        //overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
+                        // OverridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
                         transitionForNavigation(current_index, DEFAULT_INDEX);
                     }
                     return true;

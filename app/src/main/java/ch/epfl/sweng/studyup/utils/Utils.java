@@ -15,17 +15,16 @@ import java.util.Set;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.map.MapActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivity;
 import ch.epfl.sweng.studyup.social.ChatActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
-
 public class Utils {
 
-    //Firestore entries
+    // Firestore entries
     public static final String FB_USERS = "users";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
@@ -45,10 +44,10 @@ public class Utils {
 
     /**
      * Constant of firebase (mostly testing purpose)
-     * <p>
+     *
      * Reserved sciper:
      * MIN_SCIPER, MAX_SCIPER, 123456: reserved to manipulate in tests
-     * MIN_SCIPER+1: user present in database but with empty document (not valid format)
+     * MIN_SCIPER + 1: user present in database but with empty document (not valid format)
      */
     public static final int MAX_SCIPER = 999999;
     public static final int MIN_SCIPER = 100000;
@@ -58,9 +57,9 @@ public class Utils {
     public static final String DENY = "DENY";
     public static final String CAMERA = "Camera";
     public static final String GALLERY = "Gallery";
-    //Map that links item id to activities
+    // Map that links item id to activities
     public static final Map<Integer, Class> idToAct;
-    //Better in resources?
+    // Better in resources?
     public static final String LEVEL_DISPLAY = "Level: \n";
     public static final String CURR_DISPLAY = "Money: \n";
     public static Map<String, Object> dbStaticInfo = null;
@@ -71,12 +70,23 @@ public class Utils {
     public static Boolean isMockEnabled = false;
     public static Location mockLoc;
 
+    // Basic Player stats
+    public static final int XP_TO_LEVEL_UP = 100;
+    public static final int CURRENCY_PER_LEVEL = 10;
+    public static final int XP_STEP = 10;
+    public static final int INITIAL_XP = 0;
+    public static final int INITIAL_CURRENCY = 0;
+    public static final int INITIAL_LEVEL = 1;
+    public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_FIRSTNAME = "Jean-Louis";
+    public static final String INITIAL_LASTNAME = "Reymond";
+
     static {
         Map<Integer, Class> tempMap = new HashMap<>();
         tempMap.put(R.id.navigation_home, MainActivity.class);
         tempMap.put(R.id.navigation_quests, QuestsActivity.class);
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
-        tempMap.put(R.id.navigation_map, MapsActivity.class);
+        tempMap.put(R.id.navigation_map, MapActivity.class);
         tempMap.put(R.id.navigation_chat, ChatActivity.class);
         idToAct = Collections.unmodifiableMap(tempMap);
     }
@@ -106,5 +116,4 @@ public class Utils {
 
         userData.put(key, value);
     }
-
 }

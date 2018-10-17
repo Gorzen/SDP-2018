@@ -13,6 +13,11 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 
+/**
+ * AuthenticationActivity
+ *
+ * Code used in the activity_authentication.
+ */
 public class AuthenticationActivity extends AppCompatActivity {
     private final String TAG = AuthenticationActivity.class.getSimpleName();
 

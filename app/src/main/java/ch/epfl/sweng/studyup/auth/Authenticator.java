@@ -11,8 +11,18 @@ import java.util.Scanner;
 
 import ch.epfl.sweng.studyup.player.Player;
 
+/**
+ * Authenticator
+ *
+ * Link between the application and the authentification server.
+ */
 public class Authenticator {
-
+    /**
+     * Extract a String JSON object from an URL.
+     *
+     * @param requestURL The given URL.
+     * @return The JSON object in String format.
+     */
     public static String getResponse(String requestURL) {
 
         try {
@@ -27,10 +37,17 @@ public class Authenticator {
         }
     }
 
+    /**
+     * Format the informations in a String JSON object into a readable form.
+     *
+     * @param response The JSON object in String format.
+     * @return The formatted informations.
+     */
     public static String getGreetingFromResponse(String response) {
 
         System.out.println(response);
-        JSONProfileContainer profileContainer = new Gson().fromJson(response, JSONProfileContainer.class);
+        JSONProfileContainer profileContainer = new Gson().fromJson(response,
+                JSONProfileContainer.class);
 
         if (profileContainer.error == null && profileContainer.sciperNo != null) {
 
@@ -53,12 +70,19 @@ public class Authenticator {
 
     public static String getGreeting(String token) {
 
-        String requestURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
+        String requestURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token="
+                + token;
         String response = getResponse(requestURL);
 
         return getGreetingFromResponse(response);
     }
 
+    /**
+     * Extract the token from a String JSON object.
+     *
+     * @param response JSON object.
+     * @return Token.
+     */
     public static String getTokenFromResponse(String response) {
         JSONTokenContainer tokenContainer = new Gson().fromJson(response, JSONTokenContainer.class);
 

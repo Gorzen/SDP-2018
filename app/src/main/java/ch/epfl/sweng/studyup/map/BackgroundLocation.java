@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import ch.epfl.sweng.studyup.utils.Utils;
 
+/**
+ * BackgroundLocation
+ * <p>
+ * Asynchronouly checks for the localisation in background.
+ */
 public class BackgroundLocation extends JobService {
     public static int BACKGROUND_LOCATION_ID = 0;
     private final Context context;
@@ -36,7 +41,6 @@ public class BackgroundLocation extends JobService {
         return false;
     }
 
-
     private class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
@@ -48,21 +52,28 @@ public class BackgroundLocation extends JobService {
 
         @Override
         protected JobParameters doInBackground(Void[] voids) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
-                Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
-                            Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
-                            Log.d("GPS_MAP", "Changed position of Main Activity " + location);
-                        } else {
-                            Log.d("GPS_MAP", "NEW POS: null");
-                        }
-                    }
-                });
+                Utils.locationProviderClient.getLastLocation()
+                        .addOnSuccessListener(new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    Log.d("GPS_MAP", "NEW POS: Latitude = "
+                                            + location.getLatitude() + "  Longitude: "
+                                            + location.getLongitude());
+                                    Utils.position = new LatLng(location.getLatitude(),
+                                            location.getLongitude());
+                                    Log.d("GPS_MAP", "Changed position of Main Activity "
+                                            + location);
+                                } else {
+                                    Log.d("GPS_MAP", "NEW POS: null");
+                                }
+                            }
+                        });
             } else {
                 Log.d("GPS_MAP", "No permission");
             }
@@ -75,7 +86,5 @@ public class BackgroundLocation extends JobService {
             super.onPostExecute(jobParameters);
             jobService.jobFinished(jobParameters, true);
         }
-
-
     }
 }

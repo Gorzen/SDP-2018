@@ -49,7 +49,7 @@ public class MainActivity extends Navigation {
     };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
-    //Text that will be displayed in the levelProgress layout
+    // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
     private ImageButton pic_button;
     private ImageButton pic_button2;
@@ -70,12 +70,12 @@ public class MainActivity extends Navigation {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //user picture
+        // User picture
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
 
         Log.d("GPS_MAP", "Started main");
-        //GPS Job scheduler
+        // GPS Job scheduler
         ActivityCompat.requestPermissions(
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -120,19 +120,19 @@ public class MainActivity extends Navigation {
             }
         });
 
-        //username
+        // Username
         view_username = findViewById(R.id.view_username);
 
 
-        //toolbar
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        //bottom navigation bar
+        // Bottom navigation bar
         navigationSwitcher(MainActivity.this, MainActivity.class, 0);
 
-        //level progression bar
+        // Level progression bar
         ActivityCompat.requestPermissions(
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -187,8 +187,8 @@ public class MainActivity extends Navigation {
         }
     }
 
-    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    //Corresponding activities are not created yet
+    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    // Corresponding activities are not created yet
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -228,7 +228,7 @@ public class MainActivity extends Navigation {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
-        //In the future -> listener
+        // In the future -> listener
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
 

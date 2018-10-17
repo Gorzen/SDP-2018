@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.map.MapActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
@@ -21,9 +21,9 @@ public class MapsActivityTest {
     private final double LAT = 35.323;
     private final double LONG = 56.43;
     private LatLng latlng;
-    private MapsActivity mActivity;
+    private MapActivity mActivity;
 
-    @Rule public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
+    @Rule public final ActivityTestRule<MapActivity> mActivityRule = new ActivityTestRule<>(MapActivity.class);
 
     @Before
     public void init() {
