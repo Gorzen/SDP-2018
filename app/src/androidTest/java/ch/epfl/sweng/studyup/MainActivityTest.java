@@ -5,9 +5,6 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import ch.epfl.sweng.studyup.question.AddQuestionActivity;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -68,7 +69,7 @@ public class MainActivityTest {
     @Test
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
-        Firebase.get().getAndSetUserData(Player.get().getSciper(),
+        Firestore.get().getAndSetUserData(Player.get().getSciper(),
                 Player.get().getFirstName(), Player.get().getLastName());
         try{Thread.sleep(500);} catch(InterruptedException e) {}
         final int numberOfPush = 5;

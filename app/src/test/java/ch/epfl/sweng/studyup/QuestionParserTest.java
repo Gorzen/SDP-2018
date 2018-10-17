@@ -11,15 +11,13 @@ import org.robolectric.RuntimeEnvironment;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.question.Question;
-import ch.epfl.sweng.studyup.question.QuestionParser;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;

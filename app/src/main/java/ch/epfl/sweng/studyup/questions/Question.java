@@ -1,9 +1,6 @@
-package ch.epfl.sweng.studyup.question;
+package ch.epfl.sweng.studyup.questions;
 
 import android.net.Uri;
-import android.widget.ImageView;
-
-import java.util.Objects;
 
 public class Question {
 
@@ -12,14 +9,16 @@ public class Question {
     private boolean trueFalse;
 
     private int answer;
+
     /**
      * Class for the question
-     * @param image The Uri of the image with the question to be displayed
-     * @param trueFalse If the question is a True/False question or not
+     *
+     * @param image        The Uri of the image with the question to be displayed
+     * @param trueFalse    If the question is a True/False question or not
      * @param answerNumber The number of the answer, starting at 0 (0 is the first answer)
      */
     public Question(Uri image, boolean trueFalse, int answerNumber) {
-        if (answerNumber < 0 || answerNumber > 3 || image == null){
+        if (answerNumber < 0 || answerNumber > 3 || image == null) {
             throw new IllegalArgumentException();
         }
         if (trueFalse && answerNumber > 1) {
@@ -43,19 +42,19 @@ public class Question {
     }
 
     @Override
-    public boolean equals(Object other){
-        if((other == null) || (getClass() != other.getClass())){
+    public boolean equals(Object other) {
+        if ((other == null) || (getClass() != other.getClass())) {
             return false;
-        }else{
-            Question o = (Question)other;
+        } else {
+            Question o = (Question) other;
             return o.getAnswer() == answer && o.trueFalse == trueFalse && o.question.equals(question);
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String s = "";
-        if(trueFalse)
+        if (trueFalse)
             s += "True/False question";
         else
             s += "MCQ question";
@@ -65,7 +64,7 @@ public class Question {
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return super.hashCode();
     }
 

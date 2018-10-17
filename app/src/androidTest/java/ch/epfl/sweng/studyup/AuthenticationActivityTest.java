@@ -9,6 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
+import ch.epfl.sweng.studyup.player.Player;
+
 @RunWith(AndroidJUnit4.class)
 public class AuthenticationActivityTest extends TestCase {
     @Rule

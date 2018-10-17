@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.auth;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -9,27 +9,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
+import ch.epfl.sweng.studyup.player.Player;
+
+/**
+ * Authenticator
+ *
+ * Link between the application and the authentification server.
+ */
 public class Authenticator {
-
-    private static final class JSONTokenContainer {
-        @SerializedName("error")
-        public String error;
-
-        @SerializedName("access_token")
-        public String token;
-    }
-
-    private static final class JSONProfileContainer {
-        @SerializedName("error")
-        public String error;
-
-        @SerializedName("Firstname")
-        public String firstName;
-
-        @SerializedName("Sciper")
-        public String sciperNo;
-    }
-
+    /**
+     * Extract a String JSON object from an URL.
+     *
+     * @param requestURL The given URL.
+     * @return The JSON object in String format.
+     */
     public static String getResponse(String requestURL) {
 
         try {
@@ -38,17 +31,23 @@ public class Authenticator {
             String response = new Scanner(stream).useDelimiter("\\A").next();
 
             return response;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Format the informations in a String JSON object into a readable form.
+     *
+     * @param response The JSON object in String format.
+     * @return The formatted informations.
+     */
     public static String getGreetingFromResponse(String response) {
 
         System.out.println(response);
-        JSONProfileContainer profileContainer = new Gson().fromJson(response, JSONProfileContainer.class);
+        JSONProfileContainer profileContainer = new Gson().fromJson(response,
+                JSONProfileContainer.class);
 
         if (profileContainer.error == null && profileContainer.sciperNo != null) {
 
@@ -71,12 +70,19 @@ public class Authenticator {
 
     public static String getGreeting(String token) {
 
-        String requestURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token=" + token;
+        String requestURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token="
+                + token;
         String response = getResponse(requestURL);
 
         return getGreetingFromResponse(response);
     }
 
+    /**
+     * Extract the token from a String JSON object.
+     *
+     * @param response JSON object.
+     * @return Token.
+     */
     public static String getTokenFromResponse(String response) {
         JSONTokenContainer tokenContainer = new Gson().fromJson(response, JSONTokenContainer.class);
 
@@ -85,8 +91,7 @@ public class Authenticator {
             try {
                 token = URLEncoder.encode(token, "UTF-8");
                 return token;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -101,5 +106,24 @@ public class Authenticator {
         String response = getResponse(requestURL);
 
         return getTokenFromResponse(response);
+    }
+
+    private static final class JSONTokenContainer {
+        @SerializedName("error")
+        public String error;
+
+        @SerializedName("access_token")
+        public String token;
+    }
+
+    private static final class JSONProfileContainer {
+        @SerializedName("error")
+        public String error;
+
+        @SerializedName("Firstname")
+        public String firstName;
+
+        @SerializedName("Sciper")
+        public String sciperNo;
     }
 }

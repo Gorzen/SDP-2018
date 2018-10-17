@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -20,7 +20,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Utils;
+
+/**
+ * MapActivity
+ *
+ * Code used in the activity_map.
+ */
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
     private Marker location;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
@@ -40,7 +48,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
@@ -50,7 +59,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("GPS_MAP", "Created map activity");
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -59,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * @param googleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -77,20 +87,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback,
+                    Looper.myLooper());
             Log.d("GPS_MAP", "Request location updates map");
         }
         Log.d("GPS_MAP", "Resume map");
     }
 
     public void onLocationUpdate(LatLng latLong) {
-        // au lieu de if(mMap != null) {...}
+        // Instead of if(mMap != null) {...}
         if (latLong != null) {
             Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
-                if(location != null){
+                if (location != null) {
                     location.remove();
                 }
                 location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
@@ -111,11 +124,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return locationRequest.getPriority();
     }
 
+    // TODO
     public LatLng getMarkerPos() {
-        //Test fail sur travis car null pointer exception surement car la map est null et donc loation n'a pas été update
-        if(location != null) {
+        // Test fail on Travis because of NullPointerException
+        // Probably because there is no map so no updated location
+        if (location != null) {
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
-        }else{
+        } else {
             return null;
         }
     }
