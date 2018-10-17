@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static ch.epfl.sweng.studyup.Player.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.Player.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.Player.INITIAL_LASTNAME;
 import static ch.epfl.sweng.studyup.Player.INITIAL_LEVEL;
 import static ch.epfl.sweng.studyup.Player.INITIAL_XP;
 import static ch.epfl.sweng.studyup.Player.XP_STEP;
@@ -48,8 +50,6 @@ public class FirebaseTest {
     // "Truth values"
     // Existing user
     private static final int sciper = 123456;
-    private static final String firstname = "Jean-Louis";
-    private static final String lastname = "Reymond";
     private static final int level = 42;
     private static final String section = "IN";
     private static final int xp = 4137;
@@ -66,8 +66,8 @@ public class FirebaseTest {
      */
     public static void resetData() {
         dummy = new HashMap<>();
-        dummy.put(FB_FIRSTNAME, firstname);
-        dummy.put(FB_LASTNAME, lastname);
+        dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
+        dummy.put(FB_LASTNAME, INITIAL_LASTNAME);
         dummy.put(FB_LEVEL, level);
         dummy.put(FB_SECTION, section);
         dummy.put(FB_XP, xp);
@@ -81,8 +81,8 @@ public class FirebaseTest {
     public void setup() {
         // Player
         Player.get().setSciper(sciper);
-        Player.get().setFirstName(firstname);
-        Player.get().setLastName(lastname);
+        Player.get().setFirstName(INITIAL_FIRSTNAME);
+        Player.get().setLastName(INITIAL_LASTNAME);
 
         resetData();
     }
@@ -94,7 +94,7 @@ public class FirebaseTest {
     public void cleanup() {
         resetData();
 
-        Firebase.get().resetUserInfos(sciper, firstname, lastname);
+        Firebase.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().reset();
@@ -102,18 +102,18 @@ public class FirebaseTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooLowTest() {
-        Firebase.get().getAndSetUserData(Utils.MIN_SCIPER - 1, firstname, lastname);
+        Firebase.get().getAndSetUserData(Utils.MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
-        Firebase.get().getAndSetUserData(Utils.MAX_SCIPER+1, firstname, lastname);
+        Firebase.get().getAndSetUserData(Utils.MAX_SCIPER+1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperNegativeTest() {
-        Firebase.get().getAndSetUserData(-42, firstname, lastname);
+        Firebase.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
 
@@ -172,11 +172,11 @@ public class FirebaseTest {
     resetUser() {
         Player.get().setSciper(sciper);
         Firebase.get().setUserData(FB_XP, INITIAL_XP+1);
-        Firebase.get().resetUserInfos(sciper, firstname, lastname);
+        Firebase.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
         dummy.put(FB_SCIPER, sciper);
-        dummy.put(FB_FIRSTNAME, firstname);
-        dummy.put(FB_LASTNAME, lastname);
+        dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
+        dummy.put(FB_LASTNAME, INITIAL_LASTNAME);
         dummy.put(FB_CURRENCY, INITIAL_CURRENCY);
         dummy.put(FB_LEVEL, INITIAL_LEVEL);
         dummy.put(FB_XP, INITIAL_XP);
@@ -217,8 +217,8 @@ public class FirebaseTest {
     public void updateLevelAndCurrencyPropagateToServer() {
         final int numberLevelToUpgrade = 5;
         final int testSciper1 = sciper;
-        final String testFirstName1 = firstname;
-        final String testLastName1 = lastname;
+        final String testFirstName1 = INITIAL_FIRSTNAME;
+        final String testLastName1 = INITIAL_LASTNAME;
         Firebase.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);

@@ -44,11 +44,15 @@ public class AuthenticationActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         Uri authCodeURI = getIntent().getData();
-
-        String code = authCodeURI.getQueryParameter("code");
-        String error = authCodeURI.getQueryParameter("error");
-
-        if (TextUtils.isEmpty(error)) {
+        String code = null;
+        String error = "error"; //For test purpose, to remove in the future
+        try {
+            code = authCodeURI.getQueryParameter("code");
+            error = authCodeURI.getQueryParameter("error");
+        } catch(NullPointerException e) {
+            Log.i(TAG, "Problem extracting data from Intent's Uri.");
+        }
+        if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
         }
         else {

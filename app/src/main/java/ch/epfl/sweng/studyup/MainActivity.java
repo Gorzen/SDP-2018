@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,9 +35,7 @@ import com.google.android.gms.tasks.Task;
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
-
 public class MainActivity extends Navigation {
-
     CircularProgressIndicator levelProgress;
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
@@ -140,6 +139,24 @@ public class MainActivity extends Navigation {
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        TextView lvl = findViewById(R.id.levelText);
+        TextView curr = findViewById(R.id.currText);
+
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
+        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        TextView lvl = findViewById(R.id.levelText);
+        TextView curr = findViewById(R.id.currText);
+
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
     }
 
     // Display the toolbar
@@ -207,6 +224,12 @@ public class MainActivity extends Navigation {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
 
+        //In the future -> listener
+        TextView lvl = findViewById(R.id.levelText);
+        TextView curr = findViewById(R.id.currText);
+
+        lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
     }
 }
 

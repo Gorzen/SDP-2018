@@ -19,23 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 
 public class Utils {
-    public enum SECTION_SHORT {
-        IN,
-        SC,
-        SV,
-        PH,
-        CH,
-
-    }
-
-    public enum YEAR {
-        BA1,
-        BA2,
-        BA3,
-        BA4,
-        BA5,
-        BA6,
-    }
 
     //Firebase entries
     public static final String FB_USERS = "users";
@@ -97,6 +80,11 @@ public class Utils {
     public static Context mainContext;
     public static final long LOCATION_REQ_INTERVAL = 5*1000;
     public static final long LOCATION_REQ_FASTEST_INTERVAL = 5*1000;
+    public static final String ALLOW = "ALLOW";
+    public static final String DENY = "DENY";
+    public static final String CAMERA = "Camera";
+    public static final String GALLERY = "Gallery";
+
 
     //test purpose
     public static Boolean isMockEnabled = false;
@@ -111,7 +99,11 @@ public class Utils {
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
         tempMap.put(R.id.navigation_map, MapsActivity.class);
         tempMap.put(R.id.navigation_chat, ChatActivity.class);
-
         idToAct = Collections.unmodifiableMap(tempMap);
     }
+
+    //Better in resources?
+    public static final String LEVEL_DISPLAY = "Level: \n";
+    public static final String CURR_DISPLAY = "Money: \n";
+
 }

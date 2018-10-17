@@ -1,8 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import ch.epfl.sweng.studyup.Utils.SECTION_SHORT;
-import ch.epfl.sweng.studyup.Utils.YEAR;
-
 import static ch.epfl.sweng.studyup.Firebase.userData;
 import static ch.epfl.sweng.studyup.Utils.*;
 
@@ -14,8 +11,6 @@ public class Player {
     private String firstName;
     private String lastName;
     private int sciper;
-    private SECTION_SHORT section;
-    private YEAR year;
     private int[] questionsCurr;
     private int[] questsCurr;
     private int[] questionsAcheived;
@@ -26,7 +21,9 @@ public class Player {
     public static final int INITIAL_XP = 0;
     public static final int INITIAL_CURRENCY = 0;
     public static final int INITIAL_LEVEL = 1;
-    public static final int INITIAL_SCIPER = 100000;
+    public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_FIRSTNAME = "Jean-Louis";
+    public static final String INITIAL_LASTNAME = "Reymond";
     private static final String TAG = Player.class.getSimpleName();
 
     /**
@@ -37,6 +34,8 @@ public class Player {
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
         sciper = INITIAL_SCIPER;
+        firstName = INITIAL_FIRSTNAME;
+        lastName = INITIAL_LASTNAME;
     }
 
     public static Player get(){
@@ -56,20 +55,20 @@ public class Player {
 
     public int getCurrency() { return currency; }
 
+    /**
+     * Method suppose that we can only gain experience
+     */
     private void updateLevel() {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if(newLevel - level > 0){
             currency += (newLevel - level) * CURRENCY_PER_LEVEL;
             putUserData(FB_CURRENCY, currency);
-        }
-
-        if(level != newLevel) {
+            putUserData(FB_LEVEL, newLevel);
+            Firebase.get().setUserData(FB_CURRENCY, currency);
             Firebase.get().setUserData(FB_LEVEL, newLevel);
+            level = newLevel;
         }
-
-        level = newLevel;
-        putUserData(FB_LEVEL, level);
     }
 
     public void addCurrency(int curr){
@@ -143,6 +142,10 @@ public class Player {
     }
 
     public int getSciper() {
+        //to remove later
+        if(sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
+            return INITIAL_SCIPER;
+        }
         return sciper;
     }
 }
