@@ -28,7 +28,7 @@
     <string name="username">User Name</string>
     <string name="user_email">user.name@epfl.ch</string>
     <string name="title_activity_maps">Map</string>
-    <string name="login">Log In</string>
+    <string name="login">Get Started</string>
     <string name="auth_error_tequila">Auth Error for Tequila</string>
     <string name="auth_error_firebase">Auth Error for Firebase</string>
     <string name="auth_firebase_success">Sign in to Firebase Authenticate: success</string>
@@ -36,4 +36,6 @@
     <string name="level_x">LEVEL X</string>
     <string name="money">MONEY</string>
     <string name="add_xp">ADD XP</string>
+    <string name="continueTo">Continue</string>
+
 </resources>
