@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.map.Navigation;
+import ch.epfl.sweng.studyup.utils.Navigation;
 
 /**
  * QuestsActivity

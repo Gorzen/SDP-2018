@@ -43,7 +43,7 @@
         <activity android:name=".social.RankingsActivity" />
         <activity android:name=".social.ChatActivity"/>
         <activity android:name=".player.CustomActivity"/>
-        <activity android:name=".map.Navigation"/>
+        <activity android:name=".utils.Navigation"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

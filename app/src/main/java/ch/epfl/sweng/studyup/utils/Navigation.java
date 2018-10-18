@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.map;
+package ch.epfl.sweng.studyup.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import static ch.epfl.sweng.studyup.utils.Utils.idToAct;
 /**
  * Navigation
  *
- * Used to indicate objects on the map.
+ * Used to navigate between principal activities
  */
 public class Navigation extends AppCompatActivity implements ActivityCompat
         .OnRequestPermissionsResultCallback {

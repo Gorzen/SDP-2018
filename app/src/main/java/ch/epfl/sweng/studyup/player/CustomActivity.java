@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.map.Navigation;
+import ch.epfl.sweng.studyup.utils.Navigation;
 
 /**
  * CustomActivity
