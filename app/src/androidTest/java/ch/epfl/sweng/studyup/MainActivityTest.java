@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
-    private static final String TAG = MainActivityTest.class.getSimpleName();
     private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
     @Rule
@@ -104,12 +103,6 @@ public class MainActivityTest {
         onView(withId(R.id.pic_btn2)).perform(click());
         intended(hasComponent(CustomActivity.class.getName()));
     }
-
-     @Test
-    public void testLogin() {
-         onView(withId(R.id.loginButton)).perform(click());
-         Utils.waitAndTag(1000, TAG);
-     }
 
     @Test
     public void testOptionNoException() {

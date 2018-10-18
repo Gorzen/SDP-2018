@@ -36,6 +36,8 @@ import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.question.AddQuestionActivity;
 
 public class MainActivity extends Navigation {
+
+
     CircularProgressIndicator levelProgress;
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
 
@@ -118,8 +120,7 @@ public class MainActivity extends Navigation {
         });
 
         //username
-        view_username = findViewById(R.id.view_username);
-
+        TextView view_username = findViewById(R.id.view_username);
 
         //toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -127,7 +128,7 @@ public class MainActivity extends Navigation {
         getSupportActionBar().setTitle(null);
 
         //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, 0);
+        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.DEFAULT_INDEX);
 
         //level progression bar
         ActivityCompat.requestPermissions(
@@ -207,12 +208,6 @@ public class MainActivity extends Navigation {
     }
 
 
-    public void onLoginButtonClick(View view) {
-        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
-        Intent authIntent = new Intent(Intent.ACTION_VIEW);
-        authIntent.setData(Uri.parse(authURL));
-        startActivity(authIntent);
-    }
     /**
      * Function that is called when adding xp with the button
      *
@@ -231,6 +226,7 @@ public class MainActivity extends Navigation {
         lvl.setText(Utils.LEVEL_DISPLAY+Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY+Player.get().getCurrency());
     }
+
 }
 
 

@@ -1,11 +1,9 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -75,7 +73,7 @@ public class Utils {
         userData.put(key, value);
     }
   
-  public static LatLng position;
+    public static LatLng position;
     public static FusedLocationProviderClient locationProviderClient;
     public static Context mainContext;
     public static final long LOCATION_REQ_INTERVAL = 5*1000;
@@ -90,7 +88,9 @@ public class Utils {
     public static Boolean isMockEnabled = false;
     public static Location mockLoc;
 
+
     //Map that links item id to activities
+    /*
     public static final Map<Integer, Class> idToAct;
     static {
         Map<Integer, Class> tempMap = new HashMap<>();
@@ -100,10 +100,15 @@ public class Utils {
         tempMap.put(R.id.navigation_map, MapsActivity.class);
         tempMap.put(R.id.navigation_chat, ChatActivity.class);
         idToAct = Collections.unmodifiableMap(tempMap);
-    }
+    }*/
+
 
     //Better in resources?
-    public static final String LEVEL_DISPLAY = "Level: \n";
-    public static final String CURR_DISPLAY = "Money: \n";
+    public static final String LEVEL_DISPLAY = "LEVEL ";
+    public static final String CURR_DISPLAY = "MONEY: \n";
+
+    //Navigation items indexes for smooth transitions
+    public static final int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX =4;
+
 
 }

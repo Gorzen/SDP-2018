@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -20,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends Navigation implements OnMapReadyCallback {
     private Marker location;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
@@ -48,6 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(Utils.LOCATION_REQ_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
+
+        navigationSwitcher(MapsActivity.this, MapsActivity.class, Utils.MAP_INDEX);
     }
 
 

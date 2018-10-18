@@ -1,11 +1,13 @@
 package ch.epfl.sweng.studyup;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,5 +66,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Player.get().getSciper(),
                 Player.get().getFirstName(),
                 Player.get().getLastName());
+    }
+
+    public void onContinueToMain(View view) {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
     }
 }
