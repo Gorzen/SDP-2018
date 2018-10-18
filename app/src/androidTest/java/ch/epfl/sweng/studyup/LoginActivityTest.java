@@ -8,11 +8,4 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class LoginActivityTest {
 
-    private static final String TAG = LoginActivityTest.class.getSimpleName();
-
-    @Test
-    public void testLogin() {
-        onView(withId(R.id.loginButton)).perform(click());
-        Utils.waitAndTag(1000, TAG);
-    }
 }
