@@ -16,8 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.questions.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
