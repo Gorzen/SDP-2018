@@ -15,7 +15,27 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SECTION;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_TOKEN;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_YEAR;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Utils.dbStaticInfo;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -78,12 +98,12 @@ public class FirestoreTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooLowTest() {
-        Firestore.get().getAndSetUserData(Utils.MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
-        Firestore.get().getAndSetUserData(Utils.MAX_SCIPER+1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
     }
 
@@ -112,15 +132,15 @@ public class FirestoreTest {
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         resetData();
-        for(Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert(dbStaticInfo.get(entry.getKey()) == entry.getValue());
+        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
+            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
         }
     }
 
     @Test
     public void addNewUserToDBTest() {
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
-        Firestore.get().getAndSetUserData( MAX_SCIPER, "John", "Doe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firestore.getData(MAX_SCIPER);
@@ -137,8 +157,8 @@ public class FirestoreTest {
         Firestore.getData(sciper);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        for(Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert(dbStaticInfo.get(entry.getKey()) == entry.getValue());
+        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
+            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
         }
 
     }
@@ -147,7 +167,7 @@ public class FirestoreTest {
     public void
     resetUser() {
         Player.get().setSciper(sciper);
-        Firestore.get().setUserData(FB_XP, INITIAL_XP+1);
+        Firestore.get().setUserData(FB_XP, INITIAL_XP + 1);
         Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
         dummy.put(FB_SCIPER, sciper);
@@ -160,13 +180,13 @@ public class FirestoreTest {
 
         Firestore.getData(sciper);
 
-        for(Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert(dbStaticInfo.get(entry.getKey()) == entry.getValue());
+        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
+            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
         }
     }
 
     @Test
-    public void addXpPlayerAndCurrencyTest(){
+    public void addXpPlayerAndCurrencyTest() {
         Player.get().reset();
         assertEquals(INITIAL_XP, Player.get().getExperience());
         assertEquals(INITIAL_LEVEL, Player.get().getLevel());
@@ -174,13 +194,13 @@ public class FirestoreTest {
 
         assertEquals(0.0, Player.get().getLevelProgress(), 10e-6);
 
-        Player.get().addExperience(XP_TO_LEVEL_UP/2);
+        Player.get().addExperience(XP_TO_LEVEL_UP / 2);
         assertEquals(INITIAL_LEVEL, Player.get().getLevel());
-        assertEquals(XP_TO_LEVEL_UP/2, Player.get().getExperience());
+        assertEquals(XP_TO_LEVEL_UP / 2, Player.get().getExperience());
         assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
 
         Player.get().addExperience(XP_TO_LEVEL_UP);
-        assertEquals(INITIAL_LEVEL+1, Player.get().getLevel());
+        assertEquals(INITIAL_LEVEL + 1, Player.get().getLevel());
         assertEquals(CURRENCY_PER_LEVEL, Player.get().getCurrency());
         assertEquals((XP_TO_LEVEL_UP * 3) / 2, Player.get().getExperience());
         assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
@@ -200,10 +220,10 @@ public class FirestoreTest {
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
-        Player.get().addExperience(numberLevelToUpgrade*XP_TO_LEVEL_UP + XP_TO_LEVEL_UP/2);
+        Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2);
 
         //To over-write the local state
-        Firestore.get().getAndSetUserData(testSciper1+1, testFirstName1+"1", testLastName1+"1");
+        Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1");
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
@@ -211,7 +231,7 @@ public class FirestoreTest {
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        assert(Player.get().getLevel() == INITIAL_LEVEL+numberLevelToUpgrade);
-        assert(Player.get().getCurrency() == INITIAL_CURRENCY+CURRENCY_PER_LEVEL*numberLevelToUpgrade);
+        assert (Player.get().getLevel() == INITIAL_LEVEL + numberLevelToUpgrade);
+        assert (Player.get().getCurrency() == INITIAL_CURRENCY + CURRENCY_PER_LEVEL * numberLevelToUpgrade);
     }
 }

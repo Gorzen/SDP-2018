@@ -20,9 +20,10 @@ public class AuthenticationActivityTest extends TestCase {
     @Rule
     public final ActivityTestRule<AuthenticationActivity> rule =
             new ActivityTestRule<>(AuthenticationActivity.class);
+
     @Test
     public void creatingActivitySetPlayer() {
-        assert(Player.get().getFirstName().equals(INITIAL_FIRSTNAME));
-        assert(Player.get().getLastName().equals(INITIAL_LASTNAME));
+        assert (Player.get().getFirstName().equals(INITIAL_FIRSTNAME));
+        assert (Player.get().getLastName().equals(INITIAL_LASTNAME));
     }
 }

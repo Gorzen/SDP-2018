@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.questions.*;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,16 +31,16 @@ public class QuestionParserTest {
     private File writeFile;
 
     @Before
-    public void init(){
+    public void init() {
         context = RuntimeEnvironment.application.getApplicationContext();
         writeFile = new File(context.getFilesDir(), QuestionParser.fileName);
     }
 
     @Test
-    public void writeAndReadGivesTheCorrectList(){
+    public void writeAndReadGivesTheCorrectList() {
         Uri u1 = Uri.fromFile(new File("test1"));
-        Question q1 =  new Question(u1, true, 0);
-        Uri u2 =  Uri.fromFile(new File("test2"));
+        Question q1 = new Question(u1, true, 0);
+        Uri u2 = Uri.fromFile(new File("test2"));
         Question q2 = new Question(u2, false, 2);
         ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
@@ -53,7 +54,7 @@ public class QuestionParserTest {
     }
 
     @Test
-    public void fileWithoutSecondLine(){
+    public void fileWithoutSecondLine() {
         //write a file with an empty second line to throw an error
         try {
             writeFile.createNewFile();
@@ -62,16 +63,16 @@ public class QuestionParserTest {
             writer.write(text);
             writer.close();
             assertNull("List should be empty", QuestionParser.parseQuestions(context, false));
-        }catch (IOException e){
+        } catch (IOException e) {
             assertTrue("Should not throw any exception", false);
             e.printStackTrace();
-        }finally {
+        } finally {
             writeFile.delete();
         }
     }
 
     @Test
-    public void fileWithoutThirdLine(){
+    public void fileWithoutThirdLine() {
         //write a file with an empty second line to throw an error
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(writeFile, true));
@@ -79,22 +80,22 @@ public class QuestionParserTest {
             writer.write(text);
             writer.close();
             assertNull("List should be null", QuestionParser.parseQuestions(context, false));
-        }catch (IOException e){
+        } catch (IOException e) {
             assertTrue("Should not throw any exception", false);
             e.printStackTrace();
-        }finally {
+        } finally {
             writeFile.delete();
         }
     }
 
     //can't make it work
-    public void readFileThatExists(){
+    public void readFileThatExists() {
         File testFile = new File(context.getFilesDir(), "test.png");
         try {
             testFile.createNewFile();
             assertTrue(testFile.exists());
             Uri u1 = Uri.fromFile(testFile);
-            Question q1 =  new Question(u1, true, 0);
+            Question q1 = new Question(u1, true, 0);
             ArrayList<Question> list = new ArrayList<>();
             list.add(q1);
             assertTrue(QuestionParser.writeQuestions(list, context, true));
@@ -103,17 +104,17 @@ public class QuestionParserTest {
             assertFalse(parsedList.isEmpty());
             ArrayList<Question> newList = new ArrayList<>(parsedList);
             assertNull("Both lists should be equals", list.toArray());
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             assertTrue("Should not throw any exception", false);
         }
     }
 
     @Test
-    public void ReturnNullWhenFileDoesNotExist(){
+    public void ReturnNullWhenFileDoesNotExist() {
         File testFile = new File(context.getFilesDir(), "test.png");
         Uri u1 = Uri.fromFile(testFile);
-        Question q1 =  new Question(u1, true, 0);
+        Question q1 = new Question(u1, true, 0);
         ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
         assertTrue(QuestionParser.writeQuestions(list, context, true));

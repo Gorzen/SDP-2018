@@ -27,6 +27,8 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -42,9 +44,10 @@ public class MainActivityTest {
 
 
     @Before
-    public void initiateIntents(){
+    public void initiateIntents() {
         Intents.init();
     }
+
     @After
     public void releaseIntents() {
         Intents.release();
@@ -57,11 +60,11 @@ public class MainActivityTest {
     public void simpleUseOfAddXpButton() {
         int currExp = Player.get().getExperience();
         final int numberOfPush = 5;
-        for(int i = 0; i < numberOfPush; ++i) {
+        for (int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert Player.get().getExperience() == (currExp+(i+1)*Player.XP_STEP%Player.XP_TO_LEVEL_UP) / Player.XP_TO_LEVEL_UP:
+            assert Player.get().getExperience() == (currExp + (i + 1) * XP_STEP % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
-            onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY+Player.get().getCurrency())));
+            onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
         }
     }
 
@@ -70,19 +73,22 @@ public class MainActivityTest {
         Player.get().reset();
         Firestore.get().getAndSetUserData(Player.get().getSciper(),
                 Player.get().getFirstName(), Player.get().getLastName());
-        try{Thread.sleep(500);} catch(InterruptedException e) {}
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+        }
         final int numberOfPush = 5;
-        assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() );
-        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
-        for(int i = 0; i < numberOfPush; ++i) {
+        assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
+        for (int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
+            assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
         }
     }
 
     @Test
-    public void initializationGps(){
+    public void initializationGps() {
         assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
         assertNotNull(Utils.locationProviderClient);
     }
@@ -105,11 +111,11 @@ public class MainActivityTest {
         intended(hasComponent(CustomActivity.class.getName()));
     }
 
-     @Test
+    @Test
     public void testLogin() {
-         onView(withId(R.id.loginButton)).perform(click());
-         Utils.waitAndTag(1000, TAG);
-     }
+        onView(withId(R.id.loginButton)).perform(click());
+        Utils.waitAndTag(1000, TAG);
+    }
 
     @Test
     public void testOptionNoException() {

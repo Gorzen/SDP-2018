@@ -18,12 +18,12 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
+    @Rule
+    public final ActivityTestRule<MapActivity> mActivityRule = new ActivityTestRule<>(MapActivity.class);
     private final double LAT = 35.323;
     private final double LONG = 56.43;
     private LatLng latlng;
     private MapActivity mActivity;
-
-    @Rule public final ActivityTestRule<MapActivity> mActivityRule = new ActivityTestRule<>(MapActivity.class);
 
     @Before
     public void init() {
