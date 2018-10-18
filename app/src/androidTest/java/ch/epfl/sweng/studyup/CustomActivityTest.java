@@ -9,7 +9,10 @@ import android.support.test.uiautomator.UiSelector;
 
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -17,12 +20,11 @@ import static org.junit.Assert.assertTrue;
 
 public class CustomActivityTest {
     private static final String TAG = CustomActivityTest.class.getSimpleName();
-    private CustomActivity mActivity;
     private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-
     @Rule
     public final ActivityTestRule<CustomActivity> mActivityRule =
             new ActivityTestRule<>(CustomActivity.class);
+    private CustomActivity mActivity;
 
     @Before
     public void init() {
@@ -51,6 +53,6 @@ public class CustomActivityTest {
             button.click();
         }
         return device.findObject(new UiSelector().text(Utils.ALLOW)).exists()
-        && (device.findObject(new UiSelector().text(Utils.DENY)).exists());
+                && (device.findObject(new UiSelector().text(Utils.DENY)).exists());
     }
 }

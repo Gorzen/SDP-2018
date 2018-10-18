@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -23,9 +22,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.question.AddQuestionActivity;
-import ch.epfl.sweng.studyup.question.Question;
-import ch.epfl.sweng.studyup.question.QuestionParser;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -83,30 +82,30 @@ public class AddQuestionActivityTest {
     public void testSimpleInstanceQuestionTrueFalse() {
         Uri fake = Uri.parse("studyup://fake/path");
         Question simple = new Question(fake, true, 0);
-        assert(simple.isTrueFalseQuestion());
-        assert(simple.getAnswer() == 0);
-        assert(simple.getQuestionUri().equals(fake));
+        assert (simple.isTrueFalseQuestion());
+        assert (simple.getAnswer() == 0);
+        assert (simple.getQuestionUri().equals(fake));
     }
 
     @Test
     public void testSimpleInstanceQuestionMCQ() {
         Uri fake = Uri.parse("studyup://fake/path");
         Question simple = new Question(fake, false, 2);
-        assert(!simple.isTrueFalseQuestion());
-        assert(simple.getAnswer() == 2);
-        assert(simple.getQuestionUri().equals(fake));
+        assert (!simple.isTrueFalseQuestion());
+        assert (simple.getAnswer() == 2);
+        assert (simple.getQuestionUri().equals(fake));
     }
 
     @Test
-    public void zperformSearchTest(){
+    public void zperformSearchTest() {
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
         Intent i = new Intent();
-        Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK,i);
+        Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, i);
         Intents.intending(anyIntent()).respondWith(intentResult);
     }
 
     @Test
-    public void activityResultTest(){
+    public void activityResultTest() {
         Intent i = new Intent();
         String fakePath = "/test.jpg";
         Uri uri = Uri.fromFile(new File(fakePath));
@@ -114,14 +113,14 @@ public class AddQuestionActivityTest {
         mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
         try {
             Thread.sleep(2000);
-        }catch(InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(withText(uri.toString())));
     }
 
     @Test
-    public void activityResultFalseTest(){
+    public void activityResultFalseTest() {
         //The text should not change because the activity returned with a error code
         Intent i = new Intent();
         String fakePath = "/test.jpg";
@@ -132,7 +131,7 @@ public class AddQuestionActivityTest {
     }
 
     @Test
-    public void addQuestionTest(){
+    public void addQuestionTest() {
         //Question: MCQ, answer: 0
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());

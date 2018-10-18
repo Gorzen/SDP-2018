@@ -7,10 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static org.junit.Assert.*;
 import java.io.File;
 
-import ch.epfl.sweng.studyup.question.Question;
+import ch.epfl.sweng.studyup.questions.Question;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(RobolectricTestRunner.class)
 public class QuestionTest {
@@ -25,8 +27,8 @@ public class QuestionTest {
     @Test
     public void gettersAndSettersTest() {
         Question q = new Question(uri, true, 1);
-        assertEquals(q.getAnswer(),1);
-        assertEquals(q.isTrueFalseQuestion(),true);
+        assertEquals(q.getAnswer(), 1);
+        assertEquals(q.isTrueFalseQuestion(), true);
         assertEquals(q.getQuestionUri(), uri);
 
     }
@@ -52,7 +54,7 @@ public class QuestionTest {
     }
 
     @Test
-    public void falseEqualsTest(){
+    public void falseEqualsTest() {
         Question q = new Question(uri, true, 0);
         assertFalse(q.equals(null));
     }

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AuthenticationActivity">
+        <activity android:name=".auth.AuthenticationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -37,13 +37,13 @@
         </activity>
 
         <activity
-            android:name=".question.AddQuestionActivity"
+            android:name=".questions.AddQuestionActivity"
             android:label="Add a question"/>
-        <activity android:name=".QuestsActivity" />
-        <activity android:name=".RankingsActivity" />
-        <activity android:name=".ChatActivity"/>
-        <activity android:name=".CustomActivity"/>
-        <activity android:name=".Navigation"/>
+        <activity android:name=".player.QuestsActivity" />
+        <activity android:name=".social.RankingsActivity" />
+        <activity android:name=".social.ChatActivity"/>
+        <activity android:name=".player.CustomActivity"/>
+        <activity android:name=".utils.Navigation"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,9 +56,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".map.MapActivity"
             android:label="@string/title_activity_maps"/>
-        <service android:name=".BackgroundLocation"
+        <service android:name=".map.BackgroundLocation"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="true"/>
     </application>

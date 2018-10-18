@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.auth;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +9,15 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
+
+/**
+ * AuthenticationActivity
+ *
+ * Code used in the activity_authentication.
+ */
 public class AuthenticationActivity extends AppCompatActivity {
     private final String TAG = AuthenticationActivity.class.getSimpleName();
 
@@ -24,11 +33,11 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (token != null) {
             String greeting = Authenticator.getGreeting(token);
-                if (greeting != null) {
-                    TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
-                    profileDataDisplay.setText(greeting);
-                    return;
-                }
+            if (greeting != null) {
+                TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
+                profileDataDisplay.setText(greeting);
+                return;
+            }
         }
         reportAuthError();
     }
@@ -49,18 +58,17 @@ public class AuthenticationActivity extends AppCompatActivity {
         try {
             code = authCodeURI.getQueryParameter("code");
             error = authCodeURI.getQueryParameter("error");
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             Log.i(TAG, "Problem extracting data from Intent's Uri.");
         }
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
-        }
-        else {
+        } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);
         }
 
-        Firebase.get().getAndSetUserData(
+        Firestore.get().getAndSetUserData(
                 Player.get().getSciper(),
                 Player.get().getFirstName(),
                 Player.get().getLastName());
