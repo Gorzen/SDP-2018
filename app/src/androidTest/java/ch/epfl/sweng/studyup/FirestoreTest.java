@@ -15,27 +15,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 
-import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_SECTION;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_TOKEN;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_YEAR;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
-import static ch.epfl.sweng.studyup.utils.Utils.dbStaticInfo;
-import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
