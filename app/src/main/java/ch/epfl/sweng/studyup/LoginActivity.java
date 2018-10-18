@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
+
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -25,10 +25,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
-        </activity>
-
-        <activity android:name=".AuthenticationActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".auth.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -40,14 +38,18 @@
                     android:scheme="studyup" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".question.AddQuestionActivity"
-            android:label="Add a question" />
-        <activity android:name=".QuestsActivity" />
-        <activity android:name=".RankingsActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".CustomActivity" />
-        <activity android:name=".Navigation" />
+            android:name=".questions.AddQuestionActivity"
+            android:label="Add a question"/>
+
+
+        <activity android:name=".player.QuestsActivity" />
+        <activity android:name=".social.RankingsActivity" />
+        <activity android:name=".social.ChatActivity"/>
+        <activity android:name=".player.CustomActivity"/>
+        <activity android:name=".utils.Navigation"/>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,14 +63,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-
-        <service
-            android:name=".BackgroundLocation"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
+            android:name=".map.MapsActivity"
+            android:label="@string/title_activity_maps"/>
+        <service android:name=".map.BackgroundLocation"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="true"/>
     </application>
 
 </manifest>

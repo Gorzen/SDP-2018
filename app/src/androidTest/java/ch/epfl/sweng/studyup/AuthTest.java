@@ -7,6 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.auth.Authenticator;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -21,13 +23,13 @@ public class AuthTest {
     @Test
     public void testGreetingFromResponseInvalid() {
         String invalidResponse = "{\"anykey\":\"anyvalue\"}";
-        assert(Authenticator.getGreetingFromResponse(invalidResponse) == null);
+        assert (Authenticator.getGreetingFromResponse(invalidResponse) == null);
     }
 
     @Test
     public void testGreetingFromResponseError() {
         String invalidResponse = "{\"error\":\"anyvalue\"}";
-        assert(Authenticator.getGreetingFromResponse(invalidResponse) == null);
+        assert (Authenticator.getGreetingFromResponse(invalidResponse) == null);
     }
 
 
@@ -48,13 +50,13 @@ public class AuthTest {
     @Test
     public void testTokenFromResponseInvalid() {
         String invalidResponse = "{\"anykey\":\"anyvalue\"}";
-        assert(Authenticator.getTokenFromResponse(invalidResponse) == null);
+        assert (Authenticator.getTokenFromResponse(invalidResponse) == null);
     }
 
     @Test
     public void testTokenFromResponseError() {
         String invalidResponse = "{\"error\":\"anyvalue\"}";
-        assert(Authenticator.getTokenFromResponse(invalidResponse) == null);
+        assert (Authenticator.getTokenFromResponse(invalidResponse) == null);
     }
 
     @Test

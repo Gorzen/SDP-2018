@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -6,7 +6,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -19,7 +24,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.Utils;
+
+
+/**
+ * MapActivity
+ * <p>
+ * Code used in the activity_map.
+ */
+
 public class MapsActivity extends Navigation implements OnMapReadyCallback {
+
+
     private Marker location;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
@@ -38,8 +57,10 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
@@ -48,9 +69,12 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
         navigationSwitcher(MapsActivity.this, MapsActivity.class, Utils.MAP_INDEX);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -60,6 +84,8 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * @param googleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -78,20 +104,23 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
     @Override
     protected void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback,
+                    Looper.myLooper());
             Log.d("GPS_MAP", "Request location updates map");
         }
         Log.d("GPS_MAP", "Resume map");
     }
 
     public void onLocationUpdate(LatLng latLong) {
-        // au lieu de if(mMap != null) {...}
+        // Instead of if(mMap != null) {...}
         if (latLong != null) {
             Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
-                if(location != null){
+                if (location != null) {
                     location.remove();
                 }
                 location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
@@ -112,12 +141,41 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         return locationRequest.getPriority();
     }
 
+    // TODO
     public LatLng getMarkerPos() {
-        //Test fail sur travis car null pointer exception surement car la map est null et donc loation n'a pas été update
-        if(location != null) {
+        // Test fail on Travis because of NullPointerException
+        // Probably because there is no map so no updated location
+        if (location != null) {
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
-        }else{
+        } else {
             return null;
         }
     }
+
+    //Display the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater i = getMenuInflater();
+        i.inflate(R.menu.top_navigation, menu);
+        return true;
+    }
+
+    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    //Corresponding activities are not created yet
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.top_navigation_settings) {
+            Toast.makeText(MapsActivity.this,
+                    "You have clicked on Settings :)",
+                    Toast.LENGTH_SHORT).show();
+        }
+        if (item.getItemId() == R.id.top_navigation_infos) {
+            Toast.makeText(MapsActivity.this,
+                    "You have clicked on Infos :)",
+                    Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+
+

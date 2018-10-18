@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomActivity">
+    tools:context=".player.CustomActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -132,7 +132,9 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/white_grey_border_top"
                 app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation"></android.support.design.widget.BottomNavigationView>
+                app:menu="@menu/navigation">
+
+            </android.support.design.widget.BottomNavigationView>
         </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>

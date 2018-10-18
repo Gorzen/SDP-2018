@@ -9,14 +9,21 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
+import ch.epfl.sweng.studyup.player.Player;
+
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+
 @RunWith(AndroidJUnit4.class)
 public class AuthenticationActivityTest extends TestCase {
     @Rule
     public final ActivityTestRule<AuthenticationActivity> rule =
             new ActivityTestRule<>(AuthenticationActivity.class);
+
     @Test
     public void creatingActivitySetPlayer() {
-        assert(Player.get().getFirstName().equals(Player.INITIAL_FIRSTNAME));
-        assert(Player.get().getLastName().equals(Player.INITIAL_LASTNAME));
+        assert (Player.get().getFirstName().equals(INITIAL_FIRSTNAME));
+        assert (Player.get().getLastName().equals(INITIAL_LASTNAME));
     }
 }

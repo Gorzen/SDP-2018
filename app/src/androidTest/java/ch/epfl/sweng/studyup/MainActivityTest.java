@@ -5,9 +5,6 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +14,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import ch.epfl.sweng.studyup.question.AddQuestionActivity;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,7 +27,8 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.TestCase.assertTrue;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -41,9 +43,10 @@ public class MainActivityTest {
 
 
     @Before
-    public void initiateIntents(){
+    public void initiateIntents() {
         Intents.init();
     }
+
     @After
     public void releaseIntents() {
         Intents.release();
@@ -56,32 +59,35 @@ public class MainActivityTest {
     public void simpleUseOfAddXpButton() {
         int currExp = Player.get().getExperience();
         final int numberOfPush = 5;
-        for(int i = 0; i < numberOfPush; ++i) {
+        for (int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert Player.get().getExperience() == (currExp+(i+1)*Player.XP_STEP%Player.XP_TO_LEVEL_UP) / Player.XP_TO_LEVEL_UP:
+            assert Player.get().getExperience() == (currExp + (i + 1) * XP_STEP % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
-            onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY+Player.get().getCurrency())));
+            onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
         }
     }
 
     @Test
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
-        Firebase.get().getAndSetUserData(Player.get().getSciper(),
+        Firestore.get().getAndSetUserData(Player.get().getSciper(),
                 Player.get().getFirstName(), Player.get().getLastName());
-        try{Thread.sleep(500);} catch(InterruptedException e) {}
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+        }
         final int numberOfPush = 5;
-        assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress() );
-        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
-        for(int i = 0; i < numberOfPush; ++i) {
+        assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
+        for (int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY+Player.get().getLevel())));
+            assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
         }
     }
 
     @Test
-    public void initializationGps(){
+    public void initializationGps() {
         assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
         assertNotNull(Utils.locationProviderClient);
     }
@@ -103,6 +109,7 @@ public class MainActivityTest {
         onView(withId(R.id.pic_btn2)).perform(click());
         intended(hasComponent(CustomActivity.class.getName()));
     }
+
 
     @Test
     public void testOptionNoException() {

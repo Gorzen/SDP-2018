@@ -1,9 +1,7 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
@@ -13,16 +11,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
+    @Rule
+    public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
     private final double LAT = 35.323;
     private final double LONG = 56.43;
     private LatLng latlng;
     private MapsActivity mActivity;
-
-    @Rule public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
 
     @Before
     public void init() {
