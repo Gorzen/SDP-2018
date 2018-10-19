@@ -10,10 +10,10 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
 
     // Display message from intent set by authentication activity upon failed login
-    public void displayLoginMessage(Intent intent) {
-        String loginMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
-        if (loginMessage != null) {
-            Toast.makeText(getApplicationContext(), loginMessage, Toast.LENGTH_LONG).show();
+    public void displayFailedLoginMessage(Intent intent) {
+        String failureMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
+        if (failureMessage != null) {
+            Toast.makeText(getApplicationContext(), failureMessage, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        displayLoginMessage(getIntent());
+        displayFailedLoginMessage(getIntent());
     }
 
     public void onLoginButtonClick(View view) {

@@ -57,11 +57,11 @@ public class MainActivity extends Navigation {
     private ImageButton pic_button2;
     private ImageView image_view;
 
-    // Display message from intent set by authentication activity
-    public void displayLoginMessage(Intent intent) {
-        String loginMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
-        if (loginMessage != null) {
-            Toast.makeText(getApplicationContext(), loginMessage, Toast.LENGTH_LONG).show();
+    // Display login success message from intent set by authentication activity
+    public void displayLoginSuccessMessage(Intent intent) {
+        String successMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
+        if (successMessage != null) {
+            Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -80,7 +80,7 @@ public class MainActivity extends Navigation {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        displayLoginMessage(getIntent());
+        displayLoginSuccessMessage(getIntent());
 
         // User picture
         pic_button = findViewById(R.id.pic_btn);
