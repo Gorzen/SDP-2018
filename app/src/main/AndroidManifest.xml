@@ -33,13 +33,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".question.AddQuestionActivity"
+            android:name=".questions.AddQuestionActivity"
             android:label="Add a question" />
-        <activity android:name=".QuestsActivity" />
-        <activity android:name=".RankingsActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".CustomActivity" />
-        <activity android:name=".Navigation" />
+        <activity android:name=".player.QuestsActivity" />
+        <activity android:name=".social.RankingsActivity" />
+        <activity android:name=".social.ChatActivity" />
+        <activity android:name=".player.CustomActivity" />
+        <activity android:name=".utils.Navigation" />
         <activity android:name=".player.QuestsActivity" />
         <activity android:name=".social.RankingsActivity" />
         <activity android:name=".social.ChatActivity"/>
@@ -58,11 +58,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".map.MapActivity"
             android:label="@string/title_activity_maps" />
 
         <service
-            android:name=".BackgroundLocation"
+            android:name=".map.BackgroundLocation"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
