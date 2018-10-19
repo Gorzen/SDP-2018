@@ -17,9 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MainActivity"></activity>
 
         <activity android:name=".auth.AuthenticationActivity">
@@ -37,17 +34,12 @@
         <activity
             android:name=".questions.AddQuestionActivity"
             android:label="Add a question" />
-			
         <activity android:name=".player.QuestsActivity" />
         <activity android:name=".social.RankingsActivity" />
         <activity android:name=".social.ChatActivity" />
         <activity android:name=".player.CustomActivity" />
         <activity android:name=".utils.Navigation" />
-        <activity android:name=".player.QuestsActivity" />
-        <activity android:name=".social.RankingsActivity" />
-        <activity android:name=".social.ChatActivity" />
-        <activity android:name=".player.CustomActivity" />
-        <activity android:name=".utils.Navigation" />
+        <activity android:name=".questions.DisplayQuestionActivity"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -69,7 +61,7 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".questions.DisplayQuestionActivity"></activity>
+
 		
         <activity android:name=".LoginActivity">
             <intent-filter>
