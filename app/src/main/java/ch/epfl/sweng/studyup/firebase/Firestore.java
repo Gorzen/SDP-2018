@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.firebase;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,29 +14,23 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import java.util.HashMap;
 import java.util.Map;
 
-import static ch.epfl.sweng.studyup.Player.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.Player.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.Player.INITIAL_XP;
-import static ch.epfl.sweng.studyup.Utils.FB_ALL_ENTRIES;
-import static ch.epfl.sweng.studyup.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.FB_TOKEN;
-import static ch.epfl.sweng.studyup.Utils.FB_USERS;
-import static ch.epfl.sweng.studyup.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.Utils.putUserData;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
-public class Firebase {
+import static ch.epfl.sweng.studyup.utils.Utils.*;
+
+/**
+ * Firestore
+ *
+ * Our own Firebase Cloud Firestore API.
+ */
+public class Firestore {
     public static final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final String TAG = Firebase.class.getSimpleName();
+    private static final String TAG = Firestore.class.getSimpleName();
     public static Map<String, Object> userData = null;
-    private static Firebase instance = null;
+    private static Firestore instance = null;
 
-    private Firebase() {
+    private Firestore() {
         // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
@@ -44,18 +38,18 @@ public class Firebase {
         db.setFirestoreSettings(settings);
     }
 
-    public static Firebase get() {
+    public static Firestore get() {
         if (instance == null) {
-            instance = new Firebase();
+            instance = new Firestore();
         }
 
         return instance;
     }
 
     /**
-     * Retrieve the current state on the DB.
-     * <p>
      * This function put the current data of a given user into the dbStaticInfo object (Utils.java).
+     *
+     * @param sciper Sciper ot the user.
      */
     public static void getData(final int sciper) {
         db.collection(FB_USERS).document(Integer.toString(sciper))
@@ -80,14 +74,16 @@ public class Firebase {
      * Function used when entering the app. It will get all the player's informations and set
      * the state of the player as it were the last time he/she was connected.
      *
-     * @param sciper    The sciper of the player
-     * @param firstName The first name of the player
-     * @param lastName  The last name of the player
+     * @param sciper    The sciper of the player.
+     * @param firstName The first name of the player.
+     * @param lastName  The last name of the player.
      * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
      */
-    public void getAndSetUserData(final int sciper, final String firstName, final String lastName) throws IllegalArgumentException {
+    public void getAndSetUserData(final int sciper, final String firstName, final String lastName)
+            throws IllegalArgumentException {
         if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
-            throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be a six digits number.");
+            throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be" +
+                    " a six digits number.");
         }
 
         db.collection(FB_USERS).document(Integer.toString(sciper))
@@ -101,13 +97,16 @@ public class Firebase {
                             if (document.exists()) {
                                 userData = document.getData();
                                 if (userData.isEmpty()) {
-                                    throw new NullPointerException("The data got from server is null. The user either " +
-                                            "shouldn't be present in the database or should have informations stored.");
+                                    throw new NullPointerException("The data got from server is " +
+                                            "null. The user either shouldn't be present in the " +
+                                            "database or should have informations stored.");
                                 }
 
-                                if (userData.get(FB_FIRSTNAME) == firstName && userData.get(FB_LASTNAME) == lastName) {
+                                if (userData.get(FB_FIRSTNAME) == firstName
+                                        && userData.get(FB_LASTNAME) == lastName) {
                                     //User is already logged in
-                                    Log.i(TAG, "getAndSetUserData: Success: User was already logged in:" + sciper);
+                                    Log.i(TAG, "getAndSetUserData: Success: User was " +
+                                            "already logged in:" + sciper);
                                     return;
                                 }
                                 //New login but user is already in database
@@ -123,39 +122,13 @@ public class Firebase {
                                 savePlayerData();
                             }
                         } else {
-                            Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
+                            Log.e(TAG, "getAndSetUserData: Failure: The connection with " +
+                                    "the server failed, " + task.getException());
 
                         }
                     }
                 });
     }
-
-    /*
-    public Object getUserData(final String key, final Object value) {
-        if(!FB_ALL_ENTRIES.contains(key)) {
-            Log.i(TAG, "The key is not valid.");
-            return null;
-        }
-        putUserData(key, value);
-
-        db.document(FB_USERS+"/"+Integer.toString(Player.get().getSciper())+key)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot document) {
-                        if(document.exists()) {
-                            userData = document.getData();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-    }
-    */
 
     /**
      * Method used when mutiple change on the player are made. This will update userData attribute
@@ -187,11 +160,11 @@ public class Firebase {
      * The method suppose that the player is already present in the database,
      * otherwise the form of its informations will be unpredictable.
      *
-     * @param key   the key where the value will be put
-     * @param value the value
+     * @param key   The key where the value will be put.
+     * @param value The value.
      */
     public void setUserData(final String key, final Object value) {
-        if (Player.get().getSciper() == Player.INITIAL_SCIPER) {
+        if (Player.get().getSciper() == INITIAL_SCIPER) {
             return;
         }
 
@@ -220,8 +193,8 @@ public class Firebase {
     /**
      * Set the informations of the user corresponding to @sciper to @infos in the database
      *
-     * @param sciper
-     * @param infos
+     * @param sciper The sciper of the player.
+     * @param infos  Informations to be put.
      */
     public void setUserInfos(final int sciper, Map<String, Object> infos) {
         for (String key : infos.keySet()) {
@@ -251,9 +224,9 @@ public class Firebase {
      * Reset the infos of a given user on the database. If he/she wasn't present, it will create
      * it with the initial values.
      *
-     * @param sciper
-     * @param firstName
-     * @param lastName
+     * @param sciper    The sciper of the player.
+     * @param firstName The first name of the player.
+     * @param lastName  The last name of the player.
      */
     public void resetUserInfos(final int sciper, final String firstName, final String lastName) {
         Map<String, Object> initialInfos = new HashMap<>();
@@ -282,6 +255,3 @@ public class Firebase {
                 });
     }
 }
-
-
-
