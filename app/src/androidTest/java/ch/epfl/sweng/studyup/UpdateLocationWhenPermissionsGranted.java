@@ -4,12 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.location.Location;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.junit.Before;
@@ -83,9 +85,24 @@ public class UpdateLocationWhenPermissionsGranted {
                                 assertEquals(MOCK_LAT, Utils.position.latitude);
                                 assertEquals(MOCK_LONG, Utils.position.longitude);
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                assertEquals(1, 2);
+                            }
                         });
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        assertEquals(1, 2);
+                    }
                 });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                assertEquals(1, 2);
             }
         });
     }
