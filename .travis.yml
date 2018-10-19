@@ -9,7 +9,6 @@ android:
     - android-22
     # The system image, to run an emulator during the tests
     - sys-img-armeabi-v7a-android-22
-  dependencies:
     # Google Play Services
     - extra-google-google_play_services
     - extra-google-m2repository
