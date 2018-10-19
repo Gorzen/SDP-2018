@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -25,13 +26,26 @@ public class AuthenticationActivity extends AppCompatActivity {
         if (token != null) {
             String greeting = Authenticator.getGreeting(token);
                 if (greeting != null) {
-                    TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
-                    profileDataDisplay.setText(greeting);
-                    return;
+                    //TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
+                    //profileDataDisplay.setText(greeting);
+                    //return;
+                    Firebase.get().getAndSetUserData(
+                        Player.get().getSciper(),
+                        Player.get().getFirstName(),
+                        Player.get().getLastName()
+                    );
+
+                    Intent initMainActivity = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    initMainActivity.putExtra(
+                        getString(R.string.post_login_message_value),
+                        getString(R.string.post_login_message_value)
+                    );
+                    startActivity(initMainActivity);
                 }
         }
         reportAuthError();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +58,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         Uri authCodeURI = getIntent().getData();
-        String code = null;
-        String error = "error"; //For test purpose, to remove in the future
-        try {
-            code = authCodeURI.getQueryParameter("code");
-            error = authCodeURI.getQueryParameter("error");
-        } catch(NullPointerException e) {
-            Log.i(TAG, "Problem extracting data from Intent's Uri.");
-        }
+        String code = authCodeURI.getQueryParameter("code");
+        String error = authCodeURI.getQueryParameter("error");
+
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
         }
@@ -60,9 +69,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             Log.e("AUTH ERROR", error);
         }
 
-        Firebase.get().getAndSetUserData(
-                Player.get().getSciper(),
-                Player.get().getFirstName(),
-                Player.get().getLastName());
+        Intent returnToLoginActivity = new Intent(AuthenticationActivity.this, LoginActivity.class);
+        returnToLoginActivity.putExtra(
+            getString(R.string.post_login_message_key),
+            getString(R.string.login_failed_value)
+        );
     }
 }

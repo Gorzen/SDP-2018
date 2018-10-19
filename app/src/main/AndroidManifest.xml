@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-  
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,34 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".AuthenticationActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:host="login" android:scheme="studyup"/>
+                <data
+                    android:host="login"
+                    android:scheme="studyup" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".question.AddQuestionActivity"
-            android:label="Add a question"/>
+            android:label="Add a question" />
         <activity android:name=".QuestsActivity" />
         <activity android:name=".RankingsActivity" />
-        <activity android:name=".ChatActivity"/>
-        <activity android:name=".CustomActivity"/>
-        <activity android:name=".Navigation"/>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".CustomActivity" />
+        <activity android:name=".Navigation" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -55,12 +48,22 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"/>
-        <service android:name=".BackgroundLocation"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="true"/>
+            android:label="@string/title_activity_maps" />
+
+        <service
+            android:name=".BackgroundLocation"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
