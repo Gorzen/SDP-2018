@@ -52,11 +52,13 @@ public class UpdateLocationWhenPermissionsGranted {
         Utils.mockLoc = new Location(location);
         Utils.isMockEnabled = true;
         mActivityRule2.launchActivity(new Intent());
+        /*
         try{
             Runtime.getRuntime().exec(String.format("adb shell appops set %s android:mock_location allow", mActivityRule2.getActivity().getApplicationContext().getPackageName()));
         }catch(IOException e){
             Log.e("GPS_TEST", e.getMessage());
         }
+        */
     }
 
     @Test

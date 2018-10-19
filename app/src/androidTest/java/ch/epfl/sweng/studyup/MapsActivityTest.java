@@ -39,6 +39,19 @@ public class MapsActivityTest {
     }
 
     @Test
+    public void onLocationUpdateMarkerChanges(){
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivity.onLocationUpdate(latlng);
+                LatLng marker = mActivity.getMarkerPos();
+                assertEquals(LAT, marker.latitude, 0.0);
+                assertEquals(LONG, marker.longitude, 0.0);
+            }
+        });
+    }
+
+    @Test
     public void onLocationUpdateChangesUtilsPos() {
         mActivity.runOnUiThread(new Runnable() {
             @Override

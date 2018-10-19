@@ -6,16 +6,20 @@ android:
     # The SDK version used to compile your project
     - android-28
     # The SDK version used by the system image
-    - android-22
+    - android-24
+    # Google Play Services
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-24
     # The system image, to run an emulator during the tests
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-24
 before_script:
   # Emulator Management: Create, Start and Wait
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 83
-  - adb shell appops set com ch.epfl.sweng.studyup 58 allow
   # This should be in the `before_script` entry
   # Set up Code Climate test reporter
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -23,7 +27,9 @@ before_script:
   - chmod +x gradlew
   - ./cc-test-reporter before-build
 script:
-  - ./gradlew build connectedCheck jacocoTestReport
+  - ./gradlew build installDebug
+  - adb shell appops set ch.epfl.sweng.studyup 58 allow
+  - ./gradlew connectedCheck jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/
