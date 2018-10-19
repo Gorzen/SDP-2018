@@ -95,7 +95,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
     public void answerQuestion(View view){
         RadioGroup answerGroup = findViewById(R.id.answer_radio_group);
         RadioButton checkedAnswer = findViewById(answerGroup.getCheckedRadioButtonId());
-        //substract 1 to have answer between 0 and 3
+        //subtract 1 to have answer between 0 and 3
         int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
         //TODO : What to do next ?
