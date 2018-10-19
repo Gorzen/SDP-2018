@@ -57,6 +57,7 @@ public class Utils {
     public static final String DENY = "DENY";
     public static final String CAMERA = "Camera";
     public static final String GALLERY = "Gallery";
+    public static final String CANCEL = "Cancel";
     // Map that links item id to activities
     public static final Map<Integer, Class> idToAct;
     // Better in resources?
