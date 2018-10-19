@@ -38,7 +38,6 @@ public class MapsActivityTest {
         assertEquals(LocationRequest.PRIORITY_HIGH_ACCURACY, mActivity.getPriority());
     }
 
-    /*
     @Test
     public void onLocationUpdateMarkerChanges(){
         mActivity.runOnUiThread(new Runnable() {
@@ -51,7 +50,6 @@ public class MapsActivityTest {
             }
         });
     }
-    */
 
     @Test
     public void onLocationUpdateChangesUtilsPos() {
