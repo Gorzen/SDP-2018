@@ -221,20 +221,11 @@ public class MainActivity extends Navigation {
         startActivity(intent);
     }
 
-
-    public void onLoginButtonClick(View view) {
-        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
-        Intent authIntent = new Intent(Intent.ACTION_VIEW);
-        authIntent.setData(Uri.parse(authURL));
-        startActivity(authIntent);
-    }
-
     /**
      * Function that is called when adding xp with the button
      *
      * @param view
      */
-
     public void addExpPlayer(View view) {
         Player.get().addExperience(XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
