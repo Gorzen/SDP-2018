@@ -22,6 +22,8 @@
     <string name="multiple_choice_question_text">Multiple choice question</string>
     <string name="answer_number_text">Indicate the answer</string>
     <string name="image_at">Image at: </string>
+    <string name="display_question">Question</string>
+    <string name="answer_question">Answer</string>
     <string name="add_text">Add</string>
     <string name="user_photo">User Photo</string>
     <string name="user_photo_btn">User Photo Button</string>

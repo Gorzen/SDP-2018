@@ -111,8 +111,9 @@ public class AddQuestionActivity extends AppCompatActivity {
                 Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
-                Intent goToMain = new Intent(this, MainActivity.class);
-                startActivity(goToMain);
+                /*Intent goToMain = new Intent(this, MainActivity.class);
+                startActivity(goToMain);*/
+                startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(this, q));
             }
         }
     }
