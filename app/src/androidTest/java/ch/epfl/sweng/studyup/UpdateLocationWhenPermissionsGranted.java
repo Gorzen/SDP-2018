@@ -95,14 +95,14 @@ public class UpdateLocationWhenPermissionsGranted {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        assertEquals(1, 2);
+                        assertEquals(3, 4);
                     }
                 });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                assertEquals(1, 2);
+                assertEquals(5, 6);
             }
         });
     }
