@@ -112,12 +112,6 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testLogin() {
-        onView(withId(R.id.loginButton)).perform(click());
-        Utils.waitAndTag(1000, TAG);
-    }
-
-    @Test
     public void testOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
