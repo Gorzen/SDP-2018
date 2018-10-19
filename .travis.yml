@@ -13,7 +13,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - addon-google_apis-google-22
+    - addon-google_apis-google-24
 before_script:
   # Emulator Management: Create, Start and Wait
   - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
