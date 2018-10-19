@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.auth;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
@@ -33,6 +36,23 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (token != null) {
             String greeting = Authenticator.getGreeting(token);
+
+                if (greeting != null) {
+
+                    Firestore.get().getAndSetUserData(
+                        Player.get().getSciper(),
+                        Player.get().getFirstName(),
+                        Player.get().getLastName()
+                    );
+
+                    Intent initMainActivity = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    initMainActivity.putExtra(
+                        getString(R.string.post_login_message_value),
+                        getString(R.string.post_login_message_value)
+                    );
+                    startActivity(initMainActivity);
+                }
+
             if (greeting != null) {
                 TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
                 profileDataDisplay.setText(greeting);
@@ -41,6 +61,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
         reportAuthError();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +74,30 @@ public class AuthenticationActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         Uri authCodeURI = getIntent().getData();
-        String code = null;
-        String error = "error"; //For test purpose, to remove in the future
+
+        String code = authCodeURI.getQueryParameter("code");
+        String error = authCodeURI.getQueryParameter("error");
+
         try {
             code = authCodeURI.getQueryParameter("code");
             error = authCodeURI.getQueryParameter("error");
         } catch (NullPointerException e) {
             Log.i(TAG, "Problem extracting data from Intent's Uri.");
         }
+
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);
         }
+
+
+        Intent returnToLoginActivity = new Intent(AuthenticationActivity.this, LoginActivity.class);
+        returnToLoginActivity.putExtra(
+            getString(R.string.post_login_message_key),
+            getString(R.string.login_failed_value)
+        );
 
         Firestore.get().getAndSetUserData(
                 Player.get().getSciper(),
