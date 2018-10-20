@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,8 +30,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.Task;
-
-import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -40,6 +37,7 @@ import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
 
 public class MainActivity extends Navigation {
@@ -132,17 +130,16 @@ public class MainActivity extends Navigation {
             }
         });
 
-        // Username
-        view_username = findViewById(R.id.view_username);
-
+        //username
+        TextView view_username = findViewById(R.id.view_username);
 
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        // Bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, 0);
+        //bottom navigation bar
+        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.DEFAULT_INDEX);
 
         // Level progression bar
         ActivityCompat.requestPermissions(
@@ -238,6 +235,7 @@ public class MainActivity extends Navigation {
         lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
+
 }
 
 

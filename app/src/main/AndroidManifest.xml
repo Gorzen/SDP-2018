@@ -17,15 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".MainActivity"/>
 
         <activity android:name=".auth.AuthenticationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="login"
                     android:scheme="studyup" />
@@ -34,8 +39,8 @@
 
         <activity
             android:name=".questions.AddQuestionActivity"
-            android:label="Add a question" />
-
+            android:label="Add a question"/>
+      
         <activity android:name=".player.QuestsActivity" />
         <activity android:name=".social.RankingsActivity" />
         <activity android:name=".social.ChatActivity" />
@@ -55,8 +60,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".map.MapActivity"
-            android:label="@string/title_activity_maps" />
+            android:name=".map.MapsActivity"
+            android:label="@string/title_activity_maps"/>
 
         <service
             android:name=".map.BackgroundLocation"
@@ -64,13 +69,6 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".questions.DisplayQuestionActivity"/>
-		
-        <activity android:name=".LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <service android:name=".map.BackgroundLocation"
             android:permission="android.permission.BIND_JOB_SERVICE"

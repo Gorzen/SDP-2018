@@ -35,7 +35,6 @@ import static org.junit.Assert.assertNotNull;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
-    private static final String TAG = MainActivityTest.class.getSimpleName();
     private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
     @Rule
