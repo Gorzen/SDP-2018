@@ -12,12 +12,23 @@ import android.widget.LinearLayout;
 
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     LinearLayout sliderDotsLayout;
     private ImageView[] dots;
+
+
+    // Display message from intent set by authentication activity upon failed login
+    public void displayFailedLoginMessage(Intent intent) {
+        String failureMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
+        if (failureMessage != null) {
+            Toast.makeText(getApplicationContext(), failureMessage, Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {}
         });
 
+        //on fail
+        displayFailedLoginMessage(getIntent());
     }
 
     public void onLoginButtonClick(View view) {
@@ -69,5 +82,4 @@ public class LoginActivity extends AppCompatActivity {
         authIntent.setData(Uri.parse(authURL));
         startActivity(authIntent);
     }
-
 }

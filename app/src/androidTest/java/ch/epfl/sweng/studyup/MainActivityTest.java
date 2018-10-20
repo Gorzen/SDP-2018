@@ -110,7 +110,6 @@ public class MainActivityTest {
         intended(hasComponent(CustomActivity.class.getName()));
     }
 
-
     @Test
     public void testOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());

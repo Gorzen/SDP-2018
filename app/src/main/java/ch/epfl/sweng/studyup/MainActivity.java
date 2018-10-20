@@ -55,6 +55,14 @@ public class MainActivity extends Navigation {
     private ImageButton pic_button2;
     private ImageView image_view;
 
+    // Display login success message from intent set by authentication activity
+    public void displayLoginSuccessMessage(Intent intent) {
+        String successMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
+        if (successMessage != null) {
+            Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDestroy() {
@@ -69,6 +77,8 @@ public class MainActivity extends Navigation {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        displayLoginSuccessMessage(getIntent());
 
         // User picture
         pic_button = findViewById(R.id.pic_btn);
@@ -213,7 +223,6 @@ public class MainActivity extends Navigation {
      *
      * @param view
      */
-
     public void addExpPlayer(View view) {
         Player.get().addExperience(XP_STEP);
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
