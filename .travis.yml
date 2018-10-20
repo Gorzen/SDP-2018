@@ -9,11 +9,6 @@ android:
     - android-22
     # The system image, to run an emulator during the tests
     - sys-img-armeabi-v7a-android-22
-    # Google Play Services
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - addon-google_apis-google-24
 before_script:
   # Emulator Management: Create, Start and Wait
   - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
@@ -28,6 +23,7 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - ./gradlew build installDebug
+  - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
   - adb shell appops set ch.epfl.sweng.studyup 58 allow
   - ./gradlew connectedCheck jacocoTestReport
 after_script:

@@ -84,19 +84,9 @@ public class MainActivity extends Navigation {
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
         Utils.mainContext = this.getApplicationContext();
         Utils.locationProviderClient = new FusedLocationProviderClient(this);
-        if (Utils.isMockEnabled) {
-            /*
-            Task<Void> task = Utils.locationProviderClient.setMockMode(true);
-            Log.d("GPS_MAP", "Set mock mode was successful " + task.isSuccessful());
-            Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
-            Log.d("GPS_MAP", "Mock location set");
-            */
-        }
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
-        scheduler.schedule(jobInfo);
-        for (JobInfo job : scheduler.getAllPendingJobs()) {
-            Log.d("GPS_MAP", job.toString());
+
+        if (!Utils.isMockEnabled) {
+            scheduleBackgroundLocation();
         }
 
         image_view = findViewById(R.id.pic_imageview);
@@ -238,6 +228,16 @@ public class MainActivity extends Navigation {
 
         lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+    }
+
+    public void scheduleBackgroundLocation(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
+        scheduler.schedule(jobInfo);
+        for(JobInfo job: scheduler.getAllPendingJobs()){
+            Log.d("GPS_MAP", "Scheduled: " + job);
+        }
+        Log.d("GPS_MAP", "schedule");
     }
 }
 

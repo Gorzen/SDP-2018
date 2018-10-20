@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import static junit.framework.TestCase.assertEquals;
 
 
 @RunWith(AndroidJUnit4.class)
-public class UpdateLocationWhenPermissionsGranted {
+public class MockLocationTest {
     private static final double MOCK_LAT = 10;
     private static final double MOCK_LONG = 0;
 
@@ -42,9 +43,8 @@ public class UpdateLocationWhenPermissionsGranted {
     public GrantPermissionRule permissionRule2 = GrantPermissionRule.grant(Manifest.permission.ACCESS_COARSE_LOCATION);
 
     @Before
-    public void grantMockLocation(){
+    public void SetupMockLocationTest() {
         Log.d("GPS_MAP", "Starting test updateLocation");
-        Log.d("GPS_MAP", "Activity: " + mActivityRule2.getActivity());
         android.location.Location location = new android.location.Location("Mock");
         location.setLatitude(MOCK_LAT);
         location.setLongitude(MOCK_LONG);
@@ -53,18 +53,12 @@ public class UpdateLocationWhenPermissionsGranted {
         location.setTime(System.currentTimeMillis());
         Utils.mockLoc = new Location(location);
         Utils.isMockEnabled = true;
+        Utils.position = null;
         mActivityRule2.launchActivity(new Intent());
-        /*
-        try{
-            Runtime.getRuntime().exec(String.format("adb shell appops set %s android:mock_location allow", mActivityRule2.getActivity().getApplicationContext().getPackageName()));
-        }catch(IOException e){
-            Log.e("GPS_TEST", e.getMessage());
-        }
-        */
     }
 
     @Test
-    public void updateLocation() {
+    public void backgroundLocationTest() {
         Utils.locationProviderClient.setMockMode(true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -74,23 +68,8 @@ public class UpdateLocationWhenPermissionsGranted {
                     public void onSuccess(Void aVoid) {
                         Log.d("GPS_MAP", "Mock location set");
 
-                        Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(Location location) {
-                                Log.d("GPS_MAP", "Last location: " + location);
-                                Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
-                                Log.d("GPS_MAP", "Got last location");
-
-                                Log.d("GPS_MAP", "Started assert");
-                                assertEquals(MOCK_LAT, Utils.position.latitude);
-                                assertEquals(MOCK_LONG, Utils.position.longitude);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                assertEquals(1, 2);
-                            }
-                        });
+                        Log.d("GPS_MAP", "Schedule background location");
+                        mActivityRule2.getActivity().scheduleBackgroundLocation();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -105,6 +84,16 @@ public class UpdateLocationWhenPermissionsGranted {
                 assertEquals(5, 6);
             }
         });
-    }
 
+        try{
+            //Wait for async task to finish
+            Thread.sleep(1000);
+        }catch (InterruptedException e){
+            Log.e("GPS_TEST", e.getMessage());
+        }
+
+        Log.d("GPS_MAP", "Started assert");
+        assertEquals(MOCK_LAT, Utils.position.latitude);
+        assertEquals(MOCK_LONG, Utils.position.longitude);
+    }
 }
