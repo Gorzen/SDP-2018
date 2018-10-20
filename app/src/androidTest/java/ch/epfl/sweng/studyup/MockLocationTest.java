@@ -31,6 +31,8 @@ import static junit.framework.TestCase.assertEquals;
 public class MockLocationTest {
     private static final double MOCK_LAT = 10;
     private static final double MOCK_LONG = 0;
+    private boolean mockLocationSet = false;
+    private boolean jobFinished = false;
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
@@ -67,6 +69,7 @@ public class MockLocationTest {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("GPS_MAP", "Mock location set");
+                        mockLocationSet = true;
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -82,9 +85,11 @@ public class MockLocationTest {
             }
         });
 
+        //Wait for Mock Mode and Mock Location to finish
+        while(!mockLocationSet);
+
         try{
-            //Wait for Mock Mode and Mock Location to finish
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
@@ -92,11 +97,10 @@ public class MockLocationTest {
         Log.d("GPS_MAP", "Schedule background location");
         mActivityRule2.getActivity().scheduleBackgroundLocation();
 
-        try{
-            //Wait for async task to finish
-            Thread.sleep(5000);
-        }catch (InterruptedException e){
-            Log.e("GPS_TEST", e.getMessage());
+
+        //Wait for Async Task to finish
+        while (!jobFinished){
+            jobFinished = !(Utils.position == null);
         }
 
         Log.d("GPS_MAP", "Started assert");
