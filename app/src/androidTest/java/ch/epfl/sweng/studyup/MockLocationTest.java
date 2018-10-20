@@ -84,7 +84,7 @@ public class MockLocationTest {
 
         try{
             //Wait for Mock Mode and Mock Location to finish
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
@@ -94,7 +94,7 @@ public class MockLocationTest {
 
         try{
             //Wait for async task to finish
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
