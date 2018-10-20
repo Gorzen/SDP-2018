@@ -67,9 +67,6 @@ public class MockLocationTest {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("GPS_MAP", "Mock location set");
-
-                        Log.d("GPS_MAP", "Schedule background location");
-                        mActivityRule2.getActivity().scheduleBackgroundLocation();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -86,8 +83,18 @@ public class MockLocationTest {
         });
 
         try{
+            //Wait for Mock Mode and Mock Location to finish
+            Thread.sleep(2000);
+        }catch (InterruptedException e){
+            Log.e("GPS_TEST", e.getMessage());
+        }
+
+        Log.d("GPS_MAP", "Schedule background location");
+        mActivityRule2.getActivity().scheduleBackgroundLocation();
+
+        try{
             //Wait for async task to finish
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
