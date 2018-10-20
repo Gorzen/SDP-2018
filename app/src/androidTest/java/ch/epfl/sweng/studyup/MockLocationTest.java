@@ -88,6 +88,8 @@ public class MockLocationTest {
         //Wait for Mock Mode and Mock Location to finish
         while(!mockLocationSet);
 
+        assertEquals(1, 2);
+
         try{
             Thread.sleep(1000);
         }catch (InterruptedException e){
