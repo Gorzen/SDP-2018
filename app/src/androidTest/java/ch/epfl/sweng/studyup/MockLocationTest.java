@@ -94,8 +94,17 @@ public class MockLocationTest {
             Log.e("GPS_TEST", e.getMessage());
         }
 
+        /*
         Log.d("GPS_MAP", "Schedule background location");
         mActivityRule2.getActivity().scheduleBackgroundLocation();
+        */
+
+        Utils.locationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
+            }
+        });
 
 
         //Wait for Async Task to finish
