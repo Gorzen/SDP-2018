@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
  * QuestsActivity
@@ -26,7 +27,7 @@ public class QuestsActivity extends Navigation {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, QUESTS_INDEX);
+        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
     }
 
     // Display the toolbar

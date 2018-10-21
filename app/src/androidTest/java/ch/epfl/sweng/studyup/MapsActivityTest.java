@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.map.MapActivity;
+import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
@@ -19,11 +19,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
     @Rule
-    public final ActivityTestRule<MapActivity> mActivityRule = new ActivityTestRule<>(MapActivity.class);
+    public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
     private final double LAT = 35.323;
     private final double LONG = 56.43;
     private LatLng latlng;
-    private MapActivity mActivity;
+    private MapsActivity mActivity;
 
     @Before
     public void init() {

@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 public class RankingsActivity extends Navigation {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class RankingsActivity extends Navigation {
         getSupportActionBar().setTitle(null);
 
 
-        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
+        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, Utils.RANKINGS_INDEX);
     }
 
     //Display the toolbar
