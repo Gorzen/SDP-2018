@@ -8,6 +8,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.support.v4.content.ContextCompat;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,7 +45,7 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
         clickButton(Utils.CAMERA);
         clickButton(Utils.ALLOW);
-        assertTrue(checkSelfPermission(mActivity.getApplicationContext(), Manifest.permission.CAMERA)    == PackageManager.PERMISSION_GRANTED);
+        assertTrue(ContextCompat.checkSelfPermission(mActivity.getApplicationContext(), Manifest.permission.CAMERA)    == PackageManager.PERMISSION_GRANTED);
     }
 
     public void clickButton(String textButton) throws UiObjectNotFoundException {
