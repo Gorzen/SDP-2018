@@ -157,8 +157,7 @@ public class Firestore {
 
     /**
      * Method used to update a value for the current player in the database
-     * The method suppose that the player is already present in the database,
-     * otherwise the form of its informations will be unpredictable.
+     * The method suppose that the player is already present in the database.
      *
      * @param key   The key where the value will be put.
      * @param value The value.
@@ -175,23 +174,17 @@ public class Firestore {
         putUserData(key, value);
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
-                .set(userData)
+                .update(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "Succes: setUserData(" + Player.get().getSciper() + ").");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "Error: setUserData, " + e.toString());
-                    }
                 });
     }
 
     /**
-     * Set the informations of the user corresponding to @sciper to @infos in the database //TODO
+     * Set the informations of the user corresponding to @sciper to @infos in the database
      *
      * @param sciper The sciper of the player.
      * @param infos  Informations to be put.
@@ -205,7 +198,7 @@ public class Firestore {
         }
 
         db.collection(FB_USERS).document(Integer.toString(sciper))
-                .set(infos)
+                .update(infos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
