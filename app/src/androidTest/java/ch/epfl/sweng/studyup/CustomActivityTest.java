@@ -43,9 +43,6 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(Utils.CAMERA)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
-        clickButton(Utils.CAMERA);
-        clickButton(Utils.ALLOW);
-        assertTrue(ContextCompat.checkSelfPermission(mActivity.getApplicationContext(), Manifest.permission.CAMERA)    == PackageManager.PERMISSION_GRANTED);
     }
 
     public void clickButton(String textButton) throws UiObjectNotFoundException {
