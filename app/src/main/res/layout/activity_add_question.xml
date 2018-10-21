@@ -60,7 +60,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:text="@string/answer_number_text"
@@ -108,7 +107,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:tag="4"
-            android:text="4" />
+            android:text="4"
+            tools:layout_editor_absoluteX="160dp"
+            tools:layout_editor_absoluteY="327dp" />
+
     </RadioGroup>
 
     <Button

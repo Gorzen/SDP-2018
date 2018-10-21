@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <!--TOP TOOL BAR-->
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/topBar">
@@ -29,10 +30,23 @@
 
             </android.support.v7.widget.Toolbar>
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
 
-        <RelativeLayout
+        <!--MIDDLE SPACE-->
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottomBar"
+            android:layout_below="@+id/topBar">
+        </android.support.constraint.ConstraintLayout>
+
+
+        <!--BOTTOM NAV BAR-->
+
+        <android.support.constraint.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/bottomBar"
@@ -45,15 +59,14 @@
                 android:background="@drawable/white_grey_border_top"
                 app:menu="@menu/navigation"
                 app:labelVisibilityMode="labeled">
-
-
-
             </android.support.design.widget.BottomNavigationView>
-        </RelativeLayout>
 
+        </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
 
+    <!--OVERLAPPING THINGS-->
 
 
-</android.support.design.widget.CoordinatorLayout>
+
+</android.support.constraint.ConstraintLayout>
