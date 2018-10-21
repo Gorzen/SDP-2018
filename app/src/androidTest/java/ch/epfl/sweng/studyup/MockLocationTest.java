@@ -70,6 +70,8 @@ public class MockLocationTest {
                     public void onSuccess(Void aVoid) {
                         Log.d("GPS_MAP", "Mock location set");
                         mockLocationSet = true;
+                        assertEquals(true, mockLocationSet);
+                        assertEquals(10, 11);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
