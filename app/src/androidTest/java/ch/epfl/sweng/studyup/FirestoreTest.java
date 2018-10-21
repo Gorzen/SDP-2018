@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom; //Random int library
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
@@ -40,7 +41,7 @@ public class FirestoreTest {
     /**
      * Put the "Truth values" into the dummy map
      */
-    public static void resetData() {
+    public static void resetDummy() {
         dummy = new HashMap<>();
         dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
         dummy.put(FB_LASTNAME, INITIAL_LASTNAME);
@@ -48,6 +49,7 @@ public class FirestoreTest {
         dummy.put(FB_SECTION, section);
         dummy.put(FB_XP, xp);
         dummy.put(FB_YEAR, year);
+        dummy.put(FB_CURRENCY, INITIAL_CURRENCY);
     }
 
     /**
@@ -60,15 +62,15 @@ public class FirestoreTest {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
         Player.get().setLastName(INITIAL_LASTNAME);
 
-        resetData();
+        resetDummy();
     }
 
     /**
      * Cleanup of modified values
      */
     @After
-    public void cleanup() {
-        resetData();
+    public void cleanupSciperOnDB() {
+        resetDummy();
 
         Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
@@ -111,7 +113,7 @@ public class FirestoreTest {
         Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        resetData();
+        resetDummy();
         for (Map.Entry<String, Object> entry : dummy.entrySet()) {
             assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
         }
@@ -119,19 +121,30 @@ public class FirestoreTest {
 
     @Test
     public void addNewUserToDBTest() {
-        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-
+        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
+        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
+        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        assertEquals("John", Player.get().getFirstName());
+
+        //Check if values are the initial ones
+        assertEquals(INITIAL_CURRENCY, Player.get().getCurrency());
+        assertEquals(INITIAL_XP, Player.get().getExperience());
+
+        //Check if the names are the correct ones
+        assertEquals("John", dbStaticInfo.get(FB_FIRSTNAME));
         assertEquals("Doe", dbStaticInfo.get(FB_LASTNAME));
     }
 
     @Test
     public void setInfosTest() {
+        int randomCurr = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
+        dummy.put(FB_CURRENCY, randomCurr);
         Firestore.get().setUserInfos(sciper, dummy);
 
         Firestore.getData(sciper);
@@ -148,15 +161,10 @@ public class FirestoreTest {
     resetUser() {
         Player.get().setSciper(sciper);
         Firestore.get().setUserData(FB_XP, INITIAL_XP + 1);
+        waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
 
-        dummy.put(FB_SCIPER, sciper);
-        dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
-        dummy.put(FB_LASTNAME, INITIAL_LASTNAME);
-        dummy.put(FB_CURRENCY, INITIAL_CURRENCY);
-        dummy.put(FB_LEVEL, INITIAL_LEVEL);
-        dummy.put(FB_XP, INITIAL_XP);
-        dummy.put(FB_TOKEN, null);
+        resetDummy();
 
         Firestore.getData(sciper);
 

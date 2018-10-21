@@ -60,6 +60,9 @@ public class Authenticator {
                 greeting += "Welcome, " + profileContainer.firstName + ".\n";
                 currPlayer.setFirstName(profileContainer.firstName);
             }
+            if (profileContainer.lastname != null) {
+                currPlayer.setLastName(profileContainer.lastname);
+            }
             greeting += "Your Sciper number is " + profileContainer.sciperNo + ".";
 
             return greeting;
@@ -122,6 +125,9 @@ public class Authenticator {
 
         @SerializedName("Firstname")
         public String firstName;
+
+        @SerializedName("Lastname")
+        public String lastname;
 
         @SerializedName("Sciper")
         public String sciperNo;

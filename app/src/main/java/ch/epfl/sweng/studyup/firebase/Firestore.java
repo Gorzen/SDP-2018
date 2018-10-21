@@ -191,7 +191,7 @@ public class Firestore {
     }
 
     /**
-     * Set the informations of the user corresponding to @sciper to @infos in the database
+     * Set the informations of the user corresponding to @sciper to @infos in the database //TODO
      *
      * @param sciper The sciper of the player.
      * @param infos  Informations to be put.

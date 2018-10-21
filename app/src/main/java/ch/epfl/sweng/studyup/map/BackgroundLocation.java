@@ -52,6 +52,13 @@ public class BackgroundLocation extends JobService {
 
         @Override
         protected JobParameters doInBackground(Void[] voids) {
+            /**
+             * TODO: often crash here because of NullPointer:
+             *  Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'int android.content.Context.checkPermission(java.lang.String, int, int)' on a null object reference
+             * at android.support.v4.content.ContextCompat.checkSelfPermission(ContextCompat.java:544)
+             * at ch.epfl.sweng.studyup.map.BackgroundLocation$GetLocation.doInBackground(BackgroundLocation.java:55)
+             * at ch.epfl.sweng.studyup.map.BackgroundLocation$GetLocation.doInBackground(BackgroundLocation.java:44)
+             */
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context,

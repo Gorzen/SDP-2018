@@ -98,10 +98,5 @@ public class AuthenticationActivity extends AppCompatActivity {
             getString(R.string.post_login_message_key),
             getString(R.string.login_failed_value)
         );
-
-        Firestore.get().getAndSetUserData(
-                Player.get().getSciper(),
-                Player.get().getFirstName(),
-                Player.get().getLastName());
     }
 }
