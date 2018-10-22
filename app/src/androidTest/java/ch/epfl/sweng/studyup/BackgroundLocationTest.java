@@ -16,7 +16,6 @@ public class BackgroundLocationTest {
     public final ActivityTestRule<MainActivity> mActivityRule2 =
             new ActivityTestRule<>(MainActivity.class);
 
-
     @Test
     public void backgroundLocationDoesntCrashWithBadParams(){
         BackgroundLocation backgroundLocation = new BackgroundLocation();
