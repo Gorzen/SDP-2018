@@ -1,10 +1,12 @@
 package ch.epfl.sweng.studyup;
 
 import android.provider.MediaStore;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.RadioGroup;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,17 +38,22 @@ public class LoginActivityTest {
         roles.clearCheck();
     }
 
+    @Before
+    public void initIntent() {
+        Intents.init();
+    }
+
+    @After
+    public void releaseIntent() {
+        Intents.release();
+    }
+
     @Test
     public void userHasToChooseRoleBeforeContinuing() {
         onView(withId(R.id.loginButton)).perform(click());
-        //If no exception is thrown that would mean an intent has bee started
-        // (and thus the current activity being changed)
-        try {
-            intended(hasComponent(LoginActivity.class.getName()));
-        } catch(NullPointerException e) {
-            return;
-        }
-        fail();
+        //If we're still on the loginActivity, that means we can still use the buttons
+        onView(withId(R.id.student)).perform(click());
+        onView(withId(R.id.teacher)).perform(click());
     }
 
     @Test
