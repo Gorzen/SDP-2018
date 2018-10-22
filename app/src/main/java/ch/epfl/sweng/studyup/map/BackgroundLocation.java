@@ -41,7 +41,7 @@ public class BackgroundLocation extends JobService {
         return false;
     }
 
-    private class GetLocation extends AsyncTask<Void, Void, JobParameters> {
+    public class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
 
@@ -51,7 +51,7 @@ public class BackgroundLocation extends JobService {
         }
 
         @Override
-        protected JobParameters doInBackground(Void[] voids) {
+        public JobParameters doInBackground(Void[] voids) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context,
@@ -82,9 +82,11 @@ public class BackgroundLocation extends JobService {
         }
 
         @Override
-        protected void onPostExecute(JobParameters jobParameters) {
+        public void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            jobService.jobFinished(jobParameters, true);
+            if(jobParameters != null) {
+                jobService.jobFinished(jobParameters, true);
+            }
         }
     }
 }

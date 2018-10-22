@@ -25,7 +25,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
  * MapActivity
- *
+ * <p>
  * Code used in the activity_map.
  */
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -99,7 +99,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     public void onLocationUpdate(LatLng latLong) {
-        // Instead of if(mMap != null) {...}
         if (latLong != null) {
             Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
@@ -124,10 +123,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         return locationRequest.getPriority();
     }
 
-    // TODO
     public LatLng getMarkerPos() {
-        // Test fail on Travis because of NullPointerException
-        // Probably because there is no map so no updated location
         if (location != null) {
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
         } else {
