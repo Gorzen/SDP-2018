@@ -10,9 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import ch.epfl.sweng.studyup.R;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-import static ch.epfl.sweng.studyup.utils.Utils.idToAct;
+import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivity;
+import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.social.RankingsActivity;
+
 
 /**
  * Navigation
@@ -27,7 +34,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat
     //TODO Make it private in MainActivity when linking with firebase
     public TextView view_username;
 
-    public void navigationSwitcher(final Context cn, final Class<?> c, final int current_index) {
+    public void navigationSwitcher(final Context cn, final Class<?> activity, final int current_index) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
 
@@ -38,19 +45,33 @@ public class Navigation extends AppCompatActivity implements ActivityCompat
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                try {
-                    Class activity = idToAct.get(item.getItemId());
+                final ArrayList<Integer> button_ids = new ArrayList<>(Arrays.asList(
+                        R.id.navigation_home,
+                        R.id.navigation_quests,
+                        R.id.navigation_rankings,
+                        R.id.navigation_map,
+                        R.id.navigation_chat));
+                final ArrayList<Class> activities = new ArrayList<Class>(Arrays.asList(
+                        MainActivity.class,
+                        QuestsActivity.class,
+                        RankingsActivity.class,
+                        MapsActivity.class,
+                        ChatActivity.class));
+                final ArrayList<Integer> activities_id = new ArrayList<>(Arrays.asList(
+                        Utils.DEFAULT_INDEX,
+                        Utils.QUESTS_INDEX,
+                        Utils.RANKINGS_INDEX,
+                        Utils.MAP_INDEX,
+                        Utils.MAX_INDEX));
 
-                    if (!this.getClass().getName().equals(activity.getName())) {
-                        Intent intent_m = new Intent(cn, activity);
-                        startActivity(intent_m);
-                        // OverridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
-                        transitionForNavigation(current_index, DEFAULT_INDEX);
+                for (int i = 0; i <= Utils.MAX_INDEX; i++) {
+                    if (item.getItemId() == button_ids.get(i) && !activity.equals(activities.get(i))) {
+                        Intent intent = new Intent(cn, activities.get(i));
+                        startActivity(intent);
+                        transitionForNavigation(current_index, activities_id.get(i));
                     }
-                    return true;
-                } catch (NullPointerException e) {
-                    return false;
                 }
+                return false;
             }
         });
     }

@@ -91,3 +91,7 @@ android {
 
     apply plugin: 'com.google.gms.google-services'
 }
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
