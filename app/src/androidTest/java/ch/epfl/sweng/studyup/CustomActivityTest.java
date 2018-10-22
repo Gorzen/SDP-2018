@@ -57,6 +57,7 @@ public class CustomActivityTest {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden"));
         onView(withId(R.id.valid_btn)).perform(click());
         onView(withId(R.id.view_username)).check(matches(withText("Wir Sind Helden")));
+        
     }
 
     @Test
