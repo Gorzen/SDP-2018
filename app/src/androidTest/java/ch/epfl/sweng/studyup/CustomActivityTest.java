@@ -50,7 +50,6 @@ public class CustomActivityTest {
     @Before
     public void init() {
         mActivity = mActivityRule.getActivity();
-
     }
 
     @Test
