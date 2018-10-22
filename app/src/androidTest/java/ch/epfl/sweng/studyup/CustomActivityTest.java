@@ -65,7 +65,7 @@ public class CustomActivityTest {
         clickButton(Utils.CAMERA);
         assertTrue(device.findObject(new UiSelector().text(Utils.DENY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.ALLOW)).exists());
-        clickButton(Utils.DENY);
+       // clickButton(Utils.DENY);
     }
 
     @Test
