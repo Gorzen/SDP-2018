@@ -213,11 +213,6 @@ public class MainActivity extends Navigation {
         return super.onOptionsItemSelected(item);
     }
 
-    public void questionAddTest(View view) {
-        Intent intent = new Intent(this, AddQuestionActivity.class);
-        startActivity(intent);
-    }
-
     /**
      * Function that is called when adding xp with the button
      *
