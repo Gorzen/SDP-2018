@@ -28,7 +28,7 @@ import static junit.framework.TestCase.fail;
 public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> rule =
-            new ActivityTestRule<>(LoginActivity.class, true, false);
+            new ActivityTestRule<>(LoginActivity.class, true, true);
 
     @Before
     public void clearChecks() {
