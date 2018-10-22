@@ -126,7 +126,7 @@ public class Authenticator {
         @SerializedName("Firstname")
         public String firstName;
 
-        @SerializedName("Lastname")
+        @SerializedName("Name")
         public String lastname;
 
         @SerializedName("Sciper")

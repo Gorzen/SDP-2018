@@ -10,8 +10,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -77,9 +80,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginButtonClick(View view) {
-        String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
-        Intent authIntent = new Intent(Intent.ACTION_VIEW);
-        authIntent.setData(Uri.parse(authURL));
-        startActivity(authIntent);
+        RadioGroup roles = findViewById(R.id.StudentOrTeacherButtons);
+        RadioButton checkedRole = findViewById(roles.getCheckedRadioButtonId());
+        if(checkedRole == null) {
+            Toast.makeText(this, R.string.text_when_no_role_selected, Toast.LENGTH_SHORT).show();
+        } else {
+            if(checkedRole.getId() == R.id.student) {
+                Player.get().setRole(false);
+            } else {
+                Player.get().setRole(true);
+            }
+            String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
+            Intent authIntent = new Intent(Intent.ACTION_VIEW);
+            authIntent.setData(Uri.parse(authURL));
+            startActivity(authIntent);
+        }
+
     }
 }
