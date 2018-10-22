@@ -82,7 +82,6 @@ public class MockLocationTest {
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
-
         if(Utils.position != null) {
             Log.i("GPS_TEST", "Started assert");
             assertEquals(MOCK_LAT, Utils.position.latitude);
