@@ -99,7 +99,7 @@ public class QuestionParserTest {
             ArrayList<Question> list = new ArrayList<>();
             list.add(q1);
             assertTrue(QuestionParser.writeQuestions(list, context, true));
-            List<Question> parsedList = QuestionParser.parseQuestions(context);
+            List<Question> parsedList = QuestionParser.parseQuestions(context, true);
             System.out.println(parsedList);
             assertFalse(parsedList.isEmpty());
             ArrayList<Question> newList = new ArrayList<>(parsedList);

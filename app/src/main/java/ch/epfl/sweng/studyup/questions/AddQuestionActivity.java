@@ -145,6 +145,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                     thirdRadioButton.setChecked(false);
                     fourthRadioButton.setVisibility(View.VISIBLE);
                     fourthRadioButton.setChecked(false);
+                    firstRadioButton.setChecked(true);
 
                     //Change the text to the 1st and second button to True and False
                     firstRadioButton.setText("1");
