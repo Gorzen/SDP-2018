@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import android.content.Intent;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,12 +27,12 @@ import static junit.framework.TestCase.fail;
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
     @Rule
-    public final ActivityTestRule<LoginActivity> mActivityRule =
-            new ActivityTestRule<>(LoginActivity.class);
+    public ActivityTestRule<LoginActivity> rule =
+            new ActivityTestRule<>(LoginActivity.class, true, false);
 
     @Before
     public void clearChecks() {
-        RadioGroup roles = mActivityRule.getActivity().findViewById(R.id.StudentOrTeacherButtons);
+        RadioGroup roles = rule.getActivity().findViewById(R.id.StudentOrTeacherButtons);
         roles.clearCheck();
     }
 
@@ -62,5 +63,27 @@ public class LoginActivityTest {
         onView(withId(R.id.loginButton)).perform(click());
 
         assertFalse(Player.get().getRole());
+    }
+
+    // Test handle failed login message
+    @Test
+    public void testFailedLoginReport() {
+
+        Intent badLoginIntent = new Intent();
+        badLoginIntent.putExtra("login_message", "Failed Login");
+        rule.launchActivity(badLoginIntent);
+    }
+
+    // Test handle no login message
+    @Test
+    public void testNoReport() {
+        rule.launchActivity(new Intent());
+    }
+
+    // Test button click redirect
+    @Test
+    public void testLoginButtonRedirect() {
+        rule.launchActivity(new Intent());
+        onView(withId(R.id.loginButton)).perform(click());
     }
 }

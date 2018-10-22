@@ -17,6 +17,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import static android.app.PendingIntent.getActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     ViewPager viewPager;
@@ -28,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     public void displayFailedLoginMessage(Intent intent) {
         String failureMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
         if (failureMessage != null) {
-            Toast.makeText(getApplicationContext(), failureMessage, Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, failureMessage, Toast.LENGTH_LONG).show();
         }
     }
 
