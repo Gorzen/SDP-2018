@@ -74,8 +74,8 @@ public class CustomActivity extends Navigation {
         valid_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                valid_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_check_done_24dp));
-                view_username.setText(edit_username.getText());
+                valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
+                view_username.setText(edit_username.getText().toString());
             }
         });
 
@@ -167,7 +167,7 @@ public class CustomActivity extends Navigation {
         imageview.setImageDrawable(rbd);
     }
 
-    public String saveImage(Bitmap myBitmap) {
+    private String saveImage(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
@@ -180,6 +180,7 @@ public class CustomActivity extends Navigation {
             File f = new File(wallpaperDirectory, Calendar.getInstance()
                     .getTimeInMillis() + ".jpg");
             f.createNewFile();
+            Log.d("SAVEIM", f.getName());
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
             MediaScannerConnection.scanFile(this,
@@ -187,10 +188,9 @@ public class CustomActivity extends Navigation {
                     new String[]{"image/jpeg"}, null);
             fo.close();
             Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
             return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "";
     }
