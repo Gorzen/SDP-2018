@@ -20,7 +20,5 @@ public class UtilsTest {
         PowerMockito.when(Log.w("FAIL","Test was interrupted: ")).thenThrow(InterruptedException.class);
 
         waitAndTag(500, "FAIL");
-
-        // ?
     }
 }
