@@ -29,28 +29,7 @@ public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class, true, false);
-    @Test
-    public void userHasToChooseRoleBeforeContinuing() {
-        rule.launchActivity(new Intent());
-        onView(withId(R.id.loginButton)).perform(click());
-        //If we're still on the loginActivity, that means we can still use the buttons
-        onView(withId(R.id.student)).perform(click());
-        onView(withId(R.id.teacher)).perform(click());
-    }
-    @Test
-    public void teacherRoleIsStored() {
-        rule.launchActivity(new Intent());
-        onView(withId(R.id.teacher)).perform(click());
-        onView(withId(R.id.loginButton)).perform(click());
-        assertTrue(Player.get().getRole());
-    }
-    @Test
-    public void studentRoleIsStored() {
-        rule.launchActivity(new Intent());
-        onView(withId(R.id.student)).perform(click());
-        onView(withId(R.id.loginButton)).perform(click());
-        assertFalse(Player.get().getRole());
-    }
+
     // Test handle failed login message
     @Test
     public void testFailedLoginReport() {
