@@ -50,7 +50,6 @@ public class MapsActivityTest {
         });
     }
 
-    /*
     @Test
     public void getMarkerPosNoCrashWithBadParams() {
         mActivity.runOnUiThread(new Runnable() {
@@ -67,5 +66,4 @@ public class MapsActivityTest {
     public void onMapReadyNoCrashWithBadParams() {
         mActivity.onMapReady(null);
     }
-    */
 }
