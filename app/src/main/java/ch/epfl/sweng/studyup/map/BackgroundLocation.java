@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -21,12 +22,10 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Asynchronouly checks for the localisation in background.
  */
 public class BackgroundLocation extends JobService {
-    public static int BACKGROUND_LOCATION_ID = 0;
-    private final Context context;
+    public static int BACKGROUND_LOCATION_ID = 143;
 
     public BackgroundLocation() {
         Log.d("GPS_MAP", "Created background location, default constructor");
-        this.context = Utils.mainContext;
     }
 
     @Override
@@ -38,27 +37,25 @@ public class BackgroundLocation extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
+        if(jobParameters != null) {
+            jobFinished(jobParameters, false);
+        }
         return false;
     }
 
-    private class GetLocation extends AsyncTask<Void, Void, JobParameters> {
+    public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
+        private final Context context;
 
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = jobService;
             this.jobParameters = jobParameters;
+            this.context = Utils.mainContext;
         }
 
         @Override
-        protected JobParameters doInBackground(Void[] voids) {
-            /**
-             * TODO: often crash here because of NullPointer:
-             *  Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'int android.content.Context.checkPermission(java.lang.String, int, int)' on a null object reference
-             * at android.support.v4.content.ContextCompat.checkSelfPermission(ContextCompat.java:544)
-             * at ch.epfl.sweng.studyup.map.BackgroundLocation$GetLocation.doInBackground(BackgroundLocation.java:55)
-             * at ch.epfl.sweng.studyup.map.BackgroundLocation$GetLocation.doInBackground(BackgroundLocation.java:44)
-             */
+        public JobParameters doInBackground(Void[] voids) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context,
@@ -89,9 +86,11 @@ public class BackgroundLocation extends JobService {
         }
 
         @Override
-        protected void onPostExecute(JobParameters jobParameters) {
+        public void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            jobService.jobFinished(jobParameters, true);
+            if(jobParameters != null && jobService != null) {
+                jobService.jobFinished(jobParameters, true);
+            }
         }
     }
 }

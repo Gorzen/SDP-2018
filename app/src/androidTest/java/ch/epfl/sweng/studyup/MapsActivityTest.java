@@ -50,4 +50,20 @@ public class MapsActivityTest {
         });
     }
 
+    @Test
+    public void getMarkerPosNoCrashWithBadParams() {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivity.getMarkerPos();
+                mActivity.onMapReady(null);
+                mActivity.getMarkerPos();
+            }
+        });
+    }
+
+    @Test
+    public void onMapReadyNoCrashWithBadParams() {
+        mActivity.onMapReady(null);
+    }
 }
