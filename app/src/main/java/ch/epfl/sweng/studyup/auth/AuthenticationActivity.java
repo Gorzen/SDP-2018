@@ -82,6 +82,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Uri authCodeURI = getIntent().getData();
 
+        Log.i("CODE", authCodeURI.toString());
+
         String code = authCodeURI.getQueryParameter("code");
         String error = authCodeURI.getQueryParameter("error");
 
@@ -94,6 +96,11 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code);
+
+            Firestore.get().getAndSetUserData(
+                    Player.get().getSciper(),
+                    Player.get().getFirstName(),
+                    Player.get().getLastName());
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);
