@@ -11,8 +11,7 @@ import ch.epfl.sweng.studyup.map.BackgroundLocation;
 
 
 @RunWith(AndroidJUnit4.class)
-public class BackgroundLocationTest {
-    /*
+public class ServiceBackgroundLocationTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
             new ActivityTestRule<>(MainActivity.class);
@@ -27,5 +26,4 @@ public class BackgroundLocationTest {
         getLocation.doInBackground(new Void[]{});
         getLocation.onPostExecute(null);
     }
-    */
 }
