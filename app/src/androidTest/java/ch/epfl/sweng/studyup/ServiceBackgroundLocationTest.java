@@ -22,12 +22,12 @@ public class ServiceBackgroundLocationTest {
             @Override
             public void run() {
                 BackgroundLocation backgroundLocation = new BackgroundLocation();
-                //backgroundLocation.onStartJob(null);
-                //backgroundLocation.onStopJob(null);
+                backgroundLocation.onStartJob(null);
+                backgroundLocation.onStopJob(null);
 
                 BackgroundLocation.GetLocation getLocation = backgroundLocation.new GetLocation(null, null);
                 getLocation.doInBackground(new Void[]{});
-                //getLocation.onPostExecute(null);
+                getLocation.onPostExecute(null);
             }
         });
     }
