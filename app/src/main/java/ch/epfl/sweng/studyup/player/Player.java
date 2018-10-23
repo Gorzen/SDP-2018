@@ -18,6 +18,7 @@ public class Player {
     private int currency;
     private String firstName;
     private String lastName;
+    private boolean isTeacher;
     private int sciper;
     private int[] questionsCurr;
     private int[] questsCurr;
@@ -152,5 +153,18 @@ public class Player {
     public void setSciper(int sciper) {
         this.sciper = sciper;
         putUserData(FB_SCIPER, sciper);
+    }
+
+    public void setRole(boolean isTeacher) {
+        this.isTeacher = isTeacher;
+        if(isTeacher) {
+            putUserData(FB_ROLE, FB_ROLES_T);
+        } else {
+            putUserData(FB_ROLE, FB_ROLES_S);
+        }
+    }
+
+    public boolean getRole() {
+        return isTeacher;
     }
 }

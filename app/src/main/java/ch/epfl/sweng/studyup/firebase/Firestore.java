@@ -112,6 +112,11 @@ public class Firestore {
                                 //New login but user is already in database
                                 Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
                                 Player.get().updatePlayerData();
+                                if(Player.get().getRole()) {
+                                    Firestore.get().setUserData(FB_ROLE, FB_ROLES_T);
+                                } else {
+                                    Firestore.get().setUserData(FB_ROLE, FB_ROLES_S);
+                                }
                             } else {
                                 //User is new to the application
                                 Log.i(TAG, "getAndSetUserData: Success: New user:" + sciper);
@@ -157,8 +162,7 @@ public class Firestore {
 
     /**
      * Method used to update a value for the current player in the database
-     * The method suppose that the player is already present in the database,
-     * otherwise the form of its informations will be unpredictable.
+     * The method suppose that the player is already present in the database.
      *
      * @param key   The key where the value will be put.
      * @param value The value.
@@ -175,17 +179,11 @@ public class Firestore {
         putUserData(key, value);
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
-                .set(userData)
+                .update(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i(TAG, "Succes: setUserData(" + Player.get().getSciper() + ").");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "Error: setUserData, " + e.toString());
                     }
                 });
     }
@@ -205,7 +203,7 @@ public class Firestore {
         }
 
         db.collection(FB_USERS).document(Integer.toString(sciper))
-                .set(infos)
+                .update(infos)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

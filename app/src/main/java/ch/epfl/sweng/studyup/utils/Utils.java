@@ -24,6 +24,9 @@ public class Utils {
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
+    public static final String FB_ROLE = "role";
+    public static final String FB_ROLES_S = "student";  //Enum???
+    public static final String FB_ROLES_T = "teacher";
     public static final String FB_XP = "xp";
     public static final String FB_CURRENCY = "currency";
     public static final String FB_LEVEL = "level";
@@ -33,7 +36,7 @@ public class Utils {
     public static final String FB_QUESTIONS = "questions";
     public static final String FB_QUESTS = "quests";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
-            FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_XP, FB_CURRENCY,
+            FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS
     );
 

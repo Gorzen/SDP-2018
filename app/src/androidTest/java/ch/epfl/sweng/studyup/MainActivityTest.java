@@ -96,12 +96,6 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testToAddQuestionButton() {
-        onView(withId(R.id.questionButton)).perform(click());
-        intended(hasComponent(AddQuestionActivity.class.getName()));
-    }
-
-    @Test
     public void testToCustomActWithB1() {
         onView(withId(R.id.pic_btn)).perform(click());
         intended(hasComponent(CustomActivity.class.getName()));
