@@ -21,7 +21,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Asynchronouly checks for the localisation in background.
  */
 public class BackgroundLocation extends JobService {
-    public static int BACKGROUND_LOCATION_ID = 0;
+    public static int BACKGROUND_LOCATION_ID = 143;
     private final Context context;
 
     public BackgroundLocation() {
@@ -38,7 +38,9 @@ public class BackgroundLocation extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        jobFinished(jobParameters, false);
+        if(jobParameters != null) {
+            jobFinished(jobParameters, false);
+        }
         return false;
     }
 

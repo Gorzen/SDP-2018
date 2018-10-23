@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,20 +18,17 @@ public class ServiceBackgroundLocationTest {
             new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void backgroundLocationDoesntCrashWithBadParams(){
-        mActivityRule2.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                BackgroundLocation backgroundLocation = new BackgroundLocation();
-                //backgroundLocation.onStartJob(null);
-                //backgroundLocation.onStopJob(null);
+    public void backgroundLocationDoesntCrashWithBadParams() {
+        BackgroundLocation backgroundLocation = new BackgroundLocation();
+        //backgroundLocation.onStartJob(null);
+        //backgroundLocation.onStopJob(null);
 
-                BackgroundLocation.GetLocation getLocation = backgroundLocation.new GetLocation(null, null);
-                //getLocation.doInBackground(new Void[]{});
-                //getLocation.onPostExecute(null);
-                getLocation.cancel(true);
-                backgroundLocation.onStopJob(null);
-            }
-        });
+        BackgroundLocation.GetLocation getLocation = backgroundLocation.new GetLocation(null, null);
+        //getLocation.doInBackground(new Void[]{});
+        //getLocation.onPostExecute(null);
+        getLocation.cancel(true);
+        Log.d("GPS_TEST", "background = " + backgroundLocation);
+        backgroundLocation.onStopJob(null);
+        Log.d("GPS_TEST", "background = " + backgroundLocation);
     }
 }
