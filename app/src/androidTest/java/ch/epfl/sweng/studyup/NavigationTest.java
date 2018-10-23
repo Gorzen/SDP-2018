@@ -1,9 +1,13 @@
 package ch.epfl.sweng.studyup;
 
+import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +22,16 @@ public class NavigationTest{
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void init(){
+        Intents.init();
+    }
+
+    @After
+    public void release(){
+        Intents.release();
+    }
 
     @Test
     public void testToChatActivity() {

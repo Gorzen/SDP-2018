@@ -56,8 +56,7 @@ public class MockLocationTest {
         mActivityRule2.launchActivity(new Intent());
     }
 
-
-    @Test
+    
     public void backgroundLocationTest() {
         Log.i("GPS_TEST", "Started test");
         Utils.locationProviderClient.setMockMode(true).addOnCompleteListener(new OnCompleteListener<Void>() {
