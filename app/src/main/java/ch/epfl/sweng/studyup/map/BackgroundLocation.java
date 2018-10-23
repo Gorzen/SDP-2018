@@ -25,12 +25,12 @@ public class BackgroundLocation extends JobService {
     public static int BACKGROUND_LOCATION_ID = 143;
 
     public BackgroundLocation() {
-        Log.d("GPS_MAP", "Created background location, default constructor");
+        //Log.d("GPS_MAP", "Created background location, default constructor");
     }
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Log.d("GPS_MAP", "Started job");
+        //Log.d("GPS_MAP", "Started job");
         new GetLocation(this, jobParameters).execute();
         return true;
     }
@@ -66,20 +66,16 @@ public class BackgroundLocation extends JobService {
                             @Override
                             public void onSuccess(Location location) {
                                 if (location != null) {
-                                    Log.d("GPS_MAP", "NEW POS: Latitude = "
-                                            + location.getLatitude() + "  Longitude: "
-                                            + location.getLongitude());
-                                    Utils.position = new LatLng(location.getLatitude(),
-                                            location.getLongitude());
-                                    Log.d("GPS_MAP", "Changed position of Main Activity "
-                                            + location);
+                                    //Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
+                                    Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
+                                    //Log.d("GPS_MAP", "Changed position of Main Activity " + location);
                                 } else {
-                                    Log.d("GPS_MAP", "NEW POS: null");
+                                    //Log.d("GPS_MAP", "NEW POS: null");
                                 }
                             }
                         });
             } else {
-                Log.d("GPS_MAP", "No permission");
+                //Log.d("GPS_MAP", "No permission");
             }
 
             return jobParameters;
