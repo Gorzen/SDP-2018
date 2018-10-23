@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -21,37 +22,40 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Asynchronouly checks for the localisation in background.
  */
 public class BackgroundLocation extends JobService {
-    public static int BACKGROUND_LOCATION_ID = 0;
-    private final Context context;
+    public static int BACKGROUND_LOCATION_ID = 143;
 
     public BackgroundLocation() {
-        Log.d("GPS_MAP", "Created background location, default constructor");
-        this.context = Utils.mainContext;
+        //Log.d("GPS_MAP", "Created background location, default constructor");
     }
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        Log.d("GPS_MAP", "Started job");
+        //Log.d("GPS_MAP", "Started job");
         new GetLocation(this, jobParameters).execute();
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
+        if(jobParameters != null) {
+            jobFinished(jobParameters, false);
+        }
         return false;
     }
 
-    private class GetLocation extends AsyncTask<Void, Void, JobParameters> {
+    public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
+        private final Context context;
 
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = jobService;
             this.jobParameters = jobParameters;
+            this.context = Utils.mainContext;
         }
 
         @Override
-        protected JobParameters doInBackground(Void[] voids) {
+        public JobParameters doInBackground(Void[] voids) {
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context,
@@ -62,29 +66,27 @@ public class BackgroundLocation extends JobService {
                             @Override
                             public void onSuccess(Location location) {
                                 if (location != null) {
-                                    Log.d("GPS_MAP", "NEW POS: Latitude = "
-                                            + location.getLatitude() + "  Longitude: "
-                                            + location.getLongitude());
-                                    Utils.position = new LatLng(location.getLatitude(),
-                                            location.getLongitude());
-                                    Log.d("GPS_MAP", "Changed position of Main Activity "
-                                            + location);
+                                    //Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
+                                    Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
+                                    //Log.d("GPS_MAP", "Changed position of Main Activity " + location);
                                 } else {
-                                    Log.d("GPS_MAP", "NEW POS: null");
+                                    //Log.d("GPS_MAP", "NEW POS: null");
                                 }
                             }
                         });
             } else {
-                Log.d("GPS_MAP", "No permission");
+                //Log.d("GPS_MAP", "No permission");
             }
 
             return jobParameters;
         }
 
         @Override
-        protected void onPostExecute(JobParameters jobParameters) {
+        public void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            jobService.jobFinished(jobParameters, true);
+            if(jobParameters != null && jobService != null) {
+                jobService.jobFinished(jobParameters, true);
+            }
         }
     }
 }

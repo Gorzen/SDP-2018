@@ -44,4 +44,5 @@
     <string name="post_login_message_key">login_message</string>
     <string name="post_login_message_value">Login Successful</string>
     <string name="login_failed_value">Login Failed</string>
+    <string name="text_when_no_role_selected">You must select your role!</string>
 </resources>

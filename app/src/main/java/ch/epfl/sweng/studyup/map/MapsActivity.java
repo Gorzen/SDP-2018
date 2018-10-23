@@ -116,7 +116,6 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
     }
 
     public void onLocationUpdate(LatLng latLong) {
-        // Instead of if(mMap != null) {...}
         if (latLong != null) {
             Log.d("GPS_MAP", "New position map: " + latLong.toString());
             if (mMap != null) {
@@ -141,10 +140,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         return locationRequest.getPriority();
     }
 
-    // TODO
     public LatLng getMarkerPos() {
-        // Test fail on Travis because of NullPointerException
-        // Probably because there is no map so no updated location
         if (location != null) {
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
         } else {
@@ -162,6 +158,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
 
     //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     //Corresponding activities are not created yet
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -176,6 +173,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 }
 
 

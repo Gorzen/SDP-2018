@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 
@@ -41,6 +42,8 @@ public class MainActivityTest {
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
 
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
 
     @Before
     public void initiateIntents() {
@@ -90,12 +93,6 @@ public class MainActivityTest {
     public void initializationGps() {
         assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
         assertNotNull(Utils.locationProviderClient);
-    }
-
-    @Test
-    public void testToAddQuestionButton() {
-        onView(withId(R.id.questionButton)).perform(click());
-        intended(hasComponent(AddQuestionActivity.class.getName()));
     }
 
     @Test

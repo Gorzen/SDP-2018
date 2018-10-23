@@ -1,4 +1,5 @@
 language: android
+sudo: required
 android:
   components:
     # The BuildTools version used by your project
@@ -15,7 +16,6 @@ before_script:
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 83
-  - adb shell appops set com ch.epfl.sweng.studyup 58 allow
   # This should be in the `before_script` entry
   # Set up Code Climate test reporter
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -23,7 +23,10 @@ before_script:
   - chmod +x gradlew
   - ./cc-test-reporter before-build
 script:
-  - ./gradlew build connectedCheck jacocoTestReport
+  - ./gradlew build installDebug
+  - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
+  - adb shell appops set ch.epfl.sweng.studyup 58 allow
+  - travis_wait ./gradlew connectedCheck jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/

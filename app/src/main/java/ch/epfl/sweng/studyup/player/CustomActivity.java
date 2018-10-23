@@ -85,8 +85,8 @@ public class CustomActivity extends Navigation {
         valid_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                valid_button.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_check_done_24dp));
-                view_username.setText(edit_username.getText());
+                valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
+                view_username.setText(edit_username.getText().toString());
             }
         });
 
@@ -177,8 +177,34 @@ public class CustomActivity extends Navigation {
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }
+  
+    private String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
 
-
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+            return f.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+      
     //Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,6 +215,7 @@ public class CustomActivity extends Navigation {
 
     //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     //Corresponding activities are not created yet
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -203,5 +230,6 @@ public class CustomActivity extends Navigation {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 
 }

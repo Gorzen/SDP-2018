@@ -21,6 +21,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.AllOf.allOf;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -36,4 +39,17 @@ public class LoginActivityUITest {
         onView(allOf(withId(R.drawable.login_slide2), isDisplayed()));
     }
 
+    public void a_userHasToChooseRoleBeforeContinuing() {
+        onView(withId(R.id.loginButton)).perform(click());
+        //If we're still on the loginActivity, that means we can still use the buttons
+        onView(withId(R.id.student)).perform(click());
+        onView(withId(R.id.teacher)).perform(click());
+    }
+
+    @Test
+    public void studentRoleIsStored() {
+        onView(withId(R.id.student)).perform(click());
+        onView(withId(R.id.loginButton)).perform(click());
+        assertFalse(Player.get().getRole());
+    }
 }

@@ -64,7 +64,7 @@
 
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/StudentOrTeacherButtons"
         android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:layout_alignParentTop="true"

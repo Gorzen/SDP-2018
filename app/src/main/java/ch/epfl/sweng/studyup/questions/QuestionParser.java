@@ -83,17 +83,6 @@ public abstract class QuestionParser {
         return list;
     }
 
-    /**
-     * Retrieve the list of questions from the data file
-     *
-     * @param c The context of the app (to get the FilesDir)
-     * @return The list of questions or null if the file has not the correct format
-     * @throws FileNotFoundException if the file does not exist
-     */
-    public static List<Question> parseQuestions(Context c) throws FileNotFoundException {
-        //the default value is true
-        return parseQuestions(c, true);
-    }
 
     /**
      * Write the list of questions on the disk to save them.
@@ -109,10 +98,7 @@ public abstract class QuestionParser {
             //The createNewFile() method return true and create the file if and only if the file doesn't yet exists
             if (replace && !file.createNewFile()) {
                 if (!file.delete()) return false;
-                if (!file.createNewFile()) {
-                    Log.e(TAG, "Unable to create the file.");
-                    return false;
-                }
+                if (!file.createNewFile()) Log.e(TAG, "Unable to create the file."); return false;
             }
             BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
             for (Question q : list) {
@@ -122,11 +108,9 @@ public abstract class QuestionParser {
             writer.close();
 
         } catch (IOException e) {
-            Log.e(TAG, "IOException while writing the file\n" + e.getMessage());
-            return false;
+            Log.e(TAG, "IOException while writing the file\n" + e.getMessage()); return false;
         } catch (SecurityException e) {
-            Log.e(TAG, "SecurityException while writing the file\n" + e.getMessage());
-            return false;
+            Log.e(TAG, "SecurityException while writing the file\n" + e.getMessage()); return false;
         }
 
         return true;
