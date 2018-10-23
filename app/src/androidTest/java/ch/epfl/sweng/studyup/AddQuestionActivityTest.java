@@ -40,7 +40,7 @@ import static junit.framework.TestCase.assertNotNull;
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AddQuestionActivityTest {
-
+/*
     private static final int READ_REQUEST_CODE = 42;
 
     @Rule
@@ -147,5 +147,5 @@ public class AddQuestionActivityTest {
         assertEquals(0, parsedList.get(0).getAnswer());
         assertEquals(false, parsedList.get(0).isTrueFalseQuestion());
         Intents.intending(hasComponent(MainActivity.class.getName()));
-    }
+    }*/
 }
