@@ -63,7 +63,7 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void onMapReadyDoesntCrashWithBadParams() {
+    public void onMapReadyNoCrashWithBadParams() {
         mActivity.onMapReady(null);
     }
 }
