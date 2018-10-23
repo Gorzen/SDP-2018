@@ -24,7 +24,7 @@ before_script:
 script:
   - ./gradlew build installDebug
   - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
-  - adb shell appops set ch.epfl.sweng.studyup android:mock_location allow
+  - adb shell appops set ch.epfl.sweng.studyup 58
   - ./gradlew connectedCheck jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
