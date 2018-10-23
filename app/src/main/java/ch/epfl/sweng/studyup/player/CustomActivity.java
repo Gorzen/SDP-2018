@@ -202,6 +202,7 @@ public class CustomActivity extends Navigation {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "";
     }
       
     //Display the toolbar
