@@ -96,7 +96,6 @@ public class Authenticator {
                 return token;
             } catch (Exception e) {
                 e.printStackTrace();
-                return null;
             }
         }
 
