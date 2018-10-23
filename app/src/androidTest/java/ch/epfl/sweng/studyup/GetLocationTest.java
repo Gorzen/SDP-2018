@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup;
 import android.app.job.JobParameters;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,7 +14,7 @@ import static org.junit.Assert.assertNull;
 
 
 @RunWith(AndroidJUnit4.class)
-public class ServiceBackgroundLocationTest {
+public class GetLocationTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
             new ActivityTestRule<>(MainActivity.class);
@@ -38,7 +37,7 @@ public class ServiceBackgroundLocationTest {
     */
 
     @Test
-    public void backgroundLocationDoesntCrashWithBadParams() {
+    public void getLocationNoCrashWithBadParams() {
         BackgroundLocation.GetLocation getLocation = new BackgroundLocation.GetLocation(null, null);
 
         JobParameters jobParameters = getLocation.doInBackground(new Void[]{});
