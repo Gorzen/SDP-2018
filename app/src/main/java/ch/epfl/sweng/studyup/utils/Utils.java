@@ -1,11 +1,7 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.content.Context;
-import android.location.Location;
 import android.util.Log;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
 import java.util.Collections;
@@ -13,12 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.map.MapActivity;
-import ch.epfl.sweng.studyup.player.QuestsActivity;
-import ch.epfl.sweng.studyup.social.ChatActivity;
-import ch.epfl.sweng.studyup.social.RankingsActivity;
+import android.content.Context;
+import android.location.Location;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.LatLng;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
@@ -58,10 +53,10 @@ public class Utils {
     public static final String CANCEL = "Cancel";
     public static final String JUSTONCE = "JUST ONCE";
     // Map that links item id to activities
-    public static final Map<Integer, Class> idToAct;
+    //public static final Map<Integer, Class> idToAct;
     // Better in resources?
-    public static final String LEVEL_DISPLAY = "Level: \n";
-    public static final String CURR_DISPLAY = "Money: \n";
+    public static final String LEVEL_DISPLAY = "LEVEL ";
+    public static final String CURR_DISPLAY = "MONEY:\n";
     public static Map<String, Object> dbStaticInfo = null;
     public static LatLng position;
     public static FusedLocationProviderClient locationProviderClient;
@@ -81,15 +76,20 @@ public class Utils {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Reymond";
 
+
+    //private static final java.util.Collections Collections = ;
+
+    /*
     static {
         Map<Integer, Class> tempMap = new HashMap<>();
         tempMap.put(R.id.navigation_home, MainActivity.class);
         tempMap.put(R.id.navigation_quests, QuestsActivity.class);
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
-        tempMap.put(R.id.navigation_map, MapActivity.class);
+        tempMap.put(R.id.navigation_map, MapsActivity.class);
         tempMap.put(R.id.navigation_chat, ChatActivity.class);
         idToAct = Collections.unmodifiableMap(tempMap);
     }
+    */
 
     /**
      * Wait for a given action to be completed. Return an error message if any.
@@ -116,5 +116,5 @@ public class Utils {
 
         userData.put(key, value);
     }
-
 }
+

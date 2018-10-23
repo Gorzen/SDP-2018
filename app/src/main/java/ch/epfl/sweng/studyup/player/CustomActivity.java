@@ -17,11 +17,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -31,7 +36,9 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.social.RankingsActivity;
 import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
  * CustomActivity
@@ -51,14 +58,18 @@ public class CustomActivity extends Navigation {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
-        navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX);
 
         pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
 
-        view_username = findViewById(R.id.view_username);//todo
+        final TextView view_username = findViewById(R.id.view_username);//todo
 
         // TODO: Change with the user pic
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
@@ -146,7 +157,7 @@ public class CustomActivity extends Navigation {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    saveAndSetImage(bitmap);
+                    setCircularImage(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(CustomActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -154,19 +165,19 @@ public class CustomActivity extends Navigation {
             }
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            saveAndSetImage(bitmap);
+            setCircularImage(bitmap);
         }
     }
 
     //Not sure about the name-consistency of this function
-    private void saveAndSetImage(Bitmap bitmap) {
-        saveImage(bitmap);
+    private void setCircularImage(Bitmap bitmap) {
+        //saveImage(bitmap);
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }
-
+  
     private String saveImage(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
@@ -191,7 +202,31 @@ public class CustomActivity extends Navigation {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+    }
+      
+    //Display the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater i = getMenuInflater();
+        i.inflate(R.menu.top_navigation, menu);
+        return true;
+    }
+
+    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    //Corresponding activities are not created yet
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.top_navigation_settings) {
+            Toast.makeText(CustomActivity.this,
+                    "You have clicked on Settings :)",
+                    Toast.LENGTH_SHORT).show();
+        }
+        if (item.getItemId() == R.id.top_navigation_infos) {
+            Toast.makeText(CustomActivity.this,
+                    "You have clicked on Infos :)",
+                    Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
