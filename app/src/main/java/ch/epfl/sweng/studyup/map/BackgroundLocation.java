@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -22,11 +23,9 @@ import ch.epfl.sweng.studyup.utils.Utils;
  */
 public class BackgroundLocation extends JobService {
     public static int BACKGROUND_LOCATION_ID = 143;
-    private final Context context;
 
     public BackgroundLocation() {
         Log.d("GPS_MAP", "Created background location, default constructor");
-        this.context = Utils.mainContext;
     }
 
     @Override
@@ -44,13 +43,15 @@ public class BackgroundLocation extends JobService {
         return false;
     }
 
-    public class GetLocation extends AsyncTask<Void, Void, JobParameters> {
+    public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final JobService jobService;
         private final JobParameters jobParameters;
+        private final Context context;
 
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = jobService;
             this.jobParameters = jobParameters;
+            this.context = Utils.mainContext;
         }
 
         @Override
@@ -87,7 +88,7 @@ public class BackgroundLocation extends JobService {
         @Override
         public void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            if(jobParameters != null) {
+            if(jobParameters != null && jobService != null) {
                 jobService.jobFinished(jobParameters, true);
             }
         }
