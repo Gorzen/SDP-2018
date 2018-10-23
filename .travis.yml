@@ -22,11 +22,10 @@ before_script:
   - chmod +x gradlew
   - ./cc-test-reporter before-build
 script:
-  - ./gradlew build connectedCheck jacocoTestReport
-  #- ./gradlew build installDebug
-  #- adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
-  #- adb shell appops set ch.epfl.sweng.studyup 58 allow
-  #- ./gradlew connectedCheck jacocoTestReport
+  - ./gradlew build installDebug
+  - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
+  - adb shell appops set ch.epfl.sweng.studyup 58 allow
+  - ./gradlew connectedCheck jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/
