@@ -60,14 +60,14 @@ public class CustomActivityTest {
         
     }
 
-    @Test
+   /* @Test
     public void B_checkAccessAndDisplayCamera() throws Exception {
         onView(withId(R.id.pic_btn)).perform(click());
         clickButton(Utils.CAMERA);
         assertTrue(device.findObject(new UiSelector().text(Utils.DENY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.ALLOW)).exists());
        // clickButton(Utils.DENY);
-    }
+    }*/
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
