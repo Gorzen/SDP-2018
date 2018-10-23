@@ -8,9 +8,11 @@ import android.widget.RadioGroup;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
@@ -26,30 +28,15 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class, true, true);
 
-    @Before
-    public void clearChecks() {
-        RadioGroup roles = rule.getActivity().findViewById(R.id.StudentOrTeacherButtons);
-        roles.clearCheck();
-    }
-
-    @Before
-    public void initIntent() {
-        Intents.init();
-    }
-
-    @After
-    public void releaseIntent() {
-        Intents.release();
-    }
-
     @Test
-    public void userHasToChooseRoleBeforeContinuing() {
+    public void a_userHasToChooseRoleBeforeContinuing() {
         onView(withId(R.id.loginButton)).perform(click());
         //If we're still on the loginActivity, that means we can still use the buttons
         onView(withId(R.id.student)).perform(click());
