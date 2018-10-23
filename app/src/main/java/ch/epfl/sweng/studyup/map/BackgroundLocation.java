@@ -38,6 +38,7 @@ public class BackgroundLocation extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
+        jobFinished(jobParameters, false);
         return false;
     }
 
