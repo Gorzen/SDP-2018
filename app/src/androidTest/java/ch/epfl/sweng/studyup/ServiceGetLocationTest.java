@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNull;
 
 
 @RunWith(AndroidJUnit4.class)
-public class GetLocationTest {
+public class ServiceGetLocationTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
             new ActivityTestRule<>(MainActivity.class);
