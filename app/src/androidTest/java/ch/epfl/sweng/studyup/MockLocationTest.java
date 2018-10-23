@@ -26,6 +26,7 @@ import static junit.framework.TestCase.assertEquals;
 public class MockLocationTest {
     private static final double MOCK_LAT = 43.6;
     private static final double MOCK_LONG = 47.9;
+    private boolean setMockLocation = false;
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
@@ -67,7 +68,12 @@ public class MockLocationTest {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.i("GPS_TEST", "Mock mode set");
-                Utils.locationProviderClient.setMockLocation(Utils.mockLoc);
+                Utils.locationProviderClient.setMockLocation(Utils.mockLoc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        setMockLocation = true;
+                    }
+                });
             }
         });
         try{
@@ -82,7 +88,7 @@ public class MockLocationTest {
         }catch (InterruptedException e){
             Log.e("GPS_TEST", e.getMessage());
         }
-        if(Utils.position != null) {
+        if(Utils.position != null && setMockLocation) {
             Log.i("GPS_TEST", "Started assert");
             assertEquals(MOCK_LAT, Utils.position.latitude);
             assertEquals(MOCK_LONG, Utils.position.longitude);
