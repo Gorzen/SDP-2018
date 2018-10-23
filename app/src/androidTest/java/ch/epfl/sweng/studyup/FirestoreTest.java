@@ -118,7 +118,7 @@ public class FirestoreTest {
             assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
         }
     }
-    
+
     public void addNewUserToDBTest() {
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);

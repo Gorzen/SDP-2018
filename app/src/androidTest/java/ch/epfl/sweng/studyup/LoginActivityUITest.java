@@ -17,7 +17,7 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+public class LoginActivityUITest {
 
     @Rule
     public final ActivityTestRule<LoginActivity> rule =
