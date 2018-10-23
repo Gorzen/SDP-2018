@@ -23,14 +23,15 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> rule =
-            new ActivityTestRule<>(LoginActivity.class, true, true);
+            new ActivityTestRule<>(LoginActivity.class, true, false);
     @Test
-    public void a_userHasToChooseRoleBeforeContinuing() {
+    public void userHasToChooseRoleBeforeContinuing() {
+        rule.launchActivity(new Intent());
         onView(withId(R.id.loginButton)).perform(click());
         //If we're still on the loginActivity, that means we can still use the buttons
         onView(withId(R.id.student)).perform(click());
@@ -38,12 +39,14 @@ public class LoginActivityTest {
     }
     @Test
     public void teacherRoleIsStored() {
+        rule.launchActivity(new Intent());
         onView(withId(R.id.teacher)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
         assertTrue(Player.get().getRole());
     }
     @Test
     public void studentRoleIsStored() {
+        rule.launchActivity(new Intent());
         onView(withId(R.id.student)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
         assertFalse(Player.get().getRole());
