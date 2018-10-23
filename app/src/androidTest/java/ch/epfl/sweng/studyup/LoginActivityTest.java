@@ -31,19 +31,19 @@ public class LoginActivityTest {
             new ActivityTestRule<>(LoginActivity.class, true, false);
 
     // Test handle failed login message
-
+    @Test
     public void testFailedLoginReport() {
         Intent badLoginIntent = new Intent();
         badLoginIntent.putExtra("login_message", "Failed Login");
         rule.launchActivity(badLoginIntent);
     }
     // Test handle no login message
-
+    @Test
     public void testNoReport() {
         rule.launchActivity(new Intent());
     }
     // Test button click redirect
-    
+    @Test
     public void testLoginButtonRedirect() {
         rule.launchActivity(new Intent());
         onView(withId(R.id.loginButton)).perform(click());

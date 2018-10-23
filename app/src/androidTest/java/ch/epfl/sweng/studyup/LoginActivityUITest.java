@@ -23,7 +23,7 @@ public class LoginActivityUITest {
     public final ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class);
 
-    @Test
+
     public void userHasToChooseRoleBeforeContinuing() {
         onView(withId(R.id.loginButton)).perform(click());
         //If we're still on the loginActivity, that means we can still use the buttons
@@ -31,14 +31,14 @@ public class LoginActivityUITest {
         onView(withId(R.id.teacher)).perform(click());
     }
 
-    @Test
+
     public void teacherRoleIsStored() {
         onView(withId(R.id.teacher)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
         assertTrue(Player.get().getRole());
     }
 
-    @Test
+    
     public void studentRoleIsStored() {
         onView(withId(R.id.student)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
