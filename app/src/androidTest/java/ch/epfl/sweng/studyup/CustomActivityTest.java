@@ -1,17 +1,11 @@
 package ch.epfl.sweng.studyup;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.EditText;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -27,15 +21,8 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSubstring;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
-import static org.hamcrest.core.StringStartsWith.startsWith;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -66,7 +53,7 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
         clickButton(Utils.GALLERY);
-        clickButton("JUST ONCE");
+        clickButton(Utils.JUSTONCE);
     }
 
     private void clickButton(String textButton) throws UiObjectNotFoundException {

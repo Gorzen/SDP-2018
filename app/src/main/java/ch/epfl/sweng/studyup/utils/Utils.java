@@ -53,11 +53,10 @@ public class Utils {
     public static final int MIN_SCIPER = 100000;
     public static final long LOCATION_REQ_INTERVAL = 5 * 1000;
     public static final long LOCATION_REQ_FASTEST_INTERVAL = 5 * 1000;
-    public static final String ALLOW = "ALLOW";
-    public static final String DENY = "DENY";
     public static final String CAMERA = "Camera";
     public static final String GALLERY = "Gallery";
     public static final String CANCEL = "Cancel";
+    public static final String JUSTONCE = "JUST ONCE";
     // Map that links item id to activities
     public static final Map<Integer, Class> idToAct;
     // Better in resources?
@@ -117,4 +116,5 @@ public class Utils {
 
         userData.put(key, value);
     }
+
 }
