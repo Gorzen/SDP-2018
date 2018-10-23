@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -60,17 +61,19 @@ public class AddQuestionActivityTest {
     @Test
     public void testCheckOfTrueFalse() {
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked()));
+        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText(R.string.truth_value)));
+        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText(R.string.false_value)));
+        onView(withId(R.id.radio_answer3)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.radio_answer4)).check(matches(not(isDisplayed())));
     }
 
     @Test
     public void testCheckOfMCQ() {
         onView(withId(R.id.mcq_radio)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer4)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer3)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
+        onView(withId(R.id.radio_answer4)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(isDisplayed()));
+        onView(withId(R.id.radio_answer3)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(isDisplayed()));
+        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText("2")));
+        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText("1")));
     }
 
     @Test(expected = IllegalArgumentException.class)
