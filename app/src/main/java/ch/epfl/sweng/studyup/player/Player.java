@@ -25,6 +25,8 @@ public class Player {
     private int[] questionsAcheived;
     private int[] questsAcheived;
 
+    public static String room = "CO_1_3";
+
     /**
      * Constructor called before someone is login.
      */
@@ -166,5 +168,9 @@ public class Player {
 
     public boolean getRole() {
         return isTeacher;
+    }
+
+    public String getCurrentRoom(){
+        return room;
     }
 }

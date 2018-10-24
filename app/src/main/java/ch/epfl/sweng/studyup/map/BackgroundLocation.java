@@ -14,6 +14,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
@@ -71,6 +73,9 @@ public class BackgroundLocation extends JobService {
                                 if (location != null) {
                                     //Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                                     Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
+                                    if(Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
+                                        //A voir
+                                    }
                                     //Log.d("GPS_MAP", "Changed position of Main Activity " + location);
                                 } else {
                                     //Log.d("GPS_MAP", "NEW POS: null");
