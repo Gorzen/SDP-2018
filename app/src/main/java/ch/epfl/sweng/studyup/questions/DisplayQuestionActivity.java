@@ -77,7 +77,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
     }
 
     private void setupLayout(Question question){
-        if (!question.isTrueFalseQuestion()){
+        if (!question.isTrueFalse()){
             TextView answer1 = findViewById(R.id.answer1);
             answer1.setText("1");
 
@@ -119,7 +119,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
     public static Intent getIntentForDisplayQuestion(Context c, Question q){
         Intent goToQuestion = new Intent(c, DisplayQuestionActivity.class);
         goToQuestion.putExtra(DISPLAY_QUESTION_URI, q.getQuestionUri().toString());
-        goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalseQuestion()));
+        goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         return goToQuestion;
     }

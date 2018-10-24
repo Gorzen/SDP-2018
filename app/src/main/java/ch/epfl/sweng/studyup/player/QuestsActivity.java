@@ -43,11 +43,11 @@ public class QuestsActivity extends Navigation {
 
         navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
 
-        final List<Question> questions = parseQuestions(this.getApplicationContext(), false);
+        final List<Question> questions = parseQuestions(this.getApplicationContext());
         int nbrQuestion = questions.size();
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
-            if(questions.get(i).isTrueFalseQuestion()) {
+            if(questions.get(i).isTrueFalse()) {
                 list[i] = "Question "+i+": true or false";
             } else {
                 list[i] = "Question "+i+": multiple choice";

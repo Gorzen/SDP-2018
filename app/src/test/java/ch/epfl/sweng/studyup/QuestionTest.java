@@ -25,10 +25,10 @@ public class QuestionTest {
     }
 
     @Test
-    public void gettersAndSettersTest() {
+    public void gettersTest() {
         Question q = new Question(uri, true, 1);
         assertEquals(q.getAnswer(), 1);
-        assertEquals(q.isTrueFalseQuestion(), true);
+        assertEquals(q.isTrueFalse(), true);
         assertEquals(q.getQuestionUri(), uri);
 
     }
@@ -50,12 +50,29 @@ public class QuestionTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void nullUriTest() {
-        Question q = new Question(null, true, 0);
+        Question q = new Question((String)null, true, 0);
     }
 
     @Test
     public void falseEqualsTest() {
         Question q = new Question(uri, true, 0);
         assertFalse(q.equals(null));
+    }
+
+    @Test
+    public void secondConstructorTest(){
+        Question q = new Question(uri.toString(), true, 1);
+        assertEquals(q.getAnswer(), 1);
+        assertEquals(q.isTrueFalse(), true);
+        assertEquals(q.getQuestionUri(), uri);
+    }
+
+    @Test
+    public void settersTest(){
+        Question q = new Question(uri.toString(), true, 1);
+        q.setAnswer(2);
+        assertEquals(q.getAnswer(), 2);
+        q.setTrueFalse(false);
+        assertEquals(q.isTrueFalse(), false);
     }
 }

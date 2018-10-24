@@ -1,13 +1,23 @@
 package ch.epfl.sweng.studyup.questions;
 
+import android.arch.persistence.room.*;
 import android.net.Uri;
 
+import com.google.common.base.Objects;
+
+@Entity
 public class Question {
 
-    private Uri question;
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
 
-    private boolean trueFalse;
+    @ColumnInfo(name = "questionUri")
+    private String questionUriString;
 
+    @ColumnInfo(name = "isTrueFalse")
+    private boolean isTrueFalse;
+
+    @ColumnInfo(name = "answer")
     private int answer;
 
     /**
@@ -24,22 +34,58 @@ public class Question {
         if (trueFalse && answerNumber > 1) {
             throw new IllegalArgumentException();
         }
-        this.trueFalse = trueFalse;
-        question = image;
+        this.isTrueFalse = trueFalse;
+        questionUriString = image.toString();
         answer = answerNumber;
     }
 
+    /**
+     * Class for the Question
+     * @param questionUriString A string representation of the Uri of the image
+     * @param isTrueFalse
+     * @param answer the number of the answer between 0 and 3 (included)
+     */
+    public Question(String questionUriString, boolean isTrueFalse, int answer){
+        this(Uri.parse(questionUriString), isTrueFalse, answer);
+    }
+
     public Uri getQuestionUri() {
-        return question;
+        return Uri.parse(questionUriString);
+    }
+
+    public void setQuestionUri(Uri uri) {
+        if (uri != null)
+        questionUriString = uri.toString();
+    }
+
+    public String getQuestionUriString() { return questionUriString;}
+
+    public void setQuestionUriString(String uri){
+        if (uri != null)
+            questionUriString = uri;
     }
 
     public int getAnswer() {
         return answer;
     }
 
-    public boolean isTrueFalseQuestion() {
-        return trueFalse;
+    public void setAnswer(int newAnswer){
+        if (answer < 0 || answer > 3) {
+            if (isTrueFalse && answer < 2) {
+                answer = newAnswer;
+             }
+        }
     }
+
+    public boolean isTrueFalse() {
+        return isTrueFalse;
+    }
+
+    public void setTrueFalse(boolean isTrueFalse){ this.isTrueFalse = isTrueFalse; }
+
+    public int getUid(){ return uid; }
+
+    public void setUid(int uid){ this.uid = uid; }
 
     @Override
     public boolean equals(Object other) {
@@ -47,25 +93,25 @@ public class Question {
             return false;
         } else {
             Question o = (Question) other;
-            return o.getAnswer() == answer && o.trueFalse == trueFalse && o.question.equals(question);
+            return o.getAnswer() == answer && o.isTrueFalse == isTrueFalse && o.questionUriString.equals(questionUriString);
         }
     }
 
     @Override
     public String toString() {
         String s = "";
-        if (trueFalse)
+        if (isTrueFalse)
             s += "True/False question";
         else
             s += "MCQ question";
-        s += " with image " + question;
+        s += " with image " + questionUriString;
         s += " and answer number " + answer;
         return s;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hashCode(answer, questionUriString, isTrueFalse);
     }
 
 }

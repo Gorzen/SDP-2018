@@ -106,12 +106,8 @@ public class AddQuestionActivity extends AppCompatActivity {
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();
             list.add(q);
-            if (!QuestionParser.writeQuestions(list, this.getApplicationContext(), false)) {
-                Log.e(TAG, "Error while writing the file");
-                Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
-            }
+            QuestionParser.writeQuestions(list, this.getApplicationContext());
+            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
     }
 
