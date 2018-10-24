@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.player.Player;
 
 // Tests for the functionality of handling of responses can be found in AuthTest.
 // Tests in this class are to test that the authentication activity handles the
@@ -40,4 +42,14 @@ public class AuthenticationActivityTest {
 
         rule.launchActivity(intentWithoutCode);
     }
+
+    @Test
+    public void testBasicRunAuthentication() {
+        Intent i = new Intent();Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
+        i.setData(uriWithoutCode);
+       rule.launchActivity(i);
+       rule.getActivity().runAuthentication("code 1", false);
+       assert(Player.get().getFirstName() == Utils.INITIAL_FIRSTNAME);
+   }
+
 }
