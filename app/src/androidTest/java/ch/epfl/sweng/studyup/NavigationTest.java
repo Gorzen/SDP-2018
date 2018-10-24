@@ -46,4 +46,25 @@ public class NavigationTest{
         b.setSelectedItemId(R.id.navigation_chat);
         intended(hasComponent(ChatActivity.class.getName()));
     }
+
+    @Test
+    public void testToQuestsActivity() {
+        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_quests);
+        intended(hasComponent(ChatActivity.class.getName()));
+    }
+
+    @Test
+    public void testToRankingsActivity() {
+        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_rankings);
+        intended(hasComponent(ChatActivity.class.getName()));
+    }
+
+    @Test
+    public void testToMainActivity() {
+        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_home);
+        intended(hasComponent(ChatActivity.class.getName()));
+    }
 }

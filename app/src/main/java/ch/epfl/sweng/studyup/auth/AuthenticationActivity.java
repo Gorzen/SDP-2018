@@ -100,9 +100,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         try {
             code = authCodeURI.getQueryParameter("code");
             error = authCodeURI.getQueryParameter("error");
-        } catch (NullPointerException e) {
-            Log.i(TAG, "Problem extracting data from Intent's Uri.");
-        }
+        } catch (NullPointerException e) { Log.i(TAG, "Problem extracting data from Intent's Uri."); }
 
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code, true);

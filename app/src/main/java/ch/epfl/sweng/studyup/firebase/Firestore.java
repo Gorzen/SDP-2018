@@ -64,10 +64,7 @@ public class Firestore {
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "Error: getData" + sciper);
-                    }
-                });
+                    public void onFailure(@NonNull Exception e) {Log.i(TAG, "Error: getData" + sciper); }});
     }
 
     /**
@@ -127,9 +124,7 @@ public class Firestore {
                                 savePlayerData();
                             }
                         } else {
-                            Log.e(TAG, "getAndSetUserData: Failure: The connection with " +
-                                    "the server failed, " + task.getException());
-
+                            Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
                         }
                     }
                 });
@@ -153,9 +148,7 @@ public class Firestore {
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Player infos failed to be saved.");
-                    }
+                    public void onFailure(@NonNull Exception e) { Log.w(TAG, "Player infos failed to be saved."); }
                 });
 
     }
@@ -172,10 +165,7 @@ public class Firestore {
             return;
         }
 
-        if (!FB_ALL_ENTRIES.contains(key)) {
-            Log.i(TAG, "The key is not valid.");
-            return;
-        }
+        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid."); return; }
         putUserData(key, value);
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
@@ -196,10 +186,7 @@ public class Firestore {
      */
     public void setUserInfos(final int sciper, Map<String, Object> infos) {
         for (String key : infos.keySet()) {
-            if (!FB_ALL_ENTRIES.contains(key)) {
-                Log.i(TAG, "The key " + key + " is not valid.");
-                return;
-            }
+            if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key " + key + " is not valid.");return; }
         }
 
         db.collection(FB_USERS).document(Integer.toString(sciper))
@@ -212,9 +199,7 @@ public class Firestore {
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i(TAG, "Error: setUserInfos, " + e.toString());
-                    }
+                    public void onFailure(@NonNull Exception e) { Log.i(TAG, "Error: setUserInfos, " + e.toString()); }
                 });
     }
 
