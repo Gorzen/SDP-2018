@@ -56,6 +56,9 @@ public class BackgroundLocation extends JobService {
 
         @Override
         public JobParameters doInBackground(Void[] voids) {
+            if(context == null ){
+                return jobParameters;
+            }
             if (ContextCompat.checkSelfPermission(context,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ContextCompat.checkSelfPermission(context,
