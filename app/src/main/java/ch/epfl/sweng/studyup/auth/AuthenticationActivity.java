@@ -31,12 +31,22 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public void runAuthentication(String code) {
+    public void runAuthentication(String code, boolean isRealRequest) {
 
-        String token = Authenticator.getToken(code);
+        String token;
+        if(isRealRequest) {
+            token = Authenticator.getToken(code);
+        } else {
+            token = "Non-null token.";
+        }
 
         if (token != null) {
-            String greeting = Authenticator.getGreeting(token);
+            String greeting;
+            if(isRealRequest) {
+                greeting = Authenticator.getGreeting(token);
+            } else {
+                greeting = R.string.initial_greeting_1+"\n"+R.string.initial_greeting_2;
+            }
 
                 if (greeting != null) {
 
@@ -62,7 +72,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             if (greeting != null) {
                 TextView profileDataDisplay = findViewById(R.id.profileDataDisplay);
-                profileDataDisplay.setText(greeting);
+                if(isRealRequest) profileDataDisplay.setText(greeting);
                 return;
             }
         }
@@ -90,12 +100,10 @@ public class AuthenticationActivity extends AppCompatActivity {
         try {
             code = authCodeURI.getQueryParameter("code");
             error = authCodeURI.getQueryParameter("error");
-        } catch (NullPointerException e) {
-            Log.i(TAG, "Problem extracting data from Intent's Uri.");
-        }
+        } catch (NullPointerException e) { Log.i(TAG, "Problem extracting data from Intent's Uri."); }
 
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
-            runAuthentication(code);
+            runAuthentication(code, true);
 
             Firestore.get().getAndSetUserData(
                     Player.get().getSciper(),
