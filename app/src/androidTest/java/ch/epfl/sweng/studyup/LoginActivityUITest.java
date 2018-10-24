@@ -14,6 +14,13 @@ import ch.epfl.sweng.studyup.player.Player;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.core.AllOf.allOf;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -27,6 +34,11 @@ public class LoginActivityUITest {
             new ActivityTestRule<>(LoginActivity.class);
 
     @Test
+    public void swipeTheViewPager() {
+        onView(withId(R.id.viewPager)).perform(swipeLeft());
+        onView(allOf(withId(R.drawable.login_slide2), isDisplayed()));
+    }
+
     public void a_userHasToChooseRoleBeforeContinuing() {
         onView(withId(R.id.loginButton)).perform(click());
         //If we're still on the loginActivity, that means we can still use the buttons
