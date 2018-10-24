@@ -12,7 +12,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivity;
 import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.social.RankingsActivity;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -34,37 +37,15 @@ public class NavigationTest{
     }
 
     @Test
-    public void testToChatActivity() {
+    public void testNavigationBottomBar(){
         BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
         b.setSelectedItemId(R.id.navigation_chat);
         intended(hasComponent(ChatActivity.class.getName()));
-    }
-
-    @Test
-    public void testToMapActivity() {
-        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_chat);
-        intended(hasComponent(ChatActivity.class.getName()));
-    }
-
-    @Test
-    public void testToQuestsActivity() {
-        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_map);
+        intended(hasComponent(MapsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_quests);
-        intended(hasComponent(ChatActivity.class.getName()));
-    }
-
-    @Test
-    public void testToRankingsActivity() {
-        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        intended(hasComponent(QuestsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_rankings);
-        intended(hasComponent(ChatActivity.class.getName()));
-    }
-
-    @Test
-    public void testToMainActivity() {
-        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_home);
-        intended(hasComponent(ChatActivity.class.getName()));
+        intended(hasComponent(RankingsActivity.class.getName()));
     }
 }
