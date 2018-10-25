@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.content.Context;
+import android.util.Log;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -94,6 +95,7 @@ public class Player {
 
         if(context instanceof MainActivity) {
             ((MainActivity) context).updateXpAndLvlDisplay();
+            Log.i("Check", "Context is "+context.toString()+" "+((MainActivity) context).getLocalClassName());
         }
 
         putUserData(FB_XP, experience);

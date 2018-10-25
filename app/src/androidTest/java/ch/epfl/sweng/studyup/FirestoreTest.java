@@ -107,7 +107,7 @@ public class FirestoreTest {
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Player.get().addExperience(XP_STEP, );
+        Player.get().addExperience(XP_STEP, null);
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.getData(MAX_SCIPER);
@@ -122,8 +122,8 @@ public class FirestoreTest {
     public void addNewUserToDBTest() {
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), );
-        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), );
+        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
+        Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
@@ -182,18 +182,18 @@ public class FirestoreTest {
 
         assertEquals(0.0, Player.get().getLevelProgress(), 10e-6);
 
-        Player.get().addExperience(XP_TO_LEVEL_UP / 2, );
+        Player.get().addExperience(XP_TO_LEVEL_UP / 2, null);
         assertEquals(INITIAL_LEVEL, Player.get().getLevel());
         assertEquals(XP_TO_LEVEL_UP / 2, Player.get().getExperience());
         assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
 
-        Player.get().addExperience(XP_TO_LEVEL_UP, );
+        Player.get().addExperience(XP_TO_LEVEL_UP, null);
         assertEquals(INITIAL_LEVEL + 1, Player.get().getLevel());
         assertEquals(CURRENCY_PER_LEVEL, Player.get().getCurrency());
         assertEquals((XP_TO_LEVEL_UP * 3) / 2, Player.get().getExperience());
         assertEquals(0.5, Player.get().getLevelProgress(), 10e-2);
 
-        Player.get().addCurrency(100, );
+        Player.get().addCurrency(100, null);
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
     }
 
@@ -208,7 +208,7 @@ public class FirestoreTest {
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
-        Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2, );
+        Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2, null);
 
         //To over-write the local state
         Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1");
