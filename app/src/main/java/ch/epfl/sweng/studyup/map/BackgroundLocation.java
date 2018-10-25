@@ -35,7 +35,7 @@ public class BackgroundLocation extends JobService {
     public static int BACKGROUND_LOCATION_ID = 143;
 
     public BackgroundLocation() {
-        //Log.d("GPS_MAP", "Created background location, default constructor");
+        Log.d("GPS_MAP", "Created background location, default constructor");
     }
 
     @Override
