@@ -85,6 +85,7 @@ public class BackgroundLocation extends JobService {
                                     String str = "NEW POS: " + Utils.position.latitude + ", " + Utils.position.longitude;
                                     if(Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
                                         str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
+                                        Player.get().addExperience(2*Utils.XP_STEP, context.get());
                                     }else{
                                         str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
 
