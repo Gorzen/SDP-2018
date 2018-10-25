@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 
@@ -102,6 +103,9 @@ public class AddQuestionActivity extends AppCompatActivity {
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
             }
+
+            // Use the code below to upload the problem image file to the Firebase Storage server
+            FirebaseCloud.uploadFile(getString(R.string.problem_images_directory_name), questionFile);
 
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();

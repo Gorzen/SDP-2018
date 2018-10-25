@@ -16,6 +16,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -25,10 +26,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Normalizer;
+import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -38,8 +43,8 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Code used in the activity_custom to personnalize a Player.
  */
 public class CustomActivity extends Navigation {
+    private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
-    private static final String IMAGE_DIRECTORY = "/studyup_photos";
     private static final int GALLERY = 0, CAMERA = 1;
     private ImageView imageview;
     private ImageButton pic_button;
@@ -104,9 +109,7 @@ public class CustomActivity extends Navigation {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == GALLERY) {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, GALLERY);
+                    openGallery();
                 } else if (which == CAMERA) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -130,6 +133,11 @@ public class CustomActivity extends Navigation {
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, GALLERY);
     }
 
     @Override
@@ -173,9 +181,23 @@ public class CustomActivity extends Navigation {
 
     //Not sure about the name-consistency of this function
     private void setCircularImage(Bitmap bitmap) {
-        //saveImage(bitmap);
+
+        String newPictureFileID = UUID.randomUUID().toString() + ".png";
+        File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
+        try {
+            FileOutputStream out = new FileOutputStream(pictureFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        FirebaseCloud.uploadFile(getString(R.string.user_pictures_directory_name), pictureFile);
+
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
+
+
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }

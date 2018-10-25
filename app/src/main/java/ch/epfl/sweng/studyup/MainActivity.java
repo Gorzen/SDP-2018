@@ -9,14 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -26,9 +24,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.firebase.storage.StorageReference;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.squareup.picasso.Picasso;
 
+import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -52,6 +54,8 @@ public class MainActivity extends Navigation {
     private ImageButton pic_button;
     private ImageButton pic_button2;
     private ImageView image_view;
+    private Bitmap bitmap; //todo remove ???
+
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -78,10 +82,6 @@ public class MainActivity extends Navigation {
 
         displayLoginSuccessMessage(getIntent());
 
-        // User picture
-        pic_button = findViewById(R.id.pic_btn);
-        pic_button2 = findViewById(R.id.pic_btn2);
-
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
         ActivityCompat.requestPermissions(
@@ -95,12 +95,33 @@ public class MainActivity extends Navigation {
             scheduleBackgroundLocation();
         }
 
+        // User picture
+        pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
+
         image_view = findViewById(R.id.pic_imageview);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
+
+        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", "ec7255bb-8d46-4116-9a7a-a199ea0ce866.png");
+
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.get().load(uri.toString()).into(image_view);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        //todo uncomment
+        /*bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
-        image_view.setImageDrawable(rbd);
-
+        image_view.setImageDrawable(rbd);//*/
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +172,9 @@ public class MainActivity extends Navigation {
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
 
     }
+
+
+
 
     @Override
     protected void onResume() {
@@ -235,6 +259,7 @@ public class MainActivity extends Navigation {
         }
         Log.d("GPS_MAP", "schedule");
     }
+
 }
 
 
