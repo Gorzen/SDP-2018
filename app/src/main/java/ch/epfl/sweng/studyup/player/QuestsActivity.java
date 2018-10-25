@@ -31,7 +31,6 @@ import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
  * Quests.
  */
 public class QuestsActivity extends Navigation {
-    List<Question> questions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
