@@ -1,20 +1,33 @@
 package ch.epfl.sweng.studyup;
 
 import android.app.job.JobParameters;
+import android.location.Location;
+import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Rooms;
+import ch.epfl.sweng.studyup.utils.Utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 
 @RunWith(AndroidJUnit4.class)
 public class ServiceGetLocationTest {
+    private BackgroundLocation.GetLocation getLocation = new BackgroundLocation.GetLocation(null, null);
+    private OnSuccessListener<Location> onSuccessListener = getLocation.onSuccessListener;
+    private LatLng notRoomOfPlayer = new LatLng(50.0, 10.0);
+
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule2 =
             new ActivityTestRule<>(MainActivity.class);
@@ -34,5 +47,45 @@ public class ServiceGetLocationTest {
         BackgroundLocation backgroundLocation = new BackgroundLocation();
         backgroundLocation.onStartJob(null);
         backgroundLocation.onStopJob(null);
+    }
+
+    @Test
+    public void onSuccessListenerTestNullLocation(){
+        onSuccessListener.onSuccess(null);
+    }
+
+    @Test
+    public void onSuccessListenerTestRoomOfPlayer(){
+        int exp = Player.get().getExperience();
+        LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(Player.get().getCurrentRoom()).getLocation();
+
+        Location location = new Location("Mock");
+        location.setLatitude(roomOfPlayer.latitude);
+        location.setLongitude(roomOfPlayer.longitude);
+        location.setAccuracy(1);
+        location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+        location.setTime(System.currentTimeMillis());
+
+        onSuccessListener.onSuccess(location);
+        assertEquals(roomOfPlayer.latitude, Utils.position.latitude, 0);
+        assertEquals(roomOfPlayer.longitude, Utils.position.longitude, 0);
+        assertEquals(exp + 2 * Utils.XP_STEP, Player.get().getExperience());
+    }
+
+    @Test
+    public void onSuccessListenerTestNotRoomOfPlayer(){
+        int exp = Player.get().getExperience();
+
+        Location location = new Location("Mock");
+        location.setLatitude(notRoomOfPlayer.latitude);
+        location.setLongitude(notRoomOfPlayer.longitude);
+        location.setAccuracy(1);
+        location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+        location.setTime(System.currentTimeMillis());
+
+        onSuccessListener.onSuccess(location);
+        assertEquals(notRoomOfPlayer.latitude, Utils.position.latitude, 0);
+        assertEquals(notRoomOfPlayer.longitude, Utils.position.longitude, 0);
+        assertEquals(exp, Player.get().getExperience());
     }
 }

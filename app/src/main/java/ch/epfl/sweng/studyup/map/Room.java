@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.map;
 
+
 import com.google.android.gms.maps.model.LatLng;
 
 public final class Room {

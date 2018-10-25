@@ -1,15 +1,9 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.app.backup.SharedPreferencesBackupHelper;
-import android.location.Location;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.common.collect.ImmutableList;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
