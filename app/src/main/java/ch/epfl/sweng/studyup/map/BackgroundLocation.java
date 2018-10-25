@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.app.job.JobParameters;
+import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.util.Log;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.lang.ref.WeakReference;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -46,24 +49,24 @@ public class BackgroundLocation extends JobService {
     }
 
     public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
-        private final JobService jobService;
+        private final WeakReference<JobService> jobService;
         private final JobParameters jobParameters;
-        private final Context context;
+        private final WeakReference<Context> context;
 
         public GetLocation(JobService jobService, JobParameters jobParameters) {
-            this.jobService = jobService;
+            this.jobService = new WeakReference<>(jobService);
             this.jobParameters = jobParameters;
-            this.context = Utils.mainContext;
+            this.context = new WeakReference<>(Utils.mainContext);
         }
 
         @Override
         public JobParameters doInBackground(Void[] voids) {
-            if(context == null ){
+            if(context.get() == null){
                 return jobParameters;
             }
-            if (ContextCompat.checkSelfPermission(context,
+            if (ContextCompat.checkSelfPermission(context.get(),
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(context,
+                    || ContextCompat.checkSelfPermission(context.get(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
                 Utils.locationProviderClient.getLastLocation()
@@ -92,8 +95,8 @@ public class BackgroundLocation extends JobService {
         @Override
         public void onPostExecute(JobParameters jobParameters) {
             super.onPostExecute(jobParameters);
-            if(jobParameters != null && jobService != null) {
-                jobService.jobFinished(jobParameters, true);
+            if(jobParameters != null && jobService.get() != null) {
+                jobService.get().jobFinished(jobParameters, true);
             }
         }
     }

@@ -16,38 +16,6 @@ import ch.epfl.sweng.studyup.map.Room;
 
 public class Rooms {
     private final static double RADIUS_ROOM = 40.0;
-    public final static List<String> ROOMS_AVAILABLE;
-
-    static {
-        List<String> rooms = new ArrayList<String>() {
-            {
-                add("CE_1_1");
-                add("CE_1_2");
-                add("CE_1_3");
-                add("CE_1_4");
-                add("CE_1_5");
-                add("CE_1_6");
-
-                add("CM_1_1");
-                add("CM_1_2");
-                add("CM_1_3");
-                add("CM_1_4");
-                add("CM_1_5");
-
-                add("CO_1_1");
-                add("CO_1_2");
-                add("CO_1_3");
-                add("CO_1_4");
-                add("CO_1_5");
-                add("CO_1_6");
-
-                add("INN_3_26");
-
-                add("INR_0_11");
-            }
-        };
-        ROOMS_AVAILABLE = Collections.unmodifiableList(rooms);
-    }
 
     public final static Map<String, Room> ROOMS_LOCATIONS;
 
