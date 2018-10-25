@@ -35,7 +35,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat
 
         MenuItem menuItem = menu.getItem(current_index);
 
-        menuItem.setChecked(true); // Give color to the selected item
+        menuItem.setChecked(false); // Give color to the selected item
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

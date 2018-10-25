@@ -11,6 +11,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
+import ch.epfl.sweng.studyup.player.Player;
+
 public class FirebaseCloud {
 
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
@@ -19,11 +21,13 @@ public class FirebaseCloud {
     // Arguments:
     //  directory: directory name in server, use string values specified in strings.xml according to file type
     //  file: a File object for the file you would like to upload
-    public static void uploadFile(String directory, File file) {
+    public static void uploadFile(String directory, File file, boolean isUserPicture) {
 
         Uri fileURI = Uri.fromFile(file);
 
-        StorageReference fileRef = storageRef.child(directory + "/" + fileURI.getLastPathSegment());
+        StorageReference fileRef = isUserPicture ?
+                storageRef.child(directory + "/" + Integer.toString(Player.get().getSciper())) :
+                storageRef.child(directory + "/" + fileURI.getLastPathSegment());
         UploadTask uploadTask = fileRef.putFile(fileURI);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {

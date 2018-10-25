@@ -26,6 +26,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,7 +71,7 @@ public class CustomActivity extends Navigation {
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
         edit_username.setText(Player.get().getUserName());
-        final TextView user_email = findViewById(R.id.user_email);//todo
+        final TextView user_email = findViewById(R.id.user_email);
 
         //mail
         String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
@@ -77,11 +82,21 @@ public class CustomActivity extends Navigation {
 
         final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
-        // TODO: Change with the user pic
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        rbd.setCircular(true);
-        imageview.setImageDrawable(rbd);
+        //initial picture
+        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", Integer.toString(Player.get().getSciper()));
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //Pass the URL to Picasso to download and show in ImageView
+                Picasso.get().load(uri.toString()).into(imageview);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +182,7 @@ public class CustomActivity extends Navigation {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    setCircularImage(bitmap);
+                    setImageCircularAndUpload(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(CustomActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -175,13 +190,11 @@ public class CustomActivity extends Navigation {
             }
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            setCircularImage(bitmap);
+            setImageCircularAndUpload(bitmap);
         }
     }
 
-    //Not sure about the name-consistency of this function
-    private void setCircularImage(Bitmap bitmap) {
-
+    private void setImageCircularAndUpload(Bitmap bitmap) {
         String newPictureFileID = UUID.randomUUID().toString() + ".png";
         File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
         try {
@@ -192,11 +205,10 @@ public class CustomActivity extends Navigation {
             Log.e(TAG, e.getMessage());
         }
 
-        FirebaseCloud.uploadFile(getString(R.string.user_pictures_directory_name), pictureFile);
+        FirebaseCloud.uploadFile(getString(R.string.user_pictures_directory_name), pictureFile, true);
 
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
-
 
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);

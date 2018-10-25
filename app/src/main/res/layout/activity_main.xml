@@ -59,22 +59,6 @@
                 app:textSize="24sp"
                 tools:layout_alignParentBottom="true" />
 
-            <!--<ImageView
-                android:id="@+id/pic_imageview"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/user_photo"
-                android:scaleType="centerCrop"
-                android:src="@drawable/user_init_pic"
-                app:layout_constraintBottom_toBottomOf="@+id/level_progress"
-                app:layout_constraintEnd_toEndOf="@+id/pic_btn"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/pic_btn"
-                app:layout_constraintTop_toTopOf="@+id/pic_btn"
-                app:layout_constraintVertical_bias="1.0" />-->
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/pic_imageview"
                 android:layout_width="105dp"
@@ -82,12 +66,14 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/user_photo"
+                android:paddingBottom="1dp"
                 android:src="@drawable/user_init_pic"
                 app:civ_border_width="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/level_progress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/level_progress" />
+                app:layout_constraintTop_toTopOf="@+id/level_progress"
+                app:layout_constraintVertical_bias="0.533" />
 
             <ImageButton
                 android:id="@+id/pic_btn"

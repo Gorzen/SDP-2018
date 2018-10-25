@@ -8,7 +8,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,7 +53,6 @@ public class MainActivity extends Navigation {
     private ImageButton pic_button;
     private ImageButton pic_button2;
     private ImageView image_view;
-    private Bitmap bitmap; //todo remove ???
 
 
     // Display login success message from intent set by authentication activity
@@ -98,30 +96,22 @@ public class MainActivity extends Navigation {
         // User picture
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
-
         image_view = findViewById(R.id.pic_imageview);
 
-        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", "ec7255bb-8d46-4116-9a7a-a199ea0ce866.png");
+        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", Integer.toString(Player.get().getSciper()));
 
         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                // Got the download URL for 'users/me/profile.png'
-                // Pass it to Picasso to download, show in ImageView and caching
+                //Pass the URL to Picasso to download and show in ImageView
                 Picasso.get().load(uri.toString()).into(image_view);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
+                exception.printStackTrace();
             }
         });
-
-        //todo uncomment
-        /*bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        rbd.setCircular(true);
-        image_view.setImageDrawable(rbd);//*/
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
