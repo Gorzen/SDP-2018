@@ -190,7 +190,6 @@ public class MainActivity extends Navigation {
 
     // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     // Corresponding activities are not created yet
-    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -205,7 +204,6 @@ public class MainActivity extends Navigation {
         }
         return super.onOptionsItemSelected(item);
     }
-    */
 
     /**
      * Function that is called when adding xp with the button
