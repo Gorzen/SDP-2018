@@ -7,21 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,14 +25,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
+import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.social.RankingsActivity;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -68,8 +60,17 @@ public class CustomActivity extends Navigation {
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
+        edit_username.setText(Player.get().getUserName());
+        final TextView user_email = findViewById(R.id.user_email);//todo
 
-        final TextView view_username = findViewById(R.id.view_username);//todo
+        //mail
+        String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
+        email_1 = Normalizer.normalize(email_1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
+        email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
+
+        final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
         // TODO: Change with the user pic
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
@@ -87,6 +88,7 @@ public class CustomActivity extends Navigation {
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
                 view_username.setText(edit_username.getText().toString());
+                Player.get().setUserName(edit_username.getText().toString());
             }
         });
 
@@ -177,33 +179,6 @@ public class CustomActivity extends Navigation {
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }
-  
-    private String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-            return f.getAbsolutePath();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
       
     //Display the toolbar
     @Override
@@ -212,24 +187,4 @@ public class CustomActivity extends Navigation {
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
-
-    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    //Corresponding activities are not created yet
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(CustomActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(CustomActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
-
 }

@@ -11,6 +11,9 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -60,6 +63,8 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp"
+                android:maxLines="1"
+                android:maxLength="15"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -96,7 +101,7 @@
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
             <TextView
-                android:id="@+id/view_username"
+                android:id="@+id/usernameText"
                 android:layout_width="197dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"

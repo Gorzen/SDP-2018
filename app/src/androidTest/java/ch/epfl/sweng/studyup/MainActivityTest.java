@@ -18,7 +18,6 @@ import org.junit.runners.MethodSorters;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -74,7 +73,7 @@ public class MainActivityTest {
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
         Firestore.get().getAndSetUserData(Player.get().getSciper(),
-                Player.get().getFirstName(), Player.get().getLastName());
+                Player.get().getFirstName(), Player.get().getLastName(), Player.get().getUserName());
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

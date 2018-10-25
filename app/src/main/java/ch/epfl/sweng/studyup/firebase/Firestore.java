@@ -71,12 +71,13 @@ public class Firestore {
      * Function used when entering the app. It will get all the player's informations and set
      * the state of the player as it were the last time he/she was connected.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER numb of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
+     * @param userName  The username of the player.
      * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
      */
-    public void getAndSetUserData(final int sciper, final String firstName, final String lastName)
+    public void getAndSetUserData(final int sciper, final String firstName, final String lastName, final String userName)
             throws IllegalArgumentException {
         if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
             throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be" +
@@ -121,6 +122,7 @@ public class Firestore {
                                 Player.get().setFirstName(firstName);
                                 Player.get().setLastName(lastName);
                                 Player.get().setSciper(sciper);
+                                Player.get().setUserName(userName);
                                 savePlayerData();
                             }
                         } else {
@@ -138,6 +140,7 @@ public class Firestore {
         putUserData(FB_XP, Player.get().getExperience());
         putUserData(FB_LEVEL, Player.get().getLevel());
         putUserData(FB_CURRENCY, Player.get().getCurrency());
+        putUserData(FB_USERNAME, Player.get().getUserName());//todo onela
 
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -207,11 +210,12 @@ public class Firestore {
      * Reset the infos of a given user on the database. If he/she wasn't present, it will create
      * it with the initial values.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER nmbr of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
+     * @param userName  The username of the player.
      */
-    public void resetUserInfos(final int sciper, final String firstName, final String lastName) {
+    public void resetUserInfos(final int sciper, final String firstName, final String lastName, final String userName) {
         Map<String, Object> initialInfos = new HashMap<>();
         initialInfos.put(FB_SCIPER, sciper);
         initialInfos.put(FB_FIRSTNAME, firstName);
@@ -220,6 +224,7 @@ public class Firestore {
         initialInfos.put(FB_LEVEL, INITIAL_LEVEL);
         initialInfos.put(FB_XP, INITIAL_XP);
         initialInfos.put(FB_TOKEN, null);
+        initialInfos.put(FB_USERNAME, userName);
 
         setUserInfos(sciper, initialInfos);
     }

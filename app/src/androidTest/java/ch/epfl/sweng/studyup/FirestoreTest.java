@@ -72,7 +72,7 @@ public class FirestoreTest {
     public void cleanupSciperOnDB() {
         resetDummy();
 
-        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().reset();
@@ -80,18 +80,18 @@ public class FirestoreTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooLowTest() {
-        Firestore.get().getAndSetUserData(MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperNegativeTest() {
-        Firestore.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
     }
 
 
@@ -104,7 +104,7 @@ public class FirestoreTest {
 
     @Test
     public void deleteUserTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Player.get().addExperience(XP_STEP);
@@ -120,13 +120,13 @@ public class FirestoreTest {
     }
 
     public void addNewUserToDBTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
@@ -162,7 +162,7 @@ public class FirestoreTest {
         Player.get().setSciper(sciper);
         Firestore.get().setUserData(FB_XP, INITIAL_XP + 1);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
 
         resetDummy();
 
@@ -203,19 +203,20 @@ public class FirestoreTest {
         final int testSciper1 = sciper;
         final String testFirstName1 = INITIAL_FIRSTNAME;
         final String testLastName1 = INITIAL_LASTNAME;
-        Firestore.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
+        final String testUserName1 = INITIAL_USERNAME;
+        Firestore.get().resetUserInfos(testSciper1, testFirstName1, testLastName1, testUserName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
+        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1, testUserName1);
         Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2);
 
         //To over-write the local state
-        Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1");
+        Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1", testUserName1 + "1");
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
-        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
+        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1, testUserName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 

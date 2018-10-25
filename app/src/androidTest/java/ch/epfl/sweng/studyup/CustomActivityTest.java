@@ -43,7 +43,7 @@ public class CustomActivityTest {
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden"));
         onView(withId(R.id.valid_btn)).perform(click());
-        onView(withId(R.id.view_username)).check(matches(withText("Wir Sind Helden")));
+        onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
     @Test

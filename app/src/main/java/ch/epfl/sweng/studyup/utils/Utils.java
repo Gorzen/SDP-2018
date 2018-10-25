@@ -21,6 +21,7 @@ public class Utils {
 
     // Firestore entries
     public static final String FB_USERS = "users";
+    public static final String FB_USERNAME = "username";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
@@ -37,8 +38,7 @@ public class Utils {
     public static final String FB_QUESTS = "quests";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS
-    );
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME);
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -76,6 +76,7 @@ public class Utils {
     public static final int INITIAL_CURRENCY = 0;
     public static final int INITIAL_LEVEL = 1;
     public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Reymond";
     //Navigation items indexes for smooth transitions
