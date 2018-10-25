@@ -64,10 +64,10 @@ android {
         implementation 'com.android.support:support-media-compat:28.0.0'
         implementation 'com.google.android.gms:play-services-location:16.0.0'
         implementation 'com.google.android.gms:play-services-maps:16.0.0'
-        testCompile 'org.powermock:powermock-api-mockito:1.6.2'
-        testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.2'
-        testCompile 'org.powermock:powermock-module-junit4-rule:1.6.2'
-        testCompile 'org.powermock:powermock-module-junit4:1.6.2'
+        testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
+        testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.2'
+        testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.2'
+        testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
     }
 
     tasks.withType(Test) {
