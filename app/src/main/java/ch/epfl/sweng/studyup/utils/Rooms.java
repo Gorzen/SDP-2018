@@ -15,39 +15,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.map.Room;
 
 public class Rooms {
-    private final static double RADIUS_ROOM = 40.0;
-    public final static List<String> ROOMS_AVAILABLE;
-
-    static {
-        List<String> rooms = new ArrayList<String>() {
-            {
-                add("CE_1_1");
-                add("CE_1_2");
-                add("CE_1_3");
-                add("CE_1_4");
-                add("CE_1_5");
-                add("CE_1_6");
-
-                add("CM_1_1");
-                add("CM_1_2");
-                add("CM_1_3");
-                add("CM_1_4");
-                add("CM_1_5");
-
-                add("CO_1_1");
-                add("CO_1_2");
-                add("CO_1_3");
-                add("CO_1_4");
-                add("CO_1_5");
-                add("CO_1_6");
-
-                add("INN_3_26");
-
-                add("INR_0_11");
-            }
-        };
-        ROOMS_AVAILABLE = Collections.unmodifiableList(rooms);
-    }
+    private final static double RADIUS_ROOM = 30.0;
 
     public final static Map<String, Room> ROOMS_LOCATIONS;
 
@@ -77,6 +45,8 @@ public class Rooms {
                 put("INN_3_26", new Room(46.5187270, 6.5625000));
 
                 put("INR_0_11", new Room(46.5184010, 6.5627920));
+
+                put("BC_0_0", new Room(46.5185229, 6.5619692));
             }
         };
         ROOMS_LOCATIONS = Collections.unmodifiableMap(locations);

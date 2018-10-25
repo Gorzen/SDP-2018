@@ -28,7 +28,7 @@ public class Player {
     private int[] questionsAcheived;
     private int[] questsAcheived;
 
-    public static String room = "CO_1_3";
+    public static String room = "BC_0_0";
 
     /**
      * Constructor called before someone is login.

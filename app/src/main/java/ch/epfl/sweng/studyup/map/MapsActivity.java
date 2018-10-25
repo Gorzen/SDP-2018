@@ -17,6 +17,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -37,11 +38,10 @@ import ch.epfl.sweng.studyup.utils.Utils;
  */
 
 public class MapsActivity extends Navigation implements OnMapReadyCallback {
-
-
-    private Marker location;
-    private GoogleMap mMap;
+    private Marker location = null;
+    private GoogleMap mMap = null;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
+    private boolean isFirstPosition = true;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
@@ -57,11 +57,12 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
         locationRequest.setInterval(Utils.LOCATION_REQ_INTERVAL);
@@ -99,6 +100,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         super.onPause();
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         Log.d("GPS_MAP", "Pause map");
+        finish();
     }
 
     @Override
@@ -122,7 +124,13 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
                 if (location != null) {
                     location.remove();
                 }
-                location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                if(isFirstPosition) {
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
+                    isFirstPosition = false;
+                }else{
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                }
             }
             Utils.position = new LatLng(latLong.latitude, latLong.longitude);
         }
