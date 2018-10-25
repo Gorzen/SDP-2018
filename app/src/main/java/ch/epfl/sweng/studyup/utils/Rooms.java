@@ -15,7 +15,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.map.Room;
 
 public class Rooms {
-    private final static double RADIUS_ROOM = 40.0;
+    private final static double RADIUS_ROOM = 30.0;
 
     public final static Map<String, Room> ROOMS_LOCATIONS;
 
@@ -45,6 +45,8 @@ public class Rooms {
                 put("INN_3_26", new Room(46.5187270, 6.5625000));
 
                 put("INR_0_11", new Room(46.5184010, 6.5627920));
+
+                put("BC_0_0", new Room(46.5185229, 6.5619692));
             }
         };
         ROOMS_LOCATIONS = Collections.unmodifiableMap(locations);

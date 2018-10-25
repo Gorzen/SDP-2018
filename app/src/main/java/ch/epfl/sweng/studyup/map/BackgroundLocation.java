@@ -8,10 +8,15 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -62,6 +67,7 @@ public class BackgroundLocation extends JobService {
         @Override
         public JobParameters doInBackground(Void[] voids) {
             if(context.get() == null){
+                Log.d("GPS_MAP", "Context = null");
                 return jobParameters;
             }
             if (ContextCompat.checkSelfPermission(context.get(),
@@ -76,12 +82,18 @@ public class BackgroundLocation extends JobService {
                                 if (location != null) {
                                     //Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                                     Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
+                                    String str = "NEW POS: " + Utils.position.latitude + ", " + Utils.position.longitude;
                                     if(Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
-                                        //A voir
+                                        str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
+                                    }else{
+                                        str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
+
                                     }
-                                    //Log.d("GPS_MAP", "Changed position of Main Activity " + location);
+                                    Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
+                                    Log.d("GPS_MAP", str);
+                                    Log.d("GPS_MAP", "Context = " + context.get());
                                 } else {
-                                    //Log.d("GPS_MAP", "NEW POS: null");
+                                    Log.d("GPS_MAP", "NEW POS: null");
                                 }
                             }
                         });
