@@ -65,11 +65,11 @@ public class Player {
     /**
      * Method suppose that we can only gain experience.
      */
-    private void updateLevel() {
+    private void updateLevel(Context context) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if (newLevel - level > 0) {
-            currency += (newLevel - level) * CURRENCY_PER_LEVEL;
+            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, context);
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
             Firestore.get().setUserData(FB_CURRENCY, currency);
@@ -82,7 +82,7 @@ public class Player {
         currency += curr;
 
         if(context instanceof MainActivity) {
-            ((MainActivity) context).updateXpAndLvlDisplay();
+            ((MainActivity) context).updateCurrDisplay();
         }
 
         putUserData(FB_CURRENCY, currency);
@@ -91,7 +91,7 @@ public class Player {
 
     public void addExperience(int xp, Context context) {
         experience += xp;
-        updateLevel();
+        updateLevel(context);
 
         if(context instanceof MainActivity) {
             ((MainActivity) context).updateXpAndLvlDisplay();
@@ -124,7 +124,7 @@ public class Player {
      * the class Player
      * (currently only saving experience, currency, names and sciper)
      */
-    public void updatePlayerData() {
+    public void updatePlayerData(Context context) {
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
 
@@ -134,7 +134,7 @@ public class Player {
         lastName = userData.get(FB_LASTNAME).toString();
         sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
 
-        updateLevel();
+        updateLevel(context);
     }
 
     public String getFirstName() {
