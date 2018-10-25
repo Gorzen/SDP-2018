@@ -1,5 +1,8 @@
 package ch.epfl.sweng.studyup.player;
 
+import android.content.Context;
+
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
@@ -74,19 +77,27 @@ public class Player {
         }
     }
 
-    public void addCurrency(int curr) {
+    public void addCurrency(int curr, Context context) {
         currency += curr;
+
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).updateXpAndLvlDisplay();
+        }
+
         putUserData(FB_CURRENCY, currency);
         Firestore.get().setUserData(FB_CURRENCY, currency);
-
     }
 
-    public void addExperience(int xp) {
+    public void addExperience(int xp, Context context) {
         experience += xp;
+        updateLevel();
+
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).updateXpAndLvlDisplay();
+        }
+
         putUserData(FB_XP, experience);
         Firestore.get().setUserData(FB_XP, experience);
-
-        updateLevel();
     }
 
     public double getLevelProgress() {

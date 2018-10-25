@@ -29,11 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.Task;
+
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -122,9 +121,6 @@ public class MainActivity extends Navigation {
             }
         });
 
-        //username
-        TextView view_username = findViewById(R.id.view_username);
-
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -142,25 +138,16 @@ public class MainActivity extends Navigation {
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
     }
 
     // Display the toolbar
@@ -211,16 +198,17 @@ public class MainActivity extends Navigation {
      * @param view
      */
     public void addExpPlayer(View view) {
-        Player.get().addExperience(XP_STEP);
+        Player.get().addExperience(XP_STEP, this);
+    }
+
+
+    public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        ((TextView) findViewById(R.id.levelText)).setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+    }
 
-        // In the future -> listener
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+    public void updateCurrDisplay() {
+        ((TextView) findViewById(R.id.currText)).setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
 
     public void scheduleBackgroundLocation(){

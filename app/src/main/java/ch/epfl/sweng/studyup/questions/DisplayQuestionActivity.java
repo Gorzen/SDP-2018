@@ -101,7 +101,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         //TODO : What to do next ?
         if (answer == displayQuestion.getAnswer()){
             Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-            Player.get().addExperience(XP_GAINED_WITH_QUESTION);
+            Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
         }else{
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }
