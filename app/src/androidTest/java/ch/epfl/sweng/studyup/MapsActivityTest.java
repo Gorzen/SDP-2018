@@ -1,15 +1,19 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -20,6 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MapsActivityTest {
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
@@ -64,7 +69,7 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void testOptionNoException() {
+    public void AtestOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
