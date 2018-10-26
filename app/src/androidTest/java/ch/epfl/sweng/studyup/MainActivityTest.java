@@ -73,7 +73,7 @@ public class MainActivityTest {
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
         Firestore.get().getAndSetUserData(Player.get().getSciper(),
-                Player.get().getFirstName(), Player.get().getLastName(), Player.get().getUserName());
+                Player.get().getFirstName(), Player.get().getLastName());
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
