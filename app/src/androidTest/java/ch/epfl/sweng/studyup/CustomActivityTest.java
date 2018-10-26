@@ -58,7 +58,7 @@ public class CustomActivityTest {
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
-    @Test
+
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
         Player.get().setLastName(INITIAL_LASTNAME);
