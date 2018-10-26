@@ -54,8 +54,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     Firestore.get().getAndSetUserData(
                             Player.get().getSciper(),
                             Player.get().getFirstName(),
-                            Player.get().getLastName(),
-                            Player.get().getUserName());
+                            Player.get().getLastName());
 
                     Intent initActivity;
                     if (Player.get().getRole()) {
@@ -111,8 +110,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             Firestore.get().getAndSetUserData(
                     Player.get().getSciper(),
                     Player.get().getFirstName(),
-                    Player.get().getLastName(),
-                    Player.get().getUserName());
+                    Player.get().getLastName());
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);

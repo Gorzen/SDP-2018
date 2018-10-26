@@ -211,9 +211,8 @@ public class Firestore {
      * @param sciper    The SCIPER nmbr of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
-     * @param userName  The username of the player.
      */
-    public void resetUserInfos(final int sciper, final String firstName, final String lastName, final String userName) {
+    public void resetUserInfos(final int sciper, final String firstName, final String lastName) {
         Map<String, Object> initialInfos = new HashMap<>();
         initialInfos.put(FB_SCIPER, sciper);
         initialInfos.put(FB_FIRSTNAME, firstName);
@@ -222,7 +221,6 @@ public class Firestore {
         initialInfos.put(FB_LEVEL, INITIAL_LEVEL);
         initialInfos.put(FB_XP, INITIAL_XP);
         initialInfos.put(FB_TOKEN, null);
-        initialInfos.put(FB_USERNAME, userName);
 
         setUserInfos(sciper, initialInfos);
     }
