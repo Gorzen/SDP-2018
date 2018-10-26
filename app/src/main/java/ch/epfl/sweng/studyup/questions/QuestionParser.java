@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.questions;
 
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -18,18 +19,25 @@ public abstract class QuestionParser {
      *
      * @param c                 The context of the app (to get the FilesDir)
      * @return The list of questions or null if the file has not the correct format
+     * @Deprecated Must not be called in the main thread otherwise an exception will occur !
      */
+    @Deprecated
     public static List<Question> parseQuestions(Context c) {
-        final QuestionDAO database = QuestionDatabaseBuilder.get(c).questionDAO();
-        final ArrayList<Question> list = new ArrayList<>();
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                list.addAll(database.getAll());
-            }
-        });
+        QuestionDAO database = QuestionDatabase.get(c).questionDAO();
+        ArrayList<Question> list = new ArrayList<>();
+        list.addAll(database.getAll());
 
         return list;
+    }
+
+    /**
+     * Retrieve a LiveData list of questions. Use the Observer pattern to be notified when the list is changed
+     * @param c The context of the activity that calls this method
+     * @return A LiveData wrapper of the list of questions from the Room Database
+     */
+    public static LiveData<List<Question>> parseQuestionsLiveData(Context c) {
+        QuestionDAO database = QuestionDatabase.get(c).questionDAO();
+        return database.getAllLiveData();
     }
 
 
@@ -44,7 +52,7 @@ public abstract class QuestionParser {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                QuestionDatabaseBuilder.get(c).questionDAO().insertAll(list);
+                QuestionDatabase.get(c).questionDAO().insertAll(list);
             }
         });
     }

@@ -68,7 +68,7 @@ public class DisplayQuestionActivityTest {
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ANSWER));
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_URI));
         assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_URI), q.getQuestionUri().toString());
-        assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE), Boolean.toString(q.isTrueFalseQuestion()));
+        assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE), Boolean.toString(q.isTrueFalse()));
         assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_ANSWER), Integer.toString(q.getAnswer()));
     }
 

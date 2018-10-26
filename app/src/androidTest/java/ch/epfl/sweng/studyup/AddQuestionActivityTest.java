@@ -2,8 +2,11 @@ package ch.epfl.sweng.studyup;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -24,6 +27,7 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,6 +54,7 @@ public class AddQuestionActivityTest {
 
     @Before
     public void initiateIntents() {
+        QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         Intents.init();
     }
 
@@ -78,14 +83,15 @@ public class AddQuestionActivityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testTrivialInstanceQuestion() {
-        Question nullQ = new Question(null, false, 0);
+        Uri nullUri = null;
+        Question nullQ = new Question(nullUri, false, 0);
     }
 
     @Test
     public void testSimpleInstanceQuestionTrueFalse() {
         Uri fake = Uri.parse("studyup://fake/path");
         Question simple = new Question(fake, true, 0);
-        assert (simple.isTrueFalseQuestion());
+        assert (simple.isTrueFalse());
         assert (simple.getAnswer() == 0);
         assert (simple.getQuestionUri().equals(fake));
     }
@@ -94,7 +100,7 @@ public class AddQuestionActivityTest {
     public void testSimpleInstanceQuestionMCQ() {
         Uri fake = Uri.parse("studyup://fake/path");
         Question simple = new Question(fake, false, 2);
-        assert (!simple.isTrueFalseQuestion());
+        assert (!simple.isTrueFalse());
         assert (simple.getAnswer() == 2);
         assert (simple.getQuestionUri().equals(fake));
     }
@@ -144,11 +150,15 @@ public class AddQuestionActivityTest {
         i.setData(uri);
         mActivityRule.getActivity().onActivityResult(READ_REQUEST_CODE, Activity.RESULT_OK, i);
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
-        List<Question> list = QuestionParser.parseQuestions(mActivityRule.getActivity().getApplicationContext(), false);
-        assertNotNull(list);
-        ArrayList<Question> parsedList = new ArrayList<>(list);
-        assertEquals(0, parsedList.get(0).getAnswer());
-        assertEquals(false, parsedList.get(0).isTrueFalseQuestion());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                assertEquals(0, questions.get(0).getAnswer());
+                assertEquals(false, questions.get(0).isTrueFalse());
+            }
+        });
         Intents.intending(hasComponent(MainActivity.class.getName()));
     }
 }
