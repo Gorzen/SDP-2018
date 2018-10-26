@@ -25,13 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.firebase.storage.StorageReference;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.squareup.picasso.Picasso;
 
 import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
-
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -99,21 +94,8 @@ public class MainActivity extends Navigation {
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
-        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", Integer.toString(Player.get().getSciper()));
-
-        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                //Pass the URL to Picasso to download and show in ImageView
-                Picasso.get().load(uri.toString()).into(image_view);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-
+        FirebaseCloud.downloadPictureOnFirebase(getString(R.string.FB_user_pictures_directory_name),
+                Integer.toString(Player.get().getSciper()), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +147,6 @@ public class MainActivity extends Navigation {
         updateXpAndLvlDisplay();
 
     }
-
 
 
     @Override

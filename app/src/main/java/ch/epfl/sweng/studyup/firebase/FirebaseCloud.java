@@ -8,6 +8,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import android.widget.ImageView;
+
 
 import java.io.File;
 
@@ -54,5 +57,22 @@ public class FirebaseCloud {
 
         StorageReference fileRef = storageRef.child(directory + "/" + fileName);
         return fileRef;
+    }
+
+    public static void downloadPictureOnFirebase(String FBdirectory, String FBfileName, final ImageView image_view) {
+        StorageReference ref = FirebaseCloud.getFileStorageRef(FBdirectory, FBfileName);
+
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //Pass the URL to Picasso to download and show in ImageView
+                Picasso.get().load(uri.toString()).into(image_view);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                exception.printStackTrace();
+            }
+        });
     }
 }

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,19 +81,9 @@ public class CustomActivity extends Navigation {
         final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
         //initial picture
-        StorageReference ref = FirebaseCloud.getFileStorageRef("user_pictures", Integer.toString(Player.get().getSciper()));
-        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                //Pass the URL to Picasso to download and show in ImageView
-                Picasso.get().load(uri.toString()).into(imageview);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                exception.printStackTrace();
-            }
-        });
+        FirebaseCloud.downloadPictureOnFirebase(getString(R.string.FB_user_pictures_directory_name),
+                Integer.toString(Player.get().getSciper()), imageview);
+
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +193,7 @@ public class CustomActivity extends Navigation {
             Log.e(TAG, e.getMessage());
         }
 
-        FirebaseCloud.uploadFile(getString(R.string.user_pictures_directory_name), pictureFile, true);
+        FirebaseCloud.uploadFile(getString(R.string.FB_user_pictures_directory_name), pictureFile, true);
 
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
