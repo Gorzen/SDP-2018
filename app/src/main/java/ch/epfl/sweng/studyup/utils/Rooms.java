@@ -11,7 +11,7 @@ import ch.epfl.sweng.studyup.map.Room;
 public class Rooms {
     private final static double RADIUS_ROOM = 30.0;
 
-    public final static Map<String, Room> ROOMS_LOCATIONS = new HashMap<String, Room>(){
+    public final static Map<String, Room> ROOMS_LOCATIONS = Collections.unmodifiableMap(new HashMap<String, Room>(){
         {
             put("CE_1_1", new Room(46.5206650, 6.5693740));
             put("CE_1_2", new Room(46.5204350, 6.5693790));
@@ -39,7 +39,7 @@ public class Rooms {
 
             put("BC_0_0", new Room(46.5185229, 6.5619692));
         }
-    };
+    });
 
     //https://stackoverflow.com/questions/8832071/how-can-i-get-the-distance-between-two-point-by-latlng
     public static double distanceBetweenTwoLatLng(LatLng latLng1, LatLng latLng2){
