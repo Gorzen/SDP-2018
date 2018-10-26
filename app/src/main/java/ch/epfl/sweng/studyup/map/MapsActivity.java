@@ -166,6 +166,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
 
     //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     //Corresponding activities are not created yet
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -180,6 +181,7 @@ public class MapsActivity extends Navigation implements OnMapReadyCallback {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 }
 
 

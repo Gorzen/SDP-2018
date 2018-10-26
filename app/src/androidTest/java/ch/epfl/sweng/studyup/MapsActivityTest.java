@@ -65,9 +65,11 @@ public class MapsActivityTest {
         mActivityRule.getActivity().onMapReady(null);
     }
 
+    /*
     @Test
     public void AtestOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
+    */
 }
