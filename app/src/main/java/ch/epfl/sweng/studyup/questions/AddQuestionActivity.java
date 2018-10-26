@@ -93,8 +93,8 @@ public class AddQuestionActivity extends AppCompatActivity {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            String newQuestionFileID = UUID.randomUUID().toString() + ".png";
-            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
+            String newQuestionID = UUID.randomUUID().toString();
+            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
             try {
                 Bitmap imageBitmap = getBitmapFromUri(imageURI);
                 FileOutputStream out = new FileOutputStream(questionFile);
@@ -107,7 +107,8 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
 
-            Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
+            String newQuestionTitle = "Default title";
+            Question q = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber);
 
             // Add question to FireStore
             Firestore.addQuestion(q);

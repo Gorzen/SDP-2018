@@ -1,10 +1,10 @@
 package ch.epfl.sweng.studyup.questions;
 
-import android.net.Uri;
-
 public class Question {
 
-    private Uri question;
+    private String questionId;
+
+    private String title;
 
     private boolean trueFalse;
 
@@ -13,25 +13,25 @@ public class Question {
     /**
      * Class for the question
      *
-     * @param image        The Uri of the image with the question to be displayed
+     * @param questionId   The id for the question to use in database as well as image filename
+     * @param title        The title of the question
      * @param trueFalse    If the question is a True/False question or not
      * @param answerNumber The number of the answer, starting at 0 (0 is the first answer)
      */
-    public Question(Uri image, boolean trueFalse, int answerNumber) {
-        if (answerNumber < 0 || answerNumber > 3 || image == null) {
+    public Question(String questionId, String title, boolean trueFalse, int answerNumber) {
+        if (answerNumber < 0 || answerNumber > 3) {
             throw new IllegalArgumentException();
         }
         if (trueFalse && answerNumber > 1) {
             throw new IllegalArgumentException();
         }
+        this.questionId = questionId;
+        this.title = title;
         this.trueFalse = trueFalse;
-        question = image;
         answer = answerNumber;
     }
 
-    public Uri getQuestionUri() {
-        return question;
-    }
+    public String getTitle() { return title; }
 
     public int getAnswer() {
         return answer;

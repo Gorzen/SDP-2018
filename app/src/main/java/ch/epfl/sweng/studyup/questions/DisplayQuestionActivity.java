@@ -32,6 +32,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
+        /**
         int answerNumber = 0;
         boolean trueFalse = false;
         Uri questionUri = Uri.EMPTY;
@@ -62,7 +63,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         displayQuestion = new Question(questionUri, trueFalse, answerNumber);
         displayImage(questionUri);
         setupLayout(displayQuestion);
-
+        **/
     }
 
     private void displayImage(Uri uri){

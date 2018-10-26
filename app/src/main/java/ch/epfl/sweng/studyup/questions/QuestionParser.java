@@ -36,6 +36,7 @@ public abstract class QuestionParser {
      * @param checkIfFileExists Throw an IllegalArgumentException if the image in the file doesn't exist.
      * @return The list of questions or null if the file has not the correct format
      */
+
     public static List<Question> parseQuestions(Context c, boolean checkIfFileExists) {
         ArrayList<Question> list = new ArrayList<>();
         try {
