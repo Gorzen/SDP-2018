@@ -37,7 +37,6 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AddQuestionActivityTest {
 
     @Rule
