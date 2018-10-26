@@ -57,12 +57,12 @@ public class CustomActivityTest {
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
-    @Test
+    /*@Test
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
         Player.get().setLastName(INITIAL_LASTNAME);
         onView(withId(R.id.user_email)).check(matches(withText("jean-louis.reymond@epfl.ch")));
-    }
+    }*/
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {

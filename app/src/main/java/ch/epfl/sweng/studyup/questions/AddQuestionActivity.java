@@ -105,7 +105,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             }
 
             // Use the code below to upload the problem image file to the Firebase Storage server
-            FirebaseCloud.uploadFile(getString(R.string.problem_images_directory_name), questionFile, false);
+            //FirebaseCloud.uploadFile(getString(R.string.problem_images_directory_name), questionFile, false);
 
             Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
             ArrayList<Question> list = new ArrayList<>();
