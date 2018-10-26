@@ -47,8 +47,8 @@
                 android:id="@+id/listViewQuests"
                 android:layout_width="match_parent"
                 android:layout_height="426dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
 

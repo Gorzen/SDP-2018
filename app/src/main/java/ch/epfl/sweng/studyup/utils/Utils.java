@@ -61,12 +61,12 @@ public class Utils {
     public static final String LEVEL_DISPLAY = "LEVEL ";
     public static final String CURR_DISPLAY = "MONEY:\n";
     public static Map<String, Object> dbStaticInfo = null;
-    public static LatLng position;
-    public static FusedLocationProviderClient locationProviderClient;
-    public static Context mainContext;
+    public static LatLng position = null;
+    public static FusedLocationProviderClient locationProviderClient = null;
+    public static Context mainContext = null;
     //test purpose
     public static Boolean isMockEnabled = false;
-    public static Location mockLoc;
+    public static Location mockLoc = null;
 
     // Basic Player stats
     public static final int XP_TO_LEVEL_UP = 100;

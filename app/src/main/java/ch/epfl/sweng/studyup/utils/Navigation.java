@@ -26,7 +26,7 @@ import ch.epfl.sweng.studyup.social.RankingsActivity;
  *
  * Used to navigate between principal activities
  */
-public class Navigation extends AppCompatActivity implements ActivityCompat
+public class Navigation extends RefreshContext implements ActivityCompat
         .OnRequestPermissionsResultCallback {
 
     public final static int DEFAULT_INDEX = 0, QUESTS_INDEX = 1, RANKINGS_INDEX = 2,
