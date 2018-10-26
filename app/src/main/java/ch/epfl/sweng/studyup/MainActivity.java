@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.squareup.picasso.Picasso;
 
 import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
+
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -159,6 +160,8 @@ public class MainActivity extends Navigation {
         TextView curr = findViewById(R.id.currText);
         lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
 
     }
 
@@ -167,13 +170,8 @@ public class MainActivity extends Navigation {
     @Override
     protected void onResume() {
         super.onResume();
-        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
     }
 
     // Display the toolbar
@@ -203,7 +201,6 @@ public class MainActivity extends Navigation {
 
     // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     // Corresponding activities are not created yet
-    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -218,7 +215,6 @@ public class MainActivity extends Navigation {
         }
         return super.onOptionsItemSelected(item);
     }
-    */
 
     /**
      * Function that is called when adding xp with the button
@@ -226,16 +222,17 @@ public class MainActivity extends Navigation {
      * @param view
      */
     public void addExpPlayer(View view) {
-        Player.get().addExperience(XP_STEP);
+        Player.get().addExperience(XP_STEP, this);
+    }
+
+
+    public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        ((TextView) findViewById(R.id.levelText)).setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+    }
 
-        // In the future -> listener
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+    public void updateCurrDisplay() {
+        ((TextView) findViewById(R.id.currText)).setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
 
     public void scheduleBackgroundLocation(){

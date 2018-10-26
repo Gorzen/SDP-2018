@@ -63,7 +63,7 @@ public class MainActivityTest {
         final int numberOfPush = 5;
         for (int i = 0; i < numberOfPush; ++i) {
             onView(withId(R.id.xpButton)).perform(click());
-            assert Player.get().getExperience() == (currExp + (i + 1) * XP_STEP % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
+            assert Player.get().getExperience() == ((currExp + (i + 1) * XP_STEP) % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
             onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
         }

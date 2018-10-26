@@ -1,5 +1,9 @@
 package ch.epfl.sweng.studyup.player;
 
+import android.content.Context;
+import android.util.Log;
+
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
@@ -27,6 +31,7 @@ public class Player {
     private int[] questsAcheived;
 
 
+    public static String room = "BC_0_0";
 
     /**
      * Constructor called before someone is login.
@@ -63,11 +68,11 @@ public class Player {
     /**
      * Method suppose that we can only gain experience.
      */
-    private void updateLevel() {
+    private void updateLevel(Context context) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if (newLevel - level > 0) {
-            currency += (newLevel - level) * CURRENCY_PER_LEVEL;
+            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, context);
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
             Firestore.get().setUserData(FB_CURRENCY, currency);
@@ -76,19 +81,28 @@ public class Player {
         }
     }
 
-    public void addCurrency(int curr) {
+    public void addCurrency(int curr, Context context) {
         currency += curr;
+
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).updateCurrDisplay();
+        }
+
         putUserData(FB_CURRENCY, currency);
         Firestore.get().setUserData(FB_CURRENCY, currency);
-
     }
 
-    public void addExperience(int xp) {
+    public void addExperience(int xp, Context context) {
         experience += xp;
+        updateLevel(context);
+
+        if(context instanceof MainActivity) {
+            ((MainActivity) context).updateXpAndLvlDisplay();
+            Log.i("Check", "Context is "+context.toString()+" "+((MainActivity) context).getLocalClassName());
+        }
+
         putUserData(FB_XP, experience);
         Firestore.get().setUserData(FB_XP, experience);
-
-        updateLevel();
     }
 
     public double getLevelProgress() {
@@ -128,7 +142,7 @@ public class Player {
             e.printStackTrace();
         }
 
-        updateLevel();
+        updateLevel(context);
     }
 
     public String getFirstName() {
@@ -186,5 +200,9 @@ public class Player {
 
     public boolean getRole() {
         return isTeacher;
+    }
+
+    public String getCurrentRoom(){
+        return room;
     }
 }

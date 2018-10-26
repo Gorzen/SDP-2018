@@ -109,7 +109,7 @@ public class Firestore {
                                 }
                                 //New login but user is already in database
                                 Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
-                                Player.get().updatePlayerData();
+                                Player.get().updatePlayerData(null);
                                 if(Player.get().getRole()) {
                                     Firestore.get().setUserData(FB_ROLE, FB_ROLES_T);
                                 } else {
