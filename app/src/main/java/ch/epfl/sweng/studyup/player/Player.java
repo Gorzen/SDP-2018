@@ -128,7 +128,7 @@ public class Player {
      * the class Player
      * (currently only saving experience, currency, names and sciper)
      */
-    public void updatePlayerData() throws NullPointerException{
+    public void updatePlayerData(Context context) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
         try {
