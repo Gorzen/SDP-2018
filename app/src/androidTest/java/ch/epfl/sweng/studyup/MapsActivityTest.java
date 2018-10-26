@@ -25,28 +25,21 @@ public class MapsActivityTest {
     public final ActivityTestRule<MapsActivity> mActivityRule = new ActivityTestRule<>(MapsActivity.class);
     private final double LAT = 35.323;
     private final double LONG = 56.43;
-    private LatLng latlng;
-    private MapsActivity mActivity;
-
-    @Before
-    public void init() {
-        latlng = new LatLng(LAT, LONG);
-        mActivity = mActivityRule.getActivity();
-    }
+    private LatLng latlng = new LatLng(LAT, LONG);
 
     @Test
     public void locationRequestSetsUpCorrectly() {
-        assertEquals(Utils.LOCATION_REQ_INTERVAL, mActivity.getIntervals());
-        assertEquals(Utils.LOCATION_REQ_FASTEST_INTERVAL, mActivity.getFastedIntervals());
-        assertEquals(LocationRequest.PRIORITY_HIGH_ACCURACY, mActivity.getPriority());
+        assertEquals(Utils.LOCATION_REQ_INTERVAL, mActivityRule.getActivity().getIntervals());
+        assertEquals(Utils.LOCATION_REQ_FASTEST_INTERVAL, mActivityRule.getActivity().getFastedIntervals());
+        assertEquals(LocationRequest.PRIORITY_HIGH_ACCURACY, mActivityRule.getActivity().getPriority());
     }
 
     @Test
     public void onLocationUpdateChangesUtilsPos() {
-        mActivity.runOnUiThread(new Runnable() {
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mActivity.onLocationUpdate(latlng);
+                mActivityRule.getActivity().onLocationUpdate(latlng);
                 assertEquals(LAT, Utils.position.latitude, 0.0);
                 assertEquals(LONG, Utils.position.longitude, 0.0);
             }
@@ -55,19 +48,19 @@ public class MapsActivityTest {
 
     @Test
     public void getMarkerPosNoCrashWithBadParams() {
-        mActivity.runOnUiThread(new Runnable() {
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mActivity.getMarkerPos();
-                mActivity.onMapReady(null);
-                mActivity.getMarkerPos();
+                mActivityRule.getActivity().getMarkerPos();
+                mActivityRule.getActivity().onMapReady(null);
+                mActivityRule.getActivity().getMarkerPos();
             }
         });
     }
 
     @Test
     public void onMapReadyNoCrashWithBadParams() {
-        mActivity.onMapReady(null);
+        mActivityRule.getActivity().onMapReady(null);
     }
 
     @Test
