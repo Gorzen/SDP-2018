@@ -7,10 +7,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
-
 @RunWith(AndroidJUnit4.class)
-public class FirebaseCloudTest {
+public class FileStorageTest {
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =

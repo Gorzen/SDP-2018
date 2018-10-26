@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Utils.*;
@@ -236,5 +237,19 @@ public class Firestore {
                         }
                     }
                 });
+    }
+
+    public static void addQuestion(Question question) {
+
+        Map<String, Object> questionData = new HashMap<>();
+        questionData.put("trueFalse", question.isTrueFalseQuestion());
+        questionData.put("answer", question.getAnswer());
+
+        String questionImageFileName = question.getQuestionUri().getLastPathSegment();
+
+        // Set question id to uuid of image file
+        String questionId = questionImageFileName.
+                substring(0, questionImageFileName.length()-3);
+        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
     }
 }

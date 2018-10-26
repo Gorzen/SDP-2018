@@ -9,21 +9,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import ch.epfl.sweng.studyup.utils.Utils;
+
 import java.io.File;
 
-public class FirebaseCloud {
+public class FileStorage {
 
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
     // Use this method to upload files to the Firebase Storage server
     // Arguments:
-    //  directory: directory name in server, use string values specified in strings.xml according to file type
+    //  destFilePath: path for file on server
     //  file: a File object for the file you would like to upload
-    public static void uploadFile(String directory, File file) {
+    private static void uploadFile(String destFilePath, File file) {
 
         Uri fileURI = Uri.fromFile(file);
 
-        StorageReference fileRef = storageRef.child(directory + "/" + fileURI.getLastPathSegment());
+        StorageReference fileRef = storageRef.child(destFilePath);
         UploadTask uploadTask = fileRef.putFile(fileURI);
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -40,15 +42,30 @@ public class FirebaseCloud {
         });
     }
 
-    // Use this method to get a StorageReference object for a given file
-    // Call getBytes() or getStream() on the storage reference to use the corresponding file
-    //
-    // Arguments:
-    //  directory: directory name in server, use string values specified in strings.xml according to file type
-    //  fileName: the name of the file you wish to get StorageReference for
-    public StorageReference getFileStorageRef(String directory, String fileName) {
+    public static void uploadProblemImage(File file) {
 
-        StorageReference fileRef = storageRef.child(directory + "/" + fileName);
+        Uri fileURI = Uri.fromFile(file);
+        String destFilePath = Utils.problem_images_directory_name + "/" + fileURI.getLastPathSegment();
+
+        uploadFile(destFilePath, file);
+    }
+
+    public static void uploadProfilePicture(String sciper, File file) {
+
+        String destFilePath = Utils.profile_pictures_directory_name + sciper + ".png";
+
+        uploadFile(destFilePath, file);
+    }
+
+    public StorageReference getProblemImageRef(Uri fileURI) {
+
+        StorageReference fileRef = storageRef.child(Utils.problem_images_directory_name + "/" + fileURI.getLastPathSegment());
+        return fileRef;
+    }
+
+    public StorageReference getProfilePictureRef(String sciper) {
+
+        StorageReference fileRef = storageRef.child(Utils.profile_pictures_directory_name + "/" + sciper + ".png");
         return fileRef;
     }
 }
