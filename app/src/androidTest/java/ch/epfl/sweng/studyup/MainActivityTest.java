@@ -118,4 +118,19 @@ public class MainActivityTest {
         onView(withId(R.id.pic_btn2)).perform(click());
         assert (mActivityRule.getActivity().pic_button2.getBackground().getAlpha() == R.drawable.ic_mode_edit_clicked_24dp);
     }
+
+    @Test
+    public void testB2ChangeOnClick() {
+        buttonChangeOnClick(
+                mActivityRule.getActivity().pic_button2.getBackground().getAlpha(),
+                R.id.pic_btn2,
+                R.drawable.ic_mode_edit_not_clicked_24dp,
+                R.drawable.ic_mode_edit_clicked_24dp);
+    }
+
+    public static void buttonChangeOnClick(int btnAlphaActual, int btnActualId, int btnAlphaExpected1, int btnAlphaExpected2) {
+        assert (btnAlphaActual == btnAlphaExpected1);
+        onView(withId(btnActualId)).perform(click());
+        assert (btnAlphaActual == btnAlphaExpected2);
+    }
 }

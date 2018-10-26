@@ -77,18 +77,20 @@ public class CustomActivityTest {
         clickButton(Utils.JUSTONCE);
     }
 
+    @Test
+    public void testValidButtonChangeOnClick() {
+        MainActivityTest.buttonChangeOnClick(
+                mActivityRule.getActivity().valid_button.getBackground().getAlpha(),
+                R.id.valid_btn,
+                R.drawable.ic_check_black_24dp,
+                R.drawable.ic_check_done_24dp);
+    }
+
     public void clickButton(String textButton) throws UiObjectNotFoundException {
         UiObject button = device.findObject(new UiSelector().text(textButton));
         if (button.exists() && button.isEnabled()) {
             button.click();
         }
-    }
-
-    @Test
-    public void testValidButtonChangeOnClick() {
-        assert (mActivityRule.getActivity().valid_button.getBackground().getAlpha() == R.drawable.ic_check_black_24dp);
-        onView(withId(R.id.valid_btn)).perform(click());
-        assert (mActivityRule.getActivity().valid_button.getBackground().getAlpha() == R.drawable.ic_check_done_24dp);
     }
 
 }
