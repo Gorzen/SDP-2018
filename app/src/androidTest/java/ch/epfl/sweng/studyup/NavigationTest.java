@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;

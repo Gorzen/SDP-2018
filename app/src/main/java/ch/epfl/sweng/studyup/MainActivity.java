@@ -47,12 +47,11 @@ public class MainActivity extends Navigation {
         }
     };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
+    private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
-    private ImageButton pic_button;
-    private ImageButton pic_button2;
-    private ImageView image_view;
+    ImageButton pic_button2;
 
 
     // Display login success message from intent set by authentication activity
@@ -94,7 +93,7 @@ public class MainActivity extends Navigation {
         }
 
         // User picture
-        pic_button = findViewById(R.id.pic_btn);
+        ImageButton pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
@@ -112,6 +111,7 @@ public class MainActivity extends Navigation {
                 exception.printStackTrace();
             }
         });
+
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,12 +157,10 @@ public class MainActivity extends Navigation {
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
-
         lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
 
     }
-
 
 
 

@@ -78,7 +78,7 @@ public class Utils {
     public static final int INITIAL_SCIPER = MIN_SCIPER;
     public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
-    public static final String INITIAL_LASTNAME = "Reymond";
+    public static final String INITIAL_LASTNAME = "Réymond";
     //Navigation items indexes for smooth transitions
     public static final int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX =4;
 

@@ -114,16 +114,19 @@ public class Player {
      * the class Player
      * (currently only saving experience, currency, names and sciper)
      */
-    public void updatePlayerData() {
+    public void updatePlayerData() throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
-
-        experience = Integer.parseInt(userData.get(FB_XP).toString());
-        currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
-        firstName = userData.get(FB_FIRSTNAME).toString();
-        lastName = userData.get(FB_LASTNAME).toString();
-        sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
-        username = userData.get(FB_USERNAME).toString();
+        try {
+            experience = Integer.parseInt(userData.get(FB_XP).toString());
+            currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
+            firstName = userData.get(FB_FIRSTNAME).toString();
+            lastName = userData.get(FB_LASTNAME).toString();
+            sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
+            username = userData.get(FB_USERNAME).toString();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         updateLevel();
     }

@@ -111,4 +111,11 @@ public class MainActivityTest {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
+
+    @Test
+    public void testB2changeOnClick() {
+        assert (mActivityRule.getActivity().pic_button2.getBackground().getAlpha() == R.drawable.ic_mode_edit_not_clicked_24dp);
+        onView(withId(R.id.pic_btn2)).perform(click());
+        assert (mActivityRule.getActivity().pic_button2.getBackground().getAlpha() == R.drawable.ic_mode_edit_clicked_24dp);
+    }
 }

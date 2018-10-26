@@ -52,9 +52,8 @@ public class CustomActivity extends Navigation {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
     private static final int GALLERY = 0, CAMERA = 1;
     private ImageView imageview;
-    private ImageButton pic_button;
-    private ImageButton valid_button;
     private EditText edit_username;
+    public ImageButton valid_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class CustomActivity extends Navigation {
         getSupportActionBar().setTitle(null);
         navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX);
 
-        pic_button = findViewById(R.id.pic_btn);
+        ImageButton pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);

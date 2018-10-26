@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -86,7 +87,6 @@ public class FirestoreTest {
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
         Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME, INITIAL_USERNAME);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -120,13 +120,13 @@ public class FirestoreTest {
     }
 
     public void addNewUserToDBTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe890123456");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1));
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe");
+        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe", "JonhDoe890123456");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
@@ -139,6 +139,7 @@ public class FirestoreTest {
         //Check if the names are the correct ones
         assertEquals("John", dbStaticInfo.get(FB_FIRSTNAME));
         assertEquals("Doe", dbStaticInfo.get(FB_LASTNAME));
+        assertEquals("JonhDoe89012345", dbStaticInfo.get(FB_USERNAME));
     }
 
     @Test
@@ -196,6 +197,7 @@ public class FirestoreTest {
         Player.get().addCurrency(100);
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
     }
+
 
     @Test
     public void updateLevelAndCurrencyPropagateToServer() {

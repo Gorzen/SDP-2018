@@ -32,7 +32,7 @@ import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
  */
 public class QuestsActivity extends Navigation {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests);
 
@@ -43,7 +43,12 @@ public class QuestsActivity extends Navigation {
         navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
 
         final List<Question> questions = parseQuestions(this.getApplicationContext(), false);
-        int nbrQuestion = questions.size();
+        int nbrQuestion = 0;
+        try {
+            nbrQuestion = questions.size();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
             if(questions.get(i).isTrueFalseQuestion()) {
