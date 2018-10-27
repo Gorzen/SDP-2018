@@ -38,10 +38,8 @@ public class QuestionParserTest {
 
     @Test
     public void writeAndReadGivesTheCorrectList() {
-        Uri u1 = Uri.fromFile(new File("test1"));
-        Question q1 = new Question(u1, true, 0);
-        Uri u2 = Uri.fromFile(new File("test2"));
-        Question q2 = new Question(u2, false, 2);
+        Question q1 = new Question("1", "test1", true, 0);
+        Question q2 = new Question("2", "test2", false, 2);
         final ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
         list.add(q2);

@@ -15,6 +15,8 @@ import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import ch.epfl.sweng.studyup.questions.Question;
+
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
 public class Utils {
@@ -55,6 +57,12 @@ public class Utils {
     public static final String GALLERY = "Gallery";
     public static final String CANCEL = "Cancel";
     public static final String JUSTONCE = "JUST ONCE";
+
+
+    // Constant for Firebase Storage
+    public static final String problem_images_directory_name = "problem_images";
+    public static final String profile_pictures_directory_name = "profile_pictures";
+
     // Map that links item id to activities
     //public static final Map<Integer, Class> idToAct;
     // Better in resources?

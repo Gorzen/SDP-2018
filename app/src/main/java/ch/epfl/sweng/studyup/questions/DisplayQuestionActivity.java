@@ -21,7 +21,8 @@ import ch.epfl.sweng.studyup.player.Player;
 public class DisplayQuestionActivity extends AppCompatActivity {
 
     private final String TAG = "DisplayQuestionActivity";
-    public static final String DISPLAY_QUESTION_URI = "display_question_uri";
+    public static final String DISPLAY_QUESTION_TITLE = "display_question_title";
+    public static final String DISPLAY_QUESTION_ID = "display_question_id";
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     public static final int XP_GAINED_WITH_QUESTION = 10;
@@ -35,15 +36,23 @@ public class DisplayQuestionActivity extends AppCompatActivity {
 
         int answerNumber = 0;
         boolean trueFalse = false;
-        Uri questionUri = Uri.EMPTY;
+        String questionTitle = "";
+        String questionID = "";
 
         Intent intent =  getIntent();
         //Get the Uri from the intent
-        if (!intent.hasExtra(DISPLAY_QUESTION_URI)) {
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
             quit();
             return;
         }else
-            questionUri = Uri.parse(intent.getStringExtra(DISPLAY_QUESTION_URI));
+            questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+
+        //Get the question ID
+        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
+            quit();
+            return;
+        }else
+            questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
 
         //Get the answer
         if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
@@ -60,8 +69,9 @@ public class DisplayQuestionActivity extends AppCompatActivity {
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
-        displayQuestion = new Question(questionUri, trueFalse, answerNumber);
-        displayImage(questionUri);
+        /* This is commented out until we figure out how to retrieve the image
+        displayQuestion = new Question(questionTitle, trueFalse, answerNumber);
+        displayImage(questionTitle);
         setupLayout(displayQuestion);
 
         Button backButton = (Button) findViewById(R.id.back_button);
@@ -71,6 +81,7 @@ public class DisplayQuestionActivity extends AppCompatActivity {
                 finish();
             }
         });
+        */
     }
 
     private void displayImage(Uri uri){
@@ -126,7 +137,8 @@ public class DisplayQuestionActivity extends AppCompatActivity {
      */
     public static Intent getIntentForDisplayQuestion(Context c, Question q){
         Intent goToQuestion = new Intent(c, DisplayQuestionActivity.class);
-        goToQuestion.putExtra(DISPLAY_QUESTION_URI, q.getQuestionUri().toString());
+        goToQuestion.putExtra(DISPLAY_QUESTION_TITLE, q.getTitle());
+        goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         return goToQuestion;

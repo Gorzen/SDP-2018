@@ -87,26 +87,30 @@ public class AddQuestionActivityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testTrivialInstanceQuestion() {
-        Uri nullUri = null;
-        Question nullQ = new Question(nullUri, false, 0);
+        Question nullQ = new Question(null, "test1", false, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testFalseInstanceQuestion() {
+        Question nullQ = new Question("1", null, false, 0);
     }
 
     @Test
     public void testSimpleInstanceQuestionTrueFalse() {
-        Uri fake = Uri.parse("studyup://fake/path");
-        Question simple = new Question(fake, true, 0);
+        Question simple = new Question("1", "test2134", true, 0);
         assert (simple.isTrueFalse());
         assert (simple.getAnswer() == 0);
-        assert (simple.getQuestionUri().equals(fake));
+        assert (simple.getQuestionId().equals("1"));
+        assert (simple.getTitle().equals("test2134"));
     }
 
     @Test
     public void testSimpleInstanceQuestionMCQ() {
-        Uri fake = Uri.parse("studyup://fake/path");
-        Question simple = new Question(fake, false, 2);
+        Question simple = new Question("4", "test",false, 2);
         assert (!simple.isTrueFalse());
         assert (simple.getAnswer() == 2);
-        assert (simple.getQuestionUri().equals(fake));
+        assert (simple.getTitle().equals("test"));
+        assert (simple.getQuestionId().equals("4"));
     }
 
     @Test

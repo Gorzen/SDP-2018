@@ -21,6 +21,7 @@ public abstract class QuestionParser {
      * @return The list of questions or null if the file has not the correct format
      * @Deprecated Must not be called in the main thread otherwise an exception will occur !
      */
+
     @Deprecated
     public static List<Question> parseQuestions(Context c) {
         QuestionDAO database = QuestionDatabase.get(c).questionDAO();
