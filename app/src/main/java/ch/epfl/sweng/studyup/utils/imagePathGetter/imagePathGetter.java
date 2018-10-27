@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.imagePathGetter;
+package ch.epfl.sweng.studyup.utils.imagePathGetter;
 
 public interface imagePathGetter {
 

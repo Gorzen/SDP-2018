@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.imagePathGetter.imagePathGetter;
-import ch.epfl.sweng.studyup.imagePathGetter.mockImagePathGetter;
-import ch.epfl.sweng.studyup.imagePathGetter.pathFromGalleryGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;

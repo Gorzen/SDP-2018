@@ -1,7 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -15,20 +13,17 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.imagePathGetter.mockImagePathGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;

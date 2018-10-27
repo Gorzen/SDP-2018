@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.imagePathGetter;
+package ch.epfl.sweng.studyup.utils.imagePathGetter;
 
 import android.app.Activity;
 import android.content.Intent;
