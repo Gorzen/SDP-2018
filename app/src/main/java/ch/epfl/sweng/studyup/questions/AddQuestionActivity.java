@@ -22,8 +22,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.imagePathGetter.imagePathGetter;
+import ch.epfl.sweng.studyup.imagePathGetter.mockImagePathGetter;
+import ch.epfl.sweng.studyup.imagePathGetter.pathFromGalleryGetter;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private RadioGroup trueFalseRadioGroup;
+    private imagePathGetter getPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +43,21 @@ public class AddQuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_question);
 
         addRadioListener();
+
+        if(Utils.isMockEnabled) {
+            getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
+        } else {
+            getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
+        }
     }
 
+    /**
+     * Function called when the user wants to choose an image in gallery
+     *
+     * @param current the current view
+     */
     public void performFileSearch(View current) {
-
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
-        // TODO: Not compatible with API < 19 (our minAPI is 15)
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-
-        // Filter to only show results that can be "opened"
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Filter to show only images, using the image MIME data type.
-        intent.setType("image/*");
-
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        getPath.getFilePath();
     }
 
     @Override

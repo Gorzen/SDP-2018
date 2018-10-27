@@ -130,4 +130,12 @@ public class DisplayQuestionActivityTest {
         assertEquals(playerXp, Player.get().getExperience());
         Intents.intending(hasComponent(MainActivity.class.getName()));
     }
+
+    @Test
+    public void backButton() {
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        mActivityRule.launchActivity(i);
+        onView(withId(R.id.back_button)).perform(ViewActions.click());
+        assertTrue(mActivityRule.getActivity().isFinishing());
+    }
 }
