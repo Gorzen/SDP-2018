@@ -122,7 +122,6 @@ public class Player {
     /**
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
-     * (currently only saving experience, currency, names and sciper)
      */
     public void updatePlayerData(Context context) {
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
@@ -133,6 +132,12 @@ public class Player {
         firstName = userData.get(FB_FIRSTNAME).toString();
         lastName = userData.get(FB_LASTNAME).toString();
         sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
+        String role = userData.get(FB_ROLE).toString();
+        if(role.equals(FB_ROLES_T)) {
+            isTeacher = true;
+        } else {
+            isTeacher = false;
+        }
 
         updateLevel(context);
     }
