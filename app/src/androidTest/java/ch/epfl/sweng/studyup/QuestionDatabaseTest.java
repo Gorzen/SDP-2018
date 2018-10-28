@@ -41,7 +41,7 @@ public class QuestionDatabaseTest {
 
     @Test
     public void writeSingleQuestionTest() {
-        Question q = new Question(Uri.fromFile(new File("test.png")), true , 0);
+        Question q = new Question("1", "test", true , 0);
         ArrayList<Question> list = new ArrayList<>();
         list.add(q);
         questionDAO.insertAll(list);
@@ -51,8 +51,8 @@ public class QuestionDatabaseTest {
 
     @Test
     public void writeMultipleQuestionsTest(){
-        Question q1 = new Question(Uri.fromFile(new File("test1.png")), true , 0);
-        Question q2 = new Question(Uri.fromFile(new File("test2.png")), false , 3);
+        Question q1 = new Question("1", "test1", true , 0);
+        Question q2 = new Question("2", "test2", true , 0);
         ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
         list.add(q2);

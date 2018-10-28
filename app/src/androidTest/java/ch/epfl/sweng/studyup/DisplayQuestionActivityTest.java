@@ -62,27 +62,37 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void getIntentTest(){
-        Question q = new Question(Uri.fromFile(new File("test.jpg")), true, 0);
+        Question q = new Question("1", "test1", true, 0);
         Intent testIntent = getIntentForDisplayQuestion(InstrumentationRegistry.getContext(), q);
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE));
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ANSWER));
-        assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_URI));
-        assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_URI), q.getQuestionUri().toString());
+        assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_TITLE));
+        assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ID));
+        assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_TITLE), q.getTitle());
+        assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_ID), q.getQuestionId());
         assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE), Boolean.toString(q.isTrueFalse()));
         assertEquals(testIntent.getStringExtra(DISPLAY_QUESTION_ANSWER), Integer.toString(q.getAnswer()));
     }
 
     @Test
+    public void launchIntentWithoutTitleTest(){
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
+        i.removeExtra(DISPLAY_QUESTION_TITLE);
+        mActivityRule.launchActivity(i);
+        assertTrue(mActivityRule.getActivity().isFinishing());
+    }
+
+    @Test
     public void launchIntentWithoutUriTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
-        i.removeExtra(DISPLAY_QUESTION_URI);
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
+        i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
     }
 
     @Test
     public void launchIntentWithoutAnswerTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_ANSWER);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -90,7 +100,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutTrueFalseTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -98,14 +108,14 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentCorrectlyTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
     }
 
     @Test
     public void CorrectAnswerGivesXpTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
         onView(withId(R.id.answer2)).perform(ViewActions.click()).check(matches(isChecked()));
@@ -119,7 +129,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void IncorrectAnswerGivesNoXpTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, false, 3));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", false, 3));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
         onView(withId(R.id.answer2)).perform(ViewActions.click()).check(matches(isChecked()));
@@ -133,7 +143,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void backButton() {
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question(Uri.EMPTY, true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
