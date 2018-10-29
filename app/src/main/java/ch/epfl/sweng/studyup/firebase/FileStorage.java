@@ -2,12 +2,14 @@ package ch.epfl.sweng.studyup.firebase;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -17,13 +19,10 @@ public class FileStorage {
 
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
-    // Use this method to upload files to the Firebase Storage server
-    // Arguments:
-    //  destFilePath: path for file on server
-    //  file: a File object for the file you would like to upload
-    private static void uploadFile(String destFilePath, File file) {
+    private static void uploadFile(String dirName, File file) {
 
         Uri fileURI = Uri.fromFile(file);
+        String destFilePath = dirName + "/" + fileURI.getLastPathSegment();
 
         StorageReference fileRef = storageRef.child(destFilePath);
         UploadTask uploadTask = fileRef.putFile(fileURI);
@@ -42,30 +41,42 @@ public class FileStorage {
         });
     }
 
+
     public static void uploadProblemImage(File file) {
-
-        Uri fileURI = Uri.fromFile(file);
-        String destFilePath = Utils.question_images_directory_name + "/" + fileURI.getLastPathSegment();
-
-        uploadFile(destFilePath, file);
+        uploadFile(Utils.question_images_directory_name, file);
     }
 
-    public static void uploadProfilePicture(String sciper, File file) {
-
-        String destFilePath = Utils.profile_pictures_directory_name + sciper + ".png";
-
-        uploadFile(destFilePath, file);
+    public static void uploadProfilePicture(File file) {
+        uploadFile(Utils.profile_pictures_directory_name, file);
     }
 
-    public StorageReference getProblemImageRef(Uri fileURI) {
+    public static StorageReference getProblemImageRef(Uri fileURI) {
 
         StorageReference fileRef = storageRef.child(Utils.question_images_directory_name + "/" + fileURI.getLastPathSegment());
         return fileRef;
     }
 
-    public StorageReference getProfilePictureRef(String sciper) {
+    public static StorageReference getProfilePictureRef(String sciper) {
 
         StorageReference fileRef = storageRef.child(Utils.profile_pictures_directory_name + "/" + sciper + ".png");
         return fileRef;
+    }
+
+    public static void downloadProfilePicture(String sciper, final ImageView image_view) {
+
+        StorageReference ref = getProfilePictureRef(sciper);
+
+        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //Pass the URL to Picasso to download and show in ImageView
+                Picasso.get().load(uri.toString()).into(image_view);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                exception.printStackTrace();
+            }
+        });
     }
 }

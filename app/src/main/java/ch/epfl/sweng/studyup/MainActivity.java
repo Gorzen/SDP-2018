@@ -8,7 +8,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,11 +25,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
-import com.google.android.gms.tasks.Task;
-
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
-import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -99,8 +96,7 @@ public class MainActivity extends Navigation {
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
-        FirebaseCloud.downloadPictureOnFirebase(getString(R.string.FB_user_pictures_directory_name),
-                Integer.toString(Player.get().getSciper()), image_view);
+        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -20,11 +20,8 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 
-import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;

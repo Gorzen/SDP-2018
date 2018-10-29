@@ -25,11 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,7 +32,7 @@ import java.text.Normalizer;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -81,8 +76,7 @@ public class CustomActivity extends Navigation {
         final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
         //initial picture
-        FirebaseCloud.downloadPictureOnFirebase(getString(R.string.FB_user_pictures_directory_name),
-                Integer.toString(Player.get().getSciper()), imageview);
+        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), imageview);
 
 
         pic_button.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +177,7 @@ public class CustomActivity extends Navigation {
     }
 
     private void setImageCircularAndUpload(Bitmap bitmap) {
-        String newPictureFileID = UUID.randomUUID().toString() + ".png";
+        String newPictureFileID = Integer.toString(Player.get().getSciper()) + ".png";
         File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
         try {
             FileOutputStream out = new FileOutputStream(pictureFile);
@@ -193,7 +187,7 @@ public class CustomActivity extends Navigation {
             Log.e(TAG, e.getMessage());
         }
 
-        FirebaseCloud.uploadFile(getString(R.string.FB_user_pictures_directory_name), pictureFile, true);
+        FileStorage.uploadProfilePicture(pictureFile);
 
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
