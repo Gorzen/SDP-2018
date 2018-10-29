@@ -36,9 +36,8 @@ import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveD
  * Quests.
  */
 public class QuestsActivity extends Navigation {
-    List<Question> questions;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests);
 
@@ -61,6 +60,7 @@ public class QuestsActivity extends Navigation {
 
     private void showQuestions(final List<Question> questions) {
         int nbrQuestion = questions.size();
+
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
             list[i] = questions.get(i).getTitle();

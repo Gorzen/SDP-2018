@@ -78,7 +78,7 @@ public class Firestore {
      * Function used when entering the app. It will get all the player's informations and set
      * the state of the player as it were the last time he/she was connected.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER numb of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
      * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
@@ -115,7 +115,7 @@ public class Firestore {
                                 }
                                 //New login but user is already in database
                                 Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
-                                Player.get().updatePlayerData();
+                                Player.get().updatePlayerData(null);
                                 if(Player.get().getRole()) {
                                     Firestore.get().setUserData(FB_ROLE, FB_ROLES_T);
                                 } else {
@@ -145,6 +145,7 @@ public class Firestore {
         putUserData(FB_XP, Player.get().getExperience());
         putUserData(FB_LEVEL, Player.get().getLevel());
         putUserData(FB_CURRENCY, Player.get().getCurrency());
+        putUserData(FB_USERNAME, Player.get().getUserName());
 
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -214,7 +215,7 @@ public class Firestore {
      * Reset the infos of a given user on the database. If he/she wasn't present, it will create
      * it with the initial values.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER nmbr of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
      */

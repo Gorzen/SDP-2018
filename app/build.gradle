@@ -72,6 +72,8 @@ android {
         testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.2'
         testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.2'
         testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
+        implementation 'com.squareup.picasso:picasso:2.71828'
+        implementation 'de.hdodenhof:circleimageview:2.1.0'
     }
 
     tasks.withType(Test) {

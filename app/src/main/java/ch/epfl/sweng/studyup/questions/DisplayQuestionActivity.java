@@ -17,8 +17,9 @@ import android.widget.Toast;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-public class DisplayQuestionActivity extends AppCompatActivity {
+public class DisplayQuestionActivity extends RefreshContext {
 
     private final String TAG = "DisplayQuestionActivity";
     public static final String DISPLAY_QUESTION_TITLE = "display_question_title";
@@ -39,33 +40,35 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         String questionTitle = "";
         String questionID = "";
 
-        Intent intent =  getIntent();
+        Intent intent = getIntent();
         //Get the Uri from the intent
         if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
             quit();
             return;
-        }else
+        } else {
             questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+        }
 
         //Get the question ID
         if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
             quit();
             return;
-        }else
+        }else {
             questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
+        }
 
         //Get the answer
         if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
             quit();
             return;
-        }else
+        } else
             answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
 
         //Now the boolean isTrueFale
         if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
             quit();
             return;
-        }else
+        } else
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
@@ -84,12 +87,12 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         */
     }
 
-    private void displayImage(Uri uri){
+    private void displayImage(Uri uri) {
         ImageView imageView = findViewById(R.id.question_display_view);
         imageView.setImageURI(uri);
     }
 
-    private void quit(){
+    private void quit() {
         Toast.makeText(this, "Error while displaying the question", Toast.LENGTH_SHORT);
         Log.e(TAG, "Bad intent given in parameters");
         super.onBackPressed();
@@ -111,17 +114,18 @@ public class DisplayQuestionActivity extends AppCompatActivity {
         }
     }
 
-    public void answerQuestion(View view){
+    public void answerQuestion(View view) {
         RadioGroup answerGroup = findViewById(R.id.answer_radio_group);
         RadioButton checkedAnswer = findViewById(answerGroup.getCheckedRadioButtonId());
         //subtract 1 to have answer between 0 and 3
         int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
         //TODO : What to do next ?
-        if (answer == displayQuestion.getAnswer()){
+        if (answer == displayQuestion.getAnswer()) {
             Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-            Player.get().addExperience(XP_GAINED_WITH_QUESTION);
-        }else{
+
+            Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
+        } else {
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }
 
@@ -130,12 +134,11 @@ public class DisplayQuestionActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * @param c The context of the application that launch the intent (put this)
      * @param q The question that needs to be passed
      * @return The intent ready to be launched with "startActivity"
      */
-    public static Intent getIntentForDisplayQuestion(Context c, Question q){
+    public static Intent getIntentForDisplayQuestion(Context c, Question q) {
         Intent goToQuestion = new Intent(c, DisplayQuestionActivity.class);
         goToQuestion.putExtra(DISPLAY_QUESTION_TITLE, q.getTitle());
         goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());

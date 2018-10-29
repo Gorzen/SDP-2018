@@ -8,15 +8,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -27,15 +24,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
+
 import com.google.android.gms.tasks.Task;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
+
+import ch.epfl.sweng.studyup.firebase.FirebaseCloud;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -50,12 +48,12 @@ public class MainActivity extends Navigation {
         }
     };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
+    private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
-    private ImageButton pic_button;
-    private ImageButton pic_button2;
-    private ImageView image_view;
+    ImageButton pic_button2;
+
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -83,10 +81,6 @@ public class MainActivity extends Navigation {
         displayLoginSuccessMessage(getIntent());
         Firestore.loadQuestions(this);
 
-        // User picture
-        pic_button = findViewById(R.id.pic_btn);
-        pic_button2 = findViewById(R.id.pic_btn2);
-
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
         ActivityCompat.requestPermissions(
@@ -100,12 +94,13 @@ public class MainActivity extends Navigation {
             scheduleBackgroundLocation();
         }
 
+        // User picture
+        ImageButton pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        rbd.setCircular(true);
-        image_view.setImageDrawable(rbd);
 
+        FirebaseCloud.downloadPictureOnFirebase(getString(R.string.FB_user_pictures_directory_name),
+                Integer.toString(Player.get().getSciper()), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,12 +116,15 @@ public class MainActivity extends Navigation {
                 Intent intent = new Intent(MainActivity.this, CustomActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
-                pic_button2.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
+                pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
             }
         });
 
         //username
-        TextView view_username = findViewById(R.id.view_username);
+        TextView view_username = findViewById(R.id.usernameText);
+        view_username.setText(Player.get().getUserName());
+        view_username.setMaxLines(1);
+        view_username.setMaxWidth(300);
 
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -148,22 +146,19 @@ public class MainActivity extends Navigation {
         levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
         TextView lvl = findViewById(R.id.levelText);
         TextView curr = findViewById(R.id.currText);
-
         lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
 
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        updateCurrDisplay();
+        updateXpAndLvlDisplay();
     }
 
     // Display the toolbar
@@ -193,7 +188,6 @@ public class MainActivity extends Navigation {
 
     // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
     // Corresponding activities are not created yet
-    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.top_navigation_settings) {
@@ -208,7 +202,6 @@ public class MainActivity extends Navigation {
         }
         return super.onOptionsItemSelected(item);
     }
-    */
 
     /**
      * Function that is called when adding xp with the button
@@ -216,16 +209,17 @@ public class MainActivity extends Navigation {
      * @param view
      */
     public void addExpPlayer(View view) {
-        Player.get().addExperience(XP_STEP);
+        Player.get().addExperience(XP_STEP, this);
+    }
+
+
+    public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        ((TextView) findViewById(R.id.levelText)).setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+    }
 
-        // In the future -> listener
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+    public void updateCurrDisplay() {
+        ((TextView) findViewById(R.id.currText)).setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
     }
 
     public void scheduleBackgroundLocation(){
@@ -237,6 +231,7 @@ public class MainActivity extends Navigation {
         }
         Log.d("GPS_MAP", "schedule");
     }
+
 }
 
 

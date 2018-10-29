@@ -7,8 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,13 +26,8 @@ import ch.epfl.sweng.studyup.social.RankingsActivity;
  *
  * Used to navigate between principal activities
  */
-public class Navigation extends AppCompatActivity implements ActivityCompat
+public class Navigation extends RefreshContext implements ActivityCompat
         .OnRequestPermissionsResultCallback {
-
-    public final static int DEFAULT_INDEX = 0, QUESTS_INDEX = 1, RANKINGS_INDEX = 2,
-            MAP_INDEX = 3, CHAT_INDEX = 4;
-    //TODO Make it private in MainActivity when linking with firebase
-    public TextView view_username;
 
     public void navigationSwitcher(final Context cn, final Class<?> activity, final int current_index) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
@@ -40,7 +35,7 @@ public class Navigation extends AppCompatActivity implements ActivityCompat
 
         MenuItem menuItem = menu.getItem(current_index);
 
-        menuItem.setChecked(true); // Give color to the selected item
+        menuItem.setChecked(false); // Give color to the selected item
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -83,5 +78,4 @@ public class Navigation extends AppCompatActivity implements ActivityCompat
             overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
         }
     }
-
 }

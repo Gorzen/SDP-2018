@@ -16,6 +16,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
  * AuthenticationActivity
@@ -51,10 +52,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 if (greeting != null) {
 
                     Firestore.get().getAndSetUserData(
-                        Player.get().getSciper(),
-                        Player.get().getFirstName(),
-                        Player.get().getLastName()
-                    );
+                            Player.get().getSciper(),
+                            Player.get().getFirstName(),
+                            Player.get().getLastName());
 
                     Intent initActivity;
                     if (Player.get().getRole()) {
@@ -67,6 +67,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                         getString(R.string.post_login_message_value),
                         getString(R.string.post_login_message_value)
                     );
+
+                    Utils.waitAndTag(250, TAG);
                     startActivity(initActivity);
                 }
 
