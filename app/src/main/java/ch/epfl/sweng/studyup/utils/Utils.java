@@ -36,6 +36,9 @@ public class Utils {
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
     public static final String FB_QUESTIONS = "questions";
+    public static final String FB_QUESTION_TITLE = "title";
+    public static final String FB_QUESTION_ANSWER = "answer";
+    public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTS = "quests";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
@@ -60,7 +63,7 @@ public class Utils {
 
 
     // Constant for Firebase Storage
-    public static final String problem_images_directory_name = "problem_images";
+    public static final String question_images_directory_name = "question_images";
     public static final String profile_pictures_directory_name = "profile_pictures";
 
     // Map that links item id to activities

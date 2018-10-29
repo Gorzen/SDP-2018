@@ -31,6 +31,9 @@ public interface QuestionDAO {
 
      */
 
+    @Query("DELETE FROM question")
+    public void nukeTable();
+
     @Insert
     void insertAll(List<Question> questions);
 

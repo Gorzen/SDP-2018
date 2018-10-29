@@ -45,7 +45,7 @@ public class FileStorage {
     public static void uploadProblemImage(File file) {
 
         Uri fileURI = Uri.fromFile(file);
-        String destFilePath = Utils.problem_images_directory_name + "/" + fileURI.getLastPathSegment();
+        String destFilePath = Utils.question_images_directory_name + "/" + fileURI.getLastPathSegment();
 
         uploadFile(destFilePath, file);
     }
@@ -59,7 +59,7 @@ public class FileStorage {
 
     public StorageReference getProblemImageRef(Uri fileURI) {
 
-        StorageReference fileRef = storageRef.child(Utils.problem_images_directory_name + "/" + fileURI.getLastPathSegment());
+        StorageReference fileRef = storageRef.child(Utils.question_images_directory_name + "/" + fileURI.getLastPathSegment());
         return fileRef;
     }
 

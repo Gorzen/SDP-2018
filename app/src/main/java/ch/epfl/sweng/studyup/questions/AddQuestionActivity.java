@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -111,15 +112,16 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
 
-            String newQuestionTitle = "Default title";
+            EditText newQuestionTitleView = findViewById(R.id.questionTitle);
+            String newQuestionTitle = newQuestionTitleView.getText().toString();
             Question q = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber);
 
             // Add question to FireStore
             Firestore.addQuestion(q);
 
-            ArrayList<Question> list = new ArrayList<>();
-            list.add(q);
-            QuestionParser.writeQuestions(list, this.getApplicationContext());
+            //ArrayList<Question> list = new ArrayList<>();
+            //list.add(q);
+            //QuestionParser.writeQuestions(list, this.getApplicationContext());
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
     }

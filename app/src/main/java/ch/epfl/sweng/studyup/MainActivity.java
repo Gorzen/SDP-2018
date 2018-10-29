@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.Task;
+
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -79,6 +81,7 @@ public class MainActivity extends Navigation {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
+        Firestore.loadQuestions(this);
 
         // User picture
         pic_button = findViewById(R.id.pic_btn);

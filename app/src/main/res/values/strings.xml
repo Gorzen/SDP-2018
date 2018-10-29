@@ -16,6 +16,7 @@
     <string name="false_value">False</string>
     <string name="get_location_text">Get Location</string>
     <string name="add_question_text">Add question</string>
+    <string name="add_question_title">Question Title</string>
     <string name="select_image_text">Select an image</string>
     <string name="no_image_selected_text">No image selected</string>
     <string name="true_false_question_text">True or false question</string>

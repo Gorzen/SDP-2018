@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -10,12 +11,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Utils.*;
@@ -241,15 +247,47 @@ public class Firestore {
 
     public static void addQuestion(Question question) {
 
+        String questionId = question.getQuestionId();
+
         Map<String, Object> questionData = new HashMap<>();
         questionData.put("trueFalse", question.isTrueFalse());
         questionData.put("answer", question.getAnswer());
+        questionData.put("title", question.getTitle());
 
-        String questionImageFileName = question.getTitle();
 
-        // Set question id to uuid of image file
-        String questionId = questionImageFileName.
-                substring(0, questionImageFileName.length()-3);
         db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+    }
+
+    public static void loadQuestions(final Context context) {
+
+        final List<Question> questionList = new ArrayList<>();
+
+        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Map<String, Object> questionData = document.getData();
+                        String questionId = document.getId();
+                        String title = (String) questionData.get(FB_QUESTION_TITLE);
+                        Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                        int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+
+                        System.out.println("Question: " + title);
+                        System.out.println("Answer: " + answer);
+                        
+                        Question question = new Question(questionId, title, trueFalse, answer);
+                        questionList.add(question);
+                    }
+
+
+                    QuestionParser.writeQuestions(questionList, context);
+                    Log.d(TAG, "Question List: " + questionList.toString());
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 }

@@ -53,6 +53,7 @@ public abstract class QuestionParser {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
+                QuestionDatabase.get(c).questionDAO().nukeTable();
                 QuestionDatabase.get(c).questionDAO().insertAll(list);
             }
         });

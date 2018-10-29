@@ -56,17 +56,14 @@ public class QuestsActivity extends Navigation {
             }
         });
 
+
     }
 
     private void showQuestions(final List<Question> questions) {
         int nbrQuestion = questions.size();
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
-            if(questions.get(i).isTrueFalse()) {
-                list[i] = "Question "+i+": true or false";
-            } else {
-                list[i] = "Question "+i+": multiple choice";
-            }
+            list[i] = questions.get(i).getTitle();
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
