@@ -7,6 +7,8 @@ import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 
+import com.kosalgeek.android.caching.FileCacher;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -14,6 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+
+import java.io.IOException;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.CustomActivity;
@@ -28,15 +32,18 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
+import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
-    private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+    private MainActivity activity;
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
@@ -48,6 +55,7 @@ public class MainActivityTest {
     @Before
     public void initiateIntents() {
         Intents.init();
+        activity = mActivityRule.getActivity();
     }
 
     @After
@@ -63,7 +71,13 @@ public class MainActivityTest {
         int currExp = Player.get().getExperience();
         final int numberOfPush = 5;
         for (int i = 0; i < numberOfPush; ++i) {
-            onView(withId(R.id.xpButton)).perform(click());
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.addExpPlayer();
+
+                }
+            });
             assert Player.get().getExperience() == ((currExp + (i + 1) * XP_STEP) % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
             onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
@@ -83,10 +97,30 @@ public class MainActivityTest {
         assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
         onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
         for (int i = 0; i < numberOfPush; ++i) {
-            onView(withId(R.id.xpButton)).perform(click());
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    activity.addExpPlayer();
+
+                }
+            });
             assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
             onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
         }
+    }
+
+    @Test
+    public void logoutButton() {
+        FileCacher<String[]> persistLogin = new FileCacher<>(mActivityRule.getActivity(), PERSIST_LOGIN_FILENAME);
+        try {
+            String[] s = {"Test"};
+            persistLogin.writeCache(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.logoutbutton)).perform(click());
+        assertTrue(!persistLogin.hasCache());
+        intended(hasComponent(LoginActivity.class.getName()));
     }
 
     @Test
