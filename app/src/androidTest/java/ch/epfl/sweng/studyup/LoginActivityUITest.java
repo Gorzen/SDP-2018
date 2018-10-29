@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.kosalgeek.android.caching.FileCacher;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -37,17 +38,19 @@ public class LoginActivityUITest {
 
     @Rule
     public final ActivityTestRule<LoginActivity> rule =
-            new ActivityTestRule<>(LoginActivity.class);
+            new ActivityTestRule<>(LoginActivity.class, true, false);
 
     @Before
-    public void clearCache() {
-        FileCacher<String[]> cache = new FileCacher<>(rule.getActivity().getApplicationContext(), Utils.PERSIST_LOGIN_FILENAME);
-        try {
-            cache.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void enableMock() {
+        Utils.isMockEnabled = true;
+        rule.launchActivity(new Intent());
     }
+
+    @After
+    public void disableMock() {
+        Utils.isMockEnabled = false;
+    }
+
     @Test
     public void swipeTheViewPager() {
         onView(withId(R.id.viewPager)).perform(swipeLeft());

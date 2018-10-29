@@ -26,6 +26,7 @@ import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
 import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.TIME_TO_WAIT_FOR_LOGIN;
+import static ch.epfl.sweng.studyup.utils.Utils.isMockEnabled;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 
 public class LoginActivity extends AppCompatActivity {
@@ -102,7 +103,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        checkLoggedUser();
+        if(!isMockEnabled)
+            checkLoggedUser();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

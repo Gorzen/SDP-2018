@@ -209,7 +209,7 @@ public class MainActivity extends Navigation {
     }
 
     public void addExpPlayer() {
-        Player.get().addExperience(XP_STEP, this);
+        Player.get().addExperience(XP_STEP, this.getApplicationContext());
     }
 
 
