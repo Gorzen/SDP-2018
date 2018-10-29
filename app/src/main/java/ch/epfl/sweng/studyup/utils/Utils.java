@@ -20,7 +20,7 @@ import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 public class Utils {
     //Filename of the cached entry for persist login
     public static final String PERSIST_LOGIN_FILENAME = "persist_login.txt";
-    public static final int TIME_TO_WAIT_FOR_LOGIN = 400; //[ms]
+    public static final int TIME_TO_WAIT_FOR_LOGIN = 500; //[ms]
 
     // Firestore entries
     public static final String FB_USERS = "users";
