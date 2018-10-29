@@ -2,6 +2,8 @@ package ch.epfl.sweng.studyup.questions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,13 +11,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.player.Player;
 
 public class DisplayQuestionActivity extends AppCompatActivity {
@@ -69,9 +80,8 @@ public class DisplayQuestionActivity extends AppCompatActivity {
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
-        /* This is commented out until we figure out how to retrieve the image
-        displayQuestion = new Question(questionTitle, trueFalse, answerNumber);
-        displayImage(questionTitle);
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber);
+        displayImage(questionID);
         setupLayout(displayQuestion);
 
         Button backButton = (Button) findViewById(R.id.back_button);
@@ -81,12 +91,27 @@ public class DisplayQuestionActivity extends AppCompatActivity {
                 finish();
             }
         });
-        */
+
     }
 
-    private void displayImage(Uri uri){
-        ImageView imageView = findViewById(R.id.question_display_view);
-        imageView.setImageURI(uri);
+    private void displayImage(String questionID){
+        StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+        try {
+            final File tempImage = File.createTempFile(questionID, "png");
+            questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                    progressBar.setVisibility(View.GONE);
+                    Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
+                    ImageView displayImageView = findViewById(R.id.question_display_view);
+                    displayImageView.setImageBitmap(displayImage);
+                }
+            });
+        }catch(IOException e){
+            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+            quit();
+        }
     }
 
     private void quit(){

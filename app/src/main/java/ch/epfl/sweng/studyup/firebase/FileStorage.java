@@ -57,7 +57,7 @@ public class FileStorage {
         uploadFile(destFilePath, file);
     }
 
-    public StorageReference getProblemImageRef(Uri fileURI) {
+    public static StorageReference getProblemImageRef(Uri fileURI) {
 
         StorageReference fileRef = storageRef.child(Utils.question_images_directory_name + "/" + fileURI.getLastPathSegment());
         return fileRef;
