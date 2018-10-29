@@ -21,8 +21,10 @@ import java.io.IOException;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_S;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
 import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.TIME_TO_WAIT_FOR_LOGIN;
@@ -56,7 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         if(array.length != 4) return false;
 
         try {
-            Player.get().setSciper(Integer.parseInt(array[0]));
+            int newSciper = Integer.parseInt(array[0]);
+            if(newSciper < Utils.MIN_SCIPER || newSciper > Utils.MAX_SCIPER) {
+                return false;
+            }
+            Player.get().setSciper(newSciper);
         } catch (NumberFormatException e) {
             Log.d(TAG, "The format of the sciper is not valid: "+array[0]);
             return false;
@@ -65,11 +71,13 @@ public class LoginActivity extends AppCompatActivity {
         Player.get().setLastName(array[2]);
         if(array[3].equals(FB_ROLES_T)) {
             Player.get().setRole(true);
-        } else {
+            return true;
+        } else if(array[3].equals(FB_ROLES_S)){
             Player.get().setRole(false);
+            return true;
+        } else {
+            return false;
         }
-
-        return true;
     }
 
     /**
