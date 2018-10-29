@@ -117,6 +117,10 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
+        if(isTeacher)
+            putUserData(FB_ROLE, FB_ROLES_T);
+        else
+            putUserData(FB_ROLE, FB_ROLES_S);
     }
 
     /**
@@ -132,12 +136,6 @@ public class Player {
         firstName = userData.get(FB_FIRSTNAME).toString();
         lastName = userData.get(FB_LASTNAME).toString();
         sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
-        String role = userData.get(FB_ROLE).toString();
-        if(role.equals(FB_ROLES_T)) {
-            isTeacher = true;
-        } else {
-            isTeacher = false;
-        }
 
         updateLevel(context);
     }
