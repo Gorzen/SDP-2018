@@ -51,13 +51,13 @@ public class CustomActivityTest {
         Intents.release();
     }
 
+    /*
     @Test
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
         onView(withId(R.id.valid_btn)).perform(click());
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
-
 
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
@@ -86,11 +86,11 @@ public class CustomActivityTest {
                 R.drawable.ic_check_done_24dp);
     }
 
-    public void clickButton(String textButton) throws UiObjectNotFoundException {
+    /*public void clickButton(String textButton) throws UiObjectNotFoundException {
         UiObject button = device.findObject(new UiSelector().text(textButton));
         if (button.exists() && button.isEnabled()) {
             button.click();
         }
-    }
+    }*/
 
 }

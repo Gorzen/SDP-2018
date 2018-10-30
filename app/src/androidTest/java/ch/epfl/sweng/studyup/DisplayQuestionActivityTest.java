@@ -62,7 +62,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void getIntentTest(){
-        Question q = new Question("1", "test1", true, 0);
+        Question q = new Question("abc", "test1", true, 0);
         Intent testIntent = getIntentForDisplayQuestion(InstrumentationRegistry.getContext(), q);
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE));
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ANSWER));
@@ -76,7 +76,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutTitleTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -84,7 +84,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutUriTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -92,7 +92,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutAnswerTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1","test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_ANSWER);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -100,7 +100,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutTrueFalseTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
@@ -108,14 +108,14 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentCorrectlyTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
     }
 
     @Test
     public void CorrectAnswerGivesXpTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
         onView(withId(R.id.answer2)).perform(ViewActions.click()).check(matches(isChecked()));
@@ -129,7 +129,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void IncorrectAnswerGivesNoXpTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", false, 3));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", false, 3));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
         onView(withId(R.id.answer2)).perform(ViewActions.click()).check(matches(isChecked()));
@@ -143,7 +143,7 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void backButton() {
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("1", "test", true, 0));
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
