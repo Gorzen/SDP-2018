@@ -32,7 +32,7 @@ import static ch.epfl.sweng.studyup.utils.Utils.*;
  * Our own Firebase Cloud Firestore API.
  */
 public class Firestore {
-    public static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firestore.class.getSimpleName();
     public static Map<String, Object> userData = null;
     private static Firestore instance = null;
@@ -40,16 +40,16 @@ public class Firestore {
     private Firestore() {
         // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        db.setFirestoreSettings(settings);
+        try {db.setFirestoreSettings(settings);} catch(Exception e){}
     }
 
     public static Firestore get() {
         if (instance == null) {
             instance = new Firestore();
         }
-
         return instance;
     }
 

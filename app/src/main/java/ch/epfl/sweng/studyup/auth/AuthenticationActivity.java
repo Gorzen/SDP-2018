@@ -51,10 +51,12 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 if (greeting != null) {
 
-                    Firestore.get().getAndSetUserData(
-                            Player.get().getSciper(),
-                            Player.get().getFirstName(),
-                            Player.get().getLastName());
+                    if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
+                        Firestore.get().getAndSetUserData(
+                                Player.get().getSciper(),
+                                Player.get().getFirstName(),
+                                Player.get().getLastName());
+                    }
 
                     Intent initActivity;
                     if (Player.get().getRole()) {
@@ -107,10 +109,12 @@ public class AuthenticationActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code, true);
 
-            Firestore.get().getAndSetUserData(
-                    Player.get().getSciper(),
-                    Player.get().getFirstName(),
-                    Player.get().getLastName());
+            if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
+                Firestore.get().getAndSetUserData(
+                        Player.get().getSciper(),
+                        Player.get().getFirstName(),
+                        Player.get().getLastName());
+            }
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);
