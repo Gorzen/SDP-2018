@@ -81,11 +81,6 @@ public class AddQuestionActivityTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testTrivialInstanceQuestion() {
-        Question nullQ = new Question(null, "test1", false, 0);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testFalseInstanceQuestion() {
         Question nullQ = new Question("1", null, false, 0);
     }

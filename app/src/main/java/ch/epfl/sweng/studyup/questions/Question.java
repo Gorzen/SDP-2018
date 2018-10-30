@@ -32,7 +32,7 @@ public class Question {
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
      */
     public Question(@NonNull String questionId, String title, boolean trueFalse, int answer) {
-        if (answer < 0 || answer > 3 || questionId == null || title == null) {
+        if (answer < 0 || answer > 3 || title == null) {
             throw new IllegalArgumentException();
         }
         if (trueFalse && answer > 1) {
@@ -57,7 +57,10 @@ public class Question {
     }
 
     public void setAnswer(int answer) {
-        this.answer = answer;
+        if (trueFalse && answer < 2 && answer >= 0)
+            this.answer = answer;
+        else if (!trueFalse && answer >= 0 && answer < 4)
+                this.answer = answer;
     }
 
     public boolean isTrueFalse() {
@@ -73,7 +76,8 @@ public class Question {
     }
 
     public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+        if (questionId != null)
+            this.questionId = questionId;
     }
 
     @Override
@@ -89,7 +93,7 @@ public class Question {
     @Override
     public String toString() {
         String s = "";
-        s += " Question " + title;
+        s += title;
         if (trueFalse) {
             s += " (True/False) ";
         }

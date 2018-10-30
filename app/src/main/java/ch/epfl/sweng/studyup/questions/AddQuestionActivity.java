@@ -108,19 +108,17 @@ public class AddQuestionActivity extends AppCompatActivity {
                 Log.e(TAG, e.getMessage());
             }
 
-            // Upload the problem image file to the Firebase Storage server
-            FileStorage.uploadProblemImage(questionFile);
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
+            if (newQuestionTitle.length() == 0) return;
             Question q = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber);
 
+            // Upload the problem image file to the Firebase Storage server
+            FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
             Firestore.addQuestion(q);
 
-            //ArrayList<Question> list = new ArrayList<>();
-            //list.add(q);
-            //QuestionParser.writeQuestions(list, this.getApplicationContext());
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
     }
