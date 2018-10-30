@@ -17,9 +17,6 @@ before_script:
 
   # Disable animations
   - android-wait-for-emulator
-  - adb shell settings put global window_animation_scale 0
-  - adb shell settings put global transition_animation_scale 0
-  - adb shell settings put global animator_duration_scale 0
   - adb shell input keyevent 83
 
   # This should be in the `before_script` entry
@@ -32,7 +29,7 @@ script:
   - ./gradlew build installDebug
   - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
   - adb shell appops set ch.epfl.sweng.studyup 58 allow
-  - ./gradlew connectedCheck jacocoTestReport --info
+  - travis_wait 30 ./gradlew test connectedAndroidTest jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/
