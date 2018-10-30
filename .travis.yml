@@ -27,6 +27,7 @@ script:
   - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
   - adb shell appops set ch.epfl.sweng.studyup 58 allow
   - travis_wait 30 ./gradlew connectedCheck jacocoTestReport
+  - ./gradlew test jacocoTestReport
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/
