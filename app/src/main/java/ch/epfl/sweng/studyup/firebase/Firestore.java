@@ -118,8 +118,10 @@ public class Firestore {
                                 Player.get().updatePlayerData(null);
                                 if(Player.get().getRole()) {
                                     Firestore.get().setUserData(FB_ROLE, FB_ROLES_T);
+                                    putUserData(FB_ROLE, FB_ROLES_T);
                                 } else {
                                     Firestore.get().setUserData(FB_ROLE, FB_ROLES_S);
+                                    putUserData(FB_ROLE, FB_ROLES_S);
                                 }
                             } else {
                                 //User is new to the application

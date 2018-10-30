@@ -10,6 +10,13 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kosalgeek.android.caching.FileCacher;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
@@ -58,6 +65,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                                 Player.get().getLastName());
                     }
 
+                    Utils.waitAndTag(Utils.TIME_TO_WAIT_FOR_LOGIN, TAG);
+
                     Intent initActivity;
                     if (Player.get().getRole()) {
                         initActivity = new Intent(AuthenticationActivity.this, AddQuestionActivity.class);
@@ -70,7 +79,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                         getString(R.string.post_login_message_value)
                     );
 
-                    Utils.waitAndTag(250, TAG);
                     startActivity(initActivity);
                 }
 
@@ -83,6 +91,29 @@ public class AuthenticationActivity extends AppCompatActivity {
         reportAuthError();
     }
 
+    /**
+     * Function used to store the Player's data to the cache (used to persist the login of the user)
+     */
+    public void putPlayerDataToCache() {
+        FileCacher<String[]> persistLogin = new FileCacher<>(this, Utils.PERSIST_LOGIN_FILENAME);
+        String[] cachedData = new String[4];
+
+        cachedData[0] = String.valueOf(Player.get().getSciper());
+        cachedData[1] = Player.get().getFirstName();
+        cachedData[2] = Player.get().getLastName();
+        if (Player.get().getRole()) {
+            cachedData[3] = Utils.FB_ROLES_T;
+        } else {
+            cachedData[3] = Utils.FB_ROLES_S;
+        }
+
+        try {
+            persistLogin.writeCache(cachedData);
+        } catch (IOException e) {
+            Log.d(TAG, "The login info couldn't be written to the cache.");
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +146,19 @@ public class AuthenticationActivity extends AppCompatActivity {
                         Player.get().getFirstName(),
                         Player.get().getLastName());
             }
+
+            Firestore.get().getAndSetUserData(
+                    Player.get().getSciper(),
+                    Player.get().getFirstName(),
+                    Player.get().getLastName());
+
+            Utils.waitAndTag(Utils.TIME_TO_WAIT_FOR_LOGIN, TAG);
+
+            boolean dataHasBeenReceived = Player.get().getFirstName() != Utils.INITIAL_FIRSTNAME
+                    || Player.get().getLastName() != Utils.INITIAL_LASTNAME
+                    || Player.get().getSciper() != Utils.INITIAL_SCIPER;
+            if(dataHasBeenReceived) putPlayerDataToCache();
+
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);

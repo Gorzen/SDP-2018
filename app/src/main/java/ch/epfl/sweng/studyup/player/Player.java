@@ -121,12 +121,15 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
+        if(isTeacher)
+            putUserData(FB_ROLE, FB_ROLES_T);
+        else
+            putUserData(FB_ROLE, FB_ROLES_S);
     }
 
     /**
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
-     * (currently only saving experience, currency, names and sciper)
      */
     public void updatePlayerData(Context context) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))

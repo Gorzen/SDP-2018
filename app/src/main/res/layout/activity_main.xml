@@ -39,10 +39,10 @@
                 android:id="@+id/level_progress"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:clickable="false"
                 android:soundEffectsEnabled="false"
                 app:direction="clockwise"
@@ -61,10 +61,11 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/pic_imageview"
-                android:layout_width="105dp"
-                android:layout_height="105dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+
                 android:contentDescription="@string/user_photo"
                 android:paddingBottom="1dp"
                 android:src="@drawable/user_init_pic"
@@ -92,9 +93,9 @@
                 android:id="@+id/pic_btn2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/user_photo_btn"
                 app:layout_constraintBottom_toBottomOf="@+id/usernameText"
@@ -106,12 +107,12 @@
                 app:srcCompat="@drawable/ic_mode_edit_not_clicked_24dp" />
 
             <TextView
-                android:id="@+id/usernameText"
-                android:layout_width="293dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:id="@+id/view_username"
+                android:layout_width="183dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/username"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
@@ -123,40 +124,58 @@
                 app:layout_constraintTop_toBottomOf="@+id/pic_imageview"
                 app:layout_constraintVertical_bias="0.636" />
 
-
-            <TextView
-                android:id="@+id/levelText"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/level_x"
-                android:textColor="@color/colorProgression"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/level_progress"
-                app:layout_constraintHorizontal_bias="0.266"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/currText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/money"
-                android:textAlignment="center"
-                android:textColor="@color/colorProgression"
-                android:textSize="16sp"
+            <LinearLayout
+                android:layout_width="116dp"
+                android:layout_height="179dp"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/level_progress"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/levelText"
-                app:layout_constraintTop_toBottomOf="@+id/levelText"
-                app:layout_constraintVertical_bias="0.061" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.545">
+
+                <Button
+                    android:id="@+id/logoutbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:elegantTextHeight="false"
+                    android:text="Log out"
+                    android:textStyle="normal|bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+                <TextView
+                    android:id="@+id/levelText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/level_x"
+                    android:textColor="@color/colorProgression"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                    app:layout_constraintHorizontal_bias="0.25"
+                    app:layout_constraintStart_toStartOf="@+id/toolbar"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/currText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/money"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorProgression"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/levelText"
+                    app:layout_constraintTop_toBottomOf="@+id/levelText"
+                    app:layout_constraintVertical_bias="0.17000002" />
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
 
@@ -168,22 +187,6 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/bottomBar"
             android:layout_below="@+id/topBar">
-
-            <Button
-                android:id="@+id/xpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:onClick="addExpPlayer"
-                android:text="@string/add_xp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                android:visibility="visible" />
-
-
         </android.support.constraint.ConstraintLayout>
 
 

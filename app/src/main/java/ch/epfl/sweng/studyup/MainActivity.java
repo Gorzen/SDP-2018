@@ -19,11 +19,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.kosalgeek.android.caching.FileCacher;
+
+import java.io.IOException;
 
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -35,6 +39,8 @@ import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+
+import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
 
 public class MainActivity extends Navigation {
@@ -50,7 +56,11 @@ public class MainActivity extends Navigation {
     // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
-
+  
+    private ImageButton pic_button;
+    private ImageButton pic_button2;
+    private Button logout_button;
+    private ImageView image_view;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -77,6 +87,10 @@ public class MainActivity extends Navigation {
 
         displayLoginSuccessMessage(getIntent());
         Firestore.loadQuestions(this);
+
+        pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
+        logout_button = findViewById(R.id.logoutbutton);
 
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
@@ -113,6 +127,15 @@ public class MainActivity extends Navigation {
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
                 pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
+            }
+        });
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCacheToLogOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
 
@@ -199,13 +222,8 @@ public class MainActivity extends Navigation {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Function that is called when adding xp with the button
-     *
-     * @param view
-     */
-    public void addExpPlayer(View view) {
-        Player.get().addExperience(XP_STEP, this);
+    public void addExpPlayer() {
+        Player.get().addExperience(XP_STEP, this.getApplicationContext());
     }
 
 
@@ -228,6 +246,14 @@ public class MainActivity extends Navigation {
         Log.d("GPS_MAP", "schedule");
     }
 
+    private void clearCacheToLogOut() {
+        FileCacher<String[]> persistLogin = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+        try {
+            persistLogin.clearCache();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
