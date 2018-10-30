@@ -4,13 +4,20 @@ import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.kosalgeek.android.caching.FileCacher;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import java.io.IOException;
+
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -31,7 +38,18 @@ public class LoginActivityUITest {
 
     @Rule
     public final ActivityTestRule<LoginActivity> rule =
-            new ActivityTestRule<>(LoginActivity.class);
+            new ActivityTestRule<>(LoginActivity.class, true, false);
+
+    @Before
+    public void enableMock() {
+        Utils.isMockEnabled = true;
+        rule.launchActivity(new Intent());
+    }
+
+    @After
+    public void disableMock() {
+        Utils.isMockEnabled = false;
+    }
 
     @Test
     public void swipeTheViewPager() {
