@@ -22,12 +22,14 @@ public class Player {
     private int currency;
     private String firstName;
     private String lastName;
+    private String username;
     private boolean isTeacher;
     private int sciper;
     private int[] questionsCurr;
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
+
 
     public static String room = "BC_0_0";
 
@@ -41,6 +43,7 @@ public class Player {
         sciper = INITIAL_SCIPER;
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
+        username = INITIAL_USERNAME;
     }
 
     public static Player get() {
@@ -114,6 +117,7 @@ public class Player {
         instance.setSciper(INITIAL_SCIPER);
         instance.setFirstName(FB_FIRSTNAME);
         instance.setLastName(FB_LASTNAME);
+        instance.setUserName(INITIAL_USERNAME);
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
@@ -127,15 +131,19 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
-    public void updatePlayerData(Context context) {
+    public void updatePlayerData(Context context) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
-
-        experience = Integer.parseInt(userData.get(FB_XP).toString());
-        currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
-        firstName = userData.get(FB_FIRSTNAME).toString();
-        lastName = userData.get(FB_LASTNAME).toString();
-        sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
+        try {
+            experience = Integer.parseInt(userData.get(FB_XP).toString());
+            currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
+            firstName = userData.get(FB_FIRSTNAME).toString();
+            lastName = userData.get(FB_LASTNAME).toString();
+            sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
+            username = userData.get(FB_USERNAME).toString();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         updateLevel(context);
     }
@@ -150,6 +158,13 @@ public class Player {
         putUserData(FB_FIRSTNAME, firstName);
     }
 
+    public void setUserName(String new_username) {
+        username = new_username;
+        putUserData(FB_USERNAME, username);
+        Firestore.get().setUserData(FB_USERNAME, username);
+    }
+
+
     public String getLastName() {
         return lastName;
     }
@@ -158,6 +173,10 @@ public class Player {
         this.lastName = lastName;
 
         putUserData(FB_LASTNAME, lastName);
+    }
+
+    public String getUserName() {
+        return username;
     }
 
     public int getSciper() {

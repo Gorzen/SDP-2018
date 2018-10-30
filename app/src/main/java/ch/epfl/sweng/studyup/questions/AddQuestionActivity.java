@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,11 +20,15 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.UUID;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
+import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 
 public class AddQuestionActivity extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private RadioGroup trueFalseRadioGroup;
+    private imagePathGetter getPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +45,21 @@ public class AddQuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_question);
 
         addRadioListener();
+
+        if(Utils.isMockEnabled) {
+            getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
+        } else {
+            getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
+        }
     }
 
+    /**
+     * Function called when the user wants to choose an image in gallery
+     *
+     * @param current the current view
+     */
     public void performFileSearch(View current) {
-
-        // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
-        // browser.
-        // TODO: Not compatible with API < 19 (our minAPI is 15)
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-
-        // Filter to only show results that can be "opened"
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Filter to show only images, using the image MIME data type.
-        intent.setType("image/*");
-
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        getPath.getFilePath();
     }
 
     @Override
@@ -92,8 +97,8 @@ public class AddQuestionActivity extends AppCompatActivity {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            String newQuestionFileID = UUID.randomUUID().toString() + ".png";
-            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionFileID);
+            String newQuestionID = UUID.randomUUID().toString();
+            File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
             try {
                 Bitmap imageBitmap = getBitmapFromUri(imageURI);
                 FileOutputStream out = new FileOutputStream(questionFile);
@@ -103,15 +108,18 @@ public class AddQuestionActivity extends AppCompatActivity {
                 Log.e(TAG, e.getMessage());
             }
 
-            Question q = new Question(Uri.fromFile(questionFile), isTrueFalseQuestion, answerNumber);
-            ArrayList<Question> list = new ArrayList<>();
-            list.add(q);
-            if (!QuestionParser.writeQuestions(list, this.getApplicationContext(), false)) {
-                Log.e(TAG, "Error while writing the file");
-                Toast.makeText(this.getApplicationContext(), "Error while copying the image", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
-            }
+
+            EditText newQuestionTitleView = findViewById(R.id.questionTitle);
+            String newQuestionTitle = newQuestionTitleView.getText().toString();
+            if (newQuestionTitle.length() == 0) return;
+            Question q = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber);
+
+            // Upload the problem image file to the Firebase Storage server
+            FileStorage.uploadProblemImage(questionFile);
+            // Add question to FireStore
+            Firestore.addQuestion(q);
+
+            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
     }
 

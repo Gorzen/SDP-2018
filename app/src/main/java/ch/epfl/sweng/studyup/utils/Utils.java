@@ -15,6 +15,8 @@ import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import ch.epfl.sweng.studyup.questions.Question;
+
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
 public class Utils {
@@ -24,6 +26,7 @@ public class Utils {
 
     // Firestore entries
     public static final String FB_USERS = "users";
+    public static final String FB_USERNAME = "username";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
@@ -37,11 +40,13 @@ public class Utils {
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
     public static final String FB_QUESTIONS = "questions";
+    public static final String FB_QUESTION_TITLE = "title";
+    public static final String FB_QUESTION_ANSWER = "answer";
+    public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTS = "quests";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS
-    );
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME);
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -58,6 +63,12 @@ public class Utils {
     public static final String GALLERY = "Gallery";
     public static final String CANCEL = "Cancel";
     public static final String JUSTONCE = "JUST ONCE";
+
+
+    // Constant for Firebase Storage
+    public static final String question_images_directory_name = "question_images";
+    public static final String profile_pictures_directory_name = "profile_pictures";
+
     // Map that links item id to activities
     //public static final Map<Integer, Class> idToAct;
     // Better in resources?
@@ -79,8 +90,9 @@ public class Utils {
     public static final int INITIAL_CURRENCY = 0;
     public static final int INITIAL_LEVEL = 1;
     public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
-    public static final String INITIAL_LASTNAME = "Reymond";
+    public static final String INITIAL_LASTNAME = "Réymond";
     //Navigation items indexes for smooth transitions
     public static final int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX =4;
 

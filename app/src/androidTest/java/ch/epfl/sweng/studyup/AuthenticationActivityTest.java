@@ -29,6 +29,7 @@ public class AuthenticationActivityTest {
         Uri uriWithoutCode = Uri.parse("studyup://login?error=anyvalue");
         Intent intentWithoutCode = new Intent();
         intentWithoutCode.setData(uriWithoutCode);
+        intentWithoutCode.putExtra("instrumentationTest", true);
 
         rule.launchActivity(intentWithoutCode);
     }
@@ -39,6 +40,7 @@ public class AuthenticationActivityTest {
         Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         Intent intentWithoutCode = new Intent();
         intentWithoutCode.setData(uriWithoutCode);
+        intentWithoutCode.putExtra("instrumentationTest", true);
 
         rule.launchActivity(intentWithoutCode);
     }
@@ -47,6 +49,7 @@ public class AuthenticationActivityTest {
     public void testBasicRunAuthentication() {
         Intent i = new Intent();Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         i.setData(uriWithoutCode);
+        i.putExtra("instrumentationTest", true);
        rule.launchActivity(i);
        rule.getActivity().runAuthentication("code 1", false);
        assert(Player.get().getFirstName() == Utils.INITIAL_FIRSTNAME);

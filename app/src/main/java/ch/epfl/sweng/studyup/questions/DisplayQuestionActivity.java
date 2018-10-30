@@ -2,6 +2,8 @@ package ch.epfl.sweng.studyup.questions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,20 +11,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
     private final String TAG = "DisplayQuestionActivity";
-    public static final String DISPLAY_QUESTION_URI = "display_question_uri";
+    public static final String DISPLAY_QUESTION_TITLE = "display_question_title";
+    public static final String DISPLAY_QUESTION_ID = "display_question_id";
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     public static final int XP_GAINED_WITH_QUESTION = 10;
@@ -36,15 +48,25 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         int answerNumber = 0;
         boolean trueFalse = false;
-        Uri questionUri = Uri.EMPTY;
+        String questionTitle = "";
+        String questionID = "";
 
         Intent intent = getIntent();
         //Get the Uri from the intent
-        if (!intent.hasExtra(DISPLAY_QUESTION_URI)) {
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
             quit();
             return;
-        } else
-            questionUri = Uri.parse(intent.getStringExtra(DISPLAY_QUESTION_URI));
+        } else {
+            questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+        }
+
+        //Get the question ID
+        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
+            quit();
+            return;
+        }else {
+            questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
+        }
 
         //Get the answer
         if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
@@ -61,8 +83,8 @@ public class DisplayQuestionActivity extends RefreshContext {
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
-        displayQuestion = new Question(questionUri, trueFalse, answerNumber);
-        displayImage(questionUri);
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber);
+        displayImage(questionID);
         setupLayout(displayQuestion);
 
         Button backButton = (Button) findViewById(R.id.back_button);
@@ -72,11 +94,27 @@ public class DisplayQuestionActivity extends RefreshContext {
                 finish();
             }
         });
+
     }
 
-    private void displayImage(Uri uri) {
-        ImageView imageView = findViewById(R.id.question_display_view);
-        imageView.setImageURI(uri);
+    private void displayImage(String questionID){
+        StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+        try {
+            final File tempImage = File.createTempFile(questionID, "png");
+            questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                    progressBar.setVisibility(View.GONE);
+                    Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
+                    ImageView displayImageView = findViewById(R.id.question_display_view);
+                    displayImageView.setImageBitmap(displayImage);
+                }
+            });
+        }catch(IOException e){
+            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+            quit();
+        }
     }
 
     private void quit() {
@@ -85,8 +123,8 @@ public class DisplayQuestionActivity extends RefreshContext {
         super.onBackPressed();
     }
 
-    private void setupLayout(Question question) {
-        if (!question.isTrueFalseQuestion()) {
+    private void setupLayout(Question question){
+        if (!question.isTrueFalse()){
             TextView answer1 = findViewById(R.id.answer1);
             answer1.setText("1");
 
@@ -127,8 +165,9 @@ public class DisplayQuestionActivity extends RefreshContext {
      */
     public static Intent getIntentForDisplayQuestion(Context c, Question q) {
         Intent goToQuestion = new Intent(c, DisplayQuestionActivity.class);
-        goToQuestion.putExtra(DISPLAY_QUESTION_URI, q.getQuestionUri().toString());
-        goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalseQuestion()));
+        goToQuestion.putExtra(DISPLAY_QUESTION_TITLE, q.getTitle());
+        goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());
+        goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         return goToQuestion;
     }

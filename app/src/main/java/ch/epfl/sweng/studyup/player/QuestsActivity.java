@@ -1,7 +1,11 @@
 package ch.epfl.sweng.studyup.player;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +28,7 @@ import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
+import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 /**
  * QuestsActivity
@@ -31,9 +36,8 @@ import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
  * Quests.
  */
 public class QuestsActivity extends Navigation {
-    List<Question> questions;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests);
 
@@ -43,16 +47,23 @@ public class QuestsActivity extends Navigation {
 
         navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
 
-        final List<Question> questions = parseQuestions(this.getApplicationContext(), false);
+        LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
+        questions.observe(this, new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                showQuestions(questions);
+            }
+        });
+
+
+    }
+
+    private void showQuestions(final List<Question> questions) {
         int nbrQuestion = questions.size();
+
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
-            if(questions.get(i).isTrueFalseQuestion()) {
-                list[i] = "Question "+i+": true or false";
-            } else {
-                list[i] = "Question "+i+": multiple choice";
-            }
-
+            list[i] = questions.get(i).getTitle();
         }
 
         ListView listView = findViewById(R.id.listViewQuests);

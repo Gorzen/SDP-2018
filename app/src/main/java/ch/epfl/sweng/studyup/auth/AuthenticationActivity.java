@@ -58,11 +58,12 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 if (greeting != null) {
 
-                    Firestore.get().getAndSetUserData(
-                        Player.get().getSciper(),
-                        Player.get().getFirstName(),
-                        Player.get().getLastName()
-                    );
+                    if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
+                        Firestore.get().getAndSetUserData(
+                                Player.get().getSciper(),
+                                Player.get().getFirstName(),
+                                Player.get().getLastName());
+                    }
 
                     Utils.waitAndTag(Utils.TIME_TO_WAIT_FOR_LOGIN, TAG);
 
@@ -139,6 +140,13 @@ public class AuthenticationActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
             runAuthentication(code, true);
 
+            if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
+                Firestore.get().getAndSetUserData(
+                        Player.get().getSciper(),
+                        Player.get().getFirstName(),
+                        Player.get().getLastName());
+            }
+
             Firestore.get().getAndSetUserData(
                     Player.get().getSciper(),
                     Player.get().getFirstName(),
@@ -150,6 +158,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     || Player.get().getLastName() != Utils.INITIAL_LASTNAME
                     || Player.get().getSciper() != Utils.INITIAL_SCIPER;
             if(dataHasBeenReceived) putPlayerDataToCache();
+
         } else {
             reportAuthError();
             Log.e("AUTH ERROR", error);

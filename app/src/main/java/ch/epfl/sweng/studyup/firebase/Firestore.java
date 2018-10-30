@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -10,11 +11,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Utils.*;
@@ -25,7 +32,7 @@ import static ch.epfl.sweng.studyup.utils.Utils.*;
  * Our own Firebase Cloud Firestore API.
  */
 public class Firestore {
-    public static final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firestore.class.getSimpleName();
     public static Map<String, Object> userData = null;
     private static Firestore instance = null;
@@ -33,16 +40,16 @@ public class Firestore {
     private Firestore() {
         // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        db.setFirestoreSettings(settings);
+        try {db.setFirestoreSettings(settings);} catch(Exception e){}
     }
 
     public static Firestore get() {
         if (instance == null) {
             instance = new Firestore();
         }
-
         return instance;
     }
 
@@ -71,7 +78,7 @@ public class Firestore {
      * Function used when entering the app. It will get all the player's informations and set
      * the state of the player as it were the last time he/she was connected.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER numb of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
      * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
@@ -140,6 +147,7 @@ public class Firestore {
         putUserData(FB_XP, Player.get().getExperience());
         putUserData(FB_LEVEL, Player.get().getLevel());
         putUserData(FB_CURRENCY, Player.get().getCurrency());
+        putUserData(FB_USERNAME, Player.get().getUserName());
 
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -209,7 +217,7 @@ public class Firestore {
      * Reset the infos of a given user on the database. If he/she wasn't present, it will create
      * it with the initial values.
      *
-     * @param sciper    The sciper of the player.
+     * @param sciper    The SCIPER nmbr of the player.
      * @param firstName The first name of the player.
      * @param lastName  The last name of the player.
      */
@@ -238,5 +246,51 @@ public class Firestore {
                         }
                     }
                 });
+    }
+
+    public static void addQuestion(Question question) {
+
+        String questionId = question.getQuestionId();
+
+        Map<String, Object> questionData = new HashMap<>();
+        questionData.put("trueFalse", question.isTrueFalse());
+        questionData.put("answer", question.getAnswer());
+        questionData.put("title", question.getTitle());
+
+
+        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+    }
+
+    public static void loadQuestions(final Context context) {
+
+        final List<Question> questionList = new ArrayList<>();
+
+        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Map<String, Object> questionData = document.getData();
+                        String questionId = document.getId();
+                        String title = (String) questionData.get(FB_QUESTION_TITLE);
+                        Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                        int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+
+                        System.out.println("Question: " + title);
+                        System.out.println("Answer: " + answer);
+                        
+                        Question question = new Question(questionId, title, trueFalse, answer);
+                        questionList.add(question);
+                    }
+
+
+                    QuestionParser.writeQuestions(questionList, context);
+                    Log.d(TAG, "Question List: " + questionList.toString());
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 }

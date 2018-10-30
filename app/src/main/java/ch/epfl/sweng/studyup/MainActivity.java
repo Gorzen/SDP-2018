@@ -8,15 +8,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -28,11 +24,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
+
+import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
@@ -53,13 +51,14 @@ public class MainActivity extends Navigation {
         }
     };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
+    private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
+    ImageButton pic_button2;
+
     private ImageButton pic_button;
-    private ImageButton pic_button2;
     private Button logout_button;
-    private ImageView image_view;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -85,6 +84,7 @@ public class MainActivity extends Navigation {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
+        Firestore.loadQuestions(this);
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
@@ -103,12 +103,12 @@ public class MainActivity extends Navigation {
             scheduleBackgroundLocation();
         }
 
+        // User picture
+        ImageButton pic_button = findViewById(R.id.pic_btn);
+        pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic); //todo change with the user pic
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        rbd.setCircular(true);
-        image_view.setImageDrawable(rbd);
 
+        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +137,12 @@ public class MainActivity extends Navigation {
             }
         });
 
+        //username
+        TextView view_username = findViewById(R.id.usernameText);
+        view_username.setText(Player.get().getUserName());
+        view_username.setMaxLines(1);
+        view_username.setMaxWidth(300);
+
         // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,10 +160,16 @@ public class MainActivity extends Navigation {
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
+        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
+        TextView lvl = findViewById(R.id.levelText);
+        TextView curr = findViewById(R.id.currText);
+        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
 
     }
+
 
     @Override
     protected void onResume() {
@@ -240,7 +252,6 @@ public class MainActivity extends Navigation {
             e.printStackTrace();
         }
     }
-
 }
 
 

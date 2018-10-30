@@ -6,12 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -21,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,14 +25,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
+import java.text.Normalizer;
+import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.social.RankingsActivity;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -46,13 +42,12 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Code used in the activity_custom to personnalize a Player.
  */
 public class CustomActivity extends Navigation {
+    private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
-    private static final String IMAGE_DIRECTORY = "/studyup_photos";
     private static final int GALLERY = 0, CAMERA = 1;
     private ImageView imageview;
-    private ImageButton pic_button;
-    private ImageButton valid_button;
     private EditText edit_username;
+    public ImageButton valid_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +59,26 @@ public class CustomActivity extends Navigation {
         getSupportActionBar().setTitle(null);
         navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX);
 
-        pic_button = findViewById(R.id.pic_btn);
+        ImageButton pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
+        edit_username.setText(Player.get().getUserName());
+        final TextView user_email = findViewById(R.id.user_email);
 
-        final TextView view_username = findViewById(R.id.view_username);//todo
+        //mail
+        String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
+        email_1 = Normalizer.normalize(email_1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
+        email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
 
-        // TODO: Change with the user pic
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user_init_pic);
-        RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-        rbd.setCircular(true);
-        imageview.setImageDrawable(rbd);
+        final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
+
+        //initial picture
+        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), imageview);
+
+
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +90,7 @@ public class CustomActivity extends Navigation {
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
                 view_username.setText(edit_username.getText().toString());
+                Player.get().setUserName(edit_username.getText().toString());
             }
         });
 
@@ -102,9 +106,7 @@ public class CustomActivity extends Navigation {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == GALLERY) {
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, GALLERY);
+                    openGallery();
                 } else if (which == CAMERA) {
                     if (checkSelfPermission(Manifest.permission.CAMERA)
                             == PackageManager.PERMISSION_GRANTED) {
@@ -128,6 +130,11 @@ public class CustomActivity extends Navigation {
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, GALLERY);
     }
 
     @Override
@@ -157,7 +164,7 @@ public class CustomActivity extends Navigation {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    setCircularImage(bitmap);
+                    setImageCircularAndUpload(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(CustomActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -165,44 +172,28 @@ public class CustomActivity extends Navigation {
             }
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            setCircularImage(bitmap);
+            setImageCircularAndUpload(bitmap);
         }
     }
 
-    //Not sure about the name-consistency of this function
-    private void setCircularImage(Bitmap bitmap) {
-        //saveImage(bitmap);
+    private void setImageCircularAndUpload(Bitmap bitmap) {
+        String newPictureFileID = Integer.toString(Player.get().getSciper()) + ".png";
+        File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
+        try {
+            FileOutputStream out = new FileOutputStream(pictureFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        FileStorage.uploadProfilePicture(pictureFile);
+
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
+
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
-    }
-  
-    private String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-            return f.getAbsolutePath();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
     }
       
     //Display the toolbar
@@ -212,24 +203,4 @@ public class CustomActivity extends Navigation {
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
-
-    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    //Corresponding activities are not created yet
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(CustomActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(CustomActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
-
 }

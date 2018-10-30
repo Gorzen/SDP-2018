@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -86,7 +87,6 @@ public class FirestoreTest {
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() {
         Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -139,6 +139,7 @@ public class FirestoreTest {
         //Check if the names are the correct ones
         assertEquals("John", dbStaticInfo.get(FB_FIRSTNAME));
         assertEquals("Doe", dbStaticInfo.get(FB_LASTNAME));
+        assertEquals("JonhDoe89012345", dbStaticInfo.get(FB_USERNAME));
     }
 
     @Test
@@ -197,18 +198,21 @@ public class FirestoreTest {
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
     }
 
+
     @Test
     public void updateLevelAndCurrencyPropagateToServer() {
         final int numberLevelToUpgrade = 5;
         final int testSciper1 = sciper;
         final String testFirstName1 = INITIAL_FIRSTNAME;
         final String testLastName1 = INITIAL_LASTNAME;
+        final String testUserName1 = INITIAL_USERNAME;
         Firestore.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
 
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
         Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2, null);
+
 
         //To over-write the local state
         Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1");
