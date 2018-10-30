@@ -27,12 +27,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        animationsDisabled = true
+    }
     productFlavors {
     }
     android {
         lintOptions {
             abortOnError false
         }
+
     }
 
     dependencies {
