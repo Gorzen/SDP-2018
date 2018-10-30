@@ -17,10 +17,10 @@ before_script:
 
   # Disable animations
   - android-wait-for-emulator
-  - adb shell settings put global window_animation_scale 0 &
-  - adb shell settings put global transition_animation_scale 0 &
-  - adb shell settings put global animator_duration_scale 0 &
-  - adb shell input keyevent 83 &
+  - adb shell settings put global window_animation_scale 0
+  - adb shell settings put global transition_animation_scale 0
+  - adb shell settings put global animator_duration_scale 0
+  - adb shell input keyevent 83
 
   # This should be in the `before_script` entry
   # Set up Code Climate test reporter
@@ -30,11 +30,9 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - ./gradlew build installDebug
-  - android-wait-for-emulator
-  - adb shell input keyevent 83
   - adb shell pm grant ch.epfl.sweng.studyup android.permission.ACCESS_FINE_LOCATION
   - adb shell appops set ch.epfl.sweng.studyup 58 allow
-  - ./gradlew test connectedCheck jacocoTestReport --info
+  - ./gradlew connectedCheck jacocoTestReport --info
 after_script:
   # Report test coverage to Code Climate
   - export JACOCO_SOURCE_PATH=app/src/main/java/
