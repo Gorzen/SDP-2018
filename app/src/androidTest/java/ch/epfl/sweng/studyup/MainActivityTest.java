@@ -22,6 +22,7 @@ import java.io.IOException;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -144,27 +145,5 @@ public class MainActivityTest {
     public void testOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
-    }
-
-    @Test
-    public void testB2changeOnClick() {
-        assert (mActivityRule.getActivity().pic_button2.getBackground().getAlpha() == R.drawable.ic_mode_edit_not_clicked_24dp);
-        onView(withId(R.id.pic_btn2)).perform(click());
-        assert (mActivityRule.getActivity().pic_button2.getBackground().getAlpha() == R.drawable.ic_mode_edit_clicked_24dp);
-    }
-
-    @Test
-    public void testB2ChangeOnClick() {
-        buttonChangeOnClick(
-                mActivityRule.getActivity().pic_button2.getBackground().getAlpha(),
-                R.id.pic_btn2,
-                R.drawable.ic_mode_edit_not_clicked_24dp,
-                R.drawable.ic_mode_edit_clicked_24dp);
-    }
-
-    public static void buttonChangeOnClick(int btnAlphaActual, int btnActualId, int btnAlphaExpected1, int btnAlphaExpected2) {
-        assert (btnAlphaActual == btnAlphaExpected1);
-        onView(withId(btnActualId)).perform(click());
-        assert (btnAlphaActual == btnAlphaExpected2);
     }
 }

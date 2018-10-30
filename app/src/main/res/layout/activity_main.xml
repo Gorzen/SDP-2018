@@ -10,9 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="110dp"
-        tools:layout_editor_absoluteY="199dp">
+        android:layout_height="match_parent">
 
 
         <!--TOP TOOL BAR-->
@@ -59,22 +57,21 @@
                 app:textSize="24sp"
                 tools:layout_alignParentBottom="true" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:id="@+id/pic_imageview"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-
                 android:contentDescription="@string/user_photo"
-                android:paddingBottom="1dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/user_init_pic"
-                app:civ_border_width="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/level_progress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/level_progress"
-                app:layout_constraintVertical_bias="0.533" />
+                app:layout_constraintEnd_toEndOf="@+id/pic_btn"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/pic_btn"
+                app:layout_constraintTop_toTopOf="@+id/pic_btn"
+                app:layout_constraintVertical_bias="1.0" />
 
             <ImageButton
                 android:id="@+id/pic_btn"
@@ -98,7 +95,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/user_photo_btn"
-                app:layout_constraintBottom_toBottomOf="@+id/usernameText"
+                app:layout_constraintBottom_toBottomOf="@+id/view_username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/pic_btn"
@@ -122,7 +119,8 @@
                 app:layout_constraintHorizontal_bias="0.518"
                 app:layout_constraintStart_toStartOf="@+id/toolbar"
                 app:layout_constraintTop_toBottomOf="@+id/pic_imageview"
-                app:layout_constraintVertical_bias="0.636" />
+                app:layout_constraintVertical_bias="0.0" />
+
 
             <LinearLayout
                 android:layout_width="116dp"
@@ -187,6 +185,8 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/bottomBar"
             android:layout_below="@+id/topBar">
+
+
         </android.support.constraint.ConstraintLayout>
 
 
