@@ -58,9 +58,7 @@ public class MainActivity extends Navigation {
     ImageButton pic_button2;
   
     private ImageButton pic_button;
-    private ImageButton pic_button2;
     private Button logout_button;
-    private ImageView image_view;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
