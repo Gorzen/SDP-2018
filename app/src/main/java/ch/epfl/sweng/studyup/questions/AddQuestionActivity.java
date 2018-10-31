@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -80,8 +81,15 @@ public class AddQuestionActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView displayName = findViewById(R.id.display_question_path);
-                        displayName.setText(imageURI.toString());
+                        ImageView displayImage = findViewById(R.id.addQuestion_display_image);
+                        try {
+                            Bitmap image_bitmap = getBitmapFromUri(imageURI);
+                            displayImage.setImageBitmap(image_bitmap);
+                            TextView displayName = findViewById(R.id.display_question_path);
+                            displayName.setVisibility(View.GONE);
+                        } catch (IOException e) {
+                            Log.e(TAG, "An error occurred when displaying the image");
+                        }
                     }
                 });
             }
