@@ -64,7 +64,7 @@ public class BackgroundLocation extends JobService {
                     } else {
                         str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
                     }
-                    //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);
                     Log.d("GPS_MAP", "Context = " + context.get());
                 } else {
