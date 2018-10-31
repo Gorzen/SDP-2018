@@ -31,7 +31,7 @@ public class Player {
     private int[] questsAcheived;
 
 
-    public static String room = "BC_0_0";
+    public static String room = "INN_3_26";
 
     /**
      * Constructor called before someone is login.

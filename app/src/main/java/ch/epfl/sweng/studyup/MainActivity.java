@@ -73,8 +73,7 @@ public class MainActivity extends Navigation {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+        unScheduleBackgroundLocation();
     }
 
     @SuppressLint("MissingPermission")
@@ -130,7 +129,8 @@ public class MainActivity extends Navigation {
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearCacheToLogOut();
+                unScheduleBackgroundLocation();
+                clearCacheToLogOut(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
@@ -174,6 +174,10 @@ public class MainActivity extends Navigation {
     @Override
     protected void onResume() {
         super.onResume();
+        TextView view_username = findViewById(R.id.usernameText);
+        view_username.setText(Player.get().getUserName());
+        view_username.setMaxLines(1);
+        view_username.setMaxWidth(300);
         updateCurrDisplay();
         updateXpAndLvlDisplay();
     }
@@ -244,8 +248,13 @@ public class MainActivity extends Navigation {
         Log.d("GPS_MAP", "schedule");
     }
 
-    private void clearCacheToLogOut() {
-        FileCacher<String[]> persistLogin = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+    public void unScheduleBackgroundLocation(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+    }
+
+    public static void clearCacheToLogOut(Context context) {
+        FileCacher<String[]> persistLogin = new FileCacher<>(context, PERSIST_LOGIN_FILENAME);
         try {
             persistLogin.clearCache();
         } catch (IOException e) {
