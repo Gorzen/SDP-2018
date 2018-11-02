@@ -92,8 +92,8 @@ android {
         }
 
         def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*',
-                          'app/src/main/java/ch/epfl/sweng/studyup/questions/QuestionDAO_Impl.java',
-                          'app/src/main/java/ch/epfl/sweng/studyup/questions/QuestionDatabase_Impl.java']
+                          '**/QuestionDAO_Impl.java',
+                          '**/QuestionDatabase_Impl.java']
         def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
         def mainSrc = "$project.projectDir/src/main/java"
 
