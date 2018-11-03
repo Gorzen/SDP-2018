@@ -49,16 +49,4 @@ public class CustomActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
     }
-
-    @Test
-    public void testChooseCameraImage() {
-
-        rule.launchActivity(new Intent());
-
-        onView(withId(R.id.pic_btn)).perform(click());
-
-        onView(withText("Camera")).inRoot(isDialog())
-                .check(matches(isDisplayed()))
-                .perform(click());
-    }
 }
