@@ -80,6 +80,7 @@ public class DisplayQuestionActivityTest {
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -88,6 +89,7 @@ public class DisplayQuestionActivityTest {
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -96,6 +98,7 @@ public class DisplayQuestionActivityTest {
         i.removeExtra(DISPLAY_QUESTION_ANSWER);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -104,6 +107,7 @@ public class DisplayQuestionActivityTest {
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -111,6 +115,7 @@ public class DisplayQuestionActivityTest {
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -125,6 +130,7 @@ public class DisplayQuestionActivityTest {
         onView(withId(R.id.answer_button)).perform(ViewActions.click());
         assertEquals(playerXp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
         Intents.intending(hasComponent(MainActivity.class.getName()));
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -139,6 +145,7 @@ public class DisplayQuestionActivityTest {
         onView(withId(R.id.answer_button)).perform(ViewActions.click());
         assertEquals(playerXp, Player.get().getExperience());
         Intents.intending(hasComponent(MainActivity.class.getName()));
+        mActivityRule.finishActivity();
     }
 
     @Test
@@ -147,5 +154,6 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
+        mActivityRule.finishActivity();
     }
 }

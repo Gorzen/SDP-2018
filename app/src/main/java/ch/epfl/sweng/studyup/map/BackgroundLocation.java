@@ -51,7 +51,7 @@ public class BackgroundLocation extends JobService {
     public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final WeakReference<JobService> jobService;
         private final JobParameters jobParameters;
-        private final WeakReference<Activity> context;
+        private final WeakReference<Activity> activity;
         public final OnSuccessListener<Location> onSuccessListener = new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -61,13 +61,13 @@ public class BackgroundLocation extends JobService {
                     String str = "NEW POS: " + Utils.position.latitude + ", " + Utils.position.longitude;
                     if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
                         str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
-                        Player.get().addExperience(2 * Utils.XP_STEP, context.get());
+                        Player.get().addExperience(2 * Utils.XP_STEP, activity.get());
                     } else {
                         str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);
-                    Log.d("GPS_MAP", "Context = " + context.get());
+                    Log.d("GPS_MAP", "Context = " + activity.get());
                 } else {
                     Log.d("GPS_MAP", "NEW POS: null");
                 }
@@ -77,18 +77,18 @@ public class BackgroundLocation extends JobService {
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = new WeakReference<>(jobService);
             this.jobParameters = jobParameters;
-            this.context = new WeakReference<>(Utils.mainActivity);
+            this.activity = new WeakReference<>(Utils.mainActivity);
         }
 
         @Override
         public JobParameters doInBackground(Void[] voids) {
-            if (context.get() == null) {
+            if (activity.get() == null) {
                 Log.d("GPS_MAP", "Context = null");
                 return jobParameters;
             }
-            if (ContextCompat.checkSelfPermission(context.get(),
+            if (ContextCompat.checkSelfPermission(activity.get(),
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(context.get(),
+                    || ContextCompat.checkSelfPermission(activity.get(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
                 Utils.locationProviderClient.getLastLocation()

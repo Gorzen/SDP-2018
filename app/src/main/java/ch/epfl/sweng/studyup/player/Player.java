@@ -68,11 +68,11 @@ public class Player {
     /**
      * Method suppose that we can only gain experience.
      */
-    private void updateLevel(Activity context) {
+    private void updateLevel(Activity activity) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if (newLevel - level > 0) {
-            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, context);
+            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, activity);
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
             Firestore.get().setUserData(FB_CURRENCY, currency);
@@ -81,25 +81,25 @@ public class Player {
         }
     }
 
-    public void addCurrency(int curr, Activity context) {
+    public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if(context != null) {
-            ((MainActivity) context).updateCurrDisplay();
+        if(activity != null) {
+            ((MainActivity) activity).updateCurrDisplay();
         }
 
         putUserData(FB_CURRENCY, currency);
         Firestore.get().setUserData(FB_CURRENCY, currency);
     }
 
-    public void addExperience(int xp, Activity context) {
+    public void addExperience(int xp, Activity activity) {
         experience += xp;
-        updateLevel(context);
+        updateLevel(activity);
 
-        if(context instanceof MainActivity) {
-            ((MainActivity) context).updateXpAndLvlDisplay();
-            ((MainActivity) context).updateCurrDisplay();
-            Log.i("Check", "Activity is "+context.toString()+" "+((MainActivity) context).getLocalClassName());
+        if(activity instanceof MainActivity) {
+            ((MainActivity) activity).updateXpAndLvlDisplay();
+            ((MainActivity) activity).updateCurrDisplay();
+            Log.i("Check", "Activity is "+activity.toString()+" "+((MainActivity) activity).getLocalClassName());
         }
 
         putUserData(FB_XP, experience);
@@ -132,7 +132,7 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
-    public void updatePlayerData(Activity context) throws NullPointerException{
+    public void updatePlayerData(Activity activity) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
         try {
@@ -146,7 +146,7 @@ public class Player {
             e.printStackTrace();
         }
 
-        updateLevel(context);
+        updateLevel(activity);
     }
 
     public String getFirstName() {
