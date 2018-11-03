@@ -1,96 +1,64 @@
 package ch.epfl.sweng.studyup;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.intent.Intents;
+import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-import android.widget.ImageButton;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.not;
 
-
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@RunWith(AndroidJUnit4.class)
 public class CustomActivityTest {
-    private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
     @Rule
-    public final ActivityTestRule<CustomActivity> mActivityRule =
-            new ActivityTestRule<>(CustomActivity.class);
+    public ActivityTestRule<CustomActivity> rule =
+            new ActivityTestRule<>(CustomActivity.class, true, false);
 
     @Before
-    public void initiateIntents() {
-        Intents.init();
-    }
+    public void enableMock() { Utils.isMockEnabled = true; }
 
     @After
-    public void releaseIntents() {
-        Intents.release();
+    public void disableMock() {
+        Utils.isMockEnabled = false;
     }
 
-    /*
-    @Test
-    public void A_changeUserName() {
-        onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
-        onView(withId(R.id.valid_btn)).perform(click());
-        onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
-    }
-
-    public void email_check() {
-        Player.get().setFirstName(INITIAL_FIRSTNAME);
-        Player.get().setLastName(INITIAL_LASTNAME);
-        ViewInteraction a = onView(withId(R.id.user_email));
-        System.out.print(a);
-        a.check(matches(withText("jean-louis.reymond@epfl.ch")));
-    }
 
     @Test
-    public void Z_checkDisplayAndAccessToGallery() throws Exception {
+    public void testChooseGalleryImage() {
+
+        rule.launchActivity(new Intent());
+
         onView(withId(R.id.pic_btn)).perform(click());
-        assertTrue(device.findObject(new UiSelector().text(Utils.CAMERA)).exists());
-        assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
-        assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
-        clickButton(Utils.GALLERY);
-        clickButton(Utils.JUSTONCE);
+
+        onView(withText("Gallery")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
     }
 
     @Test
-    public void testValidButtonChangeOnClick() {
-        MainActivityTest.buttonChangeOnClick(
-                mActivityRule.getActivity().valid_button.getBackground().getAlpha(),
-                R.id.valid_btn,
-                R.drawable.ic_check_black_24dp,
-                R.drawable.ic_check_done_24dp);
+    public void testChooseCameraImage() {
+
+        rule.launchActivity(new Intent());
+
+        onView(withId(R.id.pic_btn)).perform(click());
+
+        onView(withText("Camera")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
     }
-
-    /*public void clickButton(String textButton) throws UiObjectNotFoundException {
-        UiObject button = device.findObject(new UiSelector().text(textButton));
-        if (button.exists() && button.isEnabled()) {
-            button.click();
-        }
-    }*/
-
 }

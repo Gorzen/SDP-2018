@@ -106,7 +106,7 @@ public class DisplayQuestionActivityTest {
         assertTrue(mActivityRule.getActivity().isFinishing());
     }
 
-    /**@Test
+    @Test
     public void launchIntentCorrectlyTest(){
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
@@ -147,5 +147,5 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
-    } **/
+    }
 }
