@@ -143,7 +143,6 @@ public class Utils {
             Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
         }catch (IOException e) {
             Log.d(tag, e.getMessage());
-            assert false : e.getMessage();
         }
     }
 }
