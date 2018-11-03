@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,10 +44,13 @@ public class Utils {
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
+    public static final String FB_QUESTIONS_ID = "questionID";
     public static final String FB_QUESTS = "quests";
+    public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
+
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME);
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ANSWERED_QUESTIONS);
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -93,6 +97,7 @@ public class Utils {
     public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
+    public static final Map<String, Boolean> INITIAL_ANSWERED_QUESTIONS = new HashMap<>();
     //Navigation items indexes for smooth transitions
     public static final int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX =4;
 

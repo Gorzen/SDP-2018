@@ -3,6 +3,9 @@ package ch.epfl.sweng.studyup.player;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
@@ -27,8 +30,9 @@ public class Player {
     private int sciper;
     private int[] questionsCurr;
     private int[] questsCurr;
-    private int[] questionsAcheived;
+    private int[] questionsAcheived; //todo equivalent to answeredQuestions ??
     private int[] questsAcheived;
+    private Map<String, Boolean> answeredQuestions;
 
 
     public static String room = "INN_3_26";
@@ -44,6 +48,7 @@ public class Player {
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
+        answeredQuestions = INITIAL_ANSWERED_QUESTIONS;
     }
 
     public static Player get() {
@@ -200,6 +205,20 @@ public class Player {
             putUserData(FB_ROLE, FB_ROLES_S);
         }
     }
+
+    /**
+     * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
+     */
+    public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
+        this.answeredQuestions.put(questionID, isAnswerGood);
+        putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+        Firestore.get().setUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+    }
+
+    public Map<String, Boolean> getAnsweredQuestion() {
+        return this.answeredQuestions;
+    }
+
 
     public boolean getRole() {
         return isTeacher;

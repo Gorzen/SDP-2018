@@ -253,10 +253,10 @@ public class Firestore {
         String questionId = question.getQuestionId();
 
         Map<String, Object> questionData = new HashMap<>();
-        questionData.put("trueFalse", question.isTrueFalse());
-        questionData.put("answer", question.getAnswer());
-        questionData.put("title", question.getTitle());
-
+        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
+        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
+        questionData.put(FB_QUESTION_TITLE, question.getTitle());
+        questionData.put(FB_QUESTIONS_ID, question.getQuestionId());
 
         db.collection(FB_QUESTIONS).document(questionId).set(questionData);
     }

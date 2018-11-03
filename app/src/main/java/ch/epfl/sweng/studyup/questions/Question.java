@@ -60,7 +60,7 @@ public class Question {
         if (trueFalse && answer < 2 && answer >= 0)
             this.answer = answer;
         else if (!trueFalse && answer >= 0 && answer < 4)
-                this.answer = answer;
+            this.answer = answer;
     }
 
     public boolean isTrueFalse() {
@@ -79,6 +79,7 @@ public class Question {
         if (questionId != null)
             this.questionId = questionId;
     }
+
 
     @Override
     public boolean equals(Object other) {

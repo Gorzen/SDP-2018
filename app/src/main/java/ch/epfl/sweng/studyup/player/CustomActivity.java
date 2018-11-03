@@ -99,7 +99,7 @@ public class CustomActivity extends Navigation {
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle("Add an image");
-        final String[] items = {"Gallery", "Camera", "Cancel"};
+        final String[] items = {Utils.GALLERY, Utils.CAMERA, Utils.CANCEL};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)

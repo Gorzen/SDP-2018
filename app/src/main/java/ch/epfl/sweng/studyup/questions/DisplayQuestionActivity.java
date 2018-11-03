@@ -27,8 +27,13 @@ import java.io.IOException;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
@@ -38,7 +43,6 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     public static final int XP_GAINED_WITH_QUESTION = 10;
-
     private Question displayQuestion;
 
     @Override
@@ -146,17 +150,23 @@ public class DisplayQuestionActivity extends RefreshContext {
         int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
         //TODO : What to do next ?
-        if (answer == displayQuestion.getAnswer()) {
+        if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
+            Toast.makeText(this, "You've already answer to this question bro...", Toast.LENGTH_SHORT).show();
+        }
+        else if (answer == displayQuestion.getAnswer()) {
+            Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
             Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-
             Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
         } else {
+            Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }
 
         Intent goToMain = new Intent(this, MainActivity.class);
         startActivity(goToMain);
     }
+
+
 
     /**
      * @param c The context of the application that launch the intent (put this)
