@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
@@ -77,7 +78,7 @@ public class Utils {
     public static Map<String, Object> dbStaticInfo = null;
     public static LatLng position = null;
     public static FusedLocationProviderClient locationProviderClient = null;
-    public static Context mainContext = null;
+    public static Activity mainActivity = null;
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc = null;

@@ -95,7 +95,7 @@ public class MainActivity extends Navigation {
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
-        Utils.mainContext = this.getApplicationContext();
+        Utils.mainActivity = this;
         Utils.locationProviderClient = new FusedLocationProviderClient(this);
 
         if (!Utils.isMockEnabled) {
@@ -225,7 +225,7 @@ public class MainActivity extends Navigation {
     }
 
     public void addExpPlayer() {
-        Player.get().addExperience(XP_STEP, this.getApplicationContext());
+        Player.get().addExperience(XP_STEP, this);
     }
 
 

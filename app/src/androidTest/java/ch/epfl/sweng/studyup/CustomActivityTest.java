@@ -8,6 +8,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import org.junit.After;
@@ -55,16 +56,15 @@ public class CustomActivityTest {
         Intents.release();
     }
 
-    @Test
-    public void testKillApp(){
+    /*
+    public void killApp(){
         try{
             Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
         }catch (IOException e) {
             assertEquals("", e.getMessage());
         }
-    }
+    }*/
 
-    /*
     @Test
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
@@ -72,6 +72,7 @@ public class CustomActivityTest {
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
+    @Test
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
         Player.get().setLastName(INITIAL_LASTNAME);
@@ -87,9 +88,13 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
         clickButton(Utils.GALLERY);
+        Utils.waitAndTag(1000, "CustomTest");
+        device.pressBack();
+        Utils.waitAndTag(1000, "CustomTest");
         clickButton(Utils.JUSTONCE);
     }
 
+/*
     @Test
     public void testValidButtonChangeOnClick() {
         MainActivityTest.buttonChangeOnClick(
@@ -97,13 +102,13 @@ public class CustomActivityTest {
                 R.id.valid_btn,
                 R.drawable.ic_check_black_24dp,
                 R.drawable.ic_check_done_24dp);
-    }
+    }*/
 
-    /*public void clickButton(String textButton) throws UiObjectNotFoundException {
+    public void clickButton(String textButton) throws UiObjectNotFoundException {
         UiObject button = device.findObject(new UiSelector().text(textButton));
         if (button.exists() && button.isEnabled()) {
             button.click();
         }
-    }*/
+    }
 
 }

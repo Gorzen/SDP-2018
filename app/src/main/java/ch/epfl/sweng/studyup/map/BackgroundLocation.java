@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
@@ -50,7 +51,7 @@ public class BackgroundLocation extends JobService {
     public static class GetLocation extends AsyncTask<Void, Void, JobParameters> {
         private final WeakReference<JobService> jobService;
         private final JobParameters jobParameters;
-        private final WeakReference<Context> context;
+        private final WeakReference<Activity> context;
         public final OnSuccessListener<Location> onSuccessListener = new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -76,7 +77,7 @@ public class BackgroundLocation extends JobService {
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = new WeakReference<>(jobService);
             this.jobParameters = jobParameters;
-            this.context = new WeakReference<>(Utils.mainContext);
+            this.context = new WeakReference<>(Utils.mainActivity);
         }
 
         @Override
