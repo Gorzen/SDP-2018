@@ -23,14 +23,15 @@ public class DisplayQuestionActivityTest {
     public void setUp(){
         Log.d("DisplayQuestionActivityTest", "Started test");
         Intents.init();
+        Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
 
     @After
     public void cleanUp(){
         Log.d("DisplayQuestionActivityTest", "Finished test");
-        Intents.release();
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
 }
