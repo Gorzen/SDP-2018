@@ -16,10 +16,12 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentF
 
 @RunWith(AndroidJUnit4.class)
 public class LaunchIntentCorrectlyTest extends DisplayQuestionActivityTest {
+    /*
     @Test
     public void launchIntentCorrectlyTest(){
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
     }
+    */
 }
