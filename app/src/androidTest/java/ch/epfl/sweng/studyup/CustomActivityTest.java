@@ -17,6 +17,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -30,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -49,6 +53,15 @@ public class CustomActivityTest {
     @After
     public void releaseIntents() {
         Intents.release();
+    }
+
+    @Test
+    public void testKillApp(){
+        try{
+            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
+        }catch (IOException e) {
+            assertEquals("", e.getMessage());
+        }
     }
 
     /*
