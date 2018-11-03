@@ -51,16 +51,6 @@ public class DisplayQuestionActivityTest {
                     true,
                     false);
 
-    @Before
-    public void initiateIntents() {
-        Intents.init();
-    }
-
-    @After
-    public void releaseIntents() {
-        Intents.release();
-    }
-
     @Test
     public void getIntentTest(){
         Question q = new Question("abc", "test1", true, 0);
@@ -77,55 +67,66 @@ public class DisplayQuestionActivityTest {
 
     @Test
     public void launchIntentWithoutTitleTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void launchIntentWithoutUriTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void launchIntentWithoutAnswerTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_ANSWER);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void launchIntentWithoutTrueFalseTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void launchIntentCorrectlyTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void CorrectAnswerGivesXpTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
@@ -138,10 +139,12 @@ public class DisplayQuestionActivityTest {
         Intents.intending(hasComponent(MainActivity.class.getName()));
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void IncorrectAnswerGivesNoXpTest(){
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", false, 3));
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
@@ -154,15 +157,18 @@ public class DisplayQuestionActivityTest {
         Intents.intending(hasComponent(MainActivity.class.getName()));
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 
     @Test
     public void backButton() {
+        Intents.init();
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
+        Intents.release();
     }
 }

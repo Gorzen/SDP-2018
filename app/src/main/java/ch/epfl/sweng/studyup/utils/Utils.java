@@ -142,7 +142,7 @@ public class Utils {
         try{
             Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
         }catch (IOException e) {
-            Log.d("Kill app", e.getMessage());
+            Log.d(tag, e.getMessage());
             assert false : e.getMessage();
         }
     }
