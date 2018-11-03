@@ -56,36 +56,46 @@ public class ServiceGetLocationTest {
 
     @Test
     public void onSuccessListenerTestRoomOfPlayer(){
-        int exp = Player.get().getExperience();
-        LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(Player.get().getCurrentRoom()).getLocation();
+        final int exp = Player.get().getExperience();
+        final LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(Player.get().getCurrentRoom()).getLocation();
 
-        Location location = new Location("Mock");
+        final Location location = new Location("Mock");
         location.setLatitude(roomOfPlayer.latitude);
         location.setLongitude(roomOfPlayer.longitude);
         location.setAccuracy(1);
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
-        onSuccessListener.onSuccess(location);
-        assertEquals(roomOfPlayer.latitude, Utils.position.latitude, 0);
-        assertEquals(roomOfPlayer.longitude, Utils.position.longitude, 0);
-        assertEquals(exp + 2 * Utils.XP_STEP, Player.get().getExperience());
+        mActivityRule2.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onSuccessListener.onSuccess(location);
+                assertEquals(roomOfPlayer.latitude, Utils.position.latitude, 0);
+                assertEquals(roomOfPlayer.longitude, Utils.position.longitude, 0);
+                assertEquals(exp + 2 * Utils.XP_STEP, Player.get().getExperience());
+            }
+        });
     }
 
     @Test
     public void onSuccessListenerTestNotRoomOfPlayer(){
-        int exp = Player.get().getExperience();
+        final int exp = Player.get().getExperience();
 
-        Location location = new Location("Mock");
+        final Location location = new Location("Mock");
         location.setLatitude(notRoomOfPlayer.latitude);
         location.setLongitude(notRoomOfPlayer.longitude);
         location.setAccuracy(1);
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
-        onSuccessListener.onSuccess(location);
-        assertEquals(notRoomOfPlayer.latitude, Utils.position.latitude, 0);
-        assertEquals(notRoomOfPlayer.longitude, Utils.position.longitude, 0);
-        assertEquals(exp, Player.get().getExperience());
+        mActivityRule2.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                onSuccessListener.onSuccess(location);
+                assertEquals(notRoomOfPlayer.latitude, Utils.position.latitude, 0);
+                assertEquals(notRoomOfPlayer.longitude, Utils.position.longitude, 0);
+                assertEquals(exp, Player.get().getExperience());
+            }
+        });
     }
 }

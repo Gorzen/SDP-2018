@@ -72,6 +72,7 @@ public class CustomActivityTest {
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
+    /*
     @Test
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
@@ -79,7 +80,7 @@ public class CustomActivityTest {
         ViewInteraction a = onView(withId(R.id.user_email));
         System.out.print(a);
         a.check(matches(withText("jean-louis.reymond@epfl.ch")));
-    }
+    }*/
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
