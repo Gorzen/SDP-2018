@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.*;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -81,6 +82,7 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -90,6 +92,7 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -99,6 +102,7 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -108,6 +112,7 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -116,6 +121,7 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         Intents.intended(hasComponent(DisplayQuestionActivity.class.getName()));
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -131,6 +137,7 @@ public class DisplayQuestionActivityTest {
         assertEquals(playerXp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
         Intents.intending(hasComponent(MainActivity.class.getName()));
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -146,6 +153,7 @@ public class DisplayQuestionActivityTest {
         assertEquals(playerXp, Player.get().getExperience());
         Intents.intending(hasComponent(MainActivity.class.getName()));
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 
     @Test
@@ -155,5 +163,6 @@ public class DisplayQuestionActivityTest {
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
         mActivityRule.finishActivity();
+        Utils.killApp("DisplayQuestionActivityTest");
     }
 }

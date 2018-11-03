@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,6 +136,15 @@ public class Utils {
         }
 
         userData.put(key, value);
+    }
+
+    public static void killApp(String tag){
+        try{
+            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
+        }catch (IOException e) {
+            Log.d("Kill app", e.getMessage());
+            assert false : e.getMessage();
+        }
     }
 }
 

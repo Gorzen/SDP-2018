@@ -56,15 +56,6 @@ public class CustomActivityTest {
         Intents.release();
     }
 
-    /*
-    public void killApp(){
-        try{
-            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
-        }catch (IOException e) {
-            assertEquals("", e.getMessage());
-        }
-    }*/
-
     @Test
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
