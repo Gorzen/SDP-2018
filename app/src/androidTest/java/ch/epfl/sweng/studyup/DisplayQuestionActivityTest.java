@@ -147,5 +147,5 @@ public class DisplayQuestionActivityTest {
         mActivityRule.launchActivity(i);
         onView(withId(R.id.back_button)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
-    } **/
+    }**/
 }
