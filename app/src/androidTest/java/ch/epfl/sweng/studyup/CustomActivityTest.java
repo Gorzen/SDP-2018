@@ -86,16 +86,6 @@ public class CustomActivityTest {
         clickButton(Utils.JUSTONCE);
     }
 
-/*
-    @Test
-    public void testValidButtonChangeOnClick() {
-        MainActivityTest.buttonChangeOnClick(
-                mActivityRule.getActivity().valid_button.getBackground().getAlpha(),
-                R.id.valid_btn,
-                R.drawable.ic_check_black_24dp,
-                R.drawable.ic_check_done_24dp);
-    }*/
-
     public void clickButton(String textButton) throws UiObjectNotFoundException {
         UiObject button = device.findObject(new UiSelector().text(textButton));
         if (button.exists() && button.isEnabled()) {
