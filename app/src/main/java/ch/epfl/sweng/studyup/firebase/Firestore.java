@@ -253,14 +253,22 @@ public class Firestore {
         String questionId = question.getQuestionId();
 
         Map<String, Object> questionData = new HashMap<>();
-        questionData.put("trueFalse", question.isTrueFalse());
-        questionData.put("answer", question.getAnswer());
-        questionData.put("title", question.getTitle());
+        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
+        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
+        questionData.put(FB_QUESTION_TITLE, question.getTitle());
+        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciper());
 
 
         db.collection(FB_QUESTIONS).document(questionId).set(questionData);
     }
 
+    /**
+     * Load all the questions on the database the have not been created by the actual player or
+     * that have been created by the player, depending on if the player is in teacher or student
+     * mode
+     *
+     * @param context The context used to save the questions locally
+     */
     public static void loadQuestions(final Context context) {
 
         final List<Question> questionList = new ArrayList<>();
@@ -273,15 +281,27 @@ public class Firestore {
 
                         Map<String, Object> questionData = document.getData();
                         String questionId = document.getId();
-                        String title = (String) questionData.get(FB_QUESTION_TITLE);
-                        Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                        int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
 
-                        System.out.println("Question: " + title);
-                        System.out.println("Answer: " + answer);
-                        
-                        Question question = new Question(questionId, title, trueFalse, answer);
-                        questionList.add(question);
+                        //If role is teacher, can only view own question, if student only others questions
+                        int QuestionAuthor = Integer.parseInt(questionData.get(FB_QUESTION_AUTHOR).toString());
+                        boolean getThatQuestion;
+                        if(Player.get().getRole()) {
+                            getThatQuestion = Player.get().getSciper() == QuestionAuthor;
+                        } else {
+                            getThatQuestion = Player.get().getSciper() != QuestionAuthor;
+                        }
+
+                        if(getThatQuestion) {
+                            String title = (String) questionData.get(FB_QUESTION_TITLE);
+                            Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                            int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+
+                            System.out.println("Question: " + title);
+                            System.out.println("Answer: " + answer);
+
+                            Question question = new Question(questionId, title, trueFalse, answer);
+                            questionList.add(question);
+                        }
                     }
 
 

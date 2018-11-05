@@ -42,6 +42,7 @@ public class Utils {
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
     public static final String FB_QUESTIONS = "questions";
+    public static final String FB_QUESTION_AUTHOR = "author";
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
