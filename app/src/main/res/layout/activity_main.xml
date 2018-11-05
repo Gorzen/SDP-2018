@@ -9,10 +9,14 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="110dp"
-        tools:layout_editor_absoluteY="199dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <!--TOP TOOL BAR-->
@@ -37,8 +41,8 @@
 
             <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
                 android:id="@+id/level_progress"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -63,18 +67,21 @@
                 android:id="@+id/pic_imageview"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
 
                 android:contentDescription="@string/user_photo"
+                android:paddingStart="2dp"
+                android:paddingEnd="0dp"
                 android:paddingBottom="1dp"
                 android:src="@drawable/user_init_pic"
                 app:civ_border_width="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/level_progress"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/level_progress"
-                app:layout_constraintVertical_bias="0.533" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
                 android:id="@+id/pic_btn"
@@ -138,9 +145,8 @@
                     android:id="@+id/logoutbutton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:cursorVisible="false"
                     android:elegantTextHeight="false"
-                    android:text="Log out"
+                    android:text="@string/log_out"
                     android:textStyle="normal|bold"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="0dp" />

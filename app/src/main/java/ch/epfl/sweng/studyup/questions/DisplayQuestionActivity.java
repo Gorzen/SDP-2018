@@ -151,7 +151,7 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         //TODO : What to do next ?
         if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
-            Toast.makeText(this, "You've already answer to this question bro...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You can't answer a question twice !", Toast.LENGTH_SHORT).show();
         }
         else if (answer == displayQuestion.getAnswer()) {
             Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);

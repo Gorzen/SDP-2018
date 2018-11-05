@@ -2,32 +2,29 @@ package ch.epfl.sweng.studyup.player;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
-import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
+import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 /**
@@ -59,16 +56,32 @@ public class QuestsActivity extends Navigation {
     }
 
     private void showQuestions(final List<Question> questions) {
-        int nbrQuestion = questions.size();
+        ArrayList<String> listTitle = new ArrayList<>();
+        ArrayList<Integer> listImageID = new ArrayList<>();
 
-        String[] list = new String[nbrQuestion];
-        for(int i = 0; i < nbrQuestion; ++i) {
-            list[i] = questions.get(i).getTitle();
+        Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
+        Set<String> answeredQuestionId = answeredQuestion.keySet();
+        Set<String> correctQuestionId = new HashSet<>();
+        Set<String> wrongQuestionId = new HashSet<>();
+
+        for(String id : answeredQuestionId) {
+            if(answeredQuestion.get(id).equals(Boolean.TRUE)) {
+                correctQuestionId.add(id);
+            } else wrongQuestionId.add(id);
+        }
+
+        for(Question q: questions){
+            listTitle.add(q.getTitle());
+            if(correctQuestionId.contains(q.getQuestionId()))
+                listImageID.add(R.drawable.ic_check_green_24dp);
+            else if(wrongQuestionId.contains(q.getQuestionId()))
+                listImageID.add(R.drawable.ic_cross_red_24dp);
+            else listImageID.add(R.drawable.ic_todo_grey_24dp);
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-        listView.setAdapter(adapter);
+        ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
+        listView.setAdapter(adapter);//todo
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
