@@ -7,6 +7,6 @@ public class RefreshContext extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Utils.mainContext = getApplicationContext();
+        Utils.mainActivity = this;
     }
 }
