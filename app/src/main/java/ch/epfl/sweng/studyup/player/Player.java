@@ -2,8 +2,6 @@ package ch.epfl.sweng.studyup.player;
 
 import android.content.Context;
 import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
@@ -126,6 +124,7 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
+        putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
         if(isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
         else
@@ -136,6 +135,7 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
+    @SuppressWarnings("unchecked")
     public void updatePlayerData(Context context) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
@@ -146,6 +146,7 @@ public class Player {
             lastName = userData.get(FB_LASTNAME).toString();
             sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
             username = userData.get(FB_USERNAME).toString();
+            answeredQuestions = (Map<String, Boolean>) userData.get(FB_ANSWERED_QUESTIONS); //todo not sure it the cleanest way to do it
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -210,9 +211,11 @@ public class Player {
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
      */
     public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
-        this.answeredQuestions.put(questionID, isAnswerGood);
-        putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
-        Firestore.get().setUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+        if(this.answeredQuestions.get(questionID) == null) {
+            this.answeredQuestions.put(questionID, isAnswerGood);
+            putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+            Firestore.get().setUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+        }
     }
 
     public Map<String, Boolean> getAnsweredQuestion() {

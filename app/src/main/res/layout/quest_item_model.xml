@@ -18,10 +18,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:backgroundTint="@color/colorListItems"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
 
         tools:ignore="MissingConstraints">
 

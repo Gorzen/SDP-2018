@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context="ch.epfl.sweng.studyup.MainActivity">
 
     <RelativeLayout
@@ -47,11 +48,12 @@
             <ListView
                 android:id="@+id/listViewQuests"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="44dp"
                 android:background="@android:color/transparent"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -81,7 +81,7 @@ public class QuestsActivity extends Navigation {
 
         ListView listView = findViewById(R.id.listViewQuests);
         ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
-        listView.setAdapter(adapter);//todo
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
