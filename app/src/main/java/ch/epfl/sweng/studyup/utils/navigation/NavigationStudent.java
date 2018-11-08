@@ -26,11 +26,11 @@ public class NavigationStudent extends Navigation {
             ChatActivity.class));
 
     private final ArrayList<Integer> activitiesIdStudent  = new ArrayList<>(Arrays.asList(
-            Utils.DEFAULT_INDEX_STUDENT,
+            Utils.MAIN_INDEX,
             Utils.QUESTS_INDEX_STUDENT,
             Utils.RANKINGS_INDEX,
             Utils.MAP_INDEX,
-            Utils.MAX_INDEX_STUDENT));
+            Utils.CHAT_INDEX));
 
     @Override
     protected void setupNavigation() {

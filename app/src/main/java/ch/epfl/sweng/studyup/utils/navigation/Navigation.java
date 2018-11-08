@@ -44,7 +44,7 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                for (int i = 0; i <= Utils.MAX_INDEX_STUDENT; i++) {
+                for (int i = 0; i < buttonIds.size(); i++) {   //all three lists should have the same size
                     if (item.getItemId() == buttonIds.get(i) && !activity.equals(activities.get(i))) {
                         Intent intent = new Intent(cn, activities.get(i));
                         cn.startActivity(intent);

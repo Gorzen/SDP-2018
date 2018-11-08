@@ -32,8 +32,9 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
-public class AddQuestionActivity extends AppCompatActivity {
+public class AddQuestionActivity extends NavigationTeacher {
 
     private static final String TAG = "AddQuestionActivity";
 
@@ -47,6 +48,8 @@ public class AddQuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+
+        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
 
         addRadioListener();
 

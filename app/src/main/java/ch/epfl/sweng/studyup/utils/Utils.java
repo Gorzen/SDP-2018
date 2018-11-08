@@ -97,8 +97,8 @@ public class Utils {
     public static final String INITIAL_LASTNAME = "Réymond";
 
     //Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX_STUDENT =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, MAX_INDEX_TEACHER=2, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
+    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, CHAT_INDEX=4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
+    public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 
     //private static final java.util.Collections Collections = ;
 
