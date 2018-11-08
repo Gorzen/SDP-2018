@@ -41,12 +41,13 @@
         <activity
             android:name=".questions.AddQuestionActivity"
             android:label="Add a question"/>
-      
-        <activity android:name=".player.QuestsActivity" />
+
+        <activity android:name=".player.QuestsActivityStudent" />
+        <activity android:name=".player.QuestsActivityTeacher" />
         <activity android:name=".social.RankingsActivity" />
         <activity android:name=".social.ChatActivity" />
         <activity android:name=".player.CustomActivity" />
-        <activity android:name=".utils.Navigation" />
+        <activity android:name=".utils.navigation.Navigation" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

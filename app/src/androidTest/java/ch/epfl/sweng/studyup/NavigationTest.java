@@ -42,7 +42,7 @@ public class NavigationTest{
         intended(hasComponent(ChatActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_map);
         intended(hasComponent(MapsActivity.class.getName()));
-        b.setSelectedItemId(R.id.navigation_quests);
+        b.setSelectedItemId(R.id.navigation_quests_student);
         intended(hasComponent(QuestsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_rankings);
         intended(hasComponent(RankingsActivity.class.getName()));

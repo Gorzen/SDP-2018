@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -26,8 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.social.ChatActivity;
-import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 
@@ -37,7 +34,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
  * Code used in the activity_map.
  */
 
-public class MapsActivity extends Navigation implements OnMapReadyCallback {
+public class MapsActivity extends NavigationStudent implements OnMapReadyCallback {
     private Marker location = null;
     private GoogleMap mMap = null;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
