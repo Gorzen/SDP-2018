@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_add_question"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/title_add_question" />
+    <item
+        android:id="@+id/navigation_quests_teacher"
+        android:icon="@drawable/ic_quests_black_24dp"
+        android:title="@string/title_quests" />
+</menu>

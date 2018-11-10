@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.map.MapsActivity;
-import ch.epfl.sweng.studyup.player.QuestsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.social.ChatActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
 
@@ -42,8 +42,8 @@ public class NavigationTest{
         intended(hasComponent(ChatActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_map);
         intended(hasComponent(MapsActivity.class.getName()));
-        b.setSelectedItemId(R.id.navigation_quests);
-        intended(hasComponent(QuestsActivity.class.getName()));
+        b.setSelectedItemId(R.id.navigation_quests_student);
+        intended(hasComponent(QuestsActivityStudent.class.getName()));
         b.setSelectedItemId(R.id.navigation_rankings);
         intended(hasComponent(RankingsActivity.class.getName()));
     }

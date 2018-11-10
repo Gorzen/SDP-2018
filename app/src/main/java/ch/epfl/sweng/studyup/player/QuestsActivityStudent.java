@@ -2,68 +2,53 @@ package ch.epfl.sweng.studyup.player;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
-/**
- * QuestsActivity
- *
- * Quests.
- */
-public class QuestsActivity extends Navigation {
+public class QuestsActivityStudent extends NavigationStudent {
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quests);
+        setContentView(R.layout.activity_quests_student);
+        navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, Utils.QUESTS_INDEX_STUDENT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(QuestsActivity.this, QuestsActivity.class, Utils.QUESTS_INDEX);
-
         LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                showQuestions(questions);
+                onClickQuest(questions);
             }
         });
-
-
     }
 
-    private void showQuestions(final List<Question> questions) {
-        int nbrQuestion = questions.size();
+    protected void onClickQuest(final List<Question> quests) {
+        int nbrQuestion = quests.size();
 
         String[] list = new String[nbrQuestion];
         for(int i = 0; i < nbrQuestion; ++i) {
-            list[i] = questions.get(i).getTitle();
+            list[i] = quests.get(i).getTitle();
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
@@ -73,7 +58,7 @@ public class QuestsActivity extends Navigation {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), questions.get(position)));
+                startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), quests.get(position)));
             }
         });
     }

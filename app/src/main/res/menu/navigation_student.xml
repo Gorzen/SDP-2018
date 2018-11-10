@@ -9,7 +9,7 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_quests"
+        android:id="@+id/navigation_quests_student"
         android:icon="@drawable/ic_quests_black_24dp"
         android:title="@string/title_quests" />
 

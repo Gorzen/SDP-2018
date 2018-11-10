@@ -35,7 +35,7 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
@@ -43,7 +43,7 @@ import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
 
-public class MainActivity extends Navigation {
+public class MainActivity extends NavigationStudent {
     private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
         @Override
         public String formatText(double progress) {
@@ -149,7 +149,7 @@ public class MainActivity extends Navigation {
         getSupportActionBar().setTitle(null);
 
         //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.DEFAULT_INDEX);
+        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.MAIN_INDEX);
 
         // Level progression bar
         ActivityCompat.requestPermissions(
