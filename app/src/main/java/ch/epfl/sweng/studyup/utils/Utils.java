@@ -1,9 +1,11 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +42,7 @@ public class Utils {
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
     public static final String FB_QUESTIONS = "questions";
+    public static final String FB_QUESTION_AUTHOR = "author";
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
@@ -77,7 +80,7 @@ public class Utils {
     public static Map<String, Object> dbStaticInfo = null;
     public static LatLng position = null;
     public static FusedLocationProviderClient locationProviderClient = null;
-    public static Context mainContext = null;
+    public static Activity mainActivity = null;
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc = null;
@@ -134,6 +137,14 @@ public class Utils {
         }
 
         userData.put(key, value);
+    }
+
+    public static void killApp(String tag){
+        try{
+            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
+        }catch (IOException e) {
+            Log.d(tag, e.getMessage());
+        }
     }
 }
 

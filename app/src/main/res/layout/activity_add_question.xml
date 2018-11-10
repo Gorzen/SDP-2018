@@ -22,6 +22,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:color/transparent" />
 
+    <Button
+        android:id="@+id/logoutbutton"
+        android:layout_width="166dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:cursorVisible="false"
+        android:elegantTextHeight="false"
+        android:text="Log out"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/display_question_path"
         android:layout_width="wrap_content"
@@ -142,17 +155,15 @@
 
     <Button
         android:id="@+id/addQuestionButton"
-        android:layout_width="0dp"
+        android:layout_width="166dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:onClick="addQuestion"
         android:text="@string/add_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

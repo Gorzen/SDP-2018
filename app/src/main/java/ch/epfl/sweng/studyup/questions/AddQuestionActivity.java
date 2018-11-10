@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -23,6 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
@@ -39,6 +42,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     private Uri imageURI = null;
     private RadioGroup trueFalseRadioGroup;
     private imagePathGetter getPath;
+    private Button logout_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,18 @@ public class AddQuestionActivity extends AppCompatActivity {
         } else {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
+
+        logout_button = findViewById(R.id.logoutbutton);
+
+        logout_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.clearCacheToLogOut(AddQuestionActivity.this);
+                Intent intent = new Intent(AddQuestionActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
+            }
+        });
     }
 
     /**

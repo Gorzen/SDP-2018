@@ -36,7 +36,7 @@ public class LoginActivityTest {
         Utils.isMockEnabled = false;
     }
 
-    // Test handle failed login message
+    // Test handle failed login message}
     @Test
     public void testFailedLoginReport() {
 

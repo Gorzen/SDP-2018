@@ -129,12 +129,16 @@ public class CustomActivity extends Navigation {
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+        if (!Utils.isMockEnabled) {
+            startActivityForResult(intent, CAMERA);
+        }
     }
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY);
+        if (!Utils.isMockEnabled) {
+            startActivityForResult(intent, GALLERY);
+        }
     }
 
     @Override

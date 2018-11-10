@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.Activity;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
@@ -71,17 +72,17 @@ public class MainActivityTest {
         int currExp = Player.get().getExperience();
         final int numberOfPush = 5;
         for (int i = 0; i < numberOfPush; ++i) {
-            activity.runOnUiThread(new Runnable() {
+            mActivityRule.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     activity.addExpPlayer();
-
                 }
             });
             assert Player.get().getExperience() == ((currExp + (i + 1) * XP_STEP) % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
-            //onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency()))); context is something equal to null
         }
+        Utils.waitAndTag(1000, "Main Activity Test");
+        onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
     }
 
     @Test
@@ -125,7 +126,7 @@ public class MainActivityTest {
 
     @Test
     public void initializationGps() {
-        assertEquals(Utils.mainContext, mActivityRule.getActivity().getApplicationContext());
+        assertEquals(Utils.mainActivity, mActivityRule.getActivity());
         assertNotNull(Utils.locationProviderClient);
     }
 
