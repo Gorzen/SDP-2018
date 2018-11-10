@@ -289,6 +289,7 @@ public class Firestore {
                             getThatQuestion = Player.get().getSciper() == QuestionAuthor;
                         } else {
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
+                            //TODO: getThatQuestion &&= questionData.get(questionID -> how to get?).toString != Utils.MOCK_UUID;
                         }
 
                         if(getThatQuestion) {
