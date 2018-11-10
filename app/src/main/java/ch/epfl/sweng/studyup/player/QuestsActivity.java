@@ -27,7 +27,6 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Navigation;
 import ch.epfl.sweng.studyup.utils.Utils;
 
-import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestions;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 /**

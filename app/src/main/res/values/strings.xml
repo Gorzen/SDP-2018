@@ -51,5 +51,7 @@
     <string name="initial_greeting_2">Your Sciper number is 123456.</string>
     <string name="problem_images_directory_name">problem_images</string>
     <string name="FB_user_pictures_directory_name">user_pictures</string>
+    <string name="image_radio_text">Image-based question</string>
+    <string name="text_radio">Text-based question</string>
 
 </resources>
