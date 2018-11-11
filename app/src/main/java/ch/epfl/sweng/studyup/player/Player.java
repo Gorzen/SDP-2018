@@ -3,15 +3,20 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 
 /**
  * Player
- *
+ * <p>
  * Used to store the Player's state and informations.
  */
 public class Player {
@@ -29,6 +34,7 @@ public class Player {
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
+    private List<Items> items = new ArrayList<>();
 
 
     public static String room = "INN_3_26";
@@ -51,6 +57,22 @@ public class Player {
             instance = new Player();
         }
         return instance;
+    }
+
+    public List<Items> getItems() {
+        return Collections.unmodifiableList(new ArrayList<>(items));
+    }
+
+    public void addItem(Items item) {
+        items.add(item);
+    }
+
+    public void consumeItem(Items item) {
+        if (items.remove(item)) {
+            Items.onConsume(item);
+        }else{
+            throw new IllegalArgumentException("The player does not have this item, could not find it.");
+        }
     }
 
     public int getExperience() {
@@ -84,7 +106,7 @@ public class Player {
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if(activity != null) {
+        if (activity != null) {
             ((MainActivity) activity).updateCurrDisplay();
         }
 
@@ -96,10 +118,10 @@ public class Player {
         experience += xp;
         updateLevel(activity);
 
-        if(activity instanceof MainActivity) {
+        if (activity instanceof MainActivity) {
             ((MainActivity) activity).updateXpAndLvlDisplay();
             ((MainActivity) activity).updateCurrDisplay();
-            Log.i("Check", "Activity is "+activity.toString()+" "+((MainActivity) activity).getLocalClassName());
+            Log.i("Check", "Activity is " + activity.toString() + " " + ((MainActivity) activity).getLocalClassName());
         }
 
         putUserData(FB_XP, experience);
@@ -122,7 +144,7 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
-        if(isTeacher)
+        if (isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
         else
             putUserData(FB_ROLE, FB_ROLES_S);
@@ -132,7 +154,7 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
-    public void updatePlayerData(Activity activity) throws NullPointerException{
+    public void updatePlayerData(Activity activity) throws NullPointerException {
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
         try {
@@ -195,7 +217,7 @@ public class Player {
 
     public void setRole(boolean isTeacher) {
         this.isTeacher = isTeacher;
-        if(isTeacher) {
+        if (isTeacher) {
             putUserData(FB_ROLE, FB_ROLES_T);
         } else {
             putUserData(FB_ROLE, FB_ROLES_S);
@@ -206,7 +228,7 @@ public class Player {
         return isTeacher;
     }
 
-    public String getCurrentRoom(){
+    public String getCurrentRoom() {
         return room;
     }
 }
