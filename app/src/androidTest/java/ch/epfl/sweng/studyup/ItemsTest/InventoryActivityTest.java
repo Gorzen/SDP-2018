@@ -17,6 +17,9 @@ import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
 public class InventoryActivityTest {
@@ -65,5 +68,10 @@ public class InventoryActivityTest {
         assertEquals(Arrays.asList(Items.XP_POTION, Items.XP_POTION, Items.XP_POTION, Items.COIN_SACK), Player.get().getItems());
     }
 
+    @Test
+    public void testOptionNoException() {
+        onView(withId(R.id.top_navigation_infos)).perform(click());
+        onView(withId(R.id.top_navigation_settings)).perform(click());
+    }
 
 }
