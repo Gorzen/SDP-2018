@@ -59,7 +59,7 @@ public class InventoryActivity extends NavigationStudent {
         List<Items> items = Player.get().getItems();
         ArrayList<String> itemsName = new ArrayList<>(items.size());
         for(int index = 0; index < items.size(); ++index) {
-            itemsName.add(index, Items.getName(items.get(index)));
+            itemsName.add(index, items.get(index).getName());
         }
         return itemsName;
     }

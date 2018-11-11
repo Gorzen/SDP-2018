@@ -6,8 +6,10 @@ import android.util.Log;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +19,7 @@ import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.questions.Question;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
@@ -29,6 +32,7 @@ public class Utils {
     // Firestore entries
     public static final String FB_USERS = "users";
     public static final String FB_USERNAME = "username";
+    public static final String FB_ITEMS = "items";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";

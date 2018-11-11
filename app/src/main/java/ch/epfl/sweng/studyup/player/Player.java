@@ -15,6 +15,7 @@ import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLE;
@@ -55,7 +56,7 @@ public class Player {
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
-    private List<Items> items = new ArrayList<>();
+    private List<Items> items;
 
 
     public static String room = "INN_3_26";
@@ -71,6 +72,7 @@ public class Player {
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
+        items = new ArrayList<>();
     }
 
     public static Player get() {
@@ -86,11 +88,15 @@ public class Player {
 
     public void addItem(Items item) {
         items.add(item);
+        putUserData(FB_ITEMS, items);
+        Firestore.get().setUserData(FB_ITEMS, items);
     }
 
     public void consumeItem(Items item) {
         if (items.remove(item)) {
-            Items.onConsume(item);
+            item.consume();
+            putUserData(FB_ITEMS, items);
+            Firestore.get().setUserData(FB_ITEMS, items);
         }else{
             throw new IllegalArgumentException("The player does not have this item, could not find it.");
         }
@@ -162,9 +168,11 @@ public class Player {
         instance.setFirstName(FB_FIRSTNAME);
         instance.setLastName(FB_LASTNAME);
         instance.setUserName(INITIAL_USERNAME);
+        items = new ArrayList<>();
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
+        putUserData(FB_ITEMS, items);
         if (isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
         else
@@ -185,6 +193,7 @@ public class Player {
             lastName = userData.get(FB_LASTNAME).toString();
             sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
             username = userData.get(FB_USERNAME).toString();
+            items = (List<Items>) userData.get(FB_ITEMS);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

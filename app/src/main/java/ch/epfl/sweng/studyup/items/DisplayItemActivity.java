@@ -22,11 +22,11 @@ public class DisplayItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         item = Items.getItems(intent.getStringExtra(DisplayItemActivity.class.getName()));
         TextView textViewName = findViewById(R.id.item_name);
-        textViewName.setText(Items.getName(item));
+        textViewName.setText(item.getName());
         TextView textViewDescription = findViewById(R.id.item_description);
-        textViewDescription.setText(Items.getDescription(item));
+        textViewDescription.setText(item.getDescription());
         ImageView img = findViewById(R.id.item_image);
-        img.setImageResource(Items.getImageName(item));
+        img.setImageResource(item.getImageName());
 
         Button backButton = findViewById(R.id.back_button_display_item);
         backButton.setOnClickListener(new View.OnClickListener() {

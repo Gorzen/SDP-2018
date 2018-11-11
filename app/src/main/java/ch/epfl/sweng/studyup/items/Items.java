@@ -5,21 +5,37 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public enum Items {
-    XP_POTION,
-    COIN_SACK;
+    XP_POTION(Items.XP_POTION_VALUE, Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION),
+    COIN_SACK(Items.COIN_SACK_VALUE, Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION);
 
+    //Values
+    private static final int XP_POTION_VALUE = 0;
+    private static final int COIN_SACK_VALUE = 1;
+
+    //Names
     private static final String XP_POTION_NAME = "XP potion";
     private static final String COIN_SACK_NAME = "Sack of coin";
 
+    //Descriptions
     private static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
     private static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
 
-    public static void onConsume(Items item){
-        switch (item){
-            case XP_POTION:
+    private final String name;
+    private final String description;
+    private final int value;
+
+    Items(int value, String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.value = value;
+    }
+
+    public void consume() {
+        switch (value) {
+            case XP_POTION_VALUE:
                 Player.get().addExperience(Utils.XP_STEP, Utils.mainActivity);
                 break;
-            case COIN_SACK:
+            case COIN_SACK_VALUE:
                 Player.get().addCurrency(Utils.CURRENCY_PER_LEVEL, Utils.mainActivity);
                 break;
             default:
@@ -27,41 +43,42 @@ public enum Items {
         }
     }
 
-    public static String getDescription(Items item){
-        switch (item){
-            case XP_POTION:
-                return XP_POTION_DESCRIPTION;
-            case COIN_SACK:
-                return COIN_SACK_DESCRIPTION;
+    public String getDescription() {
+        return description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static Items getItems(int value) {
+        switch (value) {
+            case XP_POTION_VALUE:
+                return XP_POTION;
+            case COIN_SACK_VALUE:
+                return COIN_SACK;
             default:
                 throw new IllegalArgumentException("Unknown item");
         }
     }
 
-    public static String getName(Items item){
-        switch (item){
-            case XP_POTION:
-                return XP_POTION_NAME;
-            case COIN_SACK:
-                return COIN_SACK_NAME;
-            default:
-                throw new IllegalArgumentException("Unknown item");
-        }
-    }
-
-    public static Items getItems(String name){
-        if(name.equals(XP_POTION_NAME))
+    public static Items getItems(String name) {
+        if (name.equals(XP_POTION_NAME))
             return XP_POTION;
-        if(name.equals(COIN_SACK_NAME))
+        if (name.equals(COIN_SACK_NAME))
             return COIN_SACK;
         throw new IllegalArgumentException("Unknown item");
     }
 
-    public static int getImageName(Items item) {
-        switch(item) {
-            case XP_POTION:
+    public int valueOf(){
+        return value;
+    }
+
+    public int getImageName() {
+        switch (value) {
+            case XP_POTION_VALUE:
                 return R.drawable.potion;
-            case COIN_SACK:
+            case COIN_SACK_VALUE:
                 return R.drawable.coin_sack;
             default:
                 throw new IllegalArgumentException("Unknown item");
