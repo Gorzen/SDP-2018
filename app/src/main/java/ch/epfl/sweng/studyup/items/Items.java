@@ -63,6 +63,8 @@ public enum Items {
                 return R.drawable.potion;
             case COIN_SACK:
                 return R.drawable.coin_sack;
+            default:
+                throw new IllegalArgumentException("Unknown item");
         }
     }
 }
