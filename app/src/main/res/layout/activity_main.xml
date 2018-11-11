@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorWhite"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -35,7 +36,8 @@
                 android:layout_centerHorizontal="true"
                 android:background="?attr/colorPrimaryDark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+                app:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
                 <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
             </android.support.v7.widget.Toolbar>
 

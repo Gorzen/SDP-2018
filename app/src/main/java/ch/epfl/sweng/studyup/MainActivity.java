@@ -133,7 +133,6 @@ public class MainActivity extends Navigation {
                 clearCacheToLogOut(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
 

@@ -30,7 +30,7 @@ public class Navigation extends RefreshContext implements ActivityCompat
         .OnRequestPermissionsResultCallback {
 
     public void navigationSwitcher(final Context cn, final Class<?> activity, final int current_index) {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
+        final BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavView_Bar);
         Menu menu = bottomNavigationView.getMenu();
 
         MenuItem menuItem = menu.getItem(current_index);
@@ -67,6 +67,7 @@ public class Navigation extends RefreshContext implements ActivityCompat
                     }
                 }
                 return false;
+
             }
         });
     }
@@ -74,6 +75,8 @@ public class Navigation extends RefreshContext implements ActivityCompat
     public void transitionForNavigation(int current_index, int destination_index) {
         if (destination_index > current_index) {
             overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
+
+
         } else if (destination_index < current_index) {
             overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
         }

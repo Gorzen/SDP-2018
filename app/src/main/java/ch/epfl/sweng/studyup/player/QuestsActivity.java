@@ -51,8 +51,6 @@ public class QuestsActivity extends Navigation {
                 showQuestions(questions);
             }
         });
-
-
     }
 
     private void showQuestions(final List<Question> questions) {
@@ -87,6 +85,7 @@ public class QuestsActivity extends Navigation {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), questions.get(position)));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }

@@ -29,6 +29,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.QuestsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Utils.FB_ANSWERED_QUESTIONS;
@@ -162,8 +163,9 @@ public class DisplayQuestionActivity extends RefreshContext {
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }
 
-        Intent goToMain = new Intent(this, MainActivity.class);
-        startActivity(goToMain);
+        Intent goToQuests = new Intent(this, QuestsActivity.class);
+        startActivity(goToQuests);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 
