@@ -17,8 +17,8 @@ public class ItemsTest {
 
     @Test
     public void getItemName() {
-        assertEquals(Items.XP_POTION_NAME, (Items.XP_POTION).getDescription());
-        assertEquals(Items.COIN_SACK_NAME, (Items.COIN_SACK).getDescription());
+        assertEquals(Items.XP_POTION_NAME, (Items.XP_POTION).getName());
+        assertEquals(Items.COIN_SACK_NAME, (Items.COIN_SACK).getName());
     }
 
     @Test
