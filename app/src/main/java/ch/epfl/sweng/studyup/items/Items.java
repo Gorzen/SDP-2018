@@ -47,4 +47,12 @@ public enum Items {
                 throw new IllegalArgumentException("Unknown item");
         }
     }
+
+    public static Items getItems(String name){
+        if(name.equals(XP_POTION_NAME))
+            return XP_POTION;
+        if(name.equals(COIN_SACK_NAME))
+            return COIN_SACK;
+        throw new IllegalArgumentException("Unknown item");
+    }
 }
