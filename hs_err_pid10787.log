@@ -1,0 +1,112 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 105381888 bytes for committing reserved memory.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (os_linux.cpp:2640), pid=10787, tid=0x00007fa74bfff700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_152-b01) (build 1.8.0_152-release-1024-b01)
+# Java VM: OpenJDK 64-Bit Server VM (25.152-b01 mixed mode linux-amd64 compressed oops)
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007fa768079000):  VMThread [stack: 0x00007fa74beff000,0x00007fa74c000000] [id=10806]
+
+Stack: [0x00007fa74beff000,0x00007fa74c000000],  sp=0x00007fa74bffe470,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.so+0x9ed02d]  VMError::report_and_die()+0x15d
+V  [libjvm.so+0x4b99fa]  report_vm_out_of_memory(char const*, int, unsigned long, VMErrorType, char const*)+0x8a
+V  [libjvm.so+0x852c20]  os::pd_commit_memory(char*, unsigned long, unsigned long, bool)+0xf0
+V  [libjvm.so+0x84d72f]  os::commit_memory(char*, unsigned long, unsigned long, bool)+0x1f
+V  [libjvm.so+0x8c448b]  PSVirtualSpace::expand_by(unsigned long)+0x5b
+V  [libjvm.so+0x8c5100]  PSYoungGen::resize_generation(unsigned long, unsigned long)+0xb0
+V  [libjvm.so+0x8c541b]  PSYoungGen::resize(unsigned long, unsigned long)+0x1b
+V  [libjvm.so+0x8c1b0c]  PSScavenge::invoke_no_policy()+0xdac
+V  [libjvm.so+0x8c22e8]  PSScavenge::invoke()+0x38
+V  [libjvm.so+0x876633]  ParallelScavengeHeap::failed_mem_allocate(unsigned long)+0x63
+V  [libjvm.so+0x9eeb54]  VM_ParallelGCFailedAllocation::doit()+0x84
+V  [libjvm.so+0x9f3067]  VM_Operation::evaluate()+0x47
+V  [libjvm.so+0x9f1a48]  VMThread::evaluate_operation(VM_Operation*)+0x2c8
+V  [libjvm.so+0x9f1ec9]  VMThread::loop()+0x219
+V  [libjvm.so+0x9f2312]  VMThread::run()+0x72
+V  [libjvm.so+0x850032]  java_start(Thread*)+0xf2
+
+VM_Operation (0x00007fa7497aa5c0): ParallelGCFailedAllocation, mode: safepoint, requested by thread 0x00007fa71000a000
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x00007fa6fd812800 JavaThread "Cache worker for Java compile cache (/home/flo/SDP-2018/.gradle/4.6/javaCompile)" [_thread_blocked, id=11118, stack(0x00007fa6da2f7000,0x00007fa6da3f8000)]
+  0x00007fa6f8097800 JavaThread "process reaper" daemon [_thread_blocked, id=10993, stack(0x00007fa6da112000,0x00007fa6da14b000)]
+  0x00007fa6f0003000 JavaThread "process reaper" daemon [_thread_blocked, id=10992, stack(0x00007fa6da14b000,0x00007fa6da184000)]
+  0x00007fa6ec00b000 JavaThread "process reaper" daemon [_thread_blocked, id=10991, stack(0x00007fa6da184000,0x00007fa6da1bd000)]
+  0x00007fa6e4002800 JavaThread "process reaper" daemon [_thread_blocked, id=10990, stack(0x00007fa6da1bd000,0x00007fa6da1f6000)]
+  0x00007fa6fc97b800 JavaThread "Task worker for ':' Thread 3" [_thread_blocked, id=10961, stack(0x00007fa6da9fa000,0x00007fa6daafb000)]
+  0x00007fa6fc79c000 JavaThread "Task worker for ':' Thread 2" [_thread_blocked, id=10960, stack(0x00007fa6daafb000,0x00007fa6dabfc000)]
+  0x00007fa6fc79a800 JavaThread "Task worker for ':'" [_thread_blocked, id=10959, stack(0x00007fa6dabfc000,0x00007fa6dacfd000)]
+  0x00007fa6fda00000 JavaThread "Cache worker for Build Output Cleanup Cache (/home/flo/SDP-2018/.gradle/buildOutputCleanup)" [_thread_blocked, id=10958, stack(0x00007fa6dacfd000,0x00007fa6dadfe000)]
+  0x00007fa6fda01800 JavaThread "Cache worker for task history cache (/home/flo/SDP-2018/.gradle/4.6/taskHistory)" [_thread_blocked, id=10957, stack(0x00007fa6dadfe000,0x00007fa6daeff000)]
+  0x00007fa6fd9e5000 JavaThread "Cache worker for file content cache (/home/flo/SDP-2018/.gradle/4.6/fileContent)" [_thread_blocked, id=10956, stack(0x00007fa6daeff000,0x00007fa6db000000)]
+  0x00007fa6fd569800 JavaThread "Memory manager" [_thread_blocked, id=10955, stack(0x00007fa718023000,0x00007fa718124000)]
+  0x00007fa6fcff0800 JavaThread "Build operations Thread 4" [_thread_blocked, id=10951, stack(0x00007fa7189fb000,0x00007fa718afc000)]
+  0x00007fa6fcfef000 JavaThread "Build operations Thread 3" [_thread_blocked, id=10950, stack(0x00007fa718afc000,0x00007fa718bfd000)]
+  0x00007fa6fcfee000 JavaThread "Build operations Thread 2" [_thread_blocked, id=10949, stack(0x00007fa718bfd000,0x00007fa718cfe000)]
+  0x00007fa6fcfe8800 JavaThread "Build operations" [_thread_blocked, id=10948, stack(0x00007fa718cfe000,0x00007fa718dff000)]
+  0x00007fa6fcf28000 JavaThread "Cache worker for Artifact transforms cache (/home/flo/.gradle/caches/transforms-1)" [_thread_blocked, id=10944, stack(0x00007fa748046000,0x00007fa748147000)]
+  0x00007fa6fc224800 JavaThread "Cache worker for file hash cache (/home/flo/SDP-2018/.gradle/4.6/fileHashes)" [_thread_blocked, id=10934, stack(0x00007fa748dae000,0x00007fa748eaf000)]
+  0x00007fa6fc1e4800 JavaThread "File lock request listener" [_thread_in_native, id=10933, stack(0x00007fa7490af000,0x00007fa7491b0000)]
+  0x00007fa6fc1cb000 JavaThread "Cache worker for file hash cache (/home/flo/.gradle/caches/4.6/fileHashes)" [_thread_blocked, id=10932, stack(0x00007fa7491b0000,0x00007fa7492b1000)]
+  0x00007fa6fc018000 JavaThread "Stdin handler" [_thread_blocked, id=10920, stack(0x00007fa7492b1000,0x00007fa7493b2000)]
+  0x00007fa6fc010000 JavaThread "Asynchronous log dispatcher for DefaultDaemonConnection: socket connection from /127.0.0.1:33043 to /127.0.0.1:41398" [_thread_blocked, id=10917, stack(0x00007fa7493b2000,0x00007fa7494b3000)]
+  0x00007fa71000a000 JavaThread "Daemon worker" [_thread_blocked, id=10914, stack(0x00007fa7496b3000,0x00007fa7497b4000)]
+  0x00007fa710008800 JavaThread "Cancel handler" [_thread_blocked, id=10913, stack(0x00007fa7497b4000,0x00007fa7498b5000)]
+  0x00007fa710004000 JavaThread "Handler for socket connection from /127.0.0.1:33043 to /127.0.0.1:41398" [_thread_in_native, id=10912, stack(0x00007fa7498b5000,0x00007fa7499b6000)]
+  0x00007fa714045000 JavaThread "Daemon" [_thread_blocked, id=10911, stack(0x00007fa7499b6000,0x00007fa749ab7000)]
+  0x00007fa768220000 JavaThread "Daemon periodic checks" [_thread_blocked, id=10910, stack(0x00007fa749ab7000,0x00007fa749bb8000)]
+  0x00007fa768e43800 JavaThread "Incoming local TCP Connector on port 33043" [_thread_in_native, id=10901, stack(0x00007fa749bbf000,0x00007fa749cc0000)]
+  0x00007fa7680d4000 JavaThread "Service Thread" daemon [_thread_blocked, id=10817, stack(0x00007fa74b38f000,0x00007fa74b490000)]
+  0x00007fa7680bf000 JavaThread "C1 CompilerThread2" daemon [_thread_blocked, id=10816, stack(0x00007fa74b490000,0x00007fa74b591000)]
+  0x00007fa7680bd000 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=10815, stack(0x00007fa74b591000,0x00007fa74b692000)]
+  0x00007fa7680ba000 JavaThread "C2 CompilerThread0" daemon [_thread_blocked, id=10814, stack(0x00007fa74b692000,0x00007fa74b793000)]
+  0x00007fa7680b6000 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=10813, stack(0x00007fa74b793000,0x00007fa74b894000)]
+  0x00007fa768085000 JavaThread "Finalizer" daemon [_thread_blocked, id=10810, stack(0x00007fa74bcfd000,0x00007fa74bdfe000)]
+  0x00007fa768080800 JavaThread "Reference Handler" daemon [_thread_blocked, id=10807, stack(0x00007fa74bdfe000,0x00007fa74beff000)]
+  0x00007fa76800b000 JavaThread "main" [_thread_blocked, id=10791, stack(0x00007fa76f894000,0x00007fa76f995000)]
+
+Other Threads:
+=>0x00007fa768079000 VMThread [stack: 0x00007fa74beff000,0x00007fa74c000000] [id=10806]
+  0x00007fa7680de800 WatcherThread [stack: 0x00007fa74b28e000,0x00007fa74b38f000] [id=10818]
+
+VM state:at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00007fa768007c20] Threads_lock - owner thread: 0x00007fa768079000
+[0x00007fa768008120] Heap_lock - owner thread: 0x00007fa71000a000
+
+Heap:
+ PSYoungGen      total 288768K, used 27641K [0x00000000e0000000, 0x00000000f3500000, 0x0000000100000000)
+  eden space 261120K, 0% used [0x00000000e0000000,0x00000000e0000000,0x00000000eff00000)
+  from space 27648K, 99% used [0x00000000eff00000,0x00000000f19fe498,0x00000000f1a00000)
+  to   space 11776K, 0% used [0x00000000f2980000,0x00000000f2980000,0x00000000f3500000)
+ ParOldGen       total 147968K, used 72343K [0x00000000a0000000, 0x00000000a9080000, 0x00000000e0000000)
+  object space 147968K, 48% used [0x00000000a0000000,0x00000000a46a5f98,0x00000000a9080000)
+ Metaspace       used 69581K, capacity 71557K, committed 71896K, reserved 1112064K
+  class space    used 9177K, capacity 9685K, committed 9728K, reserved 1048576K
+
+Card table byte_map: [0x00007fa76c3c1000,0x00007fa76c6c2000] byte_map_base: 0x00007fa76bec1000
+

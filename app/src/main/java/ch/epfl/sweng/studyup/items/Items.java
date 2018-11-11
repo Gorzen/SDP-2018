@@ -13,12 +13,12 @@ public enum Items {
     private static final int COIN_SACK_VALUE = 1;
 
     //Names
-    private static final String XP_POTION_NAME = "XP potion";
-    private static final String COIN_SACK_NAME = "Sack of coin";
+    public static final String XP_POTION_NAME = "XP potion";
+    public static final String COIN_SACK_NAME = "Sack of coin";
 
     //Descriptions
-    private static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
-    private static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
+    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
 
     private final String name;
     private final String description;
@@ -90,8 +90,7 @@ public enum Items {
                 return R.drawable.potion;
             case COIN_SACK_VALUE:
                 return R.drawable.coin_sack;
-            default:
-                throw new IllegalArgumentException("Unknown item");
+            default: throw new IllegalArgumentException("Unknown item");
         }
     }
 }
