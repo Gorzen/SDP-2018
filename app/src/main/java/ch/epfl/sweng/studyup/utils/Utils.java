@@ -110,7 +110,7 @@ public class Utils {
         tempMap.put(R.id.navigation_quests, QuestsActivity.class);
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
         tempMap.put(R.id.navigation_map, MapsActivity.class);
-        tempMap.put(R.id.navigation_chat, ChatActivity.class);
+        tempMap.put(R.id.navigation_chat, InventoryActivity.class);
         idToAct = Collections.unmodifiableMap(tempMap);
     }
     */

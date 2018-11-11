@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
 
 import static android.support.test.espresso.intent.Intents.intended;
@@ -39,7 +39,7 @@ public class NavigationTest{
     public void testNavigationBottomBar(){
         BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
         b.setSelectedItemId(R.id.navigation_chat);
-        intended(hasComponent(ChatActivity.class.getName()));
+        intended(hasComponent(InventoryActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_map);
         intended(hasComponent(MapsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_quests_student);

@@ -6,7 +6,7 @@ import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.social.ChatActivity;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -23,7 +23,7 @@ public class NavigationStudent extends Navigation {
             QuestsActivityStudent.class,
             RankingsActivity.class,
             MapsActivity.class,
-            ChatActivity.class));
+            InventoryActivity.class));
 
     private final ArrayList<Integer> activitiesIdStudent  = new ArrayList<>(Arrays.asList(
             Utils.MAIN_INDEX,
