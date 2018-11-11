@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textSize="25sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_image" />
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textSize="40sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
