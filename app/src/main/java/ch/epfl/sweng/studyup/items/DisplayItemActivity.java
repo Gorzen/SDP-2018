@@ -41,7 +41,7 @@ public class DisplayItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Player.get().consumeItem(item);
-                finish();
+                startActivity(new Intent(getApplicationContext(), InventoryActivity.class));
             }
         });
     }
