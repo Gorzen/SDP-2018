@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 
 public class DisplayItemActivity extends AppCompatActivity {
     private Items item;
@@ -39,7 +40,8 @@ public class DisplayItemActivity extends AppCompatActivity {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Items.onConsume(item);
+                Player.get().consumeItem(item);
+                finish();
             }
         });
     }
