@@ -10,8 +10,8 @@ public enum Items {
     private static final String XP_POTION_NAME = "XP potion";
     private static final String COIN_SACK_NAME = "Sack of coin";
 
-    private static final String XP_POTION_DESCRITPION = "A potion that gives you some xp when drunk !";
-    private static final String COIN_SACK_DESCRITPION = "A sack containing lots of shiny coins !";
+    private static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
+    private static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
 
     public static void onConsume(Items item){
         switch (item){
@@ -29,9 +29,9 @@ public enum Items {
     public static String getDescription(Items item){
         switch (item){
             case XP_POTION:
-                return XP_POTION_DESCRITPION;
+                return XP_POTION_DESCRIPTION;
             case COIN_SACK:
-                return COIN_SACK_DESCRITPION;
+                return COIN_SACK_DESCRIPTION;
             default:
                 throw new IllegalArgumentException("Unknown item");
         }
