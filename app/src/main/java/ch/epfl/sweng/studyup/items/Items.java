@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.items;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -54,5 +55,14 @@ public enum Items {
         if(name.equals(COIN_SACK_NAME))
             return COIN_SACK;
         throw new IllegalArgumentException("Unknown item");
+    }
+
+    public static int getImageName(Items item) {
+        switch(item) {
+            case XP_POTION:
+                return R.drawable.potion;
+            case COIN_SACK:
+                return R.drawable.coin_sack;
+        }
     }
 }
