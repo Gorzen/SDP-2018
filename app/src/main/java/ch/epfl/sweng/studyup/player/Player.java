@@ -127,7 +127,7 @@ public class Player {
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if (activity != null) {
+        if (activity instanceof MainActivity) {
             ((MainActivity) activity).updateCurrDisplay();
         }
 
