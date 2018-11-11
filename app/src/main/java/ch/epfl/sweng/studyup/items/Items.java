@@ -7,6 +7,9 @@ public enum Items {
     XP_POTION,
     COIN_SACK;
 
+    private static final String XP_POTION_NAME = "XP potion";
+    private static final String COIN_SACK_NAME = "Sack of coin";
+
     private static final String XP_POTION_DESCRITPION = "A potion that gives you some xp when drunk !";
     private static final String COIN_SACK_DESCRITPION = "A sack containing lots of shiny coins !";
 
@@ -29,6 +32,17 @@ public enum Items {
                 return XP_POTION_DESCRITPION;
             case COIN_SACK:
                 return COIN_SACK_DESCRITPION;
+            default:
+                throw new IllegalArgumentException("Unknown item");
+        }
+    }
+
+    public static String getName(Items item){
+        switch (item){
+            case XP_POTION:
+                return XP_POTION_NAME;
+            case COIN_SACK:
+                return COIN_SACK_NAME;
             default:
                 throw new IllegalArgumentException("Unknown item");
         }

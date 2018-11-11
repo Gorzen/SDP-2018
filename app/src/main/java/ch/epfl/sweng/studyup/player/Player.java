@@ -12,7 +12,28 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLE;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_S;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 /**
  * Player
