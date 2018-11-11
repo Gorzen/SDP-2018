@@ -67,8 +67,7 @@ public enum Items {
                 return XP_POTION;
             case COIN_SACK_VALUE:
                 return COIN_SACK;
-            default:
-                throw new IllegalArgumentException("Unknown item");
+            default: throw new IllegalArgumentException("Unknown item");
         }
     }
 
