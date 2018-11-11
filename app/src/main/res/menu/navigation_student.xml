@@ -24,8 +24,8 @@
         android:title="@string/title_map"/>
 
     <item
-        android:id="@+id/navigation_chat"
-        android:icon="@drawable/ic_chat_black_24dp"
-        android:title="@string/title_chat"/>
+        android:id="@+id/navigation_inventory"
+        android:icon="@drawable/ic_inventory_black_24dp"
+        android:title="@string/title_inventory"/>
 
 </menu>

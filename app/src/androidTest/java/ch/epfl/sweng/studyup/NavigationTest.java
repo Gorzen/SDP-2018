@@ -38,7 +38,7 @@ public class NavigationTest{
     @Test
     public void testNavigationBottomBar(){
         BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_chat);
+        b.setSelectedItemId(R.id.navigation_inventory);
         intended(hasComponent(InventoryActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_map);
         intended(hasComponent(MapsActivity.class.getName()));

@@ -27,7 +27,7 @@ public class InventoryActivity extends NavigationStudent {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(InventoryActivity.this, InventoryActivity.class, Utils.CHAT_INDEX);
+        navigationSwitcher(InventoryActivity.this, InventoryActivity.class, Utils.INVENTORY_INDEX);
 
         ArrayList<String> itemsName = getItemsNames();
         ListView listView = findViewById(R.id.listViewItems);

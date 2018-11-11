@@ -16,7 +16,7 @@ public class NavigationStudent extends Navigation {
             R.id.navigation_quests_student,
             R.id.navigation_rankings,
             R.id.navigation_map,
-            R.id.navigation_chat));
+            R.id.navigation_inventory));
 
     private final ArrayList<Class> activitiesStudent = new ArrayList<Class>(Arrays.asList(
             MainActivity.class,
@@ -30,7 +30,7 @@ public class NavigationStudent extends Navigation {
             Utils.QUESTS_INDEX_STUDENT,
             Utils.RANKINGS_INDEX,
             Utils.MAP_INDEX,
-            Utils.CHAT_INDEX));
+            Utils.INVENTORY_INDEX));
 
     @Override
     protected void setupNavigation() {
