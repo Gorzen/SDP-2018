@@ -89,9 +89,10 @@ public class Player {
     }
 
     public void addItem(Items item) {
-        items.add(item);
-        putUserData(FB_ITEMS, getItemsInt());
-        Firestore.get().setUserData(FB_ITEMS, getItemsInt());
+        if(items.add(item)) {
+            putUserData(FB_ITEMS, getItemsInt());
+            Firestore.get().setUserData(FB_ITEMS, getItemsInt());
+        }
     }
 
     public void consumeItem(Items item) {

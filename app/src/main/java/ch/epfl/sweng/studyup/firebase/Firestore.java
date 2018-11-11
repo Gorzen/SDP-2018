@@ -179,7 +179,7 @@ public class Firestore {
             return;
         }
 
-        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid."); return; }
+        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid. The key was: " + key); return; }
         putUserData(key, value);
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
