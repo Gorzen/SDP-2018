@@ -34,6 +34,8 @@ import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromInt;
+import static ch.epfl.sweng.studyup.utils.Utils.getItemsInt;
 import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 /**
@@ -88,15 +90,15 @@ public class Player {
 
     public void addItem(Items item) {
         items.add(item);
-        putUserData(FB_ITEMS, items);
-        Firestore.get().setUserData(FB_ITEMS, items);
+        putUserData(FB_ITEMS, getItemsInt());
+        Firestore.get().setUserData(FB_ITEMS, getItemsInt());
     }
 
     public void consumeItem(Items item) {
         if (items.remove(item)) {
             item.consume();
-            putUserData(FB_ITEMS, items);
-            Firestore.get().setUserData(FB_ITEMS, items);
+            putUserData(FB_ITEMS, getItemsInt());
+            Firestore.get().setUserData(FB_ITEMS, getItemsInt());
         }else{
             throw new IllegalArgumentException("The player does not have this item, could not find it.");
         }
@@ -169,10 +171,11 @@ public class Player {
         instance.setLastName(FB_LASTNAME);
         instance.setUserName(INITIAL_USERNAME);
         items = new ArrayList<>();
+        List<Integer> itemsInt = new ArrayList<>();
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
-        putUserData(FB_ITEMS, items);
+        putUserData(FB_ITEMS, itemsInt);
         if (isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
         else
@@ -193,7 +196,7 @@ public class Player {
             lastName = userData.get(FB_LASTNAME).toString();
             sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
             username = userData.get(FB_USERNAME).toString();
-            items = (List<Items>) userData.get(FB_ITEMS);
+            items = getItemsFromInt((List<Long>) userData.get(FB_ITEMS));
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

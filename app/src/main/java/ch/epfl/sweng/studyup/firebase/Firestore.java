@@ -150,7 +150,8 @@ public class Firestore {
         putUserData(FB_LEVEL, Player.get().getLevel());
         putUserData(FB_CURRENCY, Player.get().getCurrency());
         putUserData(FB_USERNAME, Player.get().getUserName());
-        putUserData(FB_ITEMS, Player.get().getItems());
+
+        putUserData(FB_ITEMS, getItemsInt());
 
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -233,7 +234,7 @@ public class Firestore {
         initialInfos.put(FB_LEVEL, INITIAL_LEVEL);
         initialInfos.put(FB_XP, INITIAL_XP);
 
-        List<Items> items = new ArrayList<>();
+        List<Integer> items = new ArrayList<>();
         initialInfos.put(FB_ITEMS, items);
         initialInfos.put(FB_TOKEN, null);
 

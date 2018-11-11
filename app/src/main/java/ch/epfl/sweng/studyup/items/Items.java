@@ -51,8 +51,18 @@ public enum Items {
         return name;
     }
 
-    public static Items getItems(int value) {
-        switch (value) {
+    public static Items getItems(Long value) {
+        int val;
+
+        if(value == 0l){
+            val = 0;
+        }else if(value == 1l){
+            val = 1;
+        }else{
+            throw new IllegalArgumentException("Unknown item");
+        }
+
+        switch (val) {
             case XP_POTION_VALUE:
                 return XP_POTION;
             case COIN_SACK_VALUE:

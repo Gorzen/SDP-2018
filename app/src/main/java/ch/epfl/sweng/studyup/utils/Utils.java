@@ -20,6 +20,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
@@ -151,6 +152,23 @@ public class Utils {
         }catch (IOException e) {
             Log.d(tag, e.getMessage());
         }
+    }
+
+    public static List<Integer> getItemsInt(){
+        List<Items> items = Player.get().getItems();
+        List<Integer> itemsInt = new ArrayList<>();
+        for(Items i : items){
+            itemsInt.add(i.valueOf());
+        }
+        return itemsInt;
+    }
+
+    public static List<Items> getItemsFromInt(List<Long> itemsInt){
+        List<Items> items = new ArrayList<>();
+        for(int i = 0; i < itemsInt.size(); ++i){
+            items.add(Items.getItems(itemsInt.get(i)));
+        }
+        return items;
     }
 }
 
