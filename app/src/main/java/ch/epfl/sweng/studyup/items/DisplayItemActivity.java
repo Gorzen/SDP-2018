@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup.items;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,17 @@ public class DisplayItemActivity extends AppCompatActivity {
         TextView textViewDescritpion = findViewById(R.id.item_description);
         textViewDescritpion.setText(Items.getDescription(item));
         ImageView img = findViewById(R.id.item_image);
-        img.setImageResource(R.drawable.coin_sack);
+        img.setImageResource(Items.getImageName(item));
+
+        Button backButton = findViewById(R.id.back_button_display_item);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button useButton = findViewById(R.id.use_button);
+
     }
 }

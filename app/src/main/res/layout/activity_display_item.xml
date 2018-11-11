@@ -32,6 +32,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.154"
+        app:layout_constraintVertical_bias="0.18"
         app:srcCompat="@drawable/potion" />
+
+    <Button
+        android:id="@+id/back_button_display_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="47dp" />
+
+    <Button
+        android:id="@+id/use_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Use"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="229dp" />
 </android.support.constraint.ConstraintLayout>
