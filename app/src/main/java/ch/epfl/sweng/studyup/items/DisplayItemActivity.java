@@ -11,6 +11,7 @@ import android.widget.TextView;
 import ch.epfl.sweng.studyup.R;
 
 public class DisplayItemActivity extends AppCompatActivity {
+    private Items item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +19,11 @@ public class DisplayItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_item);
 
         Intent intent = getIntent();
-        Items item = Items.getItems(intent.getStringExtra(DisplayItemActivity.class.getName()));
+        item = Items.getItems(intent.getStringExtra(DisplayItemActivity.class.getName()));
         TextView textViewName = findViewById(R.id.item_name);
         textViewName.setText(Items.getName(item));
-        TextView textViewDescritpion = findViewById(R.id.item_description);
-        textViewDescritpion.setText(Items.getDescription(item));
+        TextView textViewDescription = findViewById(R.id.item_description);
+        textViewDescription.setText(Items.getDescription(item));
         ImageView img = findViewById(R.id.item_image);
         img.setImageResource(Items.getImageName(item));
 
@@ -35,6 +36,11 @@ public class DisplayItemActivity extends AppCompatActivity {
         });
 
         Button useButton = findViewById(R.id.use_button);
-
+        useButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Items.onConsume(item);
+            }
+        });
     }
 }
