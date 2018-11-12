@@ -1,6 +1,6 @@
 package ch.epfl.sweng.studyup.player;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 import java.util.Map;
 
@@ -71,11 +71,11 @@ public class Player {
     /**
      * Method suppose that we can only gain experience.
      */
-    private void updateLevel(Context context) {
+    private void updateLevel(Activity activity) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if (newLevel - level > 0) {
-            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, context);
+            addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, activity);
             putUserData(FB_CURRENCY, currency);
             putUserData(FB_LEVEL, newLevel);
             Firestore.get().setUserData(FB_CURRENCY, currency);
@@ -84,24 +84,25 @@ public class Player {
         }
     }
 
-    public void addCurrency(int curr, Context context) {
+    public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if(context instanceof MainActivity) {
-            ((MainActivity) context).updateCurrDisplay();
+        if(activity != null) {
+            ((MainActivity) activity).updateCurrDisplay();
         }
 
         putUserData(FB_CURRENCY, currency);
         Firestore.get().setUserData(FB_CURRENCY, currency);
     }
 
-    public void addExperience(int xp, Context context) {
+    public void addExperience(int xp, Activity activity) {
         experience += xp;
-        updateLevel(context);
+        updateLevel(activity);
 
-        if(context instanceof MainActivity) {
-            ((MainActivity) context).updateXpAndLvlDisplay();
-            Log.i("Check", "Context is "+context.toString()+" "+((MainActivity) context).getLocalClassName());
+        if(activity instanceof MainActivity) {
+            ((MainActivity) activity).updateXpAndLvlDisplay();
+            ((MainActivity) activity).updateCurrDisplay();
+            Log.i("Check", "Activity is "+activity.toString()+" "+((MainActivity) activity).getLocalClassName());
         }
 
         putUserData(FB_XP, experience);
@@ -136,7 +137,7 @@ public class Player {
      * the class Player
      */
     @SuppressWarnings("unchecked")
-    public void updatePlayerData(Context context) throws NullPointerException{
+    public void updatePlayerData(Activity activity) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
         try {
@@ -146,12 +147,12 @@ public class Player {
             lastName = userData.get(FB_LASTNAME).toString();
             sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
             username = userData.get(FB_USERNAME).toString();
-            answeredQuestions = (Map<String, Boolean>) userData.get(FB_ANSWERED_QUESTIONS); //todo not sure it the cleanest way to do it
+            answeredQuestions = (Map<String, Boolean>) userData.get(FB_ANSWERED_QUESTIONS);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-        updateLevel(context);
+        updateLevel(activity);
     }
 
     public String getFirstName() {

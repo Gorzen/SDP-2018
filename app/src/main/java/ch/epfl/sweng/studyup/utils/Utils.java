@@ -1,10 +1,12 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
+
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +43,7 @@ public class Utils {
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
     public static final String FB_QUESTIONS = "questions";
+    public static final String FB_QUESTION_AUTHOR = "author";
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
@@ -81,7 +84,7 @@ public class Utils {
     public static Map<String, Object> dbStaticInfo = null;
     public static LatLng position = null;
     public static FusedLocationProviderClient locationProviderClient = null;
-    public static Context mainContext = null;
+    public static Activity mainActivity = null;
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc = null;
@@ -98,8 +101,10 @@ public class Utils {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
     public static final Map<String, Boolean> INITIAL_ANSWERED_QUESTIONS = new HashMap<>();
+
     //Navigation items indexes for smooth transitions
-    public static final int DEFAULT_INDEX = 0, QUESTS_INDEX=1, RANKINGS_INDEX=2, MAP_INDEX=3, MAX_INDEX =4;
+    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, SHOP_INDEX=4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
+    public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 
     //private static final java.util.Collections Collections = ;
 
@@ -139,6 +144,14 @@ public class Utils {
         }
 
         userData.put(key, value);
+    }
+
+    public static void killApp(String tag){
+        try{
+            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
+        }catch (IOException e) {
+            Log.d(tag, e.getMessage());
+        }
     }
 }
 

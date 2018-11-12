@@ -8,6 +8,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.util.Log;
 import android.widget.ImageButton;
 
 import org.junit.After;
@@ -16,6 +17,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -30,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -51,7 +56,6 @@ public class CustomActivityTest {
         Intents.release();
     }
 
-    /*
     @Test
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
@@ -59,13 +63,15 @@ public class CustomActivityTest {
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
+    /*
+    @Test
     public void email_check() {
         Player.get().setFirstName(INITIAL_FIRSTNAME);
         Player.get().setLastName(INITIAL_LASTNAME);
         ViewInteraction a = onView(withId(R.id.user_email));
         System.out.print(a);
         a.check(matches(withText("jean-louis.reymond@epfl.ch")));
-    }
+    }*/
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
@@ -74,23 +80,17 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
         assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
         clickButton(Utils.GALLERY);
+        Utils.waitAndTag(1000, "CustomTest");
+        device.pressBack();
+        Utils.waitAndTag(1000, "CustomTest");
         clickButton(Utils.JUSTONCE);
     }
 
-    @Test
-    public void testValidButtonChangeOnClick() {
-        MainActivityTest.buttonChangeOnClick(
-                mActivityRule.getActivity().valid_button.getBackground().getAlpha(),
-                R.id.valid_btn,
-                R.drawable.ic_check_black_24dp,
-                R.drawable.ic_check_done_24dp);
-    }
-
-    /*public void clickButton(String textButton) throws UiObjectNotFoundException {
+    public void clickButton(String textButton) throws UiObjectNotFoundException {
         UiObject button = device.findObject(new UiSelector().text(textButton));
         if (button.exists() && button.isEnabled()) {
             button.click();
         }
-    }*/
+    }
 
 }

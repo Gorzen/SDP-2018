@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/bottomNavView_Bar"
                 android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/navigation"
+                app:menu="@menu/navigation_student"
                 app:labelVisibilityMode="labeled">
             </android.support.design.widget.BottomNavigationView>
 

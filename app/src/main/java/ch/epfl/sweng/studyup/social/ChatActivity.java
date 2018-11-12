@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
-public class ChatActivity extends Navigation {
+public class ChatActivity extends NavigationStudent {
 
 
     @Override
@@ -23,7 +21,7 @@ public class ChatActivity extends Navigation {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(ChatActivity.this, ChatActivity.class, Utils.MAX_INDEX);
+        navigationSwitcher(ChatActivity.this, ChatActivity.class, Utils.SHOP_INDEX);
     }
 
 

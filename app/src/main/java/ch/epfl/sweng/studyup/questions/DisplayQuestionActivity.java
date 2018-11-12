@@ -23,11 +23,10 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.io.IOException;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.player.QuestsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 public class DisplayQuestionActivity extends RefreshContext {
@@ -201,7 +200,7 @@ public void answerQuestion(View view) {
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }
 
-        Intent goToQuests = new Intent(this, QuestsActivity.class);
+        Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
         startActivity(goToQuests);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
