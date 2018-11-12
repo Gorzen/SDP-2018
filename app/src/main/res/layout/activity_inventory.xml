@@ -15,6 +15,7 @@
         <!--TOP TOOL BAR-->
 
         <android.support.constraint.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/topBar">
@@ -42,31 +43,40 @@
             android:layout_above="@+id/bottomBar"
             android:layout_below="@+id/topBar">
 
+            <ListView
+                android:id="@+id/listViewItems"
+                android:layout_width="match_parent"
+                android:layout_height="426dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
 
         <!--BOTTOM NAV BAR-->
 
         <android.support.constraint.ConstraintLayout
+
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/bottomBar"
             android:layout_alignParentBottom="true">
 
             <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavView_Bar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/bottomNavView_Bar"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/navigation_student"
-                app:labelVisibilityMode="labeled">
-
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/navigation_student">
             </android.support.design.widget.BottomNavigationView>
-        </android.support.constraint.ConstraintLayout>
 
+        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 
 
     <!--OVERLAPPING THINGS-->
+
 
 </android.support.constraint.ConstraintLayout>

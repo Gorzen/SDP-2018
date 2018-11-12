@@ -3,15 +3,45 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLE;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_S;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromInt;
+import static ch.epfl.sweng.studyup.utils.Utils.getItemsInt;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 /**
  * Player
- *
+ * <p>
  * Used to store the Player's state and informations.
  */
 public class Player {
@@ -29,6 +59,7 @@ public class Player {
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
+    private List<Items> items;
 
 
     public static String room = "INN_3_26";
@@ -44,6 +75,7 @@ public class Player {
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
+        items = new ArrayList<>();
     }
 
     public static Player get() {
@@ -51,6 +83,27 @@ public class Player {
             instance = new Player();
         }
         return instance;
+    }
+
+    public List<Items> getItems() {
+        return Collections.unmodifiableList(new ArrayList<>(items));
+    }
+
+    public void addItem(Items item) {
+        if (items.add(item)) {
+            putUserData(FB_ITEMS, getItemsInt());
+            Firestore.get().setUserData(FB_ITEMS, getItemsInt());
+        }
+    }
+
+    public void consumeItem(Items item) {
+        if (items.remove(item)) {
+            item.consume();
+            putUserData(FB_ITEMS, getItemsInt());
+            Firestore.get().setUserData(FB_ITEMS, getItemsInt());
+        } else {
+            throw new IllegalArgumentException("The player does not have this item, could not find it.");
+        }
     }
 
     public int getExperience() {
@@ -84,7 +137,7 @@ public class Player {
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if(activity != null) {
+        if (activity instanceof MainActivity) {
             ((MainActivity) activity).updateCurrDisplay();
         }
 
@@ -96,10 +149,10 @@ public class Player {
         experience += xp;
         updateLevel(activity);
 
-        if(activity instanceof MainActivity) {
+        if (activity instanceof MainActivity) {
             ((MainActivity) activity).updateXpAndLvlDisplay();
             ((MainActivity) activity).updateCurrDisplay();
-            Log.i("Check", "Activity is "+activity.toString()+" "+((MainActivity) activity).getLocalClassName());
+            Log.i("Check", "Activity is " + activity.toString() + " " + ((MainActivity) activity).getLocalClassName());
         }
 
         putUserData(FB_XP, experience);
@@ -119,10 +172,13 @@ public class Player {
         instance.setFirstName(FB_FIRSTNAME);
         instance.setLastName(FB_LASTNAME);
         instance.setUserName(INITIAL_USERNAME);
+        items = new ArrayList<>();
+        List<Integer> itemsInt = new ArrayList<>();
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
-        if(isTeacher)
+        putUserData(FB_ITEMS, itemsInt);
+        if (isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
         else
             putUserData(FB_ROLE, FB_ROLES_S);
@@ -132,21 +188,17 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
-    public void updatePlayerData(Activity activity) throws NullPointerException{
+    public void updatePlayerData(Activity activity) throws NullPointerException {
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
-        try {
-            experience = Integer.parseInt(userData.get(FB_XP).toString());
-            currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
-            firstName = userData.get(FB_FIRSTNAME).toString();
-            lastName = userData.get(FB_LASTNAME).toString();
-            sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
-            username = userData.get(FB_USERNAME).toString();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        updateLevel(activity);
+        experience = Integer.parseInt(getOrDefault(FB_XP, INITIAL_XP).toString());
+        currency = Integer.parseInt(getOrDefault(FB_CURRENCY, INITIAL_CURRENCY).toString());
+        level = Integer.parseInt(getOrDefault(FB_LEVEL, INITIAL_LEVEL).toString());
+        firstName = getOrDefault(FB_FIRSTNAME, INITIAL_FIRSTNAME).toString();
+        lastName = getOrDefault(FB_LASTNAME, INITIAL_LASTNAME).toString();
+        sciper = Integer.parseInt(getOrDefault(FB_SCIPER, INITIAL_SCIPER).toString());
+        username = getOrDefault(FB_USERNAME, INITIAL_USERNAME).toString();
+        items = getItemsFromInt((List<Long>) getOrDefault(FB_ITEMS, new ArrayList<Long>()));
     }
 
     public String getFirstName() {
@@ -195,7 +247,7 @@ public class Player {
 
     public void setRole(boolean isTeacher) {
         this.isTeacher = isTeacher;
-        if(isTeacher) {
+        if (isTeacher) {
             putUserData(FB_ROLE, FB_ROLES_T);
         } else {
             putUserData(FB_ROLE, FB_ROLES_S);
@@ -206,7 +258,7 @@ public class Player {
         return isTeacher;
     }
 
-    public String getCurrentRoom(){
+    public String getCurrentRoom() {
         return room;
     }
 }
