@@ -2,12 +2,17 @@ package ch.epfl.sweng.studyup;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +25,7 @@ import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -29,6 +35,16 @@ public class QuestionParserTest {
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
             new ActivityTestRule<>(AddQuestionActivity.class);
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     @Before
     public void init(){
@@ -54,6 +70,7 @@ public class QuestionParserTest {
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
+                System.out.println(questions.toString());
                 assertArrayEquals("parsed list should be the same as input", list.toArray(), questions.toArray());
             }
         });

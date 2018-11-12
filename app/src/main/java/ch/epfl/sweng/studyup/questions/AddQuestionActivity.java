@@ -49,6 +49,10 @@ public class AddQuestionActivity extends NavigationTeacher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
+        if (!Utils.isMockEnabled) {
+            Firestore.loadQuestions(this);
+        }
+
         navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
 
         addRadioListener();

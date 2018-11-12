@@ -251,18 +251,30 @@ public class Firestore {
                 });
     }
 
-    public static void addQuestion(Question question) {
+    public static void addQuestion(final Question question) {
 
-        String questionId = question.getQuestionId();
+        db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                if (document.exists()) {
+                    String courseId = Utils.isMockEnabled ? DEFAULT_COURSE_ID : userData.get(FB_COURSE_ID).toString();
+                    if (courseId != null) {
+                        String questionId = question.getQuestionId();
 
-        Map<String, Object> questionData = new HashMap<>();
-        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
-        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
-        questionData.put(FB_QUESTION_TITLE, question.getTitle());
-        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciper());
+                        Map<String, Object> questionData = new HashMap<>();
+                        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
+                        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
+                        questionData.put(FB_QUESTION_TITLE, question.getTitle());
+                        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciper());
+                        questionData.put(FB_COURSE_ID, courseId);
 
-
-        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+                        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+                    }
+                }
+                }
+            });
     }
 
     /**
@@ -290,21 +302,20 @@ public class Firestore {
                         boolean getThatQuestion;
                         if(Player.get().getRole()) {
                             getThatQuestion = Player.get().getSciper() == QuestionAuthor;
+                            System.out.println("Role of teacher");
+                            System.out.println("User Course id is " + userCourseId);
                         } else {
+                            System.out.println("It thinks I am a student");
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
                         }
 
                         Object questionCourseId = questionData.get(FB_COURSE_ID);
-                        boolean questionInUserCourse = (questionCourseId == null) || Utils.isMockEnabled ||
-                                questionCourseId.toString().equals(userCourseId);
+                        boolean questionInUserCourse = (questionCourseId == null) || Utils.isMockEnabled || questionCourseId.toString().equals(userCourseId);
 
                         if(getThatQuestion && questionInUserCourse) {
                             String title = (String) questionData.get(FB_QUESTION_TITLE);
                             Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                             int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-
-                            System.out.println("Question: " + title);
-                            System.out.println("Answer: " + answer);
 
                             Question question = new Question(questionId, title, trueFalse, answer);
                             questionList.add(question);
@@ -327,7 +338,15 @@ public class Firestore {
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
                     if (document.exists()) {
-                        String courseId = Utils.isMockEnabled ? DEFAULT_COURSE_ID : userData.get(FB_COURSE_ID).toString();
+                        String courseId = null;
+                        if (Utils.isMockEnabled) {
+                            courseId = DEFAULT_COURSE_ID;
+                        }
+                        else {
+                            if (document.get(FB_COURSE_ID) != null) {
+                                courseId = document.get(FB_COURSE_ID).toString();
+                            }
+                        }
                         if (courseId != null) {
                             loadQuestionsAux(context, courseId);
                         }
