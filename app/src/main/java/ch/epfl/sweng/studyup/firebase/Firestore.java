@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.firebase;
 
 import android.content.Context;
+import android.net.Uri;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -255,7 +256,7 @@ public class Firestore {
                 });
     }
 
-    public static void addQuestion(Question question) {
+    public void addQuestion(Question question) {
 
         String questionId = question.getQuestionId();
 
@@ -276,7 +277,7 @@ public class Firestore {
      *
      * @param context The context used to save the questions locally
      */
-    public static void loadQuestions(final Context context) {
+    public void loadQuestions(final Context context) {
 
         final List<Question> questionList = new ArrayList<>();
 
@@ -296,6 +297,7 @@ public class Firestore {
                             getThatQuestion = Player.get().getSciper() == QuestionAuthor;
                         } else {
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
+                            getThatQuestion = getThatQuestion && questionData.get(document.getId()) != Utils.MOCK_UUID;
                         }
 
                         if(getThatQuestion) {
@@ -319,5 +321,35 @@ public class Firestore {
                 }
             }
         });
+    }
+
+    /**
+     * Method that delete a question and its corresponding image
+     *
+     * @param questionId the id of the question
+     */
+    public void deleteQuestion(final String questionId) {
+        db.collection(FB_QUESTIONS).document(questionId).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            if(questionId.equals(Utils.MOCK_UUID)) {
+                                Log.i(TAG, "The question has been deleted from the database.");
+                                return;
+                            }
+                            FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Log.i(TAG, "The question has been deleted from the database.");
+                                    }
+                                }
+                            });
+                        } else {
+                            Log.w(TAG, "Failed to delete the question's data from the database.");
+                        }
+                    }
+                });
     }
 }
