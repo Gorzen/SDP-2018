@@ -1,10 +1,11 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.ItemsTest;
+
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(JUnit4.class)
-public class UtilsTestItems {
+@RunWith(AndroidJUnit4.class)
+public class UtilsItemsTest {
     @Before
     public void setup(){
         Player.get().reset();
