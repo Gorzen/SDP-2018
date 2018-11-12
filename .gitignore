@@ -11,3 +11,4 @@
 .externalNativeBuild
 /.idea/misc.xml
 authentication_server/env
+hs_err_pid10787.log
