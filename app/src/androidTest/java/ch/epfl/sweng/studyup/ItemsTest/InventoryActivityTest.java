@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.DisplayItemActivity;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -42,7 +44,7 @@ public class InventoryActivityTest {
     }
 
     @Test
-    public void gettingToDisplayItemActivity() {
+    public void useButtonConsumsItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -50,6 +52,9 @@ public class InventoryActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
+        int exp = Player.get().getExperience();
+        onView(withId(R.id.use_button)).perform(click());
+        assertEquals(exp + Utils.XP_STEP, Player.get().getExperience());
     }
 
     @Test
