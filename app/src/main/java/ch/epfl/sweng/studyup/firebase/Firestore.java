@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.course.Course;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
@@ -100,6 +101,7 @@ public class Firestore {
 
                             if (document.exists()) {
                                 userData = document.getData();
+
                                 if (userData.isEmpty()) {
                                     throw new NullPointerException("The data got from server is " +
                                             "null. The user either shouldn't be present in the " +
@@ -131,6 +133,7 @@ public class Firestore {
                                 Player.get().setLastName(lastName);
                                 Player.get().setSciper(sciper);
                                 savePlayerData();
+
                             }
                         } else {
                             Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
@@ -269,7 +272,7 @@ public class Firestore {
      *
      * @param context The context used to save the questions locally
      */
-    public static void loadQuestions(final Context context) {
+    private static void loadQuestionsAux(final Context context, final String userCourseId) {
 
         final List<Question> questionList = new ArrayList<>();
 
@@ -291,7 +294,9 @@ public class Firestore {
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
                         }
 
-                        if(getThatQuestion) {
+                        boolean questionInUserCourse = questionData.get(FB_COURSE_ID).toString().equals(userCourseId);
+
+                        if(getThatQuestion && questionInUserCourse) {
                             String title = (String) questionData.get(FB_QUESTION_TITLE);
                             Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                             int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
@@ -304,7 +309,6 @@ public class Firestore {
                         }
                     }
 
-
                     QuestionParser.writeQuestions(questionList, context);
                     Log.d(TAG, "Question List: " + questionList.toString());
                 } else {
@@ -312,5 +316,21 @@ public class Firestore {
                 }
             }
         });
+    }
+
+    public static void loadQuestions(final Context context) {
+        db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if (document.exists()) {
+                        String courseId = userData.get(FB_COURSE_ID).toString();
+                        if (courseId != null) {
+                            loadQuestionsAux(context, courseId);
+                        }
+                    }
+                }
+            });
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.course.Course;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
@@ -25,6 +26,7 @@ public class Player {
     private String username;
     private boolean isTeacher;
     private int sciper;
+    private String courseId;
     private int[] questionsCurr;
     private int[] questsCurr;
     private int[] questionsAcheived;
@@ -208,5 +210,13 @@ public class Player {
 
     public String getCurrentRoom(){
         return room;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseId() {
+        return this.courseId;
     }
 }

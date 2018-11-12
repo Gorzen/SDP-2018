@@ -83,7 +83,10 @@ public class MainActivity extends NavigationStudent {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
+
         Firestore.loadQuestions(this);
+
+        System.out.println("PLAYER COURSE ID: " + Player.get().getCourseId());
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
@@ -167,7 +170,6 @@ public class MainActivity extends NavigationStudent {
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
-
     }
 
 
