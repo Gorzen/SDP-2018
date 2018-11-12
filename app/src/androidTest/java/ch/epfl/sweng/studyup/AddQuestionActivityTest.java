@@ -134,7 +134,7 @@ public class AddQuestionActivityTest {
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(true);
-        Firestore.loadQuestions(mActivityRule.getActivity());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(500, TAG);
 
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());

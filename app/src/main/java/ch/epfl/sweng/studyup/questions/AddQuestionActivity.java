@@ -137,7 +137,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
-            Firestore.addQuestion(q);
+            Firestore.get().addQuestion(q);
 
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
