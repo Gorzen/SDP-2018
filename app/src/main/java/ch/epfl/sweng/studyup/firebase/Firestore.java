@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.firebase;
 
 import android.content.Context;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.course.Course;
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
@@ -152,6 +154,8 @@ public class Firestore {
         putUserData(FB_CURRENCY, Player.get().getCurrency());
         putUserData(FB_USERNAME, Player.get().getUserName());
 
+        putUserData(FB_ITEMS, getItemsInt());
+
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -178,7 +182,7 @@ public class Firestore {
             return;
         }
 
-        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid."); return; }
+        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid. The key was: " + key); return; }
         putUserData(key, value);
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
@@ -232,6 +236,9 @@ public class Firestore {
         initialInfos.put(FB_CURRENCY, INITIAL_CURRENCY);
         initialInfos.put(FB_LEVEL, INITIAL_LEVEL);
         initialInfos.put(FB_XP, INITIAL_XP);
+
+        List<Integer> items = new ArrayList<>();
+        initialInfos.put(FB_ITEMS, items);
         initialInfos.put(FB_TOKEN, null);
 
         setUserInfos(sciper, initialInfos);
