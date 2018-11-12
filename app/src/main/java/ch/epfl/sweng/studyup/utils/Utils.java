@@ -68,6 +68,7 @@ public class Utils {
     public static final String GALLERY = "Gallery";
     public static final String CANCEL = "Cancel";
     public static final String JUSTONCE = "JUST ONCE";
+    public static final String DEFAULT_COURSE_ID = "bVW3QC2SMgLjVRTPLWld";
 
 
     // Constant for Firebase Storage

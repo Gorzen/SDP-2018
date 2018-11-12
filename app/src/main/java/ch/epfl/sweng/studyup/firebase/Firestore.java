@@ -294,7 +294,7 @@ public class Firestore {
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
                         }
 
-                        boolean questionInUserCourse = questionData.get(FB_COURSE_ID).toString().equals(userCourseId);
+                        boolean questionInUserCourse = Utils.isMockEnabled ? true : questionData.get(FB_COURSE_ID).toString().equals(userCourseId);
 
                         if(getThatQuestion && questionInUserCourse) {
                             String title = (String) questionData.get(FB_QUESTION_TITLE);
@@ -325,7 +325,7 @@ public class Firestore {
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
                     if (document.exists()) {
-                        String courseId = userData.get(FB_COURSE_ID).toString();
+                        String courseId = Utils.isMockEnabled ? DEFAULT_COURSE_ID : userData.get(FB_COURSE_ID).toString();
                         if (courseId != null) {
                             loadQuestionsAux(context, courseId);
                         }

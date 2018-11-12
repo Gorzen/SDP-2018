@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +24,16 @@ public class AuthenticationActivityTest {
     @Rule
     public ActivityTestRule<AuthenticationActivity> rule =
             new ActivityTestRule<>(AuthenticationActivity.class, true, false);
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     @Test
     public void testIntentWithError() {

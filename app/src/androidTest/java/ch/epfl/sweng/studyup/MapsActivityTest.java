@@ -6,6 +6,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,6 +30,16 @@ public class MapsActivityTest {
     private final double LAT = 35.323;
     private final double LONG = 56.43;
     private LatLng latlng = new LatLng(LAT, LONG);
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     @Test
     public void locationRequestSetsUpCorrectly() {
@@ -60,12 +72,11 @@ public class MapsActivityTest {
         });
     }
 
-    @Test
+    /*@Test
     public void onMapReadyNoCrashWithBadParams() {
         mActivityRule.getActivity().onMapReady(null);
     }
 
-    /*
     @Test
     public void AtestOptionNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());

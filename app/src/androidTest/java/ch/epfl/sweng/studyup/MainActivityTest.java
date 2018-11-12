@@ -11,7 +11,9 @@ import android.support.test.uiautomator.UiDevice;
 import com.kosalgeek.android.caching.FileCacher;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -52,6 +54,16 @@ public class MainActivityTest {
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     @Before
     public void initiateIntents() {

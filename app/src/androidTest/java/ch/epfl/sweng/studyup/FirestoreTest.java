@@ -5,7 +5,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom; //Random int library
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static org.junit.Assert.assertEquals;
@@ -38,6 +41,16 @@ public class FirestoreTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     /**
      * Put the "Truth values" into the dummy map

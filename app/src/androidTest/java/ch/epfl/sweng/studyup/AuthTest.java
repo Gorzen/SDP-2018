@@ -3,11 +3,14 @@ package ch.epfl.sweng.studyup;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.auth.Authenticator;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,6 +18,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
     private static final String TAG = AuthTest.class.getSimpleName();
+
+    @BeforeClass
+    public static void runOnceBeforeClass() {
+        Utils.isMockEnabled = true;
+    }
+
+    @AfterClass
+    public static void runOnceAfterClass() {
+        Utils.isMockEnabled = false;
+    }
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
