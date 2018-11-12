@@ -193,6 +193,7 @@ public class Player {
         try {
             experience = Integer.parseInt(userData.get(FB_XP).toString());
             currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
+            level = Integer.parseInt(userData.get(FB_LEVEL).toString());
             firstName = userData.get(FB_FIRSTNAME).toString();
             lastName = userData.get(FB_LASTNAME).toString();
             sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
@@ -201,8 +202,6 @@ public class Player {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        updateLevel(activity);
     }
 
     public String getFirstName() {
