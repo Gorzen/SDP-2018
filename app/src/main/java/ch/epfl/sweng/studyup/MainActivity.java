@@ -166,7 +166,6 @@ public class MainActivity extends Navigation {
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
-
     }
 
 

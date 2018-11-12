@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,14 +26,9 @@ import java.io.IOException;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ANSWERED_QUESTIONS;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
@@ -144,11 +138,55 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
     }
 
+    /****/
+    /*
+
+    private RadioGroup answerGroupTOP = findViewById(R.id.answer_radio_group_top);
+private RadioGroup answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
+private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId != -1) {
+            answerGroupBOT.setOnCheckedChangeListener(null); // remove the listener before clearing so we don't throw that stackoverflow exception(like Vladimir Volodin pointed out)
+            answerGroupBOT.clearCheck(); // clear the second RadioGroup!
+            answerGroupBOT.setOnCheckedChangeListener(listener2); //reset the listener
+        }
+    }
+};
+
+private RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId != -1) {
+            answerGroupTOP.setOnCheckedChangeListener(null);
+            answerGroupTOP.clearCheck();
+            answerGroupTOP.setOnCheckedChangeListener(listener1);
+        }
+    }
+};
+
+
+public void answerQuestion(View view) {
+    answerGroupTOP.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
+    answerGroupBOT.clearCheck();
+    answerGroupTOP.setOnCheckedChangeListener(listener1);
+    answerGroupBOT.setOnCheckedChangeListener(listener2);
+
+    int chkId1 = answerGroupTOP.getCheckedRadioButtonId();
+    int chkId2 = answerGroupBOT.getCheckedRadioButtonId();
+    int realCheck = (chkId1 == -1) ? chkId2 : chkId1;
+    RadioButton checkedAnswer = findViewById(realCheck);
+
+     */
     public void answerQuestion(View view) {
-        RadioGroup answerGroup = findViewById(R.id.answer_radio_group);
+        RadioGroup answerGroup = findViewById(R.id.answer_radio_group_top);
         RadioButton checkedAnswer = findViewById(answerGroup.getCheckedRadioButtonId());
         //subtract 1 to have answer between 0 and 3
         int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
+
+        /****/
 
         //TODO : What to do next ?
         if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
@@ -167,7 +205,6 @@ public class DisplayQuestionActivity extends RefreshContext {
         startActivity(goToQuests);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
-
 
 
     /**
