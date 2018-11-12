@@ -294,7 +294,9 @@ public class Firestore {
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
                         }
 
-                        boolean questionInUserCourse = Utils.isMockEnabled ? true : questionData.get(FB_COURSE_ID).toString().equals(userCourseId);
+                        Object questionCourseId = questionData.get(FB_COURSE_ID);
+                        boolean questionInUserCourse = (questionCourseId == null) || Utils.isMockEnabled ||
+                                questionCourseId.toString().equals(userCourseId);
 
                         if(getThatQuestion && questionInUserCourse) {
                             String title = (String) questionData.get(FB_QUESTION_TITLE);

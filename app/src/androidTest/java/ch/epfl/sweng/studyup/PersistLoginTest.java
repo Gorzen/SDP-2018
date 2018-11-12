@@ -35,6 +35,7 @@ public class PersistLoginTest {
     public final ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class);
 
+
     @Before
     public void setup() {
         init();
