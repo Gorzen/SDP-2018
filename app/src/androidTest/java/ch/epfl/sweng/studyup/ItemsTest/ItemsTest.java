@@ -1,12 +1,16 @@
 package ch.epfl.sweng.studyup.ItemsTest;
 
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 
+@RunWith(AndroidJUnit4.class)
 public class ItemsTest {
 
     @Test
