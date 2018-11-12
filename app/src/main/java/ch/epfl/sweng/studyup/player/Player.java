@@ -36,6 +36,7 @@ import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromInt;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsInt;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
 
 /**
@@ -89,7 +90,7 @@ public class Player {
     }
 
     public void addItem(Items item) {
-        if(items.add(item)) {
+        if (items.add(item)) {
             putUserData(FB_ITEMS, getItemsInt());
             Firestore.get().setUserData(FB_ITEMS, getItemsInt());
         }
@@ -100,7 +101,7 @@ public class Player {
             item.consume();
             putUserData(FB_ITEMS, getItemsInt());
             Firestore.get().setUserData(FB_ITEMS, getItemsInt());
-        }else{
+        } else {
             throw new IllegalArgumentException("The player does not have this item, could not find it.");
         }
     }
@@ -190,18 +191,14 @@ public class Player {
     public void updatePlayerData(Activity activity) throws NullPointerException {
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
-        try {
-            experience = Integer.parseInt(userData.get(FB_XP).toString());
-            currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
-            level = Integer.parseInt(userData.get(FB_LEVEL).toString());
-            firstName = userData.get(FB_FIRSTNAME).toString();
-            lastName = userData.get(FB_LASTNAME).toString();
-            sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
-            username = userData.get(FB_USERNAME).toString();
-            items = getItemsFromInt((List<Long>) userData.get(FB_ITEMS));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+        experience = Integer.parseInt(getOrDefault(FB_XP, INITIAL_XP).toString());
+        currency = Integer.parseInt(getOrDefault(FB_CURRENCY, INITIAL_CURRENCY).toString());
+        level = Integer.parseInt(getOrDefault(FB_LEVEL, INITIAL_LEVEL).toString());
+        firstName = getOrDefault(FB_FIRSTNAME, INITIAL_FIRSTNAME).toString();
+        lastName = getOrDefault(FB_LASTNAME, INITIAL_LASTNAME).toString();
+        sciper = Integer.parseInt(getOrDefault(FB_SCIPER, INITIAL_SCIPER).toString());
+        username = getOrDefault(FB_USERNAME, INITIAL_USERNAME).toString();
+        items = getItemsFromInt((List<Long>) getOrDefault(FB_ITEMS, new ArrayList<Long>()));
     }
 
     public String getFirstName() {

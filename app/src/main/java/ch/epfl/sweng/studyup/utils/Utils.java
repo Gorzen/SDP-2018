@@ -170,5 +170,13 @@ public class Utils {
         }
         return items;
     }
+
+    public static Object getOrDefault(String key, Object defaultRet){
+        if(userData.containsKey(key)){
+            return userData.get(key);
+        }else{
+            return defaultRet;
+        }
+    }
 }
 
