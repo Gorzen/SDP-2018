@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.firebase;
 
 import android.content.Context;
+import android.net.Uri;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -258,7 +259,9 @@ public class Firestore {
                 });
     }
 
-    public static void addQuestion(final Question question) {
+    public void addQuestion(final Question question) {
+
+        String questionId = question.getQuestionId();
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
             .get()
@@ -291,6 +294,7 @@ public class Firestore {
      *
      * @param context The context used to save the questions locally
      */
+
     private static void loadQuestionsAux(final Context context, final String userCourseId) {
 
         final List<Question> questionList = new ArrayList<>();
@@ -314,6 +318,7 @@ public class Firestore {
                         } else {
                             System.out.println("It thinks I am a student");
                             getThatQuestion = Player.get().getSciper() != QuestionAuthor;
+                            getThatQuestion = getThatQuestion && questionData.get(document.getId()) != Utils.MOCK_UUID;
                         }
 
                         Object questionCourseId = questionData.get(FB_COURSE_ID);
@@ -340,25 +345,53 @@ public class Firestore {
 
     public static void loadQuestions(final Context context) {
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
-            .get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot document) {
-                    if (document.exists()) {
-                        String courseId = null;
-                        if (Utils.isMockEnabled) {
-                            courseId = DEFAULT_COURSE_ID;
-                        }
-                        else {
-                            if (document.get(FB_COURSE_ID) != null) {
-                                courseId = document.get(FB_COURSE_ID).toString();
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot document) {
+                        if (document.exists()) {
+                            String courseId = null;
+                            if (Utils.isMockEnabled) {
+                                courseId = DEFAULT_COURSE_ID;
+                            } else {
+                                if (document.get(FB_COURSE_ID) != null) {
+                                    courseId = document.get(FB_COURSE_ID).toString();
+                                }
+                            }
+                            if (courseId != null) {
+                                loadQuestionsAux(context, courseId);
                             }
                         }
-                        if (courseId != null) {
-                            loadQuestionsAux(context, courseId);
+                    }
+                });
+    }
+    /**
+     * Method that delete a question and its corresponding image
+     *
+     * @param questionId the id of the question
+     */
+    public void deleteQuestion(final String questionId) {
+        db.collection(FB_QUESTIONS).document(questionId).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            if(questionId.equals(Utils.MOCK_UUID)) {
+                                Log.i(TAG, "The question has been deleted from the database.");
+                                return;
+                            }
+                            FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()) {
+                                        Log.i(TAG, "The question has been deleted from the database.");
+                                    }
+                                }
+                            });
+                        } else {
+                            Log.w(TAG, "Failed to delete the question's data from the database.");
                         }
                     }
-                }
-            });
+                });
     }
 }

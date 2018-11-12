@@ -92,6 +92,7 @@ public class Utils {
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc = null;
+    public static final String MOCK_UUID = "fake-UUID"; //This question's id on the server is what the tests use
 
     // Basic Player stats
     public static final int XP_TO_LEVEL_UP = 100;

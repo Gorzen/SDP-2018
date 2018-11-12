@@ -120,7 +120,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            String newQuestionID = UUID.randomUUID().toString();
+            String newQuestionID = getUUID();
             File questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
             try {
                 Bitmap imageBitmap = getBitmapFromUri(imageURI);
@@ -129,6 +129,7 @@ public class AddQuestionActivity extends NavigationTeacher {
                 out.close();
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
+                if(!newQuestionID.equals(Utils.MOCK_UUID)) return; //If the UUID is real, the question need an image
             }
 
 
@@ -140,9 +141,17 @@ public class AddQuestionActivity extends NavigationTeacher {
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
-            Firestore.addQuestion(q);
+            Firestore.get().addQuestion(q);
 
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getUUID(){
+        if(Utils.isMockEnabled) {
+            return Utils.MOCK_UUID;
+        } else {
+            return UUID.randomUUID().toString();
         }
     }
 
