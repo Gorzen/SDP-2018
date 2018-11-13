@@ -2,6 +2,8 @@ package ch.epfl.sweng.studyup.utils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 public class DataContainers {
 
     /*
@@ -17,9 +19,7 @@ public class DataContainers {
         public String token;
     }
 
-    public static final class PlayerDataContainer {
-        @SerializedName("error")
-        public String error;
+    public static final class PlayerDataContainer implements Serializable {
 
         @SerializedName("Firstname")
         public String firstName;

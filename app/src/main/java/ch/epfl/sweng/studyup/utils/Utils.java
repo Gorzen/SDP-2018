@@ -1,29 +1,14 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.app.Activity;
 import android.util.Log;
-
-import com.google.common.collect.Sets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import android.content.Context;
-import android.location.Location;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.model.LatLng;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.Question;
-
-import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
 public class Utils {
 
@@ -40,17 +25,6 @@ public class Utils {
             Log.w(tag, "Test was interrupted: " + e.getMessage());
             return;
         }
-    }
-
-    /**
-     * Put the given information in Firestore.userData
-     */
-    public static void putUserData(String key, Object value) {
-        if (userData == null) {
-            userData = new HashMap<>();
-        }
-
-        userData.put(key, value);
     }
 
     public static void killApp(String tag){
@@ -78,10 +52,12 @@ public class Utils {
         return items;
     }
 
-    public static Object getOrDefault(String key, Object defaultRet){
-        if(userData.containsKey(key)){
-            return userData.get(key);
-        }else{
+    public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {
+
+        if (map.containsKey(key)) {
+            return map.get(key);
+        }
+        else{
             return defaultRet;
         }
     }

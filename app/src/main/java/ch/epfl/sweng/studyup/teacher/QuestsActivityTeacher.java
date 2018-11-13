@@ -14,10 +14,10 @@ import java.util.List;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class QuestsActivityTeacher extends NavigationTeacher {
 
@@ -25,7 +25,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_teacher);
-        navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, Utils.QUESTS_INDEX_TEACHER);
+        navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
 
         LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
         questions.observe(this, new Observer<List<Question>>() {

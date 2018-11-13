@@ -3,9 +3,12 @@ package ch.epfl.sweng.studyup.questions;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Objects;
+
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 @Entity
 public class Question {
@@ -23,6 +26,9 @@ public class Question {
     @ColumnInfo(name = "answer")
     private int answer;
 
+    @ColumnInfo(name = "courseName")
+    private String courseName;
+
     /**
      * Class for the question
      *
@@ -31,7 +37,7 @@ public class Question {
      * @param trueFalse    If the question is a True/False question or not
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
      */
-    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer) {
+    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer, String courseName) {
         if (answer < 0 || answer > 3 || title == null) {
             throw new IllegalArgumentException();
         }
@@ -42,7 +48,10 @@ public class Question {
         this.title = title;
         this.trueFalse = trueFalse;
         this.answer = answer;
+        this.courseName = courseName;
     }
+
+    public String getCourseName() { return courseName; }
 
     public String getTitle() {
         return title;

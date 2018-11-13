@@ -5,7 +5,7 @@ import java.util.Arrays;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class NavigationTeacher extends Navigation {
     private final ArrayList<Integer> buttonIdsTeacher = new ArrayList<>(Arrays.asList(
@@ -17,8 +17,8 @@ public class NavigationTeacher extends Navigation {
             QuestsActivityTeacher.class));
 
     private final ArrayList<Integer> activitiesIdTeacher = new ArrayList<>(Arrays.asList(
-            Utils.ADD_QUESTION_INDEX,
-            Utils.QUESTS_INDEX_TEACHER));
+            ADD_QUESTION_INDEX,
+            QUESTS_INDEX_TEACHER));
 
     @Override
     protected void setupNavigation() {

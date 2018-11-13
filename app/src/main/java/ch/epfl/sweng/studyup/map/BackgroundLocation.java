@@ -19,7 +19,8 @@ import java.lang.ref.WeakReference;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 /**
  * BackgroundLocation
@@ -56,12 +57,12 @@ public class BackgroundLocation extends JobService {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
-                    //Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
-                    Utils.position = new LatLng(location.getLatitude(), location.getLongitude());
-                    String str = "NEW POS: " + Utils.position.latitude + ", " + Utils.position.longitude;
+                    // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
+                    POSITION = new LatLng(location.getLatitude(), location.getLongitude());
+                    String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
                     if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
                         str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
-                        Player.get().addExperience(2 * Utils.XP_STEP, activity.get());
+                        Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
                         str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
                     }
@@ -77,7 +78,7 @@ public class BackgroundLocation extends JobService {
         public GetLocation(JobService jobService, JobParameters jobParameters) {
             this.jobService = new WeakReference<>(jobService);
             this.jobParameters = jobParameters;
-            this.activity = new WeakReference<>(Utils.mainActivity);
+            this.activity = new WeakReference<>(MAIN_ACTIVITY);
         }
 
         @Override
@@ -91,7 +92,7 @@ public class BackgroundLocation extends JobService {
                     || ContextCompat.checkSelfPermission(activity.get(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Log.d("GPS_MAP", "Permission granted");
-                Utils.locationProviderClient.getLastLocation()
+                LOCATION_PROVIDER_CLIENT.getLastLocation()
                         .addOnSuccessListener(onSuccessListener);
             }
 

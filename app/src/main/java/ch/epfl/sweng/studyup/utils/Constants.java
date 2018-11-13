@@ -17,8 +17,8 @@ public class Constants {
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
     public static final String FB_ROLE = "role";
-    public static final String FB_ROLES_S = "student";  //Enum???
-    public static final String FB_ROLES_T = "teacher";
+    public static final String FB_ROLE_S = "student";
+    public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";
     public static final String FB_CURRENCY = "currency";
     public static final String FB_LEVEL = "level";
@@ -31,16 +31,19 @@ public class Constants {
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTS = "quests";
+    public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
-    public static final String FB_COURSE_ID = "courseId";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
 
 
-    // Constant associated with Firebase storage
-    public static final String question_images_directory_name = "question_images";
-    public static final String profile_pictures_directory_name = "profile_pictures";
+    // Values associated with Firebase storage
+    public static final String QUESTION_IMAGES_DIRECTORY_NAME = "question_images";
+    public static final String PROFILE_PICTURES_DIRECTORY_NAME = "profile_pictures";
+
+    // Values associated with intent extras
+    public static final String INTENT_ROLE_KEY = "INTENT_ROLE_KEY";
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -80,12 +83,17 @@ public class Constants {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
 
-    //Navigation items indexes for smooth transitions
+    public static final String LEVEL_DISPLAY = "LEVEL ";
+    public static final String CURR_DISPLAY = "MONEY:\n";
+
+    // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 
+    // Enums for Role, Course
     public enum Role {
-        STUDENT, TEACHER
+        student,
+        teacher
     }
 
     public enum Course {
@@ -94,25 +102,4 @@ public class Constants {
         ECOLOGY,
         MEDIEVEL_HISTORY
     }
-
-    /*
-    Use for the following constants is unclear.
-     */
-    public static final String LEVEL_DISPLAY = "LEVEL ";
-    public static final String CURR_DISPLAY = "MONEY:\n";
-
-    public static LatLng position = null;
-    public static FusedLocationProviderClient locationProviderClient = null;
-    public static Activity mainActivity = null;
-        /*
-    static {
-        Map<Integer, Class> tempMap = new HashMap<>();
-        tempMap.put(R.id.navigation_home, MainActivity.class);
-        tempMap.put(R.id.navigation_quests, QuestsActivity.class);
-        tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
-        tempMap.put(R.id.navigation_map, MapsActivity.class);
-        tempMap.put(R.id.navigation_chat, InventoryActivity.class);
-        idToAct = Collections.unmodifiableMap(tempMap);
-    }
-    */
 }

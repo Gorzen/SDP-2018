@@ -26,13 +26,15 @@ import java.util.UUID;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
-import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public class AddQuestionActivity extends NavigationTeacher {
 
@@ -49,15 +51,15 @@ public class AddQuestionActivity extends NavigationTeacher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
-        if (!Utils.isMockEnabled) {
+        if (MOCK_ENABLED) {
             Firestore.get().loadQuestions(this);
         }
 
-        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
+        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, ADD_QUESTION_INDEX);
 
         addRadioListener();
 
-        if(Utils.isMockEnabled) {
+        if(MOCK_ENABLED) {
             getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
         } else {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
@@ -129,27 +131,30 @@ public class AddQuestionActivity extends NavigationTeacher {
                 out.close();
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
-                if(!newQuestionID.equals(Utils.MOCK_UUID)) return; //If the UUID is real, the question need an image
+                if(!newQuestionID.equals(MOCK_UUID)) return; //If the UUID is real, the question need an image
             }
 
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.length() == 0) return;
-            Question q = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber);
+
+            // TODO: Determine how to set question course
+            String questionCourseName = Player.get().getCourses().get(0).name();
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
-            Firestore.get().addQuestion(q);
+            Firestore.get().addQuestion(newQuestion);
 
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
         }
     }
 
     private String getUUID(){
-        if(Utils.isMockEnabled) {
-            return Utils.MOCK_UUID;
+        if(MOCK_ENABLED) {
+            return MOCK_UUID;
         } else {
             return UUID.randomUUID().toString();
         }

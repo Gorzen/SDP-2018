@@ -50,14 +50,12 @@ public class Authenticator {
         String response = getResponse(requestURL);
 
         PlayerDataContainer playerData = new Gson().fromJson(response, PlayerDataContainer.class);
-        String error = playerData.error;
 
-        if (error != null) {
-            throw new Exception("Error when getting player data: " + error);
-        }
         if (playerData.sciperNum == null) {
             throw new Exception("Unable to retrieve player data.");
         }
+
+        return playerData;
     }
 
     public static String getResponse(String requestURL) throws IOException {

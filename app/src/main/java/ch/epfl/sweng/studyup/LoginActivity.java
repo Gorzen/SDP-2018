@@ -1,6 +1,8 @@
 package ch.epfl.sweng.studyup;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,13 +20,14 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class LoginActivity extends AppCompatActivity {
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if(!isMockEnabled) {
+        if(!MOCK_ENABLED) {
             attemptLoginFromCache();
         }
 
@@ -49,13 +52,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void attemptLoginFromCache() {
 
-        FileCacher<String[]> playerCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+        FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 
         try {
-            if(playerCache.hasCache()) {
+            if(loginPersistenceCache.hasCache()) {
 
-                final String[] playerCacheData = playerCache.readCache();
-
+                final List<String> playerCacheData = loginPersistenceCache.readCache();
                 try {
                     loadPlayerDataFromCache(playerCacheData);
                 }
@@ -67,14 +69,12 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG, e.toString());
                     return;
                 }
-
                 /*
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
                  */
-                Class homeActivity = Player.get().getRole().equals(Role.STUDENT) ?
+                Class homeActivity = Player.get().getRole().equals(Role.student) ?
                         MainActivity.class : AddQuestionActivity.class;
-
                 startActivity(new Intent(this, homeActivity));
             }
 
@@ -83,22 +83,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void loadPlayerDataFromCache(final String[] playerCacheData) throws Exception {
+    public void loadPlayerDataFromCache(List<String> playerCacheData) throws Exception {
 
-        if(playerCacheData.length != 4) {
-            throw new Exception("Invalid cache array size.");
-        }
+        String sciperNum = playerCacheData.get(0);
+        String firstName = playerCacheData.get(1);
+        String lastName = playerCacheData.get(2);
+        Role role = Role.valueOf(playerCacheData.get(3));
 
-        int sciperNum = Integer.parseInt(playerCacheData[0]);
-        if (sciperNum < Constants.MIN_SCIPER || sciperNum > Constants.MAX_SCIPER) {
+        if (Integer.parseInt(sciperNum) < Constants.MIN_SCIPER ||
+            Integer.parseInt(sciperNum) > Constants.MAX_SCIPER) {
+
             throw new Exception("Invalid Sciper number: " + sciperNum + ".");
         }
 
         Player currPlayer = Player.get();
-        currPlayer.setSciper(sciperNum);
-        currPlayer.setFirstName(playerCacheData[1]);
-        currPlayer.setLastName(playerCacheData[2]);
-        currPlayer.setRole(Role.valueOf(playerCacheData[3]));
+        currPlayer.initializePlayerData(sciperNum, firstName, lastName);
+        currPlayer.setRole(role);
     }
 
     private void loadInterface() {
@@ -147,17 +147,13 @@ public class LoginActivity extends AppCompatActivity {
         }
         else {
 
-            Player currPlayer = Player.get();
-
-            if (checkedRole.getId() == R.id.student) {
-                currPlayer.setRole(Role.STUDENT);
-            }
-            else {
-                Player.get().setRole(Role.TEACHER);
-            }
-
             Intent authServerRedirect = new Intent(Intent.ACTION_VIEW);
+
             authServerRedirect.setData(Uri.parse(AUTH_SERVER_URL));
+
+            Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
+            Player.get().setRole(loginRole);
+
             startActivity(authServerRedirect);
         }
 

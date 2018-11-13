@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public class Rooms {
     private final static double RADIUS_ROOM = 30.0;
@@ -41,7 +42,7 @@ public class Rooms {
         }
     });
 
-    //https://stackoverflow.com/questions/8832071/how-can-i-get-the-distance-between-two-point-by-latlng
+    // https://stackoverflow.com/questions/8832071/how-can-i-get-the-distance-between-two-point-by-latlng
     public static double distanceBetweenTwoLatLng(LatLng latLng1, LatLng latLng2){
         double earthRadius = 3958.75;
         double latDiff = Math.toRadians(latLng2.latitude - latLng1.latitude);
@@ -58,9 +59,9 @@ public class Rooms {
     }
 
     public static boolean checkIfUserIsInRoom(String room) {
-        if(Utils.position == null || !ROOMS_LOCATIONS.containsKey(room)){
+        if(POSITION == null || !ROOMS_LOCATIONS.containsKey(room)){
             return false;
         }
-        return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), Utils.position) <= RADIUS_ROOM;
+        return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM;
     }
 }

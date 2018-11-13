@@ -1,16 +1,28 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.app.Activity;
 import android.location.Location;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
 public class GlobalAccessVariables {
 
-    public static Boolean isMockEnabled = false;
-    public static Location mockLoc = null;
+    public static Activity MAIN_ACTIVITY = null;
 
-    //This question's id on the server is what the tests use
+    public static LatLng POSITION = null;
+    public static String ROOM_NUM = "INN_3_26";
+    public static FusedLocationProviderClient LOCATION_PROVIDER_CLIENT = null;
+
+    public static Boolean MOCK_ENABLED = false;
+
     public static final String MOCK_UUID = "fake-UUID";
+    public static final String MOCK_TOKEN = "NON-NULL TOKEN VALUE";
+
+    public static Location MOC_LOC = null;
 
     public static Map<String, Object> dbStaticInfo = null;
+
 }

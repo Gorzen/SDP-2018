@@ -2,7 +2,8 @@ package ch.epfl.sweng.studyup.items;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public enum Items {
     XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION),
@@ -27,10 +28,10 @@ public enum Items {
     public void consume() {
         switch (this) {
             case XP_POTION:
-                Player.get().addExperience(Utils.XP_STEP, Utils.mainActivity);
+                Player.get().addExperience(XP_STEP, MAIN_ACTIVITY);
                 break;
             case COIN_SACK:
-                Player.get().addCurrency(Utils.CURRENCY_PER_LEVEL, Utils.mainActivity);
+                Player.get().addCurrency(CURRENCY_PER_LEVEL, MAIN_ACTIVITY);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown item");

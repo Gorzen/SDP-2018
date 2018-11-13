@@ -8,7 +8,7 @@ import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class NavigationStudent extends Navigation {
     public final ArrayList<Integer> buttonIdsStudent = new ArrayList<>(Arrays.asList(
@@ -26,11 +26,11 @@ public class NavigationStudent extends Navigation {
             InventoryActivity.class));
 
     private final ArrayList<Integer> activitiesIdStudent  = new ArrayList<>(Arrays.asList(
-            Utils.MAIN_INDEX,
-            Utils.QUESTS_INDEX_STUDENT,
-            Utils.RANKINGS_INDEX,
-            Utils.MAP_INDEX,
-            Utils.INVENTORY_INDEX));
+            MAIN_INDEX,
+            QUESTS_INDEX_STUDENT,
+            RANKINGS_INDEX,
+            MAP_INDEX,
+            INVENTORY_INDEX));
 
     @Override
     protected void setupNavigation() {

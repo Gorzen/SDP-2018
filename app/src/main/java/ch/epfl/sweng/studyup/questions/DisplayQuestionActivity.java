@@ -30,7 +30,10 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
@@ -84,8 +87,9 @@ public class DisplayQuestionActivity extends RefreshContext {
         } else
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
+        // TODO: Set the question course appropriately
         //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber);
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Course.SWENG.name());
         displayImage(questionID);
         setupLayout(displayQuestion);
 

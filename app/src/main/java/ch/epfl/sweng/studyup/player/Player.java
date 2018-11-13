@@ -6,15 +6,16 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
-import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import ch.epfl.sweng.studyup.utils.DataContainers.*;
 
 /**
  * Player
@@ -22,108 +23,139 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
  * Used to store the Player's state and informations.
  */
 public class Player {
+
     private static final String TAG = Player.class.getSimpleName();
+
     private static Player instance = null;
+
+    // Basic biographical data
+    private String sciperNum;
+    private String firstName;
+    private String lastName;
+
+    private String username;
+    private Role role;
+
+    // Game-related data
     private int experience;
     private int level;
     private int currency;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private Role role;
-    private boolean isTeacher;
-    private int sciper;
-    private String courseId;
+
     private int[] questionsCurr;
     private int[] questsCurr;
     private int[] questionsAcheived;
     private int[] questsAcheived;
     private List<Items> items;
 
+    private List<Course> courses;
 
-    public static String room = "INN_3_26";
-
-    /**
-     * Constructor called before someone is login.
-     */
     private Player() {
         experience = INITIAL_XP;
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
-        sciper = INITIAL_SCIPER;
-        firstName = INITIAL_FIRSTNAME;
-        lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
         items = new ArrayList<>();
+        courses = new ArrayList<>();
+        courses.add(Course.SWENG);
     }
 
     public static Player get() {
         if (instance == null) {
+            Log.d(TAG, "PLAYER IS NULL");
             instance = new Player();
         }
         return instance;
     }
 
-    public List<Items> getItems() {
-        return Collections.unmodifiableList(new ArrayList<>(items));
-    }
+    /**
+     * Initialize the instance of Player for the FIRST TIME.
+     * This is used when a user logs is logged in from AuthenticationActivity OR
+     * the user is logged in automatically from LoginActivity.
+     */
+    public void initializePlayerData(String sciperNum, String firstName, String lastName) {
 
-    public void addItem(Items item) {
-        if (items.add(item)) {
-            putUserData(FB_ITEMS, getItemsString());
-            Firestore.get().setUserData(FB_ITEMS, getItemsString());
-        }
-    }
-
-    public void consumeItem(Items item) {
-        if (items.remove(item)) {
-            item.consume();
-            putUserData(FB_ITEMS, getItemsString());
-            Firestore.get().setUserData(FB_ITEMS, getItemsString());
-        } else {
-            throw new IllegalArgumentException("The player does not have this item, could not find it.");
-        }
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getCurrency() {
-        return currency;
+        this.sciperNum = sciperNum;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     /**
-     * Method suppose that we can only gain experience.
+     * Populates the player class with persisted data.
+     * This method is called from FireStore.loadPlayerData(), which is called
+     * in AuthenticationActivity.
      */
+    public void updateLocalDataFromRemote(Map<String, Object> remotePlayerData) {
+
+        if (remotePlayerData.isEmpty()) {
+            Log.e(TAG,"Unable to retrieve player data from Firebase.");
+            return;
+        }
+
+        username = getOrDefault(remotePlayerData, FB_USERNAME, INITIAL_USERNAME).toString();
+        experience = Integer.parseInt(getOrDefault(remotePlayerData, FB_XP, INITIAL_XP).toString());
+        currency = Integer.parseInt(getOrDefault(remotePlayerData, FB_CURRENCY, INITIAL_CURRENCY).toString());
+        level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
+        items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
+    }
+
+    // Getters
+    public String getSciperNum() { return sciperNum; }
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public Role getRole() { return this.role; }
+    public String getUserName() { return username; }
+    public int getExperience() { return experience; }
+    public int getLevel() { return level; }
+    public int getCurrency() { return currency; }
+    public String getCurrentRoom() { return ROOM_NUM; }
+    public List<Items> getItems() {
+        return Collections.unmodifiableList(new ArrayList<>(items));
+    }
+    public List<String> getItemNames() {
+        List<String> itemStringsList = new ArrayList<>();
+        for (Items currItem : items) {
+            itemStringsList.add(currItem.name());
+        }
+        return itemStringsList;
+    }
+    public double getLevelProgress() {
+        return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
+    }
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    // Setters
+    public void setSciperNum(String sciperNum) {
+        this.sciperNum = sciperNum;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+    public void setFirstName(String firstName) {
+        firstName = firstName;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    public void setUserName(String newUsername) {
+        username = newUsername;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+    // Method suppose that we can only gain experience.
     private void updateLevel(Activity activity) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
 
         if (newLevel - level > 0) {
             addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, activity);
-            putUserData(FB_CURRENCY, currency);
-            putUserData(FB_LEVEL, newLevel);
-            Firestore.get().setUserData(FB_CURRENCY, currency);
-            Firestore.get().setUserData(FB_LEVEL, newLevel);
             level = newLevel;
         }
+
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
-
-    public void addCurrency(int curr, Activity activity) {
-        currency += curr;
-
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).updateCurrDisplay();
-        }
-
-        putUserData(FB_CURRENCY, currency);
-        Firestore.get().setUserData(FB_CURRENCY, currency);
-    }
-
     public void addExperience(int xp, Activity activity) {
         experience += xp;
         updateLevel(activity);
@@ -134,121 +166,31 @@ public class Player {
             Log.i("Check", "Activity is " + activity.toString() + " " + ((MainActivity) activity).getLocalClassName());
         }
 
-        putUserData(FB_XP, experience);
-        Firestore.get().setUserData(FB_XP, experience);
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
+    public void addCurrency(int curr, Activity activity) {
+        currency += curr;
 
-    public double getLevelProgress() {
-        return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
-    }
-
-    /**
-     * Changes the Player to the basic state, right after constructor.
-     */
-    public void reset() {
-        instance = new Player();
-        instance.setSciper(INITIAL_SCIPER);
-        instance.setFirstName(FB_FIRSTNAME);
-        instance.setLastName(FB_LASTNAME);
-        instance.setUserName(INITIAL_USERNAME);
-        items = new ArrayList<>();
-        List<Integer> itemsInt = new ArrayList<>();
-        putUserData(FB_SCIPER, sciper);
-        putUserData(FB_FIRSTNAME, firstName);
-        putUserData(FB_LASTNAME, lastName);
-        putUserData(FB_ITEMS, itemsInt);
-        if (isTeacher)
-            putUserData(FB_ROLE, FB_ROLES_T);
-        else
-            putUserData(FB_ROLE, FB_ROLES_S);
-    }
-
-    /**
-     * Method used to save the state contained in the userData attribute of the class Firestore in
-     * the class Player
-     */
-    public void updatePlayerData(Activity activity) throws NullPointerException {
-        // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
-        // Keeping this in case we want to have number attribute and not strings
-        experience = Integer.parseInt(getOrDefault(FB_XP, INITIAL_XP).toString());
-        currency = Integer.parseInt(getOrDefault(FB_CURRENCY, INITIAL_CURRENCY).toString());
-        level = Integer.parseInt(getOrDefault(FB_LEVEL, INITIAL_LEVEL).toString());
-        firstName = getOrDefault(FB_FIRSTNAME, INITIAL_FIRSTNAME).toString();
-        lastName = getOrDefault(FB_LASTNAME, INITIAL_LASTNAME).toString();
-        sciper = Integer.parseInt(getOrDefault(FB_SCIPER, INITIAL_SCIPER).toString());
-        username = getOrDefault(FB_USERNAME, INITIAL_USERNAME).toString();
-        items = getItemsFromString((List<String>) getOrDefault(FB_ITEMS, new ArrayList<String>()));
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-
-        putUserData(FB_FIRSTNAME, firstName);
-    }
-
-    public void setUserName(String new_username) {
-        username = new_username;
-        putUserData(FB_USERNAME, username);
-        Firestore.get().setUserData(FB_USERNAME, username);
-    }
-
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-
-        putUserData(FB_LASTNAME, lastName);
-    }
-
-    public String getUserName() {
-        return username;
-    }
-
-    public int getSciper() {
-        //to remove later
-        if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
-            return INITIAL_SCIPER;
+        if (activity instanceof MainActivity) {
+            ((MainActivity) activity).updateCurrDisplay();
         }
-        return sciper;
+
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
-
-    public void setSciper(int sciper) {
-        this.sciper = sciper;
-        putUserData(FB_SCIPER, sciper);
+    public void addItem(Items item) {
+        if (items.add(item)) {
+            Firestore.get().updateRemotePlayerDataFromLocal();
+        }
     }
-
-    public void setRole(Role role) {
-        this.role = role;
-
-        this.isTeacher = isTeacher;
-
-        if (isTeacher) {
-            putUserData(FB_ROLE, FB_ROLES_T);
+    public void consumeItem(Items item) throws Exception {
+        if (items.remove(item)) {
+            item.consume();
+            Firestore.get().updateRemotePlayerDataFromLocal();
         } else {
-            putUserData(FB_ROLE, FB_ROLES_S);
+            throw new Exception("The player does not have this item, could not find it.");
         }
     }
-
-    public Role getRole() {
-        return this.role;
-    }
-
-    public String getCurrentRoom() {
-        return room;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getCourseId() {
-        return this.courseId;
+    public void addCourse(Course newCourse) {
+        courses.add(newCourse);
     }
 }

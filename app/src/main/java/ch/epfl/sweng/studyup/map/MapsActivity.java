@@ -25,8 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
-
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 /**
  * MapActivity
@@ -62,8 +62,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
 
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(Utils.LOCATION_REQ_INTERVAL);
-        locationRequest.setFastestInterval(Utils.LOCATION_REQ_FASTEST_INTERVAL);
+        locationRequest.setInterval(LOCATION_REQ_INTERVAL);
+        locationRequest.setFastestInterval(LOCATION_REQ_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
 
@@ -71,7 +71,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(MapsActivity.this, MapsActivity.class, Utils.MAP_INDEX);
+        navigationSwitcher(MapsActivity.this, MapsActivity.class, MAP_INDEX);
     }
 
     /**
@@ -88,8 +88,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Log.d("GPS_MAP", "Map ready position = " + Utils.position);
-        onLocationUpdate(Utils.position);
+        Log.d("GPS_MAP", "Map ready position = " + POSITION);
+        onLocationUpdate(POSITION);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                     location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
                 }
             }
-            Utils.position = new LatLng(latLong.latitude, latLong.longitude);
+            POSITION = new LatLng(latLong.latitude, latLong.longitude);
         }
     }
 

@@ -35,13 +35,14 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
+
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 
-import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public class MainActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
@@ -77,10 +78,9 @@ public class MainActivity extends NavigationStudent {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
-
         Firestore.get().loadQuestions(this);
 
-        System.out.println("PLAYER COURSE ID: " + Player.get().getCourseId());
+        Player currPlayer = Player.get();
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
@@ -92,10 +92,11 @@ public class MainActivity extends NavigationStudent {
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
-        Utils.mainActivity = this;
-        Utils.locationProviderClient = new FusedLocationProviderClient(this);
 
-        if (!Utils.isMockEnabled) {
+        MAIN_ACTIVITY = this;
+        LOCATION_PROVIDER_CLIENT = new FusedLocationProviderClient(this);
+
+        if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
         }
 
@@ -104,7 +105,7 @@ public class MainActivity extends NavigationStudent {
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
-        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), image_view);
+        FileStorage.downloadProfilePicture(currPlayer.getSciperNum(), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +147,7 @@ public class MainActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.MAIN_INDEX);
+        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
 
         // Level progression bar
         ActivityCompat.requestPermissions(
@@ -222,11 +223,11 @@ public class MainActivity extends NavigationStudent {
 
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        ((TextView) findViewById(R.id.levelText)).setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
+        ((TextView) findViewById(R.id.levelText)).setText(LEVEL_DISPLAY + Player.get().getLevel());
     }
 
     public void updateCurrDisplay() {
-        ((TextView) findViewById(R.id.currText)).setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
+        ((TextView) findViewById(R.id.currText)).setText(CURR_DISPLAY + Player.get().getCurrency());
     }
 
     public void scheduleBackgroundLocation(){

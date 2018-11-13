@@ -7,7 +7,7 @@ import android.view.MenuInflater;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class RankingsActivity extends NavigationStudent {
 
@@ -21,7 +21,7 @@ public class RankingsActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
 
-        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, Utils.RANKINGS_INDEX);
+        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
     }
 
     //Display the toolbar
