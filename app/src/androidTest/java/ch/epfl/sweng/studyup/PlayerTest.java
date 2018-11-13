@@ -36,7 +36,7 @@ public class PlayerTest {
     @Test
     public void addItemTest(){
         Player.get().addItem(Items.XP_POTION);
-        assertEquals(Player.get().getItems().get(0).valueOf(), 0);
+        assertEquals(Player.get().getItems().get(0), Items.XP_POTION);
     }
 
     @Test

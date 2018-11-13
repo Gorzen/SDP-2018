@@ -32,20 +32,20 @@ public class UtilsItemsTest {
     public void getItemsIntTest(){
         Player.get().addItem(Items.XP_POTION);
         Player.get().addItem(Items.COIN_SACK);
-        List<Integer> items = Utils.getItemsInt();
-        assertEquals(0, (int)items.get(0));
-        assertEquals(1, (int)items.get(1));
+        List<String> items = Utils.getItemsString();
+        assertEquals(Items.XP_POTION.name(), items.get(0));
+        assertEquals(Items.COIN_SACK.name(), items.get(1));
     }
 
     @Test
     public void getItemsFromIntTest(){
-        List<Long> itemsLong = new ArrayList<Long>(){
+        List<String> itemsLong = new ArrayList<String>(){
             {
-                add(0l);
-                add(1l);
+                add(Items.XP_POTION.name());
+                add(Items.COIN_SACK.name());
             }
         };
-        List<Items> items = Utils.getItemsFromInt(itemsLong);
+        List<Items> items = Utils.getItemsFromString(itemsLong);
         assertEquals(items.get(0), Items.XP_POTION);
         assertEquals(items.get(1), Items.COIN_SACK);
     }

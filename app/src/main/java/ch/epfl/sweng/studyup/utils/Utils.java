@@ -155,19 +155,19 @@ public class Utils {
         }
     }
 
-    public static List<Integer> getItemsInt(){
+    public static List<String> getItemsString(){
         List<Items> items = Player.get().getItems();
-        List<Integer> itemsInt = new ArrayList<>();
+        List<String> itemsStr = new ArrayList<>();
         for(Items i : items){
-            itemsInt.add(i.valueOf());
+            itemsStr.add(i.name());
         }
-        return itemsInt;
+        return itemsStr;
     }
 
-    public static List<Items> getItemsFromInt(List<Long> itemsInt){
+    public static List<Items> getItemsFromString(List<String> itemsStr){
         List<Items> items = new ArrayList<>();
-        for(int i = 0; i < itemsInt.size(); ++i){
-            items.add(Items.getItems(itemsInt.get(i)));
+        for(String s : itemsStr){
+            items.add(Items.valueOf(s));
         }
         return items;
     }
