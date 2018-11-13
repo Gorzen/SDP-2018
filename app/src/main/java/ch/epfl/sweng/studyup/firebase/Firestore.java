@@ -302,7 +302,7 @@ public class Firestore {
      * @param context The context used to save the questions locally
      */
 
-    private static void loadQuestionsAux(final Context context, final String userCourseId) {
+    private void loadQuestionsAux(final Context context, final String userCourseId) {
 
         final List<Question> questionList = new ArrayList<>();
 
@@ -350,7 +350,7 @@ public class Firestore {
         });
     }
 
-    public static void loadQuestions(final Context context) {
+    public void loadQuestions(final Context context) {
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

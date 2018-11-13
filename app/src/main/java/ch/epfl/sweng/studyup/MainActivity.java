@@ -78,7 +78,7 @@ public class MainActivity extends NavigationStudent {
 
         displayLoginSuccessMessage(getIntent());
 
-        Firestore.loadQuestions(this);
+        Firestore.get().loadQuestions(this);
 
         System.out.println("PLAYER COURSE ID: " + Player.get().getCourseId());
 
