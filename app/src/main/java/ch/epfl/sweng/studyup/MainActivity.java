@@ -44,12 +44,6 @@ import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
 
 public class MainActivity extends NavigationStudent {
-    private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
-        @Override
-        public String formatText(double progress) {
-            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel()));
-        }
-    };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
 
@@ -163,11 +157,6 @@ public class MainActivity extends NavigationStudent {
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
     }

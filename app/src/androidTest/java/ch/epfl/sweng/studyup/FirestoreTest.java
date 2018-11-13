@@ -123,7 +123,7 @@ public class FirestoreTest {
         Player.get().addExperience(XP_STEP, null);
         Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.getData(MAX_SCIPER);
+        Firestore.get().getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         resetDummy();
@@ -141,7 +141,7 @@ public class FirestoreTest {
         waitAndTag(WAIT_TIME_MILLIS, TAG);
         Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
         waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.getData(MAX_SCIPER);
+        Firestore.get().getData(MAX_SCIPER);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
 
@@ -161,7 +161,7 @@ public class FirestoreTest {
         dummy.put(FB_CURRENCY, randomCurr);
         Firestore.get().setUserInfos(sciper, dummy);
 
-        Firestore.getData(sciper);
+        Firestore.get().getData(sciper);
         waitAndTag(WAIT_TIME_MILLIS, TAG);
 
         for (Map.Entry<String, Object> entry : dummy.entrySet()) {
@@ -180,7 +180,7 @@ public class FirestoreTest {
 
         resetDummy();
 
-        Firestore.getData(sciper);
+        Firestore.get().getData(sciper);
 
         for (Map.Entry<String, Object> entry : dummy.entrySet()) {
             assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());

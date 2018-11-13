@@ -62,7 +62,7 @@ public class Firestore {
      *
      * @param sciper Sciper ot the user.
      */
-    public static void getData(final int sciper) {
+    public void getData(final int sciper) {
         db.collection(FB_USERS).document(Integer.toString(sciper))
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -259,7 +259,7 @@ public class Firestore {
                 });
     }
 
-    public static void addQuestion(final Question question) {
+    public void addQuestion(final Question question) {
 
         db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
                 .get()
