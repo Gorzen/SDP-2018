@@ -47,7 +47,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         PlayerDataContainer playerData = Authenticator.getPlayerData(token);
 
-        
+
 
                     if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
                         Firestore.get().getAndSetUserData(
