@@ -49,7 +49,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_bubble_chart_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_exit_to_app_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -59,9 +59,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="696969" />
-                            <entry key="opacityPercent" value="50" />
-                            <entry key="outputName" value="ic_todo_grey_24dp" />
+                            <entry key="color" value="121212" />
+                            <entry key="opacityPercent" value="93" />
+                            <entry key="outputName" value="ic_logout_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$/Downloads/question_mark.psd" />
                           </map>

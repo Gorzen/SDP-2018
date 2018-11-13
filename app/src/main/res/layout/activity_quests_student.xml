@@ -65,7 +65,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Available Quests"
+                android:text="@string/available_quests"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/listViewQuests"

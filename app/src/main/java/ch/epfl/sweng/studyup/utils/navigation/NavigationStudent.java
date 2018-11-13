@@ -1,9 +1,14 @@
 package ch.epfl.sweng.studyup.utils.navigation;
+import android.content.Intent;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.social.ChatActivity;
@@ -38,4 +43,6 @@ public class NavigationStudent extends Navigation {
         activities = activitiesStudent;
         activitiesId = activitiesIdStudent;
     }
+
+
 }

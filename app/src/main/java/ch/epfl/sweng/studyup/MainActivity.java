@@ -35,6 +35,7 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -58,7 +59,6 @@ public class MainActivity extends NavigationStudent {
     ImageButton pic_button2;
 
     private ImageButton pic_button;
-    private Button logout_button;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -87,7 +87,6 @@ public class MainActivity extends NavigationStudent {
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
-        logout_button = findViewById(R.id.logoutbutton);
 
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
@@ -124,15 +123,6 @@ public class MainActivity extends NavigationStudent {
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
                 pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
-            }
-        });
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unScheduleBackgroundLocation();
-                clearCacheToLogOut(MainActivity.this);
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -205,22 +195,6 @@ public class MainActivity extends NavigationStudent {
         }
     }
 
-    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    // Corresponding activities are not created yet
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(MainActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(MainActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     public void addExpPlayer() {
         Player.get().addExperience(XP_STEP, this);
@@ -258,6 +232,13 @@ public class MainActivity extends NavigationStudent {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        navigationTopToolbar(item);
+        return super.onOptionsItemSelected(item);
     }
 }
 

@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -205,5 +207,12 @@ public class CustomActivity extends NavigationStudent {
         MenuInflater i = getMenuInflater();
         i.inflate(R.menu.top_navigation, menu);
         return true;
+    }
+
+    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        navigationTopToolbar(item);
+        return super.onOptionsItemSelected(item);
     }
 }
