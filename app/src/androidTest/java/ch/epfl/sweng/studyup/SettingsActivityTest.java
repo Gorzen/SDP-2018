@@ -18,14 +18,12 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import ch.epfl.sweng.studyup.questions.Question;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
 import static org.junit.Assert.assertTrue;
 
@@ -67,7 +65,7 @@ public class SettingsActivityTest {
 
     @Test
     public void closeButtonTest() {
-        onView(withId(R.id.back_button)).perform(ViewActions.click());
+        onView(withId(R.id.back_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }

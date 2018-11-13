@@ -12,6 +12,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.Question;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static junit.framework.TestCase.assertTrue;
@@ -22,7 +23,7 @@ public class BackButtonTest extends DisplayQuestionActivityTest{
     public void backButtonTest() {
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
-        onView(withId(R.id.back_button)).perform(ViewActions.click());
+        onView(withId(R.id.back_button)).perform(click());
         assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }
