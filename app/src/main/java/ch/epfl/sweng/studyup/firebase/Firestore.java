@@ -152,7 +152,7 @@ public class Firestore {
         putUserData(FB_CURRENCY, Player.get().getCurrency());
         putUserData(FB_USERNAME, Player.get().getUserName());
 
-        putUserData(FB_ITEMS, getItemsInt());
+        putUserData(FB_ITEMS, getItemsString());
 
         db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

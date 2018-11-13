@@ -20,7 +20,7 @@ public class DisplayItemActivity extends RefreshContext {
         setContentView(R.layout.activity_display_item);
 
         Intent intent = getIntent();
-        item = Items.getItems(intent.getStringExtra(DisplayItemActivity.class.getName()));
+        item = Items.getItemFromName(intent.getStringExtra(DisplayItemActivity.class.getName()));
         TextView textViewName = findViewById(R.id.item_name);
         textViewName.setText(item.getName());
         TextView textViewDescription = findViewById(R.id.item_description);

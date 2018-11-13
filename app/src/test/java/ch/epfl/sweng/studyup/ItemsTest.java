@@ -24,31 +24,14 @@ public class ItemsTest {
     }
 
     @Test
-    public void getItemsFromLong() {
-        assertEquals(Items.XP_POTION, Items.getItems(0L));
-        assertEquals(Items.COIN_SACK, Items.getItems(1L));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void getItemsFromLongThrowsException() throws IllegalArgumentException {
-        Items.getItems(-1L);
-    }
-
-    @Test
     public void getItemsFromName() {
-        assertEquals(Items.XP_POTION, Items.getItems(Items.XP_POTION_NAME));
-        assertEquals(Items.COIN_SACK, Items.getItems(Items.COIN_SACK_NAME));
+        assertEquals(Items.XP_POTION, Items.getItemFromName(Items.XP_POTION_NAME));
+        assertEquals(Items.COIN_SACK, Items.getItemFromName(Items.COIN_SACK_NAME));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void getItemsFromNameThrowsException() throws IllegalArgumentException {
-        Items.getItems("La fondue moitié-moitié est indétronable");
-    }
-
-    @Test
-    public void valueOfReturnsCorrectValue() {
-        assertEquals(0, Items.XP_POTION.valueOf());
-        assertEquals(1, Items.COIN_SACK.valueOf());
+        Items.getItemFromName("La fondue moitié-moitié est indétronable");
     }
 
     @Test
