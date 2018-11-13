@@ -4,8 +4,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.Toolbar;
-
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,8 +23,11 @@ import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class NavigationTest{
@@ -79,12 +86,15 @@ public class NavigationTest{
         navigationBottomBar(bnv, false, false, false, false, true);
     }
 
-    /*@Test
+    @Test
     public void navigationTopTest() {
-        Toolbar bnv = mainActivityRule.getActivity().findViewById(R.id.toolbar);
-        bnv.inflateMenu();
-        navigationBottomBar(bnv, false, false, false, false, true);
-    }*/
+        onView(withId(R.id.top_navigation_settings)).perform(click());
+        intended(hasComponent(SettingsActivity.class.getName()));
+        //onView(withId(R.id.top_navigation_infos)).perform(click());
+        //onView(withText("Invalid email address")).inRoot(withDecorView(not(mainActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+        //onView(withText("Infos are coming soon")).inRoot(withDecorView(not(is(mainActivityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+
+    }
 
 
     private void navigationBottomBar(BottomNavigationView bnv, boolean a, boolean b, boolean c, boolean d, boolean e){
