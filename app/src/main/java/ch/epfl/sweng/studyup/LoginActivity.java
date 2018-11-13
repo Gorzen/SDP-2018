@@ -1,5 +1,7 @@
 package ch.epfl.sweng.studyup;
 
+import java.io.IOException;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,92 +18,64 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
-import java.io.IOException;
-
-import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_S;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
-import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Utils.TIME_TO_WAIT_FOR_LOGIN;
-import static ch.epfl.sweng.studyup.utils.Utils.isMockEnabled;
-import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = LoginActivity.class.getSimpleName();
 
-    ViewPager viewPager;
-    LinearLayout sliderDotsLayout;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private ViewPager viewPager;
+    private LinearLayout sliderDotsLayout;
     private ImageView[] dots;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-    // Display message from intent set by authentication activity upon failed login
-    public void displayFailedLoginMessage(Intent intent) {
-        String failureMessage = intent.getStringExtra(getString(R.string.post_login_message_value));
-        if (failureMessage != null) {
-            Toast.makeText(LoginActivity.this, failureMessage, Toast.LENGTH_LONG).show();
+        if(!isMockEnabled) {
+            attemptLoginFromCache();
         }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        loadInterface();
     }
 
-    /**
-     * Function that, given the data of the player (that is present in the cache), will update the
-     * info of the player with those data
-     *
-     * @param array data of the user that was logged in
-     * @return true iff the update has been a success
-     */
-    public boolean updatePlayerInfoFromArrayCached(final String[] array) {
-        if(array.length != 4) return false;
+    private void attemptLoginFromCache() {
+
+        FileCacher<String[]> playerCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 
         try {
-            int newSciper = Integer.parseInt(array[0]);
-            if(newSciper < Utils.MIN_SCIPER || newSciper > Utils.MAX_SCIPER) {
-                return false;
-            }
-            Player.get().setSciper(newSciper);
-        } catch (NumberFormatException e) {
-            Log.d(TAG, "The format of the sciper is not valid: "+array[0]);
-            return false;
-        }
-        Player.get().setFirstName(array[1]);
-        Player.get().setLastName(array[2]);
-        if(array[3].equals(FB_ROLES_T)) {
-            Player.get().setRole(true);
-            return true;
-        } else if(array[3].equals(FB_ROLES_S)){
-            Player.get().setRole(false);
-            return true;
-        } else {
-            return false;
-        }
-    }
+            if(playerCache.hasCache()) {
 
-    /**
-     * Function used to persist the login of the user once he/she has already logged in. It checks
-     * if there's data for persisting login in the cache. If that data is valid, it will
-     * automatically log the user in.
-     */
-    private void checkLoggedUser() {
-        FileCacher<String[]> persistLogin = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
-        try {
-            if(persistLogin.hasCache()) {
-                final String[] loggedUserData = persistLogin.readCache();
-                if(!updatePlayerInfoFromArrayCached(loggedUserData)) return;
-                Firestore.get().getAndSetUserData(Player.get().getSciper(), Player.get().getFirstName(), Player.get().getLastName());
+                final String[] playerCacheData = playerCache.readCache();
 
-                Intent toApp;
-                if (Player.get().getRole()) {
-                    toApp = new Intent(LoginActivity.this, AddQuestionActivity.class);
-                } else {
-                    waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
-                    toApp = new Intent(LoginActivity.this, MainActivity.class);
+                try {
+                    loadPlayerDataFromCache(playerCacheData);
+                }
+                catch (Exception e) {
+                    /*
+                    Something went wrong when loading player data from cache.
+                    Cannot auto-login, return to onCreate(), user must maunally log in.
+                     */
+                    Log.e(TAG, e.toString());
+                    return;
                 }
 
-                startActivity(toApp);
+                /*
+                Auto-login successful.
+                Direct user to home activity corresponding to their role.
+                 */
+                Class homeActivity = Player.get().getRole().equals(Role.STUDENT) ?
+                        MainActivity.class : AddQuestionActivity.class;
+
+                startActivity(new Intent(this, homeActivity));
             }
 
         } catch (IOException e) {
@@ -109,25 +83,34 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        if(!isMockEnabled)
-            checkLoggedUser();
+    public void loadPlayerDataFromCache(final String[] playerCacheData) throws Exception {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        if(playerCacheData.length != 4) {
+            throw new Exception("Invalid cache array size.");
+        }
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        sliderDotsLayout = (LinearLayout) findViewById(R.id.SliderDots);
+        int sciperNum = Integer.parseInt(playerCacheData[0]);
+        if (sciperNum < Constants.MIN_SCIPER || sciperNum > Constants.MAX_SCIPER) {
+            throw new Exception("Invalid Sciper number: " + sciperNum + ".");
+        }
+
+        Player currPlayer = Player.get();
+        currPlayer.setSciper(sciperNum);
+        currPlayer.setFirstName(playerCacheData[1]);
+        currPlayer.setLastName(playerCacheData[2]);
+        currPlayer.setRole(Role.valueOf(playerCacheData[3]));
+    }
+
+    private void loadInterface() {
+
+        viewPager = findViewById(R.id.viewPager);
+        sliderDotsLayout = findViewById(R.id.SliderDots);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
-
         viewPager.setAdapter(viewPagerAdapter);
 
         final int dotsNumber = viewPagerAdapter.getCount();
         dots = new ImageView[dotsNumber];
-
-        //initialisation of dots
         for(int i = 0; i<dotsNumber; i++){
             dots[i] = new ImageView(this);
             dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot_non_active_24dp));
@@ -153,26 +136,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-
-        //on fail
-        displayFailedLoginMessage(getIntent());
     }
 
     public void onLoginButtonClick(View view) {
+
         RadioGroup roles = findViewById(R.id.StudentOrTeacherButtons);
         RadioButton checkedRole = findViewById(roles.getCheckedRadioButtonId());
         if(checkedRole == null) {
             Toast.makeText(this, R.string.text_when_no_role_selected, Toast.LENGTH_SHORT).show();
-        } else {
-            if(checkedRole.getId() == R.id.student) {
-                Player.get().setRole(false);
-            } else {
-                Player.get().setRole(true);
+        }
+        else {
+
+            Player currPlayer = Player.get();
+
+            if (checkedRole.getId() == R.id.student) {
+                currPlayer.setRole(Role.STUDENT);
             }
-            String authURL = "https://studyup-authenticate.herokuapp.com/getCode";
-            Intent authIntent = new Intent(Intent.ACTION_VIEW);
-            authIntent.setData(Uri.parse(authURL));
-            startActivity(authIntent);
+            else {
+                Player.get().setRole(Role.TEACHER);
+            }
+
+            Intent authServerRedirect = new Intent(Intent.ACTION_VIEW);
+            authServerRedirect.setData(Uri.parse(AUTH_SERVER_URL));
+            startActivity(authServerRedirect);
         }
 
     }

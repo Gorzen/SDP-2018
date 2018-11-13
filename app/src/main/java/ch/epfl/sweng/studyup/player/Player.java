@@ -8,37 +8,13 @@ import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.course.Course;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
-import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
-import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ITEMS;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLE;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_S;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_USERNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_USERNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.MIN_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
-import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromInt;
-import static ch.epfl.sweng.studyup.utils.Utils.getItemsInt;
-import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
-import static ch.epfl.sweng.studyup.utils.Utils.putUserData;
+import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 /**
  * Player
@@ -54,6 +30,7 @@ public class Player {
     private String firstName;
     private String lastName;
     private String username;
+    private Role role;
     private boolean isTeacher;
     private int sciper;
     private String courseId;
@@ -247,8 +224,11 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
     }
 
-    public void setRole(boolean isTeacher) {
+    public void setRole(Role role) {
+        this.role = role;
+
         this.isTeacher = isTeacher;
+
         if (isTeacher) {
             putUserData(FB_ROLE, FB_ROLES_T);
         } else {
@@ -256,8 +236,8 @@ public class Player {
         }
     }
 
-    public boolean getRole() {
-        return isTeacher;
+    public Role getRole() {
+        return this.role;
     }
 
     public String getCurrentRoom() {

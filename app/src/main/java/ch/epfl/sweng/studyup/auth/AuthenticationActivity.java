@@ -2,35 +2,25 @@ package ch.epfl.sweng.studyup.auth;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kosalgeek.android.caching.FileCacher;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 
-/**
- * AuthenticationActivity
- *
- * Code used in the activity_authentication.
- */
+import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.DataContainers.*;
+
+
 public class AuthenticationActivity extends AppCompatActivity {
+
     private final String TAG = AuthenticationActivity.class.getSimpleName();
 
     public void reportAuthError() {
@@ -39,24 +29,25 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
-    public void runAuthentication(String code, boolean isRealRequest) {
+    public void runAuthentication() throws Exception {
 
-        String token;
-        if(isRealRequest) {
-            token = Authenticator.getToken(code);
-        } else {
-            token = "Non-null token.";
+        Uri authCodeURI = getIntent().getData();
+
+        String code = authCodeURI.getQueryParameter("code");
+        String error = authCodeURI.getQueryParameter("error");
+
+        if (!TextUtils.isEmpty(error)) {
+            throw new Exception("Error when trying to get code: " + error);
+        }
+        if (TextUtils.isEmpty(code)) {
+            throw new Exception("Unable to retrieve code.");
         }
 
-        if (token != null) {
-            String greeting;
-            if(isRealRequest) {
-                greeting = Authenticator.getGreeting(token);
-            } else {
-                greeting = R.string.initial_greeting_1+"\n"+R.string.initial_greeting_2;
-            }
+        String token = isMockEnabled ? "NON-NULL TOKEN" : Authenticator.getToken(code);
 
-                if (greeting != null) {
+        PlayerDataContainer playerData = Authenticator.getPlayerData(token);
+
+        
 
                     if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
                         Firestore.get().getAndSetUserData(
@@ -65,7 +56,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                 Player.get().getLastName());
                     }
 
-                    Utils.waitAndTag(Utils.TIME_TO_WAIT_FOR_LOGIN, TAG);
+                    Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
                     Intent initActivity;
                     if (Player.get().getRole()) {
@@ -91,21 +82,17 @@ public class AuthenticationActivity extends AppCompatActivity {
         reportAuthError();
     }
 
-    /**
-     * Function used to store the Player's data to the cache (used to persist the login of the user)
-     */
     public void putPlayerDataToCache() {
-        FileCacher<String[]> persistLogin = new FileCacher<>(this, Utils.PERSIST_LOGIN_FILENAME);
+
+        Player currPlayer = Player.get();
+
+        FileCacher<String[]> persistLogin = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
         String[] cachedData = new String[4];
 
-        cachedData[0] = String.valueOf(Player.get().getSciper());
-        cachedData[1] = Player.get().getFirstName();
-        cachedData[2] = Player.get().getLastName();
-        if (Player.get().getRole()) {
-            cachedData[3] = Utils.FB_ROLES_T;
-        } else {
-            cachedData[3] = Utils.FB_ROLES_S;
-        }
+        cachedData[0] = String.valueOf(currPlayer.getSciper());
+        cachedData[1] = currPlayer.getFirstName();
+        cachedData[2] = currPlayer.getLastName();
+        cachedData[3] = currPlayer.getRole().name();
 
         try {
             persistLogin.writeCache(cachedData);
@@ -125,20 +112,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        Uri authCodeURI = getIntent().getData();
-
-        Log.i("CODE", authCodeURI.toString());
-
-        String code = authCodeURI.getQueryParameter("code");
-        String error = authCodeURI.getQueryParameter("error");
-
-        try {
-            code = authCodeURI.getQueryParameter("code");
-            error = authCodeURI.getQueryParameter("error");
-        } catch (NullPointerException e) { Log.i(TAG, "Problem extracting data from Intent's Uri."); }
-
-        if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(code)) {
-            runAuthentication(code, true);
+        runAuthentication(code);
 
             if (!getIntent().getBooleanExtra("instrumentationTest", false)) {
                 Firestore.get().getAndSetUserData(

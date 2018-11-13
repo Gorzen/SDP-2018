@@ -1,15 +1,16 @@
 package ch.epfl.sweng.studyup.auth;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-import ch.epfl.sweng.studyup.player.Player;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.DataContainers.*;
 
 /**
  * Authenticator
@@ -17,118 +18,52 @@ import ch.epfl.sweng.studyup.player.Player;
  * Link between the application and the authentification server.
  */
 public class Authenticator {
-    /**
-     * Extract a String JSON object from an URL.
-     *
-     * @param requestURL The given URL.
-     * @return The JSON object in String format.
-     */
-    public static String getResponse(String requestURL) {
 
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(requestURL).openConnection();
-            InputStream stream = connection.getInputStream();
-            String response = new Scanner(stream).useDelimiter("\\A").next();
+    public static String getToken(String code) throws Exception {
 
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Format the informations in a String JSON object into a readable form.
-     *
-     * @param response The JSON object in String format.
-     * @return The formatted informations.
-     */
-    public static String getGreetingFromResponse(String response) {
-
-        System.out.println(response);
-        JSONProfileContainer profileContainer = new Gson().fromJson(response,
-                JSONProfileContainer.class);
-
-        if (profileContainer.error == null && profileContainer.sciperNo != null) {
-
-            String greeting = "";
-
-            Player currPlayer = Player.get();
-            currPlayer.setSciper(Integer.parseInt(profileContainer.sciperNo));
-
-            if (profileContainer.firstName != null) {
-                greeting += "Welcome, " + profileContainer.firstName + ".\n";
-                currPlayer.setFirstName(profileContainer.firstName);
-            }
-            if (profileContainer.lastname != null) {
-                currPlayer.setLastName(profileContainer.lastname);
-            }
-            greeting += "Your Sciper number is " + profileContainer.sciperNo + ".";
-
-            return greeting;
-        }
-
-        return null;
-    }
-
-    public static String getGreeting(String token) {
-
-        String requestURL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo" + "?access_token="
-                + token;
-        String response = getResponse(requestURL);
-
-        return getGreetingFromResponse(response);
-    }
-
-    /**
-     * Extract the token from a String JSON object.
-     *
-     * @param response JSON object.
-     * @return Token.
-     */
-    public static String getTokenFromResponse(String response) {
-        JSONTokenContainer tokenContainer = new Gson().fromJson(response, JSONTokenContainer.class);
-
-        if (tokenContainer.error == null && tokenContainer.token != null) {
-            String token = tokenContainer.token;
-            try {
-                token = URLEncoder.encode(token, "UTF-8");
-                return token;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
-    }
-
-    public static String getToken(String code) {
-
-        String requestURL = "https://studyup-authenticate.herokuapp.com/getToken" + "?code=" + code;
+        String requestURL = AUTH_SERVER_TOKEN_URL + code;
         String response = getResponse(requestURL);
 
         return getTokenFromResponse(response);
     }
 
-    private static final class JSONTokenContainer {
-        @SerializedName("error")
-        public String error;
+    public static String getTokenFromResponse(String response) throws Exception {
 
-        @SerializedName("access_token")
-        public String token;
+        TokenContainer tokenContainer = new Gson().fromJson(response, TokenContainer.class);
+
+        String responseError = tokenContainer.error;
+        String token = tokenContainer.token;
+
+        if (responseError != null) {
+            throw new Exception("Error when getting token: " + responseError);
+        }
+        if (token == null) {
+            throw new Exception("Unable to retrieve token.");
+        }
+
+        return URLEncoder.encode(token, "UTF-8");
     }
 
-    private static final class JSONProfileContainer {
-        @SerializedName("error")
-        public String error;
+    public static PlayerDataContainer getPlayerData(String token) throws Exception {
 
-        @SerializedName("Firstname")
-        public String firstName;
+        String requestURL = TEQUILA_AUTH_URL + token;
+        String response = getResponse(requestURL);
 
-        @SerializedName("Name")
-        public String lastname;
+        PlayerDataContainer playerData = new Gson().fromJson(response, PlayerDataContainer.class);
+        String error = playerData.error;
 
-        @SerializedName("Sciper")
-        public String sciperNo;
+        if (error != null) {
+            throw new Exception("Error when getting player data: " + error);
+        }
+        if (playerData.sciperNum == null) {
+            throw new Exception("Unable to retrieve player data.");
+        }
+    }
+
+    public static String getResponse(String requestURL) throws IOException {
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(requestURL).openConnection();
+        InputStream stream = connection.getInputStream();
+        return new Scanner(stream).useDelimiter("\\A").next();
     }
 }

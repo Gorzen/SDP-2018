@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.firebase;
 
 import android.content.Context;
 import android.net.Uri;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -21,14 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.course.Course;
-import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 /**
  * Firestore
@@ -36,18 +36,18 @@ import static ch.epfl.sweng.studyup.utils.Utils.*;
  * Our own Firebase Cloud Firestore API.
  */
 public class Firestore {
+
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firestore.class.getSimpleName();
     public static Map<String, Object> userData = null;
     private static Firestore instance = null;
 
     private Firestore() {
-        // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        try {db.setFirestoreSettings(settings);} catch(Exception e){}
+        try { db.setFirestoreSettings(settings); } catch(Exception e) {}
     }
 
     public static Firestore get() {
@@ -64,22 +64,25 @@ public class Firestore {
      */
     public void getData(final int sciper) {
         db.collection(FB_USERS).document(Integer.toString(sciper))
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot document) {
-                        if (document.exists()) {
-                            Utils.dbStaticInfo = document.getData();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {Log.i(TAG, "Error: getData" + sciper); }});
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                if (document.exists()) {
+                    dbStaticInfo = document.getData();
+                }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Error in getData with Sciper number: " + sciper);
+                }
+            });
     }
 
     /**
-     * Function used when entering the app. It will get all the player's informations and set
+     * Function used when entering the app. It will get all the player's data and set
      * the state of the player as it were the last time he/she was connected.
      *
      * @param sciper    The SCIPER numb of the player.
@@ -89,6 +92,7 @@ public class Firestore {
      */
     public void getAndSetUserData(final int sciper, final String firstName, final String lastName)
             throws IllegalArgumentException {
+
         if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
             throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be" +
                     " a six digits number.");
@@ -268,7 +272,7 @@ public class Firestore {
                     public void onSuccess(DocumentSnapshot document) {
                         if (document.exists()) {
                             String courseId = null;
-                            if (Utils.isMockEnabled) {
+                            if (isMockEnabled) {
                                 courseId = DEFAULT_COURSE_ID;
                             }
                             else {
