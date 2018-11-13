@@ -23,10 +23,12 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
@@ -87,7 +89,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         displayImage(questionID);
         setupLayout(displayQuestion);
 
-        Button backButton = (Button) findViewById(R.id.back_button);
+        Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,6 +152,15 @@ public class DisplayQuestionActivity extends RefreshContext {
             Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
 
             Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
+
+            //Randomly add one item to the player
+            Random random = new Random();
+            boolean rng = random.nextBoolean();
+            if(rng){
+                Player.get().addItem(Items.XP_POTION);
+            }else{
+                Player.get().addItem(Items.COIN_SACK);
+            }
         } else {
             Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
         }

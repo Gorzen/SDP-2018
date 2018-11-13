@@ -10,6 +10,8 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,10 +21,13 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -39,6 +44,7 @@ import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
+    private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
@@ -64,6 +70,8 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfTrueFalse() {
+        onView(withId(R.id.true_false_radio)).perform(ViewActions.click());
+        onView(withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click()).check(matches(isChecked()));
         onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText(R.string.truth_value)));
         onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText(R.string.false_value)));
@@ -73,11 +81,11 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfMCQ() {
-        onView(withId(R.id.mcq_radio)).perform(ViewActions.click()).check(matches(isChecked()));
-        onView(withId(R.id.radio_answer4)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(isDisplayed()));
-        onView(withId(R.id.radio_answer3)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(isDisplayed()));
-        onView(withId(R.id.radio_answer2)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText("2")));
-        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText("1")));
+        onView(withId(R.id.mcq_radio)).perform(ViewActions.click());
+        onView(withId(R.id.radio_answer4)).perform(ViewActions.click());
+        onView(withId(R.id.radio_answer3)).perform(ViewActions.click());
+        onView(withId(R.id.radio_answer2)).perform(ViewActions.click());
+        onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -110,22 +118,37 @@ public class AddQuestionActivityTest {
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches((isDisplayed())));
     }
 
-    //@Test
-    public void addQuestionTest() {
+    @Test
+    public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
+
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EditText title = mActivityRule.getActivity().findViewById(R.id.questionTitle);
+                title.setText("A Title");
+            }
+        });
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
+        Utils.waitAndTag(500, TAG);
+        Player.get().setRole(true);
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(500, TAG);
+
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                assertEquals(0, questions.get(0).getAnswer());
-                assertEquals(false, questions.get(0).isTrueFalse());
+                if(!questions.isEmpty()) {
+                    assertEquals(0, questions.get(0).getAnswer());
+                    assertEquals(false, questions.get(0).isTrueFalse());
+                }
             }
         });
-        Intents.intending(hasComponent(MainActivity.class.getName()));
+        Utils.waitAndTag(100, TAG);
     }
 }

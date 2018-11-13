@@ -36,8 +36,9 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
-public class AddQuestionActivity extends AppCompatActivity {
+public class AddQuestionActivity extends NavigationTeacher {
 
     private static final String TAG = "AddQuestionActivity";
 
@@ -52,6 +53,8 @@ public class AddQuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+
+        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
 
         addRadioListener();
 
@@ -125,7 +128,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            String newQuestionID = UUID.randomUUID().toString();
+            String newQuestionID = getUUID();
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
@@ -167,9 +170,17 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
-            Firestore.addQuestion(q);
+            Firestore.get().addQuestion(q);
 
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getUUID(){
+        if(Utils.isMockEnabled) {
+            return Utils.MOCK_UUID;
+        } else {
+            return UUID.randomUUID().toString();
         }
     }
 

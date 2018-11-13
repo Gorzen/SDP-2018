@@ -44,7 +44,7 @@
             android:layout_below="@+id/topBar">
 
             <ListView
-                android:id="@+id/listViewQuests"
+                android:id="@+id/listViewItems"
                 android:layout_width="match_parent"
                 android:layout_height="426dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
                 android:layout_alignParentTop="true"
                 android:background="@drawable/white_grey_border_top"
                 app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation">
+                app:menu="@menu/navigation_student">
             </android.support.design.widget.BottomNavigationView>
 
         </android.support.constraint.ConstraintLayout>

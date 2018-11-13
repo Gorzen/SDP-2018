@@ -137,7 +137,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/white_grey_border_top"
                 app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation">
+                app:menu="@menu/navigation_student">
 
             </android.support.design.widget.BottomNavigationView>
         </android.support.constraint.ConstraintLayout>

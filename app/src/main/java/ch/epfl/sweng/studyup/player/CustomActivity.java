@@ -29,11 +29,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Normalizer;
-import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.utils.Navigation;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 /**
@@ -41,7 +40,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
  *
  * Code used in the activity_custom to personnalize a Player.
  */
-public class CustomActivity extends Navigation {
+public class CustomActivity extends NavigationStudent {
     private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
     private static final int GALLERY = 0, CAMERA = 1;
@@ -57,7 +56,7 @@ public class CustomActivity extends Navigation {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX);
+        navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX_STUDENT);
 
         ImageButton pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
