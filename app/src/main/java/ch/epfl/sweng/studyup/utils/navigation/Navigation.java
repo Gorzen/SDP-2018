@@ -74,7 +74,7 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         }
         if (item.getItemId() == R.id.top_navigation_infos) {
             Toast.makeText(this,
-                    "Infos are coming soon",
+                    R.string.toast_text_infos_are_coming,
                     Toast.LENGTH_SHORT).show();
         }
     }

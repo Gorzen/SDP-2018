@@ -4,12 +4,55 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
+import ch.epfl.sweng.studyup.social.RankingsActivity;
+
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+
+@RunWith(AndroidJUnit4.class)
+public class NavigationTest{
+    @Rule
+    public final ActivityTestRule<MainActivity> mActivityRule =
+            new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void init(){
+        Intents.init();
+    }
+
+    @After
+    public void release(){
+        Intents.release();
+    }
+
+    @Test
+    public void testNavigationBottomBar(){
+        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_inventory);
+        intended(hasComponent(InventoryActivity.class.getName()));
+        b.setSelectedItemId(R.id.navigation_map);
+        intended(hasComponent(MapsActivity.class.getName()));
+        b.setSelectedItemId(R.id.navigation_quests_student);
+        intended(hasComponent(QuestsActivityStudent.class.getName()));
+        b.setSelectedItemId(R.id.navigation_rankings);
+        intended(hasComponent(RankingsActivity.class.getName()));
+    }
+}
+
+/*import android.support.design.widget.BottomNavigationView;
+import android.support.test.espresso.intent.Intents;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -87,13 +130,9 @@ public class NavigationTest{
     }
 
     @Test
-    public void navigationTopTest() {
+    public void navigationTopTest() throws InterruptedException {
         onView(withId(R.id.top_navigation_settings)).perform(click());
         intended(hasComponent(SettingsActivity.class.getName()));
-        //onView(withId(R.id.top_navigation_infos)).perform(click());
-        //onView(withText("Invalid email address")).inRoot(withDecorView(not(mainActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-        //onView(withText("Infos are coming soon")).inRoot(withDecorView(not(is(mainActivityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
-
     }
 
 
@@ -119,4 +158,4 @@ public class NavigationTest{
             intended(hasComponent(InventoryActivity.class.getName()));
         }
     }
-}
+}*/
