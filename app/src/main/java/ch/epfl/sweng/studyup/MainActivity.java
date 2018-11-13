@@ -83,7 +83,7 @@ public class MainActivity extends NavigationStudent {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
-        Firestore.loadQuestions(this);
+        Firestore.get().loadQuestions(this);
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);

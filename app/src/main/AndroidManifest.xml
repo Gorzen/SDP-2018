@@ -43,7 +43,7 @@
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
         <activity android:name=".social.RankingsActivity" />
-        <activity android:name=".social.ChatActivity" />
+        <activity android:name=".items.InventoryActivity" />
         <activity android:name=".player.CustomActivity" />
 
         <!--
@@ -68,7 +68,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".questions.DisplayQuestionActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".items.DisplayItemActivity"/>
     </application>
 
 </manifest>

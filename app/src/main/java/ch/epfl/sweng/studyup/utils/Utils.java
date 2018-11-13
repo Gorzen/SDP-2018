@@ -7,18 +7,19 @@ import com.google.common.collect.Sets;
 
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.location.Location;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
-import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
@@ -30,6 +31,7 @@ public class Utils {
     // Firestore entries
     public static final String FB_USERS = "users";
     public static final String FB_USERNAME = "username";
+    public static final String FB_ITEMS = "items";
     public static final String FB_FIRSTNAME = "firstname";
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
@@ -53,7 +55,9 @@ public class Utils {
 
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ANSWERED_QUESTIONS);
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME,
+            FB_ANSWERED_QUESTIONS, FB_ITEMS);
+
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -88,6 +92,7 @@ public class Utils {
     //test purpose
     public static Boolean isMockEnabled = false;
     public static Location mockLoc = null;
+    public static final String MOCK_UUID = "fake-UUID"; //This question's id on the server is what the tests use
 
     // Basic Player stats
     public static final int XP_TO_LEVEL_UP = 100;
@@ -103,7 +108,8 @@ public class Utils {
     public static final Map<String, Boolean> INITIAL_ANSWERED_QUESTIONS = new HashMap<>();
 
     //Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, SHOP_INDEX=4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
+
+    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 
     //private static final java.util.Collections Collections = ;
@@ -115,7 +121,7 @@ public class Utils {
         tempMap.put(R.id.navigation_quests, QuestsActivity.class);
         tempMap.put(R.id.navigation_rankings, RankingsActivity.class);
         tempMap.put(R.id.navigation_map, MapsActivity.class);
-        tempMap.put(R.id.navigation_chat, ChatActivity.class);
+        tempMap.put(R.id.navigation_chat, InventoryActivity.class);
         idToAct = Collections.unmodifiableMap(tempMap);
     }
     */
@@ -154,6 +160,29 @@ public class Utils {
         }
     }
 
+    public static List<String> getItemsString(){
+        List<Items> items = Player.get().getItems();
+        List<String> itemsStr = new ArrayList<>();
+        for(Items i : items){
+            itemsStr.add(i.name());
+        }
+        return itemsStr;
+    }
 
+    public static List<Items> getItemsFromString(List<String> itemsStr){
+        List<Items> items = new ArrayList<>();
+        for(String s : itemsStr){
+            items.add(Items.valueOf(s));
+        }
+        return items;
+    }
+
+    public static Object getOrDefault(String key, Object defaultRet){
+        if(userData.containsKey(key)){
+            return userData.get(key);
+        }else{
+            return defaultRet;
+        }
+    }
 }
 

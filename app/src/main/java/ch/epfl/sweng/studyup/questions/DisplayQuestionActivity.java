@@ -30,9 +30,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
@@ -97,8 +99,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         setupLayout(displayQuestion);
 
 
-
-        Button backButton = (Button) findViewById(R.id.back_button);
+        Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +230,15 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
                 Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
                 Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
+
+                //Randomly add one item to the player
+                Random random = new Random();
+                boolean rng = random.nextBoolean();
+                if(rng){
+                    Player.get().addItem(Items.XP_POTION);
+                }else{
+                    Player.get().addItem(Items.COIN_SACK);
+                }
             } else {
                 Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
                 Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
@@ -238,7 +248,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
             startActivity(goToQuests);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-
     }
 
 
