@@ -54,7 +54,7 @@ public class AddQuestionActivity extends NavigationTeacher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
-        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
+        //navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, Utils.ADD_QUESTION_INDEX);
 
         addRadioListener();
 
