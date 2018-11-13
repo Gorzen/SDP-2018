@@ -15,6 +15,8 @@ import ch.epfl.sweng.studyup.items.Items;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.DataContainers.*;
 
 /**
@@ -192,5 +194,13 @@ public class Player {
     }
     public void addCourse(Course newCourse) {
         courses.add(newCourse);
+    }
+
+    public boolean isInitialPlayer() throws NumberFormatException {
+        boolean isInitial = firstName.equals(Constants.INITIAL_FIRSTNAME);
+        isInitial = isInitial && lastName.equals(Constants.INITIAL_LASTNAME);
+        isInitial = isInitial &&  Integer.parseInt(sciperNum) == Constants.INITIAL_SCIPER;
+
+        return isInitial;
     }
 }
