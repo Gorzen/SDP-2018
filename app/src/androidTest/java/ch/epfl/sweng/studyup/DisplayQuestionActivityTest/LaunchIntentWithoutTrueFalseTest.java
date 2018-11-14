@@ -11,13 +11,15 @@ import ch.epfl.sweng.studyup.questions.Question;
 
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TRUE_FALSE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class LaunchIntentWithoutTrueFalseTest extends DisplayQuestionActivityTest {
     @Test
-    public void launchIntentWithoutTrueFalseTest(){
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
+    public void launchIntentWithoutTrueFalseTest() {
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(),
+                new Question("abc", "test", true, 0, Course.SWENG.name()));
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
