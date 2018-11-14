@@ -61,9 +61,8 @@ public class Firestore {
      *
      * @throws NullPointerException If the data received from the server is not of a valid format
      * @throws IllegalArgumentException If the sciper of the player is not valid
-     * @throws IllegalStateException If the state of the server and the local player is not consistent
      */
-    public void syncPlayerData() throws Exception {
+    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
         final Player currPlayer = Player.get();
         final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
 
@@ -82,17 +81,12 @@ public class Firestore {
 
                             Map<String, Object> remotePlayerData = document.getData();
 
-                            if (!remotePlayerData.get(FB_FIRSTNAME).equals(currPlayer.getFirstName())
-                                || !remotePlayerData.get(FB_LASTNAME).equals(currPlayer.getLastName())) {
-                                throw new IllegalStateException("The local name doesn't correspond to the name on the server.");
-                            } else {
-                                Log.d(TAG, "Calling update local...");
-                                /*
-                                Player is a return user. They have stored remote data.
-                                Update local data with remote data.
-                                 */
-                                currPlayer.updateLocalDataFromRemote(remotePlayerData);
-                            }
+                            Log.d(TAG, "Calling update local...");
+                            /*
+                            Player is a return user. They have stored remote data.
+                            Update local data with remote data.
+                             */
+                            currPlayer.updateLocalDataFromRemote(remotePlayerData);
                         } else {
                             /*
                                 Player is logging in for the first time.
