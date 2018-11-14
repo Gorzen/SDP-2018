@@ -14,14 +14,15 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QU
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TRUE_FALSE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class GetIntentTest extends DisplayQuestionActivityTest {
     @Test
-    public void getIntentTest(){
-        Question q = new Question("abc", "test1", true, 0);
+    public void getIntentTest() {
+        Question q = new Question("abc", "test1", true, 0, Course.SWENG.name());
         Intent testIntent = getIntentForDisplayQuestion(InstrumentationRegistry.getContext(), q);
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE));
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ANSWER));
