@@ -68,7 +68,7 @@ public class Firestore {
         final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
 
         if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
-            throw new Exception("The Sciper number should be a six digit number.");
+            throw new IllegalArgumentException("The Sciper number should be a six digit number.");
         }
 
         db.collection(FB_USERS).document(currPlayer.getSciperNum())

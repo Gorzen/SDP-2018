@@ -141,15 +141,12 @@ public class Player {
     // Setters
     public void setSciperNum(String sciperNum) {
         this.sciperNum = sciperNum;
-        Firestore.get().updateRemotePlayerDataFromLocal();
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-        Firestore.get().updateRemotePlayerDataFromLocal();
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
-        Firestore.get().updateRemotePlayerDataFromLocal();
     }
     public void setRole(Role role) {
         this.role = role;

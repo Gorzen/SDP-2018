@@ -84,24 +84,25 @@ public class FirestoreTest {
         resetTestValues();
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void sciperTooLowTest() throws Exception {
 
         Player.get().setSciperNum("99999");
         Firestore.get().syncPlayerData();
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() throws Exception {
         Player.get().setSciperNum("1000000");
         Firestore.get().syncPlayerData();
     }
 
-    @Test(expected = Exception.class)
+    @Test(expected = IllegalArgumentException.class)
     public void sciperNegativeTest() throws Exception {
         Player.get().setSciperNum("-42");
         Firestore.get().syncPlayerData();
     }
+
 
     @Test
     public void deleteUserTest() throws Exception {
