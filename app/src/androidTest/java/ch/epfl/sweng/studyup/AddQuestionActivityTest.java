@@ -72,6 +72,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfTrueFalse() {
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click());
         onView(withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click()).check(matches(isChecked()));
