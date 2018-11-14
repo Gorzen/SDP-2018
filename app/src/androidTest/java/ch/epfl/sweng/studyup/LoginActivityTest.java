@@ -4,21 +4,16 @@ import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.kosalgeek.android.caching.FileCacher;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-
-import ch.epfl.sweng.studyup.utils.Utils;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
@@ -28,12 +23,12 @@ public class LoginActivityTest {
 
     @Before
     public void enableMock() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @After
     public void disableMock() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     // Test handle failed login message}
