@@ -51,7 +51,7 @@ public class AddQuestionActivity extends NavigationTeacher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
-        if (MOCK_ENABLED) {
+        if (!MOCK_ENABLED) {
             Firestore.get().loadQuestions(this);
         }
 

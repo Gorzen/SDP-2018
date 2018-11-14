@@ -70,6 +70,7 @@ public class Constants {
 
     // Timeout values
     public static final int TIME_TO_WAIT_FOR_LOGIN = 500; //[ms]
+    public static final int TIME_TO_WAIT_FOR_AUTO_LOGIN = 1000; //[ms]
 
     // Basic Player stats
     public static final int XP_TO_LEVEL_UP = 100;

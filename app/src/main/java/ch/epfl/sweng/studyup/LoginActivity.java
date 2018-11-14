@@ -69,6 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG, e.toString());
                     return;
                 }
+
+                Firestore.get().syncPlayerData();
+                Utils.waitAndTag(TIME_TO_WAIT_FOR_AUTO_LOGIN, TAG);
                 /*
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
