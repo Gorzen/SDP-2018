@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
@@ -11,7 +10,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,17 +25,18 @@ import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.not;
@@ -48,23 +47,23 @@ public class AddQuestionActivityTest {
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class, true , false);
+            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
 
     @Before
     public void initiateIntents() {
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         Intents.init();
-	}
-	
-	@Before
+    }
+
+    @Before
     public void enableMock() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
         mActivityRule.launchActivity(new Intent());
     }
 
     @After
     public void disableMock() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
         Intents.release();
     }
 
@@ -90,12 +89,12 @@ public class AddQuestionActivityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFalseInstanceQuestion() {
-        Question nullQ = new Question("1", null, false, 0);
+        Question nullQ = new Question("1", null, false, 0, Course.SWENG.name());
     }
 
     @Test
     public void testSimpleInstanceQuestionTrueFalse() {
-        Question simple = new Question("1", "test2134", true, 0);
+        Question simple = new Question("1", "test2134", true, 0, Course.SWENG.name());
         assert (simple.isTrueFalse());
         assert (simple.getAnswer() == 0);
         assert (simple.getQuestionId().equals("1"));
@@ -104,7 +103,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testSimpleInstanceQuestionMCQ() {
-        Question simple = new Question("4", "test",false, 2);
+        Question simple = new Question("4", "test", false, 2, Course.SWENG.name());
         assert (!simple.isTrueFalse());
         assert (simple.getAnswer() == 2);
         assert (simple.getTitle().equals("test"));
@@ -133,7 +132,7 @@ public class AddQuestionActivityTest {
         });
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
         Utils.waitAndTag(500, TAG);
-        Player.get().setRole(true);
+        Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(500, TAG);
 
@@ -142,7 +141,7 @@ public class AddQuestionActivityTest {
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                if(!questions.isEmpty()) {
+                if (!questions.isEmpty()) {
                     assertEquals(0, questions.get(0).getAnswer());
                     assertEquals(false, questions.get(0).isTrueFalse());
                 }
