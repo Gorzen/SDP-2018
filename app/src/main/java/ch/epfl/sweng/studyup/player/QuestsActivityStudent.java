@@ -54,17 +54,18 @@ public class QuestsActivityStudent extends NavigationStudent {
         ArrayList<Integer> listImageID = new ArrayList<>();
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
-        Set<String> answeredQuestionId = answeredQuestion.keySet();
+        Set<String> answeredQuestionId = answeredQuestion.isEmpty() ? null : answeredQuestion.keySet();
 
         for(Question q: quests) {
             listTitle.add(q.getTitle());
-            if(answeredQuestionId.contains(q.getQuestionId())){
-                if(answeredQuestion.get(q.getQuestionId())){
-                    listImageID.add(R.drawable.ic_check_green_24dp);
-                }
-                else listImageID.add(R.drawable.ic_cross_red_24dp);
+
+            if(answeredQuestion.isEmpty() || !answeredQuestionId.contains(q.getQuestionId())) {
+                listImageID.add(R.drawable.ic_todo_grey_24dp);
+            } else if(answeredQuestion.get(q.getQuestionId())) {
+                listImageID.add(R.drawable.ic_check_green_24dp);
+            } else {
+                listImageID.add(R.drawable.ic_cross_red_24dp);
             }
-            else listImageID.add(R.drawable.ic_todo_grey_24dp);
         }
 
         onClickListView(quests, listTitle, listImageID);
