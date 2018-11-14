@@ -10,10 +10,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends RefreshContext {
 
     private ImageButton logout_button;
     private Button close_button;
