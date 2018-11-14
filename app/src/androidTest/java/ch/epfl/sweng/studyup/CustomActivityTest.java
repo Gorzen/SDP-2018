@@ -56,7 +56,7 @@ public class CustomActivityTest {
         Intents.release();
     }
 
-    @Test
+
     public void A_changeUserName() {
         onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
         onView(withId(R.id.valid_btn)).perform(click());

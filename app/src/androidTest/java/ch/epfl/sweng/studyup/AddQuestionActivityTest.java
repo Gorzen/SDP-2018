@@ -5,6 +5,8 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -81,8 +83,9 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfMCQ() {
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.mcq_radio)).perform(ViewActions.click());
-        onView(withId(R.id.radio_answer4)).perform(ViewActions.click());
+        onView(withId(R.id.radio_answer4)).perform(ViewActions.scrollTo(), ViewActions.click());
         onView(withId(R.id.radio_answer3)).perform(ViewActions.click());
         onView(withId(R.id.radio_answer2)).perform(ViewActions.click());
         onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked()));
@@ -121,9 +124,10 @@ public class AddQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0
+        Espresso.closeSoftKeyboard();
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
-        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.scrollTo(), ViewActions.click());
 
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
