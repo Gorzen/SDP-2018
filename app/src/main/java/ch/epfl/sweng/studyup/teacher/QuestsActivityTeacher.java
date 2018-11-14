@@ -12,6 +12,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -35,6 +36,12 @@ public class QuestsActivityTeacher extends NavigationTeacher {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firestore.get().loadQuestions(this);
     }
 
     //TODO For now the same as for the student! To be changed

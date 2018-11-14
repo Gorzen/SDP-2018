@@ -231,14 +231,6 @@ public class MainActivity extends NavigationStudent {
             e.printStackTrace();
         }
     }
-
-    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        navigationTopToolbar(item);
-        return super.onOptionsItemSelected(item);
-    }
-
 }
 
 

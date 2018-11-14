@@ -79,6 +79,12 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        navigationTopToolbar(item);
+        return super.onOptionsItemSelected(item);
+    }
+
     /**
      * Method that set the correct data to buttonIds, activities and activitiesIds
      */

@@ -92,14 +92,4 @@ public class QuestsActivityStudent extends NavigationStudent {
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
-
-
-
-    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        navigationTopToolbar(item);
-        return super.onOptionsItemSelected(item);
-    }
-
 }
