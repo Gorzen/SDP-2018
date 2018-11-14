@@ -146,23 +146,22 @@ public class DisplayQuestionActivity extends NavigationStudent {
     private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                answerGroupBOT.setOnCheckedChangeListener(null); // remove the listener before clearing so we don't throw that stackoverflow exception(like Vladimir Volodin pointed out)
-                answerGroupBOT.clearCheck(); // clear the second RadioGroup!
-                answerGroupBOT.setOnCheckedChangeListener(listener2); //reset the listener
-            }
+            setListener(checkedId, answerGroupBOT, listener2);
         }
     };
     private RadioGroup.OnCheckedChangeListener listener2 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId != -1) {
-                answerGroupTOP.setOnCheckedChangeListener(null);
-                answerGroupTOP.clearCheck();
-                answerGroupTOP.setOnCheckedChangeListener(listener1);
-            }
+            setListener(checkedId, answerGroupTOP, listener1);
         }
     };
+    private void setListener(int checkedId, RadioGroup answerGroup, RadioGroup.OnCheckedChangeListener listener) {
+        if (checkedId != -1) {
+            answerGroup.setOnCheckedChangeListener(null);
+            answerGroup.clearCheck();
+            answerGroup.setOnCheckedChangeListener(listener);
+        }
+    }
 
 
     private void displayImage(String questionID){
@@ -227,26 +226,34 @@ public class DisplayQuestionActivity extends NavigationStudent {
             }
 
             else if (answer == displayQuestion.getAnswer()) {
-                Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
-                Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-                Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
-
-                //Randomly add one item to the player
-                Random random = new Random();
-                boolean rng = random.nextBoolean();
-                if(rng){
-                    Player.get().addItem(Items.XP_POTION);
-                }else{
-                    Player.get().addItem(Items.COIN_SACK);
-                }
+                goodAnswer();
             } else {
-                Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
-                Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
+                badAnswer();
             }
 
             Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
             startActivity(goToQuests);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+    }
+
+    private void badAnswer() {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
+        Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
+    }
+
+    private void goodAnswer() {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
+        Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
+        Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
+
+        //Randomly add one item to the player
+        Random random = new Random();
+        boolean rng = random.nextBoolean();
+        if(rng){
+            Player.get().addItem(Items.XP_POTION);
+        }else{
+            Player.get().addItem(Items.COIN_SACK);
         }
     }
 

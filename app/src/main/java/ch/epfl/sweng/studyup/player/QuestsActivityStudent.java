@@ -55,25 +55,22 @@ public class QuestsActivityStudent extends NavigationStudent {
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion.keySet();
-        Set<String> correctQuestionId = new HashSet<>();
-        Set<String> wrongQuestionId = new HashSet<>();
-
-        for(String id : answeredQuestionId) {
-            if(answeredQuestion.get(id).equals(Boolean.TRUE)) {
-                correctQuestionId.add(id);
-            } else wrongQuestionId.add(id);
-        }
 
         for(Question q: quests) {
             listTitle.add(q.getTitle());
-            if (correctQuestionId.contains(q.getQuestionId()))
-                listImageID.add(R.drawable.ic_check_green_24dp);
-            else if (wrongQuestionId.contains(q.getQuestionId()))
-                listImageID.add(R.drawable.ic_cross_red_24dp);
+            if(answeredQuestionId.contains(q.getQuestionId())){
+                if(answeredQuestion.get(q.getQuestionId())){
+                    listImageID.add(R.drawable.ic_check_green_24dp);
+                }
+                else listImageID.add(R.drawable.ic_cross_red_24dp);
+            }
             else listImageID.add(R.drawable.ic_todo_grey_24dp);
         }
 
+        onClickListView(quests, listTitle, listImageID);
+    }
 
+    private void onClickListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
         ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
         listView.setAdapter(adapter);
