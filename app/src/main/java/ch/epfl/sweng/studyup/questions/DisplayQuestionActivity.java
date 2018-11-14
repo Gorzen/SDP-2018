@@ -63,35 +63,12 @@ public class DisplayQuestionActivity extends NavigationStudent {
         String questionID = "";
 
         Intent intent = getIntent();
-        //Get the Uri from the intent
-        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
-            quit();
-            return;
-        } else {
-            questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-        }
+        if(!checkIntent(intent)) return;
 
-        //Get the question ID
-        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
-            quit();
-            return;
-        }else {
-            questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-        }
-
-        //Get the answer
-        if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
-            quit();
-            return;
-        } else
-            answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-
-        //Now the boolean isTrueFale
-        if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
-            quit();
-            return;
-        } else
-            trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
+        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
+        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
+        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber);
@@ -107,6 +84,47 @@ public class DisplayQuestionActivity extends NavigationStudent {
             }
         });
 
+        setupRadioButton();
+
+        TextView questTitle = findViewById(R.id.quest_title);
+        questTitle.setText(displayQuestion.getTitle());
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+    }
+
+    /**
+     * Check that the Intent that launched the activity has all the needed fields
+     *
+     * @return true iff the intent contains the needed fields
+     */
+    private boolean checkIntent(Intent intent) {
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
+            quit();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void setupRadioButton() {
         answerGroupTOP = findViewById(R.id.answer_radio_group_top);
         answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
         answerGroupTOP.clearCheck();
@@ -132,12 +150,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
             });
         }
 
-        TextView questTitle = findViewById(R.id.quest_title);
-        questTitle.setText(displayQuestion.getTitle());
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
     }
 
     /**
