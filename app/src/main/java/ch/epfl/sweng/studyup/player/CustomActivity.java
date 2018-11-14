@@ -36,6 +36,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
+
 /**
  * CustomActivity
  *
@@ -55,8 +56,11 @@ public class CustomActivity extends NavigationStudent {
         setContentView(R.layout.activity_custom);
 
         final Player currPlayer = Player.get();
+        if (MOCK_ENABLED) {
+            currPlayer.initializeDefaultPlayerData();
+        }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX_STUDENT);
@@ -65,7 +69,7 @@ public class CustomActivity extends NavigationStudent {
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
-        edit_username.setText(currPlayer.getUserName());
+        edit_username.setText(Player.get().getUserName());
         final TextView user_email = findViewById(R.id.user_email);
 
         //mail

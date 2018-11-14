@@ -63,11 +63,12 @@ public class Firestore {
      * @throws IllegalArgumentException If the sciper of the player is not valid
      * @throws IllegalStateException If the state of the server and the local player is not consistent
      */
-    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
+    public void syncPlayerData() throws Exception {
         final Player currPlayer = Player.get();
         final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
+
         if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
-            throw new IllegalArgumentException("The sciper number should be a six digits number.");
+            throw new Exception("The Sciper number should be a six digit number.");
         }
 
         db.collection(FB_USERS).document(currPlayer.getSciperNum())
@@ -112,7 +113,6 @@ public class Firestore {
         localPlayerData.put(FB_SCIPER, currPlayer.getSciperNum());
         localPlayerData.put(FB_FIRSTNAME, currPlayer.getFirstName());
         localPlayerData.put(FB_LASTNAME, currPlayer.getLastName());
-        localPlayerData.put(FB_ROLE, currPlayer.getRole().name());
         localPlayerData.put(FB_USERNAME, currPlayer.getUserName());
         localPlayerData.put(FB_XP, currPlayer.getExperience());
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
@@ -268,17 +268,17 @@ public class Firestore {
      */
     public void getData(final int sciper) {
         db.collection(FB_USERS).document(Integer.toString(sciper))
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot document) {
-                        if (document.exists()) {
-                            GlobalAccessVariables.dbStaticInfo = document.getData();
-                        }
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if (document.exists()) {
+                        DB_STATIC_INFO = document.getData();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {Log.i(TAG, "Error: getData" + sciper); }});
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
 }

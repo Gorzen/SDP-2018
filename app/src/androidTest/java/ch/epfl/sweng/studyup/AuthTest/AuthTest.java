@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.TestbedActivity;
 import ch.epfl.sweng.studyup.auth.Authenticator;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
@@ -19,9 +20,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class AuthTest {
     private static final String TAG = AuthTest.class.getSimpleName();
+
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<TestbedActivity> rule =
+            new ActivityTestRule<>(TestbedActivity.class);
 
     @BeforeClass
     public static void runOnceBeforeClass() {

@@ -40,7 +40,7 @@ public class InventoryActivityTest {
 
     @After
     public void cleanup() {
-        Player.get().reset();
+        Player.resetPlayer();
     }
 
     @Test

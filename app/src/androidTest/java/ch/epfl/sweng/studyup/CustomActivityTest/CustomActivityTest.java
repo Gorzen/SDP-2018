@@ -10,7 +10,9 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +20,9 @@ import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -40,6 +44,16 @@ public class CustomActivityTest {
     @Rule
     public final ActivityTestRule<CustomActivity> mActivityRule =
             new ActivityTestRule<>(CustomActivity.class);
+
+    @BeforeClass
+    public static void enableMock() {
+        MOCK_ENABLED = true;
+    }
+
+    @AfterClass
+    public static void disableMock() {
+        MOCK_ENABLED = false;
+    }
 
     @Before
     public void initiateIntents() {

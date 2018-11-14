@@ -78,7 +78,10 @@ public class MainActivity extends NavigationStudent {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
-        Firestore.get().loadQuestions(this);
+
+        if (!MOCK_ENABLED) {
+            Firestore.get().loadQuestions(this);
+        }
 
         Player currPlayer = Player.get();
 
@@ -231,21 +234,6 @@ public class MainActivity extends NavigationStudent {
 
     public void updateCurrDisplay() {
         ((TextView) findViewById(R.id.currText)).setText(CURR_DISPLAY + Player.get().getCurrency());
-    }
-
-    public void scheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
-        scheduler.schedule(jobInfo);
-        for(JobInfo job: scheduler.getAllPendingJobs()){
-            Log.d("GPS_MAP", "Scheduled: " + job);
-        }
-        Log.d("GPS_MAP", "schedule");
-    }
-
-    public void unScheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
     }
 
     public static void clearCacheToLogOut(Context context) {

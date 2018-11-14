@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.DataContainers.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 /**
  * Authenticator
@@ -47,9 +48,18 @@ public class Authenticator {
     public static PlayerDataContainer getPlayerData(String token) throws Exception {
 
         String requestURL = TEQUILA_AUTH_URL + token;
-        String response = getResponse(requestURL);
 
-        PlayerDataContainer playerData = new Gson().fromJson(response, PlayerDataContainer.class);
+        PlayerDataContainer playerData;
+        if (token.equals(MOCK_TOKEN)) {
+            playerData = new PlayerDataContainer();
+            playerData.sciperNum = INITIAL_SCIPER;
+            playerData.firstName = INITIAL_FIRSTNAME;
+            playerData.lastname = INITIAL_LASTNAME;
+        }
+        else {
+            String response = getResponse(requestURL);
+            playerData = new Gson().fromJson(response, PlayerDataContainer.class);
+        }
 
         if (playerData.sciperNum == null) {
             throw new Exception("Unable to retrieve player data.");

@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.TestbedActivity;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -32,7 +33,9 @@ public class NavigationTest {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
+
         MOCK_ENABLED = true;
+
     }
 
     @AfterClass

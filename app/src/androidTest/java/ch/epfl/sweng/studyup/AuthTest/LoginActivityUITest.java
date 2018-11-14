@@ -7,7 +7,9 @@ import android.support.test.runner.AndroidJUnit4;
 import com.kosalgeek.android.caching.FileCacher;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,8 +18,12 @@ import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Utils;
+
+import ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -40,15 +46,16 @@ public class LoginActivityUITest {
     public final ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class, true, false);
 
-    @Before
-    public void enableMock() {
-        Utils.isMockEnabled = true;
-        rule.launchActivity(new Intent());
+    @BeforeClass
+    public static void enableMock() { MOCK_ENABLED = true; }
+    @AfterClass
+    public static void disableMock() {
+        MOCK_ENABLED = false;
     }
 
-    @After
-    public void disableMock() {
-        Utils.isMockEnabled = false;
+    @Before
+    public void launchActivity() {
+        rule.launchActivity(new Intent());
     }
 
     @Test
@@ -68,6 +75,6 @@ public class LoginActivityUITest {
     public void studentRoleIsStored() {
         onView(withId(R.id.student)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
-        assertFalse(Player.get().getRole());
+        assertTrue(Player.get().getRole().equals(Role.student));
     }
 }

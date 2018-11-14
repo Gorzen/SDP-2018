@@ -31,12 +31,12 @@ public class Player {
     private static Player instance = null;
 
     // Basic biographical data
-    private String sciperNum;
-    private String firstName;
-    private String lastName;
+    private String sciperNum = null;
+    private String firstName = null;
+    private String lastName = null;
 
-    private String username;
-    private Role role;
+    private String username = null;
+    private Role role = null;
 
     // Game-related data
     private int experience;
@@ -63,10 +63,17 @@ public class Player {
 
     public static Player get() {
         if (instance == null) {
-            Log.d(TAG, "PLAYER IS NULL");
             instance = new Player();
         }
         return instance;
+    }
+
+    /**
+     * User for testing purposes.
+     * Clear data from current Player instance.
+     */
+    public static void resetPlayer() {
+        instance = new Player();
     }
 
     /**
@@ -79,6 +86,10 @@ public class Player {
         this.sciperNum = sciperNum;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public void initializeDefaultPlayerData() {
+        initializePlayerData(INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
     }
 
     /**
@@ -101,14 +112,14 @@ public class Player {
     }
 
     // Getters
-    public String getSciperNum() { return sciperNum; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
+    public String getSciperNum() { return this.sciperNum; }
+    public String getFirstName() { return this.firstName; }
+    public String getLastName() { return this.lastName; }
     public Role getRole() { return this.role; }
-    public String getUserName() { return username; }
-    public int getExperience() { return experience; }
-    public int getLevel() { return level; }
-    public int getCurrency() { return currency; }
+    public String getUserName() { return this.username; }
+    public int getExperience() { return this.experience; }
+    public int getLevel() { return this.level; }
+    public int getCurrency() { return this.currency; }
     public String getCurrentRoom() { return ROOM_NUM; }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
@@ -133,7 +144,7 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
     public void setFirstName(String firstName) {
-        firstName = firstName;
+        this.firstName = firstName;
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
     public void setLastName(String lastName) {
@@ -196,15 +207,15 @@ public class Player {
         courses.add(newCourse);
     }
 
-    public boolean isInitialPlayer() throws NumberFormatException {
-        boolean isInitial = firstName.equals(Constants.INITIAL_FIRSTNAME);
-        isInitial = isInitial && lastName.equals(Constants.INITIAL_LASTNAME);
-        isInitial = isInitial &&  Integer.parseInt(sciperNum) == Constants.INITIAL_SCIPER;
+    public boolean isDefault() throws NumberFormatException {
 
-        return isInitial;
-    }
-
-    public void reset() {
-        instance = null;
+        /*
+        If player has not yet been loaded,
+        these values will be set to default.
+        This is used in AuthenticationActivity.
+         */
+        return this.firstName.equals(INITIAL_FIRSTNAME) &&
+            this.lastName.equals(INITIAL_LASTNAME) &&
+            this.sciperNum.equals(INITIAL_SCIPER);
     }
 }

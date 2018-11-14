@@ -41,7 +41,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         if(!MOCK_ENABLED) {
-            attemptLoginFromCache();
+            try {
+                attemptLoginFromCache();
+            }
+            catch (Exception e) {
+                Log.e(TAG, "Unable to load from cache: " + e.getMessage());
+            }
         }
 
         super.onCreate(savedInstanceState);
@@ -50,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         loadInterface();
     }
 
-    private void attemptLoginFromCache() {
+    private void attemptLoginFromCache() throws Exception {
 
         FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 

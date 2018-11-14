@@ -12,7 +12,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +52,17 @@ public class AddQuestionActivityTest {
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
             new ActivityTestRule<>(AddQuestionActivity.class, true, false);
 
+    @BeforeClass
+    public static void enableMock() {
+        MOCK_ENABLED = true;
+        Player.get().initializeDefaultPlayerData();
+    }
+
+    @AfterClass
+    public static void disableMock() {
+        MOCK_ENABLED = false;
+    }
+
     @Before
     public void initiateIntents() {
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
@@ -57,14 +70,12 @@ public class AddQuestionActivityTest {
     }
 
     @Before
-    public void enableMock() {
-        MOCK_ENABLED = true;
+    public void setUp() {
         mActivityRule.launchActivity(new Intent());
     }
 
     @After
-    public void disableMock() {
-        MOCK_ENABLED = false;
+    public void breakDown() {
         Intents.release();
     }
 

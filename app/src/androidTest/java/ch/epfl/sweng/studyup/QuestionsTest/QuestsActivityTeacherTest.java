@@ -6,7 +6,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.ListView;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +21,8 @@ import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
-import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 @RunWith(AndroidJUnit4.class)
 public class QuestsActivityTeacherTest {
@@ -33,10 +33,20 @@ public class QuestsActivityTeacherTest {
     private final String questionUUID = "Temporary fake uuid";
     private Question q;
 
+    @BeforeClass
+    public static void enableMock() {
+        MOCK_ENABLED = true;
+        Player.get().initializeDefaultPlayerData();
+        Player.get().setRole(Role.student);
+    }
+    @AfterClass
+    public static void disableMock() {
+        MOCK_ENABLED = false;
+    }
+
     @Before
     public void addQuestionThatWillBeDisplayed() {
         q = new Question(questionUUID, "Teacher quests test", true, 0, Course.SWENG.name());
-        Player.get().setRole(Role.student);
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
         rule.launchActivity(new Intent());

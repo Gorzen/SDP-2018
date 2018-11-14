@@ -1,9 +1,11 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,21 +19,14 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class PlayerTest {
+
+    @Rule
+    public final ActivityTestRule<TestbedActivity> rule =
+            new ActivityTestRule<>(TestbedActivity.class);
+
     @Before
     public void setup() {
-        Player.get().reset();
-    }
-
-    @After
-    public void cleanup() {
-        Player.get().reset();
-    }
-
-    @Test
-    public void resetTest() {
-        Player.get().reset();
-        Player.get().setRole(Role.student);
-        Player.get().reset();
+        Player.resetPlayer();
     }
 
     @Test
@@ -56,7 +51,7 @@ public class PlayerTest {
         assertEquals(currency + CURRENCY_PER_LEVEL, Player.get().getCurrency());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = Exception.class)
     public void consumeNonExistentItemTest() throws Exception {
         Player.get().consumeItem(Items.XP_POTION);
     }

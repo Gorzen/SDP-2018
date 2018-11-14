@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.TestbedActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static junit.framework.TestCase.assertEquals;
@@ -36,8 +37,8 @@ public class MockLocationTest {
     private boolean setMockLocation = false;
 
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule2 =
-            new ActivityTestRule<>(MainActivity.class, true, false);
+    public final ActivityTestRule<TestbedActivity> mActivityRule2 =
+            new ActivityTestRule<>(TestbedActivity.class, true, false);
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
@@ -95,11 +96,11 @@ public class MockLocationTest {
     }
 
     public void setupMock(){
-        Utils.locationProviderClient.setMockMode(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+        LOCATION_PROVIDER_CLIENT.setMockMode(true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.i("GPS_TEST", "Mock mode set");
-                Utils.locationProviderClient.setMockLocation(MOC_LOC).addOnSuccessListener(new OnSuccessListener<Void>() {
+                LOCATION_PROVIDER_CLIENT.setMockLocation(MOC_LOC).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i("GPS_TEST", "Mock location set");

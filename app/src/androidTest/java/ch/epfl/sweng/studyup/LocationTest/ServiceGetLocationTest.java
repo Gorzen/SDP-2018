@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.TestbedActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -32,8 +33,8 @@ public class ServiceGetLocationTest {
     private LatLng notRoomOfPlayer = new LatLng(50.0, 10.0);
 
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule2 =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<TestbedActivity> mActivityRule2 =
+            new ActivityTestRule<>(TestbedActivity.class);
 
     @Test
     public void getLocationNoCrashWithBadParams() {

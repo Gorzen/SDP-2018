@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         PlayerDataContainer playerData = Authenticator.getPlayerData(token);
 
         Player.get().initializePlayerData(playerData.sciperNum, playerData.firstName, playerData.lastname);
+        if (MOCK_ENABLED) {
+            Player.get().setRole(Role.student);
+        }
 
         if (!MOCK_ENABLED) {
             Firestore.get().syncPlayerData();
@@ -99,7 +103,9 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
-        if(!Player.get().isInitialPlayer()) cachePlayerData();
+        if(!Player.get().isDefault() && !MOCK_ENABLED) {
+            cachePlayerData();
+        }
         Class homeActivity = Player.get().getRole().equals(Role.student) ?
                 MainActivity.class : AddQuestionActivity.class;
 

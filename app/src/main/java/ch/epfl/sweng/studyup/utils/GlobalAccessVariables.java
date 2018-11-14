@@ -19,6 +19,6 @@ public class GlobalAccessVariables {
     public static Boolean MOCK_ENABLED = false;
     public static Location MOC_LOC = null;
 
-    public static Map<String, Object> dbStaticInfo = null;
+    public static Map<String, Object> DB_STATIC_INFO = null;
 
 }

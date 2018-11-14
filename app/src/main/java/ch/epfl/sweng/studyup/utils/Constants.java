@@ -65,8 +65,8 @@ public class Constants {
     public static final String PERSIST_LOGIN_FILENAME = "persist_login.txt";
 
     // Timeout values
-    public static final int TIME_TO_WAIT_FOR_LOGIN = 500; //[ms]
-    public static final int TIME_TO_WAIT_FOR_AUTO_LOGIN = 1000; //[ms]
+    public static final int TIME_TO_WAIT_FOR_LOGIN = 2000; //[ms]
+    public static final int TIME_TO_WAIT_FOR_AUTO_LOGIN = 2000; //[ms]
 
     // Basic Player stats
     public static final int XP_TO_LEVEL_UP = 100;
@@ -75,7 +75,7 @@ public class Constants {
     public static final int INITIAL_XP = 0;
     public static final int INITIAL_CURRENCY = 0;
     public static final int INITIAL_LEVEL = 1;
-    public static final int INITIAL_SCIPER = MIN_SCIPER;
+    public static final String INITIAL_SCIPER = String.valueOf(MIN_SCIPER);
     public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
