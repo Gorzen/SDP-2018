@@ -36,9 +36,8 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
-import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -53,16 +52,17 @@ public class MainActivityTest {
             new ActivityTestRule<>(MainActivity.class);
 
     @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
+    public GrantPermissionRule permissionRule = GrantPermissionRule
+            .grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Before
@@ -94,7 +94,7 @@ public class MainActivityTest {
                     "xpButton doesn't update player's xp as expected.";
         }
         Utils.waitAndTag(1000, "Main Activity Test");
-        onView(withId(R.id.currText)).check(matches(withText(Utils.CURR_DISPLAY + Player.get().getCurrency())));
+        onView(withId(R.id.currText)).check(matches(withText(CURR_DISPLAY + Player.get().getCurrency())));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class MainActivityTest {
         }
         final int numberOfPush = 5;
         assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-        onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
+        onView(withId(R.id.levelText)).check(matches(withText(LEVEL_DISPLAY + Player.get().getLevel())));
         for (int i = 0; i < numberOfPush; ++i) {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -118,7 +118,7 @@ public class MainActivityTest {
                 }
             });
             assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText(Utils.LEVEL_DISPLAY + Player.get().getLevel())));
+            onView(withId(R.id.levelText)).check(matches(withText(LEVEL_DISPLAY + Player.get().getLevel())));
         }
     }
 

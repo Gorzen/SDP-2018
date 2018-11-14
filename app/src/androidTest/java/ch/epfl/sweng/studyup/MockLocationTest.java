@@ -45,12 +45,12 @@ public class MockLocationTest {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Before
