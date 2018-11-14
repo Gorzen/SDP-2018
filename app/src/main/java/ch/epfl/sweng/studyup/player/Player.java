@@ -58,10 +58,6 @@ public class Player {
     private String username;
     private boolean isTeacher;
     private int sciper;
-    private int[] questionsCurr;
-    private int[] questsCurr;
-    private int[] questionsAcheived; //todo equivalent to answeredQuestions ??
-    private int[] questsAcheived;
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
