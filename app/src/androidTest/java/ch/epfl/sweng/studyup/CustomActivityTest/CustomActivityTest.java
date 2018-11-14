@@ -1,15 +1,13 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.CustomActivityTest;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-import android.util.Log;
-import android.widget.ImageButton;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,11 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -32,11 +27,11 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
-import static org.junit.Assert.assertEquals;
+import static ch.epfl.sweng.studyup.utils.Constants.CAMERA;
+import static ch.epfl.sweng.studyup.utils.Constants.CANCEL;
+import static ch.epfl.sweng.studyup.utils.Constants.GALLERY;
+import static ch.epfl.sweng.studyup.utils.Constants.JUSTONCE;
 import static org.junit.Assert.assertTrue;
-
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CustomActivityTest {
@@ -58,7 +53,8 @@ public class CustomActivityTest {
 
     @Test
     public void A_changeUserName() {
-        onView(withId(R.id.edit_username)).perform(clearText()).perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
+        onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
+                .perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
         onView(withId(R.id.valid_btn)).perform(click());
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
@@ -76,14 +72,14 @@ public class CustomActivityTest {
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
         onView(withId(R.id.pic_btn)).perform(click());
-        assertTrue(device.findObject(new UiSelector().text(Utils.CAMERA)).exists());
-        assertTrue(device.findObject(new UiSelector().text(Utils.GALLERY)).exists());
-        assertTrue(device.findObject(new UiSelector().text(Utils.CANCEL)).exists());
-        clickButton(Utils.GALLERY);
+        assertTrue(device.findObject(new UiSelector().text(CAMERA)).exists());
+        assertTrue(device.findObject(new UiSelector().text(GALLERY)).exists());
+        assertTrue(device.findObject(new UiSelector().text(CANCEL)).exists());
+        clickButton(GALLERY);
         Utils.waitAndTag(1000, "CustomTest");
         device.pressBack();
         Utils.waitAndTag(1000, "CustomTest");
-        clickButton(Utils.JUSTONCE);
+        clickButton(JUSTONCE);
     }
 
     public void clickButton(String textButton) throws UiObjectNotFoundException {
@@ -92,5 +88,4 @@ public class CustomActivityTest {
             button.click();
         }
     }
-
 }

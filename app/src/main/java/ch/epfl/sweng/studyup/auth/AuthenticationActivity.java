@@ -99,7 +99,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
-        cachePlayerData();
+        if(!Player.get().isInitialPlayer()) cachePlayerData();
         Class homeActivity = Player.get().getRole().equals(Role.student) ?
                 MainActivity.class : AddQuestionActivity.class;
 

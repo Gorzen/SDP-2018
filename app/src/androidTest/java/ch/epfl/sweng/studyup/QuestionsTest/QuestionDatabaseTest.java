@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -18,9 +18,11 @@ import java.util.ArrayList;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDAO;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 @RunWith(AndroidJUnit4.class)
 public class QuestionDatabaseTest {
@@ -41,7 +43,7 @@ public class QuestionDatabaseTest {
 
     @Test
     public void writeSingleQuestionTest() {
-        Question q = new Question("1", "test", true , 0);
+        Question q = new Question("1", "test", true , 0,  Course.SWENG.name());
         ArrayList<Question> list = new ArrayList<>();
         list.add(q);
         questionDAO.insertAll(list);
@@ -51,8 +53,8 @@ public class QuestionDatabaseTest {
 
     @Test
     public void writeMultipleQuestionsTest(){
-        Question q1 = new Question("1", "test1", true , 0);
-        Question q2 = new Question("2", "test2", true , 0);
+        Question q1 = new Question("1", "test1", true , 0, Course.SWENG.name());
+        Question q2 = new Question("2", "test2", true , 0, Course.SWENG.name());
         ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
         list.add(q2);

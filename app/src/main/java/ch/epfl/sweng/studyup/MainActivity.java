@@ -166,10 +166,7 @@ public class MainActivity extends NavigationStudent {
     @Override
     protected void onResume() {
         super.onResume();
-        TextView view_username = findViewById(R.id.usernameText);
-        view_username.setText(Player.get().getUserName());
-        view_username.setMaxLines(1);
-        view_username.setMaxWidth(300);
+        updateUsernameDisplay();
         updateCurrDisplay();
         updateXpAndLvlDisplay();
     }
@@ -220,6 +217,12 @@ public class MainActivity extends NavigationStudent {
         Player.get().addExperience(XP_STEP, this);
     }
 
+    public void updateUsernameDisplay() {
+        TextView view_username = findViewById(R.id.usernameText);
+        view_username.setText(Player.get().getUserName());
+        view_username.setMaxLines(1);
+        view_username.setMaxWidth(300);
+    }
 
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());

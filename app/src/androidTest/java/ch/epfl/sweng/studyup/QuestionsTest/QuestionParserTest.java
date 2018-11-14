@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -28,6 +28,8 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertArrayEquals;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class QuestionParserTest {
@@ -38,12 +40,12 @@ public class QuestionParserTest {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Before
@@ -54,8 +56,8 @@ public class QuestionParserTest {
 
     @Test
     public void writeAndReadGivesTheCorrectList() {
-        Question q1 = new Question("1", "test1", true, 0);
-        Question q2 = new Question("2", "test2", false, 2);
+        Question q1 = new Question("1", "test1", true, 0, Course.SWENG.name());
+        Question q2 = new Question("2", "test2", false, 2, Course.SWENG.name());
         final ArrayList<Question> list = new ArrayList<>();
         list.add(q1);
         list.add(q2);

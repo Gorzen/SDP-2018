@@ -1,17 +1,14 @@
 package ch.epfl.sweng.studyup;
 
-import android.net.Uri;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import java.io.File;
-
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +20,7 @@ public class QuestionTest {
     String testCourseName = Constants.Course.SWENG.name();
 
     @Before
-    public void init(){
+    public void init() {
         q = new Question("1", "question TEST", true, 0, testCourseName);
     }
 
@@ -69,7 +66,7 @@ public class QuestionTest {
 
 
     @Test
-    public void settersTest(){
+    public void settersTest() {
         q.setAnswer(1);
         assertEquals(q.getAnswer(), 1);
         q.setAnswer(2);

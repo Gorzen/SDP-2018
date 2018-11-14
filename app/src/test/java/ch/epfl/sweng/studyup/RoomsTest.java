@@ -1,14 +1,11 @@
 package ch.epfl.sweng.studyup;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
@@ -18,13 +15,13 @@ import static org.junit.Assert.assertEquals;
 public class RoomsTest {
 
     @Test
-    public void computeDistanceTest(){
+    public void computeDistanceTest() {
         double distance = Rooms.distanceBetweenTwoLatLng(Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation());
         assertEquals(256.9647560362717, distance, 1e-4);
     }
 
     @Test
-    public void checkIfUserIsInRoom(){
+    public void checkIfUserIsInRoom() {
         POSITION = Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation();
         assertEquals(true, Rooms.checkIfUserIsInRoom("CO_1_1"));
 

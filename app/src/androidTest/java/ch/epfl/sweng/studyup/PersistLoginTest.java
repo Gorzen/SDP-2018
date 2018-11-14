@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -24,26 +23,29 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.release;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ROLE_S;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ROLE_T;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class PersistLoginTest {
-    FileCacher<String[]> persistLoginData;
-    Intent toLogin = new Intent();
-
     @Rule
     public final ActivityTestRule<LoginActivity> rule =
             new ActivityTestRule<>(LoginActivity.class);
-
+    FileCacher<String[]> persistLoginData;
+    Intent toLogin = new Intent();
 
     @Before
     public void setup() {
         init();
-        isMockEnabled = true;
+        MOCK_ENABLED = true;
         toLogin.setClass(rule.getActivity(), LoginActivity.class);
         persistLoginData = new FileCacher<>(rule.getActivity().getApplicationContext(), PERSIST_LOGIN_FILENAME);
         rule.launchActivity(new Intent());
-        isMockEnabled = false;
+        MOCK_ENABLED = false;
         try {
             persistLoginData.clearCache();
         } catch (IOException e) {
@@ -75,7 +77,7 @@ public class PersistLoginTest {
         invalid[0] = "90";
         invalid[1] = INITIAL_FIRSTNAME;
         invalid[2] = INITIAL_LASTNAME;
-        invalid[3] = FB_ROLES_S;
+        invalid[3] = FB_ROLE_S;
 
         try {
             persistLoginData.writeCache(invalid);
@@ -112,7 +114,7 @@ public class PersistLoginTest {
         invalid[0] = "notANumber";
         invalid[1] = INITIAL_FIRSTNAME;
         invalid[2] = INITIAL_LASTNAME;
-        invalid[3] = FB_ROLES_S;
+        invalid[3] = FB_ROLE_S;
 
         try {
             persistLoginData.writeCache(invalid);
@@ -150,7 +152,7 @@ public class PersistLoginTest {
         invalid[0] = "100000";
         invalid[1] = INITIAL_FIRSTNAME;
         invalid[2] = INITIAL_LASTNAME;
-        invalid[3] = FB_ROLES_S;
+        invalid[3] = FB_ROLE_S;
 
         try {
             persistLoginData.writeCache(invalid);
@@ -169,7 +171,7 @@ public class PersistLoginTest {
         invalid[0] = "100000";
         invalid[1] = INITIAL_FIRSTNAME;
         invalid[2] = INITIAL_LASTNAME;
-        invalid[3] = FB_ROLES_T;
+        invalid[3] = FB_ROLE_T;
 
         try {
             persistLoginData.writeCache(invalid);

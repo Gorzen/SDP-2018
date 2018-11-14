@@ -23,6 +23,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
@@ -35,7 +36,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
  */
 public class Firestore {
 
-    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firestore.class.getSimpleName();
     private static Firestore instance = null;
 
@@ -54,9 +55,21 @@ public class Firestore {
         return instance;
     }
 
-    public void syncPlayerData() {
+    /**
+     * Function used to synchronize the data of the player, either from local to the remote
+     * or from the remote to the local depending if it is a new user or not.
+     *
+     * @throws NullPointerException If the data received from the server is not of a valid format
+     * @throws IllegalArgumentException If the sciper of the player is not valid
+     * @throws IllegalStateException If the state of the server and the local player is not consistent
+     */
+    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
+        final Player currPlayer = Player.get();
+        final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
+        if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
+            throw new IllegalArgumentException("The sciper number should be a six digits number.");
+        }
 
-        Player currPlayer = Player.get();
         db.collection(FB_USERS).document(currPlayer.getSciperNum())
             .get()
             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -67,10 +80,11 @@ public class Firestore {
                         if (document.exists()) {
 
                             Map<String, Object> remotePlayerData = document.getData();
-                            Player currPlayer = Player.get();
 
-                            if (remotePlayerData.get(FB_FIRSTNAME).equals(currPlayer.getFirstName())
-                                && remotePlayerData.get(FB_LASTNAME).equals(currPlayer.getLastName())) {
+                            if (!remotePlayerData.get(FB_FIRSTNAME).equals(currPlayer.getFirstName())
+                                || !remotePlayerData.get(FB_LASTNAME).equals(currPlayer.getLastName())) {
+                                throw new IllegalStateException("The local name doesn't correspond to the name on the server.");
+                            } else {
                                 Log.d(TAG, "Calling update local...");
                                 /*
                                 Player is a return user. They have stored remote data.
@@ -78,13 +92,12 @@ public class Firestore {
                                  */
                                 currPlayer.updateLocalDataFromRemote(remotePlayerData);
                             }
-                            else {
-                                /*
+                        } else {
+                            /*
                                 Player is logging in for the first time.
                                 Update remote data with initialized local data.
                                  */
-                                updateRemotePlayerDataFromLocal();
-                            }
+                            updateRemotePlayerDataFromLocal();
                         }
                     }
                 }
@@ -168,8 +181,9 @@ public class Firestore {
      * In addition, only questions that correspond to the current player's courses should be loaded.
      *
      * @param context The context used to save the questions locally
+     * @throws NullPointerException If the data received from the server is not of a valid format
      */
-    public void loadQuestions(final Context context) {
+    public void loadQuestions(final Context context) throws NullPointerException {
 
         final Player currPlayer = Player.get();
 
@@ -197,10 +211,14 @@ public class Firestore {
 
                     if(isValidQuestion || questionId.equals(MOCK_UUID)) {
 
+<<<<<<< HEAD
                         String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
                         String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+=======
+                        if(isValidQuestion && !questionId.equals(MOCK_UUID)) {
+>>>>>>> 46faffb37e48f2b217bb336ec3f961d93c875826
 
                         Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
                         questionList.add(question);
@@ -244,5 +262,26 @@ public class Firestore {
                     }
                 }
             });
+    }
+
+    /**
+     * This function put the current data of a given user into the dbStaticInfo object (Utils.java).
+     *
+     * @param sciper Sciper ot the user.
+     */
+    public void getData(final int sciper) {
+        db.collection(FB_USERS).document(Integer.toString(sciper))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot document) {
+                        if (document.exists()) {
+                            GlobalAccessVariables.dbStaticInfo = document.getData();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {Log.i(TAG, "Error: getData" + sciper); }});
     }
 }

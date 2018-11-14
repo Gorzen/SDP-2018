@@ -15,11 +15,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.map.MapsActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
+import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -33,18 +33,18 @@ public class MapsActivityTest {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Test
     public void locationRequestSetsUpCorrectly() {
-        assertEquals(Utils.LOCATION_REQ_INTERVAL, mActivityRule.getActivity().getIntervals());
-        assertEquals(Utils.LOCATION_REQ_FASTEST_INTERVAL, mActivityRule.getActivity().getFastedIntervals());
+        assertEquals(LOCATION_REQ_INTERVAL, mActivityRule.getActivity().getIntervals());
+        assertEquals(LOCATION_REQ_FASTEST_INTERVAL, mActivityRule.getActivity().getFastedIntervals());
         assertEquals(LocationRequest.PRIORITY_HIGH_ACCURACY, mActivityRule.getActivity().getPriority());
     }
 
@@ -54,8 +54,8 @@ public class MapsActivityTest {
             @Override
             public void run() {
                 mActivityRule.getActivity().onLocationUpdate(latlng);
-                assertEquals(LAT, Utils.position.latitude, 0.0);
-                assertEquals(LONG, Utils.position.longitude, 0.0);
+                assertEquals(LAT, POSITION.latitude, 0.0);
+                assertEquals(LONG, POSITION.longitude, 0.0);
             }
         });
     }
