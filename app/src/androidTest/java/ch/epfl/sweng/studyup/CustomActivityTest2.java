@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,7 +19,7 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.not;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class CustomActivityTest2 {
@@ -30,11 +29,13 @@ public class CustomActivityTest2 {
             new ActivityTestRule<>(CustomActivity.class, true, false);
 
     @Before
-    public void enableMock() { Utils.isMockEnabled = true; }
+    public void enableMock() {
+        MOCK_ENABLED = true;
+    }
 
     @After
     public void disableMock() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
 
