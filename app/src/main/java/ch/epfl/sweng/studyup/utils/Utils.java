@@ -105,7 +105,6 @@ public class Utils {
     public static final String INITIAL_USERNAME = "Player";
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
-    public static final Map<String, Boolean> INITIAL_ANSWERED_QUESTIONS = new HashMap<>();
 
     //Navigation items indexes for smooth transitions
 

@@ -2,6 +2,8 @@ package ch.epfl.sweng.studyup.player;
 
 import android.app.Activity;
 import android.util.Log;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import java.util.ArrayList;
@@ -26,7 +28,6 @@ import static ch.epfl.sweng.studyup.utils.Utils.FB_ROLES_T;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
@@ -75,7 +76,7 @@ public class Player {
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
-        answeredQuestions = INITIAL_ANSWERED_QUESTIONS;
+        answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
     }
 
