@@ -203,4 +203,8 @@ public class Player {
 
         return isInitial;
     }
+
+    public void reset() {
+        instance = null;
+    }
 }
