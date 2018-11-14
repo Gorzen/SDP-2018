@@ -2,19 +2,16 @@ package ch.epfl.sweng.studyup.player;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,12 +41,12 @@ public class QuestsActivityStudent extends NavigationStudent {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                onClickQuest(questions);
+                setupListView(questions);
             }
         });
     }
 
-    private void onClickQuest(final List<Question> quests) {
+    private void setupListView(final List<Question> quests) {
         ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
 
@@ -68,10 +65,10 @@ public class QuestsActivityStudent extends NavigationStudent {
             }
         }
 
-        onClickListView(quests, listTitle, listImageID);
+        setupOnClickListenerListView(quests, listTitle, listImageID);
     }
 
-    private void onClickListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
+    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
         ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
         listView.setAdapter(adapter);

@@ -32,7 +32,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                onClickQuest(questions);
+                setupListView(questions);
             }
         });
 
@@ -45,7 +45,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     }
 
     //TODO For now the same as for the student! To be changed
-    protected void onClickQuest(final List<Question> quests) {
+    protected void setupListView(final List<Question> quests) {
         int nbrQuestion = quests.size();
 
         String[] list = new String[nbrQuestion];
