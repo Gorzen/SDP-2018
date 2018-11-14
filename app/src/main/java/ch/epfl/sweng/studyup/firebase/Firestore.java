@@ -192,44 +192,41 @@ public class Firestore {
         db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
 
-                    String questionId = document.getId();
-                    Map<String, Object> questionData = document.getData();
+                        String questionId = document.getId();
+                        Map<String, Object> questionData = document.getData();
 
-                    String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
-                    boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
+                        String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
+                        boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
 
-                    // TODO: check course
-                    //Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
-                    boolean questionInCurrPlayerCourse = true; //currPlayer.getCourses().contains(questionCourse);
-                    
-                    boolean isValidQuestion = questionInCurrPlayerCourse &&
-                            ((currPlayerIsAuthor && currPlayer.getRole().equals(Role.teacher)) ||
-                             (!currPlayerIsAuthor && currPlayer.getRole().equals(Role.student)));
+                        // TODO: check course
+                        //Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
+                        boolean questionInCurrPlayerCourse = true; //currPlayer.getCourses().contains(questionCourse);
 
-                    if(isValidQuestion || questionId.equals(MOCK_UUID)) {
+                        boolean isValidQuestion = questionInCurrPlayerCourse &&
+                                ((currPlayerIsAuthor && currPlayer.getRole().equals(Role.teacher)) ||
+                                 (!currPlayerIsAuthor && currPlayer.getRole().equals(Role.student)));
 
-<<<<<<< HEAD
-                        String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
-                        Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                        int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
-=======
-                        if(isValidQuestion && !questionId.equals(MOCK_UUID)) {
->>>>>>> 46faffb37e48f2b217bb336ec3f961d93c875826
+                        if(isValidQuestion || questionId.equals(MOCK_UUID)) {
 
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
-                        questionList.add(question);
+                            String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
+                            Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                            int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+                            String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+
+
+                            Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+                            questionList.add(question);
+                        }
                     }
-                }
 
-                QuestionParser.writeQuestions(questionList, context);
-                Log.d(TAG, "Question List: " + questionList.toString());
-            } else {
-                Log.e(TAG, "Error getting documents: ", task.getException());
-            }
+                    QuestionParser.writeQuestions(questionList, context);
+                    Log.d(TAG, "Question List: " + questionList.toString());
+                } else {
+                    Log.e(TAG, "Error getting documents: ", task.getException());
+                }
             }
         });
     }
