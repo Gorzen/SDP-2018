@@ -13,43 +13,43 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
-public class NavigationTest{
+public class NavigationTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Before
-    public void init(){
+    public void init() {
         Intents.init();
     }
 
     @After
-    public void release(){
+    public void release() {
         Intents.release();
     }
 
     @Test
-    public void testNavigationBottomBar(){
+    public void testNavigationBottomBar() {
         BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar);
         b.setSelectedItemId(R.id.navigation_inventory);
         intended(hasComponent(InventoryActivity.class.getName()));

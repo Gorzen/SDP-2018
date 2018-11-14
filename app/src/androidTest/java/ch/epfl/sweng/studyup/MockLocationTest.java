@@ -25,7 +25,8 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static junit.framework.TestCase.assertEquals;
-
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 @RunWith(AndroidJUnit4.class)
 public class MockLocationTest {
@@ -62,12 +63,11 @@ public class MockLocationTest {
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
-        Utils.mockLoc = new Location(location);
-        Utils.isMockEnabled = true;
-        Utils.position = null;
+        MOC_LOC = new Location(location);
+        MOCK_ENABLED = true;
+        POSITION = null;
         mActivityRule2.launchActivity(new Intent());
     }
-
 
     @Test
     public void backgroundLocationTest() {
@@ -88,8 +88,8 @@ public class MockLocationTest {
             }
 
             Log.i("GPS_TEST", "Started assert");
-            assertEquals(MOCK_LAT, Utils.position.latitude);
-            assertEquals(MOCK_LONG, Utils.position.longitude);
+            assertEquals(MOCK_LAT, POSITION.latitude);
+            assertEquals(MOCK_LONG, POSITION.longitude);
         }
     }
 
@@ -98,7 +98,7 @@ public class MockLocationTest {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.i("GPS_TEST", "Mock mode set");
-                Utils.locationProviderClient.setMockLocation(Utils.mockLoc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                Utils.locationProviderClient.setMockLocation(MOC_LOC).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.i("GPS_TEST", "Mock location set");
@@ -111,8 +111,8 @@ public class MockLocationTest {
 
     @After
     public void cleanUp() {
-        Utils.position = null;
-        Utils.mockLoc = null;
-        Utils.isMockEnabled = false;
+        POSITION = null;
+        MOC_LOC = null;
+        MOCK_ENABLED = false;
     }
 }
