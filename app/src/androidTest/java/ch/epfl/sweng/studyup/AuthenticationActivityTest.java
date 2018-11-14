@@ -12,8 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.player.Player;
+
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 // Tests for the functionality of handling of responses can be found in AuthTest.
 // Tests in this class are to test that the authentication activity handles the
@@ -27,17 +29,16 @@ public class AuthenticationActivityTest {
 
     @BeforeClass
     public static void runOnceBeforeClass() {
-        Utils.isMockEnabled = true;
+        MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void runOnceAfterClass() {
-        Utils.isMockEnabled = false;
+        MOCK_ENABLED = false;
     }
 
     @Test
     public void testIntentWithError() {
-
         Uri uriWithoutCode = Uri.parse("studyup://login?error=anyvalue");
         Intent intentWithoutCode = new Intent();
         intentWithoutCode.setData(uriWithoutCode);
@@ -48,7 +49,6 @@ public class AuthenticationActivityTest {
 
     @Test
     public void testIntentWithValidCode() {
-
         Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         Intent intentWithoutCode = new Intent();
         intentWithoutCode.setData(uriWithoutCode);
@@ -58,13 +58,13 @@ public class AuthenticationActivityTest {
     }
 
     @Test
-    public void testBasicRunAuthentication() {
-        Intent i = new Intent();Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
+    public void testBasicRunAuthentication() throws Exception {
+        Intent i = new Intent();
+        Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         i.setData(uriWithoutCode);
         i.putExtra("instrumentationTest", true);
-       rule.launchActivity(i);
-       rule.getActivity().runAuthentication("code 1", false);
-       assert(Player.get().getFirstName() == Utils.INITIAL_FIRSTNAME);
-   }
-
+        rule.launchActivity(i);
+        rule.getActivity().runAuthentication();
+        assert (Player.get().getFirstName() == INITIAL_FIRSTNAME);
+    }
 }
