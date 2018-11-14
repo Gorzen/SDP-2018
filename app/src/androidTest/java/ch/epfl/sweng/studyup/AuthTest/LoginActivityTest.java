@@ -1,6 +1,7 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.AuthTest;
 
 import android.content.Intent;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -9,6 +10,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -50,6 +54,6 @@ public class LoginActivityTest {
     @Test
     public void testLoginButtonRedirect() {
         rule.launchActivity(new Intent());
-        onView(withId(R.id.loginButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.loginButton)).perform(click());
     }
 }

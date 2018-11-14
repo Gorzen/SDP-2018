@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;

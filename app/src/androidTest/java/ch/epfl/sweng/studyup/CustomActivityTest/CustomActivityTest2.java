@@ -1,6 +1,7 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.CustomActivityTest;
 
 import android.content.Intent;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -10,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -44,7 +46,7 @@ public class CustomActivityTest2 {
 
         rule.launchActivity(new Intent());
 
-        onView(withId(R.id.pic_btn)).perform(click());
+        onView(ViewMatchers.withId(R.id.pic_btn)).perform(click());
 
         onView(withText("Gallery")).inRoot(isDialog())
                 .check(matches(isDisplayed()))

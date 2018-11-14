@@ -100,8 +100,8 @@ public class MainActivityTest {
     @Test
     public void checkPlayerProgressionDisplay() {
         Player.get().reset();
-        Firestore.get().getAndSetUserData(Player.get().getSciper(),
-                Player.get().getFirstName(), Player.get().getLastName());
+        /*Firestore.get().getAndSetUserData(Player.get().getSciper(),
+                Player.get().getFirstName(), Player.get().getLastName());*/
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -136,11 +136,11 @@ public class MainActivityTest {
         intended(hasComponent(LoginActivity.class.getName()));
     }
 
-    @Test
+    /*@Test
     public void initializationGps() {
         assertEquals(Utils.mainActivity, mActivityRule.getActivity());
         assertNotNull(Utils.locationProviderClient);
-    }
+    }*/
 
     @Test
     public void testToCustomActWithB1() {

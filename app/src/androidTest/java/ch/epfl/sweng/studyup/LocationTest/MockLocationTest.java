@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.LocationTest;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static junit.framework.TestCase.assertEquals;

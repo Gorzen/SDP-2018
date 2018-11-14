@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.AuthTest;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
@@ -69,7 +70,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfTrueFalse() {
-        onView(withId(R.id.true_false_radio)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.true_false_radio)).perform(ViewActions.click());
         onView(withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(withId(R.id.true_false_radio)).perform(ViewActions.click()).check(matches(isChecked()));
         onView(withId(R.id.radio_answer1)).perform(ViewActions.click()).check(matches(isChecked())).check(matches(withText(R.string.truth_value)));

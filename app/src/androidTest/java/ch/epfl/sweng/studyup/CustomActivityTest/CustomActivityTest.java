@@ -1,7 +1,8 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.CustomActivityTest;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
@@ -15,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -51,7 +53,7 @@ public class CustomActivityTest {
 
     @Test
     public void A_changeUserName() {
-        onView(withId(R.id.edit_username)).perform(clearText())
+        onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
                 .perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
         onView(withId(R.id.valid_btn)).perform(click());
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
