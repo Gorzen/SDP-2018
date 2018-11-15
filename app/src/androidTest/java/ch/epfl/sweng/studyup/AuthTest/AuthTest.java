@@ -9,8 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.TestbedActivity;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.auth.Authenticator;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;

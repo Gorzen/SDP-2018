@@ -4,15 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.location.Location;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,12 +19,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.TestbedActivity;
-import ch.epfl.sweng.studyup.utils.Utils;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static junit.framework.TestCase.assertEquals;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 @RunWith(AndroidJUnit4.class)

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +13,12 @@ import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-
-import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.DataContainers.*;
+import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 /**
  * Player
@@ -42,11 +43,7 @@ public class Player {
     private int experience;
     private int level;
     private int currency;
-
-    private int[] questionsCurr;
-    private int[] questsCurr;
-    private int[] questionsAcheived;
-    private int[] questsAcheived;
+    private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
     private List<Course> courses;
@@ -56,6 +53,7 @@ public class Player {
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
         username = INITIAL_USERNAME;
+        answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
         courses = new ArrayList<>();
         courses.add(Course.SWENG);
@@ -134,8 +132,16 @@ public class Player {
     public double getLevelProgress() {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
+
     public List<Course> getCourses() {
         return courses;
+    }
+
+    /**
+     * Changes the Player to the basic state, right after constructor.
+     */
+    public void reset() {
+        instance = null;
     }
 
     // Setters
@@ -200,15 +206,30 @@ public class Player {
             throw new Exception("The player does not have this item, could not find it.");
         }
     }
+
     public void addCourse(Course newCourse) {
         courses.add(newCourse);
+    }
+
+    /**
+     * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
+     */
+    public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
+        if(this.answeredQuestions.get(questionID) == null) {
+            this.answeredQuestions.put(questionID, isAnswerGood);
+            Firestore.get().updateRemotePlayerDataFromLocal();
+        }
+    }
+
+    public Map<String, Boolean> getAnsweredQuestion() {
+        return this.answeredQuestions;
     }
 
     public boolean isDefault() throws NumberFormatException {
 
         /*
         If player has not yet been loaded,
-        these values will be set to default.
+        these values will be the default ones.
         This is used in AuthenticationActivity.
          */
         return this.firstName.equals(INITIAL_FIRSTNAME) &&

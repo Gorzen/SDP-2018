@@ -23,7 +23,8 @@
     <string name="multiple_choice_question_text">Multiple choice question</string>
     <string name="answer_number_text">Indicate the answer</string>
     <string name="image_at">Image at: </string>
-    <string name="display_question">Question</string>
+    <string name="display_question_image">Question image</string>
+    <string name="add_question_display_image">Question image</string>
     <string name="answer_question">Answer</string>
     <string name="add_text">Add</string>
     <string name="user_photo">User Photo</string>
@@ -50,6 +51,20 @@
     <string name="initial_greeting_2">Your Sciper number is 123456.</string>
     <string name="problem_images_directory_name">problem_images</string>
     <string name="FB_user_pictures_directory_name">user_pictures</string>
+    <string name="log_out">Log out</string>
+    <string name="quest_title">Title Quest</string>
+    <string name="quest_course">Course Quest</string>
+    <string name="image_radio_text">Image-based question</string>
+    <string name="text_radio">Text-based question</string>
     <string name="title_add_question">Add Question</string>
+    <string name="available_quests">Available Quests</string>
+    <string name="text_answer_3">Answer 3</string>
+    <string name="text_answer_4">Answer 4</string>
+    <string name="text_answer_1">Answer 1</string>
+    <string name="text_answer_2">Answer 2</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="textViewSettings">Settings</string>
+    <string name="toast_text_infos_are_coming">Infos are coming soon</string>
+
 
 </resources>

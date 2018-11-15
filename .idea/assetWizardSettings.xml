@@ -5,7 +5,33 @@
       <map>
         <entry key="imageWizard">
           <value>
-            <PersistentState />
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="imageAssetPanel">
+                    <value>
+                      <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="launcher">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../../../../SCREENSHOTS/Capture d’écran 2018-11-03 à 16.26.16.png" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
           </value>
         </entry>
         <entry key="vectorWizard">
@@ -23,7 +49,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_brightness_1_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_exit_to_app_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,11 +59,11 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="272727" />
-                            <entry key="opacityPercent" value="91" />
-                            <entry key="outputName" value="ic_dot_non_active_24dp" />
+                            <entry key="color" value="121212" />
+                            <entry key="opacityPercent" value="93" />
+                            <entry key="outputName" value="ic_logout_black_24dp" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="$USER_HOME$" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/question_mark.psd" />
                           </map>
                         </option>
                       </PersistentState>

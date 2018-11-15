@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,9 +10,9 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
 

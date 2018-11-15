@@ -16,8 +16,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,9 +30,11 @@ import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.DEFAULT_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 
 /**
@@ -105,7 +105,7 @@ public class CustomActivity extends NavigationStudent {
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle("Add an image");
-        final String[] items = {"Gallery", "Camera", "Cancel"};
+        final String[] items = {Constants.GALLERY, Constants.CAMERA, Constants.CANCEL};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -204,13 +204,5 @@ public class CustomActivity extends NavigationStudent {
 
         Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
-    }
-      
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 }

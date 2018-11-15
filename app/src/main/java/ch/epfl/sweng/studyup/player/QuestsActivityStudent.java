@@ -9,10 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
@@ -20,6 +22,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
+import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 public class QuestsActivityStudent extends NavigationStudent {
@@ -38,27 +41,45 @@ public class QuestsActivityStudent extends NavigationStudent {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                onClickQuest(questions);
+                setupListView(questions);
             }
         });
     }
 
-    protected void onClickQuest(final List<Question> quests) {
-        int nbrQuestion = quests.size();
+    private void setupListView(final List<Question> quests) {
+        ArrayList<String> listTitle = new ArrayList<>();
+        ArrayList<Integer> listImageID = new ArrayList<>();
 
-        String[] list = new String[nbrQuestion];
-        for(int i = 0; i < nbrQuestion; ++i) {
-            list[i] = quests.get(i).getTitle();
+        Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
+        Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
+
+        for(Question q: quests) {
+            listTitle.add(q.getTitle());
+
+
+            if(answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
+                listImageID.add(R.drawable.ic_todo_grey_24dp);
+            } else if(answeredQuestion.get(q.getQuestionId())) {
+                listImageID.add(R.drawable.ic_check_green_24dp);
+            } else {
+                listImageID.add(R.drawable.ic_cross_red_24dp);
+            }
         }
 
+        setupOnClickListenerListView(quests, listTitle, listImageID);
+    }
+
+    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), quests.get(position)));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
             }
         });
     }
@@ -70,23 +91,4 @@ public class QuestsActivityStudent extends NavigationStudent {
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
-
-    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    // Corresponding activities are not created yet
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(QuestsActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(QuestsActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }

@@ -30,13 +30,13 @@ public class FileStorage {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("Unable to upload problem image");
+                System.out.println("Unable to upload image");
                 exception.printStackTrace();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("Successfully uploaded problem image");
+                System.out.println("Successfully uploaded image");
             }
         });
     }

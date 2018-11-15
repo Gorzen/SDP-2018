@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGreyClair"
+    tools:context="ch.epfl.sweng.studyup.SettingsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints">
+
+
+        <!--TOP TOOL BAR-->
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="33dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/ic_close_black_24dp"
+                android:onClick="onBackButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/white_grey_border_bottom"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            </android.support.v7.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/textSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/textViewSettings"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.061"
+                app:layout_constraintStart_toEndOf="@+id/back_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.533" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <!--MIDDLE SPACE-->
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/settings_part"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/topBar"
+            android:background="@android:drawable/dialog_holo_light_frame">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/scrollSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="ScrollViewSize">
+
+
+                    <ImageButton
+                        android:id="@+id/logoutbutton"
+                        android:layout_width="match_parent"
+                        android:layout_height="26dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@color/colorWhite"
+                        android:scaleType="fitStart"
+                        android:onClick="onLogoutClick"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0"
+                        app:srcCompat="@drawable/ic_logout_black_24dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/textLogoutButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/log_out"
+                        android:textColor="@color/colorGreyBlack"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/logoutbutton"
+                        app:layout_constraintEnd_toEndOf="@+id/logoutbutton"
+                        app:layout_constraintHorizontal_bias="0.159"
+                        app:layout_constraintStart_toStartOf="@+id/logoutbutton"
+                        app:layout_constraintTop_toTopOf="@+id/logoutbutton"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                </android.support.constraint.ConstraintLayout>
+
+
+            </ScrollView>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </RelativeLayout>
+
+
+    <!--OVERLAPPING THINGS-->
+
+</android.support.constraint.ConstraintLayout>

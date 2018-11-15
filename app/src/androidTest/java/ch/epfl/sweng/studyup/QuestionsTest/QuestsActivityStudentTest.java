@@ -14,6 +14,8 @@ import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
@@ -26,5 +28,10 @@ public class QuestsActivityStudentTest {
     public void testOptionNoException() {
         onView(ViewMatchers.withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
+    }
+
+    @Test
+    public void listViewClickableTest(){
+        onView(withId(R.id.listViewQuests)).check(matches(isClickable()));
     }
 }

@@ -1,9 +1,5 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.util.Log;
 
 import java.io.IOException;
@@ -12,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
-
-import static android.support.v4.content.ContextCompat.getSystemService;
 
 public class Utils {
 

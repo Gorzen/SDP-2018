@@ -8,6 +8,6 @@ public class RefreshContext extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MAIN_ACTIVITY = this;
+        MOST_RECENT_ACTIVITY = this;
     }
 }
