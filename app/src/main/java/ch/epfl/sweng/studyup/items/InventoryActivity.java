@@ -46,15 +46,6 @@ public class InventoryActivity extends NavigationStudent {
         });
     }
 
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
-
     public ArrayList<String> getItemsNames() {
         List<Items> items = Player.get().getItems();
         ArrayList<String> itemsName = new ArrayList<>(items.size());

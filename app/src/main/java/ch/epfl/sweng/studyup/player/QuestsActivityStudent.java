@@ -83,12 +83,4 @@ public class QuestsActivityStudent extends NavigationStudent {
             }
         });
     }
-
-    // Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
 }

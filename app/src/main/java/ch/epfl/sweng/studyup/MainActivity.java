@@ -158,14 +158,6 @@ public class MainActivity extends NavigationStudent {
         updateXpAndLvlDisplay();
     }
 
-    // Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -195,10 +187,6 @@ public class MainActivity extends NavigationStudent {
     public void unScheduleBackgroundLocation(){
         JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
-    }
-
-    public void addExpPlayer() {
-        Player.get().addExperience(XP_STEP, this);
     }
 
     public void updateUsernameDisplay() {

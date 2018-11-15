@@ -28,12 +28,4 @@ public class RankingsActivity extends NavigationStudent {
 
         navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
     }
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
 }
