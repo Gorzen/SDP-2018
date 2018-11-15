@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/shop_coin"
         android:layout_width="52dp"
         android:layout_height="69dp"
         android:layout_marginBottom="482dp"
