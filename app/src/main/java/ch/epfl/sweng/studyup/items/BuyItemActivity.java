@@ -36,21 +36,11 @@ public class BuyItemActivity extends RefreshContext {
         TextView playerCurrency = findViewById(R.id.player_currency);
         playerCurrency.setText("You have " + Player.get().getCurrency() + " currency");
         TextView playerItemNum = findViewById(R.id.player_item_num);
-        playerItemNum.setText("You already have this item " + countItem() + " times");
+        playerItemNum.setText("You already have this item " + Items.countItem(item) + " times");
 
         updateTextViewCounter();
     }
 
-    public int countItem() {
-        List<Items> items = Player.get().getItems();
-        int counter = 0;
-        for (Items i : items) {
-            if (i == item) {
-                counter += 1;
-            }
-        }
-        return counter;
-    }
 
     public void onPlusButton(View view) {
         counter += 1;

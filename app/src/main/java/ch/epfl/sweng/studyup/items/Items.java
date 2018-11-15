@@ -1,7 +1,9 @@
 package ch.epfl.sweng.studyup.items;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
@@ -86,5 +88,24 @@ public enum Items {
             itemsName.add(index, items.get(index).getName());
         }
         return itemsName;
+    }
+
+    public static int countItem(Items item) {
+        List<Items> items = Player.get().getItems();
+        int counter = 0;
+        for (Items i : items) {
+            if (i == item) {
+                counter += 1;
+            }
+        }
+        return counter;
+    }
+
+    public static Map<Items, Integer> itemsToQuantity(List<Items> items) {
+        Map<Items, Integer> itemsToQuantity = new HashMap<>();
+        for (Items i : items) {
+            itemsToQuantity.put(i, countItem(i));
+        }
+        return itemsToQuantity;
     }
 }

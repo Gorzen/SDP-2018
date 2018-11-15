@@ -10,13 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.ShopListItemAdapter;
+import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class ShopActivity extends NavigationStudent {
     private ListView itemsToBuy;
-
+    private ListItemAdapter listItemAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +27,12 @@ public class ShopActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         itemsToBuy = findViewById(R.id.list_view_shop);
-        final ShopListItemAdapter shopListItemAdapter = new ShopListItemAdapter(getApplicationContext(), Items.values());
-        itemsToBuy.setAdapter(shopListItemAdapter);
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), Items.values(), true);
+        itemsToBuy.setAdapter(listItemAdapter);
         itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Items item = (Items)shopListItemAdapter.getItem(position);
+                Items item = (Items) listItemAdapter.getItem(position);
                 startActivity(new Intent(parent.getContext(), BuyItemActivity.class).putExtra(BuyItemActivity.class.getName(), item.getName()));
             }
         });
