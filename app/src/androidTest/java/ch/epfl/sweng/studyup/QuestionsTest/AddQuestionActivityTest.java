@@ -31,6 +31,7 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -67,11 +68,8 @@ public class AddQuestionActivityTest {
     public void initiateIntents() {
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         Intents.init();
-    }
-
-    @Before
-    public void setUp() {
         mActivityRule.launchActivity(new Intent());
+        closeSoftKeyboard();
     }
 
     @After
