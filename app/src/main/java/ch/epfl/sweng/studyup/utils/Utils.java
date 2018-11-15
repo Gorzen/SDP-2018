@@ -5,15 +5,14 @@ import android.util.Log;
 
 import com.google.common.collect.Sets;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.location.Location;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -21,7 +20,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.Question;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 
@@ -51,10 +49,15 @@ public class Utils {
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
+    public static final String FB_QUESTIONS_ID = "questionID";
     public static final String FB_QUESTS = "quests";
+    public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
+
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME,
+            FB_ANSWERED_QUESTIONS, FB_ITEMS);
+
 
     /**
      * Constant of firebase (mostly testing purpose)
@@ -104,6 +107,7 @@ public class Utils {
     public static final String INITIAL_LASTNAME = "Réymond";
 
     //Navigation items indexes for smooth transitions
+
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 

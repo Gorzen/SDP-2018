@@ -68,7 +68,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".questions.DisplayQuestionActivity" />
-        <activity android:name=".items.DisplayItemActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".items.DisplayItemActivity"/>
     </application>
 
 </manifest>

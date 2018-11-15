@@ -9,10 +9,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -62,6 +64,25 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         } else if (destination_index < current_index) {
             overridePendingTransition(R.anim.go_left_in, R.anim.go_left_out);
         }
+    }
+
+    public void navigationTopToolbar(MenuItem item) {
+        if (item.getItemId() == R.id.top_navigation_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
+        if (item.getItemId() == R.id.top_navigation_infos) {
+            Toast.makeText(this,
+                    R.string.toast_text_infos_are_coming,
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        navigationTopToolbar(item);
+        return super.onOptionsItemSelected(item);
     }
 
     /**

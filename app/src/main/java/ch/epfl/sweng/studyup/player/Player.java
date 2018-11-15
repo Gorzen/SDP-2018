@@ -3,6 +3,9 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +16,7 @@ import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.firebase.Firestore.userData;
 import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Utils.FB_ITEMS;
@@ -55,10 +59,7 @@ public class Player {
     private String username;
     private boolean isTeacher;
     private int sciper;
-    private int[] questionsCurr;
-    private int[] questsCurr;
-    private int[] questionsAcheived;
-    private int[] questsAcheived;
+    private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
 
@@ -75,6 +76,7 @@ public class Player {
         firstName = INITIAL_FIRSTNAME;
         lastName = INITIAL_LASTNAME;
         username = INITIAL_USERNAME;
+        answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
     }
 
@@ -177,6 +179,7 @@ public class Player {
         putUserData(FB_SCIPER, sciper);
         putUserData(FB_FIRSTNAME, firstName);
         putUserData(FB_LASTNAME, lastName);
+        putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
         putUserData(FB_ITEMS, itemsInt);
         if (isTeacher)
             putUserData(FB_ROLE, FB_ROLES_T);
@@ -188,17 +191,24 @@ public class Player {
      * Method used to save the state contained in the userData attribute of the class Firestore in
      * the class Player
      */
-    public void updatePlayerData(Activity activity) throws NullPointerException {
+    @SuppressWarnings("unchecked")
+    public void updatePlayerData(Activity activity) throws NullPointerException{
         // int newExperience = Ints.checkedCast((Long) userData.get(FB_XP))
         // Keeping this in case we want to have number attribute and not strings
-        experience = Integer.parseInt(getOrDefault(FB_XP, INITIAL_XP).toString());
-        currency = Integer.parseInt(getOrDefault(FB_CURRENCY, INITIAL_CURRENCY).toString());
-        level = Integer.parseInt(getOrDefault(FB_LEVEL, INITIAL_LEVEL).toString());
-        firstName = getOrDefault(FB_FIRSTNAME, INITIAL_FIRSTNAME).toString();
-        lastName = getOrDefault(FB_LASTNAME, INITIAL_LASTNAME).toString();
-        sciper = Integer.parseInt(getOrDefault(FB_SCIPER, INITIAL_SCIPER).toString());
-        username = getOrDefault(FB_USERNAME, INITIAL_USERNAME).toString();
-        items = getItemsFromString((List<String>) getOrDefault(FB_ITEMS, new ArrayList<String>()));
+        try {
+            experience = Integer.parseInt(userData.get(FB_XP).toString());
+            currency = Integer.parseInt(userData.get(FB_CURRENCY).toString());
+            firstName = userData.get(FB_FIRSTNAME).toString();
+            lastName = userData.get(FB_LASTNAME).toString();
+            sciper = Integer.parseInt(userData.get(FB_SCIPER).toString());
+            username = userData.get(FB_USERNAME).toString();
+            answeredQuestions = (Map<String, Boolean>) userData.get(FB_ANSWERED_QUESTIONS);
+            items = getItemsFromString((List<String>) getOrDefault(FB_ITEMS, new ArrayList<String>()));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        updateLevel(activity);
     }
 
     public String getFirstName() {
@@ -253,6 +263,22 @@ public class Player {
             putUserData(FB_ROLE, FB_ROLES_S);
         }
     }
+
+    /**
+     * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
+     */
+    public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
+        if(this.answeredQuestions.get(questionID) == null) {
+            this.answeredQuestions.put(questionID, isAnswerGood);
+            putUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+            Firestore.get().setUserData(FB_ANSWERED_QUESTIONS, answeredQuestions);
+        }
+    }
+
+    public Map<String, Boolean> getAnsweredQuestion() {
+        return this.answeredQuestions;
+    }
+
 
     public boolean getRole() {
         return isTeacher;

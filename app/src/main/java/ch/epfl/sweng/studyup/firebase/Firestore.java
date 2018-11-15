@@ -264,8 +264,8 @@ public class Firestore {
         questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
         questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
+        questionData.put(FB_QUESTIONS_ID, question.getQuestionId());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciper());
-
 
         db.collection(FB_QUESTIONS).document(questionId).set(questionData);
     }

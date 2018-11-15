@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,7 +57,6 @@ public class MainActivity extends NavigationStudent {
     ImageButton pic_button2;
 
     private ImageButton pic_button;
-    private Button logout_button;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {
@@ -87,7 +85,6 @@ public class MainActivity extends NavigationStudent {
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
-        logout_button = findViewById(R.id.logoutbutton);
 
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
@@ -126,16 +123,6 @@ public class MainActivity extends NavigationStudent {
                 pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
             }
         });
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unScheduleBackgroundLocation();
-                clearCacheToLogOut(MainActivity.this);
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
-            }
-        });
 
         //username
         TextView view_username = findViewById(R.id.usernameText);
@@ -167,7 +154,6 @@ public class MainActivity extends NavigationStudent {
         curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
-
     }
 
 
@@ -207,22 +193,6 @@ public class MainActivity extends NavigationStudent {
         }
     }
 
-    // Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    // Corresponding activities are not created yet
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(MainActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(MainActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     public void addExpPlayer() {
         Player.get().addExperience(XP_STEP, this);
