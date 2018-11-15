@@ -1,5 +1,8 @@
 package ch.epfl.sweng.studyup.items;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
@@ -64,5 +67,14 @@ public enum Items {
                 return COIN_SACK;
             default: throw new IllegalArgumentException("Unknown name of item");
         }
+    }
+
+    public static ArrayList<String> getItemsNames() {
+        List<Items> items = Player.get().getItems();
+        ArrayList<String> itemsName = new ArrayList<>(items.size());
+        for(int index = 0; index < items.size(); ++index) {
+            itemsName.add(index, items.get(index).getName());
+        }
+        return itemsName;
     }
 }

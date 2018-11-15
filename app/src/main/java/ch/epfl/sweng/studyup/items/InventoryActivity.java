@@ -33,7 +33,7 @@ public class InventoryActivity extends NavigationStudent {
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
 
-        ArrayList<String> itemsName = getItemsNames();
+        ArrayList<String> itemsName = Items.getItemsNames();
         ListView listView = findViewById(R.id.listViewItems);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsName);
         listView.setAdapter(adapter);
@@ -53,14 +53,5 @@ public class InventoryActivity extends NavigationStudent {
         MenuInflater i = getMenuInflater();
         i.inflate(R.menu.top_navigation, menu);
         return true;
-    }
-
-    public ArrayList<String> getItemsNames() {
-        List<Items> items = Player.get().getItems();
-        ArrayList<String> itemsName = new ArrayList<>(items.size());
-        for(int index = 0; index < items.size(); ++index) {
-            itemsName.add(index, items.get(index).getName());
-        }
-        return itemsName;
     }
 }

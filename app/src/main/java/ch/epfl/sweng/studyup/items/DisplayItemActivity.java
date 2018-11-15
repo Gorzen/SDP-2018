@@ -25,7 +25,7 @@ public class DisplayItemActivity extends RefreshContext {
 
         Intent intent = getIntent();
         item = Items.getItemFromName(intent.getStringExtra(DisplayItemActivity.class.getName()));
-        TextView textViewName = findViewById(R.id.item_name);
+        TextView textViewName = findViewById(R.id.shop_item_name);
         textViewName.setText(item.getName());
         TextView textViewDescription = findViewById(R.id.item_description);
         textViewDescription.setText(item.getDescription());
