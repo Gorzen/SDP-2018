@@ -56,25 +56,21 @@ public class AddQuestionActivityTest {
     @BeforeClass
     public static void enableMock() {
         MOCK_ENABLED = true;
+        Intents.init();
         Player.get().initializeDefaultPlayerData();
     }
 
     @AfterClass
     public static void disableMock() {
         MOCK_ENABLED = false;
+        Intents.release();
     }
 
     @Before
     public void initiateIntents() {
-        QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
-        Intents.init();
         mActivityRule.launchActivity(new Intent());
+        QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         closeSoftKeyboard();
-    }
-
-    @After
-    public void breakDown() {
-        Intents.release();
     }
 
     @Test
