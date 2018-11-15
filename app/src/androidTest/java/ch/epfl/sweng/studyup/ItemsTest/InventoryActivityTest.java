@@ -60,7 +60,7 @@ public class InventoryActivityTest {
     @Test
     public void getItemsNameReturnsEmptyList() throws Exception {
         Player.get().consumeItem(Items.XP_POTION);
-        ArrayList<String> itemsName = mActivityRule.getActivity().getItemsNames();
+        ArrayList<String> itemsName = Items.getItemsNames();
         assertEquals(0, itemsName.size());
     }
 

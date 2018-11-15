@@ -50,7 +50,7 @@ public class ShopListItemAdapter extends BaseAdapter {
         TextView shopItemPrice =  convertView.findViewById(R.id.shop_item_price);
         shopItemImage.setImageResource(item.getImageName());
         shopItemName.setText(item.getName());
-        shopItemPrice.setText(item.getPrice());
+        shopItemPrice.setText(Integer.toString(item.getPrice()));
         return convertView;
     }
 }
