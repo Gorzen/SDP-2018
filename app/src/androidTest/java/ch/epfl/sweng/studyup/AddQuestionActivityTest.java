@@ -78,6 +78,11 @@ public class AddQuestionActivityTest {
         mActivityRule.launchActivity(new Intent());
     }
 
+    @Before
+    public void closeKeyboard() {
+        Espresso.closeSoftKeyboard();
+    }
+
     @After
     public void disableMock() {
         Utils.isMockEnabled = false;
@@ -86,7 +91,6 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfTrueFalse() {
-        Espresso.closeSoftKeyboard();
         onView(withId(R.id.true_false_radio)).perform(click());
         onView(withId(R.id.mcq_radio)).perform(click());
         onView(withId(R.id.true_false_radio)).perform(click()).check(matches(isChecked()));
@@ -98,7 +102,6 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testCheckOfMCQ() {
-        Espresso.closeSoftKeyboard();
         onView(withId(R.id.mcq_radio)).perform(click());
         onView(withId(R.id.radio_answer4)).perform(ViewActions.scrollTo(), click());
         onView(withId(R.id.radio_answer3)).perform(click());
@@ -131,7 +134,6 @@ public class AddQuestionActivityTest {
 
     @Test
     public void activityResultTest() {
-        Espresso.closeSoftKeyboard();
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
         onView(ViewMatchers.withId(R.id.image_radio_button)).perform(click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(click());
@@ -149,7 +151,6 @@ public class AddQuestionActivityTest {
         Intent result = new Intent();
         result.setData(Uri.fromFile(bitmapFile));
         mActivityRule.getActivity().onActivityResult(42, Activity.RESULT_OK, result);
-        //The text is never hidden because no image is ever given so the display of the image will fail and the text will remain
 
         onView(ViewMatchers.withId(R.id.display_question_path)).check(matches(not(isDisplayed())));
         onView(ViewMatchers.withId(R.id.addQuestion_display_image)).check(matches(isDisplayed()));
@@ -158,7 +159,6 @@ public class AddQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0
-        Espresso.closeSoftKeyboard();
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.scrollTo(), click());
@@ -215,6 +215,7 @@ public class AddQuestionActivityTest {
             }
         });
         Utils.waitAndTag(100, TAG);
+
     }
 
     @Test

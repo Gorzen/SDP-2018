@@ -65,6 +65,10 @@ public class QuestionTest {
         assertTrue(q.equals(new Question("1", "question TEST", true, 0)));
     }
 
+    @Test
+    public void incorrectEqualsTest() {
+        assertFalse(q.equals(null));
+    }
 
     @Test
     public void settersTest(){
@@ -87,4 +91,5 @@ public class QuestionTest {
         q.setQuestionId("2");
         assertEquals("2", q.getQuestionId());
     }
+
 }
