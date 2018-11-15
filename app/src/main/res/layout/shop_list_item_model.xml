@@ -58,7 +58,7 @@
         android:id="@+id/inventory_item_quantity"
         android:layout_width="78dp"
         android:layout_height="66dp"
-        android:textSize="50dp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toStartOf="parent"
