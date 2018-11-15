@@ -48,6 +48,7 @@
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
         <activity android:name=".items.ShopActivity" />
+        <activity android:name=".items.BuyItemActivity" />
         <activity android:name=".items.InventoryActivity" />
         <activity android:name=".player.CustomActivity" />
 

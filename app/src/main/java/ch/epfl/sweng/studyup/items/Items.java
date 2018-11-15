@@ -6,23 +6,33 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public enum Items {
-    XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION),
-    COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION);
+    XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION, Items.XP_POTION_PRICE),
+    COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
 
     //Names
-    public static final String XP_POTION_NAME = "XP potion";
-    public static final String COIN_SACK_NAME = "Sack of coin";
+    private static final String XP_POTION_NAME = "XP potion";
+    private static final String COIN_SACK_NAME = "Sack of coin";
 
     //Descriptions
-    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
-    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+    private static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
+    private static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+
+    //Prices
+    private static final int XP_POTION_PRICE = 10;
+    private static final int COIN_SACK_PRICE = 10;
 
     private final String name;
     private final String description;
+    private final int price;
 
-    Items(String name, String description) {
+    Items(String name, String description, int price) {
         this.name = name;
         this.description = description;
+        this.price = price;
+    }
+
+    public int getPrice(){
+        return price;
     }
 
     public void consume() {
