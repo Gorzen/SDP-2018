@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -24,6 +27,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.SettingsActivity;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
@@ -160,25 +165,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
-
-    //Allows you to do an action with the toolbar (in a different way than with the navigation bar)
-    //Corresponding activities are not created yet
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.top_navigation_settings) {
-            Toast.makeText(MapsActivity.this,
-                    "You have clicked on Settings :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(MapsActivity.this,
-                    "You have clicked on Infos :)",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }
 
 

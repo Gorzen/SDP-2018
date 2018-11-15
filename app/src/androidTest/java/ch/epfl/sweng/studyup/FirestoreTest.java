@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 
 import org.junit.After;
@@ -17,9 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom; //Random int library
 
-import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;

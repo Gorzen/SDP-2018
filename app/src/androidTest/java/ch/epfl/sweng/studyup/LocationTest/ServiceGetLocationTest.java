@@ -13,12 +13,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.TestbedActivity;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;

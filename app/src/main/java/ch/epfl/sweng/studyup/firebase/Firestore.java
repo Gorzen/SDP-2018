@@ -23,11 +23,10 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
-import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Utils.FB_QUESTIONS_ID;
 
 /**
  * Firestore
@@ -167,6 +166,14 @@ public class Firestore {
                     }
                 }
             });
+        Map<String, Object> questionData = new HashMap<>();
+        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
+        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
+        questionData.put(FB_QUESTION_TITLE, question.getTitle());
+        questionData.put(FB_QUESTIONS_ID, question.getQuestionId());
+        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
+
+        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
     }
 
     /**

@@ -13,13 +13,14 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 
 /**
@@ -69,19 +70,23 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         }
     }
 
-    public void scheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
-        scheduler.schedule(jobInfo);
-        for(JobInfo job: scheduler.getAllPendingJobs()){
-            Log.d("GPS_MAP", "Scheduled: " + job);
+    public void navigationTopToolbar(MenuItem item) {
+        if (item.getItemId() == R.id.top_navigation_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-        Log.d("GPS_MAP", "schedule");
+        if (item.getItemId() == R.id.top_navigation_infos) {
+            Toast.makeText(this,
+                    R.string.toast_text_infos_are_coming,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void unScheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        navigationTopToolbar(item);
+        return super.onOptionsItemSelected(item);
     }
 
     /**

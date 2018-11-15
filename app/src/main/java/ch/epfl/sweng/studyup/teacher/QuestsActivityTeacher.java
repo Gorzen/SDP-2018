@@ -12,6 +12,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
@@ -31,14 +32,20 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                onClickQuest(questions);
+                setupListView(questions);
             }
         });
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firestore.get().loadQuestions(this);
+    }
+
     //TODO For now the same as for the student! To be changed
-    protected void onClickQuest(final List<Question> quests) {
+    protected void setupListView(final List<Question> quests) {
         int nbrQuestion = quests.size();
 
         String[] list = new String[nbrQuestion];
