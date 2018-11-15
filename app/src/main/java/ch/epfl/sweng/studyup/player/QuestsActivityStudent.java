@@ -5,8 +5,6 @@ import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -19,10 +17,10 @@ import java.util.Set;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.QuestListViewAdapterWithImage;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 public class QuestsActivityStudent extends NavigationStudent {
@@ -71,7 +69,7 @@ public class QuestsActivityStudent extends NavigationStudent {
 
     private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
+        QuestListViewAdapterWithImage adapter = new QuestListViewAdapterWithImage(this, R.layout.quest_list_view_student_model, listTitle, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
