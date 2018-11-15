@@ -15,7 +15,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 public class BuyItemActivity extends RefreshContext {
     private Items item;
-    private int counter = 0;
+    private int counter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,38 +33,38 @@ public class BuyItemActivity extends RefreshContext {
 
         TextView unitPrice = findViewById(R.id.unit_price);
         unitPrice.setText("Price of item: " + item.getPrice());
-        TextView totalPrice = findViewById(R.id.total_price);
-        totalPrice.setText("Total price: 0");
         TextView playerCurrency = findViewById(R.id.player_currency);
         playerCurrency.setText("You have " + Player.get().getCurrency() + " currency");
         TextView playerItemNum = findViewById(R.id.player_item_num);
         playerItemNum.setText("You already have this item " + countItem() + " times");
+
+        updateTextViewCounter();
     }
 
-    public int countItem(){
+    public int countItem() {
         List<Items> items = Player.get().getItems();
         int counter = 0;
-        for(Items i : items){
-            if(i == item){
+        for (Items i : items) {
+            if (i == item) {
                 counter += 1;
             }
         }
         return counter;
     }
 
-    public void onPlusButton(View view){
+    public void onPlusButton(View view) {
         counter += 1;
         updateTextViewCounter();
     }
 
-    public void onMinusButton(View view){
-        if(counter > 0){
+    public void onMinusButton(View view) {
+        if (counter > 1) {
             counter -= 1;
             updateTextViewCounter();
         }
     }
 
-    public void updateTextViewCounter(){
+    public void updateTextViewCounter() {
         TextView currCounter = findViewById(R.id.counter);
         currCounter.setText(Integer.toString(counter));
         TextView totalPrice = findViewById(R.id.total_price);
@@ -73,19 +73,17 @@ public class BuyItemActivity extends RefreshContext {
 
     public void onBuyButton(View view) {
         if (Player.get().getCurrency() >= counter * item.getPrice()) {
-            if (counter > 0) {
-                for (int i = 0; i < counter; ++i) {
-                    Player.get().addCurrency(-item.getPrice(), this);
-                    Player.get().addItem(item);
-                }
-                startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+            for (int i = 0; i < counter; ++i) {
+                Player.get().addCurrency(-item.getPrice(), this);
+                Player.get().addItem(item);
             }
-        }else {
+            startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+        } else {
             Toast.makeText(getApplicationContext(), "You don't have enough money !", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void onBackButtonBuyItem(View view){
+    public void onBackButtonBuyItem(View view) {
         finish();
     }
 }
