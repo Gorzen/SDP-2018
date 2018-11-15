@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -92,7 +91,7 @@ public class MainActivity extends NavigationStudent {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
 
-        MAIN_ACTIVITY = this;
+        MOST_RECENT_ACTIVITY = this;
         LOCATION_PROVIDER_CLIENT = new FusedLocationProviderClient(this);
 
         if (!MOCK_ENABLED) {
@@ -183,20 +182,6 @@ public class MainActivity extends NavigationStudent {
 
                 break;
         }
-    }
-
-    public void scheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
-        scheduler.schedule(jobInfo);
-        for(JobInfo job: scheduler.getAllPendingJobs()){
-            Log.d("GPS_MAP", "Scheduled: " + job);
-        }
-        Log.d("GPS_MAP", "schedule");
-    }
-    public void unScheduleBackgroundLocation(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
     }
 
     public void addExpPlayer() {

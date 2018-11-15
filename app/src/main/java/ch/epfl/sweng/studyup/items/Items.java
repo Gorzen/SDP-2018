@@ -28,10 +28,10 @@ public enum Items {
     public void consume() {
         switch (this) {
             case XP_POTION:
-                Player.get().addExperience(XP_STEP, MAIN_ACTIVITY);
+                Player.get().addExperience(XP_STEP, MOST_RECENT_ACTIVITY);
                 break;
             case COIN_SACK:
-                Player.get().addCurrency(CURRENCY_PER_LEVEL, MAIN_ACTIVITY);
+                Player.get().addCurrency(CURRENCY_PER_LEVEL, MOST_RECENT_ACTIVITY);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown item");

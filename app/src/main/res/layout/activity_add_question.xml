@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".questions.AddQuestionActivity">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,30 +20,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottomBar">
-
-                <Button
-                    android:id="@+id/selectImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:onClick="performFileSearch"
-                    android:text="@string/select_image_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
-
-                <Button
-                    android:id="@+id/logoutbutton"
-                    android:layout_width="166dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:cursorVisible="false"
-                    android:elegantTextHeight="false"
-                    android:text="Log out"
-                    android:textStyle="normal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/addQuestion_display_image"
@@ -66,11 +40,26 @@
                     android:id="@+id/display_question_path"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:text="@string/no_image_selected_text"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/addQuestion_display_image" />
+
+                <EditText
+                    android:id="@+id/questionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="Question title"
+                    android:ems="10"
+                    android:hint="@string/add_question_title"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/display_question_path" />
 
                 <RadioGroup
                     android:id="@+id/text_or_image_radio_group"
@@ -98,6 +87,16 @@
                         android:text="@string/text_radio" />
                 </RadioGroup>
 
+                <Button
+                    android:id="@+id/selectImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="performFileSearch"
+                    android:text="@string/select_image_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_or_image_radio_group" />
+
                 <EditText
                     android:id="@+id/questionText"
                     android:layout_width="wrap_content"
@@ -117,11 +116,11 @@
                     android:id="@+id/true_false_or_mcq_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:checkedButton="@id/mcq_radio"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/display_question_path">
+                    app:layout_constraintTop_toBottomOf="@+id/questionText">
 
                     <RadioButton
                         android:id="@+id/true_false_radio"
@@ -138,22 +137,11 @@
                         android:text="@string/multiple_choice_question_text" />
                 </RadioGroup>
 
-                <TextView
-                    android:id="@+id/answer_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="@string/answer_number_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/true_false_or_mcq_radio_group" />
-
                 <RadioGroup
                     android:id="@+id/question_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:checkedButton="@id/radio_answer1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -196,32 +184,47 @@
 
                 </RadioGroup>
 
+                <TextView
+                    android:id="@+id/answer_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/answer_number_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/true_false_or_mcq_radio_group" />
+
                 <Button
                     android:id="@+id/addQuestionButton"
                     android:layout_width="166dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="50dp"
                     android:onClick="addQuestion"
                     android:text="@string/add_text"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <EditText
-                    android:id="@+id/questionTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:ems="10"
-                    android:hint="@string/add_question_title"
-                    android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
+
+                <Button
+                    android:id="@+id/logoutbutton"
+                    android:layout_width="166dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="50dp"
+                    android:cursorVisible="false"
+                    android:elegantTextHeight="false"
+                    android:text="Log out"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
+
             </android.support.constraint.ConstraintLayout>
-         </ScrollView>
+        </ScrollView>
 
         <!--BOTTOM NAV BAR-->
 
