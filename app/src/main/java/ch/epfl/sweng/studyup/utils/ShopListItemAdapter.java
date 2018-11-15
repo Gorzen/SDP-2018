@@ -1,18 +1,13 @@
 package ch.epfl.sweng.studyup.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 
 public class ShopListItemAdapter extends BaseAdapter {
@@ -46,11 +41,13 @@ public class ShopListItemAdapter extends BaseAdapter {
         }
         Items item = items[position];
         ImageView shopItemImage = convertView.findViewById(R.id.shop_item_image);
+        ImageView shopCoin = convertView.findViewById(R.id.shop_coin);
         TextView shopItemName =  convertView.findViewById(R.id.shop_item_name);
         TextView shopItemPrice =  convertView.findViewById(R.id.shop_item_price);
         shopItemImage.setImageResource(item.getImageName());
         shopItemName.setText(item.getName());
         shopItemPrice.setText(Integer.toString(item.getPrice()));
+        shopCoin.setImageResource(R.drawable.gold_coin);
         return convertView;
     }
 }
