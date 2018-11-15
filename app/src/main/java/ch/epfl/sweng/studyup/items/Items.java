@@ -101,11 +101,4 @@ public enum Items {
         return counter;
     }
 
-    public static Map<Items, Integer> itemsToQuantity(List<Items> items) {
-        Map<Items, Integer> itemsToQuantity = new HashMap<>();
-        for (Items i : items) {
-            itemsToQuantity.put(i, countItem(i));
-        }
-        return itemsToQuantity;
-    }
 }
