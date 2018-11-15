@@ -104,10 +104,10 @@ public class MainActivity extends NavigationStudent {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 123);
 
-        setupLayout();
+        loadInterface();
     }
 
-    private void setupLayout() {
+    private void loadInterface() {
         // User picture
         ImageButton pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
