@@ -32,7 +32,8 @@ public class ShopActivity extends NavigationStudent {
         itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(buyItemActivity.class.getName(), shopListItemAdapter.getItem(position)));
+                Items item = (Items)shopListItemAdapter.getItem(position);
+                startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(BuyItemActivity.class.getName(), item.getName()));
             }
         });
         navigationSwitcher(ShopActivity.this, ShopActivity.class, SHOP_INDEX);
