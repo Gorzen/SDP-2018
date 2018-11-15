@@ -183,8 +183,8 @@ public class Firestore {
                         boolean questionInCurrPlayerCourse = true; //currPlayer.getCourses().contains(questionCourse);
 
                         boolean isValidQuestion = questionInCurrPlayerCourse &&
-                                ((currPlayerIsAuthor && currPlayer.getRole().equals(Role.teacher)) ||
-                                 (!currPlayerIsAuthor && currPlayer.getRole().equals(Role.student)));
+                                ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
+                                 (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
 
                         if(isValidQuestion || questionId.equals(MOCK_UUID)) {
 

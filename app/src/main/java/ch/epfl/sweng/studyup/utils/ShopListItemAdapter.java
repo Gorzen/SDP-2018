@@ -41,12 +41,12 @@ public class ShopListItemAdapter extends BaseAdapter {
         }
         Items item = items[position];
         ImageView shopItemImage = convertView.findViewById(R.id.shop_item_image);
-        ImageView shopCoin = convertView.findViewById(R.id.shop_coin)
+        ImageView shopCoin = convertView.findViewById(R.id.shop_coin);
         TextView shopItemName =  convertView.findViewById(R.id.shop_item_name);
         TextView shopItemPrice =  convertView.findViewById(R.id.shop_item_price);
         shopItemImage.setImageResource(item.getImageName());
         shopItemName.setText(item.getName());
-        shopItemPrice.setText(item.getPrice());
+        shopItemPrice.setText(Integer.toString(item.getPrice()));
         shopCoin.setImageResource(R.drawable.gold_coin);
         return convertView;
     }
