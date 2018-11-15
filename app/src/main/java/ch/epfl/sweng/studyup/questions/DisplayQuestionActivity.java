@@ -287,12 +287,4 @@ public class DisplayQuestionActivity extends NavigationStudent {
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         return goToQuestion;
     }
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
 }

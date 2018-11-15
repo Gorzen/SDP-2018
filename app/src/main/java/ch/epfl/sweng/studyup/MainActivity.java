@@ -79,8 +79,6 @@ public class MainActivity extends NavigationStudent {
             Firestore.get().loadQuestions(this);
         }
 
-        Player currPlayer = Player.get();
-
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
 
@@ -98,12 +96,24 @@ public class MainActivity extends NavigationStudent {
             scheduleBackgroundLocation();
         }
 
+        //bottom navigation bar
+        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
+
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                123);
+
+        loadInterface();
+    }
+
+    private void loadInterface() {
         // User picture
         ImageButton pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
-        FileStorage.downloadProfilePicture(currPlayer.getSciperNum(), image_view);
+        FileStorage.downloadProfilePicture(Player.get().getSciperNum(), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,37 +144,18 @@ public class MainActivity extends NavigationStudent {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
-
-        // Level progression bar
-        ActivityCompat.requestPermissions(
-                MainActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                123);
-
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
         updateCurrDisplay();
         updateXpAndLvlDisplay();
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
         updateUsernameDisplay();
         updateCurrDisplay();
         updateXpAndLvlDisplay();
-    }
-
-    // Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 
     @Override
@@ -184,8 +175,18 @@ public class MainActivity extends NavigationStudent {
         }
     }
 
-    public void addExpPlayer() {
-        Player.get().addExperience(XP_STEP, this);
+    public void scheduleBackgroundLocation(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
+        scheduler.schedule(jobInfo);
+        for(JobInfo job: scheduler.getAllPendingJobs()){
+            Log.d("GPS_MAP", "Scheduled: " + job);
+        }
+        Log.d("GPS_MAP", "schedule");
+    }
+    public void unScheduleBackgroundLocation(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
     }
 
     public void updateUsernameDisplay() {

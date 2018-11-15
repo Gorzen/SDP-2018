@@ -45,7 +45,6 @@ public class InventoryActivity extends NavigationStudent {
         });
     }
 
-
     //Display the toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
