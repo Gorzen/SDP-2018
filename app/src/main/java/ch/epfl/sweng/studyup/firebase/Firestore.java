@@ -26,7 +26,6 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_QUESTIONS_ID;
 
 /**
  * Firestore
@@ -143,37 +142,14 @@ public class Firestore {
     }
 
     public void addQuestion(final Question question) {
-
-        final Player currPlayer = Player.get();
-
-        db.collection(FB_USERS).document(currPlayer.getSciperNum())
-            .get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot document) {
-                    if (document.exists()) {
-
-                        String questionId = question.getQuestionId();
-
-                        Map<String, Object> questionData = new HashMap<>();
-                        questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
-                        questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
-                        questionData.put(FB_QUESTION_TITLE, question.getTitle());
-                        questionData.put(FB_COURSE, question.getCourseName());
-                        questionData.put(FB_QUESTION_AUTHOR, currPlayer.getSciperNum());
-
-                        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
-                    }
-                }
-            });
         Map<String, Object> questionData = new HashMap<>();
         questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
         questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
-        questionData.put(FB_QUESTIONS_ID, question.getQuestionId());
+        questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
 
-        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+        db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
 
     /**

@@ -36,7 +36,6 @@ import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
 
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 

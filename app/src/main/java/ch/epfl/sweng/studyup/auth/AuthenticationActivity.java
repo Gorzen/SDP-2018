@@ -7,17 +7,12 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.MainActivity;
@@ -25,11 +20,14 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-
 import ch.epfl.sweng.studyup.utils.Utils;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.DataContainers.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_LOGIN;
+import static ch.epfl.sweng.studyup.utils.DataContainers.PlayerDataContainer;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_TOKEN;
 
 
 public class AuthenticationActivity extends AppCompatActivity {

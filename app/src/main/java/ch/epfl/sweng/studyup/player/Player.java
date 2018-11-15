@@ -16,21 +16,7 @@ import ch.epfl.sweng.studyup.items.Items;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
-import static ch.epfl.sweng.studyup.utils.Utils.CURRENCY_PER_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ANSWERED_QUESTIONS;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_ITEMS;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_USERNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_CURRENCY;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_USERNAME;
-import static ch.epfl.sweng.studyup.utils.Utils.INITIAL_XP;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
@@ -244,7 +230,7 @@ public class Player {
 
         /*
         If player has not yet been loaded,
-        these values will be set to default.
+        these values will be the default ones.
         This is used in AuthenticationActivity.
          */
         return this.firstName.equals(INITIAL_FIRSTNAME) &&
