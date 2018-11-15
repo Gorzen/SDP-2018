@@ -34,7 +34,7 @@ public class BuyItemActivity extends RefreshContext {
         TextView unitPrice = findViewById(R.id.unit_price);
         unitPrice.setText("Price of item: " + item.getPrice());
         TextView playerCurrency = findViewById(R.id.player_currency);
-        playerCurrency.setText("You have " + Player.get().getCurrency() + " currency");
+        playerCurrency.setText("You have " + Player.get().getCurrency());
         TextView playerItemNum = findViewById(R.id.player_item_num);
         playerItemNum.setText("You already have this item " + Items.countItem(item) + " times");
 
