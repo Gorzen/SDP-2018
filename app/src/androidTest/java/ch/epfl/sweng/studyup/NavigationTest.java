@@ -13,12 +13,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
+import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.social.RankingsActivity;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -61,8 +59,8 @@ public class NavigationTest {
         intended(hasComponent(MapsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_quests_student);
         intended(hasComponent(QuestsActivityStudent.class.getName()));
-        b.setSelectedItemId(R.id.navigation_rankings);
-        intended(hasComponent(RankingsActivity.class.getName()));
+        b.setSelectedItemId(R.id.navigation_shop);
+        intended(hasComponent(ShopActivity.class.getName()));
     }
 
     /*@Test
@@ -90,7 +88,7 @@ import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
-import ch.epfl.sweng.studyup.social.RankingsActivity;
+import ch.epfl.sweng.studyup.items.ShopActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -107,7 +105,7 @@ public class NavigationTest{
     @Rule
     public final ActivityTestRule<QuestsActivityStudent> questsActivityRule = new ActivityTestRule<>(QuestsActivityStudent.class);
     @Rule
-    public final ActivityTestRule<RankingsActivity> rankingsActivityRule = new ActivityTestRule<>(RankingsActivity.class);
+    public final ActivityTestRule<ShopActivity> shopActivityRule = new ActivityTestRule<>(ShopActivity.class);
     @Rule
     public final ActivityTestRule<MapsActivity> mapActivityRule = new ActivityTestRule<>(MapsActivity.class);
     @Rule
@@ -172,8 +170,8 @@ public class NavigationTest{
             intended(hasComponent(QuestsActivityStudent.class.getName()));
         }
         if(!c) {
-            bnv.setSelectedItemId(R.id.navigation_rankings);
-            intended(hasComponent(RankingsActivity.class.getName()));
+            bnv.setSelectedItemId(R.id.navigation_shop);
+            intended(hasComponent(ShopActivity.class.getName()));
         }
         if(!d) {
             bnv.setSelectedItemId(R.id.navigation_map);

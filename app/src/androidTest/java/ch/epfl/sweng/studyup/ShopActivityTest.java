@@ -7,17 +7,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.social.RankingsActivity;
+import ch.epfl.sweng.studyup.items.ShopActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class RankingsActivityTest {
+public class ShopActivityTest {
     @Rule
-    public final ActivityTestRule<RankingsActivity> rule =
-            new ActivityTestRule<>(RankingsActivity.class);
+    public final ActivityTestRule<ShopActivity> rule =
+            new ActivityTestRule<>(ShopActivity.class);
 
     @Test
     public void testOptionNoException() {
