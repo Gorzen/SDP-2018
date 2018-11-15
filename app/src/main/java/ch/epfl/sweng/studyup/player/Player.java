@@ -43,7 +43,6 @@ public class Player {
     private int experience;
     private int level;
     private int currency;
-    private int sciper;
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
