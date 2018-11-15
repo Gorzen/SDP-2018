@@ -9,10 +9,11 @@
     <TextView
         android:id="@+id/item_description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:layout_marginTop="24dp"
+        android:gravity="center_horizontal"
+        android:text="Hello"
         android:textSize="25sp"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_image" />
@@ -65,27 +66,25 @@
 
     <Button
         android:id="@+id/minus_button"
-        android:gravity="center"
         android:layout_width="106dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="4dp"
-        android:textSize="30sp"
+        android:gravity="center"
         android:onClick="onMinusButton"
         android:text="-"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/back_button_display_item"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/plus_button"
-        android:gravity="center"
         android:layout_width="106dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="4dp"
-        android:textSize="30sp"
+        android:gravity="center"
         android:onClick="onPlusButton"
         android:text="+"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/buy_button"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -95,11 +94,50 @@
         android:layout_height="50dp"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:text="0"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/buy_button"
         app:layout_constraintEnd_toStartOf="@+id/plus_button"
         app:layout_constraintStart_toEndOf="@+id/minus_button" />
+
+    <TextView
+        android:id="@+id/total_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/unit_price" />
+
+    <TextView
+        android:id="@+id/player_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_price" />
+
+    <TextView
+        android:id="@+id/player_item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_currency" />
+
+    <TextView
+        android:id="@+id/unit_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="99dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_image" />
 </android.support.constraint.ConstraintLayout>

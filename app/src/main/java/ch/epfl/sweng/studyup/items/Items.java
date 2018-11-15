@@ -10,16 +10,16 @@ public enum Items {
     COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
 
     //Names
-    private static final String XP_POTION_NAME = "XP potion";
-    private static final String COIN_SACK_NAME = "Sack of coin";
+    public static final String XP_POTION_NAME = "XP potion";
+    public static final String COIN_SACK_NAME = "Sack of coin";
 
     //Descriptions
-    private static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
-    private static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
+    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
 
     //Prices
-    private static final int XP_POTION_PRICE = 10;
-    private static final int COIN_SACK_PRICE = 10;
+    public static final int XP_POTION_PRICE = 10;
+    public static final int COIN_SACK_PRICE = 10;
 
     private final String name;
     private final String description;

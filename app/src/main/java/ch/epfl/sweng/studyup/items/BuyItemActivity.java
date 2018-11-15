@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -28,6 +30,26 @@ public class BuyItemActivity extends RefreshContext {
         textViewDescription.setText(item.getDescription());
         ImageView img = findViewById(R.id.item_image);
         img.setImageResource(item.getImageName());
+
+        TextView unitPrice = findViewById(R.id.unit_price);
+        unitPrice.setText("Price of item: " + item.getPrice());
+        TextView totalPrice = findViewById(R.id.total_price);
+        totalPrice.setText("Total price: 0");
+        TextView playerCurrency = findViewById(R.id.player_currency);
+        playerCurrency.setText("You have " + Player.get().getCurrency() + " currency");
+        TextView playerItemNum = findViewById(R.id.player_item_num);
+        playerItemNum.setText("You already have this item " + countItem() + " times");
+    }
+
+    public int countItem(){
+        List<Items> items = Player.get().getItems();
+        int counter = 0;
+        for(Items i : items){
+            if(i == item){
+                counter += 1;
+            }
+        }
+        return counter;
     }
 
     public void onPlusButton(View view){
@@ -45,6 +67,8 @@ public class BuyItemActivity extends RefreshContext {
     public void updateTextViewCounter(){
         TextView currCounter = findViewById(R.id.counter);
         currCounter.setText(Integer.toString(counter));
+        TextView totalPrice = findViewById(R.id.total_price);
+        totalPrice.setText("Total price: " + counter * item.getPrice());
     }
 
     public void onBuyButton(View view) {
