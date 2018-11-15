@@ -54,7 +54,7 @@ public class ListItemAdapter extends BaseAdapter {
             shopItemPrice.setText(Integer.toString(item.getPrice()));
         } else {
             TextView inventoryItemQuantity = convertView.findViewById(R.id.inventory_item_quantity);
-            String quantity = Integer.toString(Items.countItem(item)); 
+            String quantity = Integer.toString(Items.countItem(item));
             inventoryItemQuantity.setText(quantity + "x");
         }
         return convertView;
