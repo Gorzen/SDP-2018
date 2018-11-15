@@ -104,19 +104,7 @@ public class MainActivityTest {
             onView(withId(R.id.levelText)).check(matches(withText(LEVEL_DISPLAY + Player.get().getLevel())));
         }
     }
-    @Test
-    public void logoutButton() {
-        FileCacher<String[]> persistLogin = new FileCacher<>(mActivityRule.getActivity(), PERSIST_LOGIN_FILENAME);
-        try {
-            String[] s = {"Test"};
-            persistLogin.writeCache(s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        onView(withId(R.id.logoutbutton)).perform(click());
-        assertTrue(!persistLogin.hasCache());
-        intended(hasComponent(LoginActivity.class.getName()));
-    }
+    
     @Test
     public void testToCustomActWithB1() {
         onView(withId(R.id.pic_btn)).perform(click());
