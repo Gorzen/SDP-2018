@@ -29,6 +29,14 @@ public class SettingsActivity extends RefreshContext {
         startActivity(intent);
     }
 
+    public void onLanguageClick(View view) {
+        JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+        clearCacheToLogOut(SettingsActivity.this);
+        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
