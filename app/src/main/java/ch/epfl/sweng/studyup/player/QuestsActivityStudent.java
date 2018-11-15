@@ -19,8 +19,8 @@ import java.util.Set;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
@@ -31,7 +31,7 @@ public class QuestsActivityStudent extends NavigationStudent {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_student);
-        navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, Utils.QUESTS_INDEX_STUDENT);
+        navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, QUESTS_INDEX_STUDENT);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,13 +82,5 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             }
         });
-    }
-
-    // Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 }

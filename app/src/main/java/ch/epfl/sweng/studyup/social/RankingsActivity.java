@@ -12,7 +12,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class RankingsActivity extends NavigationStudent {
 
@@ -26,14 +26,6 @@ public class RankingsActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
 
-        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, Utils.RANKINGS_INDEX);
-    }
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
+        navigationSwitcher(RankingsActivity.this, RankingsActivity.class, RANKINGS_INDEX);
     }
 }

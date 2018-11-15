@@ -17,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,21 +33,15 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
+
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 
-import static ch.epfl.sweng.studyup.utils.Utils.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Utils.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public class MainActivity extends NavigationStudent {
-    private static final CircularProgressIndicator.ProgressTextAdapter LEVEL_PROGRESS_TEXT = new CircularProgressIndicator.ProgressTextAdapter() {
-        @Override
-        public String formatText(double progress) {
-            return (progress * 100 + "% of level ").concat(String.valueOf(Player.get().getLevel()));
-        }
-    };
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
 
@@ -81,7 +74,10 @@ public class MainActivity extends NavigationStudent {
         setContentView(R.layout.activity_main);
 
         displayLoginSuccessMessage(getIntent());
-        Firestore.get().loadQuestions(this);
+
+        if (!MOCK_ENABLED) {
+            Firestore.get().loadQuestions(this);
+        }
 
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
@@ -92,19 +88,32 @@ public class MainActivity extends NavigationStudent {
                 MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
-        Utils.mainActivity = this;
-        Utils.locationProviderClient = new FusedLocationProviderClient(this);
 
-        if (!Utils.isMockEnabled) {
+        MOST_RECENT_ACTIVITY = this;
+        LOCATION_PROVIDER_CLIENT = new FusedLocationProviderClient(this);
+
+        if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
         }
 
+        //bottom navigation bar
+        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
+
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                123);
+
+        loadInterface();
+    }
+
+    private void loadInterface() {
         // User picture
         ImageButton pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
         image_view = findViewById(R.id.pic_imageview);
 
-        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), image_view);
+        FileStorage.downloadProfilePicture(Player.get().getSciperNum(), image_view);
 
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,45 +144,18 @@ public class MainActivity extends NavigationStudent {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, Utils.MAIN_INDEX);
-
-        // Level progression bar
-        ActivityCompat.requestPermissions(
-                MainActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                123);
-
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        levelProgress.setProgressTextAdapter(LEVEL_PROGRESS_TEXT);
-        TextView lvl = findViewById(R.id.levelText);
-        TextView curr = findViewById(R.id.currText);
-        lvl.setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-        curr.setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
         updateCurrDisplay();
         updateXpAndLvlDisplay();
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
-        TextView view_username = findViewById(R.id.usernameText);
-        view_username.setText(Player.get().getUserName());
-        view_username.setMaxLines(1);
-        view_username.setMaxWidth(300);
+        updateUsernameDisplay();
         updateCurrDisplay();
         updateXpAndLvlDisplay();
-    }
-
-    // Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 
     @Override
@@ -193,21 +175,6 @@ public class MainActivity extends NavigationStudent {
         }
     }
 
-
-    public void addExpPlayer() {
-        Player.get().addExperience(XP_STEP, this);
-    }
-
-
-    public void updateXpAndLvlDisplay() {
-        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        ((TextView) findViewById(R.id.levelText)).setText(Utils.LEVEL_DISPLAY + Player.get().getLevel());
-    }
-
-    public void updateCurrDisplay() {
-        ((TextView) findViewById(R.id.currText)).setText(Utils.CURR_DISPLAY + Player.get().getCurrency());
-    }
-
     public void scheduleBackgroundLocation(){
         JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         JobInfo jobInfo = new JobInfo.Builder(BackgroundLocation.BACKGROUND_LOCATION_ID, new ComponentName(this, BackgroundLocation.class)).setPeriodic(15 * 60 * 1000).build();
@@ -217,10 +184,25 @@ public class MainActivity extends NavigationStudent {
         }
         Log.d("GPS_MAP", "schedule");
     }
-
     public void unScheduleBackgroundLocation(){
         JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         scheduler.cancel(BackgroundLocation.BACKGROUND_LOCATION_ID);
+    }
+
+    public void updateUsernameDisplay() {
+        TextView view_username = findViewById(R.id.usernameText);
+        view_username.setText(Player.get().getUserName());
+        view_username.setMaxLines(1);
+        view_username.setMaxWidth(300);
+    }
+
+    public void updateXpAndLvlDisplay() {
+        levelProgress.setCurrentProgress(Player.get().getLevelProgress());
+        ((TextView) findViewById(R.id.levelText)).setText(LEVEL_DISPLAY + Player.get().getLevel());
+    }
+
+    public void updateCurrDisplay() {
+        ((TextView) findViewById(R.id.currText)).setText(CURR_DISPLAY + Player.get().getCurrency());
     }
 
     public static void clearCacheToLogOut(Context context) {

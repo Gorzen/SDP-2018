@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.items;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +13,9 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 public class DisplayItemActivity extends RefreshContext {
+
+    private static final String TAG = DisplayItemActivity.class.getSimpleName();
+
     private Items item;
 
     @Override
@@ -40,7 +44,13 @@ public class DisplayItemActivity extends RefreshContext {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Player.get().consumeItem(item);
+                try {
+                    Player.get().consumeItem(item);
+                }
+                catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
                 startActivity(new Intent(getApplicationContext(), InventoryActivity.class));
             }
         });

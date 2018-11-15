@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.firebase;
 
 import android.content.Context;
 import android.net.Uri;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -21,13 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.utils.Utils;
 
-import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 /**
  * Firestore
@@ -35,18 +33,17 @@ import static ch.epfl.sweng.studyup.utils.Utils.*;
  * Our own Firebase Cloud Firestore API.
  */
 public class Firestore {
-    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = Firestore.class.getSimpleName();
-    public static Map<String, Object> userData = null;
     private static Firestore instance = null;
 
     private Firestore() {
-        // DB settings
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        try {db.setFirestoreSettings(settings);} catch(Exception e){}
+        try { db.setFirestoreSettings(settings); } catch(Exception e) {}
     }
 
     public static Firestore get() {
@@ -57,227 +54,115 @@ public class Firestore {
     }
 
     /**
-     * This function put the current data of a given user into the dbStaticInfo object (Utils.java).
+     * Function used to synchronize the data of the player, either from local to the remote
+     * or from the remote to the local depending if it is a new user or not.
      *
-     * @param sciper Sciper ot the user.
+     * @throws NullPointerException If the data received from the server is not of a valid format
+     * @throws IllegalArgumentException If the sciper of the player is not valid
      */
-    public static void getData(final int sciper) {
-        db.collection(FB_USERS).document(Integer.toString(sciper))
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot document) {
+    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
+        final Player currPlayer = Player.get();
+        final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
+
+        if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
+            throw new IllegalArgumentException("The Sciper number should be a six digit number.");
+        }
+
+        db.collection(FB_USERS).document(currPlayer.getSciperNum())
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Utils.dbStaticInfo = document.getData();
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {Log.i(TAG, "Error: getData" + sciper); }});
-    }
 
-    /**
-     * Function used when entering the app. It will get all the player's informations and set
-     * the state of the player as it were the last time he/she was connected.
-     *
-     * @param sciper    The SCIPER numb of the player.
-     * @param firstName The first name of the player.
-     * @param lastName  The last name of the player.
-     * @throws IllegalArgumentException An exception is thrown if the sciper given is incorrect
-     */
-    public void getAndSetUserData(final int sciper, final String firstName, final String lastName)
-            throws IllegalArgumentException {
-        if (sciper < MIN_SCIPER || sciper > MAX_SCIPER) {
-            throw new IllegalArgumentException("Error: getAndSetUserData, SCIPER number should be" +
-                    " a six digits number.");
-        }
+                            Map<String, Object> remotePlayerData = document.getData();
 
-        db.collection(FB_USERS).document(Integer.toString(sciper))
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-
-                            if (document.exists()) {
-                                userData = document.getData();
-                                if (userData.isEmpty()) {
-                                    throw new NullPointerException("The data got from server is " +
-                                            "null. The user either shouldn't be present in the " +
-                                            "database or should have informations stored.");
-                                }
-
-                                if (userData.get(FB_FIRSTNAME) == firstName
-                                        && userData.get(FB_LASTNAME) == lastName) {
-                                    //User is already logged in
-                                    Log.i(TAG, "getAndSetUserData: Success: User was " +
-                                            "already logged in:" + sciper);
-                                    return;
-                                }
-                                //New login but user is already in database
-                                Log.i(TAG, "getAndSetUserData: Success: New login:" + sciper);
-                                Player.get().updatePlayerData(null);
-                                if(Player.get().getRole()) {
-                                    Firestore.get().setUserData(FB_ROLE, FB_ROLES_T);
-                                    putUserData(FB_ROLE, FB_ROLES_T);
-                                } else {
-                                    Firestore.get().setUserData(FB_ROLE, FB_ROLES_S);
-                                    putUserData(FB_ROLE, FB_ROLES_S);
-                                }
-                            } else {
-                                //User is new to the application
-                                Log.i(TAG, "getAndSetUserData: Success: New user:" + sciper);
-                                Player.get().reset();
-                                Player.get().setFirstName(firstName);
-                                Player.get().setLastName(lastName);
-                                Player.get().setSciper(sciper);
-                                savePlayerData();
-                            }
+                            Log.d(TAG, "Calling update local...");
+                            /*
+                            Player is a return user. They have stored remote data.
+                            Update local data with remote data.
+                             */
+                            currPlayer.updateLocalDataFromRemote(remotePlayerData);
                         } else {
-                            Log.e(TAG, "getAndSetUserData: Failure: The connection with the server failed, " + task.getException());
+                            /*
+                                Player is logging in for the first time.
+                                Update remote data with initialized local data.
+                                 */
+                            updateRemotePlayerDataFromLocal();
                         }
                     }
-                });
+                }
+            });
     }
 
-    /**
-     * Method used when mutiple change on the player are made. This will update userData attribute
-     * with the current player's state and push it to the server.
-     */
-    public void savePlayerData() {
-        putUserData(FB_XP, Player.get().getExperience());
-        putUserData(FB_LEVEL, Player.get().getLevel());
-        putUserData(FB_CURRENCY, Player.get().getCurrency());
-        putUserData(FB_USERNAME, Player.get().getUserName());
+    public void updateRemotePlayerDataFromLocal() {
 
-        putUserData(FB_ITEMS, getItemsString());
+        Player currPlayer = Player.get();
+        Map<String, Object> localPlayerData = new HashMap<>();
 
-        db.document(FB_USERS + "/" + Player.get().getSciper()).set(userData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Player infos were saved.");
+        localPlayerData.put(FB_SCIPER, currPlayer.getSciperNum());
+        localPlayerData.put(FB_FIRSTNAME, currPlayer.getFirstName());
+        localPlayerData.put(FB_LASTNAME, currPlayer.getLastName());
+        localPlayerData.put(FB_USERNAME, currPlayer.getUserName());
+        localPlayerData.put(FB_XP, currPlayer.getExperience());
+        localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
+        localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
+        localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
+
+        db.document(FB_USERS + "/" + currPlayer.getSciperNum())
+            .set(localPlayerData)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.i(TAG, "Remote player data was updated.");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Unable to update remote player data");
+                }
+            });
+    }
+
+    public void deleteUserFromDatabase(String sciperNum) {
+        db.collection(FB_USERS).document(sciperNum).delete()
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.i(TAG, "The user has been deleted from the database.");
+                    } else {
+                        Log.w(TAG, "Failed to delete the user from the database.");
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { Log.w(TAG, "Player infos failed to be saved."); }
-                });
-
+                }
+            });
     }
 
-    /**
-     * Method used to update a value for the current player in the database
-     * The method suppose that the player is already present in the database.
-     *
-     * @param key   The key where the value will be put.
-     * @param value The value.
-     */
-    public void setUserData(final String key, final Object value) {
-        if (Player.get().getSciper() == INITIAL_SCIPER) {
-            return;
-        }
-
-        if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key is not valid. The key was: " + key); return; }
-        putUserData(key, value);
-
-        db.collection(FB_USERS).document(Integer.toString(Player.get().getSciper()))
-                .update(userData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Succes: setUserData(" + Player.get().getSciper() + ").");
-                    }
-                });
-    }
-
-    /**
-     * Set the informations of the user corresponding to @sciper to @infos in the database
-     *
-     * @param sciper The sciper of the player.
-     * @param infos  Informations to be put.
-     */
-    public void setUserInfos(final int sciper, Map<String, Object> infos) {
-        for (String key : infos.keySet()) {
-            if (!FB_ALL_ENTRIES.contains(key)) { Log.i(TAG, "The key " + key + " is not valid.");return; }
-        }
-
-        db.collection(FB_USERS).document(Integer.toString(sciper))
-                .update(infos)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Succes: setUserInfos(" + sciper + ").");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { Log.i(TAG, "Error: setUserInfos, " + e.toString()); }
-                });
-    }
-
-    /**
-     * Reset the infos of a given user on the database. If he/she wasn't present, it will create
-     * it with the initial values.
-     *
-     * @param sciper    The SCIPER nmbr of the player.
-     * @param firstName The first name of the player.
-     * @param lastName  The last name of the player.
-     */
-    public void resetUserInfos(final int sciper, final String firstName, final String lastName) {
-        Map<String, Object> initialInfos = new HashMap<>();
-        initialInfos.put(FB_SCIPER, sciper);
-        initialInfos.put(FB_FIRSTNAME, firstName);
-        initialInfos.put(FB_LASTNAME, lastName);
-        initialInfos.put(FB_CURRENCY, INITIAL_CURRENCY);
-        initialInfos.put(FB_LEVEL, INITIAL_LEVEL);
-        initialInfos.put(FB_XP, INITIAL_XP);
-
-        List<Integer> items = new ArrayList<>();
-        initialInfos.put(FB_ITEMS, items);
-        initialInfos.put(FB_TOKEN, null);
-
-        setUserInfos(sciper, initialInfos);
-    }
-
-    public void deleteUserFromDatabase(int sciper) {
-        db.collection(FB_USERS).document(Integer.toString(sciper)).delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.i(TAG, "The user has been deleted from the database.");
-                        } else {
-                            Log.w(TAG, "Failed to delete the user from the database.");
-                        }
-                    }
-                });
-    }
-
-    public void addQuestion(Question question) {
-
-        String questionId = question.getQuestionId();
-
+    public void addQuestion(final Question question) {
         Map<String, Object> questionData = new HashMap<>();
         questionData.put(FB_QUESTION_TRUEFALSE, question.isTrueFalse());
         questionData.put(FB_QUESTION_ANSWER, question.getAnswer());
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
-        questionData.put(FB_QUESTIONS_ID, question.getQuestionId());
-        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciper());
+        questionData.put(FB_COURSE, question.getCourseName());
+        questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
 
-        db.collection(FB_QUESTIONS).document(questionId).set(questionData);
+        db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
 
     /**
-     * Load all the questions on the database the have not been created by the actual player or
-     * that have been created by the player, depending on if the player is in teacher or student
-     * mode
+     * Load all questions that have not been created by the current player if role is student.
+     * Load all questions that have been created by the current player if the role is teacher.
+     * In addition, only questions that correspond to the current player's courses should be loaded.
      *
      * @param context The context used to save the questions locally
+     * @throws NullPointerException If the data received from the server is not of a valid format
      */
-    public void loadQuestions(final Context context) {
+    public void loadQuestions(final Context context) throws NullPointerException {
+
+        final Player currPlayer = Player.get();
 
         final List<Question> questionList = new ArrayList<>();
 
@@ -287,37 +172,37 @@ public class Firestore {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        Map<String, Object> questionData = document.getData();
                         String questionId = document.getId();
+                        Map<String, Object> questionData = document.getData();
 
-                        //If role is teacher, can only view own question, if student only others questions
-                        int QuestionAuthor = Integer.parseInt(questionData.get(FB_QUESTION_AUTHOR).toString());
-                        boolean getThatQuestion;
-                        if(Player.get().getRole()) {
-                            getThatQuestion = Player.get().getSciper() == QuestionAuthor;
-                        } else {
-                            getThatQuestion = Player.get().getSciper() != QuestionAuthor;
-                            getThatQuestion = getThatQuestion && questionData.get(document.getId()) != Utils.MOCK_UUID;
-                        }
+                        String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
+                        boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
 
-                        if(getThatQuestion) {
-                            String title = (String) questionData.get(FB_QUESTION_TITLE);
-                            Boolean trueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                            int answer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+                        // TODO: check course
+                        //Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
+                        boolean questionInCurrPlayerCourse = true; //currPlayer.getCourses().contains(questionCourse);
 
-                            System.out.println("Question: " + title);
-                            System.out.println("Answer: " + answer);
+                        boolean isValidQuestion = questionInCurrPlayerCourse &&
+                                ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
+                                 (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
 
-                            Question question = new Question(questionId, title, trueFalse, answer);
+                        if(isValidQuestion || questionId.equals(MOCK_UUID)) {
+
+                            String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
+                            Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                            int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+                            String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+
+
+                            Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
                             questionList.add(question);
                         }
                     }
 
-
                     QuestionParser.writeQuestions(questionList, context);
                     Log.d(TAG, "Question List: " + questionList.toString());
                 } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+                    Log.e(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
@@ -330,26 +215,47 @@ public class Firestore {
      */
     public void deleteQuestion(final String questionId) {
         db.collection(FB_QUESTIONS).document(questionId).delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            if(questionId.equals(Utils.MOCK_UUID)) {
-                                Log.i(TAG, "The question has been deleted from the database.");
-                                return;
-                            }
-                            FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
-                                        Log.i(TAG, "The question has been deleted from the database.");
-                                    }
-                                }
-                            });
-                        } else {
-                            Log.w(TAG, "Failed to delete the question's data from the database.");
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        if(questionId.equals(MOCK_UUID)) {
+                            Log.i(TAG, "The question has been deleted from the database.");
+                            return;
                         }
+                        FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()) {
+                                    Log.i(TAG, "The question image has been deleted from the database.");
+                                }
+                            }
+                        });
+                    } else {
+                        Log.e(TAG, "Failed to delete the question's data from the database.");
                     }
-                });
+                }
+            });
+    }
+
+    /**
+     * This function put the current data of a given user into the dbStaticInfo object (Utils.java).
+     *
+     * @param sciper Sciper ot the user.
+     */
+    public void getData(final int sciper) {
+        db.collection(FB_USERS).document(Integer.toString(sciper))
+            .get()
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if (document.exists()) {
+                        DB_STATIC_INFO = document.getData();
+                    }
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
 }

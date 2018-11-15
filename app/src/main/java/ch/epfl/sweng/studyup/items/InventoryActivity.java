@@ -17,7 +17,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class InventoryActivity extends NavigationStudent {
     private ArrayAdapter<String> adapter;
@@ -31,7 +31,7 @@ public class InventoryActivity extends NavigationStudent {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(InventoryActivity.this, InventoryActivity.class, Utils.INVENTORY_INDEX);
+        navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
 
         ArrayList<String> itemsName = getItemsNames();
         ListView listView = findViewById(R.id.listViewItems);
@@ -44,15 +44,6 @@ public class InventoryActivity extends NavigationStudent {
                 startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(DisplayItemActivity.class.getName(), adapter.getItem(position)));
             }
         });
-    }
-
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 
     public ArrayList<String> getItemsNames() {

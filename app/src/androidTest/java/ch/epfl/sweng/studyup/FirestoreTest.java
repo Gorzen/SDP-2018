@@ -5,7 +5,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,120 +18,128 @@ import java.util.concurrent.ThreadLocalRandom; //Random int library
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class FirestoreTest {
     private static final String TAG = FirestoreTest.class.getSimpleName();
-    private static final int WAIT_TIME_MILLIS = 500;
-
-    // "Truth values"
-    // Existing user
-    private static final int sciper = 123456;
-    private static final int level = 42;
-    private static final String section = "IN";
-    private static final int xp = 4137;
-    private static final String year = "BA1";
-
-    private static Map<String, Object> dummy = null;
 
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<TestbedActivity> rule =
+            new ActivityTestRule<>(TestbedActivity.class);
 
-    /**
-     * Put the "Truth values" into the dummy map
-     */
-    public static void resetDummy() {
-        dummy = new HashMap<>();
-        dummy.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
-        dummy.put(FB_LASTNAME, INITIAL_LASTNAME);
-        dummy.put(FB_LEVEL, level);
-        dummy.put(FB_SECTION, section);
-        dummy.put(FB_XP, xp);
-        dummy.put(FB_YEAR, year);
-        dummy.put(FB_CURRENCY, INITIAL_CURRENCY);
+    private static final String TEST_SCIPER = "123456";
+    private static final int TEST_LEVEL = 42;
+    private static final String TEST_SECTION = "IN";
+    private static final int TEST_XP = 4137;
+    private static final String TEST_YEAR = "BA1";
+
+    private static Map<String, Object> TEST_DATA = null;
+
+    /*@Rule
+    public final ActivityTestRule<> mActivityRule =
+            new ActivityTestRule<>(MainActivity.class);*/
+
+    @BeforeClass
+    public static void enableMock() {
+        MOCK_ENABLED = true;
     }
 
-    /**
-     * Initialisation of Firestore data
-     */
+    @AfterClass
+    public static void disableMock() { MOCK_ENABLED = false; }
+
+
+    public static void resetTestValues() {
+        TEST_DATA = new HashMap<>();
+        TEST_DATA.put(FB_FIRSTNAME, INITIAL_FIRSTNAME);
+        TEST_DATA.put(FB_LASTNAME, INITIAL_LASTNAME);
+        TEST_DATA.put(FB_LEVEL, TEST_LEVEL);
+        TEST_DATA.put(FB_SECTION, TEST_SECTION);
+        TEST_DATA.put(FB_XP, TEST_XP);
+        TEST_DATA.put(FB_YEAR, TEST_YEAR);
+        TEST_DATA.put(FB_CURRENCY, INITIAL_CURRENCY);
+        TEST_DATA.put(FB_ROLE, Role.student);
+    }
+
+
     @Before
     public void setup() {
-        // Player
-        Player.get().setSciper(sciper);
-        Player.get().setFirstName(INITIAL_FIRSTNAME);
-        Player.get().setLastName(INITIAL_LASTNAME);
-
-        resetDummy();
+        Player.resetPlayer();
+        Player.get().initializePlayerData(TEST_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Player.get().setRole(Role.student);
+        resetTestValues();
     }
-
-    /**
-     * Cleanup of modified values
-     */
     @After
-    public void cleanupSciperOnDB() {
-        resetDummy();
+    public void cleanupFirebase() {
 
-        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
+        Firestore.get().deleteUserFromDatabase(TEST_SCIPER);
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
-        Player.get().reset();
+        resetTestValues();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void sciperTooLowTest() {
-        Firestore.get().getAndSetUserData(MIN_SCIPER - 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+    public void sciperTooLowTest() throws Exception {
+
+        Player.get().setSciperNum("99999");
+        Firestore.get().syncPlayerData();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void sciperTooHighTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER + 1, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+    public void sciperTooHighTest() throws Exception {
+        Player.get().setSciperNum("1000000");
+        Firestore.get().syncPlayerData();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void sciperNegativeTest() {
-        Firestore.get().getAndSetUserData(-42, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+    public void sciperNegativeTest() throws Exception {
+        Player.get().setSciperNum("-42");
+        Firestore.get().syncPlayerData();
     }
 
-
-    /*
-    @Test(expected = NullPointerException.class)
-    public void documentOnDBButEmptyTest() {
-        Firestore.get().getAndSetUserData(MIN_SCIPER+1, "testFirstName", "testLastName");
-        waitAndTag(500, TAG);
-    }*/
 
     @Test
-    public void deleteUserTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
+    public void deleteUserTest() throws Exception {
+        String maxSciper = String.valueOf(MAX_SCIPER);
+        Player.get().setSciperNum(maxSciper);
+        Player.get().setFirstName("John");
+        Player.get().setLastName("Doe");
+        Firestore.get().syncPlayerData();
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
         Player.get().addExperience(XP_STEP, null);
-        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.getData(MAX_SCIPER);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
+        Firestore.get().deleteUserFromDatabase(maxSciper);
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
+        Firestore.get().getData(MAX_SCIPER);
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
-        resetDummy();
-        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
+        resetTestValues();
+        for (Map.Entry<String, Object> entry : TEST_DATA.entrySet()) {
+            assert (DB_STATIC_INFO.get(entry.getKey()) == entry.getValue());
         }
     }
 
-    public void addNewUserToDBTest() {
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
+
+    public void addNewUserToDBTest() throws Exception {
+        String maxSciper = String.valueOf(MAX_SCIPER);
+        Player.get().setSciperNum(maxSciper);
+        Player.get().setFirstName("John");
+        Player.get().setLastName("Doe");
+        Firestore.get().syncPlayerData();
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
-        Firestore.get().deleteUserFromDatabase(MAX_SCIPER);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.get().getAndSetUserData(MAX_SCIPER, "John", "Doe");
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.getData(MAX_SCIPER);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
+        Firestore.get().deleteUserFromDatabase(maxSciper);
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
+        Firestore.get().syncPlayerData();
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
+        Firestore.get().getData(MAX_SCIPER);
+        waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
 
         //Check if values are the initial ones
@@ -137,46 +147,15 @@ public class FirestoreTest {
         assertEquals(INITIAL_XP, Player.get().getExperience());
 
         //Check if the names are the correct ones
-        assertEquals("John", dbStaticInfo.get(FB_FIRSTNAME));
-        assertEquals("Doe", dbStaticInfo.get(FB_LASTNAME));
-        assertEquals("JonhDoe89012345", dbStaticInfo.get(FB_USERNAME));
-    }
-
-    @Test
-    public void setInfosTest() {
-        int randomCurr = ThreadLocalRandom.current().nextInt(1, 1000 + 1);
-        dummy.put(FB_CURRENCY, randomCurr);
-        Firestore.get().setUserInfos(sciper, dummy);
-
-        Firestore.getData(sciper);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-
-        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
-        }
-
-    }
-
-    @Test
-    public void
-    resetUser() {
-        Player.get().setSciper(sciper);
-        Firestore.get().setUserData(FB_XP, INITIAL_XP + 1);
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-        Firestore.get().resetUserInfos(sciper, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
-
-        resetDummy();
-
-        Firestore.getData(sciper);
-
-        for (Map.Entry<String, Object> entry : dummy.entrySet()) {
-            assert (dbStaticInfo.get(entry.getKey()) == entry.getValue());
-        }
+        assertEquals("John", DB_STATIC_INFO.get(FB_FIRSTNAME));
+        assertEquals("Doe", DB_STATIC_INFO.get(FB_LASTNAME));
+        assertEquals("JonhDoe89012345", DB_STATIC_INFO.get(FB_USERNAME));
     }
 
     @Test
     public void addXpPlayerAndCurrencyTest() {
-        Player.get().reset();
+        Player.resetPlayer();
+
         assertEquals(INITIAL_XP, Player.get().getExperience());
         assertEquals(INITIAL_LEVEL, Player.get().getLevel());
         assertEquals(INITIAL_CURRENCY, Player.get().getCurrency());
@@ -196,34 +175,5 @@ public class FirestoreTest {
 
         Player.get().addCurrency(100, null);
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
-    }
-
-
-    @Test
-    public void updateLevelAndCurrencyPropagateToServer() {
-        final int numberLevelToUpgrade = 5;
-        final int testSciper1 = sciper;
-        final String testFirstName1 = INITIAL_FIRSTNAME;
-        final String testLastName1 = INITIAL_LASTNAME;
-        final String testUserName1 = INITIAL_USERNAME;
-        Firestore.get().resetUserInfos(testSciper1, testFirstName1, testLastName1);
-
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-
-        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
-        Player.get().addExperience(numberLevelToUpgrade * XP_TO_LEVEL_UP + XP_TO_LEVEL_UP / 2, null);
-
-
-        //To over-write the local state
-        Firestore.get().getAndSetUserData(testSciper1 + 1, testFirstName1 + "1", testLastName1 + "1");
-
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-
-        Firestore.get().getAndSetUserData(testSciper1, testFirstName1, testLastName1);
-
-        waitAndTag(WAIT_TIME_MILLIS, TAG);
-
-        assert (Player.get().getLevel() == INITIAL_LEVEL + numberLevelToUpgrade);
-        assert (Player.get().getCurrency() == INITIAL_CURRENCY + CURRENCY_PER_LEVEL * numberLevelToUpgrade);
     }
 }

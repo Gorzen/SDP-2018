@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -36,6 +35,10 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+
+import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -70,8 +73,9 @@ public class DisplayQuestionActivity extends NavigationStudent {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
+
         //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber);
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
         setupLayout(displayQuestion);
 
@@ -282,13 +286,5 @@ public class DisplayQuestionActivity extends NavigationStudent {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         return goToQuestion;
-    }
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
     }
 }

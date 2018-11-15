@@ -16,9 +16,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,10 +29,13 @@ import java.io.IOException;
 import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.utils.Utils;
+
+import static ch.epfl.sweng.studyup.utils.Constants.DEFAULT_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+
 
 /**
  * CustomActivity
@@ -55,10 +55,15 @@ public class CustomActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Player currPlayer = Player.get();
+        if (MOCK_ENABLED) {
+            currPlayer.initializeDefaultPlayerData();
+        }
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        navigationSwitcher(CustomActivity.this, CustomActivity.class, Utils.DEFAULT_INDEX_STUDENT);
+        navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX_STUDENT);
 
         ImageButton pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
@@ -68,16 +73,16 @@ public class CustomActivity extends NavigationStudent {
         final TextView user_email = findViewById(R.id.user_email);
 
         //mail
-        String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
+        String email_1 = currPlayer.getFirstName().split(" ")[0].toLowerCase();
         email_1 = Normalizer.normalize(email_1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
+        String email_2 = currPlayer.getLastName().split(" ")[0].toLowerCase();
         email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
 
         final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
         //initial picture
-        FileStorage.downloadProfilePicture(Integer.toString(Player.get().getSciper()), imageview);
+        FileStorage.downloadProfilePicture(currPlayer.getSciperNum(), imageview);
 
 
         pic_button.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +96,7 @@ public class CustomActivity extends NavigationStudent {
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
                 view_username.setText(edit_username.getText().toString());
-                Player.get().setUserName(edit_username.getText().toString());
+                currPlayer.setUserName(edit_username.getText().toString());
             }
         });
 
@@ -100,7 +105,7 @@ public class CustomActivity extends NavigationStudent {
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle("Add an image");
-        final String[] items = {Utils.GALLERY, Utils.CAMERA, Utils.CANCEL};
+        final String[] items = {Constants.GALLERY, Constants.CAMERA, Constants.CANCEL};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -130,14 +135,14 @@ public class CustomActivity extends NavigationStudent {
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (!Utils.isMockEnabled) {
+        if (MOCK_ENABLED) {
             startActivityForResult(intent, CAMERA);
         }
     }
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (!Utils.isMockEnabled) {
+        if (MOCK_ENABLED) {
             startActivityForResult(intent, GALLERY);
         }
     }
@@ -182,7 +187,7 @@ public class CustomActivity extends NavigationStudent {
     }
 
     private void setImageCircularAndUpload(Bitmap bitmap) {
-        String newPictureFileID = Integer.toString(Player.get().getSciper()) + ".png";
+        String newPictureFileID = Player.get().getSciperNum() + ".png";
         File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
         try {
             FileOutputStream out = new FileOutputStream(pictureFile);

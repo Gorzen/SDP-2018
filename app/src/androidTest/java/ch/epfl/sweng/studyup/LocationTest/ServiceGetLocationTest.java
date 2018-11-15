@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.LocationTest;
 
 import android.app.job.JobParameters;
 import android.location.Location;
@@ -13,11 +13,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
-import ch.epfl.sweng.studyup.utils.Utils;
 
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -29,8 +31,8 @@ public class ServiceGetLocationTest {
     private LatLng notRoomOfPlayer = new LatLng(50.0, 10.0);
 
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule2 =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<TestbedActivity> mActivityRule2 =
+            new ActivityTestRule<>(TestbedActivity.class);
 
     @Test
     public void getLocationNoCrashWithBadParams() {
@@ -70,9 +72,9 @@ public class ServiceGetLocationTest {
             @Override
             public void run() {
                 onSuccessListener.onSuccess(location);
-                assertEquals(roomOfPlayer.latitude, Utils.position.latitude, 0);
-                assertEquals(roomOfPlayer.longitude, Utils.position.longitude, 0);
-                assertEquals(exp + 2 * Utils.XP_STEP, Player.get().getExperience());
+                assertEquals(roomOfPlayer.latitude, POSITION.latitude, 0);
+                assertEquals(roomOfPlayer.longitude, POSITION.longitude, 0);
+                assertEquals(exp + 2 * XP_STEP, Player.get().getExperience());
             }
         });
     }
@@ -92,8 +94,8 @@ public class ServiceGetLocationTest {
             @Override
             public void run() {
                 onSuccessListener.onSuccess(location);
-                assertEquals(notRoomOfPlayer.latitude, Utils.position.latitude, 0);
-                assertEquals(notRoomOfPlayer.longitude, Utils.position.longitude, 0);
+                assertEquals(notRoomOfPlayer.latitude, POSITION.latitude, 0);
+                assertEquals(notRoomOfPlayer.longitude, POSITION.longitude, 0);
                 assertEquals(exp, Player.get().getExperience());
             }
         });

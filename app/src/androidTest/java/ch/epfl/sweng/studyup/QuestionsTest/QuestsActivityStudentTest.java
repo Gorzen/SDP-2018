@@ -1,5 +1,6 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -8,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -24,7 +26,7 @@ public class QuestsActivityStudentTest {
 
     @Test
     public void testOptionNoException() {
-        onView(withId(R.id.top_navigation_infos)).perform(click());
+        onView(ViewMatchers.withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
 

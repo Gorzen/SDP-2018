@@ -15,25 +15,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.items.DisplayItemActivity;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class InventoryActivityTest {
-    ListView list;
-
-
     @Rule
     public final ActivityTestRule<InventoryActivity> mActivityRule =
             new ActivityTestRule<>(InventoryActivity.class, true, false);
+    ListView list;
 
     @Before
     public void init() {
@@ -42,8 +39,8 @@ public class InventoryActivityTest {
     }
 
     @After
-    public void cleanup(){
-        Player.get().reset();
+    public void cleanup() {
+        Player.resetPlayer();
     }
 
     @Test
@@ -57,16 +54,15 @@ public class InventoryActivityTest {
         });
         int exp = Player.get().getExperience();
         onView(withId(R.id.use_button)).perform(click());
-        assertEquals(exp + Utils.XP_STEP, Player.get().getExperience());
+        assertEquals(exp + XP_STEP, Player.get().getExperience());
     }
 
     @Test
-    public void getItemsNameReturnsEmptyList() {
+    public void getItemsNameReturnsEmptyList() throws Exception {
         Player.get().consumeItem(Items.XP_POTION);
         ArrayList<String> itemsName = mActivityRule.getActivity().getItemsNames();
         assertEquals(0, itemsName.size());
     }
-
 
     @Test
     public void getItemsNameReturnsCorrectList() {
@@ -81,5 +77,4 @@ public class InventoryActivityTest {
         onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
-
 }

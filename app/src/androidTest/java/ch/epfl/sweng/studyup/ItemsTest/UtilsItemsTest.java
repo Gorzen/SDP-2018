@@ -20,12 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class UtilsItemsTest {
     @Before
     public void setup(){
-        Player.get().reset();
-    }
-
-    @After
-    public void cleanup(){
-        Player.get().reset();
+        Player.resetPlayer();
     }
 
     @Test

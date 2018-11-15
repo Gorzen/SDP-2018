@@ -1,5 +1,8 @@
 package ch.epfl.sweng.studyup.utils.navigation;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,16 +10,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 
 /**
@@ -79,6 +84,14 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
         }
     }
 
+    //Display the toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater i = getMenuInflater();
+        i.inflate(R.menu.top_navigation, menu);
+        return true;
+    }
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         navigationTopToolbar(item);
