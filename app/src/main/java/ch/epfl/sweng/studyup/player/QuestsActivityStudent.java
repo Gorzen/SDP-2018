@@ -2,12 +2,17 @@ package ch.epfl.sweng.studyup.player;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +22,6 @@ import java.util.Set;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.utils.QuestListViewAdapterWithImage;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
@@ -69,7 +73,7 @@ public class QuestsActivityStudent extends NavigationStudent {
 
     private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterWithImage adapter = new QuestListViewAdapterWithImage(this, R.layout.quest_list_view_student_model, listTitle, listImageID);
+        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_list_view_student_model, listTitle, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,5 +84,46 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             }
         });
+    }
+
+    public class QuestListViewAdapterStudent extends BaseAdapter {
+        private Context cnx;
+        private List<String> titles;
+        private int idLayout;
+        List<Integer> ids;
+
+        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<String> titles, List<Integer> ids) {
+            this.cnx=cnx;
+            this.titles = titles;
+            this.idLayout = idLayout;
+            this.ids = ids;
+        }
+
+        @Override
+        public int getCount() {
+            return titles.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return titles.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return ids.get(position);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if(convertView==null){
+                convertView=View.inflate(cnx, idLayout, null);
+            }
+            TextView text_view = convertView.findViewById(R.id.quest_title);
+            text_view.setText(titles.get(position));
+            ImageView image_view = convertView.findViewById(R.id.is_quest_done);
+            image_view.setImageResource(ids.get(position));
+            return convertView;
+        }
     }
 }
