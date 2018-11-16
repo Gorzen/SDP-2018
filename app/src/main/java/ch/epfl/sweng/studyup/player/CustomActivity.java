@@ -186,7 +186,7 @@ public class CustomActivity extends NavigationStudent {
         }
     }
 
-    private void setImageCircularAndUpload(Bitmap bitmap) {
+    public void setImageCircularAndUpload(Bitmap bitmap) {
         String newPictureFileID = Player.get().getSciperNum() + ".png";
         File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
         try {

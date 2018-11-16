@@ -1,5 +1,8 @@
 package ch.epfl.sweng.studyup.CustomActivityTest;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -48,6 +51,7 @@ public class CustomActivityTest {
     @BeforeClass
     public static void enableMock() {
         MOCK_ENABLED = true;
+        Player.get().reset();
     }
 
     @AfterClass
@@ -101,5 +105,16 @@ public class CustomActivityTest {
         if (button.exists() && button.isEnabled()) {
             button.click();
         }
+    }
+
+    @Test
+    public void setImageCircularAndUploadTest(){
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bitmap = BitmapFactory.decodeResource(mActivityRule.getActivity().getApplicationContext().getResources(), R.drawable.potion);
+                mActivityRule.getActivity().setImageCircularAndUpload(bitmap);
+            }
+        });
     }
 }
