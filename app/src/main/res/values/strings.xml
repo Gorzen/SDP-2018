@@ -65,6 +65,8 @@
     <string name="title_activity_settings">Settings</string>
     <string name="textViewSettings">Settings</string>
     <string name="toast_text_infos_are_coming">Infos are coming soon</string>
-    <string name="language_default">English</string>
+    <string name="language_choice_settings_button">Choose your language</string>
+    <string name="language_title_alert_dialog">Languages</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
