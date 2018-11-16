@@ -9,7 +9,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.map.Room;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
-public class Rooms {
+public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;
 
     public final static Map<String, Room> ROOMS_LOCATIONS = Collections.unmodifiableMap(new HashMap<String, Room>(){
