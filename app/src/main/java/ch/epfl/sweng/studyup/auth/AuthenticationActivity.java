@@ -52,7 +52,9 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         PlayerDataContainer playerData = Authenticator.getPlayerData(token);
 
-        Player.get().initializePlayerData(playerData.sciperNum, playerData.firstName, playerData.lastname);
+        Player.get().setSciperNum(playerData.sciperNum);
+        Player.get().setFirstName(playerData.firstName);
+        Player.get().setLastName(playerData.lastname);
         if (MOCK_ENABLED) {
             Player.get().setRole(Role.student);
         }
