@@ -144,6 +144,7 @@ public class QuestsActivityTeacherTest {
         deleteAllQuestsByUsingButton();
 
         Firestore.get().loadQuestions(rule.getActivity());
+        Utils.waitAndTag(500, TAG);
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
