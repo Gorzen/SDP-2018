@@ -79,4 +79,9 @@ public class MainActivityTest {
     public void testInfoNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
     }
+
+    @Test
+    public void testSettingsNoException() {
+        onView(withId(R.id.top_navigation_settings)).perform(click());
+    }
 }
