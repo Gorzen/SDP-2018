@@ -51,17 +51,14 @@ public class MainActivityTest {
             assert Player.get().getExperience() == ((currExp + (i + 1) * XP_STEP) % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
                     "xpButton doesn't update player's xp as expected.";
         }
-        Utils.waitAndTag(1000, "Main Activity Test");
+        Utils.waitAndTag(100, "Main Activity Test");
         onView(withId(R.id.currText)).check(matches(withText(CURR_DISPLAY + Player.get().getCurrency())));
     }
 
     @Test
     public void checkPlayerProgressionDisplay() {
         Player.get().resetPlayer();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-        }
+
         final int numberOfPush = 5;
         assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
         onView(withId(R.id.levelText)).check(matches(withText(LEVEL_DISPLAY + Player.get().getLevel())));
@@ -79,8 +76,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testOptionNoException() {
+    public void testInfoNoException() {
         onView(withId(R.id.top_navigation_infos)).perform(click());
-        onView(withId(R.id.top_navigation_settings)).perform(click());
     }
 }
