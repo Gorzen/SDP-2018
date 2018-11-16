@@ -95,6 +95,7 @@ public class Player {
      * This method is called from FireStore.loadPlayerData(), which is called
      * in AuthenticationActivity.
      */
+    @SuppressWarnings("unchecked")
     public void updateLocalDataFromRemote(Map<String, Object> remotePlayerData) {
 
         if (remotePlayerData.isEmpty()) {
