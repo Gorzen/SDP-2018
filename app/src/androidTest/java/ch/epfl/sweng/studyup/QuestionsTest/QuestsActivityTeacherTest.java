@@ -4,6 +4,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.test.espresso.NoMatchingViewException;
+import android.support.test.espresso.PerformException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
@@ -47,6 +50,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.core.AllOf.allOf;
 
@@ -119,41 +123,25 @@ public class QuestsActivityTeacherTest {
     }
 
     @Test
-    public void canTryDeletingQuestionAndCancel() {
-        final List<Integer> idsToDelete = new ArrayList<>();
-        final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
-        rule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < list.getAdapter().getCount(); ++i) {
-                    if (list.getAdapter().getItem(i).toString().equals("fake title")) {
-                        Log.i("ThatsAReal", list.getAdapter().getItem(i).toString() + " gives " + list.getAdapter().getItem(i).toString().equals("fake title"));
-                        idsToDelete.add(i);
-                    }
-                    Log.i("ThatsAReal", idsToDelete.toString());
+    public void canCancelDeletionOfQuest() {
+        onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                .atPosition(0)
+                .onChildView(withId(R.id.delete_question))
+                .perform(click());
+        Utils.waitAndTag(50, TAG);
+        onView(withText(R.string.no_upper)).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+        Utils.waitAndTag(600, TAG);
 
-                }
-            }
-        });
+        //should be able to click on bottom bar at this point
+        BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
+        b.setSelectedItemId(R.id.navigation_add_question);
+    }
 
-        for(Integer i : idsToDelete) {
-            /*
-                Other workaround, just in case
-                onView(allOf(
-                    withId(R.id.delete_question),
-                    nthChildsDescendant(withId(R.id.listViewQuests), 1)))
-                    .perform(click());*/
-            onData(anything()).inAdapterView(withId(R.id.listViewQuests))
-                    .atPosition(i)
-                    .onChildView(withId(R.id.delete_question))
-                    .perform(click());
-            Log.i("555", "555");
-            Utils.waitAndTag(50, TAG);
-            onView(withText(R.string.yes_upper)).inRoot(isDialog())
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-            Utils.waitAndTag(600, TAG);
-        }
+    @Test
+    public void canDeleteQuestionUsingButton() {
+        deleteAllQuestsByUsingButton();
 
         Firestore.get().loadQuestions(rule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
@@ -161,13 +149,35 @@ public class QuestsActivityTeacherTest {
         parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                if (!questions.isEmpty()) {
-                    for(Question q : questions) {
-                        assertFalse(q.getTitle().equals("fake title"));
-                    }
-                }
+                assertTrue(questions.isEmpty());
             }
         });
+    }
+
+    private void deleteAllQuestsByUsingButton() {
+        try {
+            while(true) {
+            /*
+                Other workaround, just in case
+
+                onView(allOf(
+                    withId(R.id.delete_question),
+                    nthChildsDescendant(withId(R.id.listViewQuests), 1)))
+                    .perform(click());*/
+
+                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                        .atPosition(0)
+                        .onChildView(withId(R.id.delete_question))
+                        .perform(click());
+                Utils.waitAndTag(50, TAG);
+                onView(withText(R.string.yes_upper)).inRoot(isDialog())
+                        .check(matches(isDisplayed()))
+                        .perform(click());
+                Utils.waitAndTag(600, TAG);
+            }
+        } catch (PerformException e) {
+            return;
+        }
     }
 
     // Method not used, can be useful so keep it just in case. Credit: https://stackoverflow.com/questions/32823508/how-can-i-click-on-a-view-in-listview-specific-row-position#
