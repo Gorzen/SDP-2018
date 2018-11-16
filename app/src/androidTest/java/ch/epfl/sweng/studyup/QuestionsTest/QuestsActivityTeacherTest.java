@@ -1,6 +1,9 @@
 package ch.epfl.sweng.studyup.QuestionsTest;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -18,12 +21,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
+import okhttp3.internal.Util;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -36,6 +43,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsAnything.anything;
 
@@ -119,6 +129,27 @@ public class QuestsActivityTeacherTest {
         onView(withText(R.string.no_upper)).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
+        onView(allOf(
+                withId(R.id.delete_question),
+                nthChildsDescendant(withId(R.id.listViewQuests), 1)))
+                .perform(click());
+        onView(withText(R.string.yes_upper)).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+        Utils.waitAndTag(500, TAG);
+        Firestore.get().loadQuestions(rule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for(Question q : questions) {
+                        assertFalse(q.getQuestionId().equals(questionUUID));
+                    }
+                }
+            }
+        });
     }
 
     public static Matcher<View> nthChildsDescendant(final Matcher<View> parentMatcher, final int childPosition) {
