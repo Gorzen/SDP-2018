@@ -10,7 +10,7 @@ import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 
 @RunWith(JUnit4.class)
 public class ListItemAdapterTest {
-    ListItemAdapter listItemAdapter;
+ /*   ListItemAdapter listItemAdapter;
 
     @Before
     public void init() {
@@ -18,5 +18,5 @@ public class ListItemAdapterTest {
         listItemAdapter = new ListItemAdapter(null, Items.XP_POTION, false);
     }
     @Test
-    public void
+    public void*/
 }

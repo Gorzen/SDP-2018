@@ -7,33 +7,44 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 
 public class ListItemAdapter extends BaseAdapter {
     private Context cnx;
-    private Items[] items;
+    private ArrayList<Items> items;
     private boolean displayPriceAndCoin;
 
-    public ListItemAdapter(Context cnx, Items[] items, boolean displayPriceAndCoin) {
+    public ListItemAdapter(Context cnx, ArrayList<Items> items, boolean displayPriceAndCoin) {
         this.cnx=cnx;
-        this.items = items;
+        ArrayList<Items> sortedItems = new ArrayList<>(items);
+        Collections.sort(sortedItems, new Comparator<Items>() {
+            @Override
+            public int compare(Items i1, Items i2) {
+                return i1.getName().compareToIgnoreCase(i2.getName());
+            }
+        });
+        this.items = sortedItems;
         this.displayPriceAndCoin = displayPriceAndCoin;
     }
 
     @Override
     public int getCount() {
-        return items.length;
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return items[position];
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return items[position].ordinal();
+        return items.get(position).ordinal();
     }
 
     @Override
@@ -41,7 +52,7 @@ public class ListItemAdapter extends BaseAdapter {
         if(convertView==null){
             convertView=View.inflate(cnx, R.layout.shop_list_item_model, null);
         }
-        Items item = items[position];
+        Items item = items.get(position);
         ImageView shopItemImage = convertView.findViewById(R.id.shop_item_image);
         TextView shopItemName =  convertView.findViewById(R.id.shop_item_name);
         shopItemImage.setImageResource(item.getImageName());
@@ -58,4 +69,5 @@ public class ListItemAdapter extends BaseAdapter {
         }
         return convertView;
     }
+
 }

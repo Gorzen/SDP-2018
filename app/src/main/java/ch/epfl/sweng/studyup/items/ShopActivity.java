@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
@@ -27,7 +30,7 @@ public class ShopActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         itemsToBuy = findViewById(R.id.list_view_shop);
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), Items.values(), true);
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(Arrays.asList(Items.values())), true);
         itemsToBuy.setAdapter(listItemAdapter);
         itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

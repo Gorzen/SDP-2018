@@ -157,14 +157,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
             return null;
         }
     }
-
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
-    }
 }
 
 

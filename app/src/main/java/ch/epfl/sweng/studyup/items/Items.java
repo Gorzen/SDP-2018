@@ -81,7 +81,7 @@ public enum Items {
         }
     }
 
-    public static ArrayList<String> getItemsNames() {
+    public static ArrayList<String> getPlayersItemsNames() {
         List<Items> items = Player.get().getItems();
         ArrayList<String> itemsName = new ArrayList<>(items.size());
         for(int index = 0; index < items.size(); ++index) {

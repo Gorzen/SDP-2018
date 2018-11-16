@@ -161,6 +161,7 @@ public class Player {
         username = newUsername;
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
+
     // Method suppose that we can only gain experience.
     private void updateLevel(Activity activity) {
         int newLevel = experience / XP_TO_LEVEL_UP + 1;
@@ -172,6 +173,7 @@ public class Player {
 
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
+
     public void addExperience(int xp, Activity activity) {
         experience += xp;
         updateLevel(activity);
@@ -184,6 +186,7 @@ public class Player {
 
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
+
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
@@ -193,11 +196,13 @@ public class Player {
 
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
+
     public void addItem(Items item) {
         if (items.add(item)) {
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
     }
+
     public void consumeItem(Items item) throws Exception {
         if (items.remove(item)) {
             item.consume();

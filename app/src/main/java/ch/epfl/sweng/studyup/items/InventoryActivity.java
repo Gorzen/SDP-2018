@@ -11,8 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
@@ -31,10 +34,9 @@ public class InventoryActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
-
-        ArrayList<String> itemsName = Items.getItemsNames();
         ListView ownedItems = findViewById(R.id.listViewItems);
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), Items.values(), false);
+        HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
         ownedItems.setAdapter(listItemAdapter);
         ownedItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,7 +46,6 @@ public class InventoryActivity extends NavigationStudent {
             }
         });
     }
-
 
     //Display the toolbar
     @Override
