@@ -56,9 +56,6 @@ public class CustomActivity extends NavigationStudent {
         setContentView(R.layout.activity_custom);
 
         final Player currPlayer = Player.get();
-        if (MOCK_ENABLED) {
-            currPlayer.initializeDefaultPlayerData();
-        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

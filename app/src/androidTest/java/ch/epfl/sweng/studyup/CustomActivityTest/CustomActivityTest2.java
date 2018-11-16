@@ -1,18 +1,22 @@
 package ch.epfl.sweng.studyup.CustomActivityTest;
 
 import android.content.Intent;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -27,23 +31,12 @@ public class CustomActivityTest2 {
 
     @Rule
     public ActivityTestRule<CustomActivity> rule =
-            new ActivityTestRule<>(CustomActivity.class, true, false);
-
-    @Before
-    public void enableMock() {
-        MOCK_ENABLED = true;
-    }
-
-    @After
-    public void disableMock() {
-        MOCK_ENABLED = false;
-    }
-
+            new ActivityTestRule<>(CustomActivity.class);
 
     @Test
     public void testChooseGalleryImage() {
 
-        rule.launchActivity(new Intent());
+        Player.get().initializeDefaultPlayerData();
 
         onView(ViewMatchers.withId(R.id.pic_btn)).perform(click());
 
