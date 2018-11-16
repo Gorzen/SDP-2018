@@ -25,5 +25,4 @@ public class MoreDisplayTest extends DisplayQuestionActivityTest {
         assertTrue(mActivityRule.getActivity().isFinishing());
     }
 
-
 }
