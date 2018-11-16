@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,9 +10,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="0dp">
 
 
         <!--TOP TOOL BAR-->
@@ -53,10 +52,10 @@
                 android:id="@+id/textSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/textViewSettings"
                 android:textColor="@color/colorGreyBlack"
                 android:textSize="28sp"
@@ -100,19 +99,18 @@
                         android:id="@+id/logoutbutton"
                         android:layout_width="match_parent"
                         android:layout_height="26dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="12dp"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="12dp"
                         android:background="@color/colorWhite"
-                        android:scaleType="fitStart"
                         android:onClick="onLogoutClick"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:scaleType="fitStart"
+                        app:layout_constraintBottom_toTopOf="@+id/languageChoiceButton"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
                         app:srcCompat="@drawable/ic_logout_black_24dp"
                         tools:ignore="ContentDescription" />
 
@@ -120,17 +118,54 @@
                         android:id="@+id/textLogoutButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/log_out"
                         android:textColor="@color/colorGreyBlack"
-                        android:textSize="18sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/logoutbutton"
                         app:layout_constraintEnd_toEndOf="@+id/logoutbutton"
                         app:layout_constraintHorizontal_bias="0.159"
                         app:layout_constraintStart_toStartOf="@+id/logoutbutton"
                         app:layout_constraintTop_toTopOf="@+id/logoutbutton"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageButton
+                        android:id="@+id/languageChoiceButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/colorWhite"
+                        android:onClick="onLanguageChoiceClick"
+                        android:scaleType="fitStart"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/logoutbutton"
+                        app:srcCompat="@drawable/settings_language_choice_icon"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/textLanguageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="28dp"
+                        android:text="@string/language_choice_settings_button"
+                        android:textColor="@color/colorGreyBlack"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/languageChoiceButton"
+                        app:layout_constraintEnd_toEndOf="@+id/languageChoiceButton"
+                        app:layout_constraintHorizontal_bias="0.159"
+                        app:layout_constraintStart_toStartOf="@+id/languageChoiceButton"
+                        app:layout_constraintTop_toTopOf="@+id/languageChoiceButton"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,7 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.AlertDialog;
+import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
@@ -18,9 +20,13 @@ import java.io.IOException;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static org.junit.Assert.assertTrue;
 
@@ -64,5 +70,17 @@ public class SettingsActivityTest {
     public void closeButtonTest() {
         onView(withId(R.id.back_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
+    }
+
+    @Test
+    public void testLanguageChoosingPopup() {
+        onView(withId(R.id.languageChoiceButton)).perform(click());
+        onView(withText(R.string.cancel))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        //If all worked, we could close the settings
+        onView(withId(R.id.back_button)).perform(click());
     }
 }
