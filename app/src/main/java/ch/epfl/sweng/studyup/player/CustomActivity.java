@@ -55,9 +55,8 @@ public class CustomActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
 
-        final Player currPlayer = Player.get();
         if (MOCK_ENABLED) {
-            currPlayer.initializeDefaultPlayerData();
+            Player.get().initializeDefaultPlayerData();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -73,16 +72,16 @@ public class CustomActivity extends NavigationStudent {
         final TextView user_email = findViewById(R.id.user_email);
 
         //mail
-        String email_1 = currPlayer.getFirstName().split(" ")[0].toLowerCase();
+        String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
         email_1 = Normalizer.normalize(email_1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        String email_2 = currPlayer.getLastName().split(" ")[0].toLowerCase();
+        String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
         email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
 
         final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
 
         //initial picture
-        FileStorage.downloadProfilePicture(currPlayer.getSciperNum(), imageview);
+        FileStorage.downloadProfilePicture(Player.get().getSciperNum(), imageview);
 
 
         pic_button.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +95,7 @@ public class CustomActivity extends NavigationStudent {
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
                 view_username.setText(edit_username.getText().toString());
-                currPlayer.setUserName(edit_username.getText().toString());
+                Player.get().setUserName(edit_username.getText().toString());
             }
         });
 

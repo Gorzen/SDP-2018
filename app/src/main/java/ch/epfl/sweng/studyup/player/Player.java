@@ -49,6 +49,9 @@ public class Player {
     private List<Course> courses;
 
     private Player() {
+        sciperNum = INITIAL_SCIPER;
+        firstName = INITIAL_FIRSTNAME;
+        lastName = INITIAL_LASTNAME;
         experience = INITIAL_XP;
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
