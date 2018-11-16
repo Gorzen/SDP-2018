@@ -3,8 +3,13 @@ package ch.epfl.sweng.studyup.QuestionsTest;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,9 +25,19 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.IsAnything.anything;
 
 @RunWith(AndroidJUnit4.class)
 public class QuestsActivityTeacherTest {
@@ -84,5 +99,47 @@ public class QuestsActivityTeacherTest {
     public void shouldHaveAtLeastOneQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
         assert (1 <= list.getAdapter().getCount());
+    }
+
+    @Test
+    public void canTryDeletingQuestionAndCancel() {
+       /*
+            Other workaround, just in case
+
+       onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                .atPosition(1)
+                .onChildView(withId(R.id.button))
+                .perform(click());
+                */
+
+        onView(allOf(
+                withId(R.id.delete_question),
+                nthChildsDescendant(withId(R.id.listViewQuests), 1)))
+                .perform(click());
+        onView(withText(R.string.no_upper)).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+    }
+
+    public static Matcher<View> nthChildsDescendant(final Matcher<View> parentMatcher, final int childPosition) {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with " + childPosition + " child view of type parentMatcher");
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+
+                while(view.getParent() != null) {
+                    if(parentMatcher.matches(view.getParent())) {
+                        return view.equals(((ViewGroup) view.getParent()).getChildAt(childPosition));
+                    }
+                    view = (View) view.getParent();
+                }
+
+                return false;
+            }
+        };
     }
 }
