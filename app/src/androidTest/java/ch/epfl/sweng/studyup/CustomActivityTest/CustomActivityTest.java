@@ -51,7 +51,7 @@ public class CustomActivityTest {
     @BeforeClass
     public static void enableMock() {
         MOCK_ENABLED = true;
-        Player.get().reset();
+        Player.get().resetPlayer();
     }
 
     @AfterClass
