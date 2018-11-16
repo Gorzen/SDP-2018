@@ -1,5 +1,10 @@
 language: android
 sudo: required
+deploy:
+    provider: testfairy
+    api-key: "c1a4fb8560ccd27feb6098ab217e03ae71e17822"
+    app-file: app/build/outputs/apk/debug/app-debug.apk
+    video: true
 android:
   components:
     # The BuildTools version used by your project
