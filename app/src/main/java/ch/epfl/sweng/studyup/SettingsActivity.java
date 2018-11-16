@@ -1,12 +1,18 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.AlertDialog;
 import android.app.job.JobScheduler;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
@@ -24,6 +30,23 @@ public class SettingsActivity extends RefreshContext {
         clearCacheToLogOut(SettingsActivity.this);
         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void onLanguageChoiceClick(View view) {
+        AlertDialog.Builder languageChoiceBuilder = new AlertDialog.Builder(this);
+        languageChoiceBuilder.setTitle(R.string.language_title_alert_dialog);
+        languageChoiceBuilder.setItems(Constants.LANGUAGES, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0) {
+                    Toast.makeText(SettingsActivity.this, "Damn you're english !", Toast.LENGTH_SHORT).show();
+                } else if(which == 1) {
+                    Toast.makeText(SettingsActivity.this, "Omelette du fromage", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        languageChoiceBuilder.setNegativeButton(R.string.cancel, null);
+        languageChoiceBuilder.create().show();
     }
 
     public void onBackButton(View view) {
