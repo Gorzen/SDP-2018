@@ -7,6 +7,7 @@ import android.util.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
 
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -20,18 +21,19 @@ public class DisplayQuestionActivityTest {
                     false);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Log.d("DisplayQuestionActivityTest", "Started test");
         Intents.init();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         Log.d("DisplayQuestionActivityTest", "Finished test");
         mActivityRule.finishActivity();
         Utils.killApp("DisplayQuestionActivityTest");
         Intents.release();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
+
 }

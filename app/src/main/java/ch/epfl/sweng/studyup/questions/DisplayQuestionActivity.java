@@ -6,10 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,12 +19,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,11 +39,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-
-import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 public class DisplayQuestionActivity extends NavigationStudent {
@@ -182,8 +183,10 @@ public class DisplayQuestionActivity extends NavigationStudent {
 
     private void displayImage(String questionID){
         StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+        final StorageReference questionText = FileStorage.getProblemImageRef(Uri.parse(questionID + ".txt"));
         try {
             final File tempImage = File.createTempFile(questionID, "png");
+            final File tempText = File.createTempFile(questionID, "txt");
             questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -192,6 +195,37 @@ public class DisplayQuestionActivity extends NavigationStudent {
                     Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
                     ImageView displayImageView = findViewById(R.id.question_display_view);
                     displayImageView.setImageBitmap(displayImage);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            String displayText = "";
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
+                                StringBuilder sb = new StringBuilder();
+                                String line = null;
+                                while ((line = reader.readLine()) != null) {
+                                    sb.append(line).append("\n");
+                                }
+                                reader.close();
+                                displayText = sb.toString();
+                            }catch (FileNotFoundException e) {
+                                Log.e(TAG, e.toString());
+                                quit();
+                            } catch (IOException e){
+                                Log.e(TAG, e.toString());
+                                quit();
+                            }
+                            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                            progressBar.setVisibility(View.GONE);
+                            TextView textQuestion = findViewById(R.id.question_text_display);
+                            textQuestion.setText(displayText);
+                            textQuestion.setVisibility(View.VISIBLE);
+                        }
+                    });
                 }
             });
         }catch(IOException e){

@@ -53,9 +53,9 @@
         <!--PHOTO SPACE-->
 
         <RelativeLayout
+            android:id="@+id/photo_space"
             android:layout_width="match_parent"
             android:layout_height="226dp"
-            android:id="@+id/photo_space"
             android:layout_above="@+id/answer_space"
             android:layout_below="@+id/topBar"
             android:layout_marginBottom="-68dp">
@@ -77,6 +77,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="52dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/display_question_activity_image_description"
                 android:gravity="top"
                 android:maxHeight="350dp"
                 android:src="@drawable/white_view"
@@ -94,6 +95,20 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="99dp"
                 android:indeterminate="true" />
+
+            <TextView
+                android:id="@+id/question_text_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/quest_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="77dp"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Does it work ?" />
 
 
         </RelativeLayout>
