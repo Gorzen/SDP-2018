@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.player.Player;
 
 public class ListItemAdapter extends BaseAdapter {
     private Context cnx;
@@ -34,7 +33,7 @@ public class ListItemAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return items[position].ordinal();
     }
 
     @Override
