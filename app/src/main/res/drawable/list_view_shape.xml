@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list_view_shape">
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke android:width="0dp"
         android:color="#636161" />
     <padding android:left="5dp"

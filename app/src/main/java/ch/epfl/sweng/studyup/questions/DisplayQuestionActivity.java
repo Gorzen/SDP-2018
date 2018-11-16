@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -35,11 +33,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-
-import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 public class DisplayQuestionActivity extends NavigationStudent {
@@ -60,10 +55,10 @@ public class DisplayQuestionActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
-        int answerNumber = 0;
-        boolean trueFalse = false;
-        String questionTitle = "";
-        String questionID = "";
+        int answerNumber;
+        boolean trueFalse;
+        String questionTitle;
+        String questionID;
 
         Intent intent = getIntent();
         if(!checkIntent(intent)) return;
@@ -93,7 +88,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         TextView questTitle = findViewById(R.id.quest_title);
         questTitle.setText(displayQuestion.getTitle());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
     }

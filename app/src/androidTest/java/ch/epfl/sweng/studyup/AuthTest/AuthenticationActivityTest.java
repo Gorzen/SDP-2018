@@ -56,12 +56,12 @@ public class AuthenticationActivityTest {
     }
 
     @Test
-    public void testBasicRunAuthentication() throws Exception {
+    public void testBasicRunAuthentication() {
         Intent i = new Intent();
         Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         i.setData(uriWithoutCode);
 
         rule.launchActivity(i);
-        assert (Player.get().getFirstName() == INITIAL_FIRSTNAME);
+        assert (Player.get().getFirstName().equals(INITIAL_FIRSTNAME));
     }
 }

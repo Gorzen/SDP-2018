@@ -11,9 +11,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-
 import java.io.File;
+
+import static ch.epfl.sweng.studyup.utils.Constants.PROFILE_PICTURES_DIRECTORY_NAME;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTION_IMAGES_DIRECTORY_NAME;
 
 public class FileStorage {
 
@@ -52,14 +53,13 @@ public class FileStorage {
 
     public static StorageReference getProblemImageRef(Uri fileURI) {
 
-        StorageReference fileRef = storageRef.child(QUESTION_IMAGES_DIRECTORY_NAME + "/" + fileURI.getLastPathSegment());
-        return fileRef;
+        return storageRef.child(QUESTION_IMAGES_DIRECTORY_NAME + "/" + fileURI.getLastPathSegment());
     }
 
     public static StorageReference getProfilePictureRef(String sciper) {
 
-        StorageReference fileRef = storageRef.child(PROFILE_PICTURES_DIRECTORY_NAME + "/" + sciper + ".png");
-        return fileRef;
+        return storageRef.child(PROFILE_PICTURES_DIRECTORY_NAME + "/" + sciper + ".png");
+
     }
 
     public static void downloadProfilePicture(String sciper, final ImageView image_view) {

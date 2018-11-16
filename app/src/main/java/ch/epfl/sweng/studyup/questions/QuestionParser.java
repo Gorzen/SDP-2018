@@ -5,9 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 
 public abstract class QuestionParser {
@@ -30,7 +28,6 @@ public abstract class QuestionParser {
      *
      * @param list    The list of questions
      * @param c       The context of the app (to the FilesDir)
-     * @return if the write has succeeded or not
      */
     public static void writeQuestions(final List<Question> list, final Context c) {
         AsyncTask.execute(new Runnable() {

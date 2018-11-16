@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,14 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.init;
-import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.release;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;

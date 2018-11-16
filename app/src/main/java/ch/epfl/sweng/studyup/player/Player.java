@@ -13,10 +13,23 @@ import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
+import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 

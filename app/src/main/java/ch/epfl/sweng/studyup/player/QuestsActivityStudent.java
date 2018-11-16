@@ -23,9 +23,9 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
 
 public class QuestsActivityStudent extends NavigationStudent {
 
@@ -35,7 +35,7 @@ public class QuestsActivityStudent extends NavigationStudent {
         setContentView(R.layout.activity_quests_student);
         navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, QUESTS_INDEX_STUDENT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 

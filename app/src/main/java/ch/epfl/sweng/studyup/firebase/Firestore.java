@@ -24,8 +24,27 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 /**
  * Firestore
@@ -43,7 +62,7 @@ public class Firestore {
                 .setPersistenceEnabled(true)
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
-        try { db.setFirestoreSettings(settings); } catch(Exception e) {}
+        try { db.setFirestoreSettings(settings); } catch(Exception e) { Log.d(TAG, "Could not setup FireStore settings."); }
     }
 
     public static Firestore get() {

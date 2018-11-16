@@ -11,7 +11,6 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_ID;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static junit.framework.TestCase.assertTrue;
 

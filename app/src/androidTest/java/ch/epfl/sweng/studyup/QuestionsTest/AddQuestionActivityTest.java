@@ -11,7 +11,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,7 +28,6 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;

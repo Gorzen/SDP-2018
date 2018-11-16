@@ -2,14 +2,10 @@ package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +20,6 @@ import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertArrayEquals;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;

@@ -23,7 +23,6 @@ public class Utils {
             Thread.sleep(time);
         } catch (InterruptedException e) {
             Log.w(tag, "Test was interrupted: " + e.getMessage());
-            return;
         }
     }
 

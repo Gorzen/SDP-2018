@@ -3,12 +3,9 @@ package ch.epfl.sweng.studyup.questions;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Objects;
-
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 @Entity
 public class Question {

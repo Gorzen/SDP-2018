@@ -30,9 +30,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
-import okhttp3.internal.Util;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -40,14 +38,11 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.IsAnything.anything;
 
 @RunWith(AndroidJUnit4.class)
 public class QuestsActivityTeacherTest {
@@ -84,13 +79,14 @@ public class QuestsActivityTeacherTest {
 
 
     //Test must be changed when changing the function called when clicking on a question
+    @Test
     public void listViewRedirectOnCorrectQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
         rule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 for (int i = 1; i < list.getAdapter().getCount(); ++i) {
-                    if (list.getAdapter().getItem(i - 1).toString() == questionUUID)
+                    if (list.getAdapter().getItem(i - 1).toString().equals(questionUUID))
                         list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
                 }
             }
@@ -100,7 +96,7 @@ public class QuestsActivityTeacherTest {
         int intentLaunchedAnswer = Integer.parseInt(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_ANSWER));
         boolean intentLaunchedTrueOrFalse = Boolean.parseBoolean(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TRUEFALSE));
 
-        assert (q.getTitle() == intentLaunchedTitle);
+        assert (q.getTitle().equals(intentLaunchedTitle));
         assert (q.getAnswer() == intentLaunchedAnswer);
         assert (q.isTrueFalse() == intentLaunchedTrueOrFalse);
     }

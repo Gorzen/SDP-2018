@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 public class Rooms {
     private final static double RADIUS_ROOM = 30.0;
@@ -55,13 +56,13 @@ public class Rooms {
 
         int meterConversion = 1609;
 
-        return new Double(distance * meterConversion).doubleValue();
+        return distance * meterConversion;
     }
 
     public static boolean checkIfUserIsInRoom(String room) {
-        if(POSITION == null || !ROOMS_LOCATIONS.containsKey(room)){
-            return false;
-        }
-        return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM;
+        double distanceToRoomCenter = distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION);
+        return POSITION != null
+                && ROOMS_LOCATIONS.containsKey(room)
+                && distanceToRoomCenter <= RADIUS_ROOM;
     }
 }

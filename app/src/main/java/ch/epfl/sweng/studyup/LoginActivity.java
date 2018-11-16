@@ -1,9 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,15 +16,21 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
+import java.io.IOException;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_AUTO_LOGIN;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         loadInterface();
     }
 
-    private void attemptLoginFromCache() throws Exception {
+    private void attemptLoginFromCache() {
 
         FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 

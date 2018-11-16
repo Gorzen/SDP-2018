@@ -1,14 +1,12 @@
 package ch.epfl.sweng.studyup.questions;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,21 +22,22 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
-import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.ADD_QUESTION_INDEX;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 public class AddQuestionActivity extends NavigationTeacher {
 

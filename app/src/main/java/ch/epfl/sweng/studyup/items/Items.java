@@ -2,8 +2,10 @@ package ch.epfl.sweng.studyup.items;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 public enum Items {
     XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION),

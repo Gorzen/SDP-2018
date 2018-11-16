@@ -1,13 +1,16 @@
 package ch.epfl.sweng.studyup.utils.navigation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-public class NavigationTeacher extends Navigation {
+import static ch.epfl.sweng.studyup.utils.Constants.ADD_QUESTION_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
+
+public abstract class NavigationTeacher extends Navigation {
     private final ArrayList<Integer> buttonIdsTeacher = new ArrayList<>(Arrays.asList(
             R.id.navigation_add_question,
             R.id.navigation_quests_teacher));

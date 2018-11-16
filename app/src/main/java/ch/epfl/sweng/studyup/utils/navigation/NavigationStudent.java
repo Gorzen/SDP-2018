@@ -1,27 +1,29 @@
 package ch.epfl.sweng.studyup.utils.navigation;
+
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.SettingsActivity;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.social.RankingsActivity;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-public class NavigationStudent extends Navigation {
+import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.Constants.RANKINGS_INDEX;
+
+public abstract class NavigationStudent extends Navigation {
     public final ArrayList<Integer> buttonIdsStudent = new ArrayList<>(Arrays.asList(
             R.id.navigation_home,
             R.id.navigation_quests_student,

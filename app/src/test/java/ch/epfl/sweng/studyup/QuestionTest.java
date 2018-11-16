@@ -8,7 +8,6 @@ import org.robolectric.RobolectricTestRunner;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -56,7 +55,7 @@ public class QuestionTest {
     @Test
     public void falseEqualsTest() {
         Question q = new Question("1", "test", true, 0, testCourseName);
-        assertFalse(q.equals(null));
+        assertFalse(q == null);
     }
 
     @Test

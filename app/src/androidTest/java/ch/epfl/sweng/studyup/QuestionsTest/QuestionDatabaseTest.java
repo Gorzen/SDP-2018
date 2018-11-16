@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -11,14 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDAO;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
-import ch.epfl.sweng.studyup.utils.Constants;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
