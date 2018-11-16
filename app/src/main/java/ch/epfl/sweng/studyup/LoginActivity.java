@@ -105,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Player currPlayer = Player.get();
-        currPlayer.initializePlayerData(sciperNum, firstName, lastName);
+        currPlayer.setSciperNum(sciperNum);
+        currPlayer.setFirstName(firstName);
+        currPlayer.setLastName(lastName);
         currPlayer.setRole(role);
     }
 

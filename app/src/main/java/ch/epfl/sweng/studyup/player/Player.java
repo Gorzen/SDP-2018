@@ -32,11 +32,11 @@ public class Player {
     private static Player instance = null;
 
     // Basic biographical data
-    private String sciperNum = null;
-    private String firstName = null;
-    private String lastName = null;
+    private String sciperNum;
+    private String firstName;
+    private String lastName;
 
-    private String username = null;
+    private String username;
     private Role role = null;
 
     // Game-related data
@@ -73,24 +73,15 @@ public class Player {
      * User for testing purposes.
      * Clear data from current Player instance.
      */
-    public static void resetPlayer() {
-        instance = new Player();
-    }
-
-    /**
-     * Initialize the instance of Player for the FIRST TIME.
-     * This is used when a user logs is logged in from AuthenticationActivity OR
-     * the user is logged in automatically from LoginActivity.
-     */
-    public void initializePlayerData(String sciperNum, String firstName, String lastName) {
-
-        this.sciperNum = sciperNum;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public void initializeDefaultPlayerData() {
-        initializePlayerData(INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+    public void resetPlayer() {
+        experience = INITIAL_XP;
+        currency = INITIAL_CURRENCY;
+        level = INITIAL_LEVEL;
+        username = INITIAL_USERNAME;
+        answeredQuestions = new HashMap<>();
+        items = new ArrayList<>();
+        courses = new ArrayList<>();
+        courses.add(Course.SWENG);
     }
 
     /**
@@ -138,13 +129,6 @@ public class Player {
 
     public List<Course> getCourses() {
         return courses;
-    }
-
-    /**
-     * Changes the Player to the basic state, right after constructor.
-     */
-    public void reset() {
-        instance = null;
     }
 
     // Setters

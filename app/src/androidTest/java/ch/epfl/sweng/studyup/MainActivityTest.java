@@ -54,12 +54,6 @@ public class MainActivityTest {
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
 
-
-    @BeforeClass
-    public static void runOnceBeforeClass() {
-        Player.get().initializeDefaultPlayerData();
-    }
-
     @Before
     public void  initIntent() {
         Intents.init();
@@ -93,7 +87,7 @@ public class MainActivityTest {
 
     @Test
     public void checkPlayerProgressionDisplay() {
-        Player.resetPlayer();
+        Player.get().resetPlayer();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {

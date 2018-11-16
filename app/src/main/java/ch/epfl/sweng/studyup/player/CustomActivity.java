@@ -55,10 +55,6 @@ public class CustomActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
 
-        if (MOCK_ENABLED) {
-            Player.get().initializeDefaultPlayerData();
-        }
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
