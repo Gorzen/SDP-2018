@@ -49,7 +49,6 @@ public enum Items {
                 Player.get().addCurrency(CURRENCY_PER_LEVEL, MOST_RECENT_ACTIVITY);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown item");
         }
     }
 

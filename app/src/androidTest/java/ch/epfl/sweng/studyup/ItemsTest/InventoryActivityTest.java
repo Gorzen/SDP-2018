@@ -40,7 +40,7 @@ public class InventoryActivityTest {
 
     @After
     public void cleanup() {
-        Player.resetPlayer();
+        Player.get().resetPlayer();
     }
 
     @Test
@@ -58,7 +58,8 @@ public class InventoryActivityTest {
     }
 
     @Test
-    public void getItemsNameReturnsEmptyList() throws Exception {
+    public void getItemsNameReturnsEmptyList() {
+        Player player = Player.get();
         Player.get().consumeItem(Items.XP_POTION);
         ArrayList<String> itemsName = Items.getPlayersItemsNames();
         assertEquals(0, itemsName.size());

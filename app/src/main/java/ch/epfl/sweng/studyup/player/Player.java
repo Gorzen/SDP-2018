@@ -204,13 +204,10 @@ public class Player {
         }
     }
 
-    public void consumeItem(Items item) throws Exception {
-        if (items.remove(item)) {
-            item.consume();
-            Firestore.get().updateRemotePlayerDataFromLocal();
-        } else {
-            throw new Exception("The player does not have this item, could not find it.");
-        }
+    public void consumeItem(Items item)  {
+        items.remove(item);
+        item.consume();
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     public void addCourse(Course newCourse) {
