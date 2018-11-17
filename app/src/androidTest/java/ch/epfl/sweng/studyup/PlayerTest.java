@@ -50,8 +50,4 @@ public class PlayerTest {
         assertEquals(currency + CURRENCY_PER_LEVEL, Player.get().getCurrency());
     }
 
-    @Test(expected = Exception.class)
-    public void consumeNonExistentItemTest() throws Exception {
-        Player.get().consumeItem(Items.XP_POTION);
-    }
 }

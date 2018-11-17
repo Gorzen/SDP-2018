@@ -70,7 +70,7 @@ public class ShopActivityAndBuyItemActivityTest {
         });
         onView(withId(R.id.plus_button)).perform(click());
         onView(withId(R.id.buy_button)).perform(click());
-        onView(withId(R.id.back_button)).perform(click());
+        onView(withId(R.id.back_button_display_item)).perform(click());
         assertEquals(0, Player.get().getItems().size());
         BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar); //Check if back in shopActivity since bottom bar isn't displayed in buyItemActivity
         b.setSelectedItemId(R.id.navigation_inventory);
