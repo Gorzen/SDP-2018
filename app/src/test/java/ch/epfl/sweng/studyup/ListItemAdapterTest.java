@@ -29,9 +29,10 @@ public class ListItemAdapterTest {
         assertEquals(items.size(), listItemAdapter.getCount());
     }
 
+    //Beware the list is sorted in ListItemAdapter's constructor
     @Test
     public void getItemReturnsCorrectObject() {
-        assertEquals(Items.COIN_SACK, listItemAdapter.getItem(1));
+        assertEquals(Items.COIN_SACK, listItemAdapter.getItem(0));
     }
 
     @Test
