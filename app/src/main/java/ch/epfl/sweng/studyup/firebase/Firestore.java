@@ -169,41 +169,46 @@ public class Firestore {
         db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        String questionId = document.getId();
-                        Map<String, Object> questionData = document.getData();
+                    String questionId = document.getId();
+                    Map<String, Object> questionData = document.getData();
 
-                        String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
-                        boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
+                    String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
+                    boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
 
-                        // TODO: check course
-                        //Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
-                        boolean questionInCurrPlayerCourse = true; //currPlayer.getCourses().contains(questionCourse);
-
-                        boolean isValidQuestion = questionInCurrPlayerCourse &&
-                                ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
-                                 (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
-
-                        if(isValidQuestion || questionId.equals(MOCK_UUID)) {
-
-                            String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
-                            Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                            int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                            String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
-
-
-                            Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
-                            questionList.add(question);
-                        }
+                    // Questions without associated courses (created before this feature), will appear for all players
+                    boolean questionCourseMatchesPlayer = true;
+                    if (questionData.get(FB_COURSE) != null) {
+                        // If question is associated with a course, only load question if the user enrolled in that course.
+                        String questionCourseName = questionData.get(FB_COURSE).toString();
+                        questionCourseMatchesPlayer =
+                                Player.get().getCourses().contains(Course.valueOf(questionCourseName));
                     }
 
-                    QuestionParser.writeQuestions(questionList, context);
-                    Log.d(TAG, "Question List: " + questionList.toString());
-                } else {
-                    Log.e(TAG, "Error getting documents: ", task.getException());
+                    boolean isValidQuestion = questionCourseMatchesPlayer &&
+                            ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
+                             (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
+
+                    if(isValidQuestion || questionId.equals(MOCK_UUID)) {
+
+                        String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
+                        Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+                        int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+                        String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+
+
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+                        questionList.add(question);
+                    }
                 }
+
+                QuestionParser.writeQuestions(questionList, context);
+                Log.d(TAG, "Question List: " + questionList.toString());
+            } else {
+                Log.e(TAG, "Error getting documents: ", task.getException());
+            }
             }
         });
     }

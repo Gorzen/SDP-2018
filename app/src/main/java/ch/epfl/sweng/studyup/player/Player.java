@@ -20,6 +20,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 /**
  * Player
