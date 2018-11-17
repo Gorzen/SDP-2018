@@ -42,12 +42,12 @@ public class BuyItemActivity extends RefreshContext {
     }
 
 
-    public void onPlusButton() {
+    public void onPlusButton(View view) {
         counter += 1;
         updateTextViewCounter();
     }
 
-    public void onMinusButton() {
+    public void onMinusButton(View view) {
         if (counter > 1) {
             counter -= 1;
             updateTextViewCounter();
