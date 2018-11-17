@@ -78,23 +78,6 @@ public class QuestsActivityTeacherTest {
         Utils.waitAndTag(100, TAG);
     }
 
-    @After
-    public void deleteQuestions() {
-        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
-        assertNotNull(parsedList);
-        parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
-            @Override
-            public void onChanged(@Nullable List<Question> questions) {
-                if (!questions.isEmpty()) {
-                    for(Question q : questions) {
-                        Firestore.get().deleteQuestion(q.getQuestionId());
-                    }
-                }
-            }
-        });
-    }
-
-
     //Test must be changed when changing the function called when clicking on a question
     public void listViewRedirectOnCorrectQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
@@ -124,6 +107,17 @@ public class QuestsActivityTeacherTest {
 
     @Test
     public void canCancelDeletionOfQuest() {
+        Utils.waitAndTag(150, TAG);
+
+        /*
+            Other workaround, just in case
+
+        onView(allOf(
+        withId(R.id.delete_question),
+        nthChildsDescendant(withId(R.id.listViewQuests), 0)))
+        .perform(click());*/
+
+
         onData(anything()).inAdapterView(withId(R.id.listViewQuests))
                 .atPosition(0)
                 .onChildView(withId(R.id.delete_question))
@@ -158,25 +152,25 @@ public class QuestsActivityTeacherTest {
     private void deleteAllQuestsByUsingButton() {
         try {
             while(true) {
-            /*
-                Other workaround, just in case
-
+                Utils.waitAndTag(150, TAG);
                 onView(allOf(
                     withId(R.id.delete_question),
-                    nthChildsDescendant(withId(R.id.listViewQuests), 1)))
-                    .perform(click());*/
+                    nthChildsDescendant(withId(R.id.listViewQuests), 0)))
+                    .perform(click());
 
+                /*
+                Other workaround, just in case
                 onData(anything()).inAdapterView(withId(R.id.listViewQuests))
                         .atPosition(0)
                         .onChildView(withId(R.id.delete_question))
-                        .perform(click());
+                        .perform(click());*/
                 Utils.waitAndTag(50, TAG);
                 onView(withText(R.string.yes_upper)).inRoot(isDialog())
                         .check(matches(isDisplayed()))
                         .perform(click());
                 Utils.waitAndTag(600, TAG);
             }
-        } catch (PerformException e) {
+        } catch (Exception e) {
             return;
         }
     }
