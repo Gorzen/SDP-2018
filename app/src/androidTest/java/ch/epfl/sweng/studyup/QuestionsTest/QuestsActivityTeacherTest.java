@@ -36,7 +36,6 @@ public class QuestsActivityTeacherTest {
     @BeforeClass
     public static void enableMock() {
         MOCK_ENABLED = true;
-        Player.get().initializeDefaultPlayerData();
         Player.get().setRole(Role.student);
     }
     @AfterClass

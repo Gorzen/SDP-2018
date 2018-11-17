@@ -15,7 +15,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 import java.io.File;
 
-public class FileStorage {
+public abstract class FileStorage {
 
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
