@@ -1,11 +1,8 @@
 package ch.epfl.sweng.studyup;
 
-import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,12 +20,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.CURR_DISPLAY;
 import static ch.epfl.sweng.studyup.utils.Constants.LEVEL_DISPLAY;
-import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
-import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
+import static junit.framework.TestCase.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class AAMainActivityTest {
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
@@ -38,21 +34,23 @@ public class MainActivityTest {
     /**
      * Hardcode of the implementation of player's function: getExperience
      */
-    public void simpleUseOfAddXpButton() {
-        int currExp = Player.get().getExperience();
-        final int numberOfPush = 5;
-        for (int i = 0; i < numberOfPush; ++i) {
-            mActivityRule.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Player.get().addExperience(Constants.XP_STEP, mActivityRule.getActivity());
-                }
-            });
-            assert Player.get().getExperience() == ((currExp + (i + 1) * XP_STEP) % XP_TO_LEVEL_UP) / XP_TO_LEVEL_UP :
-                    "xpButton doesn't update player's xp as expected.";
-        }
-        Utils.waitAndTag(100, "Main Activity Test");
+    public void currencyDisplayTest() {
+        int currency = Player.get().getCurrency();
+        final int currencyToAdd = 10;
+
         onView(withId(R.id.currText)).check(matches(withText(CURR_DISPLAY + Player.get().getCurrency())));
+
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Player.get().addCurrency(currencyToAdd, mActivityRule.getActivity());
+            }
+        });
+
+        Utils.waitAndTag(100, "MainActivityTestCurrencyDisplayTest");
+
+        onView(withId(R.id.currText)).check(matches(withText(CURR_DISPLAY + Player.get().getCurrency())));
+        assertEquals(currency + currencyToAdd, Player.get().getCurrency());
     }
 
     @Test
