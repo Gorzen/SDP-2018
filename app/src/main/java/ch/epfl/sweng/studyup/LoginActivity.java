@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
+import com.testfairy.TestFairy;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
         loadInterface();
     }
 
@@ -105,7 +106,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Player currPlayer = Player.get();
-        currPlayer.initializePlayerData(sciperNum, firstName, lastName);
+        currPlayer.setSciperNum(sciperNum);
+        currPlayer.setFirstName(firstName);
+        currPlayer.setLastName(lastName);
         currPlayer.setRole(role);
     }
 
