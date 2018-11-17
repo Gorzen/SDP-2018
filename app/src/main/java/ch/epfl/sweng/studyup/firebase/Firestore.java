@@ -24,6 +24,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 
+import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
@@ -78,8 +79,6 @@ public class Firestore {
                         if (document.exists()) {
 
                             Map<String, Object> remotePlayerData = document.getData();
-
-                            Log.d(TAG, "Calling update local...");
                             /*
                             Player is a return user. They have stored remote data.
                             Update local data with remote data.
@@ -110,6 +109,7 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
+        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses()));
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
