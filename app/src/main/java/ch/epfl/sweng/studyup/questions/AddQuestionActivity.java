@@ -193,7 +193,7 @@ public class AddQuestionActivity extends NavigationTeacher {
         }
     }
 
-    private void addRadioListener() {
+    private void addRadioListener(boolean isTrueFalse, int answer) {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
