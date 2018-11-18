@@ -81,7 +81,7 @@ public class ShopActivityAndBuyItemActivityTest {
     @After
     public void resetPlayer() {
         Intents.release();
-        Player.resetPlayer();
+        Player.get().resetPlayer();
     }
 
 }
