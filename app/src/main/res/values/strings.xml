@@ -68,5 +68,20 @@
     <string name="language_choice_settings_button">Choose your language</string>
     <string name="language_title_alert_dialog">Languages</string>
     <string name="cancel">Cancel</string>
+    <string name="location_required">This app requires location</string>
+    <string name="question_added">Question added !</string>
+    <string name="text_truefalse">(True/False)</string>
+    <string name="text_mcq">(MCQ)</string>
+    <string name="text_answernumber">and answer number</string>
+    <string name="text_newposition">NEW POS:</string>
+    <string name="text_inyourroom">You are in your room:</string>
+    <string name="text_notinyourroom">You are not in your room:</string>
+    <string name="text_imagesaved">Image Saved!</string>
+    <string name="text_failed">Failed!</string>
+    <string name="text_photospermissions">Can\'t take photos without permission.</string>
+    <string name="text_addimage">Add an image</string>
+    <string name="items_quantity">x</string>
+    <string name="text_money">MONEY:</string>
+    <string name="text_level">LEVEL</string>
 
 </resources>

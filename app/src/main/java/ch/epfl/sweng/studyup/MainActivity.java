@@ -167,7 +167,7 @@ public class MainActivity extends NavigationStudent {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i("GPS_MAP", "Permission granted");
                 } else {
-                    Toast.makeText(getApplicationContext(), "This app requires location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.location_required), Toast.LENGTH_SHORT).show();
                 }
 
                 break;

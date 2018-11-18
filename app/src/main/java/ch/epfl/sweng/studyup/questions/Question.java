@@ -8,7 +8,10 @@ import android.support.annotation.NonNull;
 
 import com.google.common.base.Objects;
 
+import ch.epfl.sweng.studyup.R;
+
 import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static javax.swing.UIManager.getString;
 
 @Entity
 public class Question {
@@ -105,12 +108,12 @@ public class Question {
         String s = "";
         s += title;
         if (trueFalse) {
-            s += " (True/False) ";
+            s += getString(R.string.text_truefalse);
         }
         else {
-            s += " (MCQ)";
+            s += getString(R.string.text_mcq);
         }
-        s += " and answer number " + answer;
+        s += getString(R.string.text_answernumber) + answer;
         return s;
     }
 

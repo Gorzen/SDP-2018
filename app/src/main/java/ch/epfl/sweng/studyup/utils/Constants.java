@@ -1,8 +1,13 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.content.res.Resources;
+
 import com.google.common.collect.Sets;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.R;
+
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
 
     // Values associated with Firebase
@@ -81,8 +86,8 @@ public abstract class Constants {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
 
-    public static final String LEVEL_DISPLAY = "LEVEL ";
-    public static final String CURR_DISPLAY = "MONEY:\n";
+    public static final String LEVEL_DISPLAY = Resources.getSystem().getString(R.string.text_level);
+    public static final String CURR_DISPLAY = Resources.getSystem().getString(R.string.text_money) + "\n";
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;

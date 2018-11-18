@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class GlobalAccessVariables {
 
     public static final String MOCK_UUID = "fake-UUID";

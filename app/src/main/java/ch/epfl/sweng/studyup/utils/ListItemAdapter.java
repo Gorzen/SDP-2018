@@ -65,7 +65,7 @@ public class ListItemAdapter extends BaseAdapter {
         } else {
             TextView inventoryItemQuantity = convertView.findViewById(R.id.inventory_item_quantity);
             String quantity = Integer.toString(Items.countItem(item));
-            inventoryItemQuantity.setText(quantity + "x");
+            inventoryItemQuantity.setText(quantity + cnx.getString(R.string.items_quantity));
         }
         return convertView;
     }

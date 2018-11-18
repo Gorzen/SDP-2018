@@ -31,6 +31,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class SettingsActivityTest {
 
     private SettingsActivity activity;

@@ -1,0 +1,6 @@
+<root>
+    <item
+        name='android.content.ContentResolver android.os.ParcelFileDescriptor openFileDescriptor(android.net.Uri, java.lang.String) 1'>
+        <annotation name='org.jetbrains.annotations.NonNls' />
+    </item>
+</root>

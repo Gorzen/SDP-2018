@@ -22,6 +22,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.CURR_DISPLAY;
 import static ch.epfl.sweng.studyup.utils.Constants.LEVEL_DISPLAY;
 import static junit.framework.TestCase.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class AAMainActivityTest {

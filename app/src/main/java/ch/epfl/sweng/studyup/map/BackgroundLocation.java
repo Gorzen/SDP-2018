@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
@@ -57,12 +59,12 @@ public class BackgroundLocation extends JobService {
                 if (location != null) {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
-                    String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
+                    String str = Resources.getSystem().getString(R.string.text_newposition) + POSITION.latitude + ", " + POSITION.longitude;
                     if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
-                        str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
+                        str += '\n' + Resources.getSystem().getString(R.string.text_inyourroom) + Player.get().getCurrentRoom();
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
-                        str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
+                        str += '\n' + Resources.getSystem().getString(R.string.text_notinyourroom) + Player.get().getCurrentRoom();
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);

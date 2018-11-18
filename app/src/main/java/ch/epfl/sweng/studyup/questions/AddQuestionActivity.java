@@ -42,6 +42,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 public class AddQuestionActivity extends NavigationTeacher {
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "AddQuestionActivity";
 
     private static final int READ_REQUEST_CODE = 42;
@@ -181,7 +182,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             // Add question to FireStore
             Firestore.get().addQuestion(newQuestion);
 
-            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getApplicationContext(), getString(R.string.question_added), Toast.LENGTH_SHORT).show();
         }
     }
 

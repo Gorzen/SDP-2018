@@ -16,6 +16,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Log.class})
 public class UtilsTest {
