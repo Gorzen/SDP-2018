@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">StudyUp</string>
+    <string name="app_name" translatable="false">StudyUp</string>
     <string name="character_homepage">Your Character</string>
 
-    <string name="title_activity_auth_redirect">AuthRedirectActivity</string>
+    <string name="title_activity_auth_redirect" translatable="false">AuthRedirectActivity</string>
 
     <string name="title_quests">Quests</string>
     <string name="title_shop">Shop</string>
@@ -43,14 +43,14 @@
     <string name="money">MONEY</string>
     <string name="add_xp">ADD XP</string>
     <string name="continueTo">Continue</string>
-    <string name="post_login_message_key">login_message</string>
+    <string name="post_login_message_key" translatable="false">login_message</string>
     <string name="post_login_message_value">Login Successful</string>
     <string name="login_failed_value">Login Failed</string>
     <string name="text_when_no_role_selected">You must select your role!</string>
     <string name="initial_greeting_1">Welcome, Jean-Louis.</string>
     <string name="initial_greeting_2">Your Sciper number is 123456.</string>
-    <string name="problem_images_directory_name">problem_images</string>
-    <string name="FB_user_pictures_directory_name">user_pictures</string>
+    <string name="problem_images_directory_name" translatable="false">problem_images</string>
+    <string name="FB_user_pictures_directory_name" translatable="false">user_pictures</string>
     <string name="log_out">Log out</string>
     <string name="quest_title">Title Quest</string>
     <string name="quest_course">Course Quest</string>
@@ -69,7 +69,7 @@
     <string name="language_title_alert_dialog">Languages</string>
     <string name="cancel">Cancel</string>
     <string name="location_required">This app requires location</string>
-    <string name="question_added">Question added !</string>
+    <string name="question_added">Question added!</string>
     <string name="text_truefalse">(True/False)</string>
     <string name="text_mcq">(MCQ)</string>
     <string name="text_answernumber">and answer number</string>
@@ -88,18 +88,19 @@
     <string name="text_itemalreadyhave">You already have this item</string>
     <string name="text_itemtimes">times</string>
     <string name="text_totalprice">Total price:</string>
-    <string name="text_notenoughmoney">You don\'t have enough money !</string>
+    <string name="text_notenoughmoney">You don\'t have enough money!</string>
     <string name="title_questiondb">Question Database</string>
     <string name="text_unabletouploadimage">Unable to upload image</string>
     <string name="text_imageuploadsuccess">Successfully uploaded image</string>
     <string name="title_playerposition">Player position</string>
     <string name="text_questiondlerror">An error occured when downloading the question</string>
     <string name="text_questiondisplayerror">Error while displaying the question</string>
-    <string name="text_makechoice">Make your choice !</string>
-    <string name="text_cantanswertwice">You can\'t answer a question twice !</string>
-    <string name="text_wronganswer">Wrong answer... Maybe next time ?</string>
-    <string name="text_correctanswer">Correct answer ! Congrats</string>
-    <string name="text_langen">Damn you\'re english !</string>
-    <string name="text_langfr">Omelette du fromage</string>
+    <string name="text_makechoice">Make your choice!</string>
+    <string name="text_cantanswertwice">You can\'t answer a question twice!</string>
+    <string name="text_wronganswer">Wrong answer... Maybe next time?</string>
+    <string name="text_correctanswer">Correct answer! Congrats!</string>
+    <string name="text_langen" translatable="false">Damn you\'re english !</string>
+    <string name="text_langfr" translatable="false">Omelette du fromage</string>
+    <string name="title_quests">Quests</string>
 
 </resources>
