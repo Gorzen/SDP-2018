@@ -133,8 +133,6 @@ public class AddQuestionActivityTest {
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(ViewActions.click());
-        onView(withId(R.id.associatedCourseSpinner)).perform(scrollTo()).perform(ViewActions.click());
-        onData(allOf(is(instanceOf(String.class)), is(Course.SWENG.name()))).perform(scrollTo()).perform(ViewActions.click());
 
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
