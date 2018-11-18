@@ -26,7 +26,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class DisplayQuestionActivityTest2 {
+public class ADisplayQuestionActivityTest2 {
     private String questionUUID = "Fake UUID test Display";
     private ListView list;
 
