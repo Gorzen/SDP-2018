@@ -17,11 +17,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.LoginActivity;
@@ -50,6 +57,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     private imagePathGetter getPath;
     private Button logout_button;
     private int answer = 1;
+    private boolean isNewQuestion = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +67,9 @@ public class AddQuestionActivity extends NavigationTeacher {
         Intent intent = getIntent();
         Question question = (Question)intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
-        if(question != null){
+        if(question != null) {
             answer = question.getAnswer();
+            isNewQuestion = true;
             trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
             int isTrueInt = question.isTrueFalse() == true ? R.id.true_false_radio : -1;
             trueFalseRadioGroup.check(isTrueInt);
@@ -75,7 +84,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
         addRadioListener();
 
-        if(MOCK_ENABLED) {
+        if (MOCK_ENABLED) {
             getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
         } else {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
@@ -174,8 +183,7 @@ public class AddQuestionActivity extends NavigationTeacher {
                     if (questionData.isEmpty()) return;
                     writer.write(questionData);
                     writer.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     Log.e("Exception", "File write failed: " + e.toString());
                 }
             }
@@ -196,8 +204,8 @@ public class AddQuestionActivity extends NavigationTeacher {
         }
     }
 
-    private String getUUID(){
-        if(MOCK_ENABLED) {
+    private String getUUID() {
+        if (MOCK_ENABLED) {
             return MOCK_UUID;
         } else {
             return UUID.randomUUID().toString();
@@ -220,9 +228,11 @@ public class AddQuestionActivity extends NavigationTeacher {
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText(R.string.truth_value);
             secondRadioButton.setText(R.string.false_value);
-            switch(answer) {
-                case 1 : firstRadioButton.setChecked(true);
-                case 2 : secondRadioButton.setChecked(true);
+            if(isNewQuestion) {
+                switch(answer) {
+                    case 1 : firstRadioButton.setChecked(true);
+                    case 2 : secondRadioButton.setChecked(true);
+                }
             }
 
         } else {
@@ -231,11 +241,13 @@ public class AddQuestionActivity extends NavigationTeacher {
             thirdRadioButton.setChecked(false);
             fourthRadioButton.setVisibility(View.VISIBLE);
             fourthRadioButton.setChecked(false);
-            switch(answer) {
-                case 1 : firstRadioButton.setChecked(true);
-                case 2 : secondRadioButton.setChecked(true);
-                case 3 : thirdRadioButton.setChecked(true);
-                case 4 : fourthRadioButton.setChecked(true);
+            if (isNewQuestion) {
+                switch(answer) {
+                    case 1 : firstRadioButton.setChecked(true);
+                    case 2 : secondRadioButton.setChecked(true);
+                    case 3 : thirdRadioButton.setChecked(true);
+                    case 4 : fourthRadioButton.setChecked(true);
+                }
             }
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText("1");
@@ -290,7 +302,63 @@ public class AddQuestionActivity extends NavigationTeacher {
         return image;
     }
 
-    private void setupEditQuestion(Question question){
+    private void setupEditQuestion(Question question) {
+        setupTextAndImage(question);
+    }
 
+    private void setupTextAndImage(Question question) {
+        String questionID = question.getQuestionId();
+
+        StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+        final StorageReference questionText = FileStorage.getProblemImageRef(Uri.parse(questionID + ".txt"));
+        try {
+            final File tempImage = File.createTempFile(questionID, "png");
+            final File tempText = File.createTempFile(questionID, "txt");
+            setupImage(questionImage, tempImage);
+            setupText(questionText, tempText);
+        } catch (IOException e) {
+            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    private void setupImage(StorageReference questionImage, final File tempImage){
+        questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
+                ImageView displayImageView = findViewById(R.id.addQuestion_display_image);
+                displayImageView.setImageBitmap(displayImage);
+            }
+        });
+    }
+
+    private void setupText(StorageReference questionText, final File tempText){
+        questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                String displayText = "";
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line).append("\n");
+                    }
+
+                    reader.close();
+
+                    if (sb.length() > 0) {
+                        displayText = sb.toString().substring(0, sb.length() - 1);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                    finish();
+                }
+                EditText questionEditText = findViewById(R.id.questionText);
+                questionEditText.setText(displayText);
+                questionEditText.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }
