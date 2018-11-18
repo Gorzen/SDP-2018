@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.teacher;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,12 +14,12 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 
 public class QuestsActivityTeacher extends NavigationTeacher {
 
@@ -60,7 +61,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), quests.get(position)));
+                startActivity(new Intent(parent.getContext(), AddQuestionActivity.class).putExtra(AddQuestionActivity.class.getSimpleName(), quests.get(position)));
             }
         });
     }
