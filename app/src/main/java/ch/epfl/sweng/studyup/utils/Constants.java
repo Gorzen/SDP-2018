@@ -3,7 +3,7 @@ package ch.epfl.sweng.studyup.utils;
 import com.google.common.collect.Sets;
 import java.util.Set;
 
-public class Constants {
+public abstract class Constants {
 
     // Values associated with Firebase
     public static final String FB_USERS = "users";

@@ -25,7 +25,7 @@ public class PlayerTest {
 
     @Before
     public void setup() {
-        Player.resetPlayer();
+        Player.get().resetPlayer();
     }
 
     @Test
