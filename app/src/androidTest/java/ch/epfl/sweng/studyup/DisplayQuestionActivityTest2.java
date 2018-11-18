@@ -46,23 +46,26 @@ public class DisplayQuestionActivityTest2 {
 
     @Before
     public void addQuestion(){
-        Question q = new Question(questionUUID, "Teacher quests test", false, 0, Constants.Course.SWENG.name());
-        Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, "Test");
-
-        Player.get().setSciperNum("1000001");
-        Firestore.get().loadQuestions(null);
-
         mActivityRule.launchActivity(new Intent());
     }
 
     @After
     public void deleteQuestion(){
         Firestore.get().deleteQuestion(questionUUID);
+        Utils.waitAndTag(3000, "Test");
     }
 
     @Test
     public void displayQuestionTest(){
+        Question q = new Question(questionUUID, "Teacher quests test", false, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, "Test");
+
+        Player.get().setRole(Constants.Role.teacher);
+        Utils.waitAndTag(3000, "Test");
+        Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
+        Utils.waitAndTag(3000, "Test");
+
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -71,12 +74,12 @@ public class DisplayQuestionActivityTest2 {
             }
         });
 
-        onView(withId(R.id.radio_answer1)).perform(click());
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.radio_answer3)).perform(click());
-        onView(withId(R.id.radio_answer4)).perform(click());
+        onView(withId(R.id.answer1)).perform(click());
+        onView(withId(R.id.answer2)).perform(click());
+        onView(withId(R.id.answer3)).perform(click());
+        onView(withId(R.id.answer4)).perform(click());
 
-        onView(withId(R.id.radio_answer1)).perform(click());
+        onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
     }
 }
