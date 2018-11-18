@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
 import android.location.Location;
+import android.view.animation.AccelerateInterpolator;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,5 +21,7 @@ public abstract class GlobalAccessVariables {
     public static Location MOC_LOC = null;
 
     public static Map<String, Object> DB_STATIC_INFO = null;
+
+    public static Class HOME_ACTIVITY = null;
 
 }

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.player.Player;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 
 public class CourseSelectionActivity extends AppCompatActivity {
 
@@ -50,13 +53,18 @@ public class CourseSelectionActivity extends AppCompatActivity {
         saveButton.setText(R.string.save_value);
         saveButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View view) {
-                updatePlayerCourses(courseSelections);
+                try {
+                    updatePlayerCourses(courseSelections);
+                }
+                catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Failed to update courses!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         formContainer.addView(saveButton);
     }
 
-    protected void updatePlayerCourses(List<CheckBox> courseSelections) {
+    protected void updatePlayerCourses(List<CheckBox> courseSelections) throws ClassNotFoundException {
 
         List<Course> updateCourseList = new ArrayList<>();
 
@@ -67,5 +75,8 @@ public class CourseSelectionActivity extends AppCompatActivity {
         }
 
         Player.get().setCourses(updateCourseList);
+        Toast.makeText(getApplicationContext(), "Courses updated!", Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 }

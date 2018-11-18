@@ -205,10 +205,10 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
-    public void addCourse(Course newCourse) {
-        courses.add(newCourse);
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
-    public void setCourses(List<Course> courses) { this.courses = courses; }
 
     /**
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
