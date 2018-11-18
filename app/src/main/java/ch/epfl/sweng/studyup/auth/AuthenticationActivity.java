@@ -20,6 +20,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
@@ -107,7 +108,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             cachePlayerData();
         }
         Class homeActivity = Player.get().getRole().equals(Role.student) ?
-                MainActivity.class : AddQuestionActivity.class;
+                MainActivity.class : QuestsActivityTeacher.class;
 
         startActivity(new Intent(this, homeActivity));
     }
