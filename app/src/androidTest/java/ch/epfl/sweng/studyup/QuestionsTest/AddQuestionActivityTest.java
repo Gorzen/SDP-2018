@@ -34,6 +34,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -129,11 +130,11 @@ public class AddQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0, course: SWENG
-        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
-        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
-        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
-        onView(withId(R.id.associatedCourseSpinner)).perform(ViewActions.click());
-        onData(allOf(is(instanceOf(String.class)), is(Course.SWENG.name()))).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(ViewActions.click());
+        onView(withId(R.id.associatedCourseSpinner)).perform(scrollTo()).perform(ViewActions.click());
+        onData(allOf(is(instanceOf(String.class)), is(Course.SWENG.name()))).perform(scrollTo()).perform(ViewActions.click());
 
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
@@ -142,7 +143,7 @@ public class AddQuestionActivityTest {
                 title.setText("A Title");
             }
         });
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(scrollTo()).perform(ViewActions.click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());
