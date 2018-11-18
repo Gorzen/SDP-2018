@@ -229,7 +229,6 @@ public class AddQuestionActivity extends NavigationTeacher {
             thirdRadioButton.setChecked(false);
             fourthRadioButton.setVisibility(View.INVISIBLE);
             fourthRadioButton.setChecked(false);
-
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText(R.string.truth_value);
             secondRadioButton.setText(R.string.false_value);
@@ -312,11 +311,31 @@ public class AddQuestionActivity extends NavigationTeacher {
         return image;
     }
 
-    private void setupEditQuestion(int trueFalseOrMCQ) {
+    private void setupEditQuestion(int trueFalseOrMCQId) {
         setupTextAndImage();
-        setUpMCQTrueFalseRadioButtons(trueFalseOrMCQ);
+        setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
+        setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
     }
 
+    private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
+        if(trueFalseOrMCQId == R.id.true_false_radio) {
+            RadioButton tfRadio = findViewById(R.id.true_false_radio);
+            tfRadio.setChecked(true);
+        } else {
+            RadioButton mcqRadio = findViewById(R.id.mcq_radio);
+            mcqRadio.setChecked(true);
+        }
+    }
+
+    private void setImageOrTextBasedRadioButtonFirstTime(int imageOrTextQuestionId) {
+        if(imageOrTextQuestionId == R.id.text_radio_button) {
+            RadioButton tRadio = findViewById(R.id.text_radio_button);
+            tRadio.setChecked(true);
+        } else {
+            RadioButton iRadio = findViewById(R.id.image_radio_button);
+            iRadio.setChecked(true);
+        }
+    }
     private void setupTextAndImage() {
         String questionID = question.getQuestionId();
 
@@ -343,6 +362,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
                 TextView noImageSelected = findViewById(R.id.display_question_path);
                 noImageSelected.setVisibility(View.INVISIBLE);
+                setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
             }
         });
@@ -372,6 +392,7 @@ public class AddQuestionActivity extends NavigationTeacher {
                 }
                 EditText questionEditText = findViewById(R.id.questionText);
                 questionEditText.setText(displayText);
+                setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
             }
         });
