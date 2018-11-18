@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -38,16 +39,15 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
-import static ch.epfl.sweng.studyup.utils.Constants.ADD_QUESTION_INDEX;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
-public class AddQuestionActivity extends NavigationTeacher {
+public class AddQuestionActivity extends AppCompatActivity {
 
     private static final String TAG = "AddQuestionActivity";
 
@@ -84,8 +84,6 @@ public class AddQuestionActivity extends NavigationTeacher {
             Firestore.get().loadQuestions(this);
         }
 
-        navigationSwitcher(AddQuestionActivity.this, AddQuestionActivity.class, ADD_QUESTION_INDEX);
-
         addRadioListener();
 
         if (MOCK_ENABLED) {
@@ -94,7 +92,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
-        logout_button = findViewById(R.id.logoutbutton);
+       /* logout_button = findViewById(R.id.back_button);
 
         logout_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +102,7 @@ public class AddQuestionActivity extends NavigationTeacher {
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
-        });
+        });*/
     }
 
     /**
@@ -317,6 +315,8 @@ public class AddQuestionActivity extends NavigationTeacher {
     }
 
     private void setupEditQuestion(int trueFalseOrMCQId) {
+        Button addEditButton = findViewById(R.id.addQuestionButton);
+        addEditButton.setText("Edit");
         setUpQuestionTitle();
         setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
         setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
@@ -409,4 +409,9 @@ public class AddQuestionActivity extends NavigationTeacher {
             }
         });
     }
+
+    public void onBackButtonAddQuestion(View view) {
+        startActivity(new Intent(this.getApplicationContext(), QuestsActivityTeacher.class));
+    }
+
 }

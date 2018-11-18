@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
@@ -27,7 +30,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_teacher);
-        navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
+//        navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
 
         LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
         questions.observe(this, new Observer<List<Question>>() {
@@ -57,12 +60,22 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         ListView listView = findViewById(R.id.listViewQuests);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(new Intent(parent.getContext(), AddQuestionActivity.class).putExtra(AddQuestionActivity.class.getSimpleName(), quests.get(position)));
             }
         });
+    }
+
+    public void addNewQuestion(View view) {
+        startActivity(new Intent(this.getApplicationContext(), AddQuestionActivity.class));
+    }
+
+    public void onLogOutButtonAddQuestion(View view) {
+        MainActivity.clearCacheToLogOut(QuestsActivityTeacher.this);
+        Intent intent = new Intent(QuestsActivityTeacher.this, LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
     }
 }

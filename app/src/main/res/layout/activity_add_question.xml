@@ -190,9 +190,8 @@
                     android:id="@+id/addQuestionButton"
                     android:layout_width="166dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="8dp"
                     android:onClick="addQuestion"
                     android:text="@string/add_text"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -200,16 +199,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
 
                 <Button
-                    android:id="@+id/logoutbutton"
+                    android:id="@+id/back_button"
                     android:layout_width="166dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="50dp"
                     android:cursorVisible="false"
                     android:elegantTextHeight="false"
-                    android:text="Log out"
+                    android:text="Back"
                     android:textStyle="normal"
+                    android:onClick="onBackButtonAddQuestion"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
@@ -230,24 +229,5 @@
 
         <!--BOTTOM NAV BAR-->
 
-        <android.support.constraint.ConstraintLayout
-
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/bottomNavView_Bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/white_grey_border_top"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation_teacher">
-            </android.support.design.widget.BottomNavigationView>
-
-        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

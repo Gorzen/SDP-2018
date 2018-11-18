@@ -1,7 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.AlertDialog;
-import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
@@ -62,7 +60,7 @@ public class SettingsActivityTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.logoutbutton)).perform(click());
+        onView(withId(R.id.back_button)).perform(click());
         assertTrue(!persistLogin.hasCache());
         intended(hasComponent(LoginActivity.class.getName()));
     }
