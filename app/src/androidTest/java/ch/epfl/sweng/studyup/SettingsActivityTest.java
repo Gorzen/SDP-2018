@@ -60,14 +60,14 @@ public class SettingsActivityTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.back_button)).perform(click());
+        onView(withId(R.id.logout_button)).perform(click());
         assertTrue(!persistLogin.hasCache());
         intended(hasComponent(LoginActivity.class.getName()));
     }
 
     @Test
     public void closeButtonTest() {
-        onView(withId(R.id.back_button)).perform(click());
+        onView(withId(R.id.close_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 
@@ -82,6 +82,6 @@ public class SettingsActivityTest {
         }
 
         //If all worked, we could close the settings
-        onView(withId(R.id.back_button)).perform(click());
+        onView(withId(R.id.close_button)).perform(click());
     }
 }
