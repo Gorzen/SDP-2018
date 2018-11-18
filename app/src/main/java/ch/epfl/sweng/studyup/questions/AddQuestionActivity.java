@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -69,6 +70,9 @@ public class AddQuestionActivity extends NavigationTeacher {
         Question question = (Question)intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if(question != null) {
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
+
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = true;
@@ -311,10 +315,16 @@ public class AddQuestionActivity extends NavigationTeacher {
         return image;
     }
 
+    private void setUpQuestionTitle() {
+        TextView questionTitle = findViewById(R.id.questionTitle);
+        questionTitle.setText(question.getTitle());
+    }
+
     private void setupEditQuestion(int trueFalseOrMCQId) {
-        setupTextAndImage();
+        setUpQuestionTitle();
         setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
         setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
+        setupTextAndImage();
     }
 
     private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
@@ -364,6 +374,9 @@ public class AddQuestionActivity extends NavigationTeacher {
                 noImageSelected.setVisibility(View.INVISIBLE);
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
+
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -394,6 +407,9 @@ public class AddQuestionActivity extends NavigationTeacher {
                 questionEditText.setText(displayText);
                 setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
+
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
