@@ -38,22 +38,10 @@
                     app:layout_constraintTop_toBottomOf="@id/progressBar"
                     app:srcCompat="@android:color/transparent" />
 
-                <TextView
-                    android:id="@+id/display_question_path"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_image_selected_text"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addQuestion_display_image" />
-
                 <EditText
                     android:id="@+id/questionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:contentDescription="Question title"
                     android:ems="10"
                     android:hint="@string/add_question_title"
@@ -61,7 +49,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/display_question_path" />
+                    app:layout_constraintTop_toBottomOf="@id/addQuestion_display_image"
+                    tools:layout_editor_absoluteY="83dp" />
 
                 <RadioGroup
                     android:id="@+id/text_or_image_radio_group"

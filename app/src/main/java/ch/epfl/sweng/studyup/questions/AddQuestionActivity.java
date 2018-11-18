@@ -138,8 +138,6 @@ public class AddQuestionActivity extends NavigationTeacher {
                         try {
                             Bitmap image_bitmap = getBitmapFromUri(imageURI);
                             displayImage.setImageBitmap(image_bitmap);
-                            TextView displayName = findViewById(R.id.display_question_path);
-                            displayName.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Log.e(TAG, "An error occurred when displaying the image");
                         }
@@ -236,7 +234,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText(R.string.truth_value);
             secondRadioButton.setText(R.string.false_value);
-            if(isNewQuestion && question.isTrueFalse()) {
+            if(!isNewQuestion && question.isTrueFalse()) {
                 switch(answer) {
                     case 1 : firstRadioButton.setChecked(true);
                     case 2 : secondRadioButton.setChecked(true);
@@ -249,7 +247,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             thirdRadioButton.setChecked(false);
             fourthRadioButton.setVisibility(View.VISIBLE);
             fourthRadioButton.setChecked(false);
-            if (isNewQuestion && !question.isTrueFalse()) {
+            if (!isNewQuestion && !question.isTrueFalse()) {
                 switch(answer) {
                     case 1 : firstRadioButton.setChecked(true);
                     case 2 : secondRadioButton.setChecked(true);
@@ -286,20 +284,17 @@ public class AddQuestionActivity extends NavigationTeacher {
 
     private void setsUpImageOrTextBasedRadioButtons(int imageOrTextQuestioniD) {
         Button selectImageButton = findViewById(R.id.selectImageButton);
-        TextView displayPath = findViewById(R.id.display_question_path);
         ImageView imageQuestion = findViewById(R.id.addQuestion_display_image);
         TextView questionText = findViewById(R.id.questionText);
         if (imageOrTextQuestioniD == R.id.text_radio_button) {
             //mask everything related to the image-based question
             selectImageButton.setVisibility(View.GONE);
-            displayPath.setVisibility(View.GONE);
             imageQuestion.setVisibility(View.GONE);
             //display the text for the question
             questionText.setVisibility(View.VISIBLE);
         } else {
             //show everything related to the image-based question
             selectImageButton.setVisibility(View.VISIBLE);
-            displayPath.setVisibility(View.VISIBLE);
             imageQuestion.setVisibility(View.VISIBLE);
             //mask the text for the question
             questionText.setVisibility(View.GONE);
@@ -369,9 +364,6 @@ public class AddQuestionActivity extends NavigationTeacher {
                 Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
                 ImageView displayImageView = findViewById(R.id.addQuestion_display_image);
                 displayImageView.setImageBitmap(displayImage);
-
-                TextView noImageSelected = findViewById(R.id.display_question_path);
-                noImageSelected.setVisibility(View.GONE);
 
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
