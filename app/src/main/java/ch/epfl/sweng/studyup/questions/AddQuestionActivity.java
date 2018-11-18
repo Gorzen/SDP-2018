@@ -329,6 +329,9 @@ public class AddQuestionActivity extends NavigationTeacher {
                 Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
                 ImageView displayImageView = findViewById(R.id.addQuestion_display_image);
                 displayImageView.setImageBitmap(displayImage);
+
+                TextView noImageSelected = findViewById(R.id.display_question_path);
+                noImageSelected.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -357,7 +360,6 @@ public class AddQuestionActivity extends NavigationTeacher {
                 }
                 EditText questionEditText = findViewById(R.id.questionText);
                 questionEditText.setText(displayText);
-                questionEditText.setVisibility(View.VISIBLE);
             }
         });
     }
