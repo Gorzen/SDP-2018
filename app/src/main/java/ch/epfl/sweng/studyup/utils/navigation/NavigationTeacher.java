@@ -9,16 +9,16 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class NavigationTeacher extends Navigation {
     private final ArrayList<Integer> buttonIdsTeacher = new ArrayList<>(Arrays.asList(
-            R.id.navigation_add_question,
-            R.id.navigation_quests_teacher));
+            R.id.navigation_quests_teacher,
+            R.id.navigation_add_question));
 
     private final ArrayList<Class> activitiesTeacher = new ArrayList<Class>(Arrays.asList(
-            AddQuestionActivity.class,
-            QuestsActivityTeacher.class));
+            QuestsActivityTeacher.class,
+            AddQuestionActivity.class));
 
     private final ArrayList<Integer> activitiesIdTeacher = new ArrayList<>(Arrays.asList(
-            ADD_QUESTION_INDEX,
-            QUESTS_INDEX_TEACHER));
+            QUESTS_INDEX_TEACHER,
+            ADD_QUESTION_INDEX));
 
     @Override
     protected void setupNavigation() {

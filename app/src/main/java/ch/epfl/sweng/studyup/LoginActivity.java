@@ -24,6 +24,7 @@ import com.testfairy.TestFairy;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 Direct user to home activity corresponding to their role.
                  */
                 Class homeActivity = Player.get().getRole().equals(Role.student) ?
-                        MainActivity.class : AddQuestionActivity.class;
+                        MainActivity.class : QuestsActivityTeacher.class;
                 startActivity(new Intent(this, homeActivity));
             }
 
