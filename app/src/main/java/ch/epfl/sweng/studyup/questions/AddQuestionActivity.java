@@ -75,12 +75,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
-        // Set dropdown for selecting associated course
-        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
-        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
-        ArrayAdapter<String> courseListAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
-        associatedCourseSpinner.setAdapter(courseListAdapter);
+        updatePlayerCourses();
 
         logout_button = findViewById(R.id.logoutbutton);
 
@@ -93,6 +88,23 @@ public class AddQuestionActivity extends NavigationTeacher {
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updatePlayerCourses();
+    }
+
+    public void updatePlayerCourses() {
+        // Set dropdown for selecting associated course
+        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
+        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
+        Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
+        ArrayAdapter<String> courseListAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
+        associatedCourseSpinner.setAdapter(courseListAdapter);
     }
 
     /**

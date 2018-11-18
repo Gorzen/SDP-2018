@@ -74,8 +74,9 @@
 
         <activity android:name=".questions.DisplayQuestionActivity" />
         <activity android:name=".items.DisplayItemActivity" />
-        <activity android:name=".utils.TestbedActivity"/>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".utils.TestbedActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".CourseSelectionActivity"></activity>
     </application>
 
 </manifest>

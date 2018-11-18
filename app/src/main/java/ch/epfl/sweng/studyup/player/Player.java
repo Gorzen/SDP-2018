@@ -107,6 +107,8 @@ public class Player {
         List<String> defaultCourseList = new ArrayList<>();
         defaultCourseList.add(Course.SWENG.name());
         courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+
+        Log.d(TAG, "Loaded courses: " + courses.toString());
     }
 
     // Getters
@@ -208,6 +210,7 @@ public class Player {
     public void addCourse(Course newCourse) {
         courses.add(newCourse);
     }
+    public void setCourses(List<Course> courses) { this.courses = courses; }
 
     /**
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.

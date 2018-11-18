@@ -50,6 +50,11 @@ public class SettingsActivity extends RefreshContext {
         languageChoiceBuilder.create().show();
     }
 
+    public void onCourseChoiceClick(View view) {
+        Intent intent = new Intent(SettingsActivity.this, CourseSelectionActivity.class);
+        startActivity(intent);
+    }
+
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
