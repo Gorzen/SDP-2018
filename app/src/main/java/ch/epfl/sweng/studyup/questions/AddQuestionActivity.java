@@ -73,7 +73,6 @@ public class AddQuestionActivity extends NavigationTeacher {
         if(question != null) {
             ProgressBar progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
-
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = false;
@@ -204,6 +203,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             Firestore.get().addQuestion(newQuestion);
 
             Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
@@ -237,8 +237,8 @@ public class AddQuestionActivity extends NavigationTeacher {
             secondRadioButton.setText(R.string.false_value);
             if(!isNewQuestion && question.isTrueFalse()) {
                 switch(answer) {
-                    case 1 : firstRadioButton.setChecked(true);
-                    case 2 : secondRadioButton.setChecked(true);
+                    case 0 : firstRadioButton.setChecked(true); break;
+                    case 1 : secondRadioButton.setChecked(true); break;
                 }
             }
 
@@ -250,10 +250,10 @@ public class AddQuestionActivity extends NavigationTeacher {
             fourthRadioButton.setChecked(false);
             if (!isNewQuestion && !question.isTrueFalse()) {
                 switch(answer) {
-                    case 1 : firstRadioButton.setChecked(true);
-                    case 2 : secondRadioButton.setChecked(true);
-                    case 3 : thirdRadioButton.setChecked(true);
-                    case 4 : fourthRadioButton.setChecked(true);
+                    case 0 : firstRadioButton.setChecked(true); break;
+                    case 1 : secondRadioButton.setChecked(true); break;
+                    case 2 : thirdRadioButton.setChecked(true); break;
+                    case 3 : fourthRadioButton.setChecked(true); break;
                 }
             } else {
                 firstRadioButton.setChecked(true);
