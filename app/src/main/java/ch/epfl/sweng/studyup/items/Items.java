@@ -14,6 +14,7 @@ public enum Items {
     XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION, Items.XP_POTION_PRICE),
     COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
 
+    // TODO: This need to be refactored
     //Names
     public static final String XP_POTION_NAME = "XP potion";
     public static final String COIN_SACK_NAME = "Sack of coin";

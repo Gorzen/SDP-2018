@@ -83,5 +83,15 @@
     <string name="items_quantity">x</string>
     <string name="text_money">MONEY:</string>
     <string name="text_level">LEVEL</string>
+    <string name="text_itemprice">Price of item:</string>
+    <string name="text_currencyyouhave">You have</string>
+    <string name="text_itemalreadyhave">You already have this item</string>
+    <string name="text_itemtimes">times</string>
+    <string name="text_totalprice">Total price:</string>
+    <string name="text_notenoughmoney">You don\'t have enough money !</string>
+    <string name="title_questiondb">Question Database</string>
+    <string name="text_unabletouploadimage">Unable to upload image</string>
+    <string name="text_imageuploadsuccess">Successfully uploaded image</string>
+    <string name="title_playerposition">Player position</string>
 
 </resources>

@@ -127,11 +127,11 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                     location.remove();
                 }
                 if(isFirstPosition) {
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
                     isFirstPosition = false;
                 }else{
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title("Player position"));
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);

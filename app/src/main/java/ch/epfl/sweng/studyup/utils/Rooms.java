@@ -9,6 +9,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.map.Room;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;
 

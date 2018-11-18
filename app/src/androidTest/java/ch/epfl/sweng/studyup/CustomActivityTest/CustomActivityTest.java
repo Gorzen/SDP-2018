@@ -40,6 +40,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.GALLERY;
 import static ch.epfl.sweng.studyup.utils.Constants.JUSTONCE;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CustomActivityTest {
     private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());

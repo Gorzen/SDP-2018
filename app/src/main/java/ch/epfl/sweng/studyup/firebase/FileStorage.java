@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import com.squareup.picasso.Picasso;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 import java.io.File;
+
+import ch.epfl.sweng.studyup.R;
 
 public abstract class FileStorage {
 
@@ -30,13 +33,13 @@ public abstract class FileStorage {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("Unable to upload image");
+                System.out.println(Resources.getSystem().getString(R.string.text_unabletouploadimage));
                 exception.printStackTrace();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println("Successfully uploaded image");
+                System.out.println(Resources.getSystem().getString(R.string.text_imageuploadsuccess));
             }
         });
     }

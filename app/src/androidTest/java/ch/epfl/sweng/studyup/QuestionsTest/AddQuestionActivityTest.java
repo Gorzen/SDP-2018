@@ -45,6 +45,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.not;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
     private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
