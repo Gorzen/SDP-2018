@@ -74,6 +74,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             int isTrueInt = question.isTrueFalse() == true ? R.id.true_false_radio : -1;
             trueFalseRadioGroup.check(isTrueInt);
             setupEditQuestion(question);
+            setUpMCQTrueFalseRadioButtons(isTrueInt);
         }
 
         if (!MOCK_ENABLED) {
@@ -248,6 +249,8 @@ public class AddQuestionActivity extends NavigationTeacher {
                     case 3 : thirdRadioButton.setChecked(true);
                     case 4 : fourthRadioButton.setChecked(true);
                 }
+            } else {
+                firstRadioButton.setChecked(true);
             }
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText("1");
