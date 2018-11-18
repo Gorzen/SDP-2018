@@ -199,7 +199,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
 
                 <Button
-                    android:id="@+id/back_button"
+                    android:id="@+id/back_button_add_question"
                     android:layout_width="166dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"

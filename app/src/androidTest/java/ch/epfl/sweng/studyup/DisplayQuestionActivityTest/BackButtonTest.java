@@ -13,7 +13,7 @@ public class BackButtonTest extends DisplayQuestionActivityTest{
         /*
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc", "test", true, 0));
         mActivityRule.launchActivity(i);
-        onView(withId(R.id.back_button)).perform(ViewActions.click());
+        onView(withId(R.id.back_button_display_question)).perform(ViewActions.click());
         assertTrue(mActivityRule.getActivity().isFinishing());
         */
     }

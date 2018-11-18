@@ -80,7 +80,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         setupLayout(displayQuestion);
 
 
-        Button backButton = findViewById(R.id.back_button);
+        Button backButton = findViewById(R.id.back_button_display_question);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

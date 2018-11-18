@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/back_button"
+                android:id="@+id/back_button_display_question"
                 android:layout_width="33dp"
                 android:layout_height="34dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
