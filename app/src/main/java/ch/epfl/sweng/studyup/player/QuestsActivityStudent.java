@@ -22,7 +22,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-import ch.epfl.sweng.studyup.utils.ListItemAdapter;
+import ch.epfl.sweng.studyup.utils.QuestListViewAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 
 public class QuestsActivityStudent extends NavigationStudent {
@@ -71,7 +71,7 @@ public class QuestsActivityStudent extends NavigationStudent {
 
     private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        ListItemAdapter adapter = new ListItemAdapter(this, listTitle, listImageID);
+        QuestListViewAdapter adapter = new QuestListViewAdapter(this, listTitle, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
