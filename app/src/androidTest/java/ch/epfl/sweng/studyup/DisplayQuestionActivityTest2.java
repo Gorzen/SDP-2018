@@ -48,9 +48,11 @@ public class DisplayQuestionActivityTest2 {
     public void addQuestion(){
         Question q = new Question(questionUUID, "Teacher quests test", false, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(1000, "Test");
+        Utils.waitAndTag(3000, "Test");
 
         Player.get().setSciperNum("1000001");
+        Firestore.get().loadQuestions(null);
+
         mActivityRule.launchActivity(new Intent());
     }
 
@@ -61,9 +63,6 @@ public class DisplayQuestionActivityTest2 {
 
     @Test
     public void displayQuestionTest(){
-        Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
-
-
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
