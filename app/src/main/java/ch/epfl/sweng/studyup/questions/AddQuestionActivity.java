@@ -58,6 +58,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     private Button logout_button;
     private int answer = 1;
     private boolean isNewQuestion = false;
+    private Question question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +69,11 @@ public class AddQuestionActivity extends NavigationTeacher {
         Question question = (Question)intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if(question != null) {
+            this.question = question;
             answer = question.getAnswer();
             isNewQuestion = true;
-            trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
-            int isTrueInt = question.isTrueFalse() == true ? R.id.true_false_radio : -1;
-            trueFalseRadioGroup.check(isTrueInt);
-            setupEditQuestion(question);
-            setUpMCQTrueFalseRadioButtons(isTrueInt);
+            int trueFalseOrMCQ = question.isTrueFalse() == true ? R.id.true_false_radio : R.id.mcq_radio;
+            setupEditQuestion(trueFalseOrMCQ);
         }
 
         if (!MOCK_ENABLED) {
@@ -213,13 +212,18 @@ public class AddQuestionActivity extends NavigationTeacher {
         }
     }
 
-    private void setUpMCQTrueFalseRadioButtons(int checkedId) {
+    /**
+     * Sets the MCQ or True/False Radio Buttons. This method is used when a question is being edited
+     * to display the corresponding checked radio buttons and is also used when the radio listener is being set
+     * @param trueFalseOrMCQID chooses between MCQ or True/False alternatives
+     */
+    private void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
         RadioButton firstRadioButton = findViewById(R.id.radio_answer1);
         RadioButton secondRadioButton = findViewById(R.id.radio_answer2);
         RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
         RadioButton fourthRadioButton = findViewById(R.id.radio_answer4);
 
-        if (checkedId == R.id.true_false_radio) {
+        if (trueFalseOrMCQID == R.id.true_false_radio) {
             //mask the 3rd and 4th radio button and uncheck them
             thirdRadioButton.setVisibility(View.INVISIBLE);
             thirdRadioButton.setChecked(false);
@@ -229,7 +233,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText(R.string.truth_value);
             secondRadioButton.setText(R.string.false_value);
-            if(isNewQuestion) {
+            if(isNewQuestion && question.isTrueFalse()) {
                 switch(answer) {
                     case 1 : firstRadioButton.setChecked(true);
                     case 2 : secondRadioButton.setChecked(true);
@@ -242,7 +246,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             thirdRadioButton.setChecked(false);
             fourthRadioButton.setVisibility(View.VISIBLE);
             fourthRadioButton.setChecked(false);
-            if (isNewQuestion) {
+            if (isNewQuestion && !question.isTrueFalse()) {
                 switch(answer) {
                     case 1 : firstRadioButton.setChecked(true);
                     case 2 : secondRadioButton.setChecked(true);
@@ -272,28 +276,31 @@ public class AddQuestionActivity extends NavigationTeacher {
         imageTextRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                Button selectImageButton = findViewById(R.id.selectImageButton);
-                TextView displayPath = findViewById(R.id.display_question_path);
-                ImageView imageQuestion = findViewById(R.id.addQuestion_display_image);
-                TextView questionText = findViewById(R.id.questionText);
-                if (checkedId == R.id.text_radio_button) {
-                    //mask everything related to the image-based question
-                    selectImageButton.setVisibility(View.GONE);
-                    displayPath.setVisibility(View.GONE);
-                    imageQuestion.setVisibility(View.GONE);
-                    //display the text for the question
-                    questionText.setVisibility(View.VISIBLE);
-                } else {
-                    //show everything related to the image-based question
-                    selectImageButton.setVisibility(View.VISIBLE);
-                    displayPath.setVisibility(View.VISIBLE);
-                    imageQuestion.setVisibility(View.VISIBLE);
-                    //mask the text for the question
-                    questionText.setVisibility(View.GONE);
-                }
-
+                setsUpImageOrTextBasedRadioButtons(checkedId);
             }
         });
+    }
+
+    private void setsUpImageOrTextBasedRadioButtons(int imageOrTextQuestioniD) {
+        Button selectImageButton = findViewById(R.id.selectImageButton);
+        TextView displayPath = findViewById(R.id.display_question_path);
+        ImageView imageQuestion = findViewById(R.id.addQuestion_display_image);
+        TextView questionText = findViewById(R.id.questionText);
+        if (imageOrTextQuestioniD == R.id.text_radio_button) {
+            //mask everything related to the image-based question
+            selectImageButton.setVisibility(View.GONE);
+            displayPath.setVisibility(View.GONE);
+            imageQuestion.setVisibility(View.GONE);
+            //display the text for the question
+            questionText.setVisibility(View.VISIBLE);
+        } else {
+            //show everything related to the image-based question
+            selectImageButton.setVisibility(View.VISIBLE);
+            displayPath.setVisibility(View.VISIBLE);
+            imageQuestion.setVisibility(View.VISIBLE);
+            //mask the text for the question
+            questionText.setVisibility(View.GONE);
+        }
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
@@ -305,11 +312,12 @@ public class AddQuestionActivity extends NavigationTeacher {
         return image;
     }
 
-    private void setupEditQuestion(Question question) {
-        setupTextAndImage(question);
+    private void setupEditQuestion(int trueFalseOrMCQ) {
+        setupTextAndImage();
+        setUpMCQTrueFalseRadioButtons(trueFalseOrMCQ);
     }
 
-    private void setupTextAndImage(Question question) {
+    private void setupTextAndImage() {
         String questionID = question.getQuestionId();
 
         StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
@@ -335,6 +343,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
                 TextView noImageSelected = findViewById(R.id.display_question_path);
                 noImageSelected.setVisibility(View.INVISIBLE);
+                setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
             }
         });
     }
@@ -363,6 +372,7 @@ public class AddQuestionActivity extends NavigationTeacher {
                 }
                 EditText questionEditText = findViewById(R.id.questionText);
                 questionEditText.setText(displayText);
+                setsUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
             }
         });
     }
