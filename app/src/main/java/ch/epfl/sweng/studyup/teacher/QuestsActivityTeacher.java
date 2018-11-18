@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +25,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 
-public class QuestsActivityTeacher extends NavigationTeacher {
+public class QuestsActivityTeacher extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,6 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         Firestore.get().loadQuestions(this);
     }
 
-    //TODO For now the same as for the student! To be changed
     protected void setupListView(final List<Question> quests) {
         int nbrQuestion = quests.size();
 
