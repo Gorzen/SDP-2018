@@ -176,6 +176,10 @@ public class AddQuestionActivity extends NavigationTeacher {
                     Log.e(TAG, e.getMessage());
                 }
             } else {
+                if(bitmap != null){
+                    //If the edited question goes from image to text, we delete the image from firebase
+                    FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
+                }
                 try {
                     Log.e(TAG, "text selected write file");
                     questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".txt");
