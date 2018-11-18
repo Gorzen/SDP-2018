@@ -33,8 +33,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import ch.epfl.sweng.studyup.LoginActivity;
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -92,17 +90,6 @@ public class AddQuestionActivity extends AppCompatActivity {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
-       /* logout_button = findViewById(R.id.back_button);
-
-        logout_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.clearCacheToLogOut(AddQuestionActivity.this);
-                Intent intent = new Intent(AddQuestionActivity.this, LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
-            }
-        });*/
     }
 
     /**
@@ -223,6 +210,24 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
 
+    private void addRadioListener() {
+        trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
+        trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                setUpMCQTrueFalseRadioButtons(checkedId);
+            }
+        });
+
+        imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
+        imageTextRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                setUpImageOrTextBasedRadioButtons(checkedId);
+            }
+        });
+    }
+
     /**
      * Sets the MCQ or True/False Radio Buttons. This method is used when a question is being edited
      * to display the corresponding checked radio buttons and is also used when the radio listener is being set
@@ -287,26 +292,13 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
 
-
-    private void addRadioListener() {
-        trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
-        trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setUpMCQTrueFalseRadioButtons(checkedId);
-            }
-        });
-
-        imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
-        imageTextRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                setsUpImageOrTextBasedRadioButtons(checkedId);
-            }
-        });
-    }
-
-    private void setsUpImageOrTextBasedRadioButtons(int imageOrTextQuestioniD) {
+    /**
+     * Sets the Image-based or Text-based Radio Buttons. This method is used when a question is being edited
+     * to display the corresponding checked radio buttons and is also used when the radio listener is being set
+     *
+     * @param imageOrTextQuestioniD chooses between image-based or text-based alternatives
+     */
+    private void setUpImageOrTextBasedRadioButtons(int imageOrTextQuestioniD) {
         Button selectImageButton = findViewById(R.id.selectImageButton);
         ImageView imageQuestion = findViewById(R.id.addQuestion_display_image);
         TextView questionText = findViewById(R.id.questionText);
@@ -325,6 +317,19 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
     }
 
+    private void setupEditQuestion(int trueFalseOrMCQId) {
+        changeAddButtonToEditButton();
+        setUpQuestionTitle();
+        setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
+        setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
+        setupTextAndImage();
+    }
+
+    private void changeAddButtonToEditButton() {
+        Button addEditButton = findViewById(R.id.addQuestionButton);
+        addEditButton.setText("Edit");
+    }
+
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         ParcelFileDescriptor parcelFileDescriptor =
                 getContentResolver().openFileDescriptor(uri, "r");
@@ -339,14 +344,6 @@ public class AddQuestionActivity extends AppCompatActivity {
         questionTitle.setText(question.getTitle());
     }
 
-    private void setupEditQuestion(int trueFalseOrMCQId) {
-        Button addEditButton = findViewById(R.id.addQuestionButton);
-        addEditButton.setText("Edit");
-        setUpQuestionTitle();
-        setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
-        setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
-        setupTextAndImage();
-    }
 
     private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
         if (trueFalseOrMCQId == R.id.true_false_radio) {
@@ -393,7 +390,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 displayImageView.setImageBitmap(displayImage);
 
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
-                setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
+                setUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
 
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
@@ -428,7 +425,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 EditText questionEditText = findViewById(R.id.questionText);
                 questionEditText.setText(displayText);
                 setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
-                setsUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
+                setUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
 
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
