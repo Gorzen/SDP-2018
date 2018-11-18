@@ -91,6 +91,7 @@ public class Player {
      * This method is called from FireStore.loadPlayerData(), which is called
      * in AuthenticationActivity.
      */
+    @SuppressWarnings("unchecked")
     public void updateLocalDataFromRemote(Map<String, Object> remotePlayerData) {
 
         if (remotePlayerData.isEmpty()) {
@@ -198,13 +199,10 @@ public class Player {
         }
     }
 
-    public void consumeItem(Items item) throws Exception {
-        if (items.remove(item)) {
-            item.consume();
-            Firestore.get().updateRemotePlayerDataFromLocal();
-        } else {
-            throw new Exception("The player does not have this item, could not find it.");
-        }
+    public void consumeItem(Items item)  {
+        items.remove(item);
+        item.consume();
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     public void addCourse(Course newCourse) {
