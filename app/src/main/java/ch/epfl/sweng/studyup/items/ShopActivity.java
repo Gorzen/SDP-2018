@@ -7,44 +7,40 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-public class InventoryActivity extends NavigationStudent {
-    private ArrayAdapter<String> adapter;
+public class ShopActivity extends NavigationStudent {
+    private ListView itemsToBuy;
     private ListItemAdapter listItemAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
+        setContentView(R.layout.activity_shop);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
-        ListView ownedItems = findViewById(R.id.listViewItems);
-        HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
-        ownedItems.setAdapter(listItemAdapter);
-        ownedItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        itemsToBuy = findViewById(R.id.list_view_shop);
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(Arrays.asList(Items.values())), true);
+        itemsToBuy.setAdapter(listItemAdapter);
+        itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Items item = (Items)listItemAdapter.getItem(position);
-                startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(DisplayItemActivity.class.getName(), item.getName()));
+                Items item = (Items) listItemAdapter.getItem(position);
+                startActivity(new Intent(parent.getContext(), BuyItemActivity.class).putExtra(BuyItemActivity.class.getName(), item.getName()));
             }
         });
+        navigationSwitcher(ShopActivity.this, ShopActivity.class, SHOP_INDEX);
+
     }
 
     //Display the toolbar
@@ -54,4 +50,6 @@ public class InventoryActivity extends NavigationStudent {
         i.inflate(R.menu.top_navigation, menu);
         return true;
     }
+
+
 }
