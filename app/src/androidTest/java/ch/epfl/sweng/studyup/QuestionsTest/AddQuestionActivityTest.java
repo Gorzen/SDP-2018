@@ -32,6 +32,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -43,7 +44,10 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
@@ -124,10 +128,12 @@ public class AddQuestionActivityTest {
 
     @Test
     public void addQuestionTest() throws Throwable {
-        //Question: MCQ, answer: 0
+        //Question: MCQ, answer: 0, course: SWENG
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
+        onView(withId(R.id.associatedCourseSpinner)).perform(ViewActions.click());
+        onData(allOf(is(instanceOf(String.class)), is(Course.SWENG.name()))).perform(ViewActions.click());
 
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
@@ -150,6 +156,7 @@ public class AddQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     assertEquals(0, questions.get(0).getAnswer());
                     assertEquals(false, questions.get(0).isTrueFalse());
+                    assertEquals(Course.SWENG.name(), questions.get(0).getCourseName());
                 }
             }
         });
