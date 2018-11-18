@@ -341,7 +341,6 @@ public class AddQuestionActivity extends NavigationTeacher {
                 }
                 EditText questionEditText = findViewById(R.id.questionText);
                 questionEditText.setText(displayText);
-                questionEditText.setVisibility(View.VISIBLE);
             }
         });
     }
