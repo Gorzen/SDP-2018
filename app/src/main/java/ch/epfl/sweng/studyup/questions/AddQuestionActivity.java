@@ -53,12 +53,13 @@ public class AddQuestionActivity extends NavigationTeacher {
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
+    private Bitmap bitmap = null;
     private RadioGroup trueFalseRadioGroup;
     private RadioGroup imageTextRadioGroup;
     private imagePathGetter getPath;
     private Button logout_button;
     private int answer = 1;
-    private boolean isNewQuestion = false;
+    private boolean isNewQuestion = true;
     private Question question;
 
     @Override
@@ -75,7 +76,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             this.question = question;
             answer = question.getAnswer();
-            isNewQuestion = true;
+            isNewQuestion = false;
             int trueFalseOrMCQ = question.isTrueFalse() == true ? R.id.true_false_radio : R.id.mcq_radio;
             setupEditQuestion(trueFalseOrMCQ);
         }
@@ -158,7 +159,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
-            String newQuestionID = getUUID();
+            String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
@@ -170,7 +171,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
                 questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
                 try {
-                    Bitmap imageBitmap = getBitmapFromUri(imageURI);
+                    Bitmap imageBitmap = bitmap == null ? getBitmapFromUri(imageURI) : bitmap;
                     FileOutputStream out = new FileOutputStream(questionFile);
                     imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                     out.close();
@@ -378,6 +379,8 @@ public class AddQuestionActivity extends NavigationTeacher {
 
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
+
+                bitmap = displayImage;
             }
         });
     }
