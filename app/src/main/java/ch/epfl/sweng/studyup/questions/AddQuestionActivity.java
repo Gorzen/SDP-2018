@@ -68,9 +68,9 @@ public class AddQuestionActivity extends NavigationTeacher {
         setContentView(R.layout.activity_add_question);
 
         Intent intent = getIntent();
-        Question question = (Question)intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
+        Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
-        if(question != null) {
+        if (question != null) {
             ProgressBar progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.VISIBLE);
             this.question = question;
@@ -158,6 +158,9 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
+            //Delete the txt file, if there was any
+            FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".txt")).delete();
+
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.isEmpty()) return;
@@ -176,10 +179,9 @@ public class AddQuestionActivity extends NavigationTeacher {
                     Log.e(TAG, e.getMessage());
                 }
             } else {
-                if(bitmap != null){
-                    //If the edited question goes from image to text, we delete the image from firebase
-                    FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
-                }
+                //If the edited question goes from image to text, we delete the image from firebase
+                FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
+
                 try {
                     Log.e(TAG, "text selected write file");
                     questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".txt");
@@ -222,6 +224,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     /**
      * Sets the MCQ or True/False Radio Buttons. This method is used when a question is being edited
      * to display the corresponding checked radio buttons and is also used when the radio listener is being set
+     *
      * @param trueFalseOrMCQID chooses between MCQ or True/False alternatives
      */
     private void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
@@ -239,10 +242,14 @@ public class AddQuestionActivity extends NavigationTeacher {
             //Change the text to the 1st and second button to True and False
             firstRadioButton.setText(R.string.truth_value);
             secondRadioButton.setText(R.string.false_value);
-            if(!isNewQuestion && question.isTrueFalse()) {
-                switch(answer) {
-                    case 0 : firstRadioButton.setChecked(true); break;
-                    case 1 : secondRadioButton.setChecked(true); break;
+            if (!isNewQuestion && question.isTrueFalse()) {
+                switch (answer) {
+                    case 0:
+                        firstRadioButton.setChecked(true);
+                        break;
+                    case 1:
+                        secondRadioButton.setChecked(true);
+                        break;
                 }
             }
 
@@ -253,11 +260,19 @@ public class AddQuestionActivity extends NavigationTeacher {
             fourthRadioButton.setVisibility(View.VISIBLE);
             fourthRadioButton.setChecked(false);
             if (!isNewQuestion && !question.isTrueFalse()) {
-                switch(answer) {
-                    case 0 : firstRadioButton.setChecked(true); break;
-                    case 1 : secondRadioButton.setChecked(true); break;
-                    case 2 : thirdRadioButton.setChecked(true); break;
-                    case 3 : fourthRadioButton.setChecked(true); break;
+                switch (answer) {
+                    case 0:
+                        firstRadioButton.setChecked(true);
+                        break;
+                    case 1:
+                        secondRadioButton.setChecked(true);
+                        break;
+                    case 2:
+                        thirdRadioButton.setChecked(true);
+                        break;
+                    case 3:
+                        fourthRadioButton.setChecked(true);
+                        break;
                 }
             } else {
                 firstRadioButton.setChecked(true);
@@ -328,7 +343,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     }
 
     private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
-        if(trueFalseOrMCQId == R.id.true_false_radio) {
+        if (trueFalseOrMCQId == R.id.true_false_radio) {
             RadioButton tfRadio = findViewById(R.id.true_false_radio);
             tfRadio.setChecked(true);
         } else {
@@ -338,7 +353,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     }
 
     private void setImageOrTextBasedRadioButtonFirstTime(int imageOrTextQuestionId) {
-        if(imageOrTextQuestionId == R.id.text_radio_button) {
+        if (imageOrTextQuestionId == R.id.text_radio_button) {
             RadioButton tRadio = findViewById(R.id.text_radio_button);
             tRadio.setChecked(true);
         } else {
@@ -346,6 +361,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             iRadio.setChecked(true);
         }
     }
+
     private void setupTextAndImage() {
         String questionID = question.getQuestionId();
 
@@ -362,7 +378,7 @@ public class AddQuestionActivity extends NavigationTeacher {
         }
     }
 
-    private void setupImage(StorageReference questionImage, final File tempImage){
+    private void setupImage(StorageReference questionImage, final File tempImage) {
         questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -381,7 +397,7 @@ public class AddQuestionActivity extends NavigationTeacher {
         });
     }
 
-    private void setupText(StorageReference questionText, final File tempText){
+    private void setupText(StorageReference questionText, final File tempText) {
         questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
