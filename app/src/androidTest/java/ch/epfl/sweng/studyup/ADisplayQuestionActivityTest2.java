@@ -10,9 +10,11 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
@@ -25,47 +27,48 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class ADisplayQuestionActivityTest2 {
-    private String questionUUID = "Fake UUID test Display";
+    private static final String questionUUID = "Fake UUID test Display";
     private ListView list;
 
     @Rule
     public final ActivityTestRule<QuestsActivityStudent> mActivityRule =
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
 
-    @BeforeClass
-    public static void init(){
-        Intents.init();
-    }
-
-    @AfterClass
-    public static void release(){
-        Intents.release();
-    }
-
     @Before
-    public void addQuestion(){
+    public void setup(){
+        Intents.init();
         mActivityRule.launchActivity(new Intent());
     }
 
     @After
-    public void deleteQuestion(){
+    public void release(){
+        Intents.release();
+    }
+
+    @AfterClass
+    public static void deleteQuestion(){
         Firestore.get().deleteQuestion(questionUUID);
-        Utils.waitAndTag(3000, "Test");
+    }
+
+    @Test
+    public void AddQuestion(){
+        Question q = new Question(questionUUID, "ADisplayQuestionActivityTest2", false, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
+        Player.get().setRole(Constants.Role.teacher);
+    }
+
+    @Test
+    public void aLoadQuestions(){
+        Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
+        Utils.waitAndTag(3000, "DisplayQuestionActivityTest2");
     }
 
     @Test
     public void displayQuestionTest(){
-        Question q = new Question(questionUUID, "Teacher quests test", false, 0, Constants.Course.SWENG.name());
-        Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, "Test");
-
-        Player.get().setRole(Constants.Role.teacher);
-        Utils.waitAndTag(3000, "Test");
-        Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
-        Utils.waitAndTag(3000, "Test");
-
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
