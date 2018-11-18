@@ -371,7 +371,8 @@ public class AddQuestionActivity extends NavigationTeacher {
                 displayImageView.setImageBitmap(displayImage);
 
                 TextView noImageSelected = findViewById(R.id.display_question_path);
-                noImageSelected.setVisibility(View.INVISIBLE);
+                noImageSelected.setVisibility(View.GONE);
+
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setsUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
 
