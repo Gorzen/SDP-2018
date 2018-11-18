@@ -169,7 +169,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
                 questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
                 try {
-                    Bitmap imageBitmap = bitmap == null ? getBitmapFromUri(imageURI) : bitmap;
+                    Bitmap imageBitmap = imageURI == null ? bitmap : getBitmapFromUri(imageURI);
                     FileOutputStream out = new FileOutputStream(questionFile);
                     imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                     out.close();
