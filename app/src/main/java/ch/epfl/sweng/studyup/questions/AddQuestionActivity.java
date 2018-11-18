@@ -206,7 +206,11 @@ public class AddQuestionActivity extends AppCompatActivity {
             // Add question to FireStore
             Firestore.get().addQuestion(newQuestion);
 
-            Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+            if(isNewQuestion) {
+                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this.getApplicationContext(), "Question edited !", Toast.LENGTH_SHORT).show();
+            }
             finish();
         }
     }
@@ -249,6 +253,8 @@ public class AddQuestionActivity extends AppCompatActivity {
                         secondRadioButton.setChecked(true);
                         break;
                 }
+            }  else {
+                firstRadioButton.setChecked(true);
             }
 
         } else {
