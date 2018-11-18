@@ -48,14 +48,12 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 public class AddQuestionActivity extends AppCompatActivity {
 
     private static final String TAG = "AddQuestionActivity";
-
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private Bitmap bitmap = null;
     private RadioGroup trueFalseRadioGroup;
     private RadioGroup imageTextRadioGroup;
     private imagePathGetter getPath;
-    private Button logout_button;
     private int answer = 1;
     private boolean isNewQuestion = true;
     private Question question;
@@ -194,9 +192,9 @@ public class AddQuestionActivity extends AppCompatActivity {
             Firestore.get().addQuestion(newQuestion);
 
             if(isNewQuestion) {
-                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), "Question successfully added !", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getApplicationContext(), "Question edited !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), "Question successfully edited !", Toast.LENGTH_SHORT).show();
             }
             finish();
         }
