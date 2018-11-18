@@ -49,6 +49,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     private RadioGroup imageTextRadioGroup;
     private imagePathGetter getPath;
     private Button logout_button;
+    private int answer = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,10 @@ public class AddQuestionActivity extends NavigationTeacher {
         Question question = (Question)intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if(question != null){
+            answer = question.getAnswer();
+            trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
+            int isTrueInt = question.isTrueFalse() == true ? R.id.true_false_radio : -1;
+            trueFalseRadioGroup.check(isTrueInt);
             setupEditQuestion(question);
         }
 
@@ -199,39 +204,52 @@ public class AddQuestionActivity extends NavigationTeacher {
         }
     }
 
-    private void addRadioListener(boolean isTrueFalse, int answer) {
+    private void setUpMCQTrueFalseRadioButtons(int checkedId) {
+        RadioButton firstRadioButton = findViewById(R.id.radio_answer1);
+        RadioButton secondRadioButton = findViewById(R.id.radio_answer2);
+        RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
+        RadioButton fourthRadioButton = findViewById(R.id.radio_answer4);
+
+        if (checkedId == R.id.true_false_radio) {
+            //mask the 3rd and 4th radio button and uncheck them
+            thirdRadioButton.setVisibility(View.INVISIBLE);
+            thirdRadioButton.setChecked(false);
+            fourthRadioButton.setVisibility(View.INVISIBLE);
+            fourthRadioButton.setChecked(false);
+
+            //Change the text to the 1st and second button to True and False
+            firstRadioButton.setText(R.string.truth_value);
+            secondRadioButton.setText(R.string.false_value);
+            switch(answer) {
+                case 1 : firstRadioButton.setChecked(true);
+                case 2 : secondRadioButton.setChecked(true);
+            }
+
+        } else {
+            //unmask the last two buttons and set the text to the first ones to numbers
+            thirdRadioButton.setVisibility(View.VISIBLE);
+            thirdRadioButton.setChecked(false);
+            fourthRadioButton.setVisibility(View.VISIBLE);
+            fourthRadioButton.setChecked(false);
+            switch(answer) {
+                case 1 : firstRadioButton.setChecked(true);
+                case 2 : secondRadioButton.setChecked(true);
+                case 3 : thirdRadioButton.setChecked(true);
+                case 4 : fourthRadioButton.setChecked(true);
+            }
+            //Change the text to the 1st and second button to True and False
+            firstRadioButton.setText("1");
+            secondRadioButton.setText("2");
+        }
+    }
+
+
+    private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton firstRadioButton = findViewById(R.id.radio_answer1);
-                RadioButton secondRadioButton = findViewById(R.id.radio_answer2);
-                RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
-                RadioButton fourthRadioButton = findViewById(R.id.radio_answer4);
-
-                if (checkedId == R.id.true_false_radio) {
-                    //mask the 3rd and 4th radio button and uncheck them
-                    thirdRadioButton.setVisibility(View.INVISIBLE);
-                    thirdRadioButton.setChecked(false);
-                    fourthRadioButton.setVisibility(View.INVISIBLE);
-                    fourthRadioButton.setChecked(false);
-
-                    //Change the text to the 1st and second button to True and False
-                    firstRadioButton.setText(R.string.truth_value);
-                    secondRadioButton.setText(R.string.false_value);
-
-                } else {
-                    //unmask the last two buttons and set the text to the first ones to numbers
-                    thirdRadioButton.setVisibility(View.VISIBLE);
-                    thirdRadioButton.setChecked(false);
-                    fourthRadioButton.setVisibility(View.VISIBLE);
-                    fourthRadioButton.setChecked(false);
-                    firstRadioButton.setChecked(true);
-
-                    //Change the text to the 1st and second button to True and False
-                    firstRadioButton.setText("1");
-                    secondRadioButton.setText("2");
-                }
+                setUpMCQTrueFalseRadioButtons(checkedId);
             }
         });
 
