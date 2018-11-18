@@ -148,7 +148,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     }
 
     public void addQuestion(View current) {
-        if (imageURI != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
+        if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
