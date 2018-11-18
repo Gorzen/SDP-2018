@@ -43,6 +43,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
  * Code used in the activity_custom to personnalize a Player.
  */
 public class CustomActivity extends NavigationStudent {
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
     private static final int GALLERY = 0, CAMERA = 1;
@@ -177,6 +178,7 @@ public class CustomActivity extends NavigationStudent {
                 }
             }
         } else if (requestCode == CAMERA) {
+            @SuppressWarnings("HardCodedStringLiteral")
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             setImageCircularAndUpload(bitmap);
         }

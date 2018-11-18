@@ -93,5 +93,13 @@
     <string name="text_unabletouploadimage">Unable to upload image</string>
     <string name="text_imageuploadsuccess">Successfully uploaded image</string>
     <string name="title_playerposition">Player position</string>
+    <string name="text_questiondlerror">An error occured when downloading the question</string>
+    <string name="text_questiondisplayerror">Error while displaying the question</string>
+    <string name="text_makechoice">Make your choice !</string>
+    <string name="text_cantanswertwice">You can\'t answer a question twice !</string>
+    <string name="text_wronganswer">Wrong answer... Maybe next time ?</string>
+    <string name="text_correctanswer">Correct answer ! Congrats</string>
+    <string name="text_langen">Damn you\'re english !</string>
+    <string name="text_langfr">Omelette du fromage</string>
 
 </resources>

@@ -40,9 +40,9 @@ public class SettingsActivity extends RefreshContext {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0) {
-                    Toast.makeText(SettingsActivity.this, "Damn you're english !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
                 } else if(which == 1) {
-                    Toast.makeText(SettingsActivity.this, "Omelette du fromage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
                 }
             }
         });
