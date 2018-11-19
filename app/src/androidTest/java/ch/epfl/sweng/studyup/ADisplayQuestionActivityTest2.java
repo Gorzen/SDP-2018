@@ -19,6 +19,7 @@ import org.junit.runners.MethodSorters;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
@@ -32,6 +33,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class ADisplayQuestionActivityTest2 {
     private static final String questionUUID = "Fake UUID test Display";
+    Question q = new Question(questionUUID, "ADisplayQuestionActivityTest2", false, 0, Constants.Course.SWENG.name());
     private ListView list;
 
     @Rule
@@ -56,7 +58,6 @@ public class ADisplayQuestionActivityTest2 {
 
     @Test
     public void AddQuestion(){
-        Question q = new Question(questionUUID, "ADisplayQuestionActivityTest2", false, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
         Player.get().setRole(Constants.Role.teacher);
@@ -78,9 +79,9 @@ public class ADisplayQuestionActivityTest2 {
             }
         });
 
+        /*
         Utils.waitAndTag(2000, "DisplayQuestionActivityTest2");
 
-        /*
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
         onView(withId(R.id.answer3)).perform(click());
@@ -88,9 +89,22 @@ public class ADisplayQuestionActivityTest2 {
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
-        */
 
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest2");
+        */
+    }
+
+    @Test
+    public void displayQuestionTestIntent(){
+        mActivityRule.getActivity().startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
+
+        onView(withId(R.id.answer1)).perform(click());
+        onView(withId(R.id.answer2)).perform(click());
+        onView(withId(R.id.answer3)).perform(click());
+        onView(withId(R.id.answer4)).perform(click());
+
+        onView(withId(R.id.answer1)).perform(click());
+        onView(withId(R.id.answer_button)).perform(click());
     }
 
     @Test
