@@ -216,5 +216,3 @@ public class MainActivity extends NavigationStudent {
         }
     }
 }
-
-

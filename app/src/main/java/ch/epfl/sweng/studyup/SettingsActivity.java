@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.job.JobScheduler;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
@@ -62,8 +64,7 @@ public class SettingsActivity extends RefreshContext {
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
-                Intent refresh = new Intent(MOST_RECENT_ACTIVITY, MOST_RECENT_ACTIVITY.getClass());
-                MOST_RECENT_ACTIVITY.startActivity(refresh);
+                startActivity(new Intent(MOST_RECENT_ACTIVITY, MainActivity.class));
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);

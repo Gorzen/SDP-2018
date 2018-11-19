@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.animation.AccelerateInterpolator;
 
 import java.io.IOException;
 import java.util.ArrayList;

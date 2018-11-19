@@ -86,9 +86,6 @@ public abstract class Constants {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
 
-    public static final String LEVEL_DISPLAY = "LEVEL: ";
-    public static final String CURR_DISPLAY = "MONEY: ";
-
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
@@ -96,6 +93,7 @@ public abstract class Constants {
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
     public static final String USER_PREFS = "StudyUpPrefs";
+
     // Enums for Role, Course
     public enum Role {
         student,
