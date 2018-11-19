@@ -46,7 +46,7 @@ public class QuestsActivityStudent extends NavigationStudent {
         });
     }
 
-    private void setupListView(final List<Question> quests) {
+    public void setupListView(final List<Question> quests) {
         ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
 

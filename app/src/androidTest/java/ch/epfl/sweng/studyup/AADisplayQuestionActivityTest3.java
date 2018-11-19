@@ -77,23 +77,33 @@ public class AADisplayQuestionActivityTest3 {
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                /*
                 final List<Question> ListElementsArrayList = new ArrayList<>();
 
                 final ArrayAdapter<Question> adapter = new ArrayAdapter<>
                         (mActivityRule.getActivity(), android.R.layout.simple_list_item_1,
-                                ListElementsArrayList);
+                                ListElementsArrayList);*/
 
                 list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
+                /*
                 list.setAdapter(adapter);
 
                 ListElementsArrayList.add(q);
                 adapter.notifyDataSetChanged();
+                */
+                List<Question> questions = new ArrayList<Question>(){
+                    {
+                        add(q);
+                    }
+                };
+
+                mActivityRule.getActivity().setupListView(questions);
 
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, list.getAdapter().getItemId(0));
             }
         });
 
-        Utils.waitAndTag(10000, "DisplayQuestionActivityTest2");
+        Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
@@ -137,9 +147,4 @@ public class AADisplayQuestionActivityTest3 {
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
     }*/
-
-    @Test
-    public void zzz() {
-
-    }
 }
