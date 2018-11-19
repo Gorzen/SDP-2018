@@ -71,5 +71,11 @@
     <string name="color_choice_settings_button">Change color</string>
     <string name="language_title_alert_dialog">Languages</string>
     <string name="cancel">Cancel</string>
+    <string name="choose_theme_red">RED</string>
+    <string name="choose_theme_green">Green</string>
+    <string name="choose_theme_brown">BROWN</string>
+    <string name="choose_theme_blue">BLUE</string>
+    <string name="choose_theme_multicolor">multicolor</string>
+
 
 </resources>
