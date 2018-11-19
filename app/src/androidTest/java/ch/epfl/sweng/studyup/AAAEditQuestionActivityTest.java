@@ -59,11 +59,12 @@ public class AAAEditQuestionActivityTest {
 
     private void clickOnListViewItem() {
        mActivityRule.launchActivity(new Intent());
-       mActivityRule.getActivity().setupListView(Arrays.asList(q));
-       list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
        mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
+                mActivityRule.getActivity().setupListView(Arrays.asList(q));
+                list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, list.getAdapter().getItemId(0));
             }
         });
