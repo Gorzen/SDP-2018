@@ -11,11 +11,13 @@ import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.LoginActivity;
@@ -37,6 +40,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
+import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
@@ -50,6 +54,7 @@ public class AddQuestionActivity extends NavigationTeacher {
     private RadioGroup imageTextRadioGroup;
     private imagePathGetter getPath;
     private Button logout_button;
+    private Spinner associatedCourseSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,8 @@ public class AddQuestionActivity extends NavigationTeacher {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
+        updatePlayerCourses();
+
         logout_button = findViewById(R.id.logoutbutton);
 
         logout_button.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +88,23 @@ public class AddQuestionActivity extends NavigationTeacher {
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updatePlayerCourses();
+    }
+
+    public void updatePlayerCourses() {
+        // Set dropdown for selecting associated course
+        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
+        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
+        Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
+        ArrayAdapter<String> courseListAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
+        associatedCourseSpinner.setAdapter(courseListAdapter);
     }
 
     /**
@@ -140,6 +164,8 @@ public class AddQuestionActivity extends NavigationTeacher {
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.isEmpty()) return;
 
+            String selectedCourseName = String.valueOf(associatedCourseSpinner.getSelectedItem());
+
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
 
@@ -172,9 +198,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
 
-            // TODO: Determine how to set question course
-            String questionCourseName = Player.get().getCourses().get(0).name();
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -192,6 +216,8 @@ public class AddQuestionActivity extends NavigationTeacher {
             return UUID.randomUUID().toString();
         }
     }
+
+
 
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);

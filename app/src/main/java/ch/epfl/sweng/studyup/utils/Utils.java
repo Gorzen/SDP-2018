@@ -9,6 +9,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public abstract class Utils {
 
@@ -33,12 +34,31 @@ public abstract class Utils {
         return itemsStr;
     }
 
-    public static List<Items> getItemsFromString(List<String> itemsStr){
+    public static List<Items> getItemsFromString(List<String> itemsStr) {
         List<Items> items = new ArrayList<>();
-        for(String s : itemsStr){
+        for(String s : itemsStr) {
             items.add(Items.valueOf(s));
         }
         return items;
+    }
+
+    /*
+    Conversion methods for player course list.
+    Used for passing data back and forth with Firebase.
+     */
+    public static List<Course> getCourseListFromStringList(List<String> courseStrings) {
+        List<Course> courses = new ArrayList<>();
+        for (String courseString : courseStrings) {
+            courses.add(Course.valueOf(courseString));
+        }
+        return courses;
+    }
+    public static List<String> getStringListFromCourseList(List<Course> courseList) {
+        List<String> courseStrings = new ArrayList<>();
+        for (Course course : courseList) {
+            courseStrings.add(course.name());
+        }
+        return courseStrings;
     }
 
     public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {

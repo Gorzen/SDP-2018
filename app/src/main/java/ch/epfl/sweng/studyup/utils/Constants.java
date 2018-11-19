@@ -98,8 +98,8 @@ public abstract class Constants {
 
     public enum Course {
         SWENG,
-        CALCULUS,
-        ECOLOGY,
-        MEDIEVEL_HISTORY
+        Algebra,
+        Ecology,
+        Blacksmithing
     }
 }

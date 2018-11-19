@@ -8,8 +8,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.annotation.IncompleteAnnotationException;
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants.*;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
@@ -50,4 +55,11 @@ public class PlayerTest {
         assertEquals(currency + CURRENCY_PER_LEVEL, Player.get().getCurrency());
     }
 
+    @Test
+    public void enrollInCoursesTest() {
+        List<Course> testCourseList = new ArrayList<>();
+        testCourseList.add(Course.Blacksmithing);
+        Player.get().setCourses(testCourseList);
+        assert(Player.get().getCourses().equals(testCourseList));
+    }
 }
