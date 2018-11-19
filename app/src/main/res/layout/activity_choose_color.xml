@@ -6,36 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ChooseColorActivity">
 
-    <android.support.constraint.ConstraintLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/topBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="?attr/colorPrimaryDark"
-            android:minHeight="?attr/actionBarSize"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <com.skydoves.colorpickerpreference.ColorPickerView
-        android:id="@+id/colorPickerView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25"
-        app:palette="@drawable/palette"
-        app:selector="@drawable/wheel" />
 
 </android.support.constraint.ConstraintLayout>

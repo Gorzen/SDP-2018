@@ -86,8 +86,6 @@ android {
         implementation 'de.hdodenhof:circleimageview:2.1.0'
         //TestFairy
         implementation 'testfairy:testfairy-android-sdk:1.+@aar'
-
-        compile 'com.github.skydoves:colorpickerpreference:1.0.2'
     }
 
     tasks.withType(Test) {
