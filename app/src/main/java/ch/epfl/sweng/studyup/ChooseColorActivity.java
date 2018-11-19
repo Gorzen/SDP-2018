@@ -17,7 +17,7 @@ public class ChooseColorActivity extends RefreshContext {
 
     public void changeTheme(View view){
         //Change les boutons pour soit AppTheme soit AppThemeBlue
-        GlobalAccessVariables.APP_THEME = R.style.AppThemeYellow;
+        GlobalAccessVariables.APP_THEME = R.style.AppThemeGreen;
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
