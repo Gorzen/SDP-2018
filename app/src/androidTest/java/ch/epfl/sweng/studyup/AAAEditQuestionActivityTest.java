@@ -32,6 +32,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Utils;
 import okhttp3.internal.Util;
 
@@ -50,11 +51,12 @@ public class AAAEditQuestionActivityTest {
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class, true, true);
+            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
 
 
     @Before
     public void init() {
+        GlobalAccessVariables.MOCK_ENABLED = true;
         Player.get().setRole(Constants.Role.teacher);
     }
 
@@ -64,9 +66,14 @@ public class AAAEditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
+        mActivityRule.launchActivity(new Intent());
+
+        AddQuestionActivity mActivity = mActivityRule.getActivity();
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
-
+        Question question = mActivity.getQuestion();
+        assertEquals(1, question.getAnswer());
+        assertEquals(true, question.isTrueFalse());
 
 
 

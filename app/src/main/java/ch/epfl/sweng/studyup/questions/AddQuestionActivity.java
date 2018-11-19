@@ -59,6 +59,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     private boolean isNewQuestion = true;
     private Question question;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +138,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     }
 
     public void addQuestion(View current) {
-        if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
+        if (MOCK_ENABLED || imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
@@ -191,7 +192,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             // TODO: Determine how to set question course
             String questionCourseName = Player.get().getCourses().get(0).name();
             Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
-
+            question = newQuestion;
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
             // Add question to FireStore
@@ -439,6 +440,10 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     public void onBackButtonAddQuestion(View view) {
         startActivity(new Intent(this.getApplicationContext(), QuestsActivityTeacher.class));
+    }
+
+    public Question getQuestion() {
+        return question;
     }
 
 }
