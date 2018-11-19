@@ -61,6 +61,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/display_question_path" />
 
+                <Spinner
+                    android:id="@+id/associatedCourseSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="Associated Course"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"></Spinner>
+
                 <RadioGroup
                     android:id="@+id/text_or_image_radio_group"
                     android:layout_width="wrap_content"
@@ -70,7 +81,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.505"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/questionTitle">
+                    app:layout_constraintTop_toBottomOf="@+id/associatedCourseSpinner">
 
                     <RadioButton
                         android:id="@+id/image_radio_button"

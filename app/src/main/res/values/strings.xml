@@ -5,13 +5,14 @@
     <string name="title_activity_auth_redirect">AuthRedirectActivity</string>
 
     <string name="title_quests">Quests</string>
-    <string name="title_rankings">Rankings</string>
+    <string name="title_shop">Shop</string>
     <string name="title_settings">Settings</string>
     <string name="title_home">Home</string>
     <string name="title_map">Map</string>
     <string name="title_inventory">Inventory</string>
     <string name="title_infos">Infos</string>
 
+    <string name="save_value">Save</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
     <string name="get_location_text">Get Location</string>
@@ -66,6 +67,7 @@
     <string name="textViewSettings">Settings</string>
     <string name="toast_text_infos_are_coming">Infos are coming soon</string>
     <string name="language_choice_settings_button">Choose your language</string>
+    <string name="course_choice_settings_button">Choose your courses</string>
     <string name="language_title_alert_dialog">Languages</string>
     <string name="display_question_activity_image_description">The image of the question</string>
     <string name="cancel">Cancel</string>

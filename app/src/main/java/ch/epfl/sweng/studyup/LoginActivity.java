@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
+import com.testfairy.TestFairy;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
         loadInterface();
     }
 
@@ -81,9 +82,10 @@ public class LoginActivity extends AppCompatActivity {
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
                  */
-                Class homeActivity = Player.get().getRole().equals(Role.student) ?
+                HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
                         MainActivity.class : AddQuestionActivity.class;
-                startActivity(new Intent(this, homeActivity));
+
+                startActivity(new Intent(this, HOME_ACTIVITY));
             }
 
         } catch (IOException e) {
@@ -105,7 +107,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         Player currPlayer = Player.get();
-        currPlayer.initializePlayerData(sciperNum, firstName, lastName);
+        currPlayer.setSciperNum(sciperNum);
+        currPlayer.setFirstName(firstName);
+        currPlayer.setLastName(lastName);
         currPlayer.setRole(role);
     }
 
@@ -160,6 +164,8 @@ public class LoginActivity extends AppCompatActivity {
             authServerRedirect.setData(Uri.parse(AUTH_SERVER_URL));
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
+            HOME_ACTIVITY = loginRole.equals(Role.student) ?
+                    MainActivity.class : AddQuestionActivity.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);

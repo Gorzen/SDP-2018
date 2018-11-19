@@ -40,8 +40,10 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
@@ -57,6 +59,10 @@ import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
@@ -84,7 +90,6 @@ public class AddQuestionActivityTest {
     public static void enableMock() {
         MOCK_ENABLED = true;
         Intents.init();
-        Player.get().initializeDefaultPlayerData();
     }
 
     @AfterClass
@@ -194,11 +199,11 @@ public class AddQuestionActivityTest {
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                for (Question q : questions) {
-                    if (q.getTitle().equals(questionTitle)) {
-                        assertTrue("Question found !", q.getTitle().equals(questionTitle));
-                        return;
-                    }
+
+                if (!questions.isEmpty()) {
+                    assertEquals(0, questions.get(0).getAnswer());
+                    assertEquals(false, questions.get(0).isTrueFalse());
+                    assertEquals(Course.SWENG.name(), questions.get(0).getCourseName());
                 }
                 assertFalse("Question not found", true);
             }

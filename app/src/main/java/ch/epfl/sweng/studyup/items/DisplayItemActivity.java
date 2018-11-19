@@ -25,7 +25,7 @@ public class DisplayItemActivity extends RefreshContext {
 
         Intent intent = getIntent();
         item = Items.getItemFromName(intent.getStringExtra(DisplayItemActivity.class.getName()));
-        TextView textViewName = findViewById(R.id.item_name);
+        TextView textViewName = findViewById(R.id.shop_item_name);
         textViewName.setText(item.getName());
         TextView textViewDescription = findViewById(R.id.item_description);
         textViewDescription.setText(item.getDescription());
@@ -44,13 +44,7 @@ public class DisplayItemActivity extends RefreshContext {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Player.get().consumeItem(item);
-                }
-                catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
+                Player.get().consumeItem(item);
                 startActivity(new Intent(getApplicationContext(), InventoryActivity.class));
             }
         });

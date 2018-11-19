@@ -56,7 +56,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
                 app:layout_constraintVertical_bias="0.0"
                 app:progressBackgroundColor="@color/colorProgression"
                 app:progressColor="@color/colorProgression2"
@@ -78,11 +78,11 @@
                 android:paddingBottom="1dp"
                 android:src="@drawable/user_init_pic"
                 app:civ_border_width="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/level_progress"
+                app:layout_constraintBottom_toBottomOf="@id/level_progress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/level_progress"
+                app:layout_constraintTop_toTopOf="@id/level_progress"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageButton
@@ -92,10 +92,10 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/user_photo_btn"
-                app:layout_constraintBottom_toBottomOf="@+id/level_progress"
-                app:layout_constraintEnd_toEndOf="@+id/level_progress"
-                app:layout_constraintStart_toStartOf="@+id/level_progress"
-                app:layout_constraintTop_toTopOf="@+id/toolbar"
+                app:layout_constraintBottom_toBottomOf="@id/level_progress"
+                app:layout_constraintEnd_toEndOf="@id/level_progress"
+                app:layout_constraintStart_toStartOf="@id/level_progress"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
                 app:layout_constraintVertical_bias="0.3" />
 
             <ImageButton
@@ -107,11 +107,11 @@
                 android:layout_marginStart="8dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/user_photo_btn"
-                app:layout_constraintBottom_toBottomOf="@+id/usernameText"
+                app:layout_constraintBottom_toBottomOf="@id/usernameText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/pic_btn"
-                app:layout_constraintTop_toTopOf="@+id/pic_btn"
+                app:layout_constraintStart_toEndOf="@id/pic_btn"
+                app:layout_constraintTop_toTopOf="@id/pic_btn"
                 app:layout_constraintVertical_bias="0.733"
                 app:srcCompat="@drawable/ic_mode_edit_not_clicked_24dp" />
 
@@ -127,10 +127,10 @@
                 android:textColor="@color/colorWhite"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintEnd_toEndOf="@id/toolbar"
                 app:layout_constraintHorizontal_bias="0.518"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
-                app:layout_constraintTop_toBottomOf="@+id/pic_imageview"
+                app:layout_constraintStart_toStartOf="@id/toolbar"
+                app:layout_constraintTop_toBottomOf="@id/pic_imageview"
                 app:layout_constraintVertical_bias="0.636" />
 
             <LinearLayout
@@ -153,9 +153,9 @@
                     android:textColor="@color/colorProgression"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                    app:layout_constraintEnd_toStartOf="@id/level_progress"
                     app:layout_constraintHorizontal_bias="0.25"
-                    app:layout_constraintStart_toStartOf="@+id/toolbar"
+                    app:layout_constraintStart_toStartOf="@id/toolbar"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -168,10 +168,10 @@
                     android:textColor="@color/colorProgression"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                    app:layout_constraintEnd_toStartOf="@id/level_progress"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/levelText"
-                    app:layout_constraintTop_toBottomOf="@+id/levelText"
+                    app:layout_constraintStart_toStartOf="@id/levelText"
+                    app:layout_constraintTop_toBottomOf="@id/levelText"
                     app:layout_constraintVertical_bias="0.17000002" />
             </LinearLayout>
 
@@ -183,8 +183,8 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottomBar"
-            android:layout_below="@+id/topBar">
+            android:layout_above="@id/bottomBar"
+            android:layout_below="@id/topBar">
 
         </android.support.constraint.ConstraintLayout>
 
