@@ -54,18 +54,14 @@ public class QuestsActivityTeacher extends NavigationTeacher {
 
     //TODO For now the same as for the student! To be changed
     protected void setupListView(final List<Question> quests) {
-        List<String> titles = new ArrayList<>();
-        List<String> UUIDs = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
 
-        for(Question q : quests) {
-            titles.add(q.getTitle());
-            UUIDs.add(q.getQuestionId());
+        for(int i = 0; i < quests.size(); ++i) {
             ids.add(0); //Basic id, that is not used in this adapter
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_list_view_teacher_model, titles, ids, UUIDs);
+        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_list_view_teacher_model, quests, ids);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -79,26 +75,24 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     private class QuestListViewAdapterTeacher extends BaseAdapter {
         private Context cnx;
         private int idLayout;
-        private List<String> titles;
-        private List<String> UUIDs;
+        private List<Question> questions;
         private List<Integer> ids;
 
-        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<String> titles, List<Integer> ids, List<String> UUIDs) {
+        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> ids) {
             this.cnx=cnx;
-            this.titles = titles;
+            this.questions = questions;
             this.idLayout = idLayout;
-            this.UUIDs = UUIDs;
             this.ids = ids;
         }
 
         @Override
         public int getCount() {
-            return titles.size();
+            return questions.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return titles.get(position);
+            return questions.get(position);
         }
 
         @Override
@@ -112,7 +106,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                 convertView=View.inflate(cnx, idLayout, null);
             }
             TextView text_view = convertView.findViewById(R.id.quest_title);
-            text_view.setText(titles.get(position));
+            text_view.setText(questions.get(position).getTitle());
             ImageView delete = convertView.findViewById(R.id.delete_question);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,7 +117,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                             .setPositiveButton(R.string.yes_upper, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Firestore.get().deleteQuestion(UUIDs.get(position));
+                                    Firestore.get().deleteQuestion(questions.get(position).getQuestionId());
                                     if(!MOCK_ENABLED) { Utils.waitAndTag(500, TAG); onResume(); }
                                 }
                             });
