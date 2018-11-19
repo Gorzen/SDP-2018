@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Intent;
@@ -30,6 +31,7 @@ import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Language
+        String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString("lang", Locale.getDefault().getLanguage());
+        setLocale(lang, this);
 
         if(!MOCK_ENABLED) {
             try {
@@ -53,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
+
         loadInterface();
     }
 

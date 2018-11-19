@@ -5,6 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.provider.Settings;
@@ -23,6 +24,9 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 
 public class SettingsActivity extends RefreshContext {
     @Override
@@ -45,13 +49,21 @@ public class SettingsActivity extends RefreshContext {
         languageChoiceBuilder.setItems(Constants.LANGUAGES, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String lang = "en"; // Basis
                 if(which == 0) {
-                    setLocale("en");
+                    lang = "en";
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
                 } else if(which == 1) {
-                    setLocale("fr");
+                    lang = "fr";
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
                 }
+                getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
+                        .putString("lang", lang)
+                        .apply();
+                setLocale(lang, MOST_RECENT_ACTIVITY);
+
+                Intent refresh = new Intent(MOST_RECENT_ACTIVITY, MOST_RECENT_ACTIVITY.getClass());
+                MOST_RECENT_ACTIVITY.startActivity(refresh);
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);
@@ -61,16 +73,5 @@ public class SettingsActivity extends RefreshContext {
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    public void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, SettingsActivity.class);
-        startActivity(refresh);
     }
 }

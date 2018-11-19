@@ -95,6 +95,7 @@ public abstract class Constants {
 
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
+    public static final String USER_PREFS = "StudyUpPrefs";
     // Enums for Role, Course
     public enum Role {
         student,
