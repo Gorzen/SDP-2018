@@ -40,7 +40,7 @@ public class ADisplayQuestionActivityTest2 {
     public final ActivityTestRule<QuestsActivityStudent> mActivityRule =
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
 
-    @BeforeClass
+   /* @BeforeClass
     public static void changeSciper(){
         Player.get().setSciperNum("100001");
     }
@@ -94,7 +94,7 @@ public class ADisplayQuestionActivityTest2 {
 
     }*/
 
-    @Test
+   /* @Test
     public void displayQuestionTestIntent(){
         mActivityRule.getActivity().startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
 
@@ -105,7 +105,7 @@ public class ADisplayQuestionActivityTest2 {
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
-    }
+    }*/
 
     @Test
     public void test(){
