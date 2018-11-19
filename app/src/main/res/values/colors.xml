@@ -6,6 +6,12 @@
     <color name="colorPrimaryBlue">#3F51B5</color>
     <color name="colorPrimaryDarkBlue">#303F9F</color>
     <color name="colorAccentBlue">#1111ff</color>
+    <color name="colorPrimaryYellow">#F5F50E</color>
+    <color name="colorPrimaryDarkYellow">#E4E440</color>
+    <color name="colorAccentYellow">#D4D404</color>
+    <color name="colorPrimaryGreen">#02C709</color>
+    <color name="colorPrimaryDarkGreen">#217624</color>
+    <color name="colorAccentGreen">#0EB514</color>
 
     <color name="colorWhite">#fff</color>
     <color name="colorListItems">#ecf1f2</color>
