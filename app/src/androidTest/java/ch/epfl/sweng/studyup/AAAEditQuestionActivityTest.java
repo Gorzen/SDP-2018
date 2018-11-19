@@ -64,9 +64,9 @@ public class AAAEditQuestionActivityTest {
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         assertEquals(1, 1);
-       /* LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
-        assertNotNull(parsedList);
-        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+       LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+
+       /* parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
