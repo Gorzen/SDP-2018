@@ -105,7 +105,7 @@ public class Question {
         String s = "";
         s += title;
         if (trueFalse) {
-            s += " (True/False) ";
+            s += " (True/False)";
         }
         else {
             s += " (MCQ)";

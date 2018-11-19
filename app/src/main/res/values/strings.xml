@@ -69,5 +69,6 @@
     <string name="language_title_alert_dialog">Languages</string>
     <string name="display_question_activity_image_description">The image of the question</string>
     <string name="cancel">Cancel</string>
+    <string name="question_added_toast">Question added !</string>
 
 </resources>

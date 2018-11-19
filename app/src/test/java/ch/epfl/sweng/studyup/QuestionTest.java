@@ -3,7 +3,10 @@ package ch.epfl.sweng.studyup;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.robolectric.RobolectricTestRunner;
+
+import java.util.Objects;
 
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -13,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(JUnit4.class)
 public class QuestionTest {
 
     private Question q;
@@ -67,6 +70,7 @@ public class QuestionTest {
 
     @Test
     public void settersTest() {
+        Question q = new Question("1", "question TEST", true, 0, testCourseName);
         q.setAnswer(1);
         assertEquals(q.getAnswer(), 1);
         q.setAnswer(2);
@@ -85,5 +89,24 @@ public class QuestionTest {
         assertEquals("new title", q.getTitle());
         q.setQuestionId("2");
         assertEquals("2", q.getQuestionId());
+        assertEquals(testCourseName, q.getCourseName());
+    }
+
+    @Test
+    public void toStringTrueFalseTest() {
+        Question q = new Question("1", "question TEST", true, 0, testCourseName);
+        assertEquals("question TEST (True/False) and answer number 0", q.toString());
+    }
+
+    @Test
+    public void toStringMCQTest() {
+        Question q = new Question("1", "question TEST mcq", false, 3, testCourseName);
+        assertEquals("question TEST mcq (MCQ) and answer number 3", q.toString());
+    }
+
+    @Test
+    public void hashTest() {
+        Question q = new Question("1", "question TEST mcq", false, 3, testCourseName);
+        assertEquals(Objects.hash(q.getQuestionId(), q.getTitle(), q.getAnswer(), q.isTrueFalse()), q.hashCode());
     }
 }

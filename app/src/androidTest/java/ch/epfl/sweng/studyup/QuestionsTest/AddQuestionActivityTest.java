@@ -3,13 +3,13 @@ package ch.epfl.sweng.studyup.QuestionsTest;
 import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -32,7 +32,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -44,6 +43,7 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -54,12 +54,27 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
     private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
+    private static File bitmapFile = null;
+
+    private static void initBitmapAndLaunchRequest(Context c) {
+        Bitmap sampleImage = BitmapFactory.decodeResource(c.getResources(), R.drawable.user_init_pic);
+        bitmapFile = new File(InstrumentationRegistry.getInstrumentation().getTargetContext().getFilesDir().toString() + "testfile.png");
+        OutputStream os = null;
+        try {
+            os = new BufferedOutputStream(new FileOutputStream(bitmapFile));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            assertTrue(e.getMessage(), false);
+        }
+        sampleImage.compress(Bitmap.CompressFormat.PNG, 100, os);
+    }
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
@@ -133,16 +148,11 @@ public class AddQuestionActivityTest {
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
         onView(ViewMatchers.withId(R.id.image_radio_button)).perform(click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(click());
-        Bitmap sampleImage = BitmapFactory.decodeResource(mActivityRule.getActivity().getResources(), R.drawable.user_init_pic);
-        File bitmapFile = new File(InstrumentationRegistry.getInstrumentation().getTargetContext().getFilesDir().toString() + "testfile.png");
-        OutputStream os = null;
-        try {
-            os = new BufferedOutputStream(new FileOutputStream(bitmapFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            assertTrue(e.getMessage(), false);
+
+        if (bitmapFile == null) {
+            initBitmapAndLaunchRequest(mActivityRule.getActivity());
         }
-        sampleImage.compress(Bitmap.CompressFormat.PNG, 100, os);
+
         Intent result = new Intent();
         result.setData(Uri.fromFile(bitmapFile));
         mActivityRule.getActivity().onActivityResult(42, Activity.RESULT_OK, result);
@@ -152,27 +162,32 @@ public class AddQuestionActivityTest {
 
     @Test
     public void addQuestionTest() throws Throwable {
+        QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         final String questionTitle = "This Is A Test Title";
         //Question: MCQ, answer: 0
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
         onView(withId(R.id.image_radio_button)).perform(click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(click());
+        //Add image
+        if (bitmapFile == null) {
+            initBitmapAndLaunchRequest(mActivityRule.getActivity());
+        }
+
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.scrollTo(), click());
 
-        mActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                EditText title = mActivityRule.getActivity().findViewById(R.id.questionTitle);
-                title.setText(questionTitle);
-            }
-        });
-        onView(withId(R.id.display_question_path)).check(matches((isDisplayed())));
+        onView(withId(R.id.questionTitle)).perform(ViewActions.typeText(questionTitle));
+        Intent result = new Intent();
+        result.setData(Uri.fromFile(bitmapFile));
+        mActivityRule.getActivity().onActivityResult(42, Activity.RESULT_OK, result);
+
+        onView(withId(R.id.display_question_path)).check(matches(not(isDisplayed())));
         onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.scrollTo(), click());
 
         Utils.waitAndTag(500, TAG);
-        Player.get().setRole(Role.teacher);
+
+        /*No need for this
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(500, TAG);
+        Utils.waitAndTag(500, TAG);*/
 
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -180,8 +195,10 @@ public class AddQuestionActivityTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 for (Question q : questions) {
-                    if (q.getTitle().equals(questionTitle))
+                    if (q.getTitle().equals(questionTitle)) {
                         assertTrue("Question found !", q.getTitle().equals(questionTitle));
+                        return;
+                    }
                 }
                 assertFalse("Question not found", true);
             }
@@ -204,4 +221,5 @@ public class AddQuestionActivityTest {
         onView(withId(R.id.addQuestion_display_image)).check(matches(not(isDisplayed())));
         onView(withId(R.id.questionText)).check(matches(isDisplayed()));
     }
+
 }
