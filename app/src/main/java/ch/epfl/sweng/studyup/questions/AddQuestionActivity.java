@@ -44,6 +44,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 public class AddQuestionActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
         Question question;
-        if(!MOCK_ENABLED) {
+        if(!MOCK_ENABLED_EDIT_QUESTION) {
             Intent intent = getIntent();
             question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         } else {
@@ -138,7 +139,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     }
 
     public void addQuestion(View current) {
-        if (MOCK_ENABLED || imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
+        if (MOCK_ENABLED_EDIT_QUESTION || imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
@@ -158,7 +159,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
 
-            if(!MOCK_ENABLED) {
+            if(!MOCK_ENABLED_EDIT_QUESTION) {
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
                 questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
                 try {
@@ -193,7 +194,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             // TODO: Determine how to set question course
             String questionCourseName = Player.get().getCourses().get(0).name();
             Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
-            if(!MOCK_ENABLED) {
+            if(!MOCK_ENABLED_EDIT_QUESTION) {
                 // Upload the problem image file to the Firebase Storage server
                 FileStorage.uploadProblemImage(questionFile);
                 // Add question to FireStore
