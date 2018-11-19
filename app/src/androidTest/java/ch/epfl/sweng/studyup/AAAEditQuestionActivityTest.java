@@ -58,13 +58,13 @@ public class AAAEditQuestionActivityTest {
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, this.getClass().getName());
+        Utils.waitAndTag(10000, this.getClass().getName());
         clickOnListViewItem();
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         assertEquals(1, 1);
-       LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+      // LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
 
        /* parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
