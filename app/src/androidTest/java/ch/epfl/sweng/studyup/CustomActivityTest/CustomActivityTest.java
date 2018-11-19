@@ -23,6 +23,7 @@ import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
