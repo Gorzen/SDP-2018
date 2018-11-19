@@ -64,7 +64,7 @@ public class BackgroundLocation extends JobService {
                         str += '\n' + R.string.text_inyourroom + Player.get().getCurrentRoom();
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
-                        str += '\n' + Resources.getSystem().getString(R.string.text_notinyourroom) + Player.get().getCurrentRoom();
+                        str += '\n' + MOST_RECENT_ACTIVITY.getString(R.string.text_notinyourroom) + Player.get().getCurrentRoom();
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);
