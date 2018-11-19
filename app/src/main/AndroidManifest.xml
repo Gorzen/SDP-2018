@@ -51,6 +51,7 @@
         <activity android:name=".items.BuyItemActivity" />
         <activity android:name=".items.InventoryActivity" />
         <activity android:name=".player.CustomActivity" />
+        <activity android:name=".ChooseColorActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
