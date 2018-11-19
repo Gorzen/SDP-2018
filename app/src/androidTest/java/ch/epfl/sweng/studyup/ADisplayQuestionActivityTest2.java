@@ -69,7 +69,7 @@ public class ADisplayQuestionActivityTest2 {
         Utils.waitAndTag(3000, "DisplayQuestionActivityTest2");
     }
 
-    /*
+    
     @Test
     public void displayQuestionTest(){
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
@@ -92,7 +92,7 @@ public class ADisplayQuestionActivityTest2 {
 
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest2");
 
-    }*/
+    }
 
     @Test
     public void displayQuestionTestIntent(){
