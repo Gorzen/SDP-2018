@@ -48,7 +48,7 @@
     <string name="quest_title">Titre de la quête</string>
     <string name="quest_course">Quête de cours</string>
     <string name="image_radio_text">Question avec une image</string>
-    <string name="text_radio">Question sans image</string>
+    <string name="text_radio">Question textuelle</string>
     <string name="title_add_question">Ajouter une question</string>
     <string name="available_quests">Quêtes disponibles</string>
     <string name="text_answer_3">Réponse 3</string>
