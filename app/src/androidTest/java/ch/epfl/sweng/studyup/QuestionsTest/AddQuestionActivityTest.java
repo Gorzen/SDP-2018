@@ -55,6 +55,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
@@ -82,11 +83,6 @@ public class AddQuestionActivityTest {
         mActivityRule.launchActivity(new Intent());
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         closeSoftKeyboard();
-    }
-
-    @Before
-    public void closeKeyboard() {
-        Espresso.closeSoftKeyboard();
     }
 
     @Test
@@ -156,6 +152,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void addQuestionTest() throws Throwable {
+        final String questionTitle = "This Is A Test Title";
         //Question: MCQ, answer: 0
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
         onView(withId(R.id.image_radio_button)).perform(click());
@@ -166,11 +163,11 @@ public class AddQuestionActivityTest {
             @Override
             public void run() {
                 EditText title = mActivityRule.getActivity().findViewById(R.id.questionTitle);
-                title.setText("A Title");
+                title.setText(questionTitle);
             }
         });
-        onView(withId(R.id.display_question_path)).check(matches(not(isDisplayed())));
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(click());
+        onView(withId(R.id.display_question_path)).check(matches((isDisplayed())));
+        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.scrollTo(), click());
 
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
@@ -182,10 +179,11 @@ public class AddQuestionActivityTest {
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                if (!questions.isEmpty()) {
-                    assertEquals(0, questions.get(0).getAnswer());
-                    assertEquals(false, questions.get(0).isTrueFalse());
+                for (Question q : questions) {
+                    if (q.getTitle().equals(questionTitle))
+                        assertTrue("Question found !", q.getTitle().equals(questionTitle));
                 }
+                assertFalse("Question not found", true);
             }
         });
         Utils.waitAndTag(100, TAG);
