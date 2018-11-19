@@ -25,6 +25,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
+import static org.junit.Assert.assertFalse;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -85,6 +86,9 @@ public class AADisplayQuestionActivityTest3 {
 
         //mActivityRule.launchActivity(getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
+
+        assertFalse(list.getCount() == 0);
+        
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
