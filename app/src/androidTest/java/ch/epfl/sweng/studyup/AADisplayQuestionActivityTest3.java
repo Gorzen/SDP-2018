@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup;
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.ListView;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -14,6 +15,7 @@ import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -29,12 +31,11 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentF
 public class AADisplayQuestionActivityTest3 {
     private static final String questionUUID = "Fake UUID test Display";
     Question q = new Question(questionUUID, "ADisplayQuestionActivityTest2", false, 0, Constants.Course.SWENG.name());
-    private Intent intent = new Intent();
-    private Intent intent2 = null;
+    private ListView list;
 
     @Rule
-    public final ActivityTestRule<DisplayQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(DisplayQuestionActivity.class);
+    public final ActivityTestRule<QuestsActivityStudent> mActivityRule =
+            new ActivityTestRule<>(QuestsActivityStudent.class);
 
     @BeforeClass
     public static void changeSciper(){
@@ -82,7 +83,14 @@ public class AADisplayQuestionActivityTest3 {
         Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
         Utils.waitAndTag(3000, "DisplayQuestionActivityTest2");
 
-        mActivityRule.launchActivity(getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
+        //mActivityRule.launchActivity(getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
+        list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
+            }
+        });
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
