@@ -5,12 +5,14 @@
     <color name="colorAccent">#d81b60</color>
     <color name="colorProgression">#bb8799</color>
     <color name="colorProgression2">#edcccc</color>
+
     <color name="colorPrimaryBlue">#3F51B5</color>
     <color name="colorPrimaryDarkBlue">#303F9F</color>
     <color name="colorAccentBlue">#1111ff</color>
     <color name="colorProgressionBlue">#637cd3</color>
     <color name="colorProgressionBlue2">#bfd8ff</color>
-    <color name="colorPrimaryGreen">#02C709</color>
+
+    <color name="colorPrimaryGreen">#4ec600</color>
     <color name="colorPrimaryDarkGreen">#217624</color>
     <color name="colorAccentGreen">#0EB514</color>
     <color name="colorProgressionGreen">#00CC66</color>
