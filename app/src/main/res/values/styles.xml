@@ -18,8 +18,6 @@
         <item name="colorAccent">@color/colorAccentBlue</item>
         <item name="colorProgression">@color/colorProgressionBlue</item>
         <item name="colorProgression2">@color/colorProgressionBlue2</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppThemeGreen" parent="AppTheme">
@@ -28,8 +26,6 @@
         <item name="colorAccent">@color/colorAccentGreen</item>
         <item name="colorProgression">@color/colorProgressionGreen</item>
         <item name="colorProgression2">@color/colorProgressionGreen2</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
