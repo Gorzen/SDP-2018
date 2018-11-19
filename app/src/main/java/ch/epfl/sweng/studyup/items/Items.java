@@ -10,19 +10,17 @@ import ch.epfl.sweng.studyup.player.Player;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
-@SuppressWarnings("HardCodedStringLiteral") // TODO: Once refactored, delete this line
 public enum Items {
     XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION, Items.XP_POTION_PRICE),
     COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
 
-    // TODO: This need to be refactored
     //Names
-    public static final String XP_POTION_NAME = "XP potion";
-    public static final String COIN_SACK_NAME = "Sack of coin";
+    public static final String XP_POTION_NAME = "XP potion";//MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_name);
+    public static final String COIN_SACK_NAME = "Sack of coin";//MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_name);
 
     //Descriptions
-    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
-    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+    public static final String XP_POTION_DESCRIPTION = MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_desc);
+    public static final String COIN_SACK_DESCRIPTION = MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_desc);
 
     //Prices
     public static final int XP_POTION_PRICE = 10;

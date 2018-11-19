@@ -101,5 +101,9 @@
     <string name="text_correctanswer">Correct answer! Congrats!</string>
     <string name="text_langen" translatable="false">Damn you\'re english !</string>
     <string name="text_langfr" translatable="false">Omelette du fromage</string>
+    <string name="item_xppotion_name">XP potion</string>
+    <string name="item_sackofcoins_name">Sack of coin</string>
+    <string name="item_xppotion_desc">A potion that gives you some xp when drunk !</string>
+    <string name="item_sackofcoins_desc">A sack containing lots of shiny coins !</string>
 
 </resources>
