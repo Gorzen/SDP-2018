@@ -67,8 +67,8 @@ public class DisplayQuestionActivity extends NavigationStudent {
         String questionTitle = "";
         String questionID = "";
 
-        Intent intent = getIntent();
         if(!MOCK_ENABLED) {
+            Intent intent = getIntent();
             if (!checkIntent(intent)) return;
             questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
             questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
