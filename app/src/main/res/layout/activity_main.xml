@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorWhite"
+    style="@style/AppTheme"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -58,8 +59,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/toolbar"
                 app:layout_constraintVertical_bias="0.0"
-                app:progressBackgroundColor="@color/colorProgression"
-                app:progressColor="@color/colorProgression2"
+                app:progressBackgroundColor="?attr/colorProgression"
+                app:progressColor="?attr/colorProgression2"
                 app:progressStrokeWidth="5dp"
                 app:textColor="@android:color/transparent"
                 app:textSize="24sp"
@@ -150,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="@string/level_x"
-                    android:textColor="@color/colorProgression"
+                    android:textColor="?attr/colorProgression"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/level_progress"
@@ -165,7 +166,7 @@
                     android:layout_marginTop="20dp"
                     android:text="@string/money"
                     android:textAlignment="center"
-                    android:textColor="@color/colorProgression"
+                    android:textColor="?attr/colorProgression"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/level_progress"

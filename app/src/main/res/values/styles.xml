@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorProgression">@color/colorProgression</item>
+        <item name="colorProgression2">@color/colorProgression2</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -14,6 +16,8 @@
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
         <item name="colorAccent">@color/colorAccentBlue</item>
+        <item name="colorProgression">@color/colorProgressionBlue</item>
+        <item name="colorProgression2">@color/colorProgressionBlue2</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
