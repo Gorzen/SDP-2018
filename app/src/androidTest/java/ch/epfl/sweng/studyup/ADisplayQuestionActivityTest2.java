@@ -69,6 +69,7 @@ public class ADisplayQuestionActivityTest2 {
         Utils.waitAndTag(3000, "DisplayQuestionActivityTest2");
     }
 
+    /*
     @Test
     public void displayQuestionTest(){
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
@@ -79,7 +80,6 @@ public class ADisplayQuestionActivityTest2 {
             }
         });
 
-        /*
         Utils.waitAndTag(2000, "DisplayQuestionActivityTest2");
 
         onView(withId(R.id.answer1)).perform(click());
@@ -91,8 +91,8 @@ public class ADisplayQuestionActivityTest2 {
         onView(withId(R.id.answer_button)).perform(click());
 
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest2");
-        */
-    }
+
+    }*/
 
     @Test
     public void displayQuestionTestIntent(){
