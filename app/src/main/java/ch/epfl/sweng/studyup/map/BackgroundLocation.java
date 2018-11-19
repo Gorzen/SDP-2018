@@ -59,9 +59,9 @@ public class BackgroundLocation extends JobService {
                 if (location != null) {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
-                    String str = Resources.getSystem().getString(R.string.text_newposition) + POSITION.latitude + ", " + POSITION.longitude;
+                    String str = R.string.text_newposition + POSITION.latitude + ", " + POSITION.longitude;
                     if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
-                        str += '\n' + Resources.getSystem().getString(R.string.text_inyourroom) + Player.get().getCurrentRoom();
+                        str += '\n' + R.string.text_inyourroom + Player.get().getCurrentRoom();
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
                         str += '\n' + Resources.getSystem().getString(R.string.text_notinyourroom) + Player.get().getCurrentRoom();

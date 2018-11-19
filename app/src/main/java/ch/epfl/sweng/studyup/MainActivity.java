@@ -197,11 +197,11 @@ public class MainActivity extends NavigationStudent {
 
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        ((TextView) findViewById(R.id.levelText)).setText(LEVEL_DISPLAY + Player.get().getLevel());
+        ((TextView) findViewById(R.id.levelText)).setText(R.string.text_level + Player.get().getLevel());
     }
 
     public void updateCurrDisplay() {
-        ((TextView) findViewById(R.id.currText)).setText(CURR_DISPLAY + Player.get().getCurrency());
+        ((TextView) findViewById(R.id.currText)).setText(R.string.text_money + Player.get().getCurrency());
     }
 
     public static void clearCacheToLogOut(Context context) {

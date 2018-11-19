@@ -13,7 +13,7 @@ public abstract class QuestionDatabase extends RoomDatabase {
 
     public abstract QuestionDAO questionDAO();
 
-    private static final String databaseName = Resources.getSystem()..getString(R.string.title_questiondb);
+    private static final String databaseName = Resources.getSystem().getString(R.string.title_questiondb);
     private static QuestionDatabase instance = null;
 
     public static QuestionDatabase get(Context c){

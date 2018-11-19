@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverter;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Objects;
@@ -11,7 +12,6 @@ import com.google.common.base.Objects;
 import ch.epfl.sweng.studyup.R;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static javax.swing.UIManager.getString;
 
 @Entity
 public class Question {
@@ -108,12 +108,12 @@ public class Question {
         String s = "";
         s += title;
         if (trueFalse) {
-            s += getString(R.string.text_truefalse);
+            s += R.string.text_truefalse;
         }
         else {
-            s += getString(R.string.text_mcq);
+            s += s += R.string.text_mcq;
         }
-        s += getString(R.string.text_answernumber) + answer;
+        s += s += R.string.text_answernumber + answer;
         return s;
     }
 
