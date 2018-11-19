@@ -24,7 +24,7 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QU
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_WITH_QUESTION;
 import static org.junit.Assert.assertEquals;
 
-public class AAADisplayQuestionActivityTest4 {
+public class AADisplayQuestionActivityTest4 {
     private static final String questionUUID = "Fake UUID test Display";
     private Question q = new Question(questionUUID, "ADisplayQuestionActivityTest2", false, 0, Constants.Course.SWENG.name());
 
