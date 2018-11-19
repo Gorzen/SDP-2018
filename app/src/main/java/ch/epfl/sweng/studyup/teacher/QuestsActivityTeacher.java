@@ -48,7 +48,7 @@ public class QuestsActivityTeacher extends AppCompatActivity {
         Firestore.get().loadQuestions(this);
     }
 
-    protected void setupListView(final List<Question> quests) {
+    public void setupListView(final List<Question> quests) {
         int nbrQuestion = quests.size();
 
         String[] list = new String[nbrQuestion];
