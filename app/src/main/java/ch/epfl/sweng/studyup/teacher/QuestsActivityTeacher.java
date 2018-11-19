@@ -37,9 +37,7 @@ public class QuestsActivityTeacher extends AppCompatActivity {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                if (!MOCK_ENABLED) {
                     setupListView(questions);
-                }
             }
         });
 

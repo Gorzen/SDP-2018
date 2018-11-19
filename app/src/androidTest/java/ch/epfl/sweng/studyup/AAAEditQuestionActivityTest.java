@@ -27,6 +27,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
@@ -47,38 +48,29 @@ public class AAAEditQuestionActivityTest {
     private ListView list;
 
     @Rule
-    public final ActivityTestRule<QuestsActivityTeacher> mActivityRule =
-            new ActivityTestRule<>(QuestsActivityTeacher.class, true, false);
+    public final ActivityTestRule<AddQuestionActivity> mActivityRule =
+            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
 
 
     @Before
     public void init() {
-        MOCK_ENABLED = true;
         Player.get().setRole(Constants.Role.teacher);
     }
 
     private void clickOnListViewItem() {
-       mActivityRule.launchActivity(new Intent());
-       mActivityRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                mActivityRule.getActivity().setupListView(Arrays.asList(q));
-                list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
-                list.performItemClick(list.getAdapter().getView(0, null, null), 0, list.getAdapter().getItemId(0));
-            }
-        });
     }
 
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
-        clickOnListViewItem();
-        assertEquals(1 , 1);
-        /*onView(withId(R.id.radio_answer2)).perform(click());
+        Intent intent = new Intent().putExtra(AddQuestionActivity.class.getSimpleName(), q);
+        mActivityRule.launchActivity(intent);
+        onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
-        list.getAdapter().getItem(0);
-      // LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+
+
+
 
        /* parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
             @Override
