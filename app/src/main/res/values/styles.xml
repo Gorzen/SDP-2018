@@ -32,6 +32,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppThemeBrown" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryBrown</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBrown</item>
+        <item name="colorAccent">@color/colorAccentBrown</item>
+        <item name="colorProgression">@color/colorProgressionBrown</item>
+        <item name="colorProgression2">@color/colorProgressionBrown2</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
