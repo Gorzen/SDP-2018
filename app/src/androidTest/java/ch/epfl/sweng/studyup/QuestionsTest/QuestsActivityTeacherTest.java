@@ -146,7 +146,9 @@ public class QuestsActivityTeacherTest {
         parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                assertTrue(questions.isEmpty());
+                for(Question q : questions) {
+                    assertFalse(q.getTitle() == fakeTitle);
+                }
             }
         });
     }
