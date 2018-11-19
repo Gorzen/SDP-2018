@@ -26,6 +26,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -37,20 +38,20 @@ public class ADisplayQuestionActivityTest2 {
     public final ActivityTestRule<QuestsActivityStudent> mActivityRule =
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
 
-    @Before
-    public void setup(){
-        Intents.init();
-        mActivityRule.launchActivity(new Intent());
-    }
-
-    @After
-    public void release(){
-        Intents.release();
+    @BeforeClass
+    public static void changeSciper(){
+        Player.get().setSciperNum("100001");
     }
 
     @AfterClass
     public static void deleteQuestion(){
         Firestore.get().deleteQuestion(questionUUID);
+        Player.get().resetPlayer();
+    }
+
+    @Before
+    public void setup(){
+        mActivityRule.launchActivity(new Intent());
     }
 
     @Test
@@ -77,6 +78,8 @@ public class ADisplayQuestionActivityTest2 {
             }
         });
 
+        Utils.waitAndTag(2000, "DisplayQuestionActivityTest2");
+
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
         onView(withId(R.id.answer3)).perform(click());
@@ -84,5 +87,12 @@ public class ADisplayQuestionActivityTest2 {
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
+
+        Utils.waitAndTag(1000, "DisplayQuestionActivityTest2");
+    }
+
+    @Test
+    public void test(){
+        assertEquals(1, 1);
     }
 }
