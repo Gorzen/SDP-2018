@@ -48,7 +48,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
@@ -71,34 +73,30 @@ public class QuestsActivityTeacherTest {
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name());
+        q = new Question(MOCK_UUID, fakeTitle, false, 3, Course.SWENG.name());
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(500, TAG);
+        waitAndTag(500, TAG);
         rule.launchActivity(new Intent());
-        Utils.waitAndTag(100, TAG);
+        waitAndTag(100, TAG);
     }
 
-    //Test must be changed when changing the function called when clicking on a question
-    public void listViewRedirectOnCorrectQuestion() {
+    @Test
+    public void listViewDisplayCorrectQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
-        rule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < list.getAdapter().getCount(); ++i) {
-                    if (list.getAdapter().getItem(i).toString().equals(fakeTitle)) {
-                        list.performItemClick(list.getAdapter().getView(i, null, null), i, list.getAdapter().getItemId(i));
-                        Utils.waitAndTag(3000, TAG);
-                        String intentLaunchedTitle = rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TITLE);
-                        int intentLaunchedAnswer = Integer.parseInt(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_ANSWER));
-                        boolean intentLaunchedTrueOrFalse = Boolean.parseBoolean(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TRUEFALSE));
+        for (int i = 0; i < list.getAdapter().getCount(); ++i) {
+            Question currQuestion = (Question) list.getAdapter().getItem(i);
+            if (currQuestion.getTitle().equals(fakeTitle)) {
+                assertEquals(q.isTrueFalse(), currQuestion.isTrueFalse());
+                assertEquals(q.getAnswer(), currQuestion.getAnswer());
+                assertEquals(q.getCourseName(), currQuestion.getCourseName());
 
-                        assert (q.getTitle().equals(intentLaunchedTitle));
-                        assert (q.getAnswer() == intentLaunchedAnswer);
-                        assert (q.isTrueFalse() == intentLaunchedTrueOrFalse);
-                    }
-                }
+                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                        .atPosition(i)
+                        .perform(click());
             }
-        });
+        }
+
+        waitAndTag(3000, TAG);
     }
 
     @Test
@@ -107,10 +105,8 @@ public class QuestsActivityTeacherTest {
         assert (1 <= list.getAdapter().getCount());
     }
 
-    //@Test
+    @Test
     public void canCancelDeletionOfQuest() {
-        Utils.waitAndTag(150, TAG);
-
         /*
             Other workaround, just in case
 
@@ -124,11 +120,11 @@ public class QuestsActivityTeacherTest {
                 .atPosition(0)
                 .onChildView(withId(R.id.delete_question))
                 .perform(click());
-        Utils.waitAndTag(50, TAG);
+        waitAndTag(50, TAG);
         onView(withText(R.string.no_upper)).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-        Utils.waitAndTag(600, TAG);
+        waitAndTag(600, TAG);
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
@@ -140,7 +136,7 @@ public class QuestsActivityTeacherTest {
         deleteAllQuestsByUsingButton();
 
         Firestore.get().loadQuestions(rule.getActivity());
-        Utils.waitAndTag(2000, TAG);
+        waitAndTag(2000, TAG);
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
@@ -169,11 +165,11 @@ public class QuestsActivityTeacherTest {
                         .atPosition(0)
                         .onChildView(withId(R.id.delete_question))
                         .perform(click());
-                Utils.waitAndTag(2000, TAG);
+                waitAndTag(2000, TAG);
                 onView(withText(R.string.yes_upper)).inRoot(isDialog())
                         .check(matches(isDisplayed()))
                         .perform(click());
-                Utils.waitAndTag(2000, TAG);
+                waitAndTag(2000, TAG);
             }
         } catch (Exception e) {}
     }
