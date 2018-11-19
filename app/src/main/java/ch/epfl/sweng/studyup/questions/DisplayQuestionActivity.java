@@ -79,6 +79,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
             displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
             displayImage(questionID);
         }else{
+            Log.d("TEST COULD INTENT", "Mock is true");
             displayQuestion = mockQuestion;
             displayImage(mockUUID);
         }
