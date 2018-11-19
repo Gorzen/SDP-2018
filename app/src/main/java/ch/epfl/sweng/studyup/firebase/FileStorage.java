@@ -13,6 +13,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 import java.io.File;
 
@@ -33,13 +34,13 @@ public abstract class FileStorage {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println(Resources.getSystem().getString(R.string.text_unabletouploadimage));
+                System.out.println(MOST_RECENT_ACTIVITY.getString(R.string.text_unabletouploadimage));
                 exception.printStackTrace();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                System.out.println(Resources.getSystem().getString(R.string.text_imageuploadsuccess));
+                System.out.println(MOST_RECENT_ACTIVITY.getString(R.string.text_imageuploadsuccess));
             }
         });
     }
