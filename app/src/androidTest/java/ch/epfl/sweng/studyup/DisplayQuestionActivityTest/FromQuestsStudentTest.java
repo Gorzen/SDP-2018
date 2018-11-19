@@ -62,7 +62,6 @@ public class FromQuestsStudentTest {
             }
         }
 
-        waitAndTag(3000, TAG);
     }
 
 }
