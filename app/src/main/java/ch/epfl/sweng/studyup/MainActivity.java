@@ -201,7 +201,7 @@ public class MainActivity extends NavigationStudent {
     }
 
     public void updateCurrDisplay() {
-        ((TextView) findViewById(R.id.currText)).setText(R.string.text_money + Player.get().getCurrency());
+        ((TextView) findViewById(R.id.currText)).setText(MOST_RECENT_ACTIVITY.getString(R.string.text_money) + Player.get().getCurrency());
     }
 
     public static void clearCacheToLogOut(Context context) {

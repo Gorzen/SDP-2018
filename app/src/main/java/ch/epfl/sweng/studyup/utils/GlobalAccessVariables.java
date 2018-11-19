@@ -8,6 +8,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.R;
+
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class GlobalAccessVariables {
 
@@ -21,5 +23,4 @@ public abstract class GlobalAccessVariables {
     public static Location MOC_LOC = null;
 
     public static Map<String, Object> DB_STATIC_INFO = null;
-
 }
