@@ -24,6 +24,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 import ch.epfl.sweng.studyup.utils.QuestListViewAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class QuestsActivityStudent extends NavigationStudent {
 
@@ -37,13 +38,15 @@ public class QuestsActivityStudent extends NavigationStudent {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
-        LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
-        questions.observe(this, new Observer<List<Question>>() {
-            @Override
-            public void onChanged(@Nullable List<Question> questions) {
-                setupListView(questions);
-            }
-        });
+        if(!MOCK_ENABLED) {
+            LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
+            questions.observe(this, new Observer<List<Question>>() {
+                @Override
+                public void onChanged(@Nullable List<Question> questions) {
+                    setupListView(questions);
+                }
+            });
+        }
     }
 
     public void setupListView(final List<Question> quests) {
