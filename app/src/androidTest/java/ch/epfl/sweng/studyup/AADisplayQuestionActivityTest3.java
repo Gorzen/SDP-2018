@@ -88,19 +88,12 @@ public class AADisplayQuestionActivityTest3 {
 
                 ListElementsArrayList.add(q);
                 adapter.notifyDataSetChanged();
-            }
-        });
 
-        Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
-
-        mActivityRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, list.getAdapter().getItemId(0));
             }
         });
 
-        Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
+        Utils.waitAndTag(10000, "DisplayQuestionActivityTest2");
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
