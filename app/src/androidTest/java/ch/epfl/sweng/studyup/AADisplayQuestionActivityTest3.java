@@ -1,13 +1,10 @@
 package ch.epfl.sweng.studyup;
 
 import android.content.Intent;
-import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -25,10 +22,6 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_ANSWER;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_ID;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TITLE;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TRUE_FALSE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -53,6 +46,11 @@ public class AADisplayQuestionActivityTest3 {
         Firestore.get().deleteQuestion(questionUUID);
         Player.get().resetPlayer();
     }
+/*
+    @Test
+    public void AAA(){
+
+    }
 
     @Test
     public void AddQuestion(){
@@ -73,10 +71,17 @@ public class AADisplayQuestionActivityTest3 {
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
 
         intent2 = goToQuestion;
-    }
+    }*/
 
     @Test
     public void displayQuestionTestIntent(){
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(5000, "DisplayQuestionActivityTest2");
+        Player.get().setRole(Constants.Role.teacher);
+
+        Firestore.get().loadQuestions(mActivityRule.getActivity().getApplicationContext());
+        Utils.waitAndTag(3000, "DisplayQuestionActivityTest2");
+
         mActivityRule.launchActivity(getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
 
         onView(withId(R.id.answer1)).perform(click());
@@ -86,5 +91,10 @@ public class AADisplayQuestionActivityTest3 {
 
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
+    }
+
+    @Test
+    public void zzz(){
+
     }
 }
