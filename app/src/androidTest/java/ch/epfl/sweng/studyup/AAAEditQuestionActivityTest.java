@@ -40,7 +40,7 @@ import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class AAAEditQuestionActivityTest {
-    private final String questionUUID = "Temporary fake uuid";
+    private final String questionUUID = "Test floepfl";
     private Question q;
     private ListView list;
 
