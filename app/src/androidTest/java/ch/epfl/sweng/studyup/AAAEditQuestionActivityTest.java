@@ -71,6 +71,7 @@ public class AAAEditQuestionActivityTest {
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
         mActivityRule.launchActivity(new Intent());
+        mActivityRule.getActivity().setupListView(Arrays.asList(q));
         assertEquals(1 , 1);
         /*
         clickOnListViewItem();
