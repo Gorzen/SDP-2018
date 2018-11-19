@@ -158,6 +158,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
 
+            if(!MOCK_ENABLED) {
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
                 questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
                 try {
@@ -184,7 +185,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     Log.e("Exception", "File write failed: " + e.toString());
                 }
-            }
+            }}
 
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
@@ -192,11 +193,14 @@ public class AddQuestionActivity extends AppCompatActivity {
             // TODO: Determine how to set question course
             String questionCourseName = Player.get().getCourses().get(0).name();
             Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
-            question = newQuestion;
-            // Upload the problem image file to the Firebase Storage server
-            FileStorage.uploadProblemImage(questionFile);
-            // Add question to FireStore
-            Firestore.get().addQuestion(newQuestion);
+            if(!MOCK_ENABLED) {
+                // Upload the problem image file to the Firebase Storage server
+                FileStorage.uploadProblemImage(questionFile);
+                // Add question to FireStore
+                Firestore.get().addQuestion(newQuestion);
+            } else {
+                question = newQuestion;
+            }
 
             if(isNewQuestion) {
                 Toast.makeText(this.getApplicationContext(), "Question successfully added !", Toast.LENGTH_SHORT).show();

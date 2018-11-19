@@ -70,6 +70,7 @@ public class AAAEditQuestionActivityTest {
 
         AddQuestionActivity mActivity = mActivityRule.getActivity();
         onView(withId(R.id.radio_answer2)).perform(click());
+        Utils.waitAndTag(500, "Hello");
         onView(withId(R.id.addQuestionButton)).perform(click());
         Question question = mActivity.getQuestion();
         assertEquals(1, question.getAnswer());
