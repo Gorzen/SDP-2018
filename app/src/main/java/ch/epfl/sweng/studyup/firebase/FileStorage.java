@@ -16,7 +16,7 @@ import java.io.File;
 import static ch.epfl.sweng.studyup.utils.Constants.PROFILE_PICTURES_DIRECTORY_NAME;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTION_IMAGES_DIRECTORY_NAME;
 
-public class FileStorage {
+public abstract class FileStorage {
 
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 

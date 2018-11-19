@@ -28,6 +28,16 @@ android {
         }
     }
     testOptions {
+        testOptions.unitTests.all{
+            testLogging {
+                exceptionFormat "full"
+                showCauses true
+                showExceptions true
+                showStackTraces true
+                showStandardStreams true
+                events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+            }
+        }
         animationsDisabled = true
     }
     productFlavors {
@@ -74,10 +84,20 @@ android {
         testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
         implementation 'com.squareup.picasso:picasso:2.71828'
         implementation 'de.hdodenhof:circleimageview:2.1.0'
+        //TestFairy
+        implementation 'testfairy:testfairy-android-sdk:1.+@aar'
     }
 
     tasks.withType(Test) {
         jacoco.includeNoLocationClasses = true
+        testLogging {
+            exceptionFormat "full"
+            showCauses true
+            showExceptions true
+            showStackTraces true
+            showStandardStreams true
+            events = ["passed", "skipped", "failed", "standardOut", "standardError"]
+        }
     }
 
     task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {

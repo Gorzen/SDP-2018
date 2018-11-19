@@ -27,6 +27,7 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static org.junit.Assert.assertTrue;
 
@@ -74,11 +75,13 @@ public class SettingsActivityTest {
 
     @Test
     public void testLanguageChoosingPopup() {
-        onView(withId(R.id.languageChoiceButton)).perform(click());
-        onView(withText(R.string.cancel))
-                .inRoot(isDialog())
-                .check(matches(isDisplayed()))
-                .perform(click());
+        for(String s : LANGUAGES) {
+            onView(withId(R.id.languageChoiceButton)).perform(click());
+            onView(withText(s))
+                    .inRoot(isDialog())
+                    .check(matches(isDisplayed()))
+                    .perform(click());
+        }
 
         //If all worked, we could close the settings
         onView(withId(R.id.back_button)).perform(click());

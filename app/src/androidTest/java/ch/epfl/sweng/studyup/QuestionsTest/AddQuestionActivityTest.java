@@ -55,7 +55,6 @@ public class AddQuestionActivityTest {
     public static void enableMock() {
         MOCK_ENABLED = true;
         Intents.init();
-        Player.get().initializeDefaultPlayerData();
     }
 
     @AfterClass

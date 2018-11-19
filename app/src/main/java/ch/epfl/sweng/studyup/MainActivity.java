@@ -49,8 +49,7 @@ public class MainActivity extends NavigationStudent {
     // Text that will be displayed in the levelProgress layout
     CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
-
-    private ImageButton pic_button;
+    ImageButton pic_button;
 
     // Display login success message from intent set by authentication activity
     public void displayLoginSuccessMessage(Intent intent) {

@@ -66,8 +66,7 @@ public class QuestsActivityTeacherTest {
     private  final String fakeTitle = "fake title";
 
     @BeforeClass
-    public static void enableMock() {
-        Player.get().initializeDefaultPlayerData();
+    public static void setRole() {
         Player.get().setRole(Role.teacher);
     }
 

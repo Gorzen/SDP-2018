@@ -10,7 +10,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 
-public class Utils {
+public abstract class Utils {
 
     /**
      * Wait for a given action to be completed. Return an error message if any.
@@ -21,17 +21,7 @@ public class Utils {
     public static final void waitAndTag(int time, String tag) {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException e) {
-            Log.w(tag, "Test was interrupted: " + e.getMessage());
-        }
-    }
-
-    public static void killApp(String tag){
-        try{
-            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
-        }catch (IOException e) {
-            Log.d(tag, e.getMessage());
-        }
+        } catch (InterruptedException e) {Log.w(tag, "Test was interrupted: " + e.getMessage()); return;}
     }
 
     public static List<String> getItemsString(){
