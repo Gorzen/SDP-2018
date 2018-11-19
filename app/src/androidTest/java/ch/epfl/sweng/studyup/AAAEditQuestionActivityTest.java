@@ -50,7 +50,7 @@ public class AAAEditQuestionActivityTest {
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
+            new ActivityTestRule<>(AddQuestionActivity.class, true, true);
 
 
     @Before
@@ -64,9 +64,6 @@ public class AAAEditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
-        q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
-        Intent intent = new Intent().putExtra(AddQuestionActivity.class.getSimpleName(), q);
-        mActivityRule.launchActivity(intent);
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
 

@@ -38,6 +38,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
@@ -62,9 +63,14 @@ public class AddQuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+        Question question;
+        if(!MOCK_ENABLED) {
+            Intent intent = getIntent();
+            question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
+        } else {
+            question = new Question("Is this getting on FireBase?", "True false test", true, 0, Constants.Course.SWENG.name());
+        }
 
-        Intent intent = getIntent();
-        Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if (question != null) {
             ProgressBar progressBar = findViewById(R.id.progressBar);
