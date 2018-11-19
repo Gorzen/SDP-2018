@@ -88,11 +88,11 @@ public class AADisplayQuestionActivityTest3 {
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
 
         assertFalse(list.getCount() == 0);
-        
+
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
+                list.performItemClick(list.getAdapter().getView(0, null, null), 0, list.getAdapter().getItemId(0));
             }
         });
 
