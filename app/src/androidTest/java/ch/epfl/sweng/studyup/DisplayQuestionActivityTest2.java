@@ -17,7 +17,7 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 
-public class AAADisplayQuestionActivityTest5 {
+public class DisplayQuestionActivityTest2 {
     @Rule
     public final ActivityTestRule<DisplayQuestionActivity> rule =
             new ActivityTestRule<>(DisplayQuestionActivity.class);
