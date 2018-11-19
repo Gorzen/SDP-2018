@@ -56,6 +56,7 @@ public class ADisplayQuestionActivityTest2 {
         mActivityRule.launchActivity(new Intent());
     }
 
+    /*
     @Test
     public void AddQuestion(){
         Firestore.get().addQuestion(q);
@@ -72,6 +73,7 @@ public class ADisplayQuestionActivityTest2 {
 
     @Test
     public void displayQuestionTest(){
+
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -97,15 +99,15 @@ public class ADisplayQuestionActivityTest2 {
     @Test
     public void displayQuestionTestIntent(){
         mActivityRule.getActivity().startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(mActivityRule.getActivity().getApplicationContext(), q));
-/*
+
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer2)).perform(click());
         onView(withId(R.id.answer3)).perform(click());
         onView(withId(R.id.answer4)).perform(click());
 
         onView(withId(R.id.answer1)).perform(click());
-        onView(withId(R.id.answer_button)).perform(click());*/
-    }
+        onView(withId(R.id.answer_button)).perform(click());
+    }*/
 
     @Test
     public void test(){

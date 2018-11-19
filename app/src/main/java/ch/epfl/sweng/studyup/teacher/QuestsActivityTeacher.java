@@ -20,12 +20,13 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 
-public class QuestsActivityTeacher extends AppCompatActivity {
+public class QuestsActivityTeacher extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

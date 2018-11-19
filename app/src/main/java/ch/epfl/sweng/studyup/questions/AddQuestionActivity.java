@@ -38,6 +38,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
@@ -45,7 +46,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
-public class AddQuestionActivity extends AppCompatActivity {
+public class AddQuestionActivity extends RefreshContext {
 
     private static final String TAG = "AddQuestionActivity";
 
