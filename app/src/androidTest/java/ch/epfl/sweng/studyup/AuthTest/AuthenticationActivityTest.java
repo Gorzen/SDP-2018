@@ -56,7 +56,7 @@ public class AuthenticationActivityTest {
         rule.launchActivity(intentWithoutCode);
     }
 
-    @Ignore
+    @Test
     public void testBasicRunAuthentication() throws Exception {
         Intent i = new Intent();
         Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
