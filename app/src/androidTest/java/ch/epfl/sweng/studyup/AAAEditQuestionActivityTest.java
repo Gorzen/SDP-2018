@@ -33,6 +33,7 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
+import okhttp3.internal.Util;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -64,10 +65,15 @@ public class AAAEditQuestionActivityTest {
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
+        Utils.waitAndTag(2000, "Test");
         Intent intent = new Intent().putExtra(AddQuestionActivity.class.getSimpleName(), q);
+        Utils.waitAndTag(2000, "Test");
         mActivityRule.launchActivity(intent);
+        Utils.waitAndTag(2000, "Test");
         onView(withId(R.id.radio_answer2)).perform(click());
+        Utils.waitAndTag(2000, "Test");
         onView(withId(R.id.addQuestionButton)).perform(click());
+        Utils.waitAndTag(2000, "Test");
 
 
 
