@@ -55,14 +55,15 @@ public class AAAEditQuestionActivityTest {
     }
 
     private void clickOnListViewItem() {
-        mActivityRule.launchActivity(new Intent());
+       /* mActivityRule.launchActivity(new Intent());
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
-        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+        assertEquals(0, list.getCount());
+       /* mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
-        });
+        });*/
     }
 
     @Test
@@ -70,6 +71,9 @@ public class AAAEditQuestionActivityTest {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(10000, this.getClass().getName());
+        mActivityRule.launchActivity(new Intent());
+        list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
+        assertEquals(0, list.getCount());
       /*  clickOnListViewItem();
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
