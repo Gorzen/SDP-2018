@@ -65,17 +65,10 @@ public class AAAEditQuestionActivityTest {
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
-        Utils.waitAndTag(2000, "Test");
         Intent intent = new Intent().putExtra(AddQuestionActivity.class.getSimpleName(), q);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Removes other Activities from stack
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Utils.waitAndTag(2000, "Test");
         mActivityRule.launchActivity(intent);
-        Utils.waitAndTag(2000, "Test");
         onView(withId(R.id.radio_answer2)).perform(click());
-        Utils.waitAndTag(2000, "Test");
         onView(withId(R.id.addQuestionButton)).perform(click());
-        Utils.waitAndTag(2000, "Test");
 
 
 
