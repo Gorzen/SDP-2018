@@ -24,6 +24,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class QuestsActivityTeacher extends AppCompatActivity {
 
@@ -36,7 +37,9 @@ public class QuestsActivityTeacher extends AppCompatActivity {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                setupListView(questions);
+                if (!MOCK_ENABLED) {
+                    setupListView(questions);
+                }
             }
         });
 

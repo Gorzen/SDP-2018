@@ -36,6 +36,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
@@ -52,6 +53,7 @@ public class AAAEditQuestionActivityTest {
 
     @Before
     public void init() {
+        MOCK_ENABLED = true;
         Player.get().setRole(Constants.Role.teacher);
     }
 
@@ -70,12 +72,9 @@ public class AAAEditQuestionActivityTest {
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
-        mActivityRule.launchActivity(new Intent());
-        mActivityRule.getActivity().setupListView(Arrays.asList(q));
-        assertEquals(1 , 1);
-        /*
         clickOnListViewItem();
-        onView(withId(R.id.radio_answer2)).perform(click());
+        assertEquals(1 , 1);
+        /*onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         list.getAdapter().getItem(0);
       // LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
