@@ -49,16 +49,12 @@ public class QuestsActivityStudent extends NavigationStudent {
     }
 
     private void setupListView(final List<Question> quests) {
-        ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
 
         for(Question q: quests) {
-            listTitle.add(q.getTitle());
-
-
             if(answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
                 listImageID.add(R.drawable.ic_todo_grey_24dp);
             } else if(answeredQuestion.get(q.getQuestionId())) {
@@ -68,12 +64,12 @@ public class QuestsActivityStudent extends NavigationStudent {
             }
         }
 
-        setupOnClickListenerListView(quests, listTitle, listImageID);
+        setupOnClickListenerListView(quests, listImageID);
     }
 
-    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
+    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_list_view_student_model, listTitle, listImageID);
+        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_list_view_student_model, quests, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,25 +84,25 @@ public class QuestsActivityStudent extends NavigationStudent {
 
     public class QuestListViewAdapterStudent extends BaseAdapter {
         private Context cnx;
-        private List<String> titles;
+        private List<Question> questions;
         private int idLayout;
         List<Integer> ids;
 
-        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<String> titles, List<Integer> ids) {
+        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids) {
             this.cnx=cnx;
-            this.titles = titles;
+            this.questions = questions;
             this.idLayout = idLayout;
             this.ids = ids;
         }
 
         @Override
         public int getCount() {
-            return titles.size();
+            return questions.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return titles.get(position);
+            return questions.get(position);
         }
 
         @Override
@@ -120,7 +116,7 @@ public class QuestsActivityStudent extends NavigationStudent {
                 convertView=View.inflate(cnx, idLayout, null);
             }
             TextView text_view = convertView.findViewById(R.id.quest_title);
-            text_view.setText(titles.get(position));
+            text_view.setText(questions.get(position).getTitle());
             ImageView image_view = convertView.findViewById(R.id.is_quest_done);
             image_view.setImageResource(ids.get(position));
             return convertView;
