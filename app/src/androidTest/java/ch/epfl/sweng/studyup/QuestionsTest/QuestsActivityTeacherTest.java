@@ -115,16 +115,15 @@ public class QuestsActivityTeacherTest {
         nthChildsDescendant(withId(R.id.listViewQuests), 0)))
         .perform(click());*/
 
-
         onData(anything()).inAdapterView(withId(R.id.listViewQuests))
                 .atPosition(0)
                 .onChildView(withId(R.id.delete_question))
                 .perform(click());
-        waitAndTag(50, TAG);
+        waitAndTag(2000, TAG);
         onView(withText(R.string.no_upper)).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-        waitAndTag(600, TAG);
+        waitAndTag(2000, TAG);
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
