@@ -85,18 +85,20 @@ public class QuestsActivityTeacherTest {
             @Override
             public void run() {
                 for (int i = 0; i < list.getAdapter().getCount(); ++i) {
-                    if (list.getAdapter().getItem(i).toString().equals(fakeTitle))
-                        list.performItemClick(list.getAdapter().getView(i, null, list), 0, 0);
+                    if (list.getAdapter().getItem(i).toString().equals(fakeTitle)) {
+                        list.performItemClick(list.getAdapter().getView(i, null, null), i, list.getAdapter().getItemId(i));
+                        Utils.waitAndTag(3000, TAG);
+                        String intentLaunchedTitle = rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TITLE);
+                        int intentLaunchedAnswer = Integer.parseInt(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_ANSWER));
+                        boolean intentLaunchedTrueOrFalse = Boolean.parseBoolean(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TRUEFALSE));
+
+                        assert (q.getTitle().equals(intentLaunchedTitle));
+                        assert (q.getAnswer() == intentLaunchedAnswer);
+                        assert (q.isTrueFalse() == intentLaunchedTrueOrFalse);
+                    }
                 }
             }
         });
-        String intentLaunchedTitle = rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TITLE);
-        int intentLaunchedAnswer = Integer.parseInt(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_ANSWER));
-        boolean intentLaunchedTrueOrFalse = Boolean.parseBoolean(rule.getActivity().getIntent().getStringExtra(FB_QUESTION_TRUEFALSE));
-
-        assert (q.getTitle().equals(intentLaunchedTitle));
-        assert (q.getAnswer() == intentLaunchedAnswer);
-        assert (q.isTrueFalse() == intentLaunchedTrueOrFalse);
     }
 
     @Test
@@ -105,7 +107,7 @@ public class QuestsActivityTeacherTest {
         assert (1 <= list.getAdapter().getCount());
     }
 
-    @Test
+    //@Test
     public void canCancelDeletionOfQuest() {
         Utils.waitAndTag(150, TAG);
 
@@ -138,7 +140,7 @@ public class QuestsActivityTeacherTest {
         deleteAllQuestsByUsingButton();
 
         Firestore.get().loadQuestions(rule.getActivity());
-        Utils.waitAndTag(500, TAG);
+        Utils.waitAndTag(2000, TAG);
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(rule.getActivity(), new Observer<List<Question>>() {
@@ -152,27 +154,26 @@ public class QuestsActivityTeacherTest {
     private void deleteAllQuestsByUsingButton() {
         try {
             while(true) {
-                Utils.waitAndTag(150, TAG);
+                /*
+                Other workaround, just in case
                 onView(allOf(
                     withId(R.id.delete_question),
                     nthChildsDescendant(withId(R.id.listViewQuests), 0)))
                     .perform(click());
+                */
 
-                /*
-                Other workaround, just in case
+
                 onData(anything()).inAdapterView(withId(R.id.listViewQuests))
                         .atPosition(0)
                         .onChildView(withId(R.id.delete_question))
-                        .perform(click());*/
-                Utils.waitAndTag(50, TAG);
+                        .perform(click());
+                Utils.waitAndTag(2000, TAG);
                 onView(withText(R.string.yes_upper)).inRoot(isDialog())
                         .check(matches(isDisplayed()))
                         .perform(click());
-                Utils.waitAndTag(600, TAG);
+                Utils.waitAndTag(2000, TAG);
             }
-        } catch (Exception e) {
-            return;
-        }
+        } catch (Exception e) {}
     }
 
     // Method not used, can be useful so keep it just in case. Credit: https://stackoverflow.com/questions/32823508/how-can-i-click-on-a-view-in-listview-specific-row-position#
