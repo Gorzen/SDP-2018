@@ -5,12 +5,18 @@ import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -40,8 +46,10 @@ public class SettingsActivity extends RefreshContext {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == 0) {
+                    setLocale("en");
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
                 } else if(which == 1) {
+                    setLocale("fr");
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -53,5 +61,16 @@ public class SettingsActivity extends RefreshContext {
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, SettingsActivity.class);
+        startActivity(refresh);
     }
 }
