@@ -79,7 +79,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
             displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
             displayImage(questionID);
         }else{
-            Log.d("TEST COULD INTENT", "Mock is true");
+            Log.d("TEST_COULD_INTENT", "Mock is true");
             displayQuestion = mockQuestion;
             displayImage(mockUUID);
         }
@@ -254,9 +254,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 badAnswer();
             }
 
-            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-            startActivity(goToQuests);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            if(!MOCK_ENABLED) {
+                Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
+                startActivity(goToQuests);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
         }
     }
 
