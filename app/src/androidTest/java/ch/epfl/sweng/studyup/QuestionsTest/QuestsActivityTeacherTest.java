@@ -89,9 +89,6 @@ public class QuestsActivityTeacherTest {
                 assertEquals(q.getAnswer(), currQuestion.getAnswer());
                 assertEquals(q.getCourseName(), currQuestion.getCourseName());
 
-                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
-                        .atPosition(i)
-                        .perform(click());
             }
         }
     }
