@@ -22,7 +22,7 @@ import static junit.framework.TestCase.assertTrue;
 public class GetIntentTest extends DisplayQuestionActivityTest {
     @Test
     public void getIntentTest() {
-        Question q = new Question("abc", "test1", true, 0, Course.SWENG.name());
+        Question q = new Question("abc", "test1", true, 0, Course.SWENG.name(), "en");
         Intent testIntent = getIntentForDisplayQuestion(InstrumentationRegistry.getContext(), q);
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE));
         assertTrue(testIntent.hasExtra(DISPLAY_QUESTION_ANSWER));

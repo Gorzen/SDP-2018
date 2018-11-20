@@ -19,7 +19,7 @@ public class LaunchIntentWithoutAnswerTest extends DisplayQuestionActivityTest {
     @Test
     public void launchIntentWithoutAnswerTest() {
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(),
-                new Question("abc", "test", true, 0, Course.SWENG.name()));
+                new Question("abc", "test", true, 0, Course.SWENG.name(), "en"));
         i.removeExtra(DISPLAY_QUESTION_ANSWER);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());

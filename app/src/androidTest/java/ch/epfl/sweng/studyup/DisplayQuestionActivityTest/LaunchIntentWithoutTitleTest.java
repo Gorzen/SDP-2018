@@ -19,7 +19,7 @@ public class LaunchIntentWithoutTitleTest extends DisplayQuestionActivityTest {
     @Test
     public void launchIntentWithoutTitleTest(){
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(),
-                new Question("abc","test", true, 0, Course.SWENG.name()));
+                new Question("abc","test", true, 0, Course.SWENG.name(), "en"));
         i.removeExtra(DISPLAY_QUESTION_TITLE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());

@@ -11,7 +11,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.EditText;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,10 +28,8 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -45,7 +42,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
@@ -99,12 +95,12 @@ public class AddQuestionActivityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFalseInstanceQuestion() {
-        Question nullQ = new Question("1", null, false, 0, Course.SWENG.name());
+        Question nullQ = new Question("1", null, false, 0, Course.SWENG.name(), "en");
     }
 
     @Test
     public void testSimpleInstanceQuestionTrueFalse() {
-        Question simple = new Question("1", "test2134", true, 0, Course.SWENG.name());
+        Question simple = new Question("1", "test2134", true, 0, Course.SWENG.name(), "en");
         assert (simple.isTrueFalse());
         assert (simple.getAnswer() == 0);
         assert (simple.getQuestionId().equals("1"));
@@ -113,7 +109,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testSimpleInstanceQuestionMCQ() {
-        Question simple = new Question("4", "test", false, 2, Course.SWENG.name());
+        Question simple = new Question("4", "test", false, 2, Course.SWENG.name(), "en");
         assert (!simple.isTrueFalse());
         assert (simple.getAnswer() == 2);
         assert (simple.getTitle().equals("test"));

@@ -1,14 +1,12 @@
 package ch.epfl.sweng.studyup.questions;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,7 +24,6 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,8 +47,7 @@ public class AddQuestionActivity extends NavigationTeacher {
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
-    private RadioGroup trueFalseRadioGroup;
-    private RadioGroup imageTextRadioGroup;
+    private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
     private Button logout_button;
     private Spinner associatedCourseSpinner;
@@ -158,6 +154,8 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
+            String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
+
             String newQuestionID = getUUID();
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
@@ -198,7 +196,7 @@ public class AddQuestionActivity extends NavigationTeacher {
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
 
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -216,8 +214,6 @@ public class AddQuestionActivity extends NavigationTeacher {
             return UUID.randomUUID().toString();
         }
     }
-
-
 
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);

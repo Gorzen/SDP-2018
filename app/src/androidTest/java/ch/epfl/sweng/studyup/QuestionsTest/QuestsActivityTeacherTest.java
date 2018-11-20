@@ -45,7 +45,7 @@ public class QuestsActivityTeacherTest {
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        q = new Question(questionUUID, "Teacher quests test", true, 0, Course.SWENG.name());
+        q = new Question(questionUUID, "Teacher quests test", true, 0, Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
         rule.launchActivity(new Intent());

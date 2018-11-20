@@ -3,12 +3,9 @@ package ch.epfl.sweng.studyup.questions;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
 
 import com.google.common.base.Objects;
-
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 @Entity
 public class Question {
@@ -34,13 +31,14 @@ public class Question {
 
     /**
      * Class for the question
-     *
-     * @param questionId   The id for the question to use in database as well as image filename
+     *  @param questionId   The id for the question to use in database as well as image filename
      * @param title        The title of the question
      * @param trueFalse    If the question is a True/False question or not
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
+     * @param lang
      */
-    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer, String courseName) {
+    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
+                    String courseName, String lang) {
         if (answer < 0 || answer > 3 || title == null) {
             throw new IllegalArgumentException();
         }
@@ -52,13 +50,9 @@ public class Question {
         this.trueFalse = trueFalse;
         this.answer = answer;
         this.courseName = courseName;
-        this.lang = "en";
-    }
 
-    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
-                    String courseName, String lang) {
-        this(questionId, title, trueFalse, answer, courseName);
-        if(lang != "fr" && lang != "en") {
+        // If not a basic language
+        if (lang != "en" && lang != "fr") {
             this.lang = "en";
         } else {
             this.lang = lang;

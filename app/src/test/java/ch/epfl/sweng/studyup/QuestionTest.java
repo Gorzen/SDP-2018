@@ -8,7 +8,6 @@ import org.robolectric.RobolectricTestRunner;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,7 +20,7 @@ public class QuestionTest {
 
     @Before
     public void init() {
-        q = new Question("1", "question TEST", true, 0, testCourseName);
+        q = new Question("1", "question TEST", true, 0, testCourseName, "en");
     }
 
     @Test
@@ -35,33 +34,33 @@ public class QuestionTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void wrongAnswerNumberHighTest() {
-        Question q = new Question("1", "test", true, 2, testCourseName);
+        Question q = new Question("1", "test", true, 2, testCourseName, "en");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void wrongAnswerNumberNegTest() {
-        Question q = new Question("1", "test", true, -1, testCourseName);
+        Question q = new Question("1", "test", true, -1, testCourseName, "en");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void wrongAnswerNumberMCQTest() {
-        Question q = new Question("1", "test", false, 4, testCourseName);
+        Question q = new Question("1", "test", false, 4, testCourseName, "en");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullTitleTest() {
-        Question q = new Question("1", null, true, 0, testCourseName);
+        Question q = new Question("1", null, true, 0, testCourseName, "en");
     }
 
     @Test
     public void falseEqualsTest() {
-        Question q = new Question("1", "test", true, 0, testCourseName);
+        Question q = new Question("1", "test", true, 0, testCourseName, "en");
         assertFalse(q.equals(null));
     }
 
     @Test
     public void correctEqualsTest(){
-        assertTrue(q.equals(new Question("1", "question TEST", true, 0, testCourseName)));
+        assertTrue(q.equals(new Question("1", "question TEST", true, 0, testCourseName, "en")));
     }
 
 

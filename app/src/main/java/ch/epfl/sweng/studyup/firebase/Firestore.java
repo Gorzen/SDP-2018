@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 
@@ -198,9 +197,9 @@ public class Firestore {
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
                         String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+                        String questionLang = (String) questionData.get(FB_QUESTION_LANG);
 
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
                         questionList.add(question);
                     }
                 }
