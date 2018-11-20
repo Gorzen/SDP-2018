@@ -40,11 +40,6 @@ public class InventoryActivityTest {
         mActivityRule.launchActivity(new Intent());
     }
 
-    @After
-    public void cleanUp() {
-        Player.get().resetPlayer();
-    }
-
     @Test
     public void useButtonConsumesItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
@@ -56,7 +51,6 @@ public class InventoryActivityTest {
         });
         onView(withId(R.id.use_button)).perform(click());
 
-        Utils.waitAndTag(500, "Wait to consume item");
         assertEquals(XP_STEP, Player.get().getExperience());
         assertEquals(0, Player.get().getItems().size());
     }
