@@ -12,8 +12,10 @@ import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
@@ -33,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static org.junit.Assert.assertTrue;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SuppressWarnings("HardCodedStringLiteral")
 public class SettingsActivityTest {
 
@@ -76,20 +79,28 @@ public class SettingsActivityTest {
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 
-    // Sorry
-    /*@Test
-    public void testLanguageChoosingPopup() {
-        for(String s : LANGUAGES) {
-            onView(withId(R.id.languageChoiceButton)).perform(click());
-            onView(withText(s))
-                    .inRoot(isDialog())
-                    .check(matches(isDisplayed()))
-                    .perform(click());
-        }
+    @Test
+    public void testLanguageChoosingPopupFrench() {
+        onView(withId(R.id.languageChoiceButton)).perform(click());
+        onView(withText(LANGUAGES[1]))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
 
-        //If all worked, we could close the settings
-        onView(withId(R.id.back_button)).perform(click());
-    }*/
+        intended(hasComponent(MainActivity.class.getName()));
+    }
+
+    // Test that must run at last to make the tests run in the basic language (english)
+    @Test
+    public void z_testLanguageChoosingPopupEnglish() {
+        onView(withId(R.id.languageChoiceButton)).perform(click());
+        onView(withText(LANGUAGES[0]))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+
+        intended(hasComponent(MainActivity.class.getName()));
+    }
 
     @Test
     public void testCourseSelectionRedirect() {
