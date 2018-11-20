@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
-import com.testfairy.TestFairy;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
