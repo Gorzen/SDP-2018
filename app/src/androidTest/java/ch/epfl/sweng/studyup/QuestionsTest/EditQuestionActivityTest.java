@@ -7,9 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import org.junit.After;
 import org.junit.Before;
