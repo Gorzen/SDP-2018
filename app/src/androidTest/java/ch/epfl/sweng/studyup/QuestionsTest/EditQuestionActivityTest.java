@@ -32,6 +32,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
@@ -62,20 +63,16 @@ public class EditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1Test() throws Throwable {
+    public void editTrueFalseQuestionAnswer0to1Test()  {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
-        final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.AddQuestionScroll);
-        mActivityRule.runOnUiThread(new Runnable()
-        {  @Override public void run()  {
 
-                scroll.fullScroll(View.FOCUS_DOWN);
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
 
-        }});
         Utils.waitAndTag(500, "Waiting for scroll");
         onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
