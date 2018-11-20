@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
@@ -12,10 +13,20 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -42,14 +53,31 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_QUESTION;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static org.mockito.Mockito.when;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class AAAEditQuestionActivityTest {
     private final String questionUUID = "Test floepfl";
     private Question q;
     private ListView list;
+
+    @Mock
+    StorageReference mockst;
+
+    @Mock
+    private Uri uri;
+
+    @Mock
+    private FileDownloadTask mockFileDownloadTask;
+
+    @Captor
+    private ArgumentCaptor<OnCompleteListener> testOnCompleteListener;
+
+    @Captor
+    private ArgumentCaptor<OnSuccessListener> testOnSuccessListener;
+
+    @Captor
+    private ArgumentCaptor<OnFailureListener> testOnFailureListener;
 
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
@@ -60,10 +88,25 @@ public class AAAEditQuestionActivityTest {
     public void init() {
         MOCK_ENABLED_EDIT_QUESTION = true;
         Player.get().setRole(Constants.Role.teacher);
+        setupTask(mockFileDownloadTask);
+
+        when(mockst.getFile(uri)).thenReturn(mockFileDownloadTask);
+    }
+
+    private <T> void setupTask(Task<T> task) {
+        when(task.addOnCompleteListener(testOnCompleteListener.capture())).thenReturn(task);
+        when(task.addOnSuccessListener(testOnSuccessListener.capture())).thenReturn(task);
+        when(task.addOnFailureListener(testOnFailureListener.capture())).thenReturn(task);
     }
 
     private void clickOnListViewItem() {
 
+    }
+
+    @Test
+    public void test() {
+        mActivityRule.launchActivity(new Intent());
+        mActivityRule.getActivity().setupText(mockst, null);
     }
 
     @Test

@@ -406,7 +406,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         });
     }
 
-    private void setupText(StorageReference questionText, final File tempText) {
+    public void setupText(StorageReference questionText, final File tempText) {
         questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
