@@ -19,6 +19,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/topBar"
+            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="70dp">
 
@@ -42,6 +43,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/white_grey_border_bottom"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -77,140 +82,139 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/topBar"
-            android:background="@android:drawable/dialog_holo_light_frame">
+            android:background="@color/colorWhite">
 
-            <ScrollView
+            <ImageButton
+                android:id="@+id/logout_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/colorWhite"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="onLogoutClick"
+                android:scaleType="fitStart"
+                app:layout_constraintBottom_toTopOf="@+id/languageChoiceButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_logout_black_24dp"
+                tools:ignore="ContentDescription" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/scrollSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:ignore="ScrollViewSize">
+            <TextView
+                android:id="@+id/textLogoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="42dp"
+                android:text="@string/log_out"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/logout_button"
+                app:layout_constraintStart_toStartOf="@+id/logout_button"
+                app:layout_constraintTop_toTopOf="@+id/logout_button" />
 
+            <ImageButton
+                android:id="@+id/languageChoiceButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorWhite"
+                android:onClick="onLanguageChoiceClick"
+                android:scaleType="fitStart"
+                app:layout_constraintBottom_toTopOf="@+id/courseChoiceButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logout_button"
+                app:srcCompat="@drawable/settings_language_choice_icon"
+                tools:ignore="ContentDescription" />
 
-                    <ImageButton
-                        android:id="@+id/logout_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="26dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/colorWhite"
-                        android:onClick="onLogoutClick"
-                        android:scaleType="fitStart"
-                        app:layout_constraintBottom_toTopOf="@+id/languageChoiceButton"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_logout_black_24dp"
-                        tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/textLanguageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="42dp"
+                android:onClick="onLanguageChoiceClick"
+                android:text="@string/language_choice_settings_button"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/languageChoiceButton"
+                app:layout_constraintStart_toStartOf="@+id/languageChoiceButton"
+                app:layout_constraintTop_toTopOf="@+id/languageChoiceButton" />
 
-                    <TextView
-                        android:id="@+id/textLogoutButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:text="@string/log_out"
-                        android:textColor="@color/colorGreyBlack"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/back_button"
-                        app:layout_constraintEnd_toEndOf="@+id/back_button"
-                        app:layout_constraintHorizontal_bias="0.159"
-                        app:layout_constraintStart_toStartOf="@+id/back_button"
-                        app:layout_constraintTop_toTopOf="@+id/back_button"
-                        app:layout_constraintVertical_bias="0.0" />
+            <ImageButton
+                android:id="@+id/courseChoiceButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/colorWhite"
+                android:onClick="onCourseChoiceClick"
+                android:scaleType="fitStart"
+                app:layout_constraintBottom_toTopOf="@+id/colorChoiceButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/languageChoiceButton"
+                app:srcCompat="@drawable/settings_course_choice_icon"
+                tools:ignore="ContentDescription" />
 
-                    <ImageButton
-                        android:id="@+id/languageChoiceButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/colorWhite"
-                        android:onClick="onLanguageChoiceClick"
-                        android:scaleType="fitStart"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/back_button"
-                        app:srcCompat="@drawable/settings_language_choice_icon"
-                        tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/textCourseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="42dp"
+                android:onClick="onCourseChoiceClick"
+                android:text="@string/course_choice_settings_button"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/courseChoiceButton"
+                app:layout_constraintStart_toStartOf="@+id/courseChoiceButton"
+                app:layout_constraintTop_toTopOf="@+id/courseChoiceButton"
+                app:layout_constraintVertical_bias="0.0" />
 
-                    <TextView
-                        android:id="@+id/textLanguageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="28dp"
-                        android:onClick="onLanguageChoiceClick"
-                        android:text="@string/language_choice_settings_button"
-                        android:textColor="@color/colorGreyBlack"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/languageChoiceButton"
-                        app:layout_constraintEnd_toEndOf="@+id/languageChoiceButton"
-                        app:layout_constraintHorizontal_bias="0.159"
-                        app:layout_constraintStart_toStartOf="@+id/languageChoiceButton"
-                        app:layout_constraintTop_toTopOf="@+id/languageChoiceButton"
-                        app:layout_constraintVertical_bias="0.0" />
+            <ImageButton
+                android:id="@+id/colorChoiceButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorWhite"
+                android:onClick="onColorChoiceClick"
+                android:scaleType="fitStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseChoiceButton"
+                app:srcCompat="@drawable/choose_color_settings"
+                tools:ignore="ContentDescription" />
 
-                    <ImageButton
-                        android:id="@+id/courseChoiceButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="12dp"
-                        android:onClick="onCourseChoiceClick"
-                        android:background="@color/colorWhite"
-                        android:scaleType="fitStart"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textLanguageButton"
-                        app:srcCompat="@drawable/settings_course_choice_icon"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:id="@+id/textCourseButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="28dp"
-                        android:onClick="onCourseChoiceClick"
-                        android:text="@string/course_choice_settings_button"
-                        android:textColor="@color/colorGreyBlack"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/courseChoiceButton"
-                        app:layout_constraintEnd_toEndOf="@+id/courseChoiceButton"
-                        app:layout_constraintHorizontal_bias="0.159"
-                        app:layout_constraintStart_toStartOf="@+id/courseChoiceButton"
-                        app:layout_constraintTop_toTopOf="@+id/courseChoiceButton"
-                        app:layout_constraintVertical_bias="0.0" />
-
-                </android.support.constraint.ConstraintLayout>
-
-
-            </ScrollView>
+            <TextView
+                android:id="@+id/textColorButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="42dp"
+                android:onClick="onColorChoiceClick"
+                android:text="@string/color_choice_settings_button"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/colorChoiceButton"
+                app:layout_constraintStart_toStartOf="@+id/colorChoiceButton"
+                app:layout_constraintTop_toTopOf="@+id/colorChoiceButton"
+                app:layout_constraintVertical_bias="0.0" />
 
         </android.support.constraint.ConstraintLayout>
 

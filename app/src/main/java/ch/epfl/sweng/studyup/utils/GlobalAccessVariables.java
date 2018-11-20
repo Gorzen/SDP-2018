@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.R;
 
 public abstract class GlobalAccessVariables {
 
@@ -27,4 +27,5 @@ public abstract class GlobalAccessVariables {
 
     public static Class HOME_ACTIVITY = null;
 
+    public static int APP_THEME = R.style.AppTheme;
 }
