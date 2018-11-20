@@ -3,7 +3,9 @@ package ch.epfl.sweng.studyup;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,24 +23,32 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class AnswerExpAndButtonsTest {
+public class DisplayQuestionActivityTest2 {
     private static final String TAG = "DisplayQuestionActivityTest2";
 
     @Rule
     public final ActivityTestRule<DisplayQuestionActivity> mActivityRule =
-            new ActivityTestRule<DisplayQuestionActivity>(DisplayQuestionActivity.class, false, true){
-                @Override
-                protected void beforeActivityLaunched() {
-                    super.beforeActivityLaunched();
-                    MOCK_ENABLED = true;
-                }
+            new ActivityTestRule<>(DisplayQuestionActivity.class);
 
-                @Override
-                protected void afterActivityFinished() {
-                    super.afterActivityFinished();
-                    MOCK_ENABLED = false;
-                }
-            };
+    @BeforeClass
+    public static void enableMock(){
+        MOCK_ENABLED = true;
+    }
+
+    @AfterClass
+    public static void disableMock(){
+        MOCK_ENABLED = false;
+    }
+
+    @Before
+    public void resetPlayerBefore(){
+        Player.get().resetPlayer();
+    }
+
+    @After
+    public void resetPlayerAfter(){
+        Player.get().resetPlayer();
+    }
 
     @Test
     public void answerExpAndButtonsTest() {
@@ -53,5 +63,16 @@ public class AnswerExpAndButtonsTest {
         onView(withId(R.id.answer_button)).perform(click());
 
         assertEquals(exp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
+    }
+
+    @Test
+    public void wrongAnswerTest() {
+        int exp = Player.get().getExperience();
+
+        onView(withId(R.id.answer2)).perform(click());
+
+        onView(withId(R.id.answer_button)).perform(click());
+
+        assertEquals(exp, Player.get().getExperience());
     }
 }
