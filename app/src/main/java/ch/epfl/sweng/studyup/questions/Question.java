@@ -35,7 +35,7 @@ public class Question {
      * @param title        The title of the question
      * @param trueFalse    If the question is a True/False question or not
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
-     * @param lang
+     * @param lang The question lang
      */
     public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
                     String courseName, String lang) {
