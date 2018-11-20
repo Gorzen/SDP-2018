@@ -2,11 +2,13 @@ package ch.epfl.sweng.studyup;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
@@ -19,12 +21,13 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 
+@RunWith(AndroidJUnit4.class)
 public class AnswerExpAndButtonsTest {
     private static final String TAG = "DisplayQuestionActivityTest2";
 
     @Rule
     public final ActivityTestRule<DisplayQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(DisplayQuestionActivity.class);
+            new ActivityTestRule<>(DisplayQuestionActivity.class, false, true);
 
     @BeforeClass
     public static void enableMock(){
