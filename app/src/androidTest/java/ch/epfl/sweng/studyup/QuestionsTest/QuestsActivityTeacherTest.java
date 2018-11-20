@@ -107,7 +107,7 @@ public class QuestsActivityTeacherTest {
         assert (1 <= list.getAdapter().getCount());
     }
 
-    //@Test
+    @Test
     public void canCancelDeletionOfQuest() {
         Utils.waitAndTag(150, TAG);
 
@@ -124,11 +124,11 @@ public class QuestsActivityTeacherTest {
                 .atPosition(0)
                 .onChildView(withId(R.id.delete_question))
                 .perform(click());
-        Utils.waitAndTag(50, TAG);
+        Utils.waitAndTag(2000, TAG);
         onView(withText(R.string.no_upper)).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
-        Utils.waitAndTag(600, TAG);
+        Utils.waitAndTag(2000, TAG);
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
