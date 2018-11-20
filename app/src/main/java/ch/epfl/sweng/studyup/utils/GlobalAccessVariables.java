@@ -9,6 +9,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.R;
+
 public abstract class GlobalAccessVariables {
 
     public static final String MOCK_UUID = "fake-UUID";
@@ -24,4 +26,5 @@ public abstract class GlobalAccessVariables {
 
     public static Class HOME_ACTIVITY = null;
 
+    public static int APP_THEME = R.style.AppTheme;
 }

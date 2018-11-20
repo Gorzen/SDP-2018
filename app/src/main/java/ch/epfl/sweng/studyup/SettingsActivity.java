@@ -62,4 +62,9 @@ public class SettingsActivity extends RefreshContext {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
+
+    public void onColorChoiceClick(View view){
+        Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
+        startActivity(intent);
+    }
 }

@@ -6,6 +6,44 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorProgression">@color/colorProgression</item>
+        <item name="colorProgression2">@color/colorProgression2</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppThemeBlue" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentBlue</item>
+        <item name="colorProgression">@color/colorProgressionBlue</item>
+        <item name="colorProgression2">@color/colorProgressionBlue2</item>
+    </style>
+
+    <style name="AppThemeGreen" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryGreen</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
+        <item name="colorAccent">@color/colorAccentGreen</item>
+        <item name="colorProgression">@color/colorProgressionGreen</item>
+        <item name="colorProgression2">@color/colorProgressionGreen2</item>
+    </style>
+
+    <style name="AppThemeBrown" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryBrown</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBrown</item>
+        <item name="colorAccent">@color/colorAccentBrown</item>
+        <item name="colorProgression">@color/colorProgressionBrown</item>
+        <item name="colorProgression2">@color/colorProgressionBrown2</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppThemeMulti" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryMulti</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkMulti</item>
+        <item name="colorAccent">@color/colorAccentMulti</item>
+        <item name="colorProgression">@color/colorProgressionMulti</item>
+        <item name="colorProgression2">@color/colorProgressionMulti2</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
