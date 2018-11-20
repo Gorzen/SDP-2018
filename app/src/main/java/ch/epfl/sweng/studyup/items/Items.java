@@ -15,12 +15,12 @@ public enum Items {
     COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
 
     //Names
-    public static final String XP_POTION_NAME = "XP potion";//MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_name);
-    public static final String COIN_SACK_NAME = "Sack of coin";//MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_name);
+    public static final String XP_POTION_NAME = "XP potion";
+    public static final String COIN_SACK_NAME = "Sack of coin";
 
     //Descriptions
-    public static final String XP_POTION_DESCRIPTION = "desc";//MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_desc);
-    public static final String COIN_SACK_DESCRIPTION = "desc";//MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_desc);
+    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
+    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
 
     //Prices
     public static final int XP_POTION_PRICE = 10;

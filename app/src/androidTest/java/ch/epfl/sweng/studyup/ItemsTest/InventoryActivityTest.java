@@ -23,6 +23,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -44,7 +45,7 @@ public class InventoryActivityTest {
     }
 
     @Test
-    public void useButtonConsumsItem() {
+    public void useButtonConsumeItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -54,6 +55,9 @@ public class InventoryActivityTest {
         });
         int exp = Player.get().getExperience();
         onView(withId(R.id.use_button)).perform(click());
+
+        waitAndTag(500, "Whatever");
+
         assertEquals(exp + XP_STEP, Player.get().getExperience());
     }
 
