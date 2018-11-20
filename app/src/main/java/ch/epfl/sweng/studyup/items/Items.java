@@ -19,8 +19,8 @@ public enum Items {
     public static final String COIN_SACK_NAME = "Sack of coin";//MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_name);
 
     //Descriptions
-    public static final String XP_POTION_DESCRIPTION = MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_desc);
-    public static final String COIN_SACK_DESCRIPTION = MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_desc);
+    public static final String XP_POTION_DESCRIPTION = "desc";//MOST_RECENT_ACTIVITY.getString(R.string.item_xppotion_desc);
+    public static final String COIN_SACK_DESCRIPTION = "desc";//MOST_RECENT_ACTIVITY.getString(R.string.item_sackofcoins_desc);
 
     //Prices
     public static final int XP_POTION_PRICE = 10;
