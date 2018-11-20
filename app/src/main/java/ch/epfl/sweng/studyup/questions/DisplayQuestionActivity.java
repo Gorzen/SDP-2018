@@ -67,7 +67,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
         if (MOCK_ENABLED) {
             String id = "DisplayQuestionActivityTest";
             displayQuestion = new Question(id, "Titre", trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-            throw new IndexOutOfBoundsException("Exception if MOCK_ENABLED");
         } else {
             Intent intent = getIntent();
             if (!checkIntent(intent)) return;
