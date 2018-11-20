@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -60,13 +62,21 @@ public class EditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1Test() {
+    public void editTrueFalseQuestionAnswer0to1Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+        final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.AddQuestionScroll);
+        mActivityRule.runOnUiThread(new Runnable()
+        {  @Override public void run()  {
+
+                scroll.fullScroll(View.FOCUS_DOWN);
+
+        }});
+        Utils.waitAndTag(500, "Waiting for scroll");
         onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
