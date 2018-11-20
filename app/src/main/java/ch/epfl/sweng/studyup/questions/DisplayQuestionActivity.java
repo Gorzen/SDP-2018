@@ -56,7 +56,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_question);
+        if(MOCK_ENABLED){
+            setContentView(R.layout.activity_display_question_mock);
+        }else{
+            setContentView(R.layout.activity_display_question);
+        }
 
 
         int answerNumber = 0;
@@ -216,11 +220,13 @@ public class DisplayQuestionActivity extends NavigationStudent {
             TextView answer2 = findViewById(R.id.answer2);
             answer2.setText(getString(R.string.text_answer_2));
 
-            TextView answer3 = findViewById(R.id.answer3);
-            answer3.setVisibility(View.VISIBLE);
+            if(!MOCK_ENABLED) {
+                TextView answer3 = findViewById(R.id.answer3);
+                answer3.setVisibility(View.VISIBLE);
 
-            TextView answer4 = findViewById(R.id.answer4);
-            answer4.setVisibility(View.VISIBLE);
+                TextView answer4 = findViewById(R.id.answer4);
+                answer4.setVisibility(View.VISIBLE);
+            }
         }
     }
 
