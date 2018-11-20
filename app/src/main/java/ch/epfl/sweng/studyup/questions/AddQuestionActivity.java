@@ -38,7 +38,6 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;

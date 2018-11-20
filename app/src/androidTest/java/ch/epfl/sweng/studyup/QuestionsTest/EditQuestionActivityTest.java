@@ -1,11 +1,10 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.QuestionsTest;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.ListView;
@@ -18,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -37,7 +37,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
-public class AAAEditQuestionActivityTest {
+public class EditQuestionActivityTest {
     private final String questionUUID = "Temporary fake uuid";
     private Question q;
     private ListView list;
@@ -67,7 +67,7 @@ public class AAAEditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
-        onView(withId(R.id.radio_answer2)).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -297,10 +297,9 @@ public class AAAEditQuestionActivityTest {
         onView(withId(R.id.text_radio_button)).perform(click());
         onView(withId(R.id.questionText))
                 .perform(clearText())
-                .perform(typeText("Question's description"))
+                .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
-
-        Utils.waitAndTag(1000, "dsa");
+        Utils.waitAndTag(1000, this.getClass().getName());
         onView(withId(R.id.radio_answer2));
         onView(withId(R.id.addQuestionButton)).perform(click());
         Utils.waitAndTag(1000, this.getClass().getName());
