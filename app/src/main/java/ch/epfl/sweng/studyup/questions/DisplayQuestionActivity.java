@@ -64,10 +64,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
         String questionTitle = "";
         String questionID = "";
 
-        if(MOCK_ENABLED){
-            displayQuestion = new Question("Test", "Titre", trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-            displayImage(questionID);
-        }else {
+        if (MOCK_ENABLED) {
+            String id = "DisplayQuestionActivityTest";
+            displayQuestion = new Question(id, "Titre", trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+            displayImage(id);
+        } else {
             Intent intent = getIntent();
             if (!checkIntent(intent)) return;
             questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
@@ -247,9 +248,9 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 badAnswer();
             }
 
-            if(MOCK_ENABLED){
+            if (MOCK_ENABLED) {
 
-            }else{
+            } else {
                 Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
                 startActivity(goToQuests);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
