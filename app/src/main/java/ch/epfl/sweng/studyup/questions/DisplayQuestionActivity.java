@@ -124,6 +124,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
             return false;
         }
 
+        if (!intent.hasExtra(DISPLAY_QUESTION_LANG)) {
+            quit();
+            return false;
+        }
+
         return true;
     }
 
