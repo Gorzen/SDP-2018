@@ -80,7 +80,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
             displayImage(questionID);
         }
 
-        /*
         setupLayout(displayQuestion);
 
         Button backButton = findViewById(R.id.back_button);
@@ -90,6 +89,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 finish();
             }
         });
+        /*
 
         setupRadioButton();
 
