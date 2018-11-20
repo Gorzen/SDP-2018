@@ -41,7 +41,7 @@ public class QuestListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView=View.inflate(cnx, R.layout.quest_item_model, null);
+            convertView=View.inflate(cnx, R.layout.quest_student_model, null);
         }
         ImageView image_view = (ImageView) convertView.findViewById(R.id.is_quest_done);
         TextView text_view = (TextView) convertView.findViewById(R.id.quest_title);
