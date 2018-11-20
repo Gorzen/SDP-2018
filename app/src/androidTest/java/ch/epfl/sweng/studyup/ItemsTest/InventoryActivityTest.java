@@ -1,5 +1,4 @@
-0 issues
-        package ch.epfl.sweng.studyup.ItemsTest;
+package ch.epfl.sweng.studyup.ItemsTest;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
