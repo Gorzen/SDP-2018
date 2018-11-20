@@ -66,13 +66,8 @@ public class AddQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
-        Question question;
-        if(MOCK_ENABLED_EDIT_QUESTION) {
-            question = MOCK_QUESTION;
-        } else {
-            Intent intent = getIntent();
-            question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
-        }
+        Intent intent = getIntent();
+        Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if (question != null) {
             if(!MOCK_ENABLED_EDIT_QUESTION) {

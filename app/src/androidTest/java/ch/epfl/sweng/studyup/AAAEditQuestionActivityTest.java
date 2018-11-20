@@ -35,6 +35,8 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
@@ -52,6 +54,7 @@ public class AAAEditQuestionActivityTest {
     @Before
     public void init() {
         Player.get().setRole(Constants.Role.teacher);
+        MOCK_ENABLED_EDIT_QUESTION = true;
     }
 
     @Test
