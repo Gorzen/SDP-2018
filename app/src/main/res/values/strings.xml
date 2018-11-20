@@ -68,7 +68,15 @@
     <string name="toast_text_infos_are_coming">Infos are coming soon</string>
     <string name="language_choice_settings_button">Choose your language</string>
     <string name="course_choice_settings_button">Choose your courses</string>
+    <string name="color_choice_settings_button">Change color</string>
     <string name="language_title_alert_dialog">Languages</string>
     <string name="cancel">Cancel</string>
+    <string name="choose_theme_red">Red</string>
+    <string name="choose_theme_green">Green</string>
+    <string name="choose_theme_brown">Brown</string>
+    <string name="choose_theme_blue">Blue</string>
+    <string name="choose_theme_multicolor">Multicolor</string>
+    <string name="back_button_settings_color_text">Back to settings</string>
+
 
 </resources>

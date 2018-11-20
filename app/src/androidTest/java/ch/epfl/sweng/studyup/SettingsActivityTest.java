@@ -94,4 +94,10 @@ public class SettingsActivityTest {
         onView(withId(R.id.courseChoiceButton)).perform(click());
         intended(hasComponent(CourseSelectionActivity.class.getName()));
     }
+
+    @Test
+    public void testColorSelectionRedirect() {
+        onView(withId(R.id.colorChoiceButton)).perform(click());
+        intended(hasComponent(ChooseColorActivity.class.getName()));
+    }
 }
