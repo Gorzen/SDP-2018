@@ -28,7 +28,7 @@ android {
         }
     }
     testOptions {
-        testOptions.unitTests.all{
+        testOptions.unitTests.all {
             testLogging {
                 exceptionFormat "full"
                 showCauses true

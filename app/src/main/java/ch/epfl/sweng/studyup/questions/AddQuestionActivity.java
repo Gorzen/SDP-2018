@@ -7,15 +7,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
@@ -46,6 +48,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
+import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 public class AddQuestionActivity extends RefreshContext {
 
@@ -59,6 +62,8 @@ public class AddQuestionActivity extends RefreshContext {
     private int answer = 1;
     private boolean isNewQuestion = true;
     private Question question;
+    private Button logout_button;
+    private Spinner associatedCourseSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,25 @@ public class AddQuestionActivity extends RefreshContext {
             ProgressBar progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.GONE);
         }
+        updatePlayerCourses();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updatePlayerCourses();
+    }
+
+    public void updatePlayerCourses() {
+        // Set dropdown for selecting associated course
+        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
+        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
+        Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
+        ArrayAdapter<String> courseListAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
+        associatedCourseSpinner.setAdapter(courseListAdapter);
     }
 
     /**
@@ -157,6 +180,8 @@ public class AddQuestionActivity extends RefreshContext {
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.isEmpty()) return;
 
+            String selectedCourseName = String.valueOf(associatedCourseSpinner.getSelectedItem());
+
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
 
@@ -191,9 +216,7 @@ public class AddQuestionActivity extends RefreshContext {
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
 
-            // TODO: Determine how to set question course
-            String questionCourseName = Player.get().getCourses().get(0).name();
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -216,6 +239,8 @@ public class AddQuestionActivity extends RefreshContext {
             return UUID.randomUUID().toString();
         }
     }
+
+
 
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);

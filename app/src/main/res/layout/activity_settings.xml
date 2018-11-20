@@ -157,6 +157,7 @@
                         android:layout_marginBottom="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="28dp"
+                        android:onClick="onLanguageChoiceClick"
                         android:text="@string/language_choice_settings_button"
                         android:textColor="@color/colorGreyBlack"
                         android:textSize="22sp"
@@ -166,6 +167,44 @@
                         app:layout_constraintHorizontal_bias="0.159"
                         app:layout_constraintStart_toStartOf="@+id/languageChoiceButton"
                         app:layout_constraintTop_toTopOf="@+id/languageChoiceButton"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <ImageButton
+                        android:id="@+id/courseChoiceButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="12dp"
+                        android:onClick="onCourseChoiceClick"
+                        android:background="@color/colorWhite"
+                        android:scaleType="fitStart"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textLanguageButton"
+                        app:srcCompat="@drawable/settings_course_choice_icon"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/textCourseButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="28dp"
+                        android:onClick="onCourseChoiceClick"
+                        android:text="@string/course_choice_settings_button"
+                        android:textColor="@color/colorGreyBlack"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/courseChoiceButton"
+                        app:layout_constraintEnd_toEndOf="@+id/courseChoiceButton"
+                        app:layout_constraintHorizontal_bias="0.159"
+                        app:layout_constraintStart_toStartOf="@+id/courseChoiceButton"
+                        app:layout_constraintTop_toTopOf="@+id/courseChoiceButton"
                         app:layout_constraintVertical_bias="0.0" />
 
                 </android.support.constraint.ConstraintLayout>

@@ -16,6 +16,8 @@ import org.junit.Test;
 import java.io.IOException;
 
 
+import ch.epfl.sweng.studyup.utils.Constants;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -83,5 +85,11 @@ public class SettingsActivityTest {
 
         //If all worked, we could close the settings
         onView(withId(R.id.close_button)).perform(click());
+    }
+
+    @Test
+    public void testCourseSelectionRedirect() {
+        onView(withId(R.id.courseChoiceButton)).perform(click());
+        intended(hasComponent(CourseSelectionActivity.class.getName()));
     }
 }

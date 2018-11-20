@@ -1,9 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,16 +17,23 @@ import android.widget.Toast;
 import com.kosalgeek.android.caching.FileCacher;
 import com.testfairy.TestFairy;
 
+import java.io.IOException;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_AUTO_LOGIN;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,11 +45,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if(!MOCK_ENABLED) {
+        if (!MOCK_ENABLED) {
             try {
                 attemptLoginFromCache();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Log.e(TAG, "Unable to load from cache: " + e.getMessage());
             }
         }
@@ -62,13 +64,12 @@ public class LoginActivity extends AppCompatActivity {
         FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 
         try {
-            if(loginPersistenceCache.hasCache()) {
+            if (loginPersistenceCache.hasCache()) {
 
                 final List<String> playerCacheData = loginPersistenceCache.readCache();
                 try {
                     loadPlayerDataFromCache(playerCacheData);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     /*
                     Something went wrong when loading player data from cache.
                     Cannot auto-login, return to onCreate(), user must maunally log in.
@@ -83,9 +84,11 @@ public class LoginActivity extends AppCompatActivity {
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
                  */
-                Class homeActivity = Player.get().getRole().equals(Role.student) ?
+
+                HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
                         MainActivity.class : QuestsActivityTeacher.class;
-                startActivity(new Intent(this, homeActivity));
+
+                startActivity(new Intent(this, HOME_ACTIVITY));
             }
 
         } catch (IOException e) {
@@ -101,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         Role role = Role.valueOf(playerCacheData.get(3));
 
         if (Integer.parseInt(sciperNum) < Constants.MIN_SCIPER ||
-            Integer.parseInt(sciperNum) > Constants.MAX_SCIPER) {
+                Integer.parseInt(sciperNum) > Constants.MAX_SCIPER) {
 
             throw new Exception("Invalid Sciper number: " + sciperNum + ".");
         }
@@ -123,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final int dotsNumber = viewPagerAdapter.getCount();
         dots = new ImageView[dotsNumber];
-        for(int i = 0; i<dotsNumber; i++){
+        for (int i = 0; i < dotsNumber; i++) {
             dots[i] = new ImageView(this);
             dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot_non_active_24dp));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -135,18 +138,20 @@ public class LoginActivity extends AppCompatActivity {
         //dots change colors in function of the current Page
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
-                for(int i = 0; i<dotsNumber; i++) {
+                for (int i = 0; i < dotsNumber; i++) {
                     dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot_non_active_24dp));
                 }
                 dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dot_active_24dp));
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 
@@ -154,16 +159,17 @@ public class LoginActivity extends AppCompatActivity {
 
         RadioGroup roles = findViewById(R.id.StudentOrTeacherButtons);
         RadioButton checkedRole = findViewById(roles.getCheckedRadioButtonId());
-        if(checkedRole == null) {
+        if (checkedRole == null) {
             Toast.makeText(this, R.string.text_when_no_role_selected, Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
 
             Intent authServerRedirect = new Intent(Intent.ACTION_VIEW);
 
             authServerRedirect.setData(Uri.parse(AUTH_SERVER_URL));
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
+            HOME_ACTIVITY = loginRole.equals(Role.student) ?
+                    MainActivity.class : AddQuestionActivity.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);
