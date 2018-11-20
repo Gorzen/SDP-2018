@@ -18,6 +18,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -54,6 +55,7 @@ public class InventoryActivityTest {
         });
         int exp = Player.get().getExperience();
         onView(withId(R.id.use_button)).perform(click());
+        Utils.waitAndTag(500, "Wait to consume item");
         assertEquals(exp + XP_STEP, Player.get().getExperience());
     }
 

@@ -61,7 +61,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_list_view_teacher_model, quests, ids);
+        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

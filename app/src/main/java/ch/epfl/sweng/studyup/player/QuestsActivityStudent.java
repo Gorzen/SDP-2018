@@ -69,7 +69,7 @@ public class QuestsActivityStudent extends NavigationStudent {
 
     private void setupOnClickListenerListView(final List<Question> quests, List<Question> questions, List<Integer> listImageID) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_list_view_student_model, questions, listImageID);
+        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_student_model, questions, listImageID);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
