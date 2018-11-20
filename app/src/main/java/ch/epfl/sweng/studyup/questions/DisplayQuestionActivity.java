@@ -100,7 +100,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         TextView questTitle = findViewById(R.id.quest_title);
         questTitle.setText(displayQuestion.getTitle());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
     }
