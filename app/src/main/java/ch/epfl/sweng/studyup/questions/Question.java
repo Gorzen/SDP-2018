@@ -29,6 +29,9 @@ public class Question {
     @ColumnInfo(name = "courseName")
     private String courseName;
 
+    @ColumnInfo(name = "lang")
+    private String lang;
+
     /**
      * Class for the question
      *
@@ -49,6 +52,17 @@ public class Question {
         this.trueFalse = trueFalse;
         this.answer = answer;
         this.courseName = courseName;
+        this.lang = "en";
+    }
+
+    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
+                    String courseName, String lang) {
+        this(questionId, title, trueFalse, answer, courseName);
+        if(lang != "fr" && lang != "en") {
+            this.lang = "en";
+        } else {
+            this.lang = lang;
+        }
     }
 
     public String getCourseName() { return courseName; }
@@ -89,6 +103,9 @@ public class Question {
             this.questionId = questionId;
     }
 
+    public String getLang() {
+        return this.lang;
+    }
 
     @Override
     public boolean equals(Object other) {
