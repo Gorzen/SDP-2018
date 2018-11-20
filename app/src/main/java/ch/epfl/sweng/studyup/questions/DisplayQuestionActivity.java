@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.MonthDisplayHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -245,9 +246,14 @@ public class DisplayQuestionActivity extends NavigationStudent {
             } else {
                 badAnswer();
             }
-            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-            startActivity(goToQuests);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+            if(MOCK_ENABLED){
+
+            }else{
+                Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
+                startActivity(goToQuests);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
         }
     }
 
