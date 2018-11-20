@@ -82,9 +82,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
 
         setupLayout(displayQuestion);
 
-        throw new RuntimeException("setupLayout exception");
-
-        /*
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +89,10 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 finish();
             }
         });
+
+        throw new RuntimeException("backButton exception");
+
+        /*
 
         setupRadioButton();
 
