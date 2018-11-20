@@ -4,26 +4,18 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -35,7 +27,6 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -48,13 +39,19 @@ public class AAAEditQuestionActivityTest {
 
     @Rule
     public final ActivityTestRule<QuestsActivityTeacher> mActivityRule =
-            new ActivityTestRule<>(QuestsActivityTeacher.class, true, false);
+            new ActivityTestRule<>(QuestsActivityTeacher.class);
 
 
     @Before
     public void init() {
         Player.get().setRole(Constants.Role.teacher);
         MOCK_ENABLED_EDIT_QUESTION = true;
+    }
+
+    @After
+    public void disableMock() {
+        Player.get().resetPlayer();
+        MOCK_ENABLED_EDIT_QUESTION = false;
     }
 
     @Test
