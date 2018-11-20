@@ -120,6 +120,7 @@ public class AddQuestionActivityTest {
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
     }
 
+
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0

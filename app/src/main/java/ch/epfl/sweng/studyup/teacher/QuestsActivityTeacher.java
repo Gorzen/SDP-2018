@@ -25,6 +25,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class QuestsActivityTeacher extends RefreshContext {
 
@@ -37,7 +38,7 @@ public class QuestsActivityTeacher extends RefreshContext {
         questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
-                setupListView(questions);
+                    setupListView(questions);
             }
         });
 
@@ -49,7 +50,7 @@ public class QuestsActivityTeacher extends RefreshContext {
         Firestore.get().loadQuestions(this);
     }
 
-    protected void setupListView(final List<Question> quests) {
+    public void setupListView(final List<Question> quests) {
         int nbrQuestion = quests.size();
 
         String[] list = new String[nbrQuestion];

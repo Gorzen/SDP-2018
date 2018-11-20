@@ -44,19 +44,18 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 public class AddQuestionActivity extends RefreshContext {
 
     private static final String TAG = "AddQuestionActivity";
-
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private Bitmap bitmap = null;
     private RadioGroup trueFalseRadioGroup;
     private RadioGroup imageTextRadioGroup;
     private imagePathGetter getPath;
-    private Button logout_button;
     private int answer = 1;
     private boolean isNewQuestion = true;
     private Question question;
@@ -70,8 +69,10 @@ public class AddQuestionActivity extends RefreshContext {
         Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if (question != null) {
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
+            if(!MOCK_ENABLED_EDIT_QUESTION) {
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+            }
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = false;
@@ -89,6 +90,11 @@ public class AddQuestionActivity extends RefreshContext {
             getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
         } else {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
+        }
+
+        if(MOCK_ENABLED_EDIT_QUESTION){
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.GONE);
         }
 
     }
@@ -195,9 +201,9 @@ public class AddQuestionActivity extends RefreshContext {
             Firestore.get().addQuestion(newQuestion);
 
             if(isNewQuestion) {
-                Toast.makeText(this.getApplicationContext(), "Question added !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), "Question successfully added !", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getApplicationContext(), "Question edited !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), "Question successfully edited !", Toast.LENGTH_SHORT).show();
             }
             finish();
         }
@@ -235,7 +241,7 @@ public class AddQuestionActivity extends RefreshContext {
      *
      * @param trueFalseOrMCQID chooses between MCQ or True/False alternatives
      */
-    private void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
+    public void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
         RadioButton firstRadioButton = findViewById(R.id.radio_answer1);
         RadioButton secondRadioButton = findViewById(R.id.radio_answer2);
         RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
@@ -401,7 +407,7 @@ public class AddQuestionActivity extends RefreshContext {
         });
     }
 
-    private void setupText(StorageReference questionText, final File tempText) {
+    public void setupText(StorageReference questionText, final File tempText) {
         questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
