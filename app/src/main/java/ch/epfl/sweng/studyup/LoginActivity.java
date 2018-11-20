@@ -90,9 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
                  */
-                Class homeActivity = Player.get().getRole().equals(Role.student) ?
+                HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
                         MainActivity.class : AddQuestionActivity.class;
-                startActivity(new Intent(this, homeActivity));
+
+                startActivity(new Intent(this, HOME_ACTIVITY));
             }
 
         } catch (IOException e) {
@@ -171,6 +172,8 @@ public class LoginActivity extends AppCompatActivity {
             authServerRedirect.setData(Uri.parse(AUTH_SERVER_URL));
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
+            HOME_ACTIVITY = loginRole.equals(Role.student) ?
+                    MainActivity.class : AddQuestionActivity.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);

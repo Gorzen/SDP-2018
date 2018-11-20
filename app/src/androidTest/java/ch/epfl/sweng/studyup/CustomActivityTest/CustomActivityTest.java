@@ -95,10 +95,6 @@ public class CustomActivityTest {
         assertTrue(device.findObject(new UiSelector().text(GALLERY)).exists());
         assertTrue(device.findObject(new UiSelector().text(CANCEL)).exists());
         clickButton(GALLERY);
-        Utils.waitAndTag(1000, "CustomTest");
-        device.pressBack();
-        Utils.waitAndTag(1000, "CustomTest");
-        clickButton(JUSTONCE);
     }
 
     public void clickButton(String textButton) throws UiObjectNotFoundException {

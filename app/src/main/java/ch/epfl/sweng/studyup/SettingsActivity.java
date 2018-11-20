@@ -1,25 +1,13 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
-
-import java.lang.ref.WeakReference;
-import java.util.Locale;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -71,8 +59,18 @@ public class SettingsActivity extends RefreshContext {
         languageChoiceBuilder.create().show();
     }
 
+    public void onCourseChoiceClick(View view) {
+        Intent intent = new Intent(SettingsActivity.this, CourseSelectionActivity.class);
+        startActivity(intent);
+    }
+
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    public void onColorChoiceClick(View view){
+        Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
+        startActivity(intent);
     }
 }

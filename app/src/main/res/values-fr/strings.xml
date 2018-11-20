@@ -92,4 +92,17 @@
     <string name="text_cantanswertwice">Tu ne peux répondre à une question deux fois !</string>
     <string name="text_wronganswer">Loupé... Une prochaine fois ?</string>
     <string name="text_correctanswer">Bonne réponse ! Bien joué !</string>
+    <string name="save_value">Sauvegarder</string>
+    <string name="course_choice_settings_button">Choisissez vos cours</string>
+    <string name="color_choice_settings_button">Changez de couleur</string>
+    <string name="item_xppotion_name">Potion d\'XP</string>
+    <string name="item_sackofcoins_name">Sac de pièces</string>
+    <string name="item_xppotion_desc">Bourre-toi la gueule avec de l\'XP !</string>
+    <string name="item_sackofcoins_desc">Un sac avec des piécettes sonnantes et trébuchantes !</string>
+    <string name="choose_theme_red">Rouge</string>
+    <string name="choose_theme_green">Vert</string>
+    <string name="choose_theme_brown">Brun</string>
+    <string name="choose_theme_blue">Bleu</string>
+    <string name="choose_theme_multicolor">Multicouleur</string>
+    <string name="back_button_settings_color_text">Retour aux paramètres</string>
 </resources>
