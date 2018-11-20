@@ -75,8 +75,10 @@ public class AddQuestionActivity extends AppCompatActivity {
         }
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if (question != null) {
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.VISIBLE);
+            if(!MOCK_ENABLED_EDIT_QUESTION) {
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.VISIBLE);
+            }
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = false;
@@ -96,7 +98,7 @@ public class AddQuestionActivity extends AppCompatActivity {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
-        if(MOCK_ENABLED){
+        if(MOCK_ENABLED_EDIT_QUESTION){
             ProgressBar progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.GONE);
         }
