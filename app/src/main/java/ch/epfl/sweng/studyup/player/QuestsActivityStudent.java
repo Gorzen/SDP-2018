@@ -49,13 +49,13 @@ public class QuestsActivityStudent extends NavigationStudent {
     private void setupListView(final List<Question> quests) {
         ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
+        ArrayList<Integer> listLang = new ArrayList<>();
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
 
         for(Question q: quests) {
             listTitle.add(q.getTitle());
-
 
             if(answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
                 listImageID.add(R.drawable.ic_todo_grey_24dp);
@@ -64,14 +64,27 @@ public class QuestsActivityStudent extends NavigationStudent {
             } else {
                 listImageID.add(R.drawable.ic_cross_red_24dp);
             }
+
+            switch (q.getLang()) {
+                case "fr":
+                    listLang.add(R.drawable.ic_todo_grey_24dp);
+                    break;
+                case "en":
+                    listLang.add(R.drawable.ic_check_green_24dp);
+                    break;
+                default: // Error
+                    listLang.add(R.drawable.ic_cross_red_24dp);
+                    break;
+            }
         }
 
-        setupOnClickListenerListView(quests, listTitle, listImageID);
+        setupOnClickListenerListView(quests, listTitle, listImageID, listLang);
     }
 
-    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle, ArrayList<Integer> listImageID) {
+    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle,
+                                              ArrayList<Integer> listImageID, ArrayList<Integer> listLang) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapter adapter = new QuestListViewAdapter(this, listTitle, listImageID);
+        QuestListViewAdapter adapter = new QuestListViewAdapter(this, listTitle, listImageID, listLang);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
