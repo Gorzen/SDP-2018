@@ -45,7 +45,7 @@ public class AnswerExpAndButtonsTest {
         onView(withId(R.id.answer4)).perform(click());
 
         onView(withId(R.id.answer1)).perform(click());
-        mActivityRule.getActivity().answerQuestion(null);
+        onView(withId(R.id.answer_button)).perform(click());
         /*
         int exp = Player.get().getExperience();
 
