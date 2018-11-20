@@ -30,7 +30,6 @@ public class DisplayQuestionActivityTest {
     public void cleanUp(){
         Log.d("DisplayQuestionActivityTest", "Finished test");
         mActivityRule.finishActivity();
-        Utils.killApp("DisplayQuestionActivityTest");
         Intents.release();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }

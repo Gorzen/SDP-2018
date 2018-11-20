@@ -34,4 +34,9 @@ public class RoomsTest {
         POSITION = new LatLng(45, 6);
         assertEquals(false, Rooms.checkIfUserIsInRoom("CM_1_4"));
     }
+
+    @Test
+    public void invalidRoomTest(){
+        assertEquals(false, Rooms.checkIfUserIsInRoom("Non existing room"));
+    }
 }

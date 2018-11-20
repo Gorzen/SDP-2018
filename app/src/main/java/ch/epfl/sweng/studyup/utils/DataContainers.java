@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class DataContainers {
+public abstract class DataContainers {
 
     /*
     JSON container objects used for authentication.

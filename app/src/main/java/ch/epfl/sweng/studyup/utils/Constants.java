@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-public class Constants {
+public abstract class Constants {
 
     // Values associated with Firebase
     public static final String FB_USERS = "users";
@@ -86,7 +86,7 @@ public class Constants {
     public static final String CURR_DISPLAY = "MONEY:\n";
 
     // Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, RANKINGS_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
+    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
 
     //Settings constants
@@ -99,8 +99,8 @@ public class Constants {
 
     public enum Course {
         SWENG,
-        CALCULUS,
-        ECOLOGY,
-        MEDIEVEL_HISTORY
+        Algebra,
+        Ecology,
+        Blacksmithing
     }
 }

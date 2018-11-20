@@ -30,7 +30,9 @@ import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -41,7 +43,10 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
@@ -55,7 +60,6 @@ public class AddQuestionActivityTest {
     public static void enableMock() {
         MOCK_ENABLED = true;
         Intents.init();
-        Player.get().initializeDefaultPlayerData();
     }
 
     @AfterClass
@@ -123,10 +127,10 @@ public class AddQuestionActivityTest {
 
     @Test
     public void addQuestionTest() throws Throwable {
-        //Question: MCQ, answer: 0
-        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(ViewActions.click());
-        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(ViewActions.click());
-        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(ViewActions.click());
+        //Question: MCQ, answer: 0, course: SWENG
+        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(ViewActions.click());
 
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
@@ -135,7 +139,7 @@ public class AddQuestionActivityTest {
                 title.setText("A Title");
             }
         });
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
+        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(scrollTo()).perform(ViewActions.click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -149,6 +153,7 @@ public class AddQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     assertEquals(0, questions.get(0).getAnswer());
                     assertEquals(false, questions.get(0).isTrueFalse());
+                    assertEquals(Course.SWENG.name(), questions.get(0).getCourseName());
                 }
             }
         });

@@ -41,10 +41,6 @@ public class FirestoreTest {
 
     private static Map<String, Object> TEST_DATA = null;
 
-    /*@Rule
-    public final ActivityTestRule<> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);*/
-
     @BeforeClass
     public static void enableMock() {
         MOCK_ENABLED = true;
@@ -69,8 +65,7 @@ public class FirestoreTest {
 
     @Before
     public void setup() {
-        Player.resetPlayer();
-        Player.get().initializePlayerData(TEST_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        Player.get().resetPlayer();
         Player.get().setRole(Role.student);
         resetTestValues();
     }
@@ -154,7 +149,7 @@ public class FirestoreTest {
 
     @Test
     public void addXpPlayerAndCurrencyTest() {
-        Player.resetPlayer();
+        Player.get().resetPlayer();
 
         assertEquals(INITIAL_XP, Player.get().getExperience());
         assertEquals(INITIAL_LEVEL, Player.get().getLevel());

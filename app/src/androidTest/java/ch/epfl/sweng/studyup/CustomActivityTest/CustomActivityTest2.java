@@ -36,8 +36,6 @@ public class CustomActivityTest2 {
     @Test
     public void testChooseGalleryImage() {
 
-        Player.get().initializeDefaultPlayerData();
-
         onView(ViewMatchers.withId(R.id.pic_btn)).perform(click());
 
         onView(withText("Gallery")).inRoot(isDialog())

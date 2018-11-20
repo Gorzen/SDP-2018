@@ -26,6 +26,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_LOGIN;
 import static ch.epfl.sweng.studyup.utils.DataContainers.PlayerDataContainer;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_TOKEN;
 
@@ -52,7 +53,9 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         PlayerDataContainer playerData = Authenticator.getPlayerData(token);
 
-        Player.get().initializePlayerData(playerData.sciperNum, playerData.firstName, playerData.lastname);
+        Player.get().setSciperNum(playerData.sciperNum);
+        Player.get().setFirstName(playerData.firstName);
+        Player.get().setLastName(playerData.lastname);
         if (MOCK_ENABLED) {
             Player.get().setRole(Role.student);
         }
@@ -104,9 +107,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         if(!Player.get().isDefault() && !MOCK_ENABLED) {
             cachePlayerData();
         }
-        Class homeActivity = Player.get().getRole().equals(Role.student) ?
-                MainActivity.class : AddQuestionActivity.class;
 
-        startActivity(new Intent(this, homeActivity));
+        startActivity(new Intent(this, HOME_ACTIVITY));
     }
 }

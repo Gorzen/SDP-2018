@@ -11,10 +11,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 // Tests for the functionality of handling of responses can be found in AuthTest.
@@ -28,12 +30,13 @@ public class AuthenticationActivityTest {
             new ActivityTestRule<>(AuthenticationActivity.class, true, false);
 
     @BeforeClass
-    public static void runOnceBeforeClass() {
+    public static void setupMock() {
         MOCK_ENABLED = true;
+        HOME_ACTIVITY = MainActivity.class;
     }
 
     @AfterClass
-    public static void runOnceAfterClass() {
+    public static void breakdownMock() {
         MOCK_ENABLED = false;
     }
 

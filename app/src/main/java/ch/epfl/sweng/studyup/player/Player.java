@@ -30,8 +30,11 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 /**
  * Player
@@ -45,11 +48,11 @@ public class Player {
     private static Player instance = null;
 
     // Basic biographical data
-    private String sciperNum = null;
-    private String firstName = null;
-    private String lastName = null;
+    private String sciperNum;
+    private String firstName;
+    private String lastName;
 
-    private String username = null;
+    private String username;
     private Role role = null;
 
     // Game-related data
@@ -62,6 +65,9 @@ public class Player {
     private List<Course> courses;
 
     private Player() {
+        sciperNum = INITIAL_SCIPER;
+        firstName = INITIAL_FIRSTNAME;
+        lastName = INITIAL_LASTNAME;
         experience = INITIAL_XP;
         currency = INITIAL_CURRENCY;
         level = INITIAL_LEVEL;
@@ -83,24 +89,15 @@ public class Player {
      * User for testing purposes.
      * Clear data from current Player instance.
      */
-    public static void resetPlayer() {
-        instance = new Player();
-    }
-
-    /**
-     * Initialize the instance of Player for the FIRST TIME.
-     * This is used when a user logs is logged in from AuthenticationActivity OR
-     * the user is logged in automatically from LoginActivity.
-     */
-    public void initializePlayerData(String sciperNum, String firstName, String lastName) {
-
-        this.sciperNum = sciperNum;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public void initializeDefaultPlayerData() {
-        initializePlayerData(INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+    public void resetPlayer() {
+        experience = INITIAL_XP;
+        currency = INITIAL_CURRENCY;
+        level = INITIAL_LEVEL;
+        username = INITIAL_USERNAME;
+        answeredQuestions = new HashMap<>();
+        items = new ArrayList<>();
+        courses = new ArrayList<>();
+        courses.add(Course.SWENG);
     }
 
     /**
@@ -108,6 +105,7 @@ public class Player {
      * This method is called from FireStore.loadPlayerData(), which is called
      * in AuthenticationActivity.
      */
+    @SuppressWarnings("unchecked")
     public void updateLocalDataFromRemote(Map<String, Object> remotePlayerData) {
 
         if (remotePlayerData.isEmpty()) {
@@ -120,6 +118,12 @@ public class Player {
         currency = Integer.parseInt(getOrDefault(remotePlayerData, FB_CURRENCY, INITIAL_CURRENCY).toString());
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
+
+        List<String> defaultCourseList = new ArrayList<>();
+        defaultCourseList.add(Course.SWENG.name());
+        courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+
+        Log.d(TAG, "Loaded courses: " + courses.toString());
     }
 
     // Getters
@@ -148,13 +152,6 @@ public class Player {
 
     public List<Course> getCourses() {
         return courses;
-    }
-
-    /**
-     * Changes the Player to the basic state, right after constructor.
-     */
-    public void reset() {
-        instance = null;
     }
 
     // Setters
@@ -216,17 +213,15 @@ public class Player {
         }
     }
 
-    public void consumeItem(Items item) throws Exception {
-        if (items.remove(item)) {
-            item.consume();
-            Firestore.get().updateRemotePlayerDataFromLocal();
-        } else {
-            throw new Exception("The player does not have this item, could not find it.");
-        }
+    public void consumeItem(Items item)  {
+        items.remove(item);
+        item.consume();
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
-    public void addCourse(Course newCourse) {
-        courses.add(newCourse);
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     /**

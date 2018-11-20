@@ -47,7 +47,8 @@
             android:label="Add a question" />
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
-        <activity android:name=".social.RankingsActivity" />
+        <activity android:name=".items.ShopActivity" />
+        <activity android:name=".items.BuyItemActivity" />
         <activity android:name=".items.InventoryActivity" />
         <activity android:name=".player.CustomActivity" />
 
@@ -74,8 +75,9 @@
 
         <activity android:name=".questions.DisplayQuestionActivity" />
         <activity android:name=".items.DisplayItemActivity" />
-        <activity android:name=".utils.TestbedActivity"/>
+        <activity android:name=".utils.TestbedActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".CourseSelectionActivity" />
     </application>
 
 </manifest>

@@ -9,8 +9,9 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-public class Utils {
+public abstract class Utils {
 
     /**
      * Wait for a given action to be completed. Return an error message if any.
@@ -21,17 +22,7 @@ public class Utils {
     public static final void waitAndTag(int time, String tag) {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException e) {
-            Log.w(tag, "Test was interrupted: " + e.getMessage());
-        }
-    }
-
-    public static void killApp(String tag){
-        try{
-            Runtime.getRuntime().exec("adb shell pm clear ch.epfl.sweng.studyup\n");
-        }catch (IOException e) {
-            Log.d(tag, e.getMessage());
-        }
+        } catch (InterruptedException e) {Log.w(tag, "Test was interrupted: " + e.getMessage()); return;}
     }
 
     public static List<String> getItemsString(){
@@ -43,12 +34,31 @@ public class Utils {
         return itemsStr;
     }
 
-    public static List<Items> getItemsFromString(List<String> itemsStr){
+    public static List<Items> getItemsFromString(List<String> itemsStr) {
         List<Items> items = new ArrayList<>();
-        for(String s : itemsStr){
+        for(String s : itemsStr) {
             items.add(Items.valueOf(s));
         }
         return items;
+    }
+
+    /*
+    Conversion methods for player course list.
+    Used for passing data back and forth with Firebase.
+     */
+    public static List<Course> getCourseListFromStringList(List<String> courseStrings) {
+        List<Course> courses = new ArrayList<>();
+        for (String courseString : courseStrings) {
+            courses.add(Course.valueOf(courseString));
+        }
+        return courses;
+    }
+    public static List<String> getStringListFromCourseList(List<Course> courseList) {
+        List<String> courseStrings = new ArrayList<>();
+        for (Course course : courseList) {
+            courseStrings.add(course.name());
+        }
+        return courseStrings;
     }
 
     public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {

@@ -9,16 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
 
 public class InventoryActivity extends NavigationStudent {
     private ArrayAdapter<String> adapter;
+    private ListItemAdapter listItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +33,16 @@ public class InventoryActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
-
-        ArrayList<String> itemsName = getItemsNames();
-        ListView listView = findViewById(R.id.listViewItems);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemsName);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView ownedItems = findViewById(R.id.listViewItems);
+        HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
+        ownedItems.setAdapter(listItemAdapter);
+        ownedItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(DisplayItemActivity.class.getName(), adapter.getItem(position)));
+                Items item = (Items)listItemAdapter.getItem(position);
+                startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(DisplayItemActivity.class.getName(), item.getName()));
             }
         });
-    }
-
-    public ArrayList<String> getItemsNames() {
-        List<Items> items = Player.get().getItems();
-        ArrayList<String> itemsName = new ArrayList<>(items.size());
-        for(int index = 0; index < items.size(); ++index) {
-            itemsName.add(index, items.get(index).getName());
-        }
-        return itemsName;
     }
 }
