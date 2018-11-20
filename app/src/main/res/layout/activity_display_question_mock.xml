@@ -82,19 +82,6 @@
                 android:src="@drawable/white_view"
                 app:srcCompat="@android:color/transparent" />
 
-            <ProgressBar
-                android:id="@+id/questionProgressBar"
-                android:layout_width="47dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/quest_title"
-                android:layout_alignBottom="@+id/question_display_view"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="97dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="99dp"
-                android:indeterminate="true" />
-
 
         </RelativeLayout>
 
