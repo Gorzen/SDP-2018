@@ -5,22 +5,14 @@ import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
-import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public class DisplayQuestionActivityTest {
-
-    protected Question sampleQuestion = new Question("id-test", "test", true, 0,Constants.Course.SWENG.name());
-    protected final String TAG = "DisplayQuestionActivityTest";
 
     @Rule
     public final ActivityTestRule<DisplayQuestionActivity> mActivityRule =
@@ -29,20 +21,16 @@ public class DisplayQuestionActivityTest {
                     false);
 
     @Before
-    public void clearQuestions(){
-        Player.get().getAnsweredQuestion().clear();
-    }
-
-    @BeforeClass
-    public static void setUp() {
+    public void setUp() {
         Log.d("DisplayQuestionActivityTest", "Started test");
         Intents.init();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
 
-    @AfterClass
-    public static void cleanUp() {
+    @After
+    public void cleanUp() {
         Log.d("DisplayQuestionActivityTest", "Finished test");
+        mActivityRule.finishActivity();
         Intents.release();
         Utils.waitAndTag(1000, "DisplayQuestionActivityTest");
     }
