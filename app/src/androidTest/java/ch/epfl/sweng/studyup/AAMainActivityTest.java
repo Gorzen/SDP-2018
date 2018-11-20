@@ -46,7 +46,7 @@ public class AAMainActivityTest {
             }
         });
 
-        Utils.waitAndTag(100, "MainActivityTestCurrencyDisplayTest");
+        Utils.waitAndTag(1000, "MainActivityTestCurrencyDisplayTest");
 
         onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) + Player.get().getCurrency())));
         assertEquals(currency + currencyToAdd, Player.get().getCurrency());
