@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.QuestionsTest;
+package ch.epfl.sweng.studyup;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -55,7 +55,7 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1() {
+    public void editTrueFalseQuestionAnswer0to1Test() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
