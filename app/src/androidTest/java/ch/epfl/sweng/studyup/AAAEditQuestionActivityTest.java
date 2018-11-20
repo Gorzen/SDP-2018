@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.ListView;
@@ -25,7 +27,10 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static junit.framework.TestCase.assertEquals;
@@ -55,7 +60,7 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1Test() {
+    public void editTrueFalseQuestionAnswer0to1() {
         q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
@@ -70,8 +75,216 @@ public class AAAEditQuestionActivityTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
-                    assertEquals(1, questions.get(0).getAnswer());
-                    assertEquals(true, questions.get(0).isTrueFalse());
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(1, questions.get(0).getAnswer());
+                            assertEquals(true, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editTrueFalseQuestionAnswer1to0() {
+        q = new Question(questionUUID, "True false test", true, 1, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.radio_answer1)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(0, questions.get(0).getAnswer());
+                            assertEquals(true, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editMCQQuestionAnswer0to1() {
+        q = new Question(questionUUID, "True false test", false, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.radio_answer2)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(1, questions.get(0).getAnswer());
+                            assertEquals(false, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editMCQQuestionAnswer1to2() {
+        q = new Question(questionUUID, "True false test", false, 1, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.radio_answer2)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(2, questions.get(0).getAnswer());
+                            assertEquals(false, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editMCQQuestionAnswer2to3() {
+        q = new Question(questionUUID, "True false test", false, 2, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.radio_answer2)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(3, questions.get(0).getAnswer());
+                            assertEquals(false, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editMCQQuestionAnswer3to0() {
+        q = new Question(questionUUID, "True false test", false, 3, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.radio_answer2)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(0, questions.get(0).getAnswer());
+                            assertEquals(false, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
+    public void editMCQToTrueFalseQuestionAnswer3to0() {
+        q = new Question(questionUUID, "True false test", false, 3, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.true_false_radio)).perform(click());
+        onView(withId(R.id.radio_answer1)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(0, questions.get(0).getAnswer());
+                            assertEquals(true, questions.get(0).isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+   @Test
+    public void editTrueFalseQuestionAnswerImagedToTextBased() {
+        q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.text_radio_button)).perform(click());
+        onView(withId(R.id.questionText))
+                .perform(clearText())
+                .perform(typeText("Question's description"))
+                .perform(closeSoftKeyboard());
+
+        Utils.waitAndTag(1000, "dsa");
+        onView(withId(R.id.radio_answer2));
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Utils.waitAndTag(10000, "joijads");
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if(q.getQuestionId() == questionUUID) {
+                            assertEquals(true, questions.get(0).isTrueFalse());
+                        }
+                    }
                 }
             }
         });
