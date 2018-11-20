@@ -1,7 +1,5 @@
 package ch.epfl.sweng.studyup.questions;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -33,18 +31,15 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-public class DisplayQuestionActivity extends NavigationStudent {
+public class DisplayQuestionMockActivity extends NavigationStudent {
 
-    private final String TAG = "DisplayQuestionActivity";
-    public static final String DISPLAY_QUESTION_TITLE = "display_question_title";
-    public static final String DISPLAY_QUESTION_ID = "display_question_id";
-    public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
-    public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
+    private final String TAG = "DisplayQuestionMockActivity";
     public static final int XP_GAINED_WITH_QUESTION = 10;
+    private static final String mockUUID = "Fake UUID test Display";
+    private final Question mockQuestion = new Question(mockUUID, "ADisplayQuestionActivityTest", false, 0, Constants.Course.SWENG.name());
     private Question displayQuestion;
 
     private RadioGroup answerGroupTOP;
@@ -55,22 +50,8 @@ public class DisplayQuestionActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
-
-        int answerNumber = 0;
-        boolean trueFalse = false;
-        String questionTitle = "";
-        String questionID = "";
-
-        Intent intent = getIntent();
-        if (!checkIntent(intent)) return;
-        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-
-        //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-        displayImage(questionID);
+        displayQuestion = mockQuestion;
+        displayImage(mockUUID);
 
         setupLayout(displayQuestion);
 
@@ -91,36 +72,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-    }
-
-    /**
-     * Check that the Intent that launched the activity has all the needed fields
-     *
-     * @return true iff the intent contains the needed fields
-     */
-    private boolean checkIntent(Intent intent) {
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
-            quit();
-            return false;
-        }
-
-        return true;
     }
 
     private void setupRadioButton() {
@@ -238,9 +189,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
             } else {
                 badAnswer();
             }
-            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-            startActivity(goToQuests);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 
@@ -262,20 +210,5 @@ public class DisplayQuestionActivity extends NavigationStudent {
         } else {
             Player.get().addItem(Items.COIN_SACK);
         }
-    }
-
-
-    /**
-     * @param c The context of the application that launch the intent (put this)
-     * @param q The question that needs to be passed
-     * @return The intent ready to be launched with "startActivity"
-     */
-    public static Intent getIntentForDisplayQuestion(Context c, Question q) {
-        Intent goToQuestion = new Intent(c, DisplayQuestionActivity.class);
-        goToQuestion.putExtra(DISPLAY_QUESTION_TITLE, q.getTitle());
-        goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());
-        goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
-        goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
-        return goToQuestion;
     }
 }

@@ -74,6 +74,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".questions.DisplayQuestionActivity" />
+        <activity android:name=".questions.DisplayQuestionMockActivity" />
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity"/>
         <activity android:name=".SettingsActivity"></activity>
