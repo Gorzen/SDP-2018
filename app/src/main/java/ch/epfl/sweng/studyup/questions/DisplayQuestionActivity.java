@@ -90,10 +90,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
             }
         });
 
-        throw new RuntimeException("backButton exception");
-
-        /*
-
         setupRadioButton();
 
         TextView questTitle = findViewById(R.id.quest_title);
@@ -102,7 +98,8 @@ public class DisplayQuestionActivity extends NavigationStudent {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        */
+
+        throw new RuntimeException("End of onCreate");
     }
 
     /**
