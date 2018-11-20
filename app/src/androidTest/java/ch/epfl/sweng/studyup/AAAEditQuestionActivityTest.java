@@ -60,8 +60,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1() {
-        q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
+    public void editTrueFalseQuestionAnswer0to1Test() {
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -77,8 +77,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(1, questions.get(0).getAnswer());
-                            assertEquals(true, questions.get(0).isTrueFalse());
+                            assertEquals(1, q.getAnswer());
+                            assertEquals(true, q.isTrueFalse());
                         }
                     }
                 }
@@ -86,9 +86,10 @@ public class AAAEditQuestionActivityTest {
         });
     }
 
+
     @Test
-    public void editTrueFalseQuestionAnswer1to0() {
-        q = new Question(questionUUID, "True false test", true, 1, Constants.Course.SWENG.name());
+    public void editTrueFalseQuestionAnswer1to0Test() {
+        q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -105,8 +106,38 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(0, questions.get(0).getAnswer());
-                            assertEquals(true, questions.get(0).isTrueFalse());
+                            assertEquals(0, q.getAnswer());
+                            assertEquals(true, q.isTrueFalse());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    @Test
+    public void editTrueFalseToMCQAnswer0To3Test() {
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.mcq_radio)).perform(click());
+        onView(withId(R.id.radio_answer3)).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(click());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
+        assertNotNull(parsedList);
+        parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                if (!questions.isEmpty()) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId() == questionUUID) {
+                            assertEquals(3, q.getAnswer());
+                            assertEquals(true, q.isTrueFalse());
                         }
                     }
                 }
@@ -115,8 +146,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editMCQQuestionAnswer0to1() {
-        q = new Question(questionUUID, "True false test", false, 0, Constants.Course.SWENG.name());
+    public void editMCQQuestionAnswer0to1Test() {
+        q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -133,8 +164,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(1, questions.get(0).getAnswer());
-                            assertEquals(false, questions.get(0).isTrueFalse());
+                            assertEquals(1, q.getAnswer());
+                            assertEquals(false, q.isTrueFalse());
                         }
                     }
                 }
@@ -143,8 +174,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editMCQQuestionAnswer1to2() {
-        q = new Question(questionUUID, "True false test", false, 1, Constants.Course.SWENG.name());
+    public void editMCQQuestionAnswer1to2Test() {
+        q = new Question(questionUUID, this.getClass().getName(), false, 1, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -161,8 +192,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(2, questions.get(0).getAnswer());
-                            assertEquals(false, questions.get(0).isTrueFalse());
+                            assertEquals(2, q.getAnswer());
+                            assertEquals(false, q.isTrueFalse());
                         }
                     }
                 }
@@ -171,8 +202,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editMCQQuestionAnswer2to3() {
-        q = new Question(questionUUID, "True false test", false, 2, Constants.Course.SWENG.name());
+    public void editMCQQuestionAnswer2to3Test() {
+        q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -189,8 +220,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(3, questions.get(0).getAnswer());
-                            assertEquals(false, questions.get(0).isTrueFalse());
+                            assertEquals(3, q.getAnswer());
+                            assertEquals(false, q.isTrueFalse());
                         }
                     }
                 }
@@ -199,8 +230,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editMCQQuestionAnswer3to0() {
-        q = new Question(questionUUID, "True false test", false, 3, Constants.Course.SWENG.name());
+    public void editMCQQuestionAnswer3to0Test() {
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -217,8 +248,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(0, questions.get(0).getAnswer());
-                            assertEquals(false, questions.get(0).isTrueFalse());
+                            assertEquals(0, q.getAnswer());
+                            assertEquals(false, q.isTrueFalse());
                         }
                     }
                 }
@@ -227,8 +258,8 @@ public class AAAEditQuestionActivityTest {
     }
 
     @Test
-    public void editMCQToTrueFalseQuestionAnswer3to0() {
-        q = new Question(questionUUID, "True false test", false, 3, Constants.Course.SWENG.name());
+    public void editMCQToTrueFalseQuestionAnswer3to0Test() {
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -246,8 +277,8 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if (q.getQuestionId() == questionUUID) {
-                            assertEquals(0, questions.get(0).getAnswer());
-                            assertEquals(true, questions.get(0).isTrueFalse());
+                            assertEquals(0, q.getAnswer());
+                            assertEquals(true, q.isTrueFalse());
                         }
                     }
                 }
@@ -256,8 +287,8 @@ public class AAAEditQuestionActivityTest {
     }
 
    @Test
-    public void editTrueFalseQuestionAnswerImagedToTextBased() {
-        q = new Question(questionUUID, "True false test", true, 0, Constants.Course.SWENG.name());
+    public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -272,7 +303,7 @@ public class AAAEditQuestionActivityTest {
         Utils.waitAndTag(1000, "dsa");
         onView(withId(R.id.radio_answer2));
         onView(withId(R.id.addQuestionButton)).perform(click());
-        Utils.waitAndTag(10000, "joijads");
+        Utils.waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -282,12 +313,23 @@ public class AAAEditQuestionActivityTest {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
                         if(q.getQuestionId() == questionUUID) {
-                            assertEquals(true, questions.get(0).isTrueFalse());
+                            assertEquals(true, q.isTrueFalse());
                         }
                     }
                 }
             }
         });
+    }
+
+    @Test
+    public void backButtonTest() {
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        Firestore.get().addQuestion(q);
+        Utils.waitAndTag(3000, this.getClass().getName());
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(3000, this.getClass().getName());
+        clickOnListViewItem();
+        onView(withId(R.id.back_button)).perform(click());
     }
 
     private void clickOnListViewItem() {
