@@ -96,6 +96,11 @@ public class AddQuestionActivity extends AppCompatActivity {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
+        if(MOCK_ENABLED){
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.GONE);
+        }
+
     }
 
     /**

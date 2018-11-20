@@ -61,24 +61,6 @@ public class AAAEditQuestionActivityTest {
     private Question q;
     private ListView list;
 
-    @Mock
-    StorageReference mockst;
-
-    @Mock
-    private Uri uri;
-
-    @Mock
-    private FileDownloadTask mockFileDownloadTask;
-
-    @Captor
-    private ArgumentCaptor<OnCompleteListener> testOnCompleteListener;
-
-    @Captor
-    private ArgumentCaptor<OnSuccessListener> testOnSuccessListener;
-
-    @Captor
-    private ArgumentCaptor<OnFailureListener> testOnFailureListener;
-
     @Rule
     public final ActivityTestRule<AddQuestionActivity> mActivityRule =
             new ActivityTestRule<>(AddQuestionActivity.class, true, false);
@@ -88,25 +70,11 @@ public class AAAEditQuestionActivityTest {
     public void init() {
         MOCK_ENABLED_EDIT_QUESTION = true;
         Player.get().setRole(Constants.Role.teacher);
-        setupTask(mockFileDownloadTask);
-
-        when(mockst.getFile(uri)).thenReturn(mockFileDownloadTask);
-    }
-
-    private <T> void setupTask(Task<T> task) {
-        when(task.addOnCompleteListener(testOnCompleteListener.capture())).thenReturn(task);
-        when(task.addOnSuccessListener(testOnSuccessListener.capture())).thenReturn(task);
-        when(task.addOnFailureListener(testOnFailureListener.capture())).thenReturn(task);
-    }
-
-    private void clickOnListViewItem() {
-
     }
 
     @Test
     public void test() {
         mActivityRule.launchActivity(new Intent());
-        mActivityRule.getActivity().setupText(mockst, null);
     }
 
     @Test
