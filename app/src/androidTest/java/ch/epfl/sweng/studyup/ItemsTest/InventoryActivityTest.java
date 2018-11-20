@@ -18,13 +18,13 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class InventoryActivityTest {
@@ -41,7 +41,7 @@ public class InventoryActivityTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         Player.get().resetPlayer();
     }
 
@@ -56,6 +56,7 @@ public class InventoryActivityTest {
         });
         onView(withId(R.id.use_button)).perform(click());
 
+        Utils.waitAndTag(500, "Wait to consume item");
         assertEquals(XP_STEP, Player.get().getExperience());
         assertEquals(0, Player.get().getItems().size());
     }
