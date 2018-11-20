@@ -40,6 +40,7 @@ public class ShopActivityAndBuyItemActivityTest {
     public void init() {
         list = mActivityRule.getActivity().findViewById(R.id.list_view_shop);
         Intents.init();
+        Player.get().resetPlayer();
     }
 
     @Test
