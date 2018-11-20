@@ -89,7 +89,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 finish();
             }
         });
-        /*
 
         setupRadioButton();
 
@@ -99,7 +98,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-        */
     }
 
     /**
