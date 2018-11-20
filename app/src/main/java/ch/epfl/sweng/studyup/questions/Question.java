@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.common.base.Objects;
 
@@ -52,7 +53,7 @@ public class Question {
         this.courseName = courseName;
 
         // If not a basic language
-        if (lang != "en" && lang != "fr") {
+        if (lang == null) {
             this.lang = "en";
         } else {
             this.lang = lang;
@@ -114,6 +115,7 @@ public class Question {
     @Override
     public String toString() {
         String s = "";
+        s += "[" + lang + "] ";
         s += title;
         if (trueFalse) {
             s += " (True/False) ";
