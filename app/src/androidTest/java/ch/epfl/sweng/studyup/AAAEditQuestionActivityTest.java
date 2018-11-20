@@ -41,6 +41,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_QUESTION;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
@@ -67,13 +68,10 @@ public class AAAEditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer0to1() {
+        MOCK_QUESTION = new Question("AddQuestionActivityTest", "AddQuestionActivityTest", true, 0, Constants.Course.SWENG.name());
         mActivityRule.launchActivity(new Intent());
-        AddQuestionActivity mActivity = mActivityRule.getActivity();
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
-        Question question = mActivity.getQuestion();
-        assertEquals(1, question.getAnswer());
-        assertEquals(true, question.isTrueFalse());
+        onView(withId(R.id.radio_answer1)).perform(click());
+        onView(withId(R.id.mcq_radio)).perform(click());
 
 
 

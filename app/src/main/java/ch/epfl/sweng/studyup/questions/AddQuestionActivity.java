@@ -45,6 +45,7 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 public class AddQuestionActivity extends AppCompatActivity {
@@ -60,19 +61,18 @@ public class AddQuestionActivity extends AppCompatActivity {
     private boolean isNewQuestion = true;
     private Question question;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
+
         Question question;
-        if(!MOCK_ENABLED_EDIT_QUESTION) {
+        if(MOCK_ENABLED_EDIT_QUESTION) {
+            question = MOCK_QUESTION;
+        } else {
             Intent intent = getIntent();
             question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
-        } else {
-            question = new Question("Is this getting on FireBase?", "True false test", true, 0, Constants.Course.SWENG.name());
         }
-
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
         if (question != null) {
             ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -139,7 +139,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     }
 
     public void addQuestion(View current) {
-        if (MOCK_ENABLED_EDIT_QUESTION || imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
+        if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
@@ -159,7 +159,6 @@ public class AddQuestionActivity extends AppCompatActivity {
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
 
-            if(!MOCK_ENABLED_EDIT_QUESTION) {
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
                 questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
                 try {
@@ -186,7 +185,7 @@ public class AddQuestionActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     Log.e("Exception", "File write failed: " + e.toString());
                 }
-            }}
+            }
 
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
@@ -194,14 +193,11 @@ public class AddQuestionActivity extends AppCompatActivity {
             // TODO: Determine how to set question course
             String questionCourseName = Player.get().getCourses().get(0).name();
             Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
-            if(!MOCK_ENABLED_EDIT_QUESTION) {
-                // Upload the problem image file to the Firebase Storage server
-                FileStorage.uploadProblemImage(questionFile);
-                // Add question to FireStore
-                Firestore.get().addQuestion(newQuestion);
-            } else {
-                question = newQuestion;
-            }
+
+            // Upload the problem image file to the Firebase Storage server
+            FileStorage.uploadProblemImage(questionFile);
+            // Add question to FireStore
+            Firestore.get().addQuestion(newQuestion);
 
             if(isNewQuestion) {
                 Toast.makeText(this.getApplicationContext(), "Question successfully added !", Toast.LENGTH_SHORT).show();
@@ -244,7 +240,7 @@ public class AddQuestionActivity extends AppCompatActivity {
      *
      * @param trueFalseOrMCQID chooses between MCQ or True/False alternatives
      */
-    private void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
+    public void setUpMCQTrueFalseRadioButtons(int trueFalseOrMCQID) {
         RadioButton firstRadioButton = findViewById(R.id.radio_answer1);
         RadioButton secondRadioButton = findViewById(R.id.radio_answer2);
         RadioButton thirdRadioButton = findViewById(R.id.radio_answer3);
@@ -445,10 +441,6 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     public void onBackButtonAddQuestion(View view) {
         startActivity(new Intent(this.getApplicationContext(), QuestsActivityTeacher.class));
-    }
-
-    public Question getQuestion() {
-        return question;
     }
 
 }
