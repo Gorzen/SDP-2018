@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -56,11 +55,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(MOCK_ENABLED){
-            setContentView(R.layout.activity_display_question_mock);
-        }else{
-            setContentView(R.layout.activity_display_question);
-        }
+        setContentView(R.layout.activity_display_question);
 
 
         int answerNumber = 0;
@@ -69,8 +64,13 @@ public class DisplayQuestionActivity extends NavigationStudent {
         String questionID = "";
 
         if (MOCK_ENABLED) {
-            String id = "DisplayQuestionActivityTest";
-            displayQuestion = new Question(id, "Titre", trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+            progressBar.setVisibility(View.GONE);
+
+            questionID = "DisplayQuestionActivityTest";
+            questionTitle = "Fake UUID for DisplayQuestionActivity test";
+            answerNumber = 0;
+            trueFalse = false;
         } else {
             Intent intent = getIntent();
             if (!checkIntent(intent)) return;
@@ -78,11 +78,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
             questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
             answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
             trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-
-            //Create the question
-            displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-            displayImage(questionID);
         }
+
+        //Create the question
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+        displayImage(questionID);
 
         setupLayout(displayQuestion);
 
@@ -220,13 +220,11 @@ public class DisplayQuestionActivity extends NavigationStudent {
             TextView answer2 = findViewById(R.id.answer2);
             answer2.setText(getString(R.string.text_answer_2));
 
-            if(!MOCK_ENABLED) {
-                TextView answer3 = findViewById(R.id.answer3);
-                answer3.setVisibility(View.VISIBLE);
+            TextView answer3 = findViewById(R.id.answer3);
+            answer3.setVisibility(View.VISIBLE);
 
-                TextView answer4 = findViewById(R.id.answer4);
-                answer4.setVisibility(View.VISIBLE);
-            }
+            TextView answer4 = findViewById(R.id.answer4);
+            answer4.setVisibility(View.VISIBLE);
         }
     }
 
@@ -252,26 +250,21 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 badAnswer();
             }
 
-            if (!MOCK_ENABLED) {
-                Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-                startActivity(goToQuests);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
+            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
+            startActivity(goToQuests);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 
     private void badAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
-        if(!MOCK_ENABLED) {
-            Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
     }
 
     private void goodAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
-        if(!MOCK_ENABLED){
-            Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
+
         Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 
         //Randomly add one item to the player
