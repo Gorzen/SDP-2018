@@ -12,21 +12,18 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
+
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.anything;
-public class FromStudentToDisplay {
+public class FromStudentToDisplayTest {
     @Rule
     public final ActivityTestRule<QuestsActivityStudent> rule =
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
-    private final String TAG = FromStudentToDisplay.class.getSimpleName();
+    private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
     private Question q;
     private  final String fakeTitle = "fake title from student to display";
     @Before
