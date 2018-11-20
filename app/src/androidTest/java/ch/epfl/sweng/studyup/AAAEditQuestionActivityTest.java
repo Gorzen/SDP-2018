@@ -24,9 +24,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -53,9 +50,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_QUESTION;
-import static org.mockito.Mockito.when;
 
-@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
+@RunWith(AndroidJUnit4.class)
 public class AAAEditQuestionActivityTest {
     private final String questionUUID = "Test floepfl";
     private Question q;
