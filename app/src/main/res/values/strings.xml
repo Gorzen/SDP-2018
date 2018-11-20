@@ -81,5 +81,6 @@
     <string name="choose_theme_multicolor">Multicolor</string>
     <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
+    <string name="back_button_simple_text">Back</string>
 
 </resources>

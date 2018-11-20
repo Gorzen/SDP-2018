@@ -63,7 +63,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"></Spinner>
+                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"/>
 
                 <RadioGroup
                     android:id="@+id/text_or_image_radio_group"
@@ -106,7 +106,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:contentDescription="Question description"
                     android:ems="10"
                     android:hint="Write here the question"
                     android:inputType="text|textMultiLine"
@@ -220,7 +219,7 @@
                     android:cursorVisible="false"
                     android:elegantTextHeight="false"
                     android:onClick="onBackButtonAddQuestion"
-                    android:text="Back"
+                    android:text="@string/back_button_simple_text"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
