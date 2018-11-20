@@ -80,6 +80,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
             displayImage(questionID);
         }
 
+        /*
         setupLayout(displayQuestion);
 
         Button backButton = findViewById(R.id.back_button);
@@ -98,8 +99,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-
-        throw new RuntimeException("End of onCreate");
+        */
     }
 
     /**
