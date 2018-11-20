@@ -46,7 +46,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
     public static final String DISPLAY_QUESTION_ID = "display_question_id";
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
-    public static final int XP_GAINED_WITH_QUESTION = 10;
     private Question displayQuestion;
 
     private RadioGroup answerGroupTOP;
@@ -67,18 +66,14 @@ public class DisplayQuestionActivity extends NavigationStudent {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
             progressBar.setVisibility(View.GONE);
 
-            questionID = "DisplayQuestionActivityTest";
-            questionTitle = "Fake UUID for DisplayQuestionActivity test";
-            answerNumber = 0;
-            trueFalse = false;
-        } else {
-            Intent intent = getIntent();
-            if (!checkIntent(intent)) return;
-            questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-            questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-            answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-            trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         }
+
+        Intent intent = getIntent();
+        if (!checkIntent(intent)) return;
+        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
+        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
+        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
@@ -265,7 +260,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
         Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
 
-        Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
+        Player.get().addExperience(Constants.XP_GAINED_WITH_QUESTION, this);
 
         //Randomly add one item to the player
         Random random = new Random();

@@ -13,12 +13,12 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static org.junit.Assert.assertEquals;
 
@@ -62,7 +62,7 @@ public class DisplayQuestionActivityTest2 {
         onView(withId(R.id.answer1)).perform(click());
         onView(withId(R.id.answer_button)).perform(click());
 
-        assertEquals(exp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
+        assertEquals(exp + Constants.XP_GAINED_WITH_QUESTION, Player.get().getExperience());
     }
 
     @Test

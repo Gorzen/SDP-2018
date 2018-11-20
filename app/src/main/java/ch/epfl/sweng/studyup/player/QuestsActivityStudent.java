@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
@@ -39,16 +40,19 @@ public class QuestsActivityStudent extends NavigationStudent {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+    }
 
-        if (!MOCK_ENABLED) {
-            LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
-            questions.observe(this, new Observer<List<Question>>() {
-                @Override
-                public void onChanged(@Nullable List<Question> questions) {
-                    setupListView(questions);
-                }
-            });
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firestore.get().loadQuestions(this);
+        LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
+        questions.observe(this, new Observer<List<Question>>() {
+            @Override
+            public void onChanged(@Nullable List<Question> questions) {
+                setupListView(questions);
+            }
+        });
     }
 
     public void setupListView(final List<Question> quests) {
