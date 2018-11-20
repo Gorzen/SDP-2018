@@ -72,8 +72,8 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
 
-        Utils.waitAndTag(500, "Waiting for scroll");
         onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -102,6 +102,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer1)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -131,6 +135,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.mcq_radio)).perform(click());
         onView(withId(R.id.radio_answer3)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
@@ -160,6 +168,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -188,6 +200,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -216,6 +232,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -244,6 +264,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer2)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -272,6 +296,10 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.true_false_radio)).perform(click());
         onView(withId(R.id.radio_answer1)).perform(click());
         onView(withId(R.id.addQuestionButton)).perform(click());
@@ -301,12 +329,20 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
+
+       onView(withId(R.id.questionText)).perform(scrollTo());
+       Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.text_radio_button)).perform(click());
         onView(withId(R.id.questionText))
                 .perform(clearText())
                 .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
-        Utils.waitAndTag(1000, this.getClass().getName());
+        Utils.waitAndTag(500, this.getClass().getName());
+
+       onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+       Utils.waitAndTag(100, "Waiting for scroll");
+
         onView(withId(R.id.radio_answer2));
         onView(withId(R.id.addQuestionButton)).perform(click());
         Utils.waitAndTag(1000, this.getClass().getName());

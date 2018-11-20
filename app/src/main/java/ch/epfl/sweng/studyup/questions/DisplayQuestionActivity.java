@@ -58,10 +58,10 @@ public class DisplayQuestionActivity extends NavigationStudent {
         setContentView(R.layout.activity_display_question);
 
 
-        int answerNumber = 0;
-        boolean trueFalse = false;
-        String questionTitle = "";
-        String questionID = "";
+        int answerNumber;
+        boolean trueFalse;
+        String questionTitle;
+        String questionID;
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
