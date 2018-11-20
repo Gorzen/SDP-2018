@@ -248,9 +248,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
                 badAnswer();
             }
 
-            if (MOCK_ENABLED) {
-
-            } else {
+            if (!MOCK_ENABLED) {
                 Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
                 startActivity(goToQuests);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -260,12 +258,16 @@ public class DisplayQuestionActivity extends NavigationStudent {
 
     private void badAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
-        Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
+        if(!MOCK_ENABLED) {
+            Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void goodAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
-        Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
+        if(!MOCK_ENABLED){
+            Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
+        }
         Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 
         //Randomly add one item to the player
