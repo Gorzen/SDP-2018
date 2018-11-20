@@ -277,6 +277,8 @@ public class AddQuestionActivity extends NavigationTeacher {
 
             }
         });
+
+        langRadioGroup = findViewById(R.id.lang_radio_group);
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {

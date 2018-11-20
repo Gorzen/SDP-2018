@@ -148,6 +148,7 @@ public class Firestore {
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
         questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
+        questionData.put(FB_QUESTION_LANG, question.getLang());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
