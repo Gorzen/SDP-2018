@@ -277,7 +277,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
         }
     }
 
-
     /**
      * @param c The context of the application that launch the intent (put this)
      * @param q The question that needs to be passed
@@ -289,6 +288,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
+        goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
         return goToQuestion;
     }
 }
