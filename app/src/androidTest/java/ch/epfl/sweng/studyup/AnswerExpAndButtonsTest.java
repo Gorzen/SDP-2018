@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -10,16 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class AnswerExpAndButtonsTest {
@@ -27,21 +23,19 @@ public class AnswerExpAndButtonsTest {
 
     @Rule
     public final ActivityTestRule<DisplayQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(DisplayQuestionActivity.class, false, true);
+            new ActivityTestRule<DisplayQuestionActivity>(DisplayQuestionActivity.class, false, true){
+                @Override
+                protected void beforeActivityLaunched() {
+                    super.beforeActivityLaunched();
+                    MOCK_ENABLED = true;
+                }
 
-    @BeforeClass
-    public static void enableMock(){
-        Utils.waitAndTag(1000, TAG);
-        MOCK_ENABLED = true;
-        Utils.waitAndTag(1000, TAG);
-    }
-
-    @AfterClass
-    public static void disableMock(){
-        Utils.waitAndTag(1000, TAG);
-        MOCK_ENABLED = false;
-        Utils.waitAndTag(1000, TAG);
-    }
+                @Override
+                protected void afterActivityFinished() {
+                    super.afterActivityFinished();
+                    MOCK_ENABLED = false;
+                }
+            };
 
     @Test
     public void answerExpAndButtonsTest() {
