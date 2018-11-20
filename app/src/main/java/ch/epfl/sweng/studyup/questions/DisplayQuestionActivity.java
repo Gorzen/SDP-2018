@@ -37,6 +37,8 @@ import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+
 public class DisplayQuestionActivity extends NavigationStudent {
 
     private final String TAG = "DisplayQuestionActivity";
@@ -61,16 +63,21 @@ public class DisplayQuestionActivity extends NavigationStudent {
         String questionTitle = "";
         String questionID = "";
 
-        Intent intent = getIntent();
-        if (!checkIntent(intent)) return;
-        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
+        if(MOCK_ENABLED){
+            displayQuestion = new Question("Test", "Titre", trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+            displayImage(questionID);
+        }else {
+            Intent intent = getIntent();
+            if (!checkIntent(intent)) return;
+            questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
+            questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
+            answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
+            trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
-        //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-        displayImage(questionID);
+            //Create the question
+            displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+            displayImage(questionID);
+        }
 
         setupLayout(displayQuestion);
 
