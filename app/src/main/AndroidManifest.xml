@@ -79,7 +79,6 @@
         <activity android:name=".utils.TestbedActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".CourseSelectionActivity" />
-        <activity android:name=".schedule.ScheduleActivityAndroid"/>
         <activity
             android:name=".schedule.ScheduleActivity"
             android:label="@string/title_activity_schedule"
