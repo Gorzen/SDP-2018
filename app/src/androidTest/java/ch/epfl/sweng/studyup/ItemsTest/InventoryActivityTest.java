@@ -34,6 +34,7 @@ public class InventoryActivityTest {
 
     @Before
     public void init() {
+        Player.get().resetPlayer();
         Player.get().addItem(Items.XP_POTION);
         mActivityRule.launchActivity(new Intent());
     }

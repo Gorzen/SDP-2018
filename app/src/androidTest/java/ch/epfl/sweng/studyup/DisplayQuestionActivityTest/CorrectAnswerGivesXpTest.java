@@ -2,19 +2,17 @@ package ch.epfl.sweng.studyup.DisplayQuestionActivityTest;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -34,7 +32,7 @@ import static org.hamcrest.Matchers.not;
 public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
     @Test
     public void correctAnswerGivesXpTest(){
-        /*Question testQuestion = new Question("abc", "test", true, 0);
+        Question testQuestion = new Question("id-test", "test", true, 0, Constants.Course.SWENG.name());
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), testQuestion);
         mActivityRule.launchActivity(i);
         int playerXp = Player.get().getExperience();
@@ -48,7 +46,6 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
         onView(withText("Correct answer ! Congrats")).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         assertEquals(playerXp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
         Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
-        */
     }
 
 
