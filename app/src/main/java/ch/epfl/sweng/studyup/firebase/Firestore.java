@@ -297,7 +297,7 @@ public class Firestore {
      * @throws IllegalArgumentException If the activity that call the method doesn't display a schedule
      * @throws NullPointerException If the format is incorrect on the database
      */
-    public void getCoursesSchedule(Activity act) throws NullPointerException {
+    public void getCoursesSchedule(final Activity act) throws NullPointerException {
         // if(act instanceof ScheduleActivity) throw new IllegalArgumentException("Incorrect caller.");
 
         final Player p = Player.get();
@@ -312,7 +312,7 @@ public class Firestore {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful() && !task.getResult().isEmpty()) {
-                    Map<Course, List<Date>> coursePeriods = new HashMap<>();
+                    Map<Course, List<Date>> schedule = new HashMap<>();
 
                     for(DocumentSnapshot doc : task.getResult().getDocuments()) {
                         Course current = Course.valueOf(doc.getId());
@@ -328,16 +328,36 @@ public class Firestore {
                                 periods.add(time.toDate());
                             }
 
-                            coursePeriods.put(current, periods);
+                            schedule.put(current, periods);
                         }
                     }
 
-                    Log.i(debug, coursePeriods.toString()); //Temp, to see that it gets the correct values
-                    //((ScheduleActivity) act).setLayoutCourses(coursePeriods);  -> function in activity used to setup the events in layout
+                    Log.i(debug, schedule.toString()); //Temp, to see that it gets the correct values
+                    //((ScheduleActivity) act).setLayoutCourses(schedule);  -> function in activity used to setup the events in layout
                 } else {
                     Log.w(TAG, "The courses fail to load or no course are present.");
                 }
             }
         });
+    }
+
+    public void addCourseToSchedule(final Course c, final Date d) {
+        // Temporary
+        final String FB_SCHEDULE = "schedule";
+
+        db.collection(FB_USERS).document(Player.get().getSciperNum()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            Map<Course, List<Date>> schedule = (Map<Course, List<Date>>) task.getResult().get(FB_SCHEDULE);
+                            schedule.get(c).add(d); // Make more check?
+
+                            //TODO: Make it like this or more like other variables -> making a field in Player that synchronize automatically with Firebase
+                        } else {
+                            Log.w(TAG, "The schedule fail to load or no course are present.");
+                        }
+                    }
+                });
     }
 }
