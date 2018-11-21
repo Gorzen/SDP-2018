@@ -44,7 +44,7 @@ public class InventoryActivityTest {
     }
 
     @Test
-    public void useButtonConsumsItem() {
+    public void useButtonConsumesItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -52,9 +52,9 @@ public class InventoryActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
-        int exp = Player.get().getExperience();
         onView(withId(R.id.use_button)).perform(click());
-        assertEquals(exp + XP_STEP, Player.get().getExperience());
+        assertEquals(XP_STEP, Player.get().getExperience());
+        assertEquals(0, Player.get().getItems().size());
     }
 
     @Test
