@@ -36,6 +36,7 @@ public class FromStudentToDisplayTest {
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
+        Player.get().resetPlayer();
         q = new Question(MOCK_UUID, fakeTitle, false, 3, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
@@ -60,14 +61,12 @@ public class FromStudentToDisplayTest {
                         .atPosition(i)
                         .perform(click());
                 waitAndTag(2000, TAG);
-                int xpBeforeAnswer = Player.get().getExperience();
+
                 onView(withId(R.id.answer1)).perform(click());
                 onView(withId(R.id.answer2)).perform(click());
                 onView(withId(R.id.answer3)).perform(click());
                 onView(withId(R.id.answer4)).perform(click());
                 onView(withId(R.id.answer_button)).perform(click());
-                waitAndTag(100, "Wait for xp to increase");
-                assertEquals(xpBeforeAnswer+Constants.XP_GAINED_WITH_QUESTION, Player.get().getExperience());
             }
         }
     }
