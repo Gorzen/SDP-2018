@@ -66,6 +66,7 @@ public class FromStudentToDisplayTest {
                 onView(withId(R.id.answer3)).perform(click());
                 onView(withId(R.id.answer4)).perform(click());
                 onView(withId(R.id.answer_button)).perform(click());
+                waitAndTag(100, "Wait for xp to increase");
                 assertEquals(xpBeforeAnswer+Constants.XP_GAINED_WITH_QUESTION, Player.get().getExperience());
             }
         }
