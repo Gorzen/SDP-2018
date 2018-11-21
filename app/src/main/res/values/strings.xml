@@ -108,6 +108,9 @@
     <string name="item_sackofcoins_name">Sack of coin</string>
     <string name="item_xppotion_desc">A potion that gives you some XP when drunk !</string>
     <string name="item_sackofcoins_desc">A sack containing lots of shiny coins !</string>
+    <string name="ask_confirmation_deletion_quest">Are you sure you want to delete this quest?</string>
+    <string name="yes_upper">YES</string>
+    <string name="no_upper">NO</string>
     <string name="choose_theme_red">Red</string>
     <string name="choose_theme_green">Green</string>
     <string name="choose_theme_brown">Brown</string>

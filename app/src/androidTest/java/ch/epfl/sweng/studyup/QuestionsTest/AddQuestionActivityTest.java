@@ -9,7 +9,9 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -142,7 +144,17 @@ public class AddQuestionActivityTest {
                 title.setText("A Title");
             }
         });
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(scrollTo()).perform(ViewActions.click());
+
+        final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.scrollViewAddQuestion);
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scroll.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+        Utils.waitAndTag(500, "Waiting for scroll");
+
+        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(ViewActions.click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());
