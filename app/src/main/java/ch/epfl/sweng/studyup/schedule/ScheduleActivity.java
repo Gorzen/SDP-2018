@@ -40,6 +40,50 @@ public class ScheduleActivity extends NavigationStudent {
         }
     };
 
+    private final WeekViewLoader weekViewLoader = new WeekViewLoader() {
+        @Override
+        public double toWeekViewPeriodIndex(Calendar instance) {
+            return 0;
+        }
+
+        @Override
+        public List<? extends WeekViewEvent> onLoad(int periodIndex) {
+            return new ArrayList<WeekViewEvent>() {
+                {
+                    add(new WeekViewEvent(1, "Sweng", 2018, 11, 22, 8, 15, 2018, 11, 22, 10, 0));
+                }
+            };
+        }
+    };
+
+    private final DateTimeInterpreter dateTimeInterpreter = new DateTimeInterpreter() {
+        @Override
+        public String interpretDate(Calendar date) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.getDefault());
+                return sdf.format(date.getTime()).toUpperCase();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+
+        @Override
+        public String interpretTime(int hour) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, 0);
+
+            try {
+                SimpleDateFormat sdf = DateFormat.is24HourFormat(getApplicationContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
+                return sdf.format(calendar.getTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,48 +95,8 @@ public class ScheduleActivity extends NavigationStudent {
         mWeekView.setMonthChangeListener(monthChangeListener);
         mWeekView.setOnEventClickListener(eventClickListener);
         mWeekView.setEventLongPressListener(eventLongPressListener);
-        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
-            @Override
-            public String interpretDate(Calendar date) {
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("EEEEE", Locale.getDefault());
-                    return sdf.format(date.getTime()).toUpperCase();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return "";
-                }
-            }
-
-            @Override
-            public String interpretTime(int hour) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, hour);
-                calendar.set(Calendar.MINUTE, 0);
-
-                try {
-                    SimpleDateFormat sdf = DateFormat.is24HourFormat(getApplicationContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
-                    return sdf.format(calendar.getTime());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return "";
-                }
-            }
-        });
-        mWeekView.setWeekViewLoader(new WeekViewLoader() {
-            @Override
-            public double toWeekViewPeriodIndex(Calendar instance) {
-                return 0;
-            }
-
-            @Override
-            public List<? extends WeekViewEvent> onLoad(int periodIndex) {
-                return new ArrayList<WeekViewEvent>() {
-                    {
-                        add(new WeekViewEvent(1, "Sweng", 2018, 11, 22, 8, 15, 2018, 11, 22, 10, 0));
-                    }
-                };
-            }
-        });
+        mWeekView.setDateTimeInterpreter(dateTimeInterpreter);
+        mWeekView.setWeekViewLoader(weekViewLoader);
     }
 
     private void setStartAndEndDate(WeekView weekView) {
