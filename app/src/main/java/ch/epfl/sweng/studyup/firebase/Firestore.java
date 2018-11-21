@@ -1,14 +1,17 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -16,6 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -282,5 +286,58 @@ public class Firestore {
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
+    }
+
+    /**
+     * Method that get the schedule of the current player, that he/she be teacher or student, and
+     * update the layout accordingly using the setLayoutCourse method in the activity given as
+     * parameter
+     *
+     * @param act The activity displaying the layout
+     * @throws IllegalArgumentException If the activity that call the method doesn't display a schedule
+     * @throws NullPointerException If the format is incorrect on the database
+     */
+    public void getCoursesSchedule(Activity act) throws NullPointerException {
+        // if(act instanceof ScheduleActivity) throw new IllegalArgumentException("Incorrect caller.");
+
+        final Player p = Player.get();
+
+        //Temporary
+        final List<Course> coursesEnrolled = new ArrayList<>();
+        final List<Course> coursesTeached = new ArrayList<>();
+        coursesTeached.add(Course.Algebra);
+        final String debug = " Temp firestore impl ";
+
+        db.collection(FB_COURSES).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful() && !task.getResult().isEmpty()) {
+                    Map<Course, List<Date>> coursePeriods = new HashMap<>();
+
+                    for(DocumentSnapshot doc : task.getResult().getDocuments()) {
+                        Course current = Course.valueOf(doc.getId());
+                        boolean sciperCorresponds = doc.get(FB_SCIPER).toString().equals(p.getSciperNum());
+                        boolean displayThatCourse = p.getRole() == Role.teacher ?
+                                coursesTeached.contains(current) :
+                                coursesEnrolled.contains(current);
+
+                        if(sciperCorresponds && displayThatCourse) {
+                            List<Date> periods = new ArrayList<>();
+
+                            for(Timestamp time : (ArrayList<Timestamp>) doc.get("times")) {
+                                periods.add(time.toDate());
+                            }
+
+                            coursePeriods.put(current, periods);
+                        }
+                    }
+
+                    Log.i(debug, coursePeriods.toString()); //Temp, to see that it gets the correct values
+                    //((ScheduleActivity) act).setLayoutCourses(coursePeriods);  -> function in activity used to setup the events in layout
+                } else {
+                    Log.w(TAG, "The courses fail to load or no course are present.");
+                }
+            }
+        });
     }
 }
