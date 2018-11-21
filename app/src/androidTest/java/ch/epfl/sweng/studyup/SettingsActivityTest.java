@@ -70,14 +70,7 @@ public class SettingsActivityTest {
     @Test
     public void closeButtonTest() {
         onView(withId(R.id.close_button)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
-
-        /*
-            For better approach
-        onView(withId(R.id.close_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
-         */
-
     }
 
     @Test
