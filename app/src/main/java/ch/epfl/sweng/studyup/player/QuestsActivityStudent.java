@@ -27,7 +27,6 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class QuestsActivityStudent extends NavigationStudent {
 

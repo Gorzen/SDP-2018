@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
+
 import java.util.Set;
 
 public abstract class Constants {

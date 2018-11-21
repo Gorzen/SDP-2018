@@ -17,8 +17,11 @@ import java.lang.ref.WeakReference;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 /**
  * BackgroundLocation

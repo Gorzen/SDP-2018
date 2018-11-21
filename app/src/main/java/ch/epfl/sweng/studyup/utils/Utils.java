@@ -2,14 +2,14 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public abstract class Utils {
 

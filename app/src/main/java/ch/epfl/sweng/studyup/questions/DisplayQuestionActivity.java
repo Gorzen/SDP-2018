@@ -41,11 +41,11 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
-public class DisplayQuestionActivity extends NavigationStudent {
+public class DisplayQuestionActivity extends RefreshContext {
 
     private final String TAG = "DisplayQuestionActivity";
     public static final String DISPLAY_QUESTION_TITLE = "display_question_title";

@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
 import android.location.Location;
-import android.view.animation.AccelerateInterpolator;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;

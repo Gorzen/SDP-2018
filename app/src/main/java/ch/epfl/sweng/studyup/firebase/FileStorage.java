@@ -11,9 +11,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-
 import java.io.File;
+
+import static ch.epfl.sweng.studyup.utils.Constants.PROFILE_PICTURES_DIRECTORY_NAME;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTION_IMAGES_DIRECTORY_NAME;
 
 public abstract class FileStorage {
 

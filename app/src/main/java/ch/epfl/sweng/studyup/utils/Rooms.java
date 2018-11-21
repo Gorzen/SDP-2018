@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;

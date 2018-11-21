@@ -1,17 +1,12 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
@@ -19,7 +14,6 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
 public class SettingsActivity extends RefreshContext {
     @Override
