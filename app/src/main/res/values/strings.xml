@@ -82,5 +82,14 @@
     <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
+    <string name="course_statistics">Course Statistics</string>
+    <string name="displaycourseactivity">DisplayCourseActivity</string>
+    <string name="courses">Courses</string>
+    <string name="select_the_correct_answer">Select the correct answer</string>
+    <string name="mcq_or_tf_question">MCQ or TF Question ?</string>
+    <string name="write_your_question">Write your question</string>
+    <string name="picture_text_question">Picture/Text Question ?</string>
+    <string name="chosen_course">Chosen course:</string>
+    <string name="course_for_this_quest">Course for this quest</string>
 
 </resources>

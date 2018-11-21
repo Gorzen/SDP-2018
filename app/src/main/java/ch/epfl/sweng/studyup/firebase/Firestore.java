@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -14,6 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +26,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -41,6 +45,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
@@ -129,7 +136,7 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
-        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses()));
+        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses(), false));
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
@@ -283,4 +290,39 @@ public class Firestore {
                 @Override
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
+
+
+
+    @SuppressWarnings("unchecked")
+    public void loadUsers(final Activity act) {
+        final List<Player> playerList = new ArrayList<>();
+
+        db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Map<String, Object> remotePlayerData = document.getData();
+
+                        Player p = Player.getForStats();
+                        p.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
+                        p.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
+                        p.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
+                        p.updateLocalDataFromRemote(remotePlayerData);
+
+                        playerList.add(p);
+                    }
+
+                    if(act instanceof DisplayCourseStatsActivity) {
+                        DisplayCourseStatsActivity.setPlayers(playerList);
+                    }
+                }
+                else {
+                    Log.e(TAG, "Error getting documents for courses: ", task.getException());
+                }
+            }
+        });
+    }
+
 }

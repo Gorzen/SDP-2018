@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher"
+    tools:context="ch.epfl.sweng.studyup.teacher.CourseStatsActivity"
     android:background="@color/colorWhite">
 
     <RelativeLayout
@@ -34,46 +34,45 @@
 
         </android.support.constraint.ConstraintLayout>
 
-
         <!--MIDDLE SPACE-->
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/topBar"
             android:layout_above="@+id/bottomBar">
 
+
             <ListView
-                android:id="@+id/listViewQuests"
+                android:id="@+id/listViewCourses"
                 android:layout_width="match_parent"
-                android:layout_height="430dp"
-                android:layout_marginTop="56dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="44dp"
                 android:dividerHeight="0dp"
                 android:divider="@android:color/transparent"
+                android:background="@android:color/transparent"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/add_new_question_button"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:onClick="addNewQuestion"
-                android:text="Add a new question"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/your_existing_questions"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/existing_questions_text"
-                android:textColor="?attr/colorPrimaryDark"
-                android:textSize="20sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/course_statistics"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/listViewCourses"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.153" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -99,7 +98,6 @@
             </android.support.design.widget.BottomNavigationView>
 
         </android.support.constraint.ConstraintLayout>
-
     </RelativeLayout>
 
 
