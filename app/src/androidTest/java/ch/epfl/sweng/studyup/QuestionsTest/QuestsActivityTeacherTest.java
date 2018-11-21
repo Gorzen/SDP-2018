@@ -35,6 +35,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Utils;
 import okhttp3.internal.Util;
 
@@ -65,17 +66,22 @@ public class QuestsActivityTeacherTest {
     private  final String fakeTitle = "fake title";
 
     @BeforeClass
-    public static void setupRole() {
+    public static void setup() {
         Player.get().setRole(Role.teacher);
+        GlobalAccessVariables.MOCK_ENABLED = true;
     }
 
+    @AfterClass
+    public static void disableMock() {
+        GlobalAccessVariables.MOCK_ENABLED = false;
+    }
     @Before
     public void addQuestionThatWillBeDisplayed() {
         q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name());
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
         rule.launchActivity(new Intent());
-        Utils.waitAndTag(100, TAG);
+        Utils.waitAndTag(1000, TAG);
     }
 
     @Test
@@ -88,6 +94,9 @@ public class QuestsActivityTeacherTest {
                 assertEquals(q.getAnswer(), currQuestion.getAnswer());
                 assertEquals(q.getCourseName(), currQuestion.getCourseName());
 
+                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                        .atPosition(i)
+                        .perform(click());
             }
         }
     }
