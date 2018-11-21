@@ -33,19 +33,13 @@ import static org.junit.Assert.assertTrue;
 
 public class SettingsActivityTest {
 
-    private SettingsActivity activity;
-
     @Rule
     public final ActivityTestRule<SettingsActivity> mActivityRule =
             new ActivityTestRule<>(SettingsActivity.class);
 
-    @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION);
-
     @Before
     public void initiateIntents() {
         Intents.init();
-        activity = mActivityRule.getActivity();
     }
 
     @After
