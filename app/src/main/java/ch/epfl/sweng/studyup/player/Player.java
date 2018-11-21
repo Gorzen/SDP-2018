@@ -15,7 +15,8 @@ import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
@@ -61,7 +62,8 @@ public class Player {
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
-    private List<Course> courses;
+    private List<Course> coursesEnrolled;
+    private List<Course> coursesTeached;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -73,8 +75,9 @@ public class Player {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        courses.add(Course.SWENG);
+        coursesEnrolled = new ArrayList<>();
+        coursesTeached = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
     }
 
     public static Player get() {
@@ -95,8 +98,8 @@ public class Player {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        courses.add(Course.SWENG);
+        coursesEnrolled = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
     }
 
     /**
@@ -118,11 +121,17 @@ public class Player {
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
 
-        List<String> defaultCourseList = new ArrayList<>();
-        defaultCourseList.add(Course.SWENG.name());
-        courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+        List<String> defaultCourseListEnrolled = new ArrayList<>();
+        defaultCourseListEnrolled.add(Course.SWENG.name());
+        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, defaultCourseListEnrolled));
 
-        Log.d(TAG, "Loaded courses: " + courses.toString());
+        List<String> defaultCourseListTeached = new ArrayList<>();
+        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
+
+
+        Log.d(TAG, "Loaded courses: \n");
+        Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
+        Log.d(TAG, "Teached: "+coursesTeached.toString()+"\n");
     }
 
     // Getters
@@ -149,9 +158,13 @@ public class Player {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<Course> getCoursesEnrolled() {
+        return coursesEnrolled;
     }
+    public List<Course> getCoursesTeached() {
+        return coursesTeached;
+    }
+
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -218,8 +231,13 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
+    public void setCoursesEnrolled(List<Course> coursesEnrolled) {
+        this.coursesEnrolled = coursesEnrolled;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setCoursesTeached(List<Course> coursesTeached) {
+        this.coursesTeached= coursesTeached;
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -32,7 +33,10 @@ public class CourseSelectionActivity extends RefreshContext {
 
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
-            if (Player.get().getCourses().contains(course)) {
+            Player p = Player.get();
+            boolean courseSelected = p.getRole() == Constants.Role.teacher && p.getCoursesTeached().contains(course)
+                    || p.getRole() == Constants.Role.student && p.getCoursesEnrolled().contains(course);
+            if (courseSelected) {
                 courseCheckbox.setChecked(true);
             }
             courseSelections.add(courseCheckbox);
@@ -69,7 +73,7 @@ public class CourseSelectionActivity extends RefreshContext {
             }
         }
 
-        Player.get().setCourses(updateCourseList);
+        // Player.get().setCourses(updateCourseList); TODO change, can the teachers change their courses here? Does it redirect to the schedule? 
         Toast.makeText(getApplicationContext(), "Courses updated!", Toast.LENGTH_SHORT).show();
 
         finish();

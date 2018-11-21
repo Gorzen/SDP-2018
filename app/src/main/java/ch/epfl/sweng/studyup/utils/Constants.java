@@ -17,6 +17,8 @@ public abstract class Constants {
     public static final String FB_ROLE_S = "student";
     public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";
+    public static final String FB_COURSES_ENROLLED = "attending courses";
+    public static final String FB_COURSES_TEACHED = "teaching courses";
     public static final String FB_CURRENCY = "currency";
     public static final String FB_LEVEL = "level";
     public static final String FB_SECTION = "section";

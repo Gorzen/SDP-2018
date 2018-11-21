@@ -115,7 +115,7 @@ public class AddQuestionActivity extends RefreshContext {
     public void updatePlayerCourses() {
         // Set dropdown for selecting associated course
         associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
-        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
+        List<String> courseNameList = getStringListFromCourseList(Player.get().getCoursesEnrolled());
         Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
         ArrayAdapter<String> courseListAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
