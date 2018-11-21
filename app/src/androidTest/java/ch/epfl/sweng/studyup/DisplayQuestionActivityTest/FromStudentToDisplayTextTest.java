@@ -20,24 +20,26 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.anything;
-public class FromStudentToDisplayTest {
+public class FromStudentToDisplayTextTest {
     @Rule
     public final ActivityTestRule<QuestsActivityStudent> rule =
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
     private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
     private Question q;
-    private  final String fakeTitle = "fake title from student to display";
+    private  final String fakeTitle = "fake title from student to display for text";
+    private final String UUID = "UUID-for-text-question";
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        Player.get().resetPlayer();
-        q = new Question(MOCK_UUID, fakeTitle, false, 3, Constants.Course.SWENG.name());
+        q = new Question(UUID, fakeTitle, true, 1, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
         Player.get().setRole(Constants.Role.teacher);
@@ -52,7 +54,7 @@ public class FromStudentToDisplayTest {
     }
 
     @Test
-    public void listViewRedirectOnCorrectQuestion() {
+    public void listViewRedirectOnTextQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
         for (int i = 0; i < list.getAdapter().getCount(); ++i) {
             Question currQuestion = (Question) list.getAdapter().getItem(i);
@@ -60,31 +62,9 @@ public class FromStudentToDisplayTest {
                 onData(anything()).inAdapterView(withId(R.id.listViewQuests))
                         .atPosition(i)
                         .perform(click());
-                waitAndTag(2000, TAG);
+                waitAndTag(4000, TAG);
 
-                onView(withId(R.id.answer1)).perform(click());
-                onView(withId(R.id.answer2)).perform(click());
-                onView(withId(R.id.answer3)).perform(click());
-                onView(withId(R.id.answer4)).perform(click());
-                onView(withId(R.id.answer_button)).perform(click());
-            }
-        }
-    }
-
-    @Test
-    public void listViewRedirectOnCorrectQuestionWithFalseAnswer() {
-        final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
-        for (int i = 0; i < list.getAdapter().getCount(); ++i) {
-            Question currQuestion = (Question) list.getAdapter().getItem(i);
-            if (currQuestion.getTitle().equals(fakeTitle)) {
-                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
-                        .atPosition(i)
-                        .perform(click());
-                waitAndTag(2000, TAG);
-                int xpBeforeAnswer = Player.get().getExperience();
-                onView(withId(R.id.answer1)).perform(click());
-                onView(withId(R.id.answer_button)).perform(click());
-                assertEquals(xpBeforeAnswer, Player.get().getExperience());
+                onView(withId(R.id.question_text_display)).check(matches(withText("Short text\n")));
             }
         }
     }

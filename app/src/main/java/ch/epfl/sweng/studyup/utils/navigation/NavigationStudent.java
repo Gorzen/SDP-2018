@@ -1,4 +1,5 @@
 package ch.epfl.sweng.studyup.utils.navigation;
+
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -10,13 +11,17 @@ import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.Constants.SHOP_INDEX;
 
 public class NavigationStudent extends Navigation {
     public final ArrayList<Integer> buttonIdsStudent = new ArrayList<>(Arrays.asList(

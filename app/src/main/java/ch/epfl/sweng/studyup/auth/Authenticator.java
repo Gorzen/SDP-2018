@@ -9,9 +9,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.DataContainers.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_TOKEN_URL;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.TEQUILA_AUTH_URL;
+import static ch.epfl.sweng.studyup.utils.DataContainers.PlayerDataContainer;
+import static ch.epfl.sweng.studyup.utils.DataContainers.TokenContainer;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_TOKEN;
 
 /**
  * Authenticator
