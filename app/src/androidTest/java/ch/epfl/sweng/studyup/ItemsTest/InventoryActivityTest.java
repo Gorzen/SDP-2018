@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class InventoryActivityTest {
@@ -40,6 +41,11 @@ public class InventoryActivityTest {
         mActivityRule.launchActivity(new Intent());
     }
 
+    @After
+    public void cleanUp(){
+        Player.get().resetPlayer();
+    }
+
     @Test
     public void useButtonConsumesItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
@@ -49,6 +55,8 @@ public class InventoryActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
+        Utils.waitAndTag(1000, this.getClass().getSimpleName());
+
         onView(withId(R.id.use_button)).perform(click());
 
         assertEquals(XP_STEP, Player.get().getExperience());
