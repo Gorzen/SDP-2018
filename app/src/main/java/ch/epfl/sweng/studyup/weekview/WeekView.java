@@ -66,7 +66,7 @@ public class WeekView extends View {
     public static final int LENGTH_LONG = 2;
     private final Context mContext;
     private Paint mTimeTextPaint;
-    private int mMinHour = 7;
+    private int mMinHour = 8;
     private int mMaxHour = 19;
     private float mTimeTextWidth;
     private float mTimeTextHeight;
