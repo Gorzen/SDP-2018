@@ -95,6 +95,19 @@
                 android:layout_marginBottom="99dp"
                 android:indeterminate="true" />
 
+            <TextView
+                android:id="@+id/question_text_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/quest_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="77dp"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Does it work ?" />
 
         </RelativeLayout>
 
