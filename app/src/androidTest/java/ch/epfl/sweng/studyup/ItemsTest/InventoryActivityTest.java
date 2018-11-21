@@ -56,7 +56,7 @@ public class InventoryActivityTest {
             }
         });
         Utils.waitAndTag(1000, this.getClass().getSimpleName());
- onView(withId(R.id.use_button)).perform(click());
+        onView(withId(R.id.use_button)).perform(click());
 
         assertEquals(XP_STEP, Player.get().getExperience());
         assertEquals(0, Player.get().getItems().size());
