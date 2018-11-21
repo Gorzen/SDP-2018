@@ -8,7 +8,7 @@
     tools:context=".schedule.ScheduleActivity"
     tools:showIn="@layout/activity_schedule">
 
-    <com.alamkanak.weekview.WeekView
+    <ch.epfl.sweng.studyup.weekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +19,7 @@
         app:headerColumnTextColor="#8f000000"
         app:headerRowPadding="12dp"
         app:columnGap="8dp"
-        app:noOfVisibleDays="3"
+        app:noOfVisibleDays="5"
         app:showNowLine="true"
         app:firstDayOfWeek="monday"
         app:headerRowBackgroundColor="#ffefefef"

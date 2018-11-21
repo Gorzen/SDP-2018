@@ -1,28 +1,18 @@
 package ch.epfl.sweng.studyup.schedule;
 
 import android.graphics.RectF;
-import android.media.MediaDrm;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-
-import com.alamkanak.weekview.MonthLoader;
-import com.alamkanak.weekview.WeekView;
-import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-
-import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
+import ch.epfl.sweng.studyup.weekview.MonthLoader;
+import ch.epfl.sweng.studyup.weekview.WeekView;
+import ch.epfl.sweng.studyup.weekview.WeekViewEvent;
+import ch.epfl.sweng.studyup.weekview.WeekViewLoader;
 
 public class ScheduleActivity extends NavigationStudent {
     private final MonthLoader.MonthChangeListener monthChangeListener = new MonthLoader.MonthChangeListener() {
@@ -52,6 +42,7 @@ public class ScheduleActivity extends NavigationStudent {
         setContentView(R.layout.activity_schedule);
 
         WeekView mWeekView = findViewById(R.id.weekView);
+        setStartAndEndDate(mWeekView);
 
         mWeekView.setMonthChangeListener(monthChangeListener);
         mWeekView.setOnEventClickListener(eventClickListener);
@@ -71,6 +62,25 @@ public class ScheduleActivity extends NavigationStudent {
                 };
             }
         });
+    }
+
+    private void setStartAndEndDate(WeekView weekView){
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(Calendar.YEAR, 2018);
+        startDate.set(Calendar.MONTH, 10);
+        startDate.set(Calendar.DAY_OF_MONTH, 19);
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(Calendar.YEAR, 2018);
+        endDate.set(Calendar.MONTH, 10);
+        endDate.set(Calendar.DAY_OF_MONTH, 23);
+        endDate.set(Calendar.HOUR_OF_DAY, 23);
+        endDate.set(Calendar.MINUTE, 59);
+
+        weekView.setMinDate(startDate);
+        weekView.setMaxDate(endDate);
     }
 
 }
