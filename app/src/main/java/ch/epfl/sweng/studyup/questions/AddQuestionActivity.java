@@ -153,7 +153,7 @@ public class AddQuestionActivity extends NavigationStudent {
 
 
     public void addQuestion(View current) {
-        if(imageURI==null){
+        if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button){
             Toast.makeText(this.getApplicationContext(), "Please insert image or text", Toast.LENGTH_SHORT).show();
             return;
         }

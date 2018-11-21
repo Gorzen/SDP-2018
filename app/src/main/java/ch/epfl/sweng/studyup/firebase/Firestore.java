@@ -15,6 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 
@@ -26,6 +28,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -137,6 +140,7 @@ public class Firestore {
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
         localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses(), false));
+        localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
@@ -294,7 +298,7 @@ public class Firestore {
 
 
     @SuppressWarnings("unchecked")
-    public void loadUsers(final Activity act) {
+    public void loadUsersForStats(final Activity act) {
         final List<Player> playerList = new ArrayList<>();
 
         db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -314,15 +318,53 @@ public class Firestore {
                         playerList.add(p);
                     }
 
-                    if(act instanceof DisplayCourseStatsActivity) {
+                    if (act instanceof CourseStatsActivity) {
                         DisplayCourseStatsActivity.setPlayers(playerList);
                     }
-                }
-                else {
+                } else {
                     Log.e(TAG, "Error getting documents for courses: ", task.getException());
                 }
             }
         });
+
     }
+
+
+    /**
+     *
+     * Load all questions in order to give statistics for each course, students, questions
+     *
+     * @param act activity in which this function can be used : CourseStatsActivity
+     * @throws NullPointerException  If the data received from the server is not of a valid format
+     */
+    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
+
+        final List<Question> questionList = new ArrayList<>();
+
+        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> remoteQuestionData = document.getData();
+                        String questionId = document.getId();
+                        String questionTitle = (String) remoteQuestionData.get(FB_QUESTION_TITLE);
+                        Boolean questionTrueFalse = (Boolean) remoteQuestionData.get(FB_QUESTION_TRUEFALSE);
+                        int questionAnswer = Integer.parseInt((remoteQuestionData.get(FB_QUESTION_ANSWER)).toString());
+                        String questionCourseName = remoteQuestionData.get(FB_COURSE).toString();
+
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+
+                        questionList.add(question);
+                    }
+                    if (act instanceof CourseStatsActivity) {
+                        CourseStatsActivity.setQuestions(questionList);
+                    }
+
+                } else Log.e(TAG, "Error getting documents for courses: ", task.getException());
+            }
+        });
+    }
+
 
 }

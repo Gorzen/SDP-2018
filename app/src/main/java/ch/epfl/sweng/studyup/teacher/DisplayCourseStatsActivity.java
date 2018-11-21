@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -28,7 +27,6 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
     private static final String TAG = "DisplayCourseStatsActivity";
     private Course course;
-    private static List<Player> allUsers = new ArrayList<>();
 
 
     @Override
@@ -53,20 +51,10 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         setupListViewQ(playerList);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Firestore.get().loadUsers(this);
-    }
-
     public void onBackButton(View view) {
         finish();
     }
 
-    //retrieve players from firebase
-    public static void setPlayers(List<Player> playerList) {
-        allUsers = playerList;
-    }
 
 
     protected void setupListViewQ(final List<Player> playerList) {
@@ -80,20 +68,22 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
         for (Player player : playerList) {
             HashMap<String, Boolean> answered_total = new HashMap<>(player.getAnsweredQuestion());
+
             double nb_good_answer_course = 0;
             int nb_answer_course = 0;
             Set<String> s2 = answered_total.keySet();
-            s2.retainAll(s1); //s2 = only String Question Id from course which player answered to
+            s2.retainAll(s1); //s2 = only String Question Id (from course) which player answered to
             nb_answer_course = s2.size();
             for (String s : s2) {
                 if(answered_total.get(s)) nb_good_answer_course++;
             }
-            int rate = nb_answer_course == 0 ? 0 : (int)nb_good_answer_course/nb_answer_course*100;
-            rates.add(rate);
+            int rate_player_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
+            rates.add(rate_player_in_a_course);
             nb_answer.add(nb_answer_course);
         }
         ListPlayerAdapter listPlayerAdapter = new ListPlayerAdapter(this, playerList, rates, nb_answer, quests_course.size());
         listView.setAdapter(listPlayerAdapter);
+
     }
 
 
@@ -101,7 +91,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
     //get all students for one course
     public List<Player> getStudentsFromCourse(Course course){
         List<Player> playersEnrolledInCourse = new ArrayList<>();
-        for (Player p: allUsers) {
+        for (Player p: getAllUsers()) {
             if(p.getCourses().contains(course)){
                 playersEnrolledInCourse.add(p);
             }
@@ -109,7 +99,6 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         return playersEnrolledInCourse;
     }
 
-    //get all questions for one course TODO
     public List<String> getQuestsStringFromCourse(Course course){
         List<String> questStrFromCourse = new ArrayList<>();
         for (Question q: getAllQuestions()) {
@@ -119,6 +108,19 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         }
         return questStrFromCourse;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private class ListPlayerAdapter extends BaseAdapter {
 
@@ -172,7 +174,8 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
                 first_firstname = first_firstname.substring(0, first_firstname.indexOf(' '));
             }
             text_view_first.setText(first_firstname);
-            String successString = "Success : "+rates.get(position)+"%";
+            String successString = "Success on answered : "+rates.get(position)+"%";
+            text_view_success.setTextColor(setColor(rates.get(position)));
             text_view_success.setText(successString);
             text_view_sciper.setText(players.get(position).getSciperNum());
             String qAnsString = "Quests answered : "+nb_answer.get(position)+"/"+total_quests_for_course;
