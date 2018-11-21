@@ -24,7 +24,7 @@ import static junit.framework.TestCase.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class AAMainActivityTest {
+public class MainActivityTest {
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =

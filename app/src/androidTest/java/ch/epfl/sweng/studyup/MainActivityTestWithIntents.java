@@ -31,7 +31,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class AAMainActivityTestWithIntents {
+public class MainActivityTestWithIntents {
 
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =

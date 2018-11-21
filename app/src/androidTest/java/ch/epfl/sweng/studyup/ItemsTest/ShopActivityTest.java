@@ -1,5 +1,6 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.ItemsTest;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -7,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -21,7 +23,7 @@ public class ShopActivityTest {
 
     @Test
     public void testOptionNoException() {
-        onView(withId(R.id.top_navigation_infos)).perform(click());
+        onView(ViewMatchers.withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
 }
