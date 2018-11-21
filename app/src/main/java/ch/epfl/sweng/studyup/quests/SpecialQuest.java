@@ -12,6 +12,11 @@ public interface SpecialQuest extends QuestObserver {
     public Items reward();
 
     /**
+     * Get title of the special quest
+     */
+    public String getTitle();
+
+    /**
      * This method should be called when the quest has just been completed
      */
     public void onComplete();

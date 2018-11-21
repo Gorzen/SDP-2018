@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
@@ -32,6 +36,9 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.quests.QuestionQuestSimple;
+import ch.epfl.sweng.studyup.quests.SpecialQuest;
+import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURR_DISPLAY;
@@ -105,6 +112,7 @@ public class MainActivity extends NavigationStudent {
                 123);
 
         loadInterface();
+        populateSpecialQuestsList();
     }
 
     private void loadInterface() {
@@ -156,6 +164,7 @@ public class MainActivity extends NavigationStudent {
         updateUsernameDisplay();
         updateCurrDisplay();
         updateXpAndLvlDisplay();
+        populateSpecialQuestsList();
     }
 
     @Override
@@ -199,6 +208,34 @@ public class MainActivity extends NavigationStudent {
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         ((TextView) findViewById(R.id.levelText)).setText(LEVEL_DISPLAY + Player.get().getLevel());
+    }
+
+    /*
+    Unfinished method to populate new view for special quests.
+    For consistency, it uses largely the same architecture as QuestsActivityStudent.
+     */
+    public void populateSpecialQuestsList() {
+
+        /*
+        As a proof of concept, the list view will be populated with one sample special quest.
+        This will be a QuestionQuestSimple object.
+         */
+        QuestionQuestSimple simpleSpecialQuest = new QuestionQuestSimple("A Very Special Quest Indeed", 3);
+        List<SpecialQuest> specialQuestsList = new ArrayList<>();
+        specialQuestsList.add(simpleSpecialQuest);
+
+        /*
+        Image id list to store icon for special quest (finished vs unfinished).
+        The item at index i corresponds to the special quest at index i in specialQuestList.
+        As a proof of concept it is populated with one unfinished icon.
+         */
+        List<Integer> iconList = new ArrayList<>();
+        iconList.add(R.drawable.ic_todo_grey_24dp);
+
+        ListView specialQuestsListView = findViewById(R.id.specialQuestsListView);
+        SpecialQuestListViewAdapter listAdapter =
+            new SpecialQuestListViewAdapter(this, R.layout.special_quest_model, specialQuestsList, iconList);
+        specialQuestsListView.setAdapter(listAdapter);
     }
 
     public void updateCurrDisplay() {

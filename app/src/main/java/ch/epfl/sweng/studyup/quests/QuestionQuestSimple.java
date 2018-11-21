@@ -12,18 +12,25 @@ public class QuestionQuestSimple implements SpecialQuest {
     private Items reward;
     private int questionCount;
     private int goal;
+    private String title;
 
     /**
      * Create a new Quest that is acheived when answering a certain number of questions
      * @param numberQuestionsAnswered the number of question to be answered before the quest is completed
      */
-    public QuestionQuestSimple(int numberQuestionsAnswered) {
+    public QuestionQuestSimple(String title, int goal) {
+
+        this.title = title;
+
         Random random = new Random();
         reward = Items.values()[random.nextInt(Items.values().length)];
 
-        goal = numberQuestionsAnswered;
-        questionCount = 0;
+        this.goal = goal;
+        this.questionCount = 0;
     }
+
+    @Override
+    public String getTitle() { return title; }
 
     @Override
     public Items reward() {
