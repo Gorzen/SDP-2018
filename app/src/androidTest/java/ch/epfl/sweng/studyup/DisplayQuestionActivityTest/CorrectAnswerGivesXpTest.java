@@ -25,7 +25,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.Matchers.not;
@@ -46,7 +45,7 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
         onView(withId(R.id.answer4)).check(matches(not(isDisplayed())));
         onView(withId(R.id.answer_button)).perform(click());
         onView(withText("Correct answer ! Congrats")).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-        assertEquals(playerXp + XP_GAINED_WITH_QUESTION, Player.get().getExperience());
+        assertEquals(playerXp + Constants.XP_GAINED_WITH_QUESTION, Player.get().getExperience());
         Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
         */
     }

@@ -1,12 +1,10 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.navigation.Navigation;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;

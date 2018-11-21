@@ -15,7 +15,8 @@ import java.util.Arrays;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.SHOP_INDEX;
 
 public class ShopActivity extends NavigationStudent {
     private ListView itemsToBuy;

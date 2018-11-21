@@ -6,10 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -20,12 +19,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,14 +39,14 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
-
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-public class DisplayQuestionActivity extends NavigationStudent {
+import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+
+public class DisplayQuestionActivity extends RefreshContext {
 
     @SuppressWarnings("HardCodedStringLiteral")
     private final String TAG = "DisplayQuestionActivity";
@@ -54,7 +58,6 @@ public class DisplayQuestionActivity extends NavigationStudent {
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
-    public static final int XP_GAINED_WITH_QUESTION = 10;
     private Question displayQuestion;
 
     private RadioGroup answerGroupTOP;
@@ -65,25 +68,30 @@ public class DisplayQuestionActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
-        int answerNumber = 0;
-        boolean trueFalse = false;
-        String questionTitle = "";
-        String questionID = "";
+
+        int answerNumber;
+        boolean trueFalse;
+        String questionTitle;
+        String questionID;
+
+        if (MOCK_ENABLED) {
+            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+            progressBar.setVisibility(View.GONE);
+
+        }
 
         Intent intent = getIntent();
-        if(!checkIntent(intent)) return;
-
+        if (!checkIntent(intent)) return;
         questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
         questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
 
-
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
-        setupLayout(displayQuestion);
 
+        setupLayout(displayQuestion);
 
         Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +106,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
         TextView questTitle = findViewById(R.id.quest_title);
         questTitle.setText(displayQuestion.getTitle());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
     }
@@ -151,10 +159,9 @@ public class DisplayQuestionActivity extends NavigationStudent {
             rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(buttonView.isChecked()) {
+                    if (buttonView.isChecked()) {
                         buttonView.setBackgroundResource(R.drawable.button_quests_clicked_shape);
-                    }
-                    else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
+                    } else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
                 }
             });
         }
@@ -163,7 +170,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
 
     /**
      * Listeners that allows us to have two columns of radio buttons, without two buttons checkable
-     * */
+     */
     private RadioGroup.OnCheckedChangeListener listener1 = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -176,6 +183,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
             setListener(checkedId, answerGroupTOP, listener1);
         }
     };
+
     private void setListener(int checkedId, RadioGroup answerGroup, RadioGroup.OnCheckedChangeListener listener) {
         if (checkedId != -1) {
             answerGroup.setOnCheckedChangeListener(null);
@@ -185,10 +193,12 @@ public class DisplayQuestionActivity extends NavigationStudent {
     }
 
 
-    private void displayImage(String questionID){
-        StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+    private void displayImage(String questionID) {
+        final StorageReference questionImage = FileStorage.getProblemImageRef(Uri.parse(questionID + ".png"));
+        final StorageReference questionText = FileStorage.getProblemImageRef(Uri.parse(questionID + ".txt"));
         try {
             final File tempImage = File.createTempFile(questionID, "png");
+            final File tempText = File.createTempFile(questionID, "txt");
             questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -198,8 +208,39 @@ public class DisplayQuestionActivity extends NavigationStudent {
                     ImageView displayImageView = findViewById(R.id.question_display_view);
                     displayImageView.setImageBitmap(displayImage);
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            String displayText = "";
+                            try {
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
+                                StringBuilder sb = new StringBuilder();
+                                String line = null;
+                                while ((line = reader.readLine()) != null) {
+                                    sb.append(line).append("\n");
+                                }
+                                reader.close();
+                                displayText = sb.toString();
+                            } catch (FileNotFoundException e) {
+                                Log.e(TAG, e.toString());
+                                quit();
+                            } catch (IOException e) {
+                                Log.e(TAG, e.toString());
+                                quit();
+                            }
+                            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                            progressBar.setVisibility(View.GONE);
+                            TextView textQuestion = findViewById(R.id.question_text_display);
+                            textQuestion.setText(displayText);
+                            textQuestion.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
             });
-        }catch(IOException e){
+        } catch (IOException e){
             Toast.makeText(this, getString(R.string.text_questiondlerror), Toast.LENGTH_SHORT).show();
             quit();
         }
@@ -211,8 +252,8 @@ public class DisplayQuestionActivity extends NavigationStudent {
         super.onBackPressed();
     }
 
-    private void setupLayout(Question question){
-        if (!question.isTrueFalse()){
+    private void setupLayout(Question question) {
+        if (!question.isTrueFalse()) {
             TextView answer1 = findViewById(R.id.answer1);
             answer1.setText(getString(R.string.text_answer_1));
 
@@ -231,7 +272,7 @@ public class DisplayQuestionActivity extends NavigationStudent {
     public void answerQuestion(View view) {
         int chkTOP = answerGroupTOP.getCheckedRadioButtonId();
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
-        if(chkBOT == -1 && chkTOP==-1) {
+        if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -271,9 +312,9 @@ public class DisplayQuestionActivity extends NavigationStudent {
         //Randomly add one item to the player
         Random random = new Random();
         boolean rng = random.nextBoolean();
-        if(rng){
+        if (rng) {
             Player.get().addItem(Items.XP_POTION);
-        }else{
+        } else {
             Player.get().addItem(Items.COIN_SACK);
         }
     }

@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Rooms {

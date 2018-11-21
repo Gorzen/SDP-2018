@@ -18,6 +18,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -54,7 +55,8 @@ public class InventoryActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
-        onView(withId(R.id.use_button)).perform(click());
+        Utils.waitAndTag(1000, this.getClass().getSimpleName());
+ onView(withId(R.id.use_button)).perform(click());
 
         assertEquals(XP_STEP, Player.get().getExperience());
         assertEquals(0, Player.get().getItems().size());

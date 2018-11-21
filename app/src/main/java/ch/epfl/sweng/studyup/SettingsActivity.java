@@ -37,6 +37,7 @@ public class SettingsActivity extends RefreshContext {
         AlertDialog.Builder languageChoiceBuilder = new AlertDialog.Builder(this);
         languageChoiceBuilder.setTitle(R.string.language_title_alert_dialog);
         languageChoiceBuilder.setItems(Constants.LANGUAGES, new DialogInterface.OnClickListener() {
+            @SuppressWarnings("HardCodedStringLiteral")
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String lang = "en"; // Basis

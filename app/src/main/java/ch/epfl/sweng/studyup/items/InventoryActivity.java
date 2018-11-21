@@ -11,14 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
+
+import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
 
 public class InventoryActivity extends NavigationStudent {
     private ArrayAdapter<String> adapter;

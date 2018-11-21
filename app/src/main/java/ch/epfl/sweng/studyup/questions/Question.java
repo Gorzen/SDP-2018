@@ -14,9 +14,10 @@ import ch.epfl.sweng.studyup.R;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import java.io.Serializable;
 
 @Entity
-public class Question {
+public class Question implements Serializable {
 
     @PrimaryKey
     @NonNull

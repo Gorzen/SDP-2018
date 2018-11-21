@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -18,25 +19,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
-import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
-public class QuestsActivityTeacher extends NavigationTeacher {
+public class QuestsActivityTeacher extends RefreshContext {
     private static final String TAG = QuestsActivityTeacher.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_teacher);
-        navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
     }
 
     @Override
@@ -56,20 +57,30 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     protected void setupListView(final List<Question> quests) {
         List<Integer> ids = new ArrayList<>();
 
-        for(int i = 0; i < quests.size(); ++i) {
+        for (int i = 0; i < quests.size(); ++i) {
             ids.add(0); //Basic id, that is not used in this adapter
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
         QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(DisplayQuestionActivity.getIntentForDisplayQuestion(parent.getContext(), quests.get(position)));
+                startActivity(new Intent(parent.getContext(), AddQuestionActivity.class).putExtra(AddQuestionActivity.class.getSimpleName(), quests.get(position)));
             }
         });
+    }
+
+    public void addNewQuestion(View view) {
+        startActivity(new Intent(this.getApplicationContext(), AddQuestionActivity.class));
+    }
+
+    public void onLogOutButtonAddQuestion(View view) {
+        MainActivity.clearCacheToLogOut(QuestsActivityTeacher.this);
+        Intent intent = new Intent(QuestsActivityTeacher.this, LoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
     }
 
     private class QuestListViewAdapterTeacher extends BaseAdapter {
@@ -79,7 +90,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         private List<Integer> ids;
 
         public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> ids) {
-            this.cnx=cnx;
+            this.cnx = cnx;
             this.questions = questions;
             this.idLayout = idLayout;
             this.ids = ids;
@@ -102,8 +113,8 @@ public class QuestsActivityTeacher extends NavigationTeacher {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if(convertView==null){
-                convertView=View.inflate(cnx, idLayout, null);
+            if (convertView == null) {
+                convertView = View.inflate(cnx, idLayout, null);
             }
             TextView text_view = convertView.findViewById(R.id.quest_title);
             text_view.setText(questions.get(position).getTitle());
@@ -118,7 +129,10 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Firestore.get().deleteQuestion(questions.get(position).getQuestionId());
-                                    if(!MOCK_ENABLED) { Utils.waitAndTag(500, TAG); onResume(); }
+                                    if (!MOCK_ENABLED) {
+                                        Utils.waitAndTag(500, TAG);
+                                        onResume();
+                                    }
                                 }
                             });
                     alertDialogDelete.show();
