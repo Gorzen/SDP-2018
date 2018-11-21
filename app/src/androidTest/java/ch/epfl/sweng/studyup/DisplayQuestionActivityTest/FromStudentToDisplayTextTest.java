@@ -55,7 +55,6 @@ public class FromStudentToDisplayTextTest {
 
     @Test
     public void listViewRedirectOnTextQuestion() {
-        /*
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
         for (int i = 0; i < list.getAdapter().getCount(); ++i) {
             Question currQuestion = (Question) list.getAdapter().getItem(i);
@@ -67,6 +66,6 @@ public class FromStudentToDisplayTextTest {
 
                 onView(withId(R.id.question_text_display)).check(matches(withText("Short text\n")));
             }
-        }*/
+        }
     }
 }
