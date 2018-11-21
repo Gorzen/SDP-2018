@@ -5,9 +5,15 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
+import java.util.Observable;
+import java.util.Observer;
+
+import ch.epfl.sweng.studyup.quests.QuestObservable;
+import ch.epfl.sweng.studyup.quests.QuestObserver;
 
 @Entity
 public class Question implements Serializable {

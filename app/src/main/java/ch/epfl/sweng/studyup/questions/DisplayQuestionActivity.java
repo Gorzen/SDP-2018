@@ -309,6 +309,9 @@ public class DisplayQuestionActivity extends RefreshContext {
         } else {
             Player.get().addItem(Items.COIN_SACK);
         }
+
+        Player.get().notifyObservers(displayQuestion);
+
     }
 
 
