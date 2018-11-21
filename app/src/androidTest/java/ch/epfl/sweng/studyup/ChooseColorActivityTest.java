@@ -63,4 +63,10 @@ public class ChooseColorActivityTest {
         onView(withId(R.id.setThemeMulti)).perform(click());
         intended(hasComponent(MainActivity.class.getName()));
     }
+    
+    @Test
+    public void canGoBack() {
+        onView(withId(R.id.back_button)).perform(click());
+        intended(hasComponent(SettingsActivity.class.getName()));
+    }
 }
