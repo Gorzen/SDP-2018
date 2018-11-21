@@ -167,7 +167,7 @@ public class LoginActivity extends RefreshContext {
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
             HOME_ACTIVITY = loginRole.equals(Role.student) ?
-                    MainActivity.class : AddQuestionActivity.class;
+                    MainActivity.class : QuestsActivityTeacher.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);
