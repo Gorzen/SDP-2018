@@ -47,7 +47,7 @@ public class SettingsActivityTest {
         Intents.release();
     }
 
-    @Test
+    //@Test
     public void logoutButton() {
         FileCacher<String[]> persistLogin = new FileCacher<>(mActivityRule.getActivity(), PERSIST_LOGIN_FILENAME);
         try {
