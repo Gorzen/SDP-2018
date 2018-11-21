@@ -52,6 +52,7 @@
         <activity android:name=".items.InventoryActivity" />
         <activity android:name=".player.CustomActivity" />
         <activity android:name=".ChooseColorActivity" />
+        <activity android:name=".schedule.ScheduleActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -78,7 +79,11 @@
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".CourseSelectionActivity"></activity>
+        <activity android:name=".CourseSelectionActivity" />
+        <activity
+            android:name=".schedule.ScheduleActivity"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

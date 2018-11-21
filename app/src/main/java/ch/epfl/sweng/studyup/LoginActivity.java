@@ -21,6 +21,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -84,7 +85,7 @@ public class LoginActivity extends RefreshContext {
                  */
 
                 HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
-                        MainActivity.class : QuestsActivityTeacher.class;
+                        ScheduleActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));
             }
@@ -167,7 +168,7 @@ public class LoginActivity extends RefreshContext {
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
             HOME_ACTIVITY = loginRole.equals(Role.student) ?
-                    MainActivity.class : QuestsActivityTeacher.class;
+                    ScheduleActivity.class : QuestsActivityTeacher.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);
