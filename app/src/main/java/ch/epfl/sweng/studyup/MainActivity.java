@@ -7,7 +7,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +28,6 @@ import com.kosalgeek.android.caching.FileCacher;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
@@ -38,16 +35,11 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.quests.QuestionQuestSimple;
-import ch.epfl.sweng.studyup.quests.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialSpecialQuestNQuestions;
+import ch.epfl.sweng.studyup.specialQuest.SpecialSpecialQuest;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
-
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
@@ -223,11 +215,11 @@ public class MainActivity extends NavigationStudent {
 
         /*
         As a proof of concept, the list view will be populated with one sample special quest.
-        This will be a QuestionQuestSimple object.
+        This will be a SpecialSpecialQuestNQuestions object.
          */
         String simpleSpecialQuestDesc = "Answer three questions in a row to get a suprise item!";
-        QuestionQuestSimple simpleSpecialQuest = new QuestionQuestSimple("Three questions in row!", simpleSpecialQuestDesc,3);
-        List<SpecialQuest> specialQuestsList = new ArrayList<>();
+        SpecialSpecialQuestNQuestions simpleSpecialQuest = new SpecialSpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
+        List<SpecialSpecialQuest> specialQuestsList = new ArrayList<>();
         specialQuestsList.add(simpleSpecialQuest);
 
         /*

@@ -10,17 +10,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.quests.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialSpecialQuest;
 
 public class SpecialQuestListViewAdapter extends BaseAdapter {
 
     private Context context;
-    private List<SpecialQuest> specialQuests;
+    private List<SpecialSpecialQuest> specialQuests;
     private int idLayout;
     List<Integer> ids;
 
-    public SpecialQuestListViewAdapter(Context context, int idLayout, List<SpecialQuest> specialQuests, List<Integer> ids) {
+    public SpecialQuestListViewAdapter(Context context, int idLayout, List<SpecialSpecialQuest> specialQuests, List<Integer> ids) {
         this.context = context;
         this.specialQuests = specialQuests;
         this.idLayout = idLayout;

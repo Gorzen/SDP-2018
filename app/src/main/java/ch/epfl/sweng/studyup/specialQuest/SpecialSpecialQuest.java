@@ -1,10 +1,8 @@
-package ch.epfl.sweng.studyup.quests;
-
-import java.util.Observer;
+package ch.epfl.sweng.studyup.specialQuest;
 
 import ch.epfl.sweng.studyup.items.Items;
 
-public interface SpecialQuest extends QuestObserver {
+public interface SpecialSpecialQuest extends SpecialQuestObserver {
     /**
      * Show the item that get rewarded when completing the quest
      * @return The item that we will get when the quest is completed

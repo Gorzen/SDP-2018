@@ -3,24 +3,15 @@ package ch.epfl.sweng.studyup.questions;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.common.base.Objects;
 
 import ch.epfl.sweng.studyup.R;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import java.io.Serializable;
-import java.util.Observable;
-import java.util.Observer;
-
-import ch.epfl.sweng.studyup.quests.QuestObservable;
-import ch.epfl.sweng.studyup.quests.QuestObserver;
 
 @Entity
 public class Question implements Serializable {

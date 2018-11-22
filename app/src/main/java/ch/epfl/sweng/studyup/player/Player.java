@@ -12,8 +12,8 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.quests.QuestObservable;
-import ch.epfl.sweng.studyup.quests.QuestObserver;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -42,10 +42,10 @@ import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
  * <p>
  * Used to store the Player's state and informations.
  */
-public class Player implements QuestObservable {
+public class Player implements SpecialQuestObservable {
 
     //Observe list for quests
-    private List<QuestObserver> observers;
+    private List<SpecialQuestObserver> observers;
 
     private static final String TAG = Player.class.getSimpleName();
 
@@ -256,19 +256,19 @@ public class Player implements QuestObservable {
     }
 
     @Override
-    public void addObserver(QuestObserver o) {
+    public void addObserver(SpecialQuestObserver o) {
         if (!observers.contains(o))
             observers.add(o);
     }
 
     @Override
-    public void removeObserver(QuestObserver o) {
+    public void removeObserver(SpecialQuestObserver o) {
         observers.remove(o);
     }
 
     @Override
     public void notifyObservers(Object param) {
-        for (QuestObserver o: observers) {
+        for (SpecialQuestObserver o: observers) {
             o.update(this, param);
         }
     }

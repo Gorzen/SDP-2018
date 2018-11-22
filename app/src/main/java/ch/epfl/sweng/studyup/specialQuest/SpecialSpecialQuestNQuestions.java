@@ -1,13 +1,12 @@
-package ch.epfl.sweng.studyup.quests;
+package ch.epfl.sweng.studyup.specialQuest;
 
-import java.util.Observable;
 import java.util.Random;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 
-public class QuestionQuestSimple implements SpecialQuest {
+public class SpecialSpecialQuestNQuestions implements SpecialSpecialQuest {
 
     private Items reward;
     private int questionCount;
@@ -21,7 +20,7 @@ public class QuestionQuestSimple implements SpecialQuest {
      * @param goal the number of question to be answered before the quest is completed
      * @param description a description of the special quest
      */
-    public QuestionQuestSimple(String title, String description, int goal) {
+    public SpecialSpecialQuestNQuestions(String title, String description, int goal) {
 
         this.title = title;
         this.description = description;
@@ -53,7 +52,7 @@ public class QuestionQuestSimple implements SpecialQuest {
     }
 
     @Override
-    public void update(QuestObservable o, Object param) {
+    public void update(SpecialQuestObservable o, Object param) {
         if (param instanceof Question) {
             questionCount++;
             if (questionCount > goal) {
