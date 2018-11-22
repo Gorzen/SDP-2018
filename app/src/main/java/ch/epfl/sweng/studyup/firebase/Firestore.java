@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -296,10 +297,10 @@ public class Firestore {
      * update the layout accordingly using the setLayoutCourse method in the activity given as
      * parameter
      *
-     * @param act The activity displaying the layout
+     * @param act  The activity displaying the layout
      * @param role The role, which the schedule is depending on
      * @throws IllegalArgumentException If the activity that call the method doesn't display a schedule
-     * @throws NullPointerException If the format is incorrect on the database
+     * @throws NullPointerException     If the format is incorrect on the database
      */
     public void getCoursesSchedule(final Activity act, final Role role) throws NullPointerException {
         final Player p = Player.get();
@@ -313,24 +314,28 @@ public class Firestore {
         db.collection(FB_COURSES).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful() && !task.getResult().isEmpty()) {
+                if (task.isSuccessful() && !task.getResult().isEmpty()) {
                     Map<Course, List<Date>> schedule = new HashMap<>();
 
-                    for(DocumentSnapshot doc : task.getResult().getDocuments()) {
+                    for (DocumentSnapshot doc : task.getResult().getDocuments()) {
                         Course current = Course.valueOf(doc.getId());
                         boolean sciperCorresponds = doc.get(FB_SCIPER).toString().equals(p.getSciperNum());
                         boolean getThatCourse = role == Role.teacher ?
                                 coursesTeached.contains(current) :
                                 coursesEnrolled.contains(current);
 
-                        if(sciperCorresponds && getThatCourse) {
+                        if (sciperCorresponds && getThatCourse) {
                             List<Date> periods = new ArrayList<>(); // WeekViewEvent in the future
 
                             Map<String, Timestamp> scheduleInfos;
-                            try { scheduleInfos = (Map<String, Timestamp>) doc.get(FB_SCHEDULE_INFOS); }
-                            catch (ClassCastException e) { Toast.makeText(act, "Wrong format of the course schedule's infos.", Toast.LENGTH_SHORT).show(); return; }
+                            try {
+                                scheduleInfos = (Map<String, Timestamp>) doc.get(FB_SCHEDULE_INFOS);
+                            } catch (ClassCastException e) {
+                                Toast.makeText(act, "Wrong format of the course schedule's infos.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                            for(String roomAsString : scheduleInfos.keySet()) {
+                            for (String roomAsString : scheduleInfos.keySet()) {
                                 periods.add(scheduleInfos.get(roomAsString).toDate());
                             }
 
@@ -340,7 +345,7 @@ public class Firestore {
 
                     Log.i(debug, schedule.toString()); //Temp, to see that it gets the correct values
 
-                    if(role == Role.student) {
+                    if (role == Role.student) {
                         //Store in Global access variable
                     }
 
@@ -352,19 +357,30 @@ public class Firestore {
         });
     }
 
+    /**
+     * Used when a teacher select her/his courses, replace the old course if someone else was
+     * teaching it or don't do anything if the teacher where already teaching this course. The
+     * teacher is the current player.
+     *
+     * @param c The course
+     */
     public void setCourseTeacher(final Course c) {
-        // Temporary
-        final String FB_SCHEDULE = "schedule";
 
         db.collection(FB_COURSES).document(c.name()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
-                            String sciper = task.getResult().get(FB_SCIPER).toString();
-                            if(sciper.equals(Player.get().getSciperNum())) return
-                            else {
-                                //Change the teacher for the curr Player 
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot doc = task.getResult();
+
+                            if(!doc.exists()) {
+                                resetCourseSchedule(c);
+                                return;
+                            }
+
+                            String sciper = doc.getData().get(FB_SCIPER).toString();
+                            if (!sciper.equals(Player.get().getSciperNum())) {
+                                resetCourseSchedule(c);
                             }
                         } else {
                             Log.w(TAG, "The schedule fail to load or no course are present.");
@@ -373,7 +389,53 @@ public class Firestore {
                 });
     }
 
-    public void addEventToCourse(final Course c, final Room r, final Date d) {
+    private void resetCourseSchedule(final Course c) {
+        Map<String, Object> courseData = new HashMap<>();
+        courseData.put(FB_SCIPER, Player.get().getSciperNum());
+        //courseData.put(FB_SCHEDULE_INFOS, new HashMap<>());
 
+        db.collection(FB_COURSE).document(c.name()).set(courseData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "Course successfully updated.");
+                    }
+                });
+    }
+
+    /**
+     * Add an hour of teaching to a course on the server
+     *
+     * @param c The course
+     * @param r The room where the course take place
+     * @param d The moment when the course take place
+     */
+    public void addEventToCourse(final Course c, final Room r, final Date d) {
+        final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+
+        courseRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Log.i(TAG, "Successfully recovered the course's infos.");
+
+                        Map<String, Object> courseInfos = documentSnapshot.getData();
+
+                        Map<String, Timestamp> scheduleInfos;
+                        try {
+                            scheduleInfos = (Map<String, Timestamp>) courseInfos.get(FB_SCHEDULE_INFOS);
+                        } catch (ClassCastException e) { Log.d(TAG, "Schedule infos of the course doesn't have the correct format."); return;}
+
+                        scheduleInfos.put(r.toString(), new Timestamp(d));
+                        courseInfos.put(FB_SCHEDULE_INFOS, scheduleInfos);
+
+                        courseRef.set(courseInfos).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.i(TAG, "Successfully added the event to the course.");
+                            }
+                        });
+                    }
+                });
     }
 }
