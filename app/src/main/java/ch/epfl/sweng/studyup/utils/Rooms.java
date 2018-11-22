@@ -1,8 +1,11 @@
 package ch.epfl.sweng.studyup.utils;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,10 +62,8 @@ public abstract class Rooms {
         return new Double(distance * meterConversion).doubleValue();
     }
 
-    public static boolean checkIfUserIsInRoom(String room) {
-        if(POSITION == null || !ROOMS_LOCATIONS.containsKey(room)){
-            return false;
-        }
-        return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM;
+    public static boolean checkIfUserIsInRoom(ArrayList<WeekViewEvent> studentSchedule) {
+        Date currDate = new Date();
+        return true;
     }
 }
