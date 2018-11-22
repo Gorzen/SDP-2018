@@ -92,6 +92,7 @@ public class EditQuestionActivityTest {
     }
 
 
+
     @Test
     public void editTrueFalseQuestionAnswer1to0Test() {
         q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name());
@@ -361,7 +362,6 @@ public class EditQuestionActivityTest {
         });
     }
 
-    @Test
     public void backButtonTest() {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
@@ -369,7 +369,6 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
-
         onView(withId(R.id.back_button)).perform(scrollTo());
         Utils.waitAndTag(100, "Waiting for scroll");
 

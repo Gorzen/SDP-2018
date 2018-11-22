@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -44,9 +44,9 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         name_course.setText(course.toString());
 
         TextView nb_students = findViewById(R.id.nb_students);
-        List<Player> playerList = getStudentsFromCourse(course);
-        nb_students.setText("Number of enrolled students: " + String.valueOf(playerList.size()));
-        setupListViewP(playerList);
+        List<UserData> userList = getStudentsFromCourse(course);
+        nb_students.setText("Number of enrolled students: " + String.valueOf(userList.size()));
+        setupListViewP(userList);
 
 
         TextView nb_quests = findViewById(R.id.nb_questions);
@@ -62,7 +62,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
 
 
-    protected void setupListViewP(final List<Player> playerList) {
+    protected void setupListViewP(final List<UserData> userList) {
         ListView listView = findViewById(R.id.listViewPlayer);
 
         ArrayList<Integer> rates = new ArrayList<>();
@@ -71,25 +71,25 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         List<String> quests_course = getQuestsStringFromCourse(course);
         Set<String> s1 = new HashSet<>(quests_course);
 
-        for (Player player : playerList) {
-            HashMap<String, Boolean> answered_total = new HashMap<>(player.getAnsweredQuestion());
+        for (UserData user : userList) {
+            HashMap<String, Boolean> answered_total = new HashMap<>(user.getAnsweredQuestions());
 
             double nb_good_answer_course = 0;
             int nb_answer_course;
             Set<String> s2 = answered_total.keySet();
-            s2.retainAll(s1); //s2 = only String Question Id (from course) which player answered to
+            s2.retainAll(s1); //s2 = only String Question Id (from course) which user answered to
             nb_answer_course = s2.size();
             for (String s : s2) {
                 if(answered_total.get(s)) nb_good_answer_course++;
             }
-            int rate_player_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
-            rates.add(rate_player_in_a_course);
+            int rate_user_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
+            rates.add(rate_user_in_a_course);
             nb_answer.add(nb_answer_course);
         }
 
 
-        ListPlayerAdapter listPlayerAdapter = new ListPlayerAdapter(this,  playerList, rates, nb_answer, quests_course.size());
-        listView.setAdapter(listPlayerAdapter);
+        ListUserAdapter listUserAdapter = new ListUserAdapter(this,  userList, rates, nb_answer, quests_course.size());
+        listView.setAdapter(listUserAdapter);
     }
 
     protected void setupListViewQ(final List<String> questions_course) {
@@ -98,23 +98,23 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         ArrayList<Integer> rates = new ArrayList<>();
         ArrayList<Integer> nb_answer = new ArrayList<>();
 
-        List<Player> students_in_course = getStudentsFromCourse(course);
+        List<UserData> students_in_course = getStudentsFromCourse(course);
 
         for (String question_string : questions_course) {
-            int a_player_ans = 0;
-            int a_player_good_ans = 0;
-            for(Player player : students_in_course) {
-                HashMap<String, Boolean> player_ans_q = new HashMap<>(player.getAnsweredQuestion());
-                if (player_ans_q.containsKey(question_string)) {
-                    a_player_ans++;
-                    if (player_ans_q.get(question_string)) {
-                        a_player_good_ans++;
+            int a_user_ans = 0;
+            int a_user_good_ans = 0;
+            for(UserData user : students_in_course) {
+                HashMap<String, Boolean> user_ans_q = new HashMap<>(user.getAnsweredQuestions());
+                if (user_ans_q.containsKey(question_string)) {
+                    a_user_ans++;
+                    if (user_ans_q.get(question_string)) {
+                        a_user_good_ans++;
                     }
                 }
             }
-            int rate = a_player_ans == 0 ? 0 : 100*a_player_good_ans/a_player_ans;
+            int rate = a_user_ans == 0 ? 0 : 100*a_user_good_ans/a_user_ans;
             rates.add(rate);
-            nb_answer.add(a_player_ans);
+            nb_answer.add(a_user_ans);
         }
         ListQuestionStatAdapter listQAdapter = new ListQuestionStatAdapter(this, questions_course, rates, nb_answer, students_in_course.size());
         listView.setAdapter(listQAdapter);
@@ -125,14 +125,14 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
 
     //get all students for one course
-    public List<Player> getStudentsFromCourse(Course course){
-        List<Player> playersEnrolledInCourse = new ArrayList<>();
-        for (Player p: getAllUsers()) {
-            if(p.getCourses().contains(course)){
-                playersEnrolledInCourse.add(p);
+    public List<UserData> getStudentsFromCourse(Course course){
+        List<UserData> usersEnrolledInCourse = new ArrayList<>();
+        for (UserData user: getAllUsers()) {
+            if(user.getCourses().contains(course)){
+                usersEnrolledInCourse.add(user);
             }
         }
-        return playersEnrolledInCourse;
+        return usersEnrolledInCourse;
     }
 
     public List<String> getQuestsStringFromCourse(Course course){
@@ -158,21 +158,21 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
 
 
-    private class ListPlayerAdapter extends BaseAdapter {
+    private class ListUserAdapter extends BaseAdapter {
 
         private Context cnx;
-        private List<Player> player;
+        private List<UserData> user;
         private ArrayList<Integer> rates;
         private ArrayList<Integer> nb_answer;
         private int total_quests_for_course;
 
-        ListPlayerAdapter(Context cnx,
-                          List<Player> player,
-                          ArrayList<Integer> rates,
-                          ArrayList<Integer> nb_answer,
-                          int total_quests_for_course) {
+        ListUserAdapter(Context cnx,
+                        List<UserData> user,
+                        ArrayList<Integer> rates,
+                        ArrayList<Integer> nb_answer,
+                        int total_quests_for_course) {
             this.cnx=cnx;
-            this.player =player;
+            this.user =user;
             this.nb_answer=nb_answer;
             this.rates=rates;
             this.total_quests_for_course=total_quests_for_course;
@@ -180,17 +180,17 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
         @Override
         public int getCount() {
-            return player.size();
+            return user.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return player.get(position);
+            return user.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return Integer.parseInt(player.get(position).getSciperNum());
+            return Integer.parseInt(user.get(position).getSciperNum());
 
         }
 
@@ -204,8 +204,8 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             TextView text_view_sciper = convertView.findViewById(R.id.sciper);
             TextView text_view_nb_answer = convertView.findViewById(R.id.quests_answered);
 
-            String name = player.get(position).getLastName();
-            String first_firstname = player.get(position).getFirstName();
+            String name = user.get(position).getLastName();
+            String first_firstname = user.get(position).getFirstName();
             if(first_firstname.contains(" ")) {
                 first_firstname = first_firstname.substring(0, first_firstname.indexOf(' '));
             }
@@ -214,7 +214,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             String successString = "Success on answered : "+rates.get(position)+"%";
             text_view_success.setTextColor(setColor(rates.get(position), nb_answer.get(position)));
             text_view_success.setText(successString);
-            text_view_sciper.setText(player.get(position).getSciperNum());
+            text_view_sciper.setText(user.get(position).getSciperNum());
             String qAnsString = "Quests answered : "+nb_answer.get(position)+"/"+total_quests_for_course;
             text_view_nb_answer.setText(qAnsString);
 

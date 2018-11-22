@@ -78,12 +78,6 @@ public class Player {
         courses.add(Course.SWENG);
     }
 
-
-    public static Player getForStats() {
-        return new Player();
-    }
-
-
     public static Player get() {
         if (instance == null) {
             instance = new Player();
