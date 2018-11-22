@@ -1,8 +1,15 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import java.io.Serializable;
+
 import ch.epfl.sweng.studyup.items.Items;
 
-public interface SpecialSpecialQuest extends SpecialQuestObserver {
+/**
+ * Interface or SpecialQuest.
+ * All special quests must implement at least this functionality.
+ * Implements serializable so that it can be passed between Activities as an extra.
+ */
+public interface SpecialQuest extends SpecialQuestObserver, Serializable {
     /**
      * Show the item that get rewarded when completing the quest
      * @return The item that we will get when the quest is completed

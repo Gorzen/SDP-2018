@@ -1,12 +1,13 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 
-public class SpecialSpecialQuestNQuestions implements SpecialSpecialQuest {
+public class SpecialQuestNQuestions implements SpecialQuest {
 
     private Items reward;
     private int questionCount;
@@ -20,7 +21,7 @@ public class SpecialSpecialQuestNQuestions implements SpecialSpecialQuest {
      * @param goal the number of question to be answered before the quest is completed
      * @param description a description of the special quest
      */
-    public SpecialSpecialQuestNQuestions(String title, String description, int goal) {
+    public SpecialQuestNQuestions(String title, String description, int goal) {
 
         this.title = title;
         this.description = description;

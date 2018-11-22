@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,13 +36,15 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.specialQuest.SpecialSpecialQuestNQuestions;
-import ch.epfl.sweng.studyup.specialQuest.SpecialSpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -215,11 +218,11 @@ public class MainActivity extends NavigationStudent {
 
         /*
         As a proof of concept, the list view will be populated with one sample special quest.
-        This will be a SpecialSpecialQuestNQuestions object.
+        This will be a SpecialQuestNQuestions object.
          */
         String simpleSpecialQuestDesc = "Answer three questions in a row to get a suprise item!";
-        SpecialSpecialQuestNQuestions simpleSpecialQuest = new SpecialSpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
-        List<SpecialSpecialQuest> specialQuestsList = new ArrayList<>();
+        SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
+        final List<SpecialQuest> specialQuestsList = new ArrayList<>();
         specialQuestsList.add(simpleSpecialQuest);
 
         /*
@@ -234,6 +237,19 @@ public class MainActivity extends NavigationStudent {
         SpecialQuestListViewAdapter listAdapter =
             new SpecialQuestListViewAdapter(this, R.layout.special_quest_model, specialQuestsList, iconList);
         specialQuestsListView.setAdapter(listAdapter);
+
+        /*
+        Set onClick listeners for all special quests that will open SpecialQuestDisplayActivity,
+        passing the Special Quest as a serializable object. It will be de-serialized and used in that activity.
+         */
+        specialQuestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent displaySpecialQuestion = new Intent(MainActivity.this, SpecialQuestDisplayActivity.class);
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_KEY, specialQuestsList.get(position));
+
+                startActivity(displaySpecialQuestion);
+            }});
     }
 
     public void updateCurrDisplay() {

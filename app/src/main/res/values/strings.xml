@@ -54,7 +54,7 @@
     <string name="FB_user_pictures_directory_name" translatable="false">user_pictures</string>
     <string name="log_out">Log out</string>
     <string name="quest_title">Title Quest</string>
-    <string name="special_quest_title">Special Quest</string>
+    <string name="special_quest_list_title">Special Quest</string>
     <string name="quest_course">Course Quest</string>
     <string name="image_radio_text">Image-based question</string>
     <string name="text_radio">Text-based question</string>

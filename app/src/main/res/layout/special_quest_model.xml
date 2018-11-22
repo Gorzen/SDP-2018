@@ -27,12 +27,12 @@
         tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/special_quest_title"
+            android:id="@+id/special_quest_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_marginStart="10dp"
-            android:text="@string/special_quest_title"
+            android:text="@string/special_quest_list_title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
