@@ -219,7 +219,7 @@ public class Firestore {
                         String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+                        String questionCourseName = questionData.get(FB_COURSE) == null ? Course.SWENG.name() : questionData.get(FB_COURSE).toString();
 
 
                         Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);

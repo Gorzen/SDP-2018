@@ -231,13 +231,13 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
-    public void setCoursesEnrolled(List<Course> coursesEnrolled) {
-        this.coursesEnrolled = coursesEnrolled;
-        Firestore.get().updateRemotePlayerDataFromLocal();
-    }
-
-    public void setCoursesTeached(List<Course> coursesTeached) {
-        this.coursesTeached= coursesTeached;
+    public void setCourses(List<Course> courses) {
+        if(role == Role.student) {
+            this.coursesEnrolled = courses;
+        } else {
+            this.coursesTeached= courses;
+            //TODO: update the course informations in the document FB_COURSES
+        }
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 

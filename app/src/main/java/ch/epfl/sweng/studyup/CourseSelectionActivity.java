@@ -73,7 +73,7 @@ public class CourseSelectionActivity extends RefreshContext {
             }
         }
 
-        // Player.get().setCourses(updateCourseList); TODO change, can the teachers change their courses here? Does it redirect to the schedule? 
+        Player.get().setCourses(updateCourseList);
         Toast.makeText(getApplicationContext(), "Courses updated!", Toast.LENGTH_SHORT).show();
 
         finish();

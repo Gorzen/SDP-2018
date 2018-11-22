@@ -81,7 +81,7 @@ public class AddQuestionActivity extends RefreshContext {
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = false;
-            int trueFalseOrMCQ = question.isTrueFalse() == true ? R.id.true_false_radio : R.id.mcq_radio;
+            int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
             setupEditQuestion(trueFalseOrMCQ);
         }
 
@@ -115,7 +115,7 @@ public class AddQuestionActivity extends RefreshContext {
     public void updatePlayerCourses() {
         // Set dropdown for selecting associated course
         associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
-        List<String> courseNameList = getStringListFromCourseList(Player.get().getCoursesEnrolled());
+        List<String> courseNameList = getStringListFromCourseList(Player.get().getCoursesEnrolled()); //TODO: getCourseTeached when it is implemented
         Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
         ArrayAdapter<String> courseListAdapter =
                 new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
