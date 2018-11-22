@@ -131,7 +131,6 @@ public class QuestsActivityTeacherTest {
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_add_question);
     }
 
     @Test

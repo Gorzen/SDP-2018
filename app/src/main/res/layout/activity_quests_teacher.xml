@@ -59,7 +59,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:onClick="addNewQuestion"
-                android:text="Add a new question"
+                android:text="@string/add_a_new_question_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
