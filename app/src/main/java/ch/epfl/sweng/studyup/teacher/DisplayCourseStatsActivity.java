@@ -25,7 +25,6 @@ import ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
-    private static final String TAG = "DisplayCourseStatsActivity";
     private Course course;
 
 
@@ -47,8 +46,14 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         TextView nb_students = findViewById(R.id.nb_students);
         List<Player> playerList = getStudentsFromCourse(course);
         nb_students.setText("Number of enrolled students: " + String.valueOf(playerList.size()));
+        setupListViewP(playerList);
 
-        setupListViewQ(playerList);
+
+        TextView nb_quests = findViewById(R.id.nb_questions);
+        List<String> qList = getQuestsStringFromCourse(course);
+        nb_quests.setText("Number of questions for this course: " + String.valueOf(qList.size()));
+        setupListViewQ(qList);
+
     }
 
     public void onBackButton(View view) {
@@ -57,7 +62,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
 
 
-    protected void setupListViewQ(final List<Player> playerList) {
+    protected void setupListViewP(final List<Player> playerList) {
         ListView listView = findViewById(R.id.listViewPlayer);
 
         ArrayList<Integer> rates = new ArrayList<>();
@@ -70,7 +75,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             HashMap<String, Boolean> answered_total = new HashMap<>(player.getAnsweredQuestion());
 
             double nb_good_answer_course = 0;
-            int nb_answer_course = 0;
+            int nb_answer_course;
             Set<String> s2 = answered_total.keySet();
             s2.retainAll(s1); //s2 = only String Question Id (from course) which player answered to
             nb_answer_course = s2.size();
@@ -81,10 +86,42 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             rates.add(rate_player_in_a_course);
             nb_answer.add(nb_answer_course);
         }
-        ListPlayerAdapter listPlayerAdapter = new ListPlayerAdapter(this, playerList, rates, nb_answer, quests_course.size());
-        listView.setAdapter(listPlayerAdapter);
 
+
+        ListPlayerAdapter listPlayerAdapter = new ListPlayerAdapter(this,  playerList, rates, nb_answer, quests_course.size());
+        listView.setAdapter(listPlayerAdapter);
     }
+
+    protected void setupListViewQ(final List<String> questions_course) {
+        ListView listView = findViewById(R.id.listViewQuestionForStats);
+
+        ArrayList<Integer> rates = new ArrayList<>();
+        ArrayList<Integer> nb_answer = new ArrayList<>();
+
+        int a_player_ans = 0;
+        int a_player_good_ans = 0;
+
+        List<Player> students_in_course = getStudentsFromCourse(course);
+
+        for (String question_string : questions_course) {
+            for(Player player : students_in_course) {
+                HashMap<String, Boolean> player_ans_q = new HashMap<>(player.getAnsweredQuestion());
+                if (player_ans_q.get(question_string) != null) {
+                    a_player_ans++;
+                    if (player_ans_q.get(question_string)) {
+                        a_player_good_ans++;
+                    }
+                }
+            }
+            int rate = a_player_ans == 0 ? 0 : 100*a_player_good_ans/a_player_ans;
+            rates.add(rate);
+            nb_answer.add(a_player_ans);
+        }
+        ListQuestionStatAdapter listQAdapter = new ListQuestionStatAdapter(this, questions_course, rates, nb_answer, students_in_course.size());
+        listView.setAdapter(listQAdapter);
+    }
+
+
 
 
 
@@ -125,18 +162,18 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
     private class ListPlayerAdapter extends BaseAdapter {
 
         private Context cnx;
-        private List<Player> players;
+        private List<Player> player;
         private ArrayList<Integer> rates;
         private ArrayList<Integer> nb_answer;
         private int total_quests_for_course;
 
-        public ListPlayerAdapter(Context cnx,
-                                 List<Player> players,
-                                 ArrayList<Integer> rates,
-                                 ArrayList<Integer> nb_answer,
-                                 int total_quests_for_course) {
+        ListPlayerAdapter(Context cnx,
+                          List<Player> player,
+                          ArrayList<Integer> rates,
+                          ArrayList<Integer> nb_answer,
+                          int total_quests_for_course) {
             this.cnx=cnx;
-            this.players=players;
+            this.player =player;
             this.nb_answer=nb_answer;
             this.rates=rates;
             this.total_quests_for_course=total_quests_for_course;
@@ -144,17 +181,18 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
         @Override
         public int getCount() {
-            return players.size();
+            return player.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return players.get(position);
+            return player.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return Integer.parseInt(players.get(position).getSciperNum());
+            return Integer.parseInt(player.get(position).getSciperNum());
+
         }
 
         @Override
@@ -162,23 +200,90 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             if(convertView==null){
                 convertView=View.inflate(cnx, R.layout.player_stat_item_model, null);
             }
-            TextView text_view_last = (TextView) convertView.findViewById(R.id.last_name);
-            TextView text_view_first = (TextView) convertView.findViewById(R.id.first_firstname);
-            TextView text_view_success = (TextView) convertView.findViewById(R.id.success_rate);
-            TextView text_view_sciper = (TextView) convertView.findViewById(R.id.sciper);
-            TextView text_view_nb_answer = (TextView) convertView.findViewById(R.id.quests_answered);
+            TextView text_view_last = convertView.findViewById(R.id.last_name);
+            TextView text_view_success = convertView.findViewById(R.id.success_rate);
+            TextView text_view_sciper = convertView.findViewById(R.id.sciper);
+            TextView text_view_nb_answer = convertView.findViewById(R.id.quests_answered);
 
-            text_view_last.setText(players.get(position).getLastName());
-            String first_firstname = players.get(position).getFirstName();
+            String name = player.get(position).getLastName();
+            String first_firstname = player.get(position).getFirstName();
             if(first_firstname.contains(" ")) {
                 first_firstname = first_firstname.substring(0, first_firstname.indexOf(' '));
             }
-            text_view_first.setText(first_firstname);
+            name = name + ' ' + first_firstname;
+            text_view_last.setText(name);
             String successString = "Success on answered : "+rates.get(position)+"%";
             text_view_success.setTextColor(setColor(rates.get(position)));
             text_view_success.setText(successString);
-            text_view_sciper.setText(players.get(position).getSciperNum());
+            text_view_sciper.setText(player.get(position).getSciperNum());
             String qAnsString = "Quests answered : "+nb_answer.get(position)+"/"+total_quests_for_course;
+            text_view_nb_answer.setText(qAnsString);
+
+            return convertView;
+        }
+    }
+
+    private class ListQuestionStatAdapter extends BaseAdapter {
+
+        private Context cnx;
+        private List<String> questions;
+        private ArrayList<Integer> rates;
+        private ArrayList<Integer> nb_answer;
+        private int total_questions_for_course;
+
+        ListQuestionStatAdapter(Context cnx,
+                                List<String> questions,
+                                ArrayList<Integer> rates,
+                                ArrayList<Integer> nb_answer,
+                                int total_quests_for_course) {
+            this.cnx=cnx;
+            this.questions =questions;
+            this.nb_answer=nb_answer;
+            this.rates=rates;
+            this.total_questions_for_course =total_quests_for_course;
+        }
+
+        @Override
+        public int getCount() {
+            return questions.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return questions.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if(convertView==null){
+                convertView=View.inflate(cnx, R.layout.player_stat_item_model, null);
+            }
+            TextView text_view_last = convertView.findViewById(R.id.last_name);
+            TextView text_view_success = convertView.findViewById(R.id.success_rate);
+            TextView text_view_sciper = convertView.findViewById(R.id.sciper);
+            TextView text_view_nb_answer = convertView.findViewById(R.id.quests_answered);
+
+            String Title = "";
+            boolean isTF = false;
+            List<Question> allQ = getAllQuestions();
+            for (Question q: allQ) {
+                if(q.getQuestionId().equals(questions.get(position))) {
+                    Title = q.getTitle();
+                    isTF = q.isTrueFalse();
+                }
+            }
+            text_view_last.setText(Title.substring(0, Math.min(Title.length(), 25)));
+            if(isTF) text_view_sciper.setText("T/F");
+            else text_view_sciper.setText("MCQ");
+            String successString = "Success answers : "+rates.get(position)+"%";
+            text_view_success.setTextColor(setColor(rates.get(position)));
+            text_view_success.setText(successString);
+            String qAnsString = "Student answers : "+nb_answer.get(position)+"/"+ total_questions_for_course;
             text_view_nb_answer.setText(qAnsString);
 
             return convertView;
