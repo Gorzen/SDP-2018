@@ -116,11 +116,11 @@ public class SettingsActivityTest {
 
     @Test
     public void testSetLocale() {
-        setLocale("en", activity);
+        setLocale("en", mActivityRule.getActivity());
 
-        activity.finish();
-        activity.startActivity(activity.getIntent());
+        mActivityRule.getActivity().finish();
+        mActivityRule.getActivity().startActivity(mActivityRule.getActivity().getIntent());
 
-        assertEquals("en", activity.getResources().getConfiguration().locale.toString());
+        assertEquals("en", mActivityRule.getActivity().getResources().getConfiguration().locale.toString());
     }
 }
