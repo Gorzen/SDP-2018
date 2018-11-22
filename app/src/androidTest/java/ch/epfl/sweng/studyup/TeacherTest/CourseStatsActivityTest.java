@@ -25,6 +25,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -54,13 +55,13 @@ public class CourseStatsActivityTest {
     @Test
     public void singleCourseTest(){
         cleanAndAdd();
-        onView(withId(R.id.listViewQuests)).check(matches(Matchers.withListSize(1)));
+        onView(withId(R.id.listViewCourses)).check(matches(Matchers.withListSize(1)));
     }
 
     @Test
     public void onClickTest(){
         cleanAndAdd();
-        onData(anything()).inAdapterView(withId(R.id.listViewQuests)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listViewCourses)).atPosition(0).perform(click());
         Intents.intended(hasComponent(DisplayCourseStatsActivity.class.getName()));
     }
 
@@ -69,8 +70,8 @@ public class CourseStatsActivityTest {
         courseList.add(Constants.Course.Blacksmithing);
         Player.get().setCourses(courseList);
         //reload activity
-        Intent reload = new Intent(InstrumentationRegistry.getContext(), CourseStatsActivity.class);
-        mActivityRule.launchActivity(reload);
+        mActivityRule.launchActivity(new Intent());
+        Utils.waitAndTag(500, "waiting for the display to be drawn");
     }
 
     static class Matchers {
