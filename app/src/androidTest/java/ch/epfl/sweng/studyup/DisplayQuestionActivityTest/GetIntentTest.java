@@ -18,6 +18,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class GetIntentTest extends DisplayQuestionActivityTest {
     @Test

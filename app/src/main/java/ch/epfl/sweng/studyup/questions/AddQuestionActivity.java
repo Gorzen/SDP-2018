@@ -50,6 +50,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDI
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class AddQuestionActivity extends RefreshContext {
 
     private static final String TAG = "AddQuestionActivity";
@@ -224,9 +225,9 @@ public class AddQuestionActivity extends RefreshContext {
             Firestore.get().addQuestion(newQuestion);
 
             if(isNewQuestion) {
-                Toast.makeText(this.getApplicationContext(), "Question successfully added !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.question_added), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getApplicationContext(), "Question successfully edited !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.question_edited), Toast.LENGTH_SHORT).show();
             }
             finish();
         }

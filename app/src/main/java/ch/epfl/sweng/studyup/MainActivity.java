@@ -7,6 +7,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
@@ -34,8 +36,11 @@ import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-import static ch.epfl.sweng.studyup.utils.Constants.CURR_DISPLAY;
-import static ch.epfl.sweng.studyup.utils.Constants.LEVEL_DISPLAY;
+import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
@@ -168,7 +173,7 @@ public class MainActivity extends NavigationStudent {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i("GPS_MAP", "Permission granted");
                 } else {
-                    Toast.makeText(getApplicationContext(), "This app requires location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.location_required), Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -198,11 +203,11 @@ public class MainActivity extends NavigationStudent {
 
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
-        ((TextView) findViewById(R.id.levelText)).setText(LEVEL_DISPLAY + Player.get().getLevel());
+        ((TextView) findViewById(R.id.levelText)).setText(getString(R.string.text_level) + Player.get().getLevel());
     }
 
     public void updateCurrDisplay() {
-        ((TextView) findViewById(R.id.currText)).setText(CURR_DISPLAY + Player.get().getCurrency());
+        ((TextView) findViewById(R.id.currText)).setText(getString(R.string.text_money) + Player.get().getCurrency());
     }
 
     public static void clearCacheToLogOut(Context context) {
@@ -214,5 +219,3 @@ public class MainActivity extends NavigationStudent {
         }
     }
 }
-
-
