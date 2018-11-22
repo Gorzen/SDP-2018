@@ -52,6 +52,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
     private static final String TAG = AddQuestionActivityTest.class.getSimpleName();

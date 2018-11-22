@@ -52,7 +52,7 @@ public class CourseSelectionActivity extends RefreshContext {
                     updatePlayerCourses(courseSelections);
                 }
                 catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "Failed to update courses!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.text_failed_update_courses), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -70,7 +70,7 @@ public class CourseSelectionActivity extends RefreshContext {
         }
 
         Player.get().setCourses(updateCourseList);
-        Toast.makeText(getApplicationContext(), "Courses updated!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.text_courses_updated), Toast.LENGTH_SHORT).show();
 
         finish();
     }

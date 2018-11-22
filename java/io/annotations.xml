@@ -1,0 +1,5 @@
+<root>
+    <item name='java.io.File'>
+        <annotation name='org.jetbrains.annotations.NonNls' />
+    </item>
+</root>

@@ -34,7 +34,9 @@ public class FromStudentToDisplayTextTest {
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
     private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
     private Question q;
+    @SuppressWarnings("HardCodedStringLiteral")
     private  final String fakeTitle = "fake title from student to display for text";
+    @SuppressWarnings("HardCodedStringLiteral")
     private final String UUID = "UUID-for-text-question";
 
     @Before
@@ -64,6 +66,7 @@ public class FromStudentToDisplayTextTest {
                         .perform(click());
                 waitAndTag(4000, TAG);
 
+                //noinspection HardCodedStringLiteral
                 onView(withId(R.id.question_text_display)).check(matches(withText("Short text\n")));
             }
         }

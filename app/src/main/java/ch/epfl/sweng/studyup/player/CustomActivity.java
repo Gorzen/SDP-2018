@@ -43,6 +43,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
  * Code used in the activity_custom to personnalize a Player.
  */
 public class CustomActivity extends NavigationStudent {
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
     private static final int GALLERY = 0, CAMERA = 1;
@@ -50,6 +51,7 @@ public class CustomActivity extends NavigationStudent {
     private EditText edit_username;
     public ImageButton valid_button;
 
+    @SuppressWarnings("HardCodedStringLiteral")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,7 @@ public class CustomActivity extends NavigationStudent {
 
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
-        dialogBuilder.setTitle("Add an image");
+        dialogBuilder.setTitle(getString(R.string.text_addimage));
         final String[] items = {Constants.GALLERY, Constants.CAMERA, Constants.CANCEL};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
@@ -150,7 +152,7 @@ public class CustomActivity extends NavigationStudent {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(this, "Can't take photos without permission.",
+                Toast.makeText(this, getString(R.string.text_photospermissions),
                         Toast.LENGTH_LONG).show();
             }
         }
@@ -172,16 +174,18 @@ public class CustomActivity extends NavigationStudent {
                     setImageCircularAndUpload(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(CustomActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CustomActivity.this, getString(R.string.text_failed), Toast.LENGTH_SHORT).show();
                 }
             }
         } else if (requestCode == CAMERA) {
+            @SuppressWarnings("HardCodedStringLiteral")
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             setImageCircularAndUpload(bitmap);
         }
     }
 
     public void setImageCircularAndUpload(Bitmap bitmap) {
+        @SuppressWarnings("HardCodedStringLiteral")
         String newPictureFileID = Player.get().getSciperNum() + ".png";
         File pictureFile = new File(this.getApplicationContext().getFilesDir(), newPictureFileID);
         try {
@@ -197,7 +201,7 @@ public class CustomActivity extends NavigationStudent {
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
 
-        Toast.makeText(CustomActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CustomActivity.this, getString(R.string.text_imagesaved), Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }
 }

@@ -11,6 +11,7 @@ import org.junit.Rule;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public class DisplayQuestionActivityTest {
 
     @Rule

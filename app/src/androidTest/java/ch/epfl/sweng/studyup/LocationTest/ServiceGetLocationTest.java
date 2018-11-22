@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class ServiceGetLocationTest {
     private BackgroundLocation.GetLocation getLocation = new BackgroundLocation.GetLocation(null, null);

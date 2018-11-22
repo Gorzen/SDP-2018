@@ -43,14 +43,20 @@ import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
+import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private final String TAG = "DisplayQuestionActivity";
+    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_TITLE = "display_question_title";
+    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_ID = "display_question_id";
+    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
+    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     private Question displayQuestion;
 
@@ -234,14 +240,14 @@ public class DisplayQuestionActivity extends RefreshContext {
                     });
                 }
             });
-        } catch (IOException e) {
-            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+        } catch (IOException e){
+            Toast.makeText(this, getString(R.string.text_questiondlerror), Toast.LENGTH_SHORT).show();
             quit();
         }
     }
 
     private void quit() {
-        Toast.makeText(this, "Error while displaying the question", Toast.LENGTH_SHORT);
+        Toast.makeText(this, getString(R.string.text_questiondisplayerror), Toast.LENGTH_SHORT);
         Log.e(TAG, "Bad intent given in parameters");
         super.onBackPressed();
     }
@@ -266,9 +272,10 @@ public class DisplayQuestionActivity extends RefreshContext {
     public void answerQuestion(View view) {
         int chkTOP = answerGroupTOP.getCheckedRadioButtonId();
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
-        if (chkBOT == -1 && chkTOP == -1) {
-            Toast.makeText(this, "Make your choice !", Toast.LENGTH_SHORT).show();
-        } else {
+        if(chkBOT == -1 && chkTOP == -1) {
+            Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
+        }
+        else {
             int realCheck = (chkTOP == -1) ? chkBOT : chkTOP;
             RadioButton checkedAnswer = findViewById(realCheck);
 
@@ -276,9 +283,11 @@ public class DisplayQuestionActivity extends RefreshContext {
             int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
             //TODO : What to do next ?
-            if (Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
-                Toast.makeText(this, "You can't answer a question twice !", Toast.LENGTH_SHORT).show();
-            } else if (answer == displayQuestion.getAnswer()) {
+            if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
+                Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
+            }
+
+            else if (answer == displayQuestion.getAnswer()) {
                 goodAnswer();
             } else {
                 badAnswer();
@@ -292,14 +301,13 @@ public class DisplayQuestionActivity extends RefreshContext {
 
     private void badAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
-        Toast.makeText(this, "Wrong answer... Maybe next time ?", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.text_wronganswer), Toast.LENGTH_SHORT).show();
     }
 
     private void goodAnswer() {
         Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
-        Toast.makeText(this, "Correct answer ! Congrats", Toast.LENGTH_SHORT).show();
-
-        Player.get().addExperience(Constants.XP_GAINED_WITH_QUESTION, this);
+        Toast.makeText(this, getString(R.string.text_correctanswer), Toast.LENGTH_SHORT).show();
+        Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 
         //Randomly add one item to the player
         Random random = new Random();
