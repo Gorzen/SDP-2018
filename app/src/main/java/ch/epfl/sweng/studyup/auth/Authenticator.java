@@ -47,6 +47,7 @@ public class Authenticator {
             throw new Exception("Unable to retrieve token.");
         }
 
+        //noinspection HardCodedStringLiteral
         return URLEncoder.encode(token, "UTF-8");
     }
 

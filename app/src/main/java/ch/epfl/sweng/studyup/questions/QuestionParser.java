@@ -10,6 +10,7 @@ import java.util.List;
 
 public abstract class QuestionParser {
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "QuestionParser";
 
     /**

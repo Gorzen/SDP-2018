@@ -1,5 +1,10 @@
 package ch.epfl.sweng.studyup;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +32,9 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
@@ -44,7 +52,12 @@ public class LoginActivity extends RefreshContext {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (!MOCK_ENABLED) {
+        // Language
+        String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString("lang", Locale.getDefault().getLanguage());
+        setLocale(lang, this);
+
+        if(!MOCK_ENABLED) {
             try {
                 attemptLoginFromCache();
             } catch (Exception e) {
@@ -54,6 +67,8 @@ public class LoginActivity extends RefreshContext {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        // TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
+      
         loadInterface();
     }
 
@@ -167,7 +182,7 @@ public class LoginActivity extends RefreshContext {
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
             HOME_ACTIVITY = loginRole.equals(Role.student) ?
-                    MainActivity.class : AddQuestionActivity.class;
+                    MainActivity.class : QuestsActivityTeacher.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);

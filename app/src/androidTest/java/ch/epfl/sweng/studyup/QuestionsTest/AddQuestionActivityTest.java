@@ -55,6 +55,7 @@ import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class AddQuestionActivityTest {
     private static final String TAG = AddQuestionActivityTest.class.getSimpleName();

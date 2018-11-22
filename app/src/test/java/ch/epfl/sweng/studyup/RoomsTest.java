@@ -11,6 +11,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(JUnit4.class)
 public class RoomsTest {
 
