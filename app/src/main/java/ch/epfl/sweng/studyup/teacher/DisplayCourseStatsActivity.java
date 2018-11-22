@@ -98,15 +98,14 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         ArrayList<Integer> rates = new ArrayList<>();
         ArrayList<Integer> nb_answer = new ArrayList<>();
 
-        int a_player_ans = 0;
-        int a_player_good_ans = 0;
-
         List<Player> students_in_course = getStudentsFromCourse(course);
 
         for (String question_string : questions_course) {
+            int a_player_ans = 0;
+            int a_player_good_ans = 0;
             for(Player player : students_in_course) {
                 HashMap<String, Boolean> player_ans_q = new HashMap<>(player.getAnsweredQuestion());
-                if (player_ans_q.get(question_string) != null) {
+                if (player_ans_q.containsKey(question_string)) {
                     a_player_ans++;
                     if (player_ans_q.get(question_string)) {
                         a_player_good_ans++;
@@ -213,7 +212,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             name = name + ' ' + first_firstname;
             text_view_last.setText(name);
             String successString = "Success on answered : "+rates.get(position)+"%";
-            text_view_success.setTextColor(setColor(rates.get(position)));
+            text_view_success.setTextColor(setColor(rates.get(position), nb_answer.get(position)));
             text_view_success.setText(successString);
             text_view_sciper.setText(player.get(position).getSciperNum());
             String qAnsString = "Quests answered : "+nb_answer.get(position)+"/"+total_quests_for_course;
@@ -281,7 +280,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             if(isTF) text_view_sciper.setText("T/F");
             else text_view_sciper.setText("MCQ");
             String successString = "Success answers : "+rates.get(position)+"%";
-            text_view_success.setTextColor(setColor(rates.get(position)));
+            text_view_success.setTextColor(setColor(rates.get(position), nb_answer.get(position)));
             text_view_success.setText(successString);
             String qAnsString = "Student answers : "+nb_answer.get(position)+"/"+ total_questions_for_course;
             text_view_nb_answer.setText(qAnsString);

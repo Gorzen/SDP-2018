@@ -131,8 +131,8 @@ public class CourseStatsActivity extends NavigationTeacher {
         }
     }
 
-    public int setColor(int rate) {
-        if (rate==0) return Color.parseColor("#6C6F6F");
+    public int setColor(int rate, int nb_answer) {
+        if (nb_answer==0) return Color.parseColor("#6C6F6F");
         else if(rate>70) return Color.parseColor("#63B97F");
         else if(rate<40) return Color.parseColor("#CB0814");
         else return Color.parseColor("#EC804D");
