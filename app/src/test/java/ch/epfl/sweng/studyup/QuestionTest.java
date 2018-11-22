@@ -92,17 +92,21 @@ public class QuestionTest {
         assertEquals(testCourseName, q.getCourseName());
     }
 
+    /*
     @Test
     public void toStringTrueFalseTest() {
         Question q = new Question("1", "question TEST", true, 0, testCourseName);
         assertEquals("question TEST (True/False)  and answer number 0", q.toString());
     }
+    */
 
+    /*
     @Test
     public void toStringMCQTest() {
         Question q = new Question("1", "question TEST mcq", false, 3, testCourseName);
         assertEquals("question TEST mcq (MCQ) and answer number 3", q.toString());
     }
+    */
 
     @Test
     public void hashTest() {
