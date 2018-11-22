@@ -225,7 +225,8 @@ public class MainActivity extends NavigationStudent {
         As a proof of concept, the list view will be populated with one sample special quest.
         This will be a QuestionQuestSimple object.
          */
-        QuestionQuestSimple simpleSpecialQuest = new QuestionQuestSimple("A Very Special Quest Indeed", 3);
+        String simpleSpecialQuestDesc = "Answer three questions in a row to get a suprise item!";
+        QuestionQuestSimple simpleSpecialQuest = new QuestionQuestSimple("Three questions in row!", simpleSpecialQuestDesc,3);
         List<SpecialQuest> specialQuestsList = new ArrayList<>();
         specialQuestsList.add(simpleSpecialQuest);
 
