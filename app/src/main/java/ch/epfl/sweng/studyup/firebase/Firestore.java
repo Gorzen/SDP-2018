@@ -352,23 +352,28 @@ public class Firestore {
         });
     }
 
-    public void addCourseToSchedule(final Course c, final Date d) {
+    public void setCourseTeacher(final Course c) {
         // Temporary
         final String FB_SCHEDULE = "schedule";
 
-        db.collection(FB_USERS).document(Player.get().getSciperNum()).get()
+        db.collection(FB_COURSES).document(c.name()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()) {
-                            Map<Course, List<Date>> schedule = (Map<Course, List<Date>>) task.getResult().get(FB_SCHEDULE);
-                            schedule.get(c).add(d); // Make more check?
-
-                            //TODO: Make it like this or more like other variables -> making a field in Player that synchronize automatically with Firebase
+                            String sciper = task.getResult().get(FB_SCIPER).toString();
+                            if(sciper.equals(Player.get().getSciperNum())) return
+                            else {
+                                //Change the teacher for the curr Player 
+                            }
                         } else {
                             Log.w(TAG, "The schedule fail to load or no course are present.");
                         }
                     }
                 });
+    }
+
+    public void addEventToCourse(final Course c, final Room r, final Date d) {
+
     }
 }
