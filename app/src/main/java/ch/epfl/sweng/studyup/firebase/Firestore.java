@@ -17,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
@@ -299,7 +301,7 @@ public class Firestore {
 
     @SuppressWarnings("unchecked")
     public void loadUsersForStats(final Activity act) {
-        final List<Player> playerList = new ArrayList<>();
+        final List<UserData> userList = new ArrayList<>();
 
         db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -309,17 +311,22 @@ public class Firestore {
 
                         Map<String, Object> remotePlayerData = document.getData();
 
-                        Player p = Player.getForStats();
-                        p.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
-                        p.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
-                        p.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        p.updateLocalDataFromRemote(remotePlayerData);
+                        UserData user = new UserData(INITIAL_SCIPER,
+                                INITIAL_FIRSTNAME,
+                                INITIAL_LASTNAME,
+                                new HashMap<String, Boolean>(),
+                                new ArrayList<Course>());
+                        user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
+                        user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
+                        user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
+                        user.setAnsweredQuestions((HashMap<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
+                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, new ArrayList<Course>())));
 
-                        playerList.add(p);
+                        userList.add(user);
                     }
 
                     if (act instanceof CourseStatsActivity) {
-                        DisplayCourseStatsActivity.setPlayers(playerList);
+                        CourseStatsActivity.setUsers(userList);
                     }
                 } else {
                     Log.e(TAG, "Error getting documents for courses: ", task.getException());

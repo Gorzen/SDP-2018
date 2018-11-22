@@ -218,6 +218,7 @@ public class AddQuestionActivity extends NavigationStudent {
                 Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if(chosenCourse==null){
                 Toast.makeText(this.getApplicationContext(), "Please select a course", Toast.LENGTH_SHORT).show();
                 return;

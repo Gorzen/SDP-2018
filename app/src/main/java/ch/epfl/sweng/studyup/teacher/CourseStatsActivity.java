@@ -9,17 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -30,9 +30,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.COURSE_INDEX;
 public class CourseStatsActivity extends NavigationTeacher {
 
     private ListCourseAdapter listCourseAdapter;
-    private static List<Player> allUsers = new ArrayList<>();
+    private static List<UserData> allUsers = new ArrayList<>();
     private static List<Question> allQuestions = new ArrayList<>();
-
 
 
     @Override
@@ -55,14 +54,19 @@ public class CourseStatsActivity extends NavigationTeacher {
         Firestore.get().loadUsersForStats(this);
     }
 
-    //retrieve players from firebase
-    public static void setPlayers(List<Player> playerList) {
-        allUsers = playerList;
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setupListView();
+    }
+
+    //retrieve users from firebase
+    public static void setUsers(List<UserData> userList) {allUsers = userList;
     }
     //retrieve questions from firebase
     public static void setQuestions(List<Question> qList) { allQuestions = qList;}
 
-    public List<Player> getAllUsers(){ return allUsers; }
+    public List<UserData> getAllUsers(){ return allUsers; }
 
     public List<Question> getAllQuestions(){ return allQuestions; }
 

@@ -104,7 +104,7 @@ public abstract class Constants {
     }
 
     public enum Course {
-        SWENG("Sweng"),
+        SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
         Blacksmithing("Blacksmithing");
