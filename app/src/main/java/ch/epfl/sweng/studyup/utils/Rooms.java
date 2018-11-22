@@ -4,12 +4,15 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
+import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
@@ -62,8 +65,20 @@ public abstract class Rooms {
         return new Double(distance * meterConversion).doubleValue();
     }
 
-    public static boolean checkIfUserIsInRoom(ArrayList<WeekViewEvent> studentSchedule) {
-        Date currDate = new Date();
-        return true;
+    public static boolean checkIfUserIsInRoom(final ArrayList<WeekViewEvent> studentSchedule) {
+        if(Player.get().getCourses().isEmpty() || studentSchedule.isEmpty()) return false;
+
+        Calendar currTime = Calendar.getInstance();
+        List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCourses())));
+
+        for(WeekViewEvent weekViewEvent : studentSchedule) {
+            String eventCourseAndRoom = weekViewEvent.getName();
+            String eventCourseName = eventCourseAndRoom.substring(0, eventCourseAndRoom.indexOf("\n"));
+            if(playersCourses.contains(eventCourseName)) {
+                return currTime.after(weekViewEvent.getStartTime()) && currTime.before(weekViewEvent.getEndTime());
+            }
+        }
+        return false;
     }
+
 }

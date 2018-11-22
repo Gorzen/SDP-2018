@@ -2,6 +2,9 @@ package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Constants {
@@ -104,6 +107,14 @@ public abstract class Constants {
         SWENG,
         Algebra,
         Ecology,
-        Blacksmithing
+        Blacksmithing;
+
+        public static List<String> getNamesFromCourses(List<Course> courses) {
+            List<String> coursesName = new ArrayList<>(courses.size());
+            for(int i = 0; i < courses.size(); ++i) {
+                coursesName.set(i, courses.get(i).toString());
+            }
+            return coursesName;
+        }
     }
 }
