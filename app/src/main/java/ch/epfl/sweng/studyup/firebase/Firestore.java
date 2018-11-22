@@ -24,9 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.utils.Rooms;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -41,6 +43,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SCHEDULE_INFOS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
@@ -294,12 +297,11 @@ public class Firestore {
      * parameter
      *
      * @param act The activity displaying the layout
+     * @param role The role, which the schedule is depending on
      * @throws IllegalArgumentException If the activity that call the method doesn't display a schedule
      * @throws NullPointerException If the format is incorrect on the database
      */
-    public void getCoursesSchedule(final Activity act) throws NullPointerException {
-        // if(act instanceof ScheduleActivity) throw new IllegalArgumentException("Incorrect caller.");
-
+    public void getCoursesSchedule(final Activity act, final Role role) throws NullPointerException {
         final Player p = Player.get();
 
         //Temporary
@@ -317,15 +319,19 @@ public class Firestore {
                     for(DocumentSnapshot doc : task.getResult().getDocuments()) {
                         Course current = Course.valueOf(doc.getId());
                         boolean sciperCorresponds = doc.get(FB_SCIPER).toString().equals(p.getSciperNum());
-                        boolean displayThatCourse = p.getRole() == Role.teacher ?
+                        boolean getThatCourse = role == Role.teacher ?
                                 coursesTeached.contains(current) :
                                 coursesEnrolled.contains(current);
 
-                        if(sciperCorresponds && displayThatCourse) {
-                            List<Date> periods = new ArrayList<>();
+                        if(sciperCorresponds && getThatCourse) {
+                            List<Date> periods = new ArrayList<>(); // WeekViewEvent in the future
 
-                            for(Timestamp time : (ArrayList<Timestamp>) doc.get("times")) {
-                                periods.add(time.toDate());
+                            Map<String, Timestamp> scheduleInfos;
+                            try { scheduleInfos = (Map<String, Timestamp>) doc.get(FB_SCHEDULE_INFOS); }
+                            catch (ClassCastException e) { Toast.makeText(act, "Wrong format of the course schedule's infos.", Toast.LENGTH_SHORT).show(); return; }
+
+                            for(String roomAsString : scheduleInfos.keySet()) {
+                                periods.add(scheduleInfos.get(roomAsString).toDate());
                             }
 
                             schedule.put(current, periods);
@@ -333,7 +339,12 @@ public class Firestore {
                     }
 
                     Log.i(debug, schedule.toString()); //Temp, to see that it gets the correct values
-                    //((ScheduleActivity) act).setLayoutCourses(schedule);  -> function in activity used to setup the events in layout
+
+                    if(role == Role.student) {
+                        //Store in Global access variable
+                    }
+
+                    //if(act instanceof ScheduleActivity) ((ScheduleActivity) act).updateSchedule(schedule);  -> function in activity used to setup the events in layout
                 } else {
                     Log.w(TAG, "The courses fail to load or no course are present.");
                 }
