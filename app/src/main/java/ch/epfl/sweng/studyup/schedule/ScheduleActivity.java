@@ -19,10 +19,17 @@ import ch.epfl.sweng.studyup.weekview.WeekViewEvent;
 import ch.epfl.sweng.studyup.weekview.WeekViewLoader;
 
 public class ScheduleActivity extends NavigationStudent {
+    private List<WeekViewEvent> weekViewEvents;
+    private WeekView weekView;
+
     private final MonthLoader.MonthChangeListener monthChangeListener = new MonthLoader.MonthChangeListener() {
         @Override
         public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-            return new ArrayList<>();
+            if(newMonth == 11 && newYear == 2018) {
+                return weekViewEvents;
+            }else{
+                return new ArrayList<>();
+            }
         }
     };
 
@@ -48,11 +55,7 @@ public class ScheduleActivity extends NavigationStudent {
 
         @Override
         public List<? extends WeekViewEvent> onLoad(int periodIndex) {
-            return new ArrayList<WeekViewEvent>() {
-                {
-                    add(new WeekViewEvent(1, "Sweng", 2018, 11, 22, 8, 15, 2018, 11, 22, 10, 0));
-                }
-            };
+            return new ArrayList<>();
         }
     };
 
@@ -89,14 +92,16 @@ public class ScheduleActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-        WeekView mWeekView = findViewById(R.id.weekView);
-        setStartAndEndDate(mWeekView);
+        weekViewEvents = new ArrayList<>();
 
-        mWeekView.setMonthChangeListener(monthChangeListener);
-        mWeekView.setOnEventClickListener(eventClickListener);
-        mWeekView.setEventLongPressListener(eventLongPressListener);
-        mWeekView.setDateTimeInterpreter(dateTimeInterpreter);
-        mWeekView.setWeekViewLoader(weekViewLoader);
+        weekView = findViewById(R.id.weekView);
+        setStartAndEndDate(weekView);
+
+        weekView.setOnEventClickListener(eventClickListener);
+        weekView.setEventLongPressListener(eventLongPressListener);
+        weekView.setDateTimeInterpreter(dateTimeInterpreter);
+        weekView.setWeekViewLoader(weekViewLoader);
+        weekView.setMonthChangeListener(monthChangeListener);
     }
 
     private void setStartAndEndDate(WeekView weekView) {
@@ -118,4 +123,11 @@ public class ScheduleActivity extends NavigationStudent {
         weekView.setMaxDate(endDate);
     }
 
+    public void updateSchedule(List<WeekViewEvent> events){
+        weekViewEvents.clear();
+        for(WeekViewEvent event : events){
+            weekViewEvents.add(event);
+        }
+        weekView.notifyDatasetChanged();
+    }
 }
