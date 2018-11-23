@@ -68,9 +68,9 @@ public class ScheduleActivity extends NavigationStudent {
         public void onEmptyViewClicked(Calendar time) {
             Log.d("ScheduleActivityTeacher", "time = " + time.toString());
             Log.d("ScheduleActivityTeacher", "Day of month = " + time.get(Calendar.DAY_OF_MONTH));
-            Log.d("ScheduleActivityTeacher", "Hour = " + time.get(Calendar.HOUR));
+            Log.d("ScheduleActivityTeacher", "Hour = " + time.get(Calendar.HOUR_OF_DAY));
             int day = time.get(Calendar.DAY_OF_MONTH);
-            int hour = time.get(Calendar.HOUR);
+            int hour = time.get(Calendar.HOUR_OF_DAY);
 
             Calendar eventStart = Calendar.getInstance();
             eventStart.set(Calendar.YEAR, year);
