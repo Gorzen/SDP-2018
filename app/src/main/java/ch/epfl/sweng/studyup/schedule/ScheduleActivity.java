@@ -1,7 +1,10 @@
 package ch.epfl.sweng.studyup.schedule;
 
+import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +22,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 public class ScheduleActivity extends NavigationStudent {
@@ -138,32 +143,32 @@ public class ScheduleActivity extends NavigationStudent {
     };
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
         weekViewEvents = new ArrayList<>();
-
         weekView = findViewById(R.id.weekView);
 
-        weekView.setOnEventClickListener(eventClickListenerTeacher);
-        weekView.setEmptyViewClickListener(emptyViewClickListenerTeacher);
         weekView.setEventLongPressListener(eventLongPressListener);
         weekView.setDateTimeInterpreter(dateTimeInterpreter);
         weekView.setWeekViewLoader(weekViewLoader);
         weekView.setMonthChangeListener(monthChangeListener);
 
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(Calendar.YEAR, year);
-        startDate.set(Calendar.MONTH, month);
-        startDate.set(Calendar.DAY_OF_MONTH, firstDay);
-        startDate.set(Calendar.HOUR_OF_DAY, 0);
-        startDate.set(Calendar.MINUTE, 0);
-
-        weekView.goToDate(startDate);
-
         setStartAndEnd(weekView);
+
+        if(Player.get().getRole().equals(Constants.Role.student)){
+            weekView.setOnEventClickListener(eventClickListenerStudent);
+            weekView.setEmptyViewClickListener(emptyViewClickListenerStudent);
+
+            FloatingActionButton saveButton = findViewById(R.id.fab);
+            saveButton.setVisibility(View.GONE);
+        }else if (Player.get().getRole().equals(Constants.Role.teacher)){
+            weekView.setOnEventClickListener(eventClickListenerTeacher);
+            weekView.setEmptyViewClickListener(emptyViewClickListenerTeacher);
+        }
     }
 
     private void setStartAndEnd(WeekView weekView) {
@@ -180,6 +185,8 @@ public class ScheduleActivity extends NavigationStudent {
         endDate.set(Calendar.DAY_OF_MONTH, lastDay);
         endDate.set(Calendar.HOUR_OF_DAY, 23);
         endDate.set(Calendar.MINUTE, 59);
+
+        weekView.goToDate(startDate);
 
         weekView.setMinDate(startDate);
         weekView.setMaxDate(endDate);
