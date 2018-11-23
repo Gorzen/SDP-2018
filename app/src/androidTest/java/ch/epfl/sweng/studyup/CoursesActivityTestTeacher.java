@@ -21,7 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.not;
 
-public class CoursesActivityTest {
+public class CoursesActivityTestTeacher {
 
     @Rule
     public final ActivityTestRule<CourseSelectionActivity> mActivityRule =
@@ -29,6 +29,7 @@ public class CoursesActivityTest {
 
     @BeforeClass
     public static void setupTests() {
+        Player.get().setRole(Role.teacher);
         List<Course> testCourseList = new ArrayList<>();
         testCourseList.add(Course.Algebra);
         testCourseList.add(Course.Blacksmithing);
@@ -48,6 +49,6 @@ public class CoursesActivityTest {
         onView(withText(Course.Ecology.name())).perform(click());
 
         onView(withText(R.string.save_value)).perform(click());
-        assert(Player.get().getCourses().contains(Course.Ecology));
+        assert(Player.get().getCoursesTeached().contains(Course.Ecology));
     }
 }

@@ -40,6 +40,8 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
@@ -143,7 +145,8 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
-        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses()));
+        localPlayerData.put(FB_COURSES_ENROLLED, getStringListFromCourseList(currPlayer.getCoursesEnrolled()));
+        localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached()));
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
@@ -218,7 +221,7 @@ public class Firestore {
                         // If question is associated with a course, only load question if the user enrolled in that course.
                         String questionCourseName = questionData.get(FB_COURSE).toString();
                         questionCourseMatchesPlayer =
-                                Player.get().getCourses().contains(Course.valueOf(questionCourseName));
+                                Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
                     }
 
                     boolean isValidQuestion = questionCourseMatchesPlayer &&
@@ -230,7 +233,7 @@ public class Firestore {
                         String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+                        String questionCourseName = questionData.get(FB_COURSE) == null ? Course.SWENG.name() : questionData.get(FB_COURSE).toString();
 
 
                         Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
