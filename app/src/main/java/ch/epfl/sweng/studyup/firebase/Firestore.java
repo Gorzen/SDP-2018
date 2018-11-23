@@ -410,7 +410,7 @@ public class Firestore {
      * @param r The room where the course take place
      * @param d The moment when the course take place
      */
-    public void addEventToCourse(final Course c, final Room r, final Date d) {
+    public void addEventsToCourse(final Course c, final Room r, final List<Date> dates) {
         final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
 
         courseRef.get()
@@ -426,7 +426,9 @@ public class Firestore {
                             scheduleInfos = (Map<String, Timestamp>) courseInfos.get(FB_SCHEDULE_INFOS);
                         } catch (ClassCastException e) { Log.d(TAG, "Schedule infos of the course doesn't have the correct format."); return;}
 
-                        scheduleInfos.put(r.toString(), new Timestamp(d));
+                        for(Date d : dates) {
+                            scheduleInfos.put(r.toString(), new Timestamp(d));    
+                        }
                         courseInfos.put(FB_SCHEDULE_INFOS, scheduleInfos);
 
                         courseRef.set(courseInfos).addOnSuccessListener(new OnSuccessListener<Void>() {
