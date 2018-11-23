@@ -319,7 +319,7 @@ public class EditQuestionActivityTest {
         });
     }
 
-   @Test
+    @Test
     public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
         Firestore.get().addQuestion(q);
@@ -328,18 +328,19 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-       onView(withId(R.id.questionText)).perform(scrollTo());
-       Utils.waitAndTag(100, "Waiting for scroll");
+        Utils.waitAndTag(1000, "Waiting for click");
+        onView(withId(R.id.questionText)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
 
         onView(withId(R.id.text_radio_button)).perform(click());
         onView(withId(R.id.questionText))
                 .perform(clearText())
                 .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
-        Utils.waitAndTag(500, this.getClass().getName());
+        Utils.waitAndTag(2000, this.getClass().getName());
 
-       onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-       Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
+        Utils.waitAndTag(100, "Waiting for scroll");
 
         onView(withId(R.id.radio_answer2));
         onView(withId(R.id.addQuestionButton)).perform(click());
