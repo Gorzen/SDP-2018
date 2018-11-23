@@ -2,10 +2,12 @@ package ch.epfl.sweng.studyup.specialQuest;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.Timer;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 public class SpecialQuestNQuestions implements SpecialQuest {
 
@@ -31,6 +33,9 @@ public class SpecialQuestNQuestions implements SpecialQuest {
 
         this.goal = goal;
         this.questionCount = 0;
+
+        //register to the player as an Observer
+        Player.get().addObserver(this);
     }
 
     @Override
@@ -48,8 +53,29 @@ public class SpecialQuestNQuestions implements SpecialQuest {
     public double getProgress() { return (double)(questionCount/goal); }
 
     @Override
+    public int getGoal() {
+        return goal;
+    }
+
+    @Override
+    public Constants.SpecialQuestsType getId() {
+        return Constants.SpecialQuestsType.NQUESTIONS;
+    }
+
+    @Override
+    public void setGoal(int goal) {
+        this.goal = goal;
+    }
+
+    @Override
+    public void setProgress(double progress) {
+        this.questionCount = (int)(Math.round(goal*progress));
+    }
+
+    @Override
     public void onComplete() {
         Player.get().addItem(reward);
+        Player.get().removeObserver(this);
     }
 
     @Override

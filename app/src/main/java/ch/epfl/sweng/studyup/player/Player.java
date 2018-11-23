@@ -12,8 +12,11 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -21,6 +24,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -31,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.SpecialQuestsType.*;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
@@ -46,6 +51,8 @@ public class Player implements SpecialQuestObservable {
 
     //Observe list for quests
     private List<SpecialQuestObserver> observers;
+
+    private List<SpecialQuest> activeQuests;
 
     private static final String TAG = Player.class.getSimpleName();
 
@@ -81,6 +88,7 @@ public class Player implements SpecialQuestObservable {
         courses = new ArrayList<>();
         courses.add(Course.SWENG);
         observers = new ArrayList<>();
+        activeQuests = new ArrayList<>();
     }
 
     public static Player get() {
@@ -124,12 +132,41 @@ public class Player implements SpecialQuestObservable {
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
 
+        //TODO: call the update method for quests
+
         List<String> defaultCourseList = new ArrayList<>();
         defaultCourseList.add(Course.SWENG.name());
         courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
 
         Log.d(TAG, "Loaded courses: " + courses.toString());
     }
+
+    private List<SpecialQuest> getQuestsFromString(List<List<String>> questsAsStrings) {
+        if (questsAsStrings.isEmpty() || questsAsStrings.get(0).isEmpty()) {
+            return Constants.DefaultQuests();
+        }
+        List<SpecialQuest> questList = new ArrayList<>();
+        for (List<String> q: questsAsStrings) {
+            String id = q.get(0);
+            String title = q.get(1);
+            String description = q.get(2);
+            int goal = Integer.parseInt(q.get(3));
+            double progress = Double.parseDouble(q.get(4));
+            Constants.SpecialQuestsType type = Constants.SpecialQuestsType.valueOf(id);
+
+            switch (type){
+                case NQUESTIONS:
+                    SpecialQuestNQuestions newQuest = new SpecialQuestNQuestions(title, description, goal);
+                    newQuest.setProgress(progress);
+                    questList.add(newQuest);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Quest ID " + id + "not found: cannot create the new quest");
+            }
+        }
+        return questList;
+    }
+
 
     // Getters
     public String getSciperNum() { return this.sciperNum; }
@@ -157,6 +194,30 @@ public class Player implements SpecialQuestObservable {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public List<SpecialQuest> getActiveQuests() { return new ArrayList<>(activeQuests); }
+
+    public List<List<String>> getActiveQuestsString() {
+        /*
+         *String format:
+         * -Id
+         * -Title
+         * -Description
+         * -Goal
+         * -Progress
+         */
+        List<List<String>> questList = new ArrayList<>();
+        for (SpecialQuest sq: activeQuests) {
+            List<String> quest = new ArrayList<>();
+            quest.add(sq.getId().name());
+            quest.add(sq.getTitle());
+            quest.add(sq.getDescription());
+            quest.add(Integer.toString(sq.getGoal()));
+            quest.add(Double.toString(sq.getProgress()));
+            questList.add(quest);
+        }
+        return questList;
     }
 
     // Setters
@@ -226,6 +287,11 @@ public class Player implements SpecialQuestObservable {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setActiveQuests(List<SpecialQuest> quests) {
+        activeQuests = new ArrayList<>(quests);
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 

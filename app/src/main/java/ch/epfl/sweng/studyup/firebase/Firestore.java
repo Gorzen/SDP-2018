@@ -23,6 +23,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -38,6 +39,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -170,6 +172,10 @@ public class Firestore {
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
+    }
+
+    public void updateQuests(Map<String, Object> remotePlayerData) {
+        //TODO
     }
 
     /**

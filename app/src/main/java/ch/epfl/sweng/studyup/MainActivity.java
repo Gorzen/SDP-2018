@@ -220,10 +220,8 @@ public class MainActivity extends NavigationStudent {
         As a proof of concept, the list view will be populated with one sample special quest.
         This will be a SpecialQuestNQuestions object.
          */
-        String simpleSpecialQuestDesc = "Answer three questions in a row to get a suprise item!";
-        SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
-        final List<SpecialQuest> specialQuestsList = new ArrayList<>();
-        specialQuestsList.add(simpleSpecialQuest);
+
+        final List<SpecialQuest> specialQuestsList = Player.get().getActiveQuests();
 
         /*
         Image id list to store icon for special quest (finished vs unfinished).
