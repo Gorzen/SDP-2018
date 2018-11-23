@@ -18,22 +18,12 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class RoomsTest {
-    private int currYear;
-    private int currMonth;
-    private int currDay;
-    private int currHour; //24hours format
-    private int currMinute;
-    private Calendar currTime;
+    private Calendar;
 
 
     @Before
     public void init() {
-        currTime = Calendar.getInstance();
-        currYear = currTime.get(Calendar.YEAR);
-        currMonth = currTime.get(Calendar.MONTH);
-        currDay = currTime.get(Calendar.DAY_OF_WEEK);
-        currHour = currTime.get(Calendar.HOUR_OF_DAY);
-        currMinute = currTime.get(Calendar.MINUTE);
+
     }
 
     @Test
@@ -44,11 +34,23 @@ public class RoomsTest {
 
     @Test
     public void checkifUserIsInRoomReturnsFalseWhenNoCourseTest() {
-        Date date = new Date();
-        Calendar currTime = Calendar.getInstance();
-        WeekViewEvent weekViewEvent = new WeekViewEvent(0, "RoomTest", 2018, Calendar.)
+        Calendar calendar_13h = buildCalendar(2018, 10, 1, 13, 0);
+        Calendar calendar_14h = buildCalendar(2018, 10, 1, 14, 0);
+        Calendar calendar_16h = buildCalendar(2018, 10, 1, 16, 0);
+        Calendar calendar_17h = buildCalendar(2018, 10, 1, 17, 0);
+        Calendar calendar_14h30 = buildCalendar(2018, 10, 1, 14, 30);
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, "RoomTest", calendar_13h, calendar_14h);
+        WeekViewEvent weekViewEvent2 = new WeekViewEvent(0, "RoomTest", calendar_16h, calendar_17h);
         Rooms.checkIfUserIsInRoom()
     }
 
-    private void shiftCalendarHour()
+    private Calendar buildCalendar(int year, int month, int day, int hour, int minute) {
+        Calendar mockCalendar = Calendar.getInstance();
+        mockCalendar.set(Calendar.YEAR, year);
+        mockCalendar.set(Calendar.MONTH, month);
+        mockCalendar.set(Calendar.DAY_OF_MONTH, day);
+        mockCalendar.set(Calendar.HOUR_OF_DAY, hour);
+        mockCalendar.set(Calendar.MINUTE, minute);
+        return mockCalendar;
+    }
 }
