@@ -8,17 +8,25 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class RoomsTest {
-    private Calendar;
+    private final String CO1 = "CO_1_1";
+    private final String CO3 = "CO_1_3";
 
 
     @Before
@@ -33,24 +41,35 @@ public class RoomsTest {
     }
 
     @Test
-    public void checkifUserIsInRoomReturnsFalseWhenNoCourseTest() {
-        Calendar calendar_13h = buildCalendar(2018, 10, 1, 13, 0);
-        Calendar calendar_14h = buildCalendar(2018, 10, 1, 14, 0);
-        Calendar calendar_16h = buildCalendar(2018, 10, 1, 16, 0);
-        Calendar calendar_17h = buildCalendar(2018, 10, 1, 17, 0);
-        Calendar calendar_14h30 = buildCalendar(2018, 10, 1, 14, 30);
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, "RoomTest", calendar_13h, calendar_14h);
-        WeekViewEvent weekViewEvent2 = new WeekViewEvent(0, "RoomTest", calendar_16h, calendar_17h);
-        Rooms.checkIfUserIsInRoom()
+    public void checkIfUserIsInRoom() {
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        Calendar beforeCurrTime = Calendar.getInstance();
+        beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
+        Calendar afterCurrTime = Calendar.getInstance();
+        afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
+        Calendar unrelatedTime1 = Calendar.getInstance();
+        unrelatedTime1.set(Calendar.HOUR_OF_DAY, unrelatedTime1.get(Calendar.HOUR_OF_DAY) + 4);
+        Calendar unrelatedTime2 = Calendar.getInstance();
+        unrelatedTime2.set(Calendar.HOUR_OF_DAY, unrelatedTime2.get(Calendar.HOUR_OF_DAY) + 5);
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
+        WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
+        assertTrue(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2))));
     }
 
-    private Calendar buildCalendar(int year, int month, int day, int hour, int minute) {
-        Calendar mockCalendar = Calendar.getInstance();
-        mockCalendar.set(Calendar.YEAR, year);
-        mockCalendar.set(Calendar.MONTH, month);
-        mockCalendar.set(Calendar.DAY_OF_MONTH, day);
-        mockCalendar.set(Calendar.HOUR_OF_DAY, hour);
-        mockCalendar.set(Calendar.MINUTE, minute);
-        return mockCalendar;
+    @Test
+    public void checkifUserIsInRoomReturnsFalseWhenNoCourseTest() {
+        Player.get().setCourses(new ArrayList<Constants.Course>());
+        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>()));
+    }
+
+    @Test
+    public void checkifUserIsInRoomReturnsFalseWhenNoWeekEventTest() {
+        Calendar beforeCurrTime = Calendar.getInstance();
+        beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
+        Calendar afterCurrTime = Calendar.getInstance();
+        afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1))));
     }
 }
