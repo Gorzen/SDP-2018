@@ -66,25 +66,25 @@ public class RoomsTest {
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
         WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
-       // Utils.waitAndTag(3000, this.getClass().getName());
-        List<Constants.Course> test = Player.get().getCourses();
         assertTrue(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2))));
     }
 
     @Test
-    public void checkifUserIsInRoomReturnsFalseWhenNoCourseTest() {
+    public void checkIfUserIsInRoomReturnsFalseWhenNoCourseTest() {
         Player.get().setCourses(new ArrayList<Constants.Course>());
         assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>()));
     }
 
     @Test
-    public void checkifUserIsInRoomReturnsFalseWhenNoWeekEventTest() {
-        Calendar beforeCurrTime = Calendar.getInstance();
-        beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
-        Calendar afterCurrTime = Calendar.getInstance();
-        afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
+    public void checkIfUserIsInRoomReturnsFalseWhenNoEventMatchesTest() {
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1))));
+    }
+
+    @Test
+    public void checkIfUserIsInRoomReturnsFalseWhenNoWeekEventTest() {
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>()));
     }
 }
