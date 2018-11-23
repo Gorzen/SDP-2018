@@ -22,6 +22,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
@@ -65,6 +66,8 @@ public class RoomsTest {
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
         WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
+       // Utils.waitAndTag(3000, this.getClass().getName());
+        List<Constants.Course> test = Player.get().getCourses();
         assertTrue(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2))));
     }
 

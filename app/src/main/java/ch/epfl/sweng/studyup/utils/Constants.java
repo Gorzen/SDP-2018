@@ -110,9 +110,9 @@ public abstract class Constants {
         Blacksmithing;
 
         public static List<String> getNamesFromCourses(List<Course> courses) {
-            List<String> coursesName = new ArrayList<>(courses.size());
+            ArrayList<String> coursesName = new ArrayList<>(courses.size());
             for(int i = 0; i < courses.size(); ++i) {
-                coursesName.set(i, courses.get(i).toString());
+                coursesName.add(courses.get(i).toString());
             }
             return coursesName;
         }
