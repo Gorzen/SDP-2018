@@ -12,11 +12,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom; //Random int library
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
@@ -170,5 +175,26 @@ public class FirestoreTest {
 
         Player.get().addCurrency(100, null);
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
+    }
+
+    @Test
+    public void testFunctionnality() {
+        final String room = "CO_1";
+        List<WeekViewEvent> periods = new ArrayList<>();
+        Date d1 = new Date();
+        d1.setTime(123);
+        Date d2 = new Date();
+        d2.setTime(1234);
+        Calendar end1 = Calendar.getInstance();
+        Calendar end2 = Calendar.getInstance();
+        end1.setTime(d1);
+        end2.setTime(d2);
+        WeekViewEvent w1 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end1);
+        WeekViewEvent w2 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end2);
+        periods.add(w1);
+        periods.add(w2);
+
+        Firestore.get().addEventsToCourse(Course.Algebra, periods);
+        waitAndTag(1000, TAG);
     }
 }
