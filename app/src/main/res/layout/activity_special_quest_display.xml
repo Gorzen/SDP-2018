@@ -13,6 +13,7 @@
         android:layout_marginTop="64dp"
         android:text="Title"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,14 +31,15 @@
     <TextView
         android:id="@+id/specialQuestDescription"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:maxLines="10"
         android:text="Description"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/specialQuestTitle"
-        tools:text="Answer three questions in a row to get a surprise item ! And this sentence is not long enough !" />
+        tools:text="Answer three questions in a row to get a surprise item !\n And this sentence is not long enough !" />
 
 </android.support.constraint.ConstraintLayout>
