@@ -4,6 +4,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -19,7 +20,6 @@ import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-
 
 public class ScheduleActivity extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
@@ -199,5 +199,9 @@ public class ScheduleActivity extends NavigationStudent {
 
     public List<WeekViewEvent> getWeekViewEvents(){
         return new ArrayList<>(weekViewEvents);
+    }
+
+    public void onSaveButtonClick(View view){
+        //Save WeekViewEvents on firebase
     }
 }
