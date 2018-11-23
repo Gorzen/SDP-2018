@@ -132,6 +132,7 @@ public class Firestore {
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
         localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses()));
+        localPlayerData.put(FB_SPECIALQUESTS, currPlayer.getActiveQuestsMap());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
@@ -147,6 +148,7 @@ public class Firestore {
                     Log.e(TAG, "Unable to update remote player data");
                 }
             });
+
     }
 
     public void deleteUserFromDatabase(String sciperNum) {

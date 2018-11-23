@@ -1,9 +1,12 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Timer;
 
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -50,7 +53,7 @@ public class SpecialQuestNQuestions implements SpecialQuest {
     public String getDescription() { return description; }
 
     @Override
-    public double getProgress() { return (double)(questionCount/goal); }
+    public double getProgress() { return (questionCount/(double)goal); }
 
     @Override
     public int getGoal() {
@@ -74,16 +77,19 @@ public class SpecialQuestNQuestions implements SpecialQuest {
 
     @Override
     public void onComplete() {
-        Player.get().addItem(reward);
-        Player.get().removeObserver(this);
+        Player currPlayer = Player.get();
+        currPlayer.addItem(reward);
+        currPlayer.removeObserver(this);
+        currPlayer.removeQuest(this);
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     @Override
     public void update(SpecialQuestObservable o, Object param) {
         if (param instanceof Question) {
-            questionCount++;
-            if (questionCount > goal) {
-                onComplete();
+            if (questionCount < goal) {
+                questionCount++;
+                Firestore.get().updateRemotePlayerDataFromLocal();
             }
         }
     }

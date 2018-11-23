@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
@@ -38,6 +39,7 @@ public abstract class Constants {
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
     public static final String FB_SPECIALQUESTS = "specialQuests";
+    public static final String FB_SPECIALQUESTS_ID = "specialQuests_id";
     public static final String FB_SPECIALQUESTS_TITLE = "specialQuests_title";
     public static final String FB_SPECIALQUESTS_DESCRIPTION = "specialQuests_description";
     public static final String FB_SPECIALQUESTS_GOAL = "specialQuests_goal";
@@ -124,7 +126,7 @@ public abstract class Constants {
     public static List<SpecialQuest> DefaultQuests() {
         List<SpecialQuest> quests = new ArrayList<>();
         //TODO make the title and description a string value
-        String simpleSpecialQuestDesc = "Answer three questions correctly in a row to get a suprise item!";
+        String simpleSpecialQuestDesc = "Answer three questions correctly in a row\n to get a suprise item!";
         SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
         quests.add(simpleSpecialQuest);
 
@@ -135,10 +137,8 @@ public abstract class Constants {
         NQUESTIONS
     }
 
-    public static List<List<String>> getDefaultFirebaseQuests() {
-        List<String> empty = new ArrayList<>();
-        List<List<String>> containEmpty = new ArrayList<>();
-        containEmpty.add(empty);
-        return containEmpty;
+    public static List<Map<String, String>> getDefaultFirebaseQuests() {
+        List<Map<String, String>> empty = new ArrayList<>();
+        return empty;
     }
 }

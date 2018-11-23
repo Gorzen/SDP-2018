@@ -58,7 +58,10 @@ public interface SpecialQuest extends SpecialQuestObserver, Serializable {
     public void setProgress(double progress);
 
     /**
-     * This method should be called when the quest has just been completed
+     * This method should be called when the quest has just been completed and perform the following:
+     * -Remove itself from the observer list
+     * -Remove itself to the active quest list
+     * -Add the reward to the player
      */
     public void onComplete();
 

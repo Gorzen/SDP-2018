@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
@@ -31,6 +32,20 @@ public class SpecialQuestDisplayActivity extends AppCompatActivity {
         descriptionView.setText(specialQuest.getDescription());
 
         CircularProgressIndicator progressBarView = findViewById(R.id.specialQuestProgress);
-        progressBarView.setProgress(specialQuest.getProgress(), 1);
+        progressBarView.setProgressTextAdapter(new CustomProgressTextAdapter());
+        progressBarView.setProgress(specialQuest.getProgress()*100, 100);
+
+        if (specialQuest.getProgress() >= 1.0) {
+            Toast.makeText(this, R.string.congrat_text_special_quest, Toast.LENGTH_LONG).show();
+            specialQuest.onComplete();
+        }
+    }
+
+    public final class CustomProgressTextAdapter implements CircularProgressIndicator.ProgressTextAdapter {
+
+        @Override
+        public String formatText(double currentProgress) {
+            return String.valueOf((int) currentProgress) + " %";
+        }
     }
 }

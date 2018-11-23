@@ -25,6 +25,11 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_DESCRIPTION;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_GOAL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_ID;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_PROGRESS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -35,7 +40,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
-import static ch.epfl.sweng.studyup.utils.Constants.SpecialQuestsType.*;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
@@ -131,6 +135,7 @@ public class Player implements SpecialQuestObservable {
         currency = Integer.parseInt(getOrDefault(remotePlayerData, FB_CURRENCY, INITIAL_CURRENCY).toString());
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
+        activeQuests = getQuestsFromMap((List<Map<String, String>>) getOrDefault(remotePlayerData, FB_SPECIALQUESTS, Constants.getDefaultFirebaseQuests()));
 
         //TODO: call the update method for quests
 
@@ -141,17 +146,17 @@ public class Player implements SpecialQuestObservable {
         Log.d(TAG, "Loaded courses: " + courses.toString());
     }
 
-    private List<SpecialQuest> getQuestsFromString(List<List<String>> questsAsStrings) {
-        if (questsAsStrings.isEmpty() || questsAsStrings.get(0).isEmpty()) {
+    private List<SpecialQuest> getQuestsFromMap(List<Map<String, String>> questsAsStrings) {
+        if (questsAsStrings.isEmpty()) {
             return Constants.DefaultQuests();
         }
         List<SpecialQuest> questList = new ArrayList<>();
-        for (List<String> q: questsAsStrings) {
-            String id = q.get(0);
-            String title = q.get(1);
-            String description = q.get(2);
-            int goal = Integer.parseInt(q.get(3));
-            double progress = Double.parseDouble(q.get(4));
+        for (Map<String, String> q: questsAsStrings) {
+            String id = q.get(FB_SPECIALQUESTS_ID);
+            String title = q.get(FB_SPECIALQUESTS_TITLE);
+            String description = q.get(FB_SPECIALQUESTS_DESCRIPTION);
+            int goal = Integer.parseInt(q.get(FB_SPECIALQUESTS_GOAL));
+            double progress = Double.parseDouble(q.get(FB_SPECIALQUESTS_PROGRESS));
             Constants.SpecialQuestsType type = Constants.SpecialQuestsType.valueOf(id);
 
             switch (type){
@@ -198,7 +203,7 @@ public class Player implements SpecialQuestObservable {
 
     public List<SpecialQuest> getActiveQuests() { return new ArrayList<>(activeQuests); }
 
-    public List<List<String>> getActiveQuestsString() {
+    public List<Map<String, String>> getActiveQuestsMap() {
         /*
          *String format:
          * -Id
@@ -207,14 +212,14 @@ public class Player implements SpecialQuestObservable {
          * -Goal
          * -Progress
          */
-        List<List<String>> questList = new ArrayList<>();
+        List<Map<String, String>> questList = new ArrayList<>();
         for (SpecialQuest sq: activeQuests) {
-            List<String> quest = new ArrayList<>();
-            quest.add(sq.getId().name());
-            quest.add(sq.getTitle());
-            quest.add(sq.getDescription());
-            quest.add(Integer.toString(sq.getGoal()));
-            quest.add(Double.toString(sq.getProgress()));
+            Map<String, String> quest = new HashMap<>();
+            quest.put(FB_SPECIALQUESTS_ID, sq.getId().name());
+            quest.put(FB_SPECIALQUESTS_TITLE, sq.getTitle());
+            quest.put(FB_SPECIALQUESTS_DESCRIPTION, sq.getDescription());
+            quest.put(FB_SPECIALQUESTS_GOAL, Integer.toString(sq.getGoal()));
+            quest.put(FB_SPECIALQUESTS_PROGRESS, Double.toString(sq.getProgress()));
             questList.add(quest);
         }
         return questList;
@@ -319,6 +324,10 @@ public class Player implements SpecialQuestObservable {
         return this.firstName.equals(INITIAL_FIRSTNAME) &&
             this.lastName.equals(INITIAL_LASTNAME) &&
             this.sciperNum.equals(INITIAL_SCIPER);
+    }
+
+    public void removeQuest(SpecialQuest q) {
+        activeQuests.remove(q);
     }
 
     @Override
