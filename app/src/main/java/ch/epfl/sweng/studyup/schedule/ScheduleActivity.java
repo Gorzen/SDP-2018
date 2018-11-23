@@ -49,16 +49,15 @@ public class ScheduleActivity extends NavigationStudent {
 
     private final WeekView.EmptyViewClickListener emptyViewClickListenerStudent = new WeekView.EmptyViewClickListener() {
         @Override
-        public void onEmptyViewClicked(Calendar date) {
-
-        }
-    };
+        public void onEmptyViewClicked(Calendar date) {}};
 
     //Teacher
     private final WeekView.EventClickListener eventClickListenerTeacher = new WeekView.EventClickListener() {
         @Override
         public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+            Log.d("ScheduleActivityTeacher", "Clicked on event with id " + event.getId());
+            weekViewEvents.remove(event);
+            weekView.notifyDatasetChanged();
         }
     };
 
@@ -83,8 +82,8 @@ public class ScheduleActivity extends NavigationStudent {
             eventEnd.set(Calendar.YEAR, year);
             eventEnd.set(Calendar.MONTH, month);
             eventEnd.set(Calendar.DAY_OF_MONTH, day);
-            eventEnd.set(Calendar.HOUR_OF_DAY, hour + 1);
-            eventEnd.set(Calendar.MINUTE, 0);
+            eventEnd.set(Calendar.HOUR_OF_DAY, hour);
+            eventEnd.set(Calendar.MINUTE, 59);
 
             weekViewEvents.add(new WeekViewEvent(id, "Sweng", "CO_0_1", eventStart, eventEnd));
             id += 1;
@@ -148,7 +147,7 @@ public class ScheduleActivity extends NavigationStudent {
 
         weekView = findViewById(R.id.weekView);
 
-        weekView.setOnEventClickListener(eventClickListenerStudent);
+        weekView.setOnEventClickListener(eventClickListenerTeacher);
         weekView.setEmptyViewClickListener(emptyViewClickListenerTeacher);
         weekView.setEventLongPressListener(eventLongPressListener);
         weekView.setDateTimeInterpreter(dateTimeInterpreter);
