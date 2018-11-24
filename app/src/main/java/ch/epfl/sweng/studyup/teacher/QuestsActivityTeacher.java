@@ -56,14 +56,24 @@ public class QuestsActivityTeacher extends RefreshContext {
     //TODO For now the same as for the student! To be changed
     protected void setupListView(final List<Question> quests) {
         List<Integer> ids = new ArrayList<>();
-        ArrayList<Integer> listLang = new ArrayList<>();
+        List<Integer> listLang = new ArrayList<>();
 
-        for (int i = 0; i < quests.size(); ++i) {
-            ids.add(0); //Basic id, that is not used in this adapter
+        for (Question q : quests) {
+            switch (q.getLang()) {
+                case "fr":
+                    listLang.add(R.drawable.ic_fr_flag);
+                    break;
+                case "en":
+                    listLang.add(R.drawable.ic_en_flag);
+                    break;
+                default: // Error
+                    listLang.add(R.drawable.ic_cross_red_24dp);
+                    break;
+            }
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids, lang);
+        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids, listLang);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -141,6 +151,9 @@ public class QuestsActivityTeacher extends RefreshContext {
                     alertDialogDelete.show();
                 }
             });
+
+            ImageView lang_view = convertView.findViewById(R.id.lang_img);
+            lang_view.setImageResource(lang.get(position));
 
             return convertView;
         }

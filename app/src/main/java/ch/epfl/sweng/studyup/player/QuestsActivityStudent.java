@@ -55,8 +55,8 @@ public class QuestsActivityStudent extends NavigationStudent {
     }
 
     public void setupListView(final List<Question> quests) {
-        ArrayList<Integer> listImageID = new ArrayList<>();
-        ArrayList<Integer> listLang = new ArrayList<>();
+        List<Integer> listImageID = new ArrayList<>();
+        List<Integer> listLang = new ArrayList<>();
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
