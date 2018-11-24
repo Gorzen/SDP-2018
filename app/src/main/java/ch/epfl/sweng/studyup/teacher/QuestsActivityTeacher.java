@@ -59,6 +59,7 @@ public class QuestsActivityTeacher extends RefreshContext {
         List<Integer> listLang = new ArrayList<>();
 
         for (Question q : quests) {
+            ids.add(0);
             switch (q.getLang()) {
                 case "fr":
                     listLang.add(R.drawable.ic_fr_flag);
