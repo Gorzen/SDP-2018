@@ -225,7 +225,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
 
-<<<<<<< HEAD
                 <RadioGroup
                     android:id="@+id/lang_radio_group"
                     android:layout_width="wrap_content"

@@ -55,7 +55,6 @@ public class QuestsActivityStudent extends NavigationStudent {
     }
 
     public void setupListView(final List<Question> quests) {
-        ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
         ArrayList<Integer> listLang = new ArrayList<>();
 
@@ -141,6 +140,8 @@ public class QuestsActivityStudent extends NavigationStudent {
             text_view.setText(questions.get(position).getTitle());
             ImageView image_view = convertView.findViewById(R.id.is_quest_done);
             image_view.setImageResource(ids.get(position));
+            ImageView lang_view = convertView.findViewById(R.id.lang_img);
+            lang_view.setImageResource(lang.get(position));
             return convertView;
         }
     }

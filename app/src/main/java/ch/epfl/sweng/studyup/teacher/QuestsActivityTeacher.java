@@ -56,13 +56,14 @@ public class QuestsActivityTeacher extends RefreshContext {
     //TODO For now the same as for the student! To be changed
     protected void setupListView(final List<Question> quests) {
         List<Integer> ids = new ArrayList<>();
+        ArrayList<Integer> listLang = new ArrayList<>();
 
         for (int i = 0; i < quests.size(); ++i) {
             ids.add(0); //Basic id, that is not used in this adapter
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids);
+        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids, lang);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,12 +89,14 @@ public class QuestsActivityTeacher extends RefreshContext {
         private int idLayout;
         private List<Question> questions;
         private List<Integer> ids;
+        private List<Integer> lang;
 
-        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> ids) {
+        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> ids, List<Integer> lang) {
             this.cnx = cnx;
             this.questions = questions;
             this.idLayout = idLayout;
             this.ids = ids;
+            this.lang = lang;
         }
 
         @Override
