@@ -322,11 +322,22 @@ public class Firestore {
         // Iteration over all events of all needed courses
         for(final Course c : courses) {
             coursesRef.document(c.name()).collection(FB_EVENTS).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            // Adding periods to the course
+                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                                schedule.add(q.toObject(WeekViewEvent.class));
+                            }
+
+                            courseCounter.incrementAndGet();
+                        }
+                    });
+                    /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                if(!task.getResult().isEmpty()) {
+                                if(task.getResult().isEmpty()) {
                                     courseCounter.incrementAndGet();
                                     return;
                                 }
@@ -339,7 +350,7 @@ public class Firestore {
                                 courseCounter.incrementAndGet();
                             }
                         }
-                    });
+                    });*/
         }
 
         while(courseCounter.get() < courses.size()) {
