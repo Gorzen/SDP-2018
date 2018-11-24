@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class QuestionDatabaseTest {
     private QuestionDAO questionDAO;

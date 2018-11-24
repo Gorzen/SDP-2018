@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup;
 
+import android.app.Activity;
 import android.util.Log;
 
 import org.junit.Test;
@@ -13,9 +14,12 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Log.class})
 public class UtilsTest {

@@ -18,12 +18,14 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class InventoryActivityTest {
@@ -34,17 +36,18 @@ public class InventoryActivityTest {
 
     @Before
     public void init() {
+        Player.get().resetPlayer();
         Player.get().addItem(Items.XP_POTION);
         mActivityRule.launchActivity(new Intent());
     }
 
     @After
-    public void cleanup() {
+    public void cleanUp(){
         Player.get().resetPlayer();
     }
 
     @Test
-    public void useButtonConsumsItem() {
+    public void useButtonConsumesItem() {
         list = mActivityRule.getActivity().findViewById(R.id.listViewItems);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -52,14 +55,15 @@ public class InventoryActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
-        int exp = Player.get().getExperience();
+        Utils.waitAndTag(1000, this.getClass().getSimpleName());
         onView(withId(R.id.use_button)).perform(click());
-        assertEquals(exp + XP_STEP, Player.get().getExperience());
+
+        assertEquals(XP_STEP, Player.get().getExperience());
+        assertEquals(0, Player.get().getItems().size());
     }
 
     @Test
     public void getItemsNameReturnsEmptyList() {
-        Player player = Player.get();
         Player.get().consumeItem(Items.XP_POTION);
         ArrayList<String> itemsName = Items.getPlayersItemsNames();
         assertEquals(0, itemsName.size());

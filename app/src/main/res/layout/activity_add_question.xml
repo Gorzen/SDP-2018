@@ -8,10 +8,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ScrollView
+            android:id="@+id/scrollViewAddQuestion"
             xmlns:android="http://schemas.android.com/apk/res/android"
+
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fillViewport="true">
@@ -33,25 +37,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressBar"
                     app:srcCompat="@android:color/transparent" />
-
-                <TextView
-                    android:id="@+id/display_question_path"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_image_selected_text"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addQuestion_display_image" />
 
                 <EditText
                     android:id="@+id/questionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:contentDescription="Question title"
                     android:ems="10"
                     android:hint="@string/add_question_title"
@@ -59,7 +51,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/display_question_path" />
+                    app:layout_constraintTop_toBottomOf="@id/addQuestion_display_image"
+                    tools:layout_editor_absoluteY="83dp" />
 
                 <Spinner
                     android:id="@+id/associatedCourseSpinner"
@@ -70,7 +63,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"></Spinner>
+                    app:layout_constraintTop_toBottomOf="@+id/questionTitle"/>
 
                 <RadioGroup
                     android:id="@+id/text_or_image_radio_group"
@@ -113,7 +106,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:contentDescription="Question description"
                     android:ems="10"
                     android:hint="Write here the question"
                     android:inputType="text|textMultiLine"
@@ -212,7 +204,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="50dp"
                     android:onClick="addQuestion"
                     android:text="@string/add_text"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -220,20 +211,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
 
                 <Button
-                    android:id="@+id/logoutbutton"
+                    android:id="@+id/back_button"
                     android:layout_width="166dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="50dp"
                     android:cursorVisible="false"
                     android:elegantTextHeight="false"
-                    android:text="Log out"
+                    android:onClick="onBackButtonAddQuestion"
+                    android:text="@string/back_button_simple_text"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/question_radio_group" />
 
+<<<<<<< HEAD
                 <RadioGroup
                     android:id="@+id/lang_radio_group"
                     android:layout_width="wrap_content"
@@ -255,30 +247,23 @@
                         android:layout_weight="1"
                         android:text="fr" />
                 </RadioGroup>
+=======
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="47dp"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/addQuestion_display_image" />
+>>>>>>> master
 
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
 
         <!--BOTTOM NAV BAR-->
 
-        <android.support.constraint.ConstraintLayout
-
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/bottomNavView_Bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/white_grey_border_top"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation_teacher">
-            </android.support.design.widget.BottomNavigationView>
-
-        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

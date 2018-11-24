@@ -24,8 +24,6 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Constants.CURR_DISPLAY;
-import static ch.epfl.sweng.studyup.utils.Constants.LEVEL_DISPLAY;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 

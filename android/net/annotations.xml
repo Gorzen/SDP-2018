@@ -1,0 +1,8 @@
+<root>
+    <item name='android.net.Uri'>
+        <annotation name='org.jetbrains.annotations.NonNls' />
+    </item>
+    <item name='android.net.Uri java.lang.String getQueryParameter(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NonNls' />
+    </item>
+</root>

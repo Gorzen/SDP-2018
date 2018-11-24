@@ -1,15 +1,16 @@
 package ch.epfl.sweng.studyup.items;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
+import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+
+@SuppressWarnings("HardCodedStringLiteral") // Pain in the ass to translate.
 public enum Items {
     XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION, Items.XP_POTION_PRICE),
     COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);

@@ -14,6 +14,7 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentF
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static junit.framework.TestCase.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class LaunchIntentWithoutTrueFalseTest extends DisplayQuestionActivityTest {
     @Test

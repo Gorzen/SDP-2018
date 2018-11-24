@@ -5,13 +5,12 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 
 public abstract class QuestionParser {
 
+    @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "QuestionParser";
 
     /**

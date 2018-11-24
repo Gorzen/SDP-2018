@@ -19,6 +19,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -28,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
 
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class ShopActivityAndBuyItemActivityTest {
     private ListView list;
@@ -40,6 +42,7 @@ public class ShopActivityAndBuyItemActivityTest {
     public void init() {
         list = mActivityRule.getActivity().findViewById(R.id.list_view_shop);
         Intents.init();
+        Player.get().resetPlayer();
     }
 
     @Test
@@ -68,6 +71,7 @@ public class ShopActivityAndBuyItemActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
+        Utils.waitAndTag(150, "Waiting for click on item");
         onView(withId(R.id.plus_button)).perform(click());
         onView(withId(R.id.buy_button)).perform(click());
         onView(withId(R.id.back_button_display_item)).perform(click());

@@ -14,6 +14,7 @@ import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QU
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static junit.framework.TestCase.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class MoreDisplayTest extends DisplayQuestionActivityTest {
     @Test

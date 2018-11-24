@@ -2,14 +2,17 @@ package ch.epfl.sweng.studyup.player;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +20,13 @@ import java.util.Map;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
 
-import ch.epfl.sweng.studyup.utils.QuestListViewAdapter;
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
 
 public class QuestsActivityStudent extends NavigationStudent {
 
@@ -33,10 +36,15 @@ public class QuestsActivityStudent extends NavigationStudent {
         setContentView(R.layout.activity_quests_student);
         navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, QUESTS_INDEX_STUDENT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firestore.get().loadQuestions(this);
         LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
         questions.observe(this, new Observer<List<Question>>() {
             @Override
@@ -46,7 +54,7 @@ public class QuestsActivityStudent extends NavigationStudent {
         });
     }
 
-    private void setupListView(final List<Question> quests) {
+    public void setupListView(final List<Question> quests) {
         ArrayList<String> listTitle = new ArrayList<>();
         ArrayList<Integer> listImageID = new ArrayList<>();
         ArrayList<Integer> listLang = new ArrayList<>();
@@ -54,12 +62,10 @@ public class QuestsActivityStudent extends NavigationStudent {
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
 
-        for(Question q: quests) {
-            listTitle.add(q.getTitle());
-
-            if(answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
+        for (Question q : quests) {
+            if (answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
                 listImageID.add(R.drawable.ic_todo_grey_24dp);
-            } else if(answeredQuestion.get(q.getQuestionId())) {
+            } else if (answeredQuestion.get(q.getQuestionId())) {
                 listImageID.add(R.drawable.ic_check_green_24dp);
             } else {
                 listImageID.add(R.drawable.ic_cross_red_24dp);
@@ -67,24 +73,23 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             switch (q.getLang()) {
                 case "fr":
-                    listLang.add(R.drawable.fr_flag);
+                    listLang.add(R.drawable.ic_check_green_24dp);
                     break;
                 case "en":
-                    listLang.add(R.drawable.en_flag);
+                    listLang.add(R.drawable.ic_cross_red_24dp);
                     break;
                 default: // Error
-                    listLang.add(R.drawable.ic_cross_red_24dp);
+                    listLang.add(R.drawable.ic_todo_grey_24dp);
                     break;
             }
         }
 
-        setupOnClickListenerListView(quests, listTitle, listImageID, listLang);
+        setupOnClickListenerListView(quests, quests, listImageID, listLang);
     }
 
-    private void setupOnClickListenerListView(final List<Question> quests, ArrayList<String> listTitle,
-                                              ArrayList<Integer> listImageID, ArrayList<Integer> listLang) {
+    private void setupOnClickListenerListView(final List<Question> quests, List<Question> questions, List<Integer> listImageID, List<Integer> listLang) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapter adapter = new QuestListViewAdapter(this, listTitle, listImageID, listLang);
+        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_student_model, questions, listImageID, listLang);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,5 +100,48 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             }
         });
+    }
+
+    public class QuestListViewAdapterStudent extends BaseAdapter {
+        private Context cnx;
+        private List<Question> questions;
+        private int idLayout;
+        List<Integer> ids;
+        List<Integer> lang;
+
+        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids, List<Integer> lang) {
+            this.cnx = cnx;
+            this.questions = questions;
+            this.idLayout = idLayout;
+            this.ids = ids;
+            this.lang = lang;
+        }
+
+        @Override
+        public int getCount() {
+            return questions.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return questions.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return ids.get(position);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = View.inflate(cnx, idLayout, null);
+            }
+            TextView text_view = convertView.findViewById(R.id.quest_title);
+            text_view.setText(questions.get(position).getTitle());
+            ImageView image_view = convertView.findViewById(R.id.is_quest_done);
+            image_view.setImageResource(ids.get(position));
+            return convertView;
+        }
     }
 }

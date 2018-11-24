@@ -1,8 +1,14 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.content.res.Resources;
+
 import com.google.common.collect.Sets;
+
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.R;
+
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
 
     // Values associated with Firebase
@@ -82,15 +88,17 @@ public abstract class Constants {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
 
-    public static final String LEVEL_DISPLAY = "LEVEL ";
-    public static final String CURR_DISPLAY = "MONEY:\n";
+    // Constants for questions
+    public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int ADD_QUESTION_INDEX=0, QUESTS_INDEX_TEACHER=1, DEFAULT_INDEX_TEACHER=ADD_QUESTION_INDEX;
+    public static final int QUESTS_INDEX_TEACHER=0, ADD_QUESTION_INDEX=1;
 
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
+    public static final String USER_PREFS = "StudyUpPrefs";
+
     // Enums for Role, Course
     public enum Role {
         student,

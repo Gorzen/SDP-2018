@@ -24,6 +24,7 @@ import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import static junit.framework.TestCase.assertEquals;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class MockLocationTest {
     private static final double MOCK_LAT = 43.6;

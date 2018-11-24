@@ -7,8 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -32,11 +30,11 @@ public class BuyItemActivity extends RefreshContext {
         img.setImageResource(item.getImageName());
 
         TextView unitPrice = findViewById(R.id.unit_price);
-        unitPrice.setText("Price of item: " + item.getPrice());
+        unitPrice.setText(getString(R.string.text_itemprice) + item.getPrice());
         TextView playerCurrency = findViewById(R.id.player_currency);
-        playerCurrency.setText("You have " + Player.get().getCurrency());
+        playerCurrency.setText(getString(R.string.text_currencyyouhave) + Player.get().getCurrency());
         TextView playerItemNum = findViewById(R.id.player_item_num);
-        playerItemNum.setText("You already have this item " + Items.countItem(item) + " times");
+        playerItemNum.setText(getString(R.string.text_itemalreadyhave) + Items.countItem(item) + getString(R.string.text_itemtimes));
 
         updateTextViewCounter();
     }
@@ -58,7 +56,7 @@ public class BuyItemActivity extends RefreshContext {
         TextView currCounter = findViewById(R.id.counter);
         currCounter.setText(Integer.toString(counter));
         TextView totalPrice = findViewById(R.id.total_price);
-        totalPrice.setText("Total price: " + counter * item.getPrice());
+        totalPrice.setText(getString(R.string.text_totalprice) + counter * item.getPrice());
     }
 
     public void onBuyButton(View view) {
@@ -69,7 +67,7 @@ public class BuyItemActivity extends RefreshContext {
             }
             startActivity(new Intent(getApplicationContext(), ShopActivity.class));
         } else {
-            Toast.makeText(getApplicationContext(), "You don't have enough money !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.text_notenoughmoney), Toast.LENGTH_SHORT).show();
         }
     }
 
