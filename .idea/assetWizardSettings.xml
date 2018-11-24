@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="fr_flag" />
-                            <entry key="sourceFile" value="C:\Users\Stache\Desktop\fr.svg" />
+                            <entry key="outputName" value="ic_en_flag" />
+                            <entry key="sourceFile" value="C:\Users\Stache\Desktop\en.svg" />
                           </map>
                         </option>
                       </PersistentState>

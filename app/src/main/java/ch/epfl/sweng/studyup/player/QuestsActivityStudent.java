@@ -73,13 +73,13 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             switch (q.getLang()) {
                 case "fr":
-                    listLang.add(R.drawable.ic_check_green_24dp);
+                    listLang.add(R.drawable.ic_fr_flag);
                     break;
                 case "en":
-                    listLang.add(R.drawable.ic_cross_red_24dp);
+                    listLang.add(R.drawable.ic_en_flag);
                     break;
                 default: // Error
-                    listLang.add(R.drawable.ic_todo_grey_24dp);
+                    listLang.add(R.drawable.ic_cross_red_24dp);
                     break;
             }
         }

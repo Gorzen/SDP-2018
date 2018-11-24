@@ -35,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;

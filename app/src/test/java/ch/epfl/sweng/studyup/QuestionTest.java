@@ -69,7 +69,7 @@ public class QuestionTest {
 
     @Test
     public void settersTest() {
-        Question q = new Question("1", "question TEST", true, 0, testCourseName);
+        Question q = new Question("1", "question TEST", true, 0, testCourseName, "en");
         q.setAnswer(1);
         assertEquals(q.getAnswer(), 1);
         q.setAnswer(2);
@@ -109,7 +109,7 @@ public class QuestionTest {
 
     @Test
     public void hashTest() {
-        Question q = new Question("1", "question TEST mcq", false, 3, testCourseName);
+        Question q = new Question("1", "question TEST mcq", false, 3, testCourseName, "en");
         assertEquals(Objects.hash(q.getQuestionId(), q.getTitle(), q.getAnswer(), q.isTrueFalse()), q.hashCode());
     }
 }
