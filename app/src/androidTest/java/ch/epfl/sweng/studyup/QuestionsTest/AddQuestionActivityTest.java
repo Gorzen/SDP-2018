@@ -21,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -39,6 +40,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -136,6 +138,12 @@ public class AddQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0, course: SWENG
+        List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
+        Player.get().setCourses(courses);
+        onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
+        onView(withText("Software Engineering")).inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(click());

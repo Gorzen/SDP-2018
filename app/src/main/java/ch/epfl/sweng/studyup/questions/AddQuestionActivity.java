@@ -34,7 +34,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
@@ -153,10 +152,10 @@ public class AddQuestionActivity extends NavigationStudent {
 
 
     public void addQuestion(View current) {
-        if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button){
+        /*if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button ){
             Toast.makeText(this.getApplicationContext(), "Please insert image or text", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());

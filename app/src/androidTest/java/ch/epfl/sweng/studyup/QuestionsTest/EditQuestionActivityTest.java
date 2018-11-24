@@ -332,7 +332,7 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
-        //clickOnListViewItem();
+        clickOnListViewItem();
 
         onView(withId(R.id.text_radio_button)).perform(click());
         onView(withId(R.id.questionText))
