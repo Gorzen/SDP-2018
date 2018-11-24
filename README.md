@@ -1,6 +1,7 @@
 # Study Up Application
 
 **Travis CI :**  [![Build Status](https://travis-ci.org/nheyek/SDP-2018.svg?branch=master)](https://travis-ci.org/nheyek/SDP-2018)
+
 **Code Climate :** [![Maintainability](https://api.codeclimate.com/v1/badges/ff3ea79e30699be08c21/maintainability)](https://codeclimate.com/github/nheyek/SDP-2018/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/ff3ea79e30699be08c21/test_coverage)](https://codeclimate.com/github/nheyek/SDP-2018/test_coverage)
 
 
@@ -17,8 +18,11 @@ Study | Use GPS | Answer quests | Buy items
 ## App specification
 
  **Course:** CS-305(a): Software Development Project (SDP)
+ 
  **Credits:** 4
+ 
 **Travis CI :**  [![Build Status](https://camo.githubusercontent.com/65feb8b3f48bf256512075326b79255a26115147/68747470733a2f2f7472617669732d63692e6f72672f6e686579656b2f5344502d323031382e7376673f6272616e63683d6d6173746572)](https://travis-ci.org/nheyek/SDP-2018)
+
 **Code Climate :** [![Maintainability](https://camo.githubusercontent.com/fe90b55a838c9bceeeec1b65b8e8f2f7b10298ae/68747470733a2f2f6170692e636f6465636c696d6174652e636f6d2f76312f6261646765732f66663365613739653330363939626530386332312f6d61696e7461696e6162696c697479)](https://codeclimate.com/github/nheyek/SDP-2018/maintainability) [![Test Coverage](https://camo.githubusercontent.com/0c1d0677b11d69d981e2a538091b28b42fef4e4a/68747470733a2f2f6170692e636f6465636c696d6174652e636f6d2f76312f6261646765732f66663365613739653330363939626530386332312f746573745f636f766572616765)](https://codeclimate.com/github/nheyek/SDP-2018/test_coverage)
 
 ### App requirements
