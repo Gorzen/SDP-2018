@@ -104,6 +104,7 @@ public abstract class Constants {
     }
 
     public enum Course {
+        FakeCourse,
         SWENG,
         Algebra,
         Ecology,

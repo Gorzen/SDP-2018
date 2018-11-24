@@ -63,6 +63,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 
 /**
  * Firestore
@@ -316,19 +317,8 @@ public class Firestore {
         final List<WeekViewEvent> schedule = new ArrayList<>();
         final boolean isTeacher = p.getRole() == Role.teacher;
 
-        //Temporary
-        final List<Course> coursesEnrolled = new ArrayList<>();
-        final List<Course> coursesTeached = new ArrayList<>();
-        coursesTeached.add(Course.Algebra);
-        final String debug = " Temp firestore impl ";
-
-        /**
-         * Wrong use of the atomic? Because when the asynchronous thread complete it will not exists anymore?
-         *
-         * -> busy waiting?
-          */
         final AtomicInteger courseCounter = new AtomicInteger(0);
-        final List<Course> courses = isTeacher ? coursesTeached : coursesEnrolled;
+        final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
         for(final Course c : courses) {
             coursesRef.document(c.name()).collection(FB_EVENTS).get()
@@ -337,9 +327,8 @@ public class Firestore {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 if(!task.getResult().isEmpty()) {
-                                    if(courseCounter.incrementAndGet() == courses.size()) {
-                                        onScheduleCompleted(schedule);
-                                    }
+                                    courseCounter.incrementAndGet();
+                                    return;
                                 }
 
                                 // Adding periods to the course
@@ -347,13 +336,17 @@ public class Firestore {
                                     schedule.add(q.toObject(WeekViewEvent.class));
                                 }
 
-                                if(courseCounter.incrementAndGet() == courses.size()) {
-                                    onScheduleCompleted(schedule);
-                                }
+                                courseCounter.incrementAndGet();
                             }
                         }
                     });
         }
+
+        while(courseCounter.get() < courses.size()) {
+            waitAndTag(100, TAG);
+        }
+
+        onScheduleCompleted(schedule);
     }
 
     private void onScheduleCompleted(final List<WeekViewEvent> schedule) {
@@ -363,12 +356,11 @@ public class Firestore {
             if(act instanceof ScheduleActivity) {
             (    (ScheduleActivity) act).updateSchedule(schedule);
             }
-
-
-            if(!isTeacher) {
-                GlobalAccessVariable.courseSchedule = schedule;
-            }
             */
+
+            if(Player.get().getRole() == Role.student) {
+                Player.get().setScheduleStudent(schedule);
+            }
     }
 
     /**
@@ -387,15 +379,10 @@ public class Firestore {
                         if (task.isSuccessful()) {
                             DocumentSnapshot doc = task.getResult();
 
-                            if(!doc.exists()) {
+                            if(!doc.exists() || Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
                                 changeCourseTeacher(c);
-                                return;
                             }
 
-                            String sciper = doc.getData().get(FB_SCIPER).toString();
-                            if (!sciper.equals(Player.get().getSciperNum())) {
-                                changeCourseTeacher(c);
-                            }
                         } else {
                             Log.w(TAG, "The schedule fail to load or no course are present.");
                         }
@@ -404,6 +391,17 @@ public class Firestore {
     }
 
     private void changeCourseTeacher(final Course c) {
+        // Setting new teacher
+        Map<String, Object> courseData = new HashMap<>();
+        courseData.put(FB_SCIPER, Player.get().getSciperNum());
+        db.collection(FB_COURSES).document(c.name()).set(courseData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "Teacher successfully updated.");
+                    }
+                });
+
         // Deleting previous teacher schedule
         db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -418,17 +416,6 @@ public class Firestore {
                                         }
                                     });
                         }
-                    }
-                });
-
-        // Setting new teacher
-        Map<String, Object> courseData = new HashMap<>();
-        courseData.put(FB_SCIPER, Player.get().getSciperNum());
-        db.collection(FB_COURSES).document(c.name()).set(courseData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Teacher successfully updated.");
                     }
                 });
     }
@@ -471,5 +458,8 @@ public class Firestore {
                 });
     }
 
-
+    public void deleteCourse(Course c) {
+        changeCourseTeacher(c); // To delete the periods on the server
+        db.collection(FB_COURSES).document(c.name()).delete();
+    }
 }

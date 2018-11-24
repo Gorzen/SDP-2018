@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.WeekViewEvent;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
@@ -64,6 +67,7 @@ public class Player {
 
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
+    private List<WeekViewEvent> scheduleStudent;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -78,6 +82,7 @@ public class Player {
         coursesEnrolled = new ArrayList<>();
         coursesTeached = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     public static Player get() {
@@ -100,6 +105,7 @@ public class Player {
         items = new ArrayList<>();
         coursesEnrolled = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     /**
@@ -127,7 +133,6 @@ public class Player {
 
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
-
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -164,7 +169,9 @@ public class Player {
     public List<Course> getCoursesTeached() {
         return coursesTeached;
     }
-
+    public List<WeekViewEvent> getScheduleStudent() {
+        return scheduleStudent;
+    }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -231,14 +238,28 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
+    /**
+     * Set the given courses as this player's course (depending on the role). When setting some
+     * teacher's courses, it will upload the courses' data on the server accordingly (overriding
+     * the schedule of the course if someone else was teaching that course).
+     *
+     * @param courses The courses the player attends/teaches
+     */
     public void setCourses(List<Course> courses) {
         if(role == Role.student) {
             this.coursesEnrolled = courses;
         } else {
             this.coursesTeached= courses;
-            //TODO: update the course informations in the document FB_COURSES
+            for(Course c : courses) {
+                Firestore.get().setCourseTeacher(c);
+            }
         }
+
         Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {
+        this.scheduleStudent = scheduleStudent;
     }
 
     /**

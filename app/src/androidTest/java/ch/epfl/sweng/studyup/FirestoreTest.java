@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 
 import org.junit.After;
@@ -15,6 +16,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,22 +181,44 @@ public class FirestoreTest {
 
     @Test
     public void testFunctionnality() {
+        List<WeekViewEvent> periods = getSimpleSchedule();
+        Course c = Course.FakeCourse;
+        List<Course> fakeCourseList = new ArrayList<>();
+        fakeCourseList.add(c);
+
+        Firestore.get().deleteCourse(c);
+
+        // Verifying that course has been deleted
+        Player.get().setRole(Role.student);
+        Player.get().setCourses(fakeCourseList);
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
+
+        // Verifying that we can add a course
+        Firestore.get().setCourseTeacher(c);
+        waitAndTag(500, "Waiting for the course to be added.");
+        Firestore.get().addEventsToCourse(c, periods);
+        waitAndTag(500, "Waiting for the course to be added.");
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        Log.i(TAG, Player.get().getScheduleStudent().toString());
+    }
+
+    private List<WeekViewEvent> getSimpleSchedule() {
         final String room = "CO_1";
         List<WeekViewEvent> periods = new ArrayList<>();
         Date d1 = new Date();
         d1.setTime(123);
         Date d2 = new Date();
         d2.setTime(1234);
-        Calendar end1 = Calendar.getInstance();
-        Calendar end2 = Calendar.getInstance();
-        end1.setTime(d1);
-        end2.setTime(d2);
+        Calendar end1 = new GregorianCalendar(2018,11,26);
+        Calendar end2 = new GregorianCalendar(2018,11,27);
         WeekViewEvent w1 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end1);
         WeekViewEvent w2 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end2);
         periods.add(w1);
         periods.add(w2);
 
-        Firestore.get().addEventsToCourse(Course.Algebra, periods);
-        waitAndTag(1000, TAG);
+        return periods;
     }
 }
