@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -327,30 +328,12 @@ public class Firestore {
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             // Adding periods to the course
                             for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                                schedule.add(q.toObject(WeekViewEvent.class));
+                                schedule.add(queryDocumentSnapshotToWeekView(q));
                             }
 
                             courseCounter.incrementAndGet();
                         }
                     });
-                    /*.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                if(task.getResult().isEmpty()) {
-                                    courseCounter.incrementAndGet();
-                                    return;
-                                }
-
-                                // Adding periods to the course
-                                for (QueryDocumentSnapshot q : task.getResult()) {
-                                    schedule.add(q.toObject(WeekViewEvent.class));
-                                }
-
-                                courseCounter.incrementAndGet();
-                            }
-                        }
-                    });*/
         }
 
         while(courseCounter.get() < courses.size()) {
@@ -358,6 +341,21 @@ public class Firestore {
         }
 
         onScheduleCompleted(schedule);
+    }
+
+    private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
+        long id = Long.parseLong(q.get("id").toString());
+        Map<String, Object> startMap = (Map<String, Object>) q.get("startTime");
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis((Long) startMap.get("timeInMillis"));
+        Map<String, Object> endMap = (Map<String, Object>) q.get("startTime");
+        Calendar end = Calendar.getInstance();
+        end.setTimeInMillis((Long) endMap.get("timeInMillis"));
+        String name = q.get("name").toString();
+        String location = q.get("location").toString();
+
+
+        return new WeekViewEvent(id, name, location, start, end);
     }
 
     private void onScheduleCompleted(final List<WeekViewEvent> schedule) {
@@ -452,7 +450,7 @@ public class Firestore {
 
                         // Deleting periods that are replaced
                         for(QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                            WeekViewEvent periodChecked = q.toObject(WeekViewEvent.class);
+                            WeekViewEvent periodChecked = queryDocumentSnapshotToWeekView(q);
 
                             for(WeekViewEvent p : periodsToAdd) {
                                 if(p.getStartTime() == periodChecked.getStartTime()) {

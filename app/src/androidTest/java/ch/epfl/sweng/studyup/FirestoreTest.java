@@ -199,10 +199,19 @@ public class FirestoreTest {
         Firestore.get().setCourseTeacher(c);
         waitAndTag(500, "Waiting for the course to be added.");
         Firestore.get().addEventsToCourse(c, periods);
-        waitAndTag(500, "Waiting for the course to be added.");
+        waitAndTag(500, "Waiting for the course's periods to be added.");
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);
-        Log.i(TAG, Player.get().getScheduleStudent().toString());
+        assert periods.equals(Player.get().getScheduleStudent());
+
+        //Verifying that we can change course schedule
+        periods.get(0).setLocation("CO_2");
+        periods.get(1).setLocation("CO_2");
+        Firestore.get().addEventsToCourse(c, periods);
+        waitAndTag(500, "Waiting for the course's periods to be updated.");
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        assert periods.equals(Player.get().getScheduleStudent());
     }
 
     private List<WeekViewEvent> getSimpleSchedule() {
@@ -214,8 +223,8 @@ public class FirestoreTest {
         d2.setTime(1234);
         Calendar end1 = new GregorianCalendar(2018,11,26);
         Calendar end2 = new GregorianCalendar(2018,11,27);
-        WeekViewEvent w1 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end1);
-        WeekViewEvent w2 = new WeekViewEvent(0, room, room, Calendar.getInstance(), end2);
+        WeekViewEvent w1 = new WeekViewEvent(0, Course.FakeCourse.name(), room, Calendar.getInstance(), end1);
+        WeekViewEvent w2 = new WeekViewEvent(0, Course.FakeCourse.name(), room, Calendar.getInstance(), end2);
         periods.add(w1);
         periods.add(w2);
 
