@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,12 +12,14 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.WeekViewEvent;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
@@ -61,7 +65,9 @@ public class Player {
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
-    private List<Course> courses;
+    private List<Course> coursesEnrolled;
+    private List<Course> coursesTeached;
+    private List<WeekViewEvent> scheduleStudent;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -73,8 +79,10 @@ public class Player {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        courses.add(Course.SWENG);
+        coursesEnrolled = new ArrayList<>();
+        coursesTeached = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     public static Player get() {
@@ -95,8 +103,9 @@ public class Player {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        courses.add(Course.SWENG);
+        coursesEnrolled = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     /**
@@ -118,11 +127,16 @@ public class Player {
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
 
-        List<String> defaultCourseList = new ArrayList<>();
-        defaultCourseList.add(Course.SWENG.name());
-        courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+        List<String> defaultCourseListEnrolled = new ArrayList<>();
+        defaultCourseListEnrolled.add(Course.SWENG.name());
+        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, defaultCourseListEnrolled));
 
-        Log.d(TAG, "Loaded courses: " + courses.toString());
+        List<String> defaultCourseListTeached = new ArrayList<>();
+        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
+
+        Log.d(TAG, "Loaded courses: \n");
+        Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
+        Log.d(TAG, "Teached: "+coursesTeached.toString()+"\n");
     }
 
     // Getters
@@ -149,8 +163,14 @@ public class Player {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<Course> getCoursesEnrolled() {
+        return coursesEnrolled;
+    }
+    public List<Course> getCoursesTeached() {
+        return coursesTeached;
+    }
+    public List<WeekViewEvent> getScheduleStudent() {
+        return scheduleStudent;
     }
 
     // Setters
@@ -218,9 +238,28 @@ public class Player {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
+    /**
+     * Set the given courses as this player's course (depending on the role). When setting some
+     * teacher's courses, it will upload the courses' data on the server accordingly (overriding
+     * the schedule of the course if someone else was teaching that course).
+     *
+     * @param courses The courses the player attends/teaches
+     */
     public void setCourses(List<Course> courses) {
-        this.courses = courses;
-         Firestore.get().updateRemotePlayerDataFromLocal();
+        if(role == Role.student) {
+            this.coursesEnrolled = courses;
+        } else {
+            this.coursesTeached= courses;
+            for(Course c : courses) {
+                Firestore.get().setCourseTeacher(c);
+            }
+        }
+
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {
+        this.scheduleStudent = scheduleStudent;
     }
 
     /**

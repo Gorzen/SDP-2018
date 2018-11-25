@@ -20,6 +20,8 @@ public abstract class Constants {
     public static final String FB_ROLE_S = "student";
     public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";
+    public static final String FB_COURSES_ENROLLED = "attending courses";
+    public static final String FB_COURSES_TEACHED = "teaching courses";
     public static final String FB_CURRENCY = "currency";
     public static final String FB_LEVEL = "level";
     public static final String FB_SECTION = "section";
@@ -34,6 +36,7 @@ public abstract class Constants {
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
+    public static final String FB_EVENTS = "events";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
@@ -104,6 +107,7 @@ public abstract class Constants {
     }
 
     public enum Course {
+        FakeCourse,
         SWENG,
         Algebra,
         Ecology,
