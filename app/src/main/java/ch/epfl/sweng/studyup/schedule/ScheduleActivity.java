@@ -125,8 +125,7 @@ public class ScheduleActivity extends NavigationStudent {
                 SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.getDefault());
                 return sdf.format(date.getTime()).toUpperCase();
             } catch (Exception e) {
-                e.printStackTrace();
-                return "";
+                e.printStackTrace(); return "";
             }
         }
 
@@ -140,8 +139,7 @@ public class ScheduleActivity extends NavigationStudent {
                 SimpleDateFormat sdf = DateFormat.is24HourFormat(getApplicationContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
                 return sdf.format(calendar.getTime());
             } catch (Exception e) {
-                e.printStackTrace();
-                return "";
+                e.printStackTrace(); return "";
             }
         }
     };

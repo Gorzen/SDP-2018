@@ -27,7 +27,6 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.studentSchedule;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -94,7 +93,7 @@ public class ServiceGetLocationAndCheckRoomTest {
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
         WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
-        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2));
+        Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2)));
 
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -114,7 +113,7 @@ public class ServiceGetLocationAndCheckRoomTest {
 
         Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO3, beforeCurrTime, afterCurrTime)));
+        Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO3, beforeCurrTime, afterCurrTime))));
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -132,7 +131,7 @@ public class ServiceGetLocationAndCheckRoomTest {
         setLocation(roomOfPlayer);
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1));
+        Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(weekViewEvent1)));
         POSITION = new LatLng(location.getLatitude(), location.getLongitude());
         assertFalse(Rooms.checkIfUserIsInRoom());
     }
@@ -143,7 +142,7 @@ public class ServiceGetLocationAndCheckRoomTest {
         setLocation(roomOfPlayer);
         Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(new ArrayList<Constants.Course>());
-        studentSchedule = new ArrayList<>();
+        Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>());
         POSITION = new LatLng(location.getLatitude(), location.getLongitude());
         assertFalse(Rooms.checkIfUserIsInRoom());
     }
@@ -154,7 +153,7 @@ public class ServiceGetLocationAndCheckRoomTest {
         setLocation(roomOfPlayer);
         Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        studentSchedule = new ArrayList<>();
+        Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>());
         POSITION = new LatLng(location.getLatitude(), location.getLongitude());
         assertFalse(Rooms.checkIfUserIsInRoom());
     }

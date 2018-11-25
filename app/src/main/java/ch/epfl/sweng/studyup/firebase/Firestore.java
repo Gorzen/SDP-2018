@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -331,7 +332,7 @@ public class Firestore {
             waitAndTag(100, TAG);
         }
 
-        onScheduleCompleted(schedule);
+        onScheduleCompleted(act, schedule);
     }
 
     private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
@@ -349,14 +350,12 @@ public class Firestore {
         return new WeekViewEvent(id, name, location, start, end);
     }
 
-    private void onScheduleCompleted(final List<WeekViewEvent> schedule) {
-            /*
-                To put once implemented
+    private void onScheduleCompleted(final Activity act, final List<WeekViewEvent> schedule) {
 
             if(act instanceof ScheduleActivity) {
             (    (ScheduleActivity) act).updateSchedule(schedule);
             }
-            */
+
 
             if(Player.get().getRole() == Role.student) {
                 Player.get().setScheduleStudent(schedule);

@@ -15,7 +15,6 @@ import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.studentSchedule;
 
 public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;
@@ -67,7 +66,7 @@ public abstract class Rooms {
     }
 
     public static boolean checkIfUserIsInRoom() {
-        if(Player.get().getCoursesEnrolled().isEmpty() || studentSchedule.isEmpty() ||
+        if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty() ||
                 POSITION == null) {
             return false;
         }
@@ -75,7 +74,7 @@ public abstract class Rooms {
         Calendar currTime = Calendar.getInstance();
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
-        for(WeekViewEvent weekViewEvent : studentSchedule) {
+        for(WeekViewEvent weekViewEvent : Player.get().getScheduleStudent()) {
             String eventCourseAndRoom = weekViewEvent.getName();
             String[] courseAndRoom = eventCourseAndRoom.split("\n");
             String courseName = courseAndRoom[0]; String room = courseAndRoom[1];
