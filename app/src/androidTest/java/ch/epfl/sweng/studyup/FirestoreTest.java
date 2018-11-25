@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -179,7 +180,7 @@ public class FirestoreTest {
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
     }
 
-    @Test
+    @Ignore
     public void testFunctionnality() {
         List<WeekViewEvent> periods = getSimpleSchedule();
         Course c = Course.FakeCourse;
