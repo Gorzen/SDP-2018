@@ -85,7 +85,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_schedule_student);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);

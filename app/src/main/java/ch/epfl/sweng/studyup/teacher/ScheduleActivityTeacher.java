@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup.teacher;
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
@@ -118,7 +118,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule);
+        setContentView(R.layout.activity_schedule_teacher);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
@@ -128,6 +128,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
         }
 
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
+        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
     }
 
 

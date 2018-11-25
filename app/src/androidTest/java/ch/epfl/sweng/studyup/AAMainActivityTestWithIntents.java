@@ -13,22 +13,21 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
 public class AAMainActivityTestWithIntents {
 
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<HomeActivity> mActivityRule =
+            new ActivityTestRule<>(HomeActivity.class);
 
     @Before
     public void  initIntent() {

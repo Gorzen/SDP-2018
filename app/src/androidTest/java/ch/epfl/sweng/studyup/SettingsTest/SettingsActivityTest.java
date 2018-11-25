@@ -17,10 +17,9 @@ import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
-
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
@@ -86,7 +85,7 @@ public class SettingsActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     // Test that must run at last to make the tests run in the basic language (english)
@@ -98,7 +97,7 @@ public class SettingsActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test

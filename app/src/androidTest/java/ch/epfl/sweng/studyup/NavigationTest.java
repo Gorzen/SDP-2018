@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 
 import static android.support.test.espresso.intent.Intents.intended;
@@ -26,8 +26,8 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 @RunWith(AndroidJUnit4.class)
 public class NavigationTest {
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public final ActivityTestRule<HomeActivity> mActivityRule =
+            new ActivityTestRule<>(HomeActivity.class);
 
     @BeforeClass
     public static void runOnceBeforeClass() {
