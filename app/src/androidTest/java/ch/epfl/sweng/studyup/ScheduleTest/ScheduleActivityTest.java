@@ -105,7 +105,7 @@ public class ScheduleActivityTest {
         mActivityRule.launchActivity(new Intent());
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
 
-        List<WeekViewEvent> weekViewEvents = new ArrayList<>();
+        final List<WeekViewEvent> events = new ArrayList<>();
 
         int day = 20;
         int hour = 10;
@@ -126,9 +126,15 @@ public class ScheduleActivityTest {
         eventEnd.set(Calendar.HOUR_OF_DAY, hour);
         eventEnd.set(Calendar.MINUTE, 59);
 
-        weekViewEvents.add(new WeekViewEvent(0, "Sweng", "CO_0_1", eventStart, eventEnd));
+        events.add(new WeekViewEvent(0, "Sweng", "CO_0_1", eventStart, eventEnd));
 
-        mActivityRule.getActivity().updateSchedule(weekViewEvents);
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().updateSchedule(events);
+            }
+        });
+
         Utils.waitAndTag(1000, "ScheduleActivityTest");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
     }
