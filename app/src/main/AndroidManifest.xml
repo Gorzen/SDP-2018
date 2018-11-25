@@ -78,7 +78,11 @@
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".CourseSelectionActivity"></activity>
+        <activity android:name=".CourseSelectionActivity" />
+        <activity
+            android:name=".schedule.ScheduleActivity"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
