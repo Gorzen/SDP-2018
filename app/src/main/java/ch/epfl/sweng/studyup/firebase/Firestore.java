@@ -323,7 +323,7 @@ public class Firestore {
         final boolean isTeacher = p.getRole() == Role.teacher;
 
         final AtomicInteger courseCounter = new AtomicInteger(0);
-        final int maxWaitingLoop = 20;
+        final int maxWaitingLoop = 40;
         final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
         for(final Course c : courses) {
@@ -348,14 +348,15 @@ public class Firestore {
                     });
         }
 
-        int loopCounter = 0;
+        /*int loopCounter = 0;
         while(courseCounter.get() < courses.size() && ++loopCounter < maxWaitingLoop) {
             waitAndTag(100, TAG);
         }
         if(loopCounter >= maxWaitingLoop) {
             Toast.makeText(act, "Unable to get course(s) data from the server.", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
+        waitAndTag(2000, TAG);
         onScheduleCompleted(act, schedule);
     }
 
@@ -457,25 +458,36 @@ public class Firestore {
 
 
         eventsOfCourse.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.i(TAG, "Successfully recovered the course's current periods.");
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            Log.i(TAG, "Got the course's events to add new ones to server.");
 
-                        // Deleting periods that are replaced
-                        for(QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                            WeekViewEvent periodChecked = queryDocumentSnapshotToWeekView(q);
+                            if(!task.getResult().isEmpty()) {
+                                // Deleting periods that are replaced
+                                for(QueryDocumentSnapshot q : task.getResult()) {
+                                    WeekViewEvent periodChecked = queryDocumentSnapshotToWeekView(q);
 
-                            for(WeekViewEvent p : periodsToAdd) {
-                                if(p.getStartTime() == periodChecked.getStartTime()) {
-                                    q.getReference().delete();
+                                    for(WeekViewEvent p : periodsToAdd) {
+                                        if(p.getStartTime() == periodChecked.getStartTime()) {
+                                            q.getReference().delete();
+                                        }
+                                    }
                                 }
                             }
-                        }
 
-                        // Adding new periods
-                        for(WeekViewEvent p : periodsToAdd) {
-                            eventsOfCourse.add(p);
+                            // Adding new periods
+                            for(WeekViewEvent p : periodsToAdd) {
+                                WeekViewEvent pNew = new WeekViewEvent();
+                                pNew.setStartTime(p.getStartTime());
+                                pNew.setEndTime(p.getEndTime());
+                                pNew.setIdentifier(p.getIdentifier());
+                                pNew.setName(p.getName());
+                                pNew.setId(p.getId());
+                                pNew.setLocation(p.getLocation());
+                                eventsOfCourse.add(pNew);
+                            }
                         }
                     }
                 });
