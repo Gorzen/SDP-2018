@@ -357,7 +357,7 @@ public class Firestore {
         }*/
 
         waitAndTag(2000, TAG);
-        onScheduleCompleted(act, schedule);
+        onScheduleCompleted(act, role, schedule);
     }
 
     private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
@@ -375,14 +375,14 @@ public class Firestore {
         return new WeekViewEvent(id, name, location, start, end);
     }
 
-    private void onScheduleCompleted(final Activity act, final List<WeekViewEvent> schedule) {
+    private void onScheduleCompleted(final Activity act, final Role role, final List<WeekViewEvent> schedule) {
 
             if(act instanceof ScheduleActivityStudent) {
             (    (ScheduleActivityStudent) act).updateSchedule(schedule);
             }
 
 
-            if(Player.get().getRole() == Role.student) {
+            if(role == Role.student) {
                 Player.get().setScheduleStudent(schedule);
             }
     }
