@@ -358,8 +358,8 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
-        
-        onView(withId(R.id.back_button)).perform(scrollTo()).perform(click());
+
+        onView(withId(R.id.back_button)).perform(click());
     }
 
     private void clickOnListViewItem() {
