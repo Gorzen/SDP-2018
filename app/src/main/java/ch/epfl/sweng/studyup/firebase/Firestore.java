@@ -495,6 +495,7 @@ public class Firestore {
 
     public void deleteCourse(Course c) {
         changeCourseTeacher(c); // To delete the periods on the server
+        waitAndTag(1000, TAG);
         db.collection(FB_COURSES).document(c.name()).delete();
     }
 
