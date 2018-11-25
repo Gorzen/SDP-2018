@@ -1,5 +1,7 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.content.res.Resources;
+
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
@@ -7,6 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.R;
+
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
 
     // Values associated with Firebase
@@ -37,9 +42,10 @@ public abstract class Constants {
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
     public static final String FB_EVENTS = "events";
+    public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS, FB_ANSWERED_QUESTIONS);
 
 
     // Values associated with Firebase storage
@@ -88,18 +94,18 @@ public abstract class Constants {
     public static final String INITIAL_FIRSTNAME = "Jean-Louis";
     public static final String INITIAL_LASTNAME = "Réymond";
 
-    public static final String LEVEL_DISPLAY = "LEVEL ";
-    public static final String CURR_DISPLAY = "MONEY:\n";
-
     // Constants for questions
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, ADD_QUESTION_INDEX=1;
+    public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
+
 
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
+    public static final String USER_PREFS = "StudyUpPrefs";
+
     // Enums for Role, Course
     public enum Role {
         student,
@@ -107,18 +113,32 @@ public abstract class Constants {
     }
 
     public enum Course {
-        FakeCourse,
-        SWENG,
-        Algebra,
-        Ecology,
-        Blacksmithing;
+        FakeCourse("A fake course"),
+        SWENG("Software Engineering"),
+        Algebra("Algebra"),
+        Ecology("Ecology"),
+        Blacksmithing("Blacksmithing");
+
+        private String name = "";
+
+        Course(String name){
+            this.name = name;
+        }
+        /**
+         * return the longer description of the course,
+         * contrary to name() function that returns only the shorter name
+         */
+        public String toString(){
+            return name;
+        }
 
         public static List<String> getNamesFromCourses(List<Course> courses) {
-            ArrayList<String> coursesName = new ArrayList<>(courses.size());
-            for(int i = 0; i < courses.size(); ++i) {
+            ArrayList<java.lang.String> coursesName = new ArrayList<>(courses.size());
+            for (int i = 0; i < courses.size(); ++i) {
                 coursesName.add(courses.get(i).toString());
             }
             return coursesName;
         }
     }
+
 }

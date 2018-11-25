@@ -3,10 +3,17 @@ package ch.epfl.sweng.studyup.questions;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.common.base.Objects;
 
+import ch.epfl.sweng.studyup.R;
+
+import static ch.epfl.sweng.studyup.utils.Constants.*;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import java.io.Serializable;
 
 @Entity
@@ -101,15 +108,16 @@ public class Question implements Serializable {
 
     @Override
     public String toString() {
+        Log.i("err", "here");
         String s = "";
         s += title;
         if (trueFalse) {
-            s += " (True/False) ";
+            s += MOST_RECENT_ACTIVITY.getString(R.string.text_truefalse);
         }
         else {
-            s += " (MCQ)";
+            s += MOST_RECENT_ACTIVITY.getString(R.string.text_mcq);
         }
-        s += " and answer number " + answer;
+        s += s += MOST_RECENT_ACTIVITY.getString(R.string.text_answernumber + answer);
         return s;
     }
 

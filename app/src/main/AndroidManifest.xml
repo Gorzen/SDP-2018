@@ -44,7 +44,9 @@
         </activity>
         <activity
             android:name=".questions.AddQuestionActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="Add a question" />
+
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
         <activity android:name=".items.ShopActivity" />
@@ -81,8 +83,11 @@
         <activity android:name=".CourseSelectionActivity" />
         <activity
             android:name=".schedule.ScheduleActivity"
-            android:label="@string/title_activity_schedule"
-            android:theme="@style/AppTheme"></activity>
+            android:label="@string/title_activity_schedule" />
+        <activity android:name=".teacher.CourseStatsActivity" />
+        <activity android:name=".teacher.DisplayCourseStatsActivity">
+
+        </activity>
     </application>
 
 </manifest>

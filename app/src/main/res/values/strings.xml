@@ -123,5 +123,14 @@
     <string name="text_failed_update_courses">Failed to update courses!</string>
     <string name="text_courses_updated">Courses updated!</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
-
+    <string name="course_statistics">Course Statistics</string>
+    <string name="displaycourseactivity">DisplayCourseActivity</string>
+    <string name="courses">Courses</string>
+    <string name="select_the_correct_answer">Select the correct answer</string>
+    <string name="mcq_or_tf_question">MCQ or TF Question ?</string>
+    <string name="write_your_question">Write your question</string>
+    <string name="picture_text_question">Picture/Text Question ?</string>
+    <string name="chosen_course">Chosen course:</string>
+    <string name="course_for_this_quest">Course for this quest</string>
+    <string name="add_a_new_question_text">Add a new question</string>
 </resources>

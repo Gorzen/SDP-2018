@@ -40,6 +40,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.GALLERY;
 import static ch.epfl.sweng.studyup.utils.Constants.JUSTONCE;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CustomActivityTest {
     private static final UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -72,7 +73,7 @@ public class CustomActivityTest {
     @Test
     public void A_changeUserName() {
         onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
-                .perform(typeText("Wir Sind Helden Too Long Not Should Be displayed"));
+                .perform(typeText("Wir Sind Helden"));
         onView(withId(R.id.valid_btn)).perform(click());
         onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class GlobalAccessVariables {
 
     public static final String MOCK_UUID = "fake-UUID";
@@ -27,6 +28,5 @@ public abstract class GlobalAccessVariables {
     public static Map<String, Object> DB_STATIC_INFO = null;
 
     public static Class HOME_ACTIVITY = null;
-
     public static int APP_THEME = R.style.AppTheme;
 }

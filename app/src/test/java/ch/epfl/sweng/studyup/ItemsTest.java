@@ -8,6 +8,7 @@ import ch.epfl.sweng.studyup.items.Items;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(JUnit4.class)
 public class ItemsTest {
 

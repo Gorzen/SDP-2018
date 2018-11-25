@@ -32,6 +32,7 @@ public class FromStudentToDisplayTest {
             new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
     private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
     private Question q;
+    @SuppressWarnings("HardCodedStringLiteral")
     private  final String fakeTitle = "fake title from student to display";
 
     @Before

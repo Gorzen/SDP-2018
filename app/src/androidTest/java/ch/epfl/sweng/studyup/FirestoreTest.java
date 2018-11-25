@@ -35,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class FirestoreTest {
     private static final String TAG = FirestoreTest.class.getSimpleName();

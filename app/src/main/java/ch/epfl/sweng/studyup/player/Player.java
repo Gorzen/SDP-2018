@@ -19,6 +19,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
@@ -133,6 +135,8 @@ public class Player {
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
+        answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
+
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
         Log.d(TAG, "Teached: "+coursesTeached.toString()+"\n");
@@ -170,6 +174,8 @@ public class Player {
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
     }
+    public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
+
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -268,10 +274,6 @@ public class Player {
             this.answeredQuestions.put(questionID, isAnswerGood);
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
-    }
-
-    public Map<String, Boolean> getAnsweredQuestion() {
-        return this.answeredQuestions;
     }
 
     public boolean isDefault() throws NumberFormatException {

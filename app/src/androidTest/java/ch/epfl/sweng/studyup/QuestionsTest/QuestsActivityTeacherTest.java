@@ -56,6 +56,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.core.AllOf.allOf;
 
+@SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
 public class QuestsActivityTeacherTest {
     @Rule
@@ -131,7 +132,7 @@ public class QuestsActivityTeacherTest {
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_add_question);
+        b.setSelectedItemId(R.id.navigation_quests_teacher);
     }
 
     @Test

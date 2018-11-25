@@ -5,11 +5,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher">
+    tools:context="ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher"
+    android:background="@color/colorWhite">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!--TOP TOOL BAR-->
+
+        <android.support.constraint.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/topBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/colorPrimaryDark"
+                android:minHeight="?attr/actionBarSize"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <!--MIDDLE SPACE-->
 
@@ -23,6 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="430dp"
                 android:layout_marginTop="56dp"
+                android:dividerHeight="0dp"
+                android:divider="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +59,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:onClick="addNewQuestion"
-                android:text="Add a new question"
+                android:text="@string/add_a_new_question_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -49,20 +75,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/log_out_button"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="8dp"
-                android:onClick="onLogOutButtonAddQuestion"
-                android:text="@string/log_out"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
 
 
         <!--BOTTOM NAV BAR-->
+
+        <android.support.constraint.ConstraintLayout
+
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true">
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomNavView_Bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/white_grey_border_top"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/navigation_teacher">
+            </android.support.design.widget.BottomNavigationView>
+
+        </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
 

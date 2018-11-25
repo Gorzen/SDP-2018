@@ -16,6 +16,7 @@ import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
+@SuppressWarnings("HardCodedStringLiteral")
 public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;
 
