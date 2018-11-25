@@ -220,7 +220,7 @@ public class Firestore {
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
                         String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
                         String questionLang = (String) questionData.get(FB_QUESTION_LANG);
-                        if (!(questionLang = "en" || questionLang = "fr")) {
+                        if (!(questionLang.equals("en") || questionLang.equals("fr"))) {
                             questionLang = "en";
                         }
 
