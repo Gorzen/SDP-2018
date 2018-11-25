@@ -1,9 +1,8 @@
-package ch.epfl.sweng.studyup.schedule;
+package ch.epfl.sweng.studyup.teacher;
 
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -13,7 +12,6 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,19 +20,15 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
+import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
-public class ScheduleActivity extends NavigationStudent {
+public class ScheduleActivityTeacher extends NavigationTeacher {
     private List<WeekViewEvent> weekViewEvents;
     private WeekView weekView;
-    private final int firstDay = 19;
-    private final int lastDay = firstDay + 4;
-    private final int month = 10;
-    private final int year = 2018;
     private int id = 0;
     private String courseName;
     public static final String COURSE_NAME_INTENT_SCHEDULE = "CourseName";
@@ -42,7 +36,7 @@ public class ScheduleActivity extends NavigationStudent {
     private final MonthLoader.MonthChangeListener monthChangeListener = new MonthLoader.MonthChangeListener() {
         @Override
         public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-            if(newMonth == month + 1 && newYear == year) {
+            if(newMonth == MONTH_OF_SCHEDULE + 1 && newYear == YEAR_OF_SCHEDULE) {
                 return weekViewEvents;
             }else{
                 return new ArrayList<>();
@@ -50,18 +44,7 @@ public class ScheduleActivity extends NavigationStudent {
         }
     };
 
-    //Student
-    private final WeekView.EventClickListener eventClickListenerStudent = new WeekView.EventClickListener() {
-        @Override
-        public void onEventClick(WeekViewEvent event, RectF eventRect) {}};
-
-
-    private final WeekView.EmptyViewClickListener emptyViewClickListenerStudent = new WeekView.EmptyViewClickListener() {
-        @Override
-        public void onEmptyViewClicked(Calendar date) {}};
-
-    //Teacher
-    private final WeekView.EventClickListener eventClickListenerTeacher = new WeekView.EventClickListener() {
+    private final WeekView.EventClickListener eventClickListener = new WeekView.EventClickListener() {
         @Override
         public void onEventClick(WeekViewEvent event, RectF eventRect) {
             Log.d("ScheduleActivityTeacher", "Clicked on event with id " + event.getId());
@@ -71,7 +54,7 @@ public class ScheduleActivity extends NavigationStudent {
     };
 
 
-    private final WeekView.EmptyViewClickListener emptyViewClickListenerTeacher = new WeekView.EmptyViewClickListener() {
+    private final WeekView.EmptyViewClickListener emptyViewClickListener = new WeekView.EmptyViewClickListener() {
         @Override
         public void onEmptyViewClicked(Calendar time) {
             Log.d("ScheduleActivityTeacher", "time = " + time.toString());
@@ -81,15 +64,15 @@ public class ScheduleActivity extends NavigationStudent {
             int hour = time.get(Calendar.HOUR_OF_DAY);
 
             Calendar eventStart = Calendar.getInstance();
-            eventStart.set(Calendar.YEAR, year);
-            eventStart.set(Calendar.MONTH, month);
+            eventStart.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
+            eventStart.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
             eventStart.set(Calendar.DAY_OF_MONTH, day);
             eventStart.set(Calendar.HOUR_OF_DAY, hour);
             eventStart.set(Calendar.MINUTE, 0);
 
             Calendar eventEnd = Calendar.getInstance();
-            eventEnd.set(Calendar.YEAR, year);
-            eventEnd.set(Calendar.MONTH, month);
+            eventEnd.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
+            eventEnd.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
             eventEnd.set(Calendar.DAY_OF_MONTH, day);
             eventEnd.set(Calendar.HOUR_OF_DAY, hour);
             eventEnd.set(Calendar.MINUTE, 59);
@@ -104,19 +87,6 @@ public class ScheduleActivity extends NavigationStudent {
     private final WeekView.EventLongPressListener eventLongPressListener = new WeekView.EventLongPressListener() {
         @Override
         public void onEventLongPress(WeekViewEvent event, RectF eventRect) {}};
-
-
-    private final WeekViewLoader weekViewLoader = new WeekViewLoader() {
-        @Override
-        public double toWeekViewPeriodIndex(Calendar instance) {
-            return 0;
-        }
-
-        @Override
-        public List<? extends WeekViewEvent> onLoad(int periodIndex) {
-            return new ArrayList<>();
-        }};
-
 
     private final DateTimeInterpreter dateTimeInterpreter = new DateTimeInterpreter() {
         @Override
@@ -144,7 +114,6 @@ public class ScheduleActivity extends NavigationStudent {
         }
     };
 
-
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,50 +127,10 @@ public class ScheduleActivity extends NavigationStudent {
             weekView.setNumberOfVisibleDays(1);
         }
 
-        weekView.setEventLongPressListener(eventLongPressListener);
-        weekView.setDateTimeInterpreter(dateTimeInterpreter);
-        weekView.setWeekViewLoader(weekViewLoader);
-        weekView.setMonthChangeListener(monthChangeListener);
-
-        setStartAndEnd(weekView);
-
-        if(Player.get().getRole().equals(Constants.Role.student)){
-            weekView.setOnEventClickListener(eventClickListenerStudent);
-            weekView.setEmptyViewClickListener(emptyViewClickListenerStudent);
-
-            FloatingActionButton saveButton = findViewById(R.id.fab);
-            saveButton.setVisibility(View.GONE);
-        }else if (Player.get().getRole().equals(Constants.Role.teacher)){
-            weekView.setOnEventClickListener(eventClickListenerTeacher);
-            weekView.setEmptyViewClickListener(emptyViewClickListenerTeacher);
-
-            courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
-        }
+        courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
     }
 
-    private void setStartAndEnd(WeekView weekView) {
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(Calendar.YEAR, year);
-        startDate.set(Calendar.MONTH, month);
-        startDate.set(Calendar.DAY_OF_MONTH, firstDay);
-        startDate.set(Calendar.HOUR_OF_DAY, 0);
-        startDate.set(Calendar.MINUTE, 0);
 
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(Calendar.YEAR, year);
-        endDate.set(Calendar.MONTH, month);
-        endDate.set(Calendar.DAY_OF_MONTH, lastDay);
-        endDate.set(Calendar.HOUR_OF_DAY, 23);
-        endDate.set(Calendar.MINUTE, 59);
-
-        weekView.goToDate(startDate);
-
-        weekView.setMinDate(startDate);
-        weekView.setMaxDate(endDate);
-
-        weekView.setMinTime(8);
-        weekView.setMaxTime(20);
-    }
 
     public void updateSchedule(List<WeekViewEvent> events){
         weekViewEvents.clear();

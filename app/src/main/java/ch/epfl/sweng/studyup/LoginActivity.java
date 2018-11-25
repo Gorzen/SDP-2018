@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,21 +19,15 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
-import java.io.IOException;
-import java.util.List;
-
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
-import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
@@ -184,7 +177,7 @@ public class LoginActivity extends RefreshContext {
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
             HOME_ACTIVITY = loginRole.equals(Role.student) ?
-                    ScheduleActivity.class : QuestsActivityTeacher.class;
+                    HomeActivity.class : QuestsActivityTeacher.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);

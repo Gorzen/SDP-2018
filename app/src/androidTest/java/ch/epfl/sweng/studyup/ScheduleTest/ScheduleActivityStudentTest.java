@@ -28,22 +28,22 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.schedule.ScheduleActivity.COURSE_NAME_INTENT_SCHEDULE;
+import static ch.epfl.sweng.studyup.player.ScheduleActivityStudent.COURSE_NAME_INTENT_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class ScheduleActivityTest {
+public class ScheduleActivityStudentTest {
     @Rule
-    public final ActivityTestRule<ScheduleActivity> mActivityRule =
-            new ActivityTestRule<>(ScheduleActivity.class, true, false);
+    public final ActivityTestRule<ScheduleActivityStudent> mActivityRule =
+            new ActivityTestRule<>(ScheduleActivityStudent.class, true, false);
 
     @BeforeClass
     public static void enableMock(){
@@ -80,11 +80,11 @@ public class ScheduleActivityTest {
         int height = size.y;
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height/2));
-        Utils.waitAndTag(1000, "ScheduleActivityTest");
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height/2));
-        Utils.waitAndTag(1000, "ScheduleActivityTest");
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
@@ -102,7 +102,7 @@ public class ScheduleActivityTest {
         int height = size.y;
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height/2));
-        Utils.waitAndTag(1000, "ScheduleActivityTest");
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
@@ -149,7 +149,7 @@ public class ScheduleActivityTest {
             }
         });
 
-        Utils.waitAndTag(1000, "ScheduleActivityTest");
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 

@@ -64,7 +64,7 @@ public class CourseSelectionActivity extends RefreshContext {
         formContainer.addView(saveButton);
     }
 
-    protected void updatePlayerCourses(List<CheckBox> courseSelections) throws ClassNotFoundException {
+    protected void updatePlayerCourses(List<CheckBox> courseSelections) {
 
         List<Course> updateCourseList = new ArrayList<>();
 

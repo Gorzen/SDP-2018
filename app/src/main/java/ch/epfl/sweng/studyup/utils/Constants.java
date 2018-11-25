@@ -106,6 +106,12 @@ public abstract class Constants {
     public static final String[] LANGUAGES = {"English", "Français"};
     public static final String USER_PREFS = "StudyUpPrefs";
 
+    // Constants for schedule
+    public static final int FIRST_DAY_SCHEDULE = 19;
+    public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
+    public static final int MONTH_OF_SCHEDULE = 10;
+    public static final int YEAR_OF_SCHEDULE = 2018;
+
     // Enums for Role, Course
     public enum Role {
         student,

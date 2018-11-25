@@ -2,12 +2,19 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
 import android.location.Location;
+import android.text.format.DateFormat;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.alamkanak.weekview.WeekViewLoader;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
@@ -29,4 +36,17 @@ public abstract class GlobalAccessVariables {
 
     public static Class HOME_ACTIVITY = null;
     public static int APP_THEME = R.style.AppTheme;
+
+    // Schedule variables
+    public static final WeekViewLoader WEEK_VIEW_LOADER = new WeekViewLoader() {
+        @Override
+        public double toWeekViewPeriodIndex(Calendar instance) {
+            return 0;
+        }
+
+        @Override
+        public List<? extends WeekViewEvent> onLoad(int periodIndex) {
+            return new ArrayList<>();
+        }};
+
 }

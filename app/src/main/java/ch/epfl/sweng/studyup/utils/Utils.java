@@ -6,7 +6,12 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,6 +20,11 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FIRST_DAY_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.LAST_DAY_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.WEEK_VIEW_LOADER;
 
 public abstract class Utils {
 
@@ -94,6 +104,47 @@ public abstract class Utils {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+    }
+
+    public static void setupWeekView(WeekView weekView,
+                                           WeekView.EventLongPressListener eventLongPressListener,
+                                           DateTimeInterpreter dateTimeInterpreter,
+                                           MonthLoader.MonthChangeListener monthChangeListener,
+                                           WeekView.EventClickListener eventClickListener,
+                                           WeekView.EmptyViewClickListener emptyViewClickListener) {
+        weekView.setEventLongPressListener(eventLongPressListener);
+        weekView.setDateTimeInterpreter(dateTimeInterpreter);
+        weekView.setWeekViewLoader(WEEK_VIEW_LOADER);
+        weekView.setMonthChangeListener(monthChangeListener);
+
+        Utils.setStartAndEndSchedule(weekView);
+
+        weekView.setOnEventClickListener(eventClickListener);
+        weekView.setEmptyViewClickListener(emptyViewClickListener);
+    }
+
+    private static void setStartAndEndSchedule(WeekView weekView) {
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
+        startDate.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
+        startDate.set(Calendar.DAY_OF_MONTH, FIRST_DAY_SCHEDULE);
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
+        endDate.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
+        endDate.set(Calendar.DAY_OF_MONTH, LAST_DAY_SCHEDULE);
+        endDate.set(Calendar.HOUR_OF_DAY, 23);
+        endDate.set(Calendar.MINUTE, 59);
+
+        weekView.goToDate(startDate);
+
+        weekView.setMinDate(startDate);
+        weekView.setMaxDate(endDate);
+
+        weekView.setMinTime(8);
+        weekView.setMaxTime(20);
     }
 }
 

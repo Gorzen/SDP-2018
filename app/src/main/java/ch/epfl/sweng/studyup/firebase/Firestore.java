@@ -34,7 +34,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -363,8 +363,8 @@ public class Firestore {
 
     private void onScheduleCompleted(final Activity act, final List<WeekViewEvent> schedule) {
 
-            if(act instanceof ScheduleActivity) {
-            (    (ScheduleActivity) act).updateSchedule(schedule);
+            if(act instanceof ScheduleActivityStudent) {
+            (    (ScheduleActivityStudent) act).updateSchedule(schedule);
             }
 
 
