@@ -329,10 +329,11 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
+       onView(withId(R.id.text_radio_button)).perform(click());
+
        onView(withId(R.id.questionText)).perform(scrollTo());
        Utils.waitAndTag(100, "Waiting for scroll");
 
-        onView(withId(R.id.text_radio_button)).perform(click());
         onView(withId(R.id.questionText))
                 .perform(clearText())
                 .perform(typeText("Q"))
