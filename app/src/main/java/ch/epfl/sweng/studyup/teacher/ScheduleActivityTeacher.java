@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
@@ -127,6 +128,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             weekView.setNumberOfVisibleDays(1);
         }
 
+        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
     }
 

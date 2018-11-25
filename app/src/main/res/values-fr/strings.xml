@@ -105,4 +105,6 @@
     <string name="choose_theme_blue">Bleu</string>
     <string name="choose_theme_multicolor">Multicouleur</string>
     <string name="back_button_settings_color_text">Retour aux paramètres</string>
+    <string name="title_schedule_teacher">Mes cours</string>
+    <string name="title_schedule_student">Horaire</string>
 </resources>

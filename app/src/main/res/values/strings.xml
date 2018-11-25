@@ -133,4 +133,6 @@
     <string name="chosen_course">Chosen course:</string>
     <string name="course_for_this_quest">Course for this quest</string>
     <string name="add_a_new_question_text">Add a new question</string>
+    <string name="title_schedule_teacher">My courses</string>
+    <string name="title_schedule_student">Schedule</string>
 </resources>

@@ -99,7 +99,7 @@ public abstract class Constants {
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
+    public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1, SCHEDULE_INDEX_TEACHER=2;
 
 
     //Settings constants
