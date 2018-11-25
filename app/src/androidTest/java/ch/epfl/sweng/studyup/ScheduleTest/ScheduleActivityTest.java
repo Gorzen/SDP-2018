@@ -87,7 +87,7 @@ public class ScheduleActivityTest {
         int width = size.x;
         int height = size.y;
 
-        onView(withId(R.id.weekView)).perform(clickXY(width/2, height/2));
+        onView(withId(R.id.weekView)).perform(clickXY(width/2 - 8, height/2));
         Utils.waitAndTag(1000, "ScheduleActivityTest");
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
