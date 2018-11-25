@@ -23,7 +23,7 @@ public abstract class GlobalAccessVariables {
     public static Boolean MOCK_ENABLED = false;
     public static Boolean MOCK_ENABLED_EDIT_QUESTION = false;
     public static Location MOC_LOC = null;
-    public static ArrayList<WeekViewEvent> studentSchedule = null;
+    public static ArrayList<WeekViewEvent> studentSchedule = new ArrayList<>();
 
     public static Map<String, Object> DB_STATIC_INFO = null;
 
