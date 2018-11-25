@@ -220,7 +220,7 @@ public class Player {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
-        Firestore.get().updateRemotePlayerDataFromLocal();
+         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     /**
