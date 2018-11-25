@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
@@ -42,31 +42,31 @@ public class ChooseColorActivityTest {
     @Test
     public void canSelectThemeRed() {
         onView(ViewMatchers.withId(R.id.setThemeRed)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeGreen() {
         onView(withId(R.id.setThemeGreen)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeBlue() {
         onView(withId(R.id.setThemeBlue)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeBrown() {
         onView(withId(R.id.setThemeBrown)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeMulti() {
         onView(withId(R.id.setThemeMulti)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
     
     @Test

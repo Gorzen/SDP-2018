@@ -20,15 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_schedule" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:onClick="onSaveButtonClick"
-        android:src="@drawable/ic_save"/>
+    <include layout="@layout/content_schedule_student" />
 
 </android.support.design.widget.CoordinatorLayout>
