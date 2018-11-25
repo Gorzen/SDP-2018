@@ -21,7 +21,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class CourseSelectionActivity extends RefreshContext {
 
-    private String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +30,8 @@ public class CourseSelectionActivity extends RefreshContext {
         final List<CheckBox> courseSelections = new ArrayList<>();
 
         LinearLayout formContainer = findViewById(R.id.courseFormContainer);
-        List<Course> availableCourses = Arrays.asList(Course.values());
-        availableCourses.remove(Course.FakeCourse);
-        for (Course course : availableCourses) {
+        for (Course course : Course.values()) {
+            if(course == Course.FakeCourse) continue;
 
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
