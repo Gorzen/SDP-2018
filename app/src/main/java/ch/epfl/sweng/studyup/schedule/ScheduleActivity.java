@@ -26,6 +26,8 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+
 public class ScheduleActivity extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
     private WeekView weekView;
@@ -34,6 +36,8 @@ public class ScheduleActivity extends NavigationStudent {
     private final int month = 10;
     private final int year = 2018;
     private int id = 0;
+    private String courseName;
+    public static final String COURSE_NAME_INTENT_SCHEDULE = "CourseName";
 
     private final MonthLoader.MonthChangeListener monthChangeListener = new MonthLoader.MonthChangeListener() {
         @Override
@@ -90,7 +94,7 @@ public class ScheduleActivity extends NavigationStudent {
             eventEnd.set(Calendar.HOUR_OF_DAY, hour);
             eventEnd.set(Calendar.MINUTE, 59);
 
-            weekViewEvents.add(new WeekViewEvent(id, "Sweng", "CO_0_1", eventStart, eventEnd));
+            weekViewEvents.add(new WeekViewEvent(id, courseName + '\n' + "CO_0_1", eventStart, eventEnd));
             id += 1;
             weekView.notifyDatasetChanged();
         }
@@ -152,6 +156,10 @@ public class ScheduleActivity extends NavigationStudent {
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
 
+        if(MOCK_ENABLED){
+            weekView.setNumberOfVisibleDays(1);
+        }
+
         weekView.setEventLongPressListener(eventLongPressListener);
         weekView.setDateTimeInterpreter(dateTimeInterpreter);
         weekView.setWeekViewLoader(weekViewLoader);
@@ -168,6 +176,8 @@ public class ScheduleActivity extends NavigationStudent {
         }else if (Player.get().getRole().equals(Constants.Role.teacher)){
             weekView.setOnEventClickListener(eventClickListenerTeacher);
             weekView.setEmptyViewClickListener(emptyViewClickListenerTeacher);
+
+            courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
         }
     }
 
