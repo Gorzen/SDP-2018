@@ -1,6 +1,7 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.SettingsTest;
 
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -10,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
@@ -39,7 +41,7 @@ public class ChooseColorActivityTest {
 
     @Test
     public void canSelectThemeRed() {
-        onView(withId(R.id.setThemeRed)).perform(click());
+        onView(ViewMatchers.withId(R.id.setThemeRed)).perform(click());
         intended(hasComponent(MainActivity.class.getName()));
     }
 

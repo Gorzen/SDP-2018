@@ -1,6 +1,7 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.SettingsTest;
 
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.kosalgeek.android.caching.FileCacher;
@@ -17,6 +18,8 @@ import org.junit.runners.MethodSorters;
 import java.io.IOException;
 
 
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
@@ -64,7 +67,7 @@ public class SettingsActivityTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.logout_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.logout_button)).perform(click());
         assertTrue(!persistLogin.hasCache());
         intended(hasComponent(LoginActivity.class.getName()));
     }
