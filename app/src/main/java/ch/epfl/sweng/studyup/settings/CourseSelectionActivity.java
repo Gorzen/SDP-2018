@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -30,7 +31,9 @@ public class CourseSelectionActivity extends RefreshContext {
         final List<CheckBox> courseSelections = new ArrayList<>();
 
         LinearLayout formContainer = findViewById(R.id.courseFormContainer);
-        for (Course course : Course.values()) {
+        List<Course> availableCourses = Arrays.asList(Course.values());
+        availableCourses.remove(Course.FakeCourse);
+        for (Course course : availableCourses) {
 
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
