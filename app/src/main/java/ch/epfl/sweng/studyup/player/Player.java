@@ -130,7 +130,7 @@ public class Player {
         coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, defaultCourseListEnrolled));
 
         List<String> defaultCourseListTeached = new ArrayList<>();
-        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
+        coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
         answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
 
