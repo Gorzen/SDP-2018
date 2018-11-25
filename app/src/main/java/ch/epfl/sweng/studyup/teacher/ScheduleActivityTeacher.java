@@ -136,6 +136,11 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
 
     public void updateSchedule(List<WeekViewEvent> events){
+        // Filter of the events, to keep only the wanted course
+        for(WeekViewEvent e : events) {
+            if(!e.getName().equals(courseName)) events.remove(e);
+        }
+
         weekViewEvents.clear();
         for(WeekViewEvent event : events){
             weekViewEvents.add(event);
