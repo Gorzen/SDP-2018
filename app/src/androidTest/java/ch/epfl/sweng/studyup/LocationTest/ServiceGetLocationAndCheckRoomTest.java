@@ -34,11 +34,10 @@ import static org.junit.Assert.assertNull;
 
 
 @RunWith(AndroidJUnit4.class)
-public class ServiceGetLocationTest {
+public class ServiceGetLocationAndCheckRoomTest {
     private BackgroundLocation.GetLocation getLocation = new BackgroundLocation.GetLocation(null, null);
     private OnSuccessListener<Location> onSuccessListener = getLocation.onSuccessListener;
     private LatLng alaska = new LatLng(64.2008, 149.4937);
-    private Calendar beginningOfEvent; Calendar endOfEvent;
     private final String CO1 = "CO_1_1";
     private final String CO3 = "CO_1_3";
     private Calendar beforeCurrTime;
@@ -113,7 +112,9 @@ public class ServiceGetLocationTest {
         final int exp = Player.get().getExperience();
         setLocation(alaska);
 
-        setRoleEventsAndSchedule();
+        Player.get().setRole(Constants.Role.student);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO3, beforeCurrTime, afterCurrTime)));
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -127,31 +128,34 @@ public class ServiceGetLocationTest {
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoEventMatchesTest() {
-        final int exp = Player.get().getExperience();
         final LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(CO1).getLocation();
         setLocation(roomOfPlayer);
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1));
         POSITION = new LatLng(location.getLatitude(), location.getLongitude());
-
-        mActivityRule2.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                onSuccessListener.onSuccess(location);
-                assertEquals(roomOfPlayer.latitude, POSITION.latitude, 0);
-                assertEquals(roomOfPlayer.longitude, POSITION.longitude, 0);
-                assertEquals(exp, Player.get().getExperience());
-            }
-        });
+        assertFalse(Rooms.checkIfUserIsInRoom());
     }
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoCourseTest() {
         final LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(CO1).getLocation();
         setLocation(roomOfPlayer);
+        Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(new ArrayList<Constants.Course>());
         studentSchedule = new ArrayList<>();
+        POSITION = new LatLng(location.getLatitude(), location.getLongitude());
+        assertFalse(Rooms.checkIfUserIsInRoom());
+    }
+
+    @Test
+    public void checkIfUserIsInRoomReturnsFalseWhenNoWeekEventTest() {
+        final LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(CO1).getLocation();
+        setLocation(roomOfPlayer);
+        Player.get().setRole(Constants.Role.student);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        studentSchedule = new ArrayList<>();
+        POSITION = new LatLng(location.getLatitude(), location.getLongitude());
         assertFalse(Rooms.checkIfUserIsInRoom());
     }
 
@@ -164,12 +168,4 @@ public class ServiceGetLocationTest {
         location.setTime(System.currentTimeMillis());
     }
 
-    private void setRoleEventsAndSchedule() {
-        Player.get().setRole(Constants.Role.student);
-        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        beginningOfEvent = Calendar.getInstance();
-        endOfEvent = Calendar.getInstance();
-        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
-        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
-    }
 }
