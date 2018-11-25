@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -13,6 +14,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
@@ -20,6 +26,7 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.studentSchedule;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -68,6 +75,13 @@ public class ServiceGetLocationTest {
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
+        Player.get().setRole(Constants.Role.student);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        Calendar beginningOfEvent = Calendar.getInstance();
+        Calendar endOfEvent = Calendar.getInstance();
+        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
+        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
+
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -89,6 +103,13 @@ public class ServiceGetLocationTest {
         location.setAccuracy(1);
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
+
+        Player.get().setRole(Constants.Role.student);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        Calendar beginningOfEvent = Calendar.getInstance();
+        Calendar endOfEvent = Calendar.getInstance();
+        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
+        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
 
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override

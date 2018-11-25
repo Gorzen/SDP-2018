@@ -66,25 +66,29 @@ public class RoomsTest {
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
         WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
-        assertTrue(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2))));
+        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2));
+        assertTrue(Rooms.checkIfUserIsInRoom());
     }
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoCourseTest() {
         Player.get().setCourses(new ArrayList<Constants.Course>());
-        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>()));
+        studentSchedule = new ArrayList<>();
+        assertFalse(Rooms.checkIfUserIsInRoom());
     }
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoEventMatchesTest() {
         WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<>(Arrays.asList(weekViewEvent1))));
+        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1));
+        assertFalse(Rooms.checkIfUserIsInRoom());
     }
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoWeekEventTest() {
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        assertFalse(Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>()));
+        studentSchedule = new ArrayList<WeekViewEvent>();
+        assertFalse(Rooms.checkIfUserIsInRoom());
     }
 }

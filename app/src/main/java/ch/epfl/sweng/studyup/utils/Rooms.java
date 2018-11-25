@@ -67,16 +67,22 @@ public abstract class Rooms {
     }
 
     public static boolean checkIfUserIsInRoom() {
-        if(Player.get().getCoursesEnrolled().isEmpty() || studentSchedule.isEmpty()) return false;
+        if(Player.get().getCoursesEnrolled().isEmpty() || studentSchedule.isEmpty() ||
+                POSITION == null) {
+            return false;
+        }
 
         Calendar currTime = Calendar.getInstance();
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
         for(WeekViewEvent weekViewEvent : studentSchedule) {
             String eventCourseAndRoom = weekViewEvent.getName();
-            String eventCourseName = eventCourseAndRoom.substring(0, eventCourseAndRoom.indexOf("\n"));
-            if(playersCourses.contains(eventCourseName)) {
-                return currTime.after(weekViewEvent.getStartTime()) && currTime.before(weekViewEvent.getEndTime());
+            String[] courseAndRoom = eventCourseAndRoom.split("\n");
+            String courseName = courseAndRoom[0]; String room = courseAndRoom[1];
+            if(playersCourses.contains(courseName) && ROOMS_LOCATIONS.containsKey(room)) {
+                return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM &&
+                        currTime.after(weekViewEvent.getStartTime()) &&
+                        currTime.before(weekViewEvent.getEndTime());
             }
         }
         return false;

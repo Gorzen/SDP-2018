@@ -5,6 +5,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 
+import com.alamkanak.weekview.WeekViewEvent;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
