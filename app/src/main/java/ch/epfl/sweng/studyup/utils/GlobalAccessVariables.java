@@ -3,9 +3,11 @@ package ch.epfl.sweng.studyup.utils;
 import android.app.Activity;
 import android.location.Location;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
@@ -21,6 +23,7 @@ public abstract class GlobalAccessVariables {
     public static Boolean MOCK_ENABLED = false;
     public static Boolean MOCK_ENABLED_EDIT_QUESTION = false;
     public static Location MOC_LOC = null;
+    public static ArrayList<WeekViewEvent> studentSchedule = null;
 
     public static Map<String, Object> DB_STATIC_INFO = null;
 

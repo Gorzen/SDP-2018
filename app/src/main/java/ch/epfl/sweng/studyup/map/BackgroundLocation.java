@@ -63,11 +63,11 @@ public class BackgroundLocation extends JobService {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
                     String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
-                    if (Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>())) {
-                        str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
+                    if (Rooms.checkIfUserIsInRoom()) {
+                        str += '\n' + "You are in your room: ";
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
-                        str += '\n' + "You are not in your room: " + Player.get().getCurrentRoom();
+                        str += '\n' + "You are not in your room: ";
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);

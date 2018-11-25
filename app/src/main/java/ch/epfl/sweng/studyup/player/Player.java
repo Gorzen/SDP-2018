@@ -3,7 +3,7 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
-import com.google.firebase.storage.FirebaseStorage;
+import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.WeekViewEvent;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
@@ -148,7 +147,6 @@ public class Player {
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
     public int getCurrency() { return this.currency; }
-    public String getCurrentRoom() { return ROOM_NUM; }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
     }
