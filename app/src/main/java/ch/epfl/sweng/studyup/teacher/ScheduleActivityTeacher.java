@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.teacher;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -149,5 +150,10 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
     public void onSaveButtonClick(View view){
         //Save WeekViewEvents on firebase
+    }
+
+    public void onBackButtonScheduleTeacher(View v) {
+        Intent toCourseSelection = new Intent(this, CourseStatsActivity.class); //TODO temporary
+        startActivity(toCourseSelection);
     }
 }
