@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 
@@ -20,7 +19,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
@@ -35,7 +33,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;

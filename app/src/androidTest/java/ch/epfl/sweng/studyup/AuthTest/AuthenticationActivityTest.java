@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
 import ch.epfl.sweng.studyup.player.Player;
 

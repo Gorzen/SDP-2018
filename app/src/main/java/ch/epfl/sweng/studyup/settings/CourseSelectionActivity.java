@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.settings;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;

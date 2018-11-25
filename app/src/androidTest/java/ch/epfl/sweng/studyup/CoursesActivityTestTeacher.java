@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

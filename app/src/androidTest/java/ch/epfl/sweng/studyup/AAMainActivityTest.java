@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;

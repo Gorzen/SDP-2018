@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup;
 
-import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -10,6 +9,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 
 import static android.support.test.espresso.intent.Intents.intended;

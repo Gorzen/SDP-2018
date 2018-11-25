@@ -1,25 +1,20 @@
 package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.animation.AccelerateInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.SettingsActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
-
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 public abstract class Utils {
 

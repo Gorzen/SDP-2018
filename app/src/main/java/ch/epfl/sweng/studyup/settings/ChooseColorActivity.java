@@ -1,10 +1,12 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 

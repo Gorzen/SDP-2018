@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/colorWhite"
     style="@style/AppTheme"
-    tools:context=".MainActivity">
+    tools:context=".player.MainActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

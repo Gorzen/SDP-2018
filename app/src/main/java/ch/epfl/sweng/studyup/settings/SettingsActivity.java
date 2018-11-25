@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.settings;
 
 import android.app.AlertDialog;
 import android.app.job.JobScheduler;
@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.player.MainActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;

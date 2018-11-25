@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ch.epfl.sweng.studyup.MainActivity;
+import ch.epfl.sweng.studyup.player.MainActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;

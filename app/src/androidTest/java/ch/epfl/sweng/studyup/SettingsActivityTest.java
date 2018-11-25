@@ -1,11 +1,7 @@
 package ch.epfl.sweng.studyup;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.rule.GrantPermissionRule;
 
 import com.kosalgeek.android.caching.FileCacher;
 
@@ -19,10 +15,12 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.util.Locale;
 
 
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
+import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -33,11 +31,9 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.v4.content.ContextCompat.startActivity;
 import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
-import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -7,7 +7,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,21 +25,14 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
-
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
@@ -52,7 +44,7 @@ public class MainActivity extends NavigationStudent {
     private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
-    CircularProgressIndicator levelProgress;
+    public CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
     ImageButton pic_button;
 
