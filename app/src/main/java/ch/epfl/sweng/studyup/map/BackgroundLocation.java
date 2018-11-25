@@ -24,6 +24,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.playersEvents;
 
 /**
  * BackgroundLocation
@@ -63,7 +64,7 @@ public class BackgroundLocation extends JobService {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
                     String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
-                    if (Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>())) {
+                    if (Rooms.checkIfUserIsInRoom()) {
                         str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {

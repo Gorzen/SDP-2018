@@ -3,8 +3,6 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.util.Log;
 
-import com.google.firebase.storage.FirebaseStorage;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.MainActivity;
-import ch.epfl.sweng.studyup.WeekViewEvent;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 

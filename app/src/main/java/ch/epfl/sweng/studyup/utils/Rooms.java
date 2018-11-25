@@ -15,6 +15,7 @@ import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.studentSchedule;
 
 public abstract class Rooms {
     private final static double RADIUS_ROOM = 30.0;
@@ -65,7 +66,7 @@ public abstract class Rooms {
         return new Double(distance * meterConversion).doubleValue();
     }
 
-    public static boolean checkIfUserIsInRoom(final ArrayList<WeekViewEvent> studentSchedule) {
+    public static boolean checkIfUserIsInRoom() {
         if(Player.get().getCoursesEnrolled().isEmpty() || studentSchedule.isEmpty()) return false;
 
         Calendar currTime = Calendar.getInstance();
