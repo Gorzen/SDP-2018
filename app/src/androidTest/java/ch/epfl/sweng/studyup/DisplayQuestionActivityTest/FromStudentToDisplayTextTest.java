@@ -41,7 +41,7 @@ public class FromStudentToDisplayTextTest {
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        q = new Question(UUID, fakeTitle, true, 1, Constants.Course.SWENG.name());
+        q = new Question(UUID, fakeTitle, true, 1, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
         Player.get().setRole(Constants.Role.teacher);

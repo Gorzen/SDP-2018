@@ -63,7 +63,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer0to1Test()  {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -93,7 +93,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer1to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -124,7 +124,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editTrueFalseToMCQAnswer0To3Test() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -155,7 +155,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer0to1Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -185,7 +185,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer1to2Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 1, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 1, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -215,7 +215,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer2to3Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -245,7 +245,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer3to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -275,7 +275,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQToTrueFalseQuestionAnswer3to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -306,7 +306,7 @@ public class EditQuestionActivityTest {
 
    @Test
     public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -314,6 +314,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
        onView(withId(R.id.text_radio_button)).perform(scrollTo()).perform(click());
+
         onView(withId(R.id.questionText))
                 .perform(scrollTo())
                 .perform(clearText())
@@ -345,7 +346,7 @@ public class EditQuestionActivityTest {
 
     @Test
     public void backButtonTest() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());

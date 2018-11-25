@@ -55,8 +55,8 @@ public class QuestsActivityStudent extends NavigationStudent {
     }
 
     public void setupListView(final List<Question> quests) {
-        ArrayList<String> listTitle = new ArrayList<>();
-        ArrayList<Integer> listImageID = new ArrayList<>();
+        List<Integer> listImageID = new ArrayList<>();
+        List<Integer> listLang = new ArrayList<>();
 
         Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
@@ -69,14 +69,26 @@ public class QuestsActivityStudent extends NavigationStudent {
             } else {
                 listImageID.add(R.drawable.ic_cross_red_24dp);
             }
+
+            switch (q.getLang()) {
+                case "fr":
+                    listLang.add(R.drawable.ic_fr_flag);
+                    break;
+                case "en":
+                    listLang.add(R.drawable.ic_en_flag);
+                    break;
+                default: // Error
+                    listLang.add(R.drawable.ic_cross_red_24dp);
+                    break;
+            }
         }
 
-        setupOnClickListenerListView(quests, quests, listImageID);
+        setupOnClickListenerListView(quests, quests, listImageID, listLang);
     }
 
-    private void setupOnClickListenerListView(final List<Question> quests, List<Question> questions, List<Integer> listImageID) {
+    private void setupOnClickListenerListView(final List<Question> quests, List<Question> questions, List<Integer> listImageID, List<Integer> listLang) {
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_student_model, questions, listImageID);
+        QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_student_model, questions, listImageID, listLang);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,12 +106,14 @@ public class QuestsActivityStudent extends NavigationStudent {
         private List<Question> questions;
         private int idLayout;
         List<Integer> ids;
+        List<Integer> lang;
 
-        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids) {
+        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids, List<Integer> lang) {
             this.cnx = cnx;
             this.questions = questions;
             this.idLayout = idLayout;
             this.ids = ids;
+            this.lang = lang;
         }
 
         @Override
@@ -126,6 +140,8 @@ public class QuestsActivityStudent extends NavigationStudent {
             text_view.setText(questions.get(position).getTitle());
             ImageView image_view = convertView.findViewById(R.id.is_quest_done);
             image_view.setImageResource(ids.get(position));
+            ImageView lang_view = convertView.findViewById(R.id.lang_img);
+            lang_view.setImageResource(lang.get(position));
             return convertView;
         }
     }

@@ -57,8 +57,7 @@ public class AddQuestionActivity extends RefreshContext {
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
     private Bitmap bitmap = null;
-    private RadioGroup trueFalseRadioGroup;
-    private RadioGroup imageTextRadioGroup;
+    private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
     private int answer = 1;
     private boolean isNewQuestion = true;
@@ -172,6 +171,7 @@ public class AddQuestionActivity extends RefreshContext {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
+            String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
             //Delete the txt file, if there was any
@@ -217,7 +217,7 @@ public class AddQuestionActivity extends RefreshContext {
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) return;
 
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -241,8 +241,6 @@ public class AddQuestionActivity extends RefreshContext {
         }
     }
 
-
-
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -259,6 +257,8 @@ public class AddQuestionActivity extends RefreshContext {
                 setUpImageOrTextBasedRadioButtons(checkedId);
             }
         });
+
+        langRadioGroup = findViewById(R.id.lang_radio_group);
     }
 
     /**

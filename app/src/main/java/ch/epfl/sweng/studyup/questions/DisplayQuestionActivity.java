@@ -41,6 +41,8 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
+import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
@@ -58,6 +60,8 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String DISPLAY_QUESTION_TRUE_FALSE = "display_question_true_false";
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
     private Question displayQuestion;
 
     private RadioGroup answerGroupTOP;
@@ -68,11 +72,11 @@ public class DisplayQuestionActivity extends RefreshContext {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
-
         int answerNumber;
         boolean trueFalse;
         String questionTitle;
         String questionID;
+        String questionLang;
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
@@ -86,9 +90,11 @@ public class DisplayQuestionActivity extends RefreshContext {
         questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
+        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);;
 
         //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber, Constants.Course.SWENG.name()); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
+                Constants.Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
 
         setupLayout(displayQuestion);
@@ -134,6 +140,11 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
 
         if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_LANG)) {
             quit();
             return false;
         }
@@ -319,7 +330,6 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
     }
 
-
     /**
      * @param c The context of the application that launch the intent (put this)
      * @param q The question that needs to be passed
@@ -331,6 +341,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_ID, q.getQuestionId());
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
+        goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
         return goToQuestion;
     }
 }
