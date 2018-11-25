@@ -36,6 +36,7 @@ public class ServiceGetLocationTest {
     private BackgroundLocation.GetLocation getLocation = new BackgroundLocation.GetLocation(null, null);
     private OnSuccessListener<Location> onSuccessListener = getLocation.onSuccessListener;
     private LatLng notRoomOfPlayer = new LatLng(50.0, 10.0);
+    private Calendar beginningOfEvent; Calendar endOfEvent;
 
     @Rule
     public final ActivityTestRule<TestbedActivity> mActivityRule2 =
@@ -75,13 +76,7 @@ public class ServiceGetLocationTest {
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
-        Player.get().setRole(Constants.Role.student);
-        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        Calendar beginningOfEvent = Calendar.getInstance();
-        Calendar endOfEvent = Calendar.getInstance();
-        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
-        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
-
+        setRoleEventsAndSchedule();
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -104,13 +99,7 @@ public class ServiceGetLocationTest {
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
 
-        Player.get().setRole(Constants.Role.student);
-        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        Calendar beginningOfEvent = Calendar.getInstance();
-        Calendar endOfEvent = Calendar.getInstance();
-        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
-        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
-
+        setRoleEventsAndSchedule();
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -120,5 +109,14 @@ public class ServiceGetLocationTest {
                 assertEquals(exp, Player.get().getExperience());
             }
         });
+    }
+
+    private void setRoleEventsAndSchedule() {
+        Player.get().setRole(Constants.Role.student);
+        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
+        beginningOfEvent = Calendar.getInstance();
+        endOfEvent = Calendar.getInstance();
+        endOfEvent.set(Calendar.HOUR_OF_DAY, endOfEvent.get(Calendar.HOUR_OF_DAY) + 1);
+        studentSchedule = new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + "INN_3_26", beginningOfEvent, endOfEvent)));
     }
 }
