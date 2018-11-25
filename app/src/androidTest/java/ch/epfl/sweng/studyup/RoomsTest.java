@@ -32,12 +32,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class RoomsTest {
-    private final String CO1 = "CO_1_1";
-    private final String CO3 = "CO_1_3";
-    private Calendar beforeCurrTime;
-    private Calendar afterCurrTime;
-    private Calendar unrelatedTime1;
-    private Calendar unrelatedTime2;
+
 
     @Rule
     public final ActivityTestRule<TestbedActivity> mActivityRule =
@@ -45,14 +40,7 @@ public class RoomsTest {
 
     @Before
     public void init() {
-        beforeCurrTime = Calendar.getInstance();
-        beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
-        afterCurrTime = Calendar.getInstance();
-        afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
-        unrelatedTime1 = Calendar.getInstance();
-        unrelatedTime1.set(Calendar.HOUR_OF_DAY, unrelatedTime1.get(Calendar.HOUR_OF_DAY) + 4);
-        unrelatedTime2 = Calendar.getInstance();
-        unrelatedTime2.set(Calendar.HOUR_OF_DAY, unrelatedTime2.get(Calendar.HOUR_OF_DAY) + 5);
+
     }
 
     @Test
@@ -63,10 +51,7 @@ public class RoomsTest {
 
     @Test
     public void checkIfUserIsInRoom() {
-        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
-        WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
-        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2));
+
         assertTrue(Rooms.checkIfUserIsInRoom());
     }
 
@@ -77,13 +62,7 @@ public class RoomsTest {
         assertFalse(Rooms.checkIfUserIsInRoom());
     }
 
-    @Test
-    public void checkIfUserIsInRoomReturnsFalseWhenNoEventMatchesTest() {
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
-        Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        studentSchedule = new ArrayList<>(Arrays.asList(weekViewEvent1));
-        assertFalse(Rooms.checkIfUserIsInRoom());
-    }
+
 
     @Test
     public void checkIfUserIsInRoomReturnsFalseWhenNoWeekEventTest() {

@@ -147,7 +147,6 @@ public class Player {
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
     public int getCurrency() { return this.currency; }
-    public String getCurrentRoom() { return ROOM_NUM; }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
     }
