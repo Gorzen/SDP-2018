@@ -38,7 +38,7 @@ public class ScheduleActivity extends NavigationStudent {
     private final MonthLoader.MonthChangeListener monthChangeListener = new MonthLoader.MonthChangeListener() {
         @Override
         public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-            if(newMonth == 11 && newYear == 2018) {
+            if(newMonth == month + 1 && newYear == year) {
                 return weekViewEvents;
             }else{
                 return new ArrayList<>();
