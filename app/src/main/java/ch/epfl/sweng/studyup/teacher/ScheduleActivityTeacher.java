@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
@@ -131,6 +134,8 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+
+        Firestore.get().getCoursesSchedule(this, Player.get().getRole());
     }
 
 
@@ -154,7 +159,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     }
 
     public void onSaveButtonClick(View view){
-        //Save WeekViewEvents on firebase
+        Firestore.get().addEventsToCourse(Constants.Course.valueOf(courseName), weekViewEvents);
     }
 
     public void onBackButtonScheduleTeacher(View v) {

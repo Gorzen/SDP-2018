@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -322,25 +323,37 @@ public class Firestore {
         final boolean isTeacher = p.getRole() == Role.teacher;
 
         final AtomicInteger courseCounter = new AtomicInteger(0);
+        final int maxWaitingLoop = 20;
         final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
         for(final Course c : courses) {
             coursesRef.document(c.name()).collection(FB_EVENTS).get()
-                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            // Adding periods to the course
-                            for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                                schedule.add(queryDocumentSnapshotToWeekView(q));
-                            }
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                if(task.getResult().isEmpty()) {
+                                    courseCounter.incrementAndGet();
+                                    return;
+                                }
 
-                            courseCounter.incrementAndGet();
+                                // Adding periods to the course
+                                for (QueryDocumentSnapshot q : task.getResult()) {
+                                    schedule.add(queryDocumentSnapshotToWeekView(q));
+                                }
+
+                                courseCounter.incrementAndGet();
+                            }
                         }
                     });
         }
 
-        while(courseCounter.get() < courses.size()) {
+        int loopCounter = 0;
+        while(courseCounter.get() < courses.size() && ++loopCounter < maxWaitingLoop) {
             waitAndTag(100, TAG);
+        }
+        if(loopCounter >= maxWaitingLoop) {
+            Toast.makeText(act, "Unable to get course(s) data from the server.", Toast.LENGTH_SHORT).show();
         }
 
         onScheduleCompleted(act, schedule);
