@@ -10,13 +10,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.LoginActivity;
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-import static ch.epfl.sweng.studyup.player.MainActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -56,7 +56,7 @@ public class SettingsActivity extends RefreshContext {
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
-                startActivity(new Intent(MOST_RECENT_ACTIVITY, MainActivity.class));
+                startActivity(new Intent(MOST_RECENT_ACTIVITY, HomeActivity.class));
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);

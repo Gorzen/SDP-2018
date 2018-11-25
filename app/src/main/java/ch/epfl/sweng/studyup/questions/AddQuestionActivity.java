@@ -34,6 +34,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
@@ -41,6 +42,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
@@ -105,18 +107,7 @@ public class AddQuestionActivity extends NavigationStudent {
 
         addRadioListener();
 
-<<<<<<< HEAD
-    public void updatePlayerCourses() {
-        // Set dropdown for selecting associated course
-        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
-        List<String> courseNameList = getStringListFromCourseList(Player.get().getCoursesEnrolled()); //TODO: getCourseTeached when it is implemented
-        Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
-        ArrayAdapter<String> courseListAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
-        associatedCourseSpinner.setAdapter(courseListAdapter);
-=======
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
->>>>>>> origin/merge-fb-enrolled-student
     }
 
     /**
@@ -393,12 +384,14 @@ public class AddQuestionActivity extends NavigationStudent {
         AlertDialog.Builder courseChoiceBuilder = new AlertDialog.Builder(this);
         courseChoiceBuilder.setTitle(getString(R.string.course_for_this_quest));
 
-        ArrayList<String> stringList = getStringListFromCourseList(Player.get().getCourses(), true);
+        final List<Course> courses = Player.get().getRole() == Constants.Role.teacher ?
+                Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
+        ArrayList<String> stringList = getStringListFromCourseList(courses, true);
         String[] stringArray = new String[stringList.size()];
         courseChoiceBuilder.setItems(stringList.toArray(stringArray), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (Course c : Player.get().getCourses()){
+                for (Course c : courses){
                     if(which == c.ordinal()){
                         chosenCourse = c;
                         view_chosen_course.setText("Chosen Course: "+c.toString());

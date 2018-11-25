@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.schedule.ScheduleActivity;
@@ -100,7 +101,7 @@ public class LoginActivity extends RefreshContext {
                  */
 
                 HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
-                        ScheduleActivity.class : QuestsActivityTeacher.class;
+                        HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));
             }

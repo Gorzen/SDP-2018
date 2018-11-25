@@ -208,10 +208,10 @@ public class Player {
         experience += xp;
         updateLevel(activity);
 
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).updateXpAndLvlDisplay();
-            ((MainActivity) activity).updateCurrDisplay();
-            Log.i("Check", "Activity is " + activity.toString() + " " + ((MainActivity) activity).getLocalClassName());
+        if (activity instanceof HomeActivity) {
+            ((HomeActivity) activity).updateXpAndLvlDisplay();
+            ((HomeActivity) activity).updateCurrDisplay();
+            Log.i("Check", "Activity is " + activity.toString() + " " + ((HomeActivity) activity).getLocalClassName());
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -220,8 +220,8 @@ public class Player {
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).updateCurrDisplay();
+        if (activity instanceof HomeActivity) {
+            ((HomeActivity) activity).updateCurrDisplay();
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();

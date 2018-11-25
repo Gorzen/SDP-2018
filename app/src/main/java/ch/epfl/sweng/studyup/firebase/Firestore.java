@@ -389,7 +389,7 @@ public class Firestore {
                         if (task.isSuccessful()) {
                             DocumentSnapshot doc = task.getResult();
 
-                            if(!doc.exists() || Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
+                            if(!doc.exists() || !Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
                                 changeCourseTeacher(c);
                             }
 

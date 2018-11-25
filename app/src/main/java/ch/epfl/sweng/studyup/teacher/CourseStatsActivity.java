@@ -75,7 +75,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     private void setupListView() {
         ListView listView = findViewById(R.id.listViewCourses);
 
-        ArrayList<Course> playerCourses = new ArrayList<>(Player.get().getCourses());
+        ArrayList<Course> playerCourses = new ArrayList<>(Player.get().getCoursesTeached());
 
         listCourseAdapter = new ListCourseAdapter(this, playerCourses);
         listView.setAdapter(listCourseAdapter);

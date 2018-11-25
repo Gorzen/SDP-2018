@@ -9,7 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ch.epfl.sweng.studyup.player.MainActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
@@ -32,7 +32,7 @@ public class NavigationStudent extends Navigation {
             R.id.navigation_inventory));
 
     private final ArrayList<Class> activitiesStudent = new ArrayList<Class>(Arrays.asList(
-            MainActivity.class,
+            HomeActivity.class,
             QuestsActivityStudent.class,
             ShopActivity.class,
             MapsActivity.class,
