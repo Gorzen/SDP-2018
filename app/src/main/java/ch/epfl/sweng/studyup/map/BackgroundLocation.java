@@ -10,10 +10,12 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -61,7 +63,7 @@ public class BackgroundLocation extends JobService {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
                     String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
-                    if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
+                    if (Rooms.checkIfUserIsInRoom(new ArrayList<WeekViewEvent>())) {
                         str += '\n' + "You are in your room: " + Player.get().getCurrentRoom();
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
