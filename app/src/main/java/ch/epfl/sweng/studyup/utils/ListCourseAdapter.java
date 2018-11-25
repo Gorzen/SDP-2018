@@ -7,14 +7,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 
 public class ListCourseAdapter extends BaseAdapter {
     private Context cnx;
-    private ArrayList<Constants.Course> courses;
+    private List<Constants.Course> courses;
 
-    public ListCourseAdapter(Context cnx, ArrayList<Constants.Course> courses) {
+    public ListCourseAdapter(Context cnx, List<Constants.Course> courses) {
         this.cnx=cnx;
         this.courses=courses;
     }

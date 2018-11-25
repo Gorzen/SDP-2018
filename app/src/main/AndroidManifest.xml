@@ -85,7 +85,7 @@
         <activity android:name=".teacher.CourseStatsActivity" />
         <activity android:name=".teacher.DisplayCourseStatsActivity"/>
         <activity android:name=".teacher.ScheduleActivityTeacher" />
-        <activity android:name=".teacher.SelectCourseForScheduleActivity" />
+        <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
     </application>
 
 </manifest>

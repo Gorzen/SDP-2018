@@ -1,16 +1,12 @@
 package ch.epfl.sweng.studyup.teacher;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +21,7 @@ import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
-import static ch.epfl.sweng.studyup.utils.Constants.COURSE_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
 
 public class CourseStatsActivity extends NavigationTeacher {
 
@@ -38,7 +34,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_stats);
-        navigationSwitcher(CourseStatsActivity.this, CourseStatsActivity.class, COURSE_INDEX);
+        navigationSwitcher(CourseStatsActivity.this, CourseStatsActivity.class, COURSE_STAT_INDEX);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

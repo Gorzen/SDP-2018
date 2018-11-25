@@ -153,7 +153,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     }
 
     public void onBackButtonScheduleTeacher(View v) {
-        Intent toCourseSelection = new Intent(this, CourseStatsActivity.class); //TODO temporary
+        Intent toCourseSelection = new Intent(this, CourseSelectionForScheduleActivity.class);
         startActivity(toCourseSelection);
     }
 }
