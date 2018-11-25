@@ -66,10 +66,10 @@ public abstract class Rooms {
     }
 
     public static boolean checkIfUserIsInRoom(final ArrayList<WeekViewEvent> studentSchedule) {
-        if(Player.get().getCourses().isEmpty() || studentSchedule.isEmpty()) return false;
+        if(Player.get().getCoursesEnrolled().isEmpty() || studentSchedule.isEmpty()) return false;
 
         Calendar currTime = Calendar.getInstance();
-        List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCourses())));
+        List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
         for(WeekViewEvent weekViewEvent : studentSchedule) {
             String eventCourseAndRoom = weekViewEvent.getName();
