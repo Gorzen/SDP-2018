@@ -12,11 +12,17 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.Display;
 import android.view.View;
 
+import com.alamkanak.weekview.WeekViewEvent;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
@@ -92,6 +98,39 @@ public class ScheduleActivityTest {
         mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.fab)).perform(click());
+    }
+
+    @Test
+    public void updateScheduleTest(){
+        mActivityRule.launchActivity(new Intent());
+        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+
+        List<WeekViewEvent> weekViewEvents = new ArrayList<>();
+
+        int day = 20;
+        int hour = 10;
+        int month = 10;
+        int year = 2018;
+
+        Calendar eventStart = Calendar.getInstance();
+        eventStart.set(Calendar.YEAR, year);
+        eventStart.set(Calendar.MONTH, month);
+        eventStart.set(Calendar.DAY_OF_MONTH, day);
+        eventStart.set(Calendar.HOUR_OF_DAY, hour);
+        eventStart.set(Calendar.MINUTE, 0);
+
+        Calendar eventEnd = Calendar.getInstance();
+        eventEnd.set(Calendar.YEAR, year);
+        eventEnd.set(Calendar.MONTH, month);
+        eventEnd.set(Calendar.DAY_OF_MONTH, day);
+        eventEnd.set(Calendar.HOUR_OF_DAY, hour);
+        eventEnd.set(Calendar.MINUTE, 59);
+
+        weekViewEvents.add(new WeekViewEvent(0, "Sweng", "CO_0_1", eventStart, eventEnd));
+
+        mActivityRule.getActivity().updateSchedule(weekViewEvents);
+        Utils.waitAndTag(1000, "ScheduleActivityTest");
+        assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
     private ViewAction clickXY(final int x, final int y){
