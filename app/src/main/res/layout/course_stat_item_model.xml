@@ -6,89 +6,83 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
 
-
-
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/list_view_shape"
-        android:backgroundTint="@color/colorListItems"
         android:orientation="vertical"
         android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        app:layout_constraintVertical_bias="0.0"
+        android:backgroundTint="@color/colorListItems"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         tools:ignore="MissingConstraints">
+
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/quest_title"
-                android:layout_width="0dp"
+                android:id="@+id/course_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="45dp"
-                android:text="@string/quest_title"
+                android:layout_marginStart="10dp"
+                android:text="Course Title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:id="@+id/user_friendly_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/course_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/course_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.333"
+                app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"
+                tools:ignore="ContentDescription,HardcodedText" />
+
 
             <TextView
-                android:id="@+id/course_quest"
+                android:id="@+id/abbreviation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginStart="10dp"
-                android:text="@string/quest_course"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:text="Abbreviation course name"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/quest_title"
-                app:layout_constraintTop_toBottomOf="@+id/quest_title"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
-                android:id="@+id/delete_question"
-                android:layout_width="26dp"
-                android:layout_height="27dp"
-                android:layout_centerVertical="true"
-                android:layout_gravity="top|end"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/simple_trashcan_icon_2" />
-
-            <ImageView
-                android:id="@+id/lang_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_cross_red_24dp" />
+                app:layout_constraintStart_toStartOf="@+id/course_title"
+                app:layout_constraintTop_toBottomOf="@+id/course_title"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="HardcodedText" />
 
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

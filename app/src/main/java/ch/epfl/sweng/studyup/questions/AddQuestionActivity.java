@@ -1,22 +1,23 @@
 package ch.epfl.sweng.studyup.questions;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
@@ -40,10 +41,11 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
@@ -51,28 +53,36 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class AddQuestionActivity extends RefreshContext {
-
+public class AddQuestionActivity extends NavigationStudent {
     private static final String TAG = "AddQuestionActivity";
+
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
-    private Bitmap bitmap = null;
+
     private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
+    private Course chosenCourse;
+    private TextView view_chosen_course;
+    private Bitmap bitmap = null;
     private int answer = 1;
     private boolean isNewQuestion = true;
     private Question question;
-    private Button logout_button;
-    private Spinner associatedCourseSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
+
+        view_chosen_course = findViewById(R.id.chosenCourseTextView);
+
         if (question != null) {
             if(!MOCK_ENABLED_EDIT_QUESTION) {
                 ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -82,44 +92,23 @@ public class AddQuestionActivity extends RefreshContext {
             answer = question.getAnswer();
             isNewQuestion = false;
             int trueFalseOrMCQ = question.isTrueFalse() == true ? R.id.true_false_radio : R.id.mcq_radio;
-            setupEditQuestion(trueFalseOrMCQ);
+            int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
+            chosenCourse = Course.valueOf(question.getCourseName());
+            setupEditQuestion(trueFalseOrMCQ, langButtonId);
         }
 
         if (!MOCK_ENABLED) {
             Firestore.get().loadQuestions(this);
-        }
-
-        addRadioListener();
-
-        if (MOCK_ENABLED) {
-            getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
-        } else {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
+        else getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
 
         if(MOCK_ENABLED_EDIT_QUESTION){
             ProgressBar progressBar = findViewById(R.id.progressBar);
             progressBar.setVisibility(View.GONE);
         }
-        updatePlayerCourses();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        updatePlayerCourses();
-    }
-
-    public void updatePlayerCourses() {
-        // Set dropdown for selecting associated course
-        associatedCourseSpinner = findViewById(R.id.associatedCourseSpinner);
-        List<String> courseNameList = getStringListFromCourseList(Player.get().getCourses());
-        Log.d(TAG, "Loaded courses in AddQuestionActivity: " + courseNameList.toString());
-        ArrayAdapter<String> courseListAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,courseNameList);
-        associatedCourseSpinner.setAdapter(courseListAdapter);
+        addRadioListener();
     }
 
     /**
@@ -132,9 +121,7 @@ public class AddQuestionActivity extends RefreshContext {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
-
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
         // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
         // response to some other intent, and the code below shouldn't run at all.
@@ -153,35 +140,48 @@ public class AddQuestionActivity extends RefreshContext {
                         try {
                             Bitmap image_bitmap = getBitmapFromUri(imageURI);
                             displayImage.setImageBitmap(image_bitmap);
+                            //TextView displayName = findViewById(R.id.display_question_path);
+                            //displayName.setVisibility(View.GONE);
                         } catch (IOException e) {
                             Log.e(TAG, "An error occurred when displaying the image");
                         }
+                        /*TextView displayName = findViewById(R.id.display_question_path);
+                        displayName.setText(imageURI.toString());*/
                     }
                 });
             }
         }
     }
 
+
     public void addQuestion(View current) {
+        /*if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button ){
+            Toast.makeText(this.getApplicationContext(), "Please insert image or text", Toast.LENGTH_SHORT).show();
+            return;
+        }*/
         if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
             //get the tag of the button to know the answer number
             int answerNumber = Integer.parseInt(checkedButton.getTag().toString()) - 1;
 
+
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
+            langRadioGroup = findViewById(R.id.lang_radio_group);
             String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
+
 
             //Delete the txt file, if there was any
             FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".txt")).delete();
 
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
-            if (newQuestionTitle.isEmpty()) return;
-
-            String selectedCourseName = String.valueOf(associatedCourseSpinner.getSelectedItem());
+            if (newQuestionTitle.isEmpty()) {
+                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
             File questionFile = null;
@@ -206,7 +206,10 @@ public class AddQuestionActivity extends RefreshContext {
                     FileWriter writer = new FileWriter(questionFile);
                     TextView questionTextView = findViewById(R.id.questionText);
                     String questionData = questionTextView.getText().toString();
-                    if (questionData.isEmpty()) return;
+                    if (questionData.isEmpty()) {
+                        Toast.makeText(this.getApplicationContext(), "Please insert a question", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     writer.write(questionData);
                     writer.close();
                 } catch (IOException e) {
@@ -215,9 +218,18 @@ public class AddQuestionActivity extends RefreshContext {
             }
 
             Log.e(TAG, "create the question");
-            if (newQuestionTitle.length() == 0) return;
+            if (newQuestionTitle.length() == 0) {
+                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName, langQuestion);
+            if(chosenCourse==null){
+                Toast.makeText(this.getApplicationContext(), "Please select a course", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String questionCourseName = chosenCourse.name();
+
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -350,12 +362,15 @@ public class AddQuestionActivity extends RefreshContext {
         }
     }
 
-    private void setupEditQuestion(int trueFalseOrMCQId) {
+    private void setupEditQuestion(int trueFalseOrMCQId, int langButtonId) {
         changeAddButtonToEditButton();
         setUpQuestionTitle();
         setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
         setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
         setupTextAndImage();
+        setupLang(langButtonId);
+
+        view_chosen_course.setText("Chosen Course : "+ chosenCourse.toString());
     }
 
     private void changeAddButtonToEditButton() {
@@ -372,11 +387,38 @@ public class AddQuestionActivity extends RefreshContext {
         return image;
     }
 
+    public void onClickCourseChoice(View view) {
+        AlertDialog.Builder courseChoiceBuilder = new AlertDialog.Builder(this);
+        courseChoiceBuilder.setTitle(getString(R.string.course_for_this_quest));
+
+        ArrayList<String> stringList = getStringListFromCourseList(Player.get().getCourses(), true);
+        String[] stringArray = new String[stringList.size()];
+        courseChoiceBuilder.setItems(stringList.toArray(stringArray), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (Course c : Player.get().getCourses()){
+                    if(which == c.ordinal()){
+                        chosenCourse = c;
+                        view_chosen_course.setText("Chosen Course : "+c.toString());
+                    }
+                }
+            }
+        });
+        courseChoiceBuilder.setNegativeButton(R.string.cancel, null);
+        courseChoiceBuilder.create().show();
+    }
+
+
     private void setUpQuestionTitle() {
         TextView questionTitle = findViewById(R.id.questionTitle);
         questionTitle.setText(question.getTitle());
     }
 
+
+    private void setupLang(int langButtonId) {
+        RadioButton langSelected = findViewById(langButtonId);
+        langSelected.setChecked(true);
+    }
 
     private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
         if (trueFalseOrMCQId == R.id.true_false_radio) {

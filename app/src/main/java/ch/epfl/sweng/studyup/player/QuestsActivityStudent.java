@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -142,6 +143,8 @@ public class QuestsActivityStudent extends NavigationStudent {
             image_view.setImageResource(ids.get(position));
             ImageView lang_view = convertView.findViewById(R.id.lang_img);
             lang_view.setImageResource(lang.get(position));
+            TextView course = convertView.findViewById(R.id.course_quest);
+            course.setText(questions.get(position).getCourseName());
             return convertView;
         }
     }
