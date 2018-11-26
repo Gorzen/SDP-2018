@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.alamkanak.weekview.WeekViewEvent;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -157,5 +159,12 @@ public class ScheduleActivityTeacherTest {
                     }
                 },
                 Press.FINGER);
+    }
+
+    @Test
+    public void backButtonTest() {
+        mActivityRule.launchActivity(new Intent());
+        onView(withId(R.id.back_button)).perform(click());
+        TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }
