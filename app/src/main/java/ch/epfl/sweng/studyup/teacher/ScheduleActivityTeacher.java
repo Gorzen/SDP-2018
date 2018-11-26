@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -154,6 +155,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        ((TextView) findViewById(R.id.course_text_schedule_teacher)).setText(courseName);
 
         Firestore.get().getCoursesSchedule(this, Player.get().getRole());
     }
