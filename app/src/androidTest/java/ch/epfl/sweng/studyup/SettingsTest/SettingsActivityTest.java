@@ -20,9 +20,11 @@ import java.io.IOException;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -49,11 +51,15 @@ public class SettingsActivityTest {
 
     @Before
     public void initiateIntents() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.student);
         Intents.init();
     }
 
     @After
     public void releaseIntents() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.student);
         Intents.release();
     }
 
