@@ -105,7 +105,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="40dp"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/chosen_course"
+                        android:text="@string/chosen_course_for_question"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.498"
                         app:layout_constraintStart_toStartOf="parent"

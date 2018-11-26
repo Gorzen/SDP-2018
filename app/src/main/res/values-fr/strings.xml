@@ -119,4 +119,8 @@
     <string name="choose_course_for_question_text">Choisissez le cours pour la question</string>
     <string name="write_here_your_question_text">Ecrivez votre question ici</string>
     <string name="picture_text_question">Question en image ou texte?</string>
+    <string name="write_your_question">Ecrivez / Sélectionnez l\'image</string>
+    <string name="select_the_correct_answer">Sélectionnez la réponse</string>
+    <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
+    <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
 </resources>
