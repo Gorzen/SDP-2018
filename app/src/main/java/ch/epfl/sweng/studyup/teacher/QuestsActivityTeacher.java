@@ -59,13 +59,10 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         });
     }
 
-    //TODO For now the same as for the student! To be changed
     protected void setupListView(final List<Question> quests) {
-        List<Integer> ids = new ArrayList<>();
         List<Integer> listLang = new ArrayList<>();
 
         for (Question q : quests) {
-            ids.add(0);
             switch (q.getLang()) {
                 case "fr":
                     listLang.add(R.drawable.ic_fr_flag);
@@ -80,7 +77,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         }
 
         ListView listView = findViewById(R.id.listViewQuests);
-        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, ids, listLang);
+        QuestListViewAdapterTeacher adapter = new QuestListViewAdapterTeacher(this, R.layout.quest_teacher_model, quests, listLang);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,14 +96,12 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         private Context cnx;
         private int idLayout;
         private List<Question> questions;
-        private List<Integer> ids;
         private List<Integer> lang;
 
-        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> ids, List<Integer> lang) {
+        public QuestListViewAdapterTeacher(Context cnx, int idLayout, List<Question> questions, List<Integer> lang) {
             this.cnx = cnx;
             this.questions = questions;
             this.idLayout = idLayout;
-            this.ids = ids;
             this.lang = lang;
         }
 
@@ -122,7 +117,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
 
         @Override
         public long getItemId(int position) {
-            return ids.get(position);
+            return questions.get(position).hashCode();
         }
 
         @Override
