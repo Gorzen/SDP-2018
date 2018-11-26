@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -78,7 +79,11 @@ public class ShopActivityAndBuyItemActivityTest {
         assertEquals(0, Player.get().getItems().size());
     }
 
-
+    @Test
+    public void backButtonTest() {
+        onView(withId(R.id.back_button)).perform(click());
+        intended(hasComponent(InventoryActivity.class.getName()));
+    }
 
     @After
     public void resetPlayer() {
