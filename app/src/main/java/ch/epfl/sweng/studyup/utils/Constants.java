@@ -43,6 +43,11 @@ public abstract class Constants {
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
     public static final String FB_EVENTS = "events";
+    public static final String FB_EVENTS_ID = "id";
+    public static final String FB_EVENTS_NAME = "name";
+    public static final String FB_EVENTS_LOCATION = "location";
+    public static final String FB_EVENTS_START = "startTimeInMillis";
+    public static final String FB_EVENTS_END = "endTimeInMillis";
     public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,

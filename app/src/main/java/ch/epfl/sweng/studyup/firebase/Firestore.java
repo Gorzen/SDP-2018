@@ -20,6 +20,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_END;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_ID;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
@@ -352,13 +357,13 @@ public class Firestore {
     }
 
     private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
-        long id = Long.parseLong(q.get("id").toString());
+        long id = Long.parseLong(q.get(FB_EVENTS_ID).toString());
         Calendar start = Calendar.getInstance();
-        start.setTimeInMillis(Long.parseLong(q.get("startTimeInMillis").toString()));
+        start.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_START).toString()));
         Calendar end = Calendar.getInstance();
-        end.setTimeInMillis(Long.parseLong(q.get("endTimeInMillis").toString()));
-        String name = q.get("name").toString();
-        String location = q.get("location").toString();
+        end.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_END).toString()));
+        String name = q.get(FB_EVENTS_NAME).toString();
+        String location = q.get(FB_EVENTS_LOCATION).toString();
 
 
         return new WeekViewEvent(id, name, location, start, end);
@@ -477,11 +482,11 @@ public class Firestore {
 
     private Map<String, Object> WeekViewEventToMap(WeekViewEvent e) {
         Map<String, Object> eventMap = new HashMap<>();
-        eventMap.put("id", e.getId());
-        eventMap.put("name", e.getName());
-        eventMap.put("location", e.getLocation());
-        eventMap.put("startTimeInMillis", e.getStartTime().getTimeInMillis());
-        eventMap.put("endTimeInMillis", e.getEndTime().getTimeInMillis());
+        eventMap.put(FB_EVENTS_ID, e.getId());
+        eventMap.put(FB_EVENTS_NAME, e.getName());
+        eventMap.put(FB_EVENTS_LOCATION, e.getLocation());
+        eventMap.put(FB_EVENTS_START, e.getStartTime().getTimeInMillis());
+        eventMap.put(FB_EVENTS_END, e.getEndTime().getTimeInMillis());
 
         return eventMap;
     }
