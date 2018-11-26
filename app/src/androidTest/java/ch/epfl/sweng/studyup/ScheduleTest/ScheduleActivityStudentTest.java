@@ -7,6 +7,7 @@ import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralClickAction;
 import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Display;
@@ -33,6 +34,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
@@ -118,6 +120,12 @@ public class ScheduleActivityStudentTest {
 
         Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
+    }
+
+    @Test
+    public void testOptionNoException() {
+        onView(ViewMatchers.withId(R.id.top_navigation_infos)).perform(click());
+        onView(withId(R.id.top_navigation_settings)).perform(click());
     }
 
     private ViewAction clickXY(final int x, final int y){
