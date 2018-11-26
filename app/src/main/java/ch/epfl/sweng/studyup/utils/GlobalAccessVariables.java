@@ -29,7 +29,6 @@ public abstract class GlobalAccessVariables {
     public static String ROOM_NUM = "INN_3_26";
     public static FusedLocationProviderClient LOCATION_PROVIDER_CLIENT = null;
     public static Boolean MOCK_ENABLED = false;
-    public static Boolean MOCK_ENABLED_EDIT_QUESTION = false;
     public static Location MOC_LOC = null;
 
     public static Map<String, Object> DB_STATIC_INFO = null;
