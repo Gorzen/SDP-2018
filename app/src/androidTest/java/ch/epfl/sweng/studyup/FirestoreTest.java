@@ -219,7 +219,7 @@ public class FirestoreTest {
     }
 
     private List<WeekViewEvent> getSimpleSchedule() {
-        final String room = "CO_1";
+        final String room = "CO_1_1";
         List<WeekViewEvent> periods = new ArrayList<>();
         Date d1 = new Date();
         d1.setTime(123);
