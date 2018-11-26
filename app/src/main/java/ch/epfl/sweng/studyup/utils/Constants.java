@@ -37,9 +37,11 @@ public abstract class Constants {
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
+    public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
+
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
-            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
+            FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS, FB_ANSWERED_QUESTIONS);
 
 
     // Values associated with Firebase storage
@@ -93,7 +95,8 @@ public abstract class Constants {
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, ADD_QUESTION_INDEX=1;
+    public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
+
 
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
@@ -106,9 +109,23 @@ public abstract class Constants {
     }
 
     public enum Course {
-        SWENG,
-        Algebra,
-        Ecology,
-        Blacksmithing
+        SWENG("Software Engineering"),
+        Algebra("Algebra"),
+        Ecology("Ecology"),
+        Blacksmithing("Blacksmithing");
+
+        private String name = "";
+
+        Course(String name){
+            this.name = name;
+        }
+        /**
+         * return the longer description of the course,
+         * contrary to name() function that returns only the shorter name
+         */
+        public String toString(){
+            return name;
+        }
     }
+
 }

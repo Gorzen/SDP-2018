@@ -63,17 +63,20 @@ public abstract class Utils {
         }
         return courses;
     }
-    public static List<String> getStringListFromCourseList(List<Course> courseList) {
-        List<String> courseStrings = new ArrayList<>();
-        for (Course course : courseList) {
-            courseStrings.add(course.name());
+    public static ArrayList<String> getStringListFromCourseList(List<Course> courseList, boolean niceName) {
+        ArrayList<String> courseStrings = new ArrayList<>();
+        for(Course course : courseList) {
+            if(niceName) {
+                courseStrings.add(course.toString());
+            }
+            else courseStrings.add(course.name());
         }
         return courseStrings;
     }
 
     public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {
 
-        if (map.containsKey(key)) {
+        if (map.containsKey(key) && map.get(key) != null) {
             return map.get(key);
         }
         else{
