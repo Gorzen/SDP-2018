@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="ch.epfl.sweng.studyup.player.MainActivity">
+    tools:context=".items.ShopActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,26 +49,6 @@
                 tools:layout_editor_absoluteX="8dp" />
         </android.support.constraint.ConstraintLayout>
 
-
-        <!--BOTTOM NAV BAR-->
-
-        <android.support.constraint.ConstraintLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/bottomBar"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/bottomNavView_Bar"
-                android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/navigation_student"
-                app:labelVisibilityMode="labeled">
-            </android.support.design.widget.BottomNavigationView>
-
-        </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
 

@@ -47,4 +47,7 @@ public class InventoryActivity extends NavigationStudent {
         });
     }
 
+    public void goToShop(View view){
+        startActivity(new Intent(this, ShopActivity.class));
+    }
 }

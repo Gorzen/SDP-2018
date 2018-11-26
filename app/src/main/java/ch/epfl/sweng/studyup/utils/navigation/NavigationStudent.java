@@ -16,32 +16,33 @@ import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
-import static ch.epfl.sweng.studyup.utils.Constants.SHOP_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 
 public class NavigationStudent extends Navigation {
     public final ArrayList<Integer> buttonIdsStudent = new ArrayList<>(Arrays.asList(
             R.id.navigation_home,
             R.id.navigation_quests_student,
-            R.id.navigation_shop,
+            R.id.navigation_schedule,
             R.id.navigation_map,
             R.id.navigation_inventory));
 
     private final ArrayList<Class> activitiesStudent = new ArrayList<Class>(Arrays.asList(
             HomeActivity.class,
             QuestsActivityStudent.class,
-            ShopActivity.class,
+            ScheduleActivityStudent.class,
             MapsActivity.class,
             InventoryActivity.class));
 
     private final ArrayList<Integer> activitiesIdStudent  = new ArrayList<>(Arrays.asList(
             MAIN_INDEX,
             QUESTS_INDEX_STUDENT,
-            SHOP_INDEX,
+            SCHEDULE_INDEX,
             MAP_INDEX,
             INVENTORY_INDEX));
 

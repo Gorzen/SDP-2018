@@ -88,8 +88,8 @@ public class BackgroundLocation extends JobService {
 
         @Override
         public JobParameters doInBackground(Void[] voids) {
-            if (activity.get() == null) {
-                Log.d("GPS_MAP", "Context = null");
+            if (activity.get() == null || LOCATION_PROVIDER_CLIENT == null) {
+                Log.d("GPS_MAP", "Context = null or Location provider = null");
                 return jobParameters;
             }
             if (ContextCompat.checkSelfPermission(activity.get(),

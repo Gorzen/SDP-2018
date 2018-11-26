@@ -60,7 +60,7 @@ public class NavigationTest {
         intended(hasComponent(MapsActivity.class.getName()));
         b.setSelectedItemId(R.id.navigation_quests_student);
         intended(hasComponent(QuestsActivityStudent.class.getName()));
-        b.setSelectedItemId(R.id.navigation_shop);
+        b.setSelectedItemId(R.id.navigation_schedule);
         intended(hasComponent(ShopActivity.class.getName()));
     }
 

@@ -2,11 +2,11 @@
 <resources>
     <string name="character_homepage">Ton personnage</string>
     <string name="title_quests">Quêtes</string>
-    <string name="title_shop">Magasin</string>
+    <string name="title_schedule">Horaire</string>
     <string name="title_settings">Paramètres</string>
     <string name="title_home">Accueil</string>
     <string name="title_map">Carte</string>
-    <string name="title_inventory">Inventaire</string>
+    <string name="title_inventory">Objets</string>
     <string name="title_infos">Informations</string>
     <string name="truth_value">Vrai</string>
     <string name="false_value">Faux</string>
@@ -107,4 +107,5 @@
     <string name="back_button_settings_color_text">Retour aux paramètres</string>
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
+    <string name="go_to_shop_button">Acheter plus d\'objets</string>
 </resources>

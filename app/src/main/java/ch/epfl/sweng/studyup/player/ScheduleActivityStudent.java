@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup.player;
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -21,6 +22,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
@@ -87,6 +89,10 @@ public class ScheduleActivityStudent extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_student);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
 
@@ -95,6 +101,8 @@ public class ScheduleActivityStudent extends NavigationStudent {
         }
 
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+
+        navigationSwitcher(ScheduleActivityStudent.this, ScheduleActivityStudent.class, SCHEDULE_INDEX);
     }
 
     public void updateSchedule(List<WeekViewEvent> events){

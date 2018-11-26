@@ -5,13 +5,14 @@
     <string name="title_activity_auth_redirect" translatable="false">AuthRedirectActivity</string>
 
     <string name="title_quests">Quests</string>
-    <string name="title_shop">Shop</string>
+    <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
     <string name="title_home">Home</string>
     <string name="title_map">Map</string>
-    <string name="title_inventory">Inventory</string>
+    <string name="title_inventory">Items</string>
     <string name="title_infos">Infos</string>
 
+    <string name="go_to_shop_button">Buy more items</string>
     <string name="save_value">Save</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
