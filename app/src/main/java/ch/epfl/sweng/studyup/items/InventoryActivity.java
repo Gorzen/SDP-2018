@@ -34,6 +34,15 @@ public class InventoryActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupListView();
+    }
+
+    private void setupListView() {
         ListView ownedItems = findViewById(R.id.listViewItems);
         HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
         listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
