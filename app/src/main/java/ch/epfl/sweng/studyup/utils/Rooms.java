@@ -76,7 +76,7 @@ public abstract class Rooms {
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
         for(WeekViewEvent weekViewEvent : Player.get().getScheduleStudent()) {
-            String eventCourseAndRoom = weekViewEvent.getName();
+            String eventCourseAndRoom = weekViewEvent.getName();    //TODO: double check for correctness of implementation
             String[] courseAndRoom = eventCourseAndRoom.split("\n");
             String courseName = courseAndRoom[0]; String room = courseAndRoom[1];
             if(playersCourses.contains(courseName) && ROOMS_LOCATIONS.containsKey(room)) {
