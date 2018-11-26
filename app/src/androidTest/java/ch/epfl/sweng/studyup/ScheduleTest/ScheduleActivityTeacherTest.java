@@ -35,8 +35,13 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher.COURSE_NAME_INTENT_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 
@@ -79,11 +84,16 @@ public class ScheduleActivityTeacherTest {
         int height = size.y;
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
-        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
+        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+        onView(withText("CE_1_1"))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+                .perform(click());
+        Utils.waitAndTag(500, "Waiting for dialog");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
-        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
+        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
