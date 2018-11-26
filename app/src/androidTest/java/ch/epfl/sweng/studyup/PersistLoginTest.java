@@ -20,6 +20,7 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -89,6 +90,7 @@ public class PersistLoginTest {
         rule.finishActivity();
         MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
         onView(withId(R.id.student)).perform(click());
     }
@@ -108,6 +110,7 @@ public class PersistLoginTest {
         rule.finishActivity();
         MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
         intended(hasComponent(HomeActivity.class.getName()));
     }
@@ -126,7 +129,8 @@ public class PersistLoginTest {
         rule.finishActivity();
         MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
-        intended(hasComponent(AddOrEditQuestionActivity.class.getName()));
+        intended(hasComponent(QuestsActivityTeacher.class.getName()));
     }
 }
