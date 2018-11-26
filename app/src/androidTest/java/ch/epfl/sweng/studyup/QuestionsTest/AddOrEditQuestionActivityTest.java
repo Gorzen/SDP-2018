@@ -159,7 +159,7 @@ public class AddOrEditQuestionActivityTest {
         });
         Utils.waitAndTag(500, "Waiting for scroll");
 
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(scrollTo(), click());
+        onView(ViewMatchers.withId(R.id.addOrEditQuestionButton)).perform(scrollTo(), click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());

@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,7 +11,6 @@ import android.widget.ListView;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +30,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.doubleClick;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -76,7 +73,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(ViewMatchers.withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -107,7 +104,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -139,7 +136,7 @@ public class EditQuestionActivityTest {
 
         onView(withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
         onView(withId(R.id.radio_answer3)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -169,7 +166,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -199,7 +196,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -229,7 +226,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -259,7 +256,7 @@ public class EditQuestionActivityTest {
         clickOnListViewItem();
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -290,7 +287,7 @@ public class EditQuestionActivityTest {
 
         onView(withId(R.id.true_false_radio)).perform(scrollTo()).perform(click());
         onView(withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -329,7 +326,7 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(2000, this.getClass().getName());
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
 
         Utils.waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());

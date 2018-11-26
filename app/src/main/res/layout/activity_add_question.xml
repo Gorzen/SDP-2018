@@ -89,7 +89,7 @@
                         android:background="@android:color/transparent"
                         android:gravity="top"
                         android:onClick="onClickCourseChoice"
-                        android:text="Choose the course that corresponds to your question"
+                        android:text="@string/choose_course_for_question_text"
                         android:textAllCaps="false"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -307,7 +307,7 @@
                         android:layout_marginEnd="8dp"
                         android:contentDescription="Question description"
                         android:ems="10"
-                        android:hint="Write here the question"
+                        android:hint="@string/write_here_your_question_text"
                         android:inputType="text|textMultiLine"
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -487,7 +487,7 @@
                     </RadioGroup>
 
                     <Button
-                        android:id="@+id/addQuestionButton"
+                        android:id="@+id/addOrEditQuestionButton"
                         android:layout_width="166dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"

@@ -181,7 +181,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.isEmpty()) {
-                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -209,7 +209,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                     TextView questionTextView = findViewById(R.id.questionText);
                     String questionData = questionTextView.getText().toString();
                     if (questionData.isEmpty()) {
-                        Toast.makeText(this.getApplicationContext(), "Please insert a question", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     writer.write(questionData);
@@ -221,12 +221,12 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) {
-                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if(chosenCourse==null){
-                Toast.makeText(this.getApplicationContext(), "Please select a course", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_select_course_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
             String questionCourseName = chosenCourse.name();
@@ -294,8 +294,8 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             fourthRadioButton.setVisibility(View.INVISIBLE);
             fourthRadioButton.setChecked(false);
             //Change the text to the 1st and second button to True and False
-            firstRadioButton.setText(R.string.truth_value);
-            secondRadioButton.setText(R.string.false_value);
+            firstRadioButton.setText(getString(R.string.truth_value));
+            secondRadioButton.setText(getString(R.string.false_value));
             if (!isNewQuestion && question.isTrueFalse()) {
                 switch (answer) {
                     case 0:
@@ -372,12 +372,12 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         setupTextAndImage();
         setupLang(langButtonId);
 
-        view_chosen_course.setText("Chosen Course : "+ chosenCourse.toString());
+        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+ chosenCourse.toString());
     }
 
     private void changeAddButtonToEditButton() {
-        Button addEditButton = findViewById(R.id.addQuestionButton);
-        addEditButton.setText("Edit");
+        Button addEditButton = findViewById(R.id.addOrEditQuestionButton);
+        addEditButton.setText(getString(R.string.edit_button_text));
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
@@ -403,12 +403,12 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                 for (Course c : courses){
                     if(which == c.ordinal()){
                         chosenCourse = c;
-                        view_chosen_course.setText("Chosen Course : "+c.toString());
+                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
                     }
                 }
             }
         });
-        courseChoiceBuilder.setNegativeButton(R.string.cancel, null);
+        courseChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
         courseChoiceBuilder.create().show();
     }
 
@@ -455,7 +455,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             setupImage(questionImage, tempImage);
             setupText(questionText, tempText);
         } catch (IOException e) {
-            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_when_download_question), Toast.LENGTH_SHORT).show();
             finish();
         }
     }

@@ -109,4 +109,14 @@
     <string name="title_schedule_student">Horaire</string>
     <string name="go_to_shop_button">Acheter plus d\'objets</string>
     <string name="room_alert_title">Choisissez la salle</string>
+    <string name="add_a_new_question_text">Ajouter une question</string>
+    <string name="text_insert_title_for_question">Insérez un titre</string>
+    <string name="text_select_course_for_question">Sélectionnez un cours</string>
+    <string name="error_when_download_question">Une erreur est survenue en téléchargeant la question</string>
+    <string name="chosen_course_for_question">Course Choisi : </string>
+    <string name="edit_button_text">Editer</string>
+    <string name="course_for_this_quest">Cours de la question</string>
+    <string name="choose_course_for_question_text">Choisissez le cours pour la question</string>
+    <string name="write_here_your_question_text">Ecrivez votre question ici</string>
+    <string name="picture_text_question">Question en image ou texte?</string>
 </resources>
