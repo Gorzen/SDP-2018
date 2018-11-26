@@ -42,4 +42,7 @@ public class ShopActivity extends RefreshContext {
         });
     }
 
+    public void onBackButtonShop(View v) {
+        startActivity(new Intent(ShopActivity.this, InventoryActivity.class));
+    }
 }

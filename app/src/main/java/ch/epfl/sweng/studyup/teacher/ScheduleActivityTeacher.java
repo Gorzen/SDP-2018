@@ -1,12 +1,15 @@
 package ch.epfl.sweng.studyup.teacher;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -15,18 +18,24 @@ import com.alamkanak.weekview.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
@@ -77,12 +86,28 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             Calendar eventEnd = Calendar.getInstance();
             eventEnd.setTimeInMillis(eventStart.getTimeInMillis() + 59 * 60000);
 
-            weekViewEvents.add(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "CO_0_1", eventStart, eventEnd));
-            id += 1;
-            weekView.notifyDatasetChanged();
+            launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
         }
     };
 
+    private void launchRoomSelectionDialog(final WeekViewEvent e) {
+        final AlertDialog.Builder roomChoiceDialog = new AlertDialog.Builder(this);
+        roomChoiceDialog.setTitle(R.string.room_alert_title);
+        final String[] roomsAsArray = (new ArrayList<>(Rooms.ROOMS_LOCATIONS.keySet())).toArray(new String[0]);
+
+        roomChoiceDialog.setItems(roomsAsArray , new DialogInterface.OnClickListener() {
+            @SuppressWarnings("HardCodedStringLiteral")
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                e.setLocation(roomsAsArray[which]);
+                weekViewEvents.add(e);
+                id += 1;
+                weekView.notifyDatasetChanged();
+            }
+        });
+        roomChoiceDialog.setNegativeButton(R.string.cancel, null);
+        roomChoiceDialog.create().show();
+    }
 
     private final WeekView.EventLongPressListener eventLongPressListener = new WeekView.EventLongPressListener() {
         @Override

@@ -108,4 +108,5 @@
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
     <string name="go_to_shop_button">Acheter plus d\'objets</string>
+    <string name="room_alert_title">Choisissez la salle</string>
 </resources>

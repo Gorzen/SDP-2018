@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -103,6 +104,12 @@ public class ScheduleActivityStudent extends NavigationStudent {
         Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
 
         navigationSwitcher(ScheduleActivityStudent.this, ScheduleActivityStudent.class, SCHEDULE_INDEX);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Firestore.get().getCoursesSchedule(this, Player.get().getRole());
     }
 
     public void updateSchedule(List<WeekViewEvent> events){

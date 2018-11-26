@@ -136,4 +136,5 @@
     <string name="add_a_new_question_text">Add a new question</string>
     <string name="title_schedule_teacher">My courses</string>
     <string name="title_schedule_student">Schedule</string>
+    <string name="room_alert_title">Choose the room</string>
 </resources>
