@@ -21,7 +21,6 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -33,7 +32,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static junit.framework.TestCase.assertEquals;
+
 import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)

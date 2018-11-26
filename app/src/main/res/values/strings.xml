@@ -137,4 +137,6 @@
     <string name="title_schedule_teacher">My courses</string>
     <string name="title_schedule_student">Schedule</string>
     <string name="room_alert_title">Choose the room</string>
+    <string name="choose_the_language_of_your_question">Choose the language of your question</string>
+
 </resources>

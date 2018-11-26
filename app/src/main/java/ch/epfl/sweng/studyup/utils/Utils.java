@@ -70,15 +70,11 @@ public abstract class Utils {
     }
     public static ArrayList<String> getStringListFromCourseList(List<Course> courseList, boolean niceName) {
         ArrayList<String> courseStrings = new ArrayList<>();
-        if(niceName) {
-            for (Course course : courseList) {
+        for(Course course : courseList) {
+            if(niceName) {
                 courseStrings.add(course.toString());
             }
-        }
-        else {
-            for (Course course : courseList) {
-                courseStrings.add(course.name());
-            }
+            else courseStrings.add(course.name());
         }
         return courseStrings;
     }

@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -17,7 +19,15 @@ public class ListCourseAdapter extends BaseAdapter {
 
     public ListCourseAdapter(Context cnx, List<Constants.Course> courses) {
         this.cnx=cnx;
-        this.courses=courses;
+        //sort courses to display
+        ArrayList<Constants.Course> sortedCourses = new ArrayList<>(courses);
+        Collections.sort(sortedCourses, new Comparator<Constants.Course>() {
+            @Override
+            public int compare(Constants.Course o1, Constants.Course o2) {
+                return o1.toString().compareToIgnoreCase(o2.toString());
+            }
+        });
+        this.courses=sortedCourses;
     }
 
     @Override

@@ -112,14 +112,66 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <View
+                        android:id="@+id/separator0"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@color/colorGrey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/chosenCourseTextView" />
+
+                    <TextView
+                        android:id="@+id/textViewLang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="@string/choose_the_language_of_your_question"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        app:layout_constraintEnd_toStartOf="@+id/lang_radio_group"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/separator0" />
+
+                    <RadioGroup
+                        android:id="@+id/lang_radio_group"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textViewLang"
+                        app:layout_constraintTop_toBottomOf="@+id/separator0">
+
+                        <RadioButton
+                            android:id="@+id/radio_en"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="EN" />
+
+                        <RadioButton
+                            android:id="@+id/radio_fr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="FR" />
+                    </RadioGroup>
+
+                    <View
                         android:id="@+id/separator1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:background="@color/colorGrey"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/chosenCourseTextView" />
+                        app:layout_constraintTop_toBottomOf="@+id/lang_radio_group" />
 
                     <TextView
                         android:id="@+id/textViewTitle"
@@ -305,7 +357,6 @@
                         tools:layout_editor_absoluteX="206dp" />
 
 
-
                     <View
                         android:id="@+id/separator4"
                         android:layout_width="match_parent"
@@ -359,6 +410,7 @@
                             android:text="@string/true_false_question_text" />
 
                     </RadioGroup>
+
 
                     <View
                         android:id="@+id/separator5"
@@ -469,6 +521,8 @@
 
             </ScrollView>
         </android.support.constraint.ConstraintLayout>
+
+        <!--BOTTOM NAV BAR-->
 
     </RelativeLayout>
 

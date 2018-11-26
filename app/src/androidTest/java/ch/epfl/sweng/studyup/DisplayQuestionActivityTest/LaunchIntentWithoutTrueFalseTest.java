@@ -20,7 +20,7 @@ public class LaunchIntentWithoutTrueFalseTest extends DisplayQuestionActivityTes
     @Test
     public void launchIntentWithoutTrueFalseTest() {
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(),
-                new Question("abc", "test", true, 0, Course.SWENG.name()));
+                new Question("abc", "test", true, 0, Course.SWENG.name(), "en"));
         i.removeExtra(DISPLAY_QUESTION_TRUE_FALSE);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());

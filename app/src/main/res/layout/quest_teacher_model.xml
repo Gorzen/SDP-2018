@@ -34,10 +34,12 @@
 
             <TextView
                 android:id="@+id/quest_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="45dp"
                 android:text="@string/quest_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
@@ -47,6 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/course_quest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
@@ -54,8 +57,6 @@
                 android:text="@string/quest_course"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/quest_title"
                 app:layout_constraintTop_toBottomOf="@+id/quest_title"
                 app:layout_constraintVertical_bias="0.0" />
@@ -74,9 +75,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/simple_trashcan_icon_2" />
 
+            <ImageView
+                android:id="@+id/lang_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_cross_red_24dp" />
+
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>

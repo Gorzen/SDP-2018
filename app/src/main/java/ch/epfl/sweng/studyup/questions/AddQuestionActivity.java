@@ -60,8 +60,8 @@ public class AddQuestionActivity extends NavigationStudent {
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
-    private RadioGroup trueFalseRadioGroup;
-    private RadioGroup imageTextRadioGroup;
+
+    private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
     private Course chosenCourse;
     private TextView view_chosen_course;
@@ -82,6 +82,9 @@ public class AddQuestionActivity extends NavigationStudent {
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
+
+        view_chosen_course = findViewById(R.id.chosenCourseTextView);
+
         if (question != null) {
             if(!MOCK_ENABLED_EDIT_QUESTION) {
                 ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -91,7 +94,9 @@ public class AddQuestionActivity extends NavigationStudent {
             answer = question.getAnswer();
             isNewQuestion = false;
             int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
-            setupEditQuestion(trueFalseOrMCQ);
+            int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
+            chosenCourse = Course.valueOf(question.getCourseName());
+            setupEditQuestion(trueFalseOrMCQ, langButtonId);
         }
 
         if (!MOCK_ENABLED) {
@@ -106,8 +111,6 @@ public class AddQuestionActivity extends NavigationStudent {
         }
 
         addRadioListener();
-
-        view_chosen_course = findViewById(R.id.chosenCourseTextView);
     }
 
     /**
@@ -167,6 +170,8 @@ public class AddQuestionActivity extends NavigationStudent {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
+            langRadioGroup = findViewById(R.id.lang_radio_group);
+            String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
 
@@ -225,7 +230,8 @@ public class AddQuestionActivity extends NavigationStudent {
                 return;
             }
             String questionCourseName = chosenCourse.name();
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
+
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -249,8 +255,6 @@ public class AddQuestionActivity extends NavigationStudent {
         }
     }
 
-
-
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -267,6 +271,8 @@ public class AddQuestionActivity extends NavigationStudent {
                 setUpImageOrTextBasedRadioButtons(checkedId);
             }
         });
+
+        langRadioGroup = findViewById(R.id.lang_radio_group);
     }
 
     /**
@@ -358,12 +364,15 @@ public class AddQuestionActivity extends NavigationStudent {
         }
     }
 
-    private void setupEditQuestion(int trueFalseOrMCQId) {
+    private void setupEditQuestion(int trueFalseOrMCQId, int langButtonId) {
         changeAddButtonToEditButton();
         setUpQuestionTitle();
         setTrueFasleMCQRadioButtonFirstTime(trueFalseOrMCQId);
         setUpMCQTrueFalseRadioButtons(trueFalseOrMCQId);
         setupTextAndImage();
+        setupLang(langButtonId);
+
+        view_chosen_course.setText("Chosen Course : "+ chosenCourse.toString());
     }
 
     private void changeAddButtonToEditButton() {
@@ -394,7 +403,7 @@ public class AddQuestionActivity extends NavigationStudent {
                 for (Course c : courses){
                     if(which == c.ordinal()){
                         chosenCourse = c;
-                        view_chosen_course.setText("Chosen Course: "+c.toString());
+                        view_chosen_course.setText("Chosen Course : "+c.toString());
                     }
                 }
             }
@@ -409,6 +418,11 @@ public class AddQuestionActivity extends NavigationStudent {
         questionTitle.setText(question.getTitle());
     }
 
+
+    private void setupLang(int langButtonId) {
+        RadioButton langSelected = findViewById(langButtonId);
+        langSelected.setChecked(true);
+    }
 
     private void setTrueFasleMCQRadioButtonFirstTime(int trueFalseOrMCQId) {
         if (trueFalseOrMCQId == R.id.true_false_radio) {

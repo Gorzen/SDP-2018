@@ -35,15 +35,19 @@ public class Question implements Serializable {
     @ColumnInfo(name = "courseName")
     private String courseName;
 
+    @ColumnInfo(name = "lang")
+    private String lang;
+
     /**
      * Class for the question
-     *
-     * @param questionId   The id for the question to use in database as well as image filename
+     *  @param questionId   The id for the question to use in database as well as image filename
      * @param title        The title of the question
      * @param trueFalse    If the question is a True/False question or not
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
+     * @param lang The question lang
      */
-    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer, String courseName) {
+    public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
+                    String courseName, String lang) {
         if (answer < 0 || answer > 3 || title == null) {
             throw new IllegalArgumentException();
         }
@@ -55,6 +59,13 @@ public class Question implements Serializable {
         this.trueFalse = trueFalse;
         this.answer = answer;
         this.courseName = courseName;
+
+        // If not a basic language
+        if (lang == null) {
+            this.lang = "en";
+        } else {
+            this.lang = lang;
+        }
     }
 
     public String getCourseName() { return courseName; }
@@ -95,6 +106,9 @@ public class Question implements Serializable {
             this.questionId = questionId;
     }
 
+    public String getLang() {
+        return this.lang;
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -110,6 +124,7 @@ public class Question implements Serializable {
     public String toString() {
         Log.i("err", "here");
         String s = "";
+        s += "[" + lang + "] ";
         s += title;
         if (trueFalse) {
             s += MOST_RECENT_ACTIVITY.getString(R.string.text_truefalse);
