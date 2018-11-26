@@ -357,7 +357,6 @@
                         tools:layout_editor_absoluteX="206dp" />
 
 
-
                     <View
                         android:id="@+id/separator4"
                         android:layout_width="match_parent"
@@ -411,6 +410,7 @@
                             android:text="@string/true_false_question_text" />
 
                     </RadioGroup>
+
 
                     <View
                         android:id="@+id/separator5"

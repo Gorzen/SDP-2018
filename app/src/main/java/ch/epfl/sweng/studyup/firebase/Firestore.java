@@ -368,6 +368,7 @@ public class Firestore {
 
                         Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, langQuestion);
 
+
                         questionList.add(question);
                     }
                     if (act instanceof CourseStatsActivity) {

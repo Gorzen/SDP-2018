@@ -32,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+
 import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)

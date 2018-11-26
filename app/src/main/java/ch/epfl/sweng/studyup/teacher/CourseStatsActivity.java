@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
@@ -107,6 +105,7 @@ public class CourseStatsActivity extends NavigationTeacher {
 
         public ListCourseAdapter(Context cnx, ArrayList<Course> courses) {
             this.cnx=cnx;
+            //sort courses to display
             ArrayList<Course> sortedCourses = new ArrayList<>(courses);
             Collections.sort(sortedCourses, new Comparator<Course>() {
                 @Override

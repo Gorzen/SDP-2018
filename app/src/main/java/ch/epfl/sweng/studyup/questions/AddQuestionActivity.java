@@ -224,6 +224,7 @@ public class AddQuestionActivity extends NavigationStudent {
                 return;
             }
             String questionCourseName = chosenCourse.name();
+
             Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
