@@ -126,7 +126,7 @@
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="course_statistics">Course Statistics</string>
     <string name="displaycourseactivity">DisplayCourseActivity</string>
-    <string name="courses">Courses</string>
+    <string name="courses">Stats</string>
     <string name="select_the_correct_answer">Select the correct answer</string>
     <string name="mcq_or_tf_question">MCQ or TF Question ?</string>
     <string name="write_your_question">Write your question</string>
