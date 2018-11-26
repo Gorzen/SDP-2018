@@ -42,7 +42,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <include
-        layout="@layout/content_schedule_student"
+        layout="@layout/content_schedule_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
