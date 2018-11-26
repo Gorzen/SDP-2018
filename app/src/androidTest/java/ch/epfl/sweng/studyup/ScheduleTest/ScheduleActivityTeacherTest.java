@@ -69,7 +69,6 @@ public class ScheduleActivityTeacherTest {
     public void addEventAndRemoveEventTest(){
         mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.SWENG.name()));
 
-
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
 
         Display display = mActivityRule.getActivity().getWindowManager().getDefaultDisplay();
@@ -96,7 +95,7 @@ public class ScheduleActivityTeacherTest {
 
     @Test
     public void updateScheduleTest(){
-        mActivityRule.launchActivity(new Intent());
+        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, "Sweng"));
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
 
         final List<WeekViewEvent> events = new ArrayList<>();
@@ -121,6 +120,7 @@ public class ScheduleActivityTeacherTest {
         eventEnd.set(Calendar.MINUTE, 59);
 
         events.add(new WeekViewEvent(0, "Sweng", "CO_0_1", eventStart, eventEnd));
+        events.add(new WeekViewEvent(0, "Not valid course", "CO_0_1", eventStart, eventEnd));
 
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
