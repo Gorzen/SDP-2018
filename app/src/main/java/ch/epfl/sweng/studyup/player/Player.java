@@ -28,6 +28,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_DESCRIPTION;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_GOAL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_ID;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_PROGRESS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
@@ -157,11 +158,12 @@ public class Player implements SpecialQuestObservable {
             String description = q.get(FB_SPECIALQUESTS_DESCRIPTION);
             int goal = Integer.parseInt(q.get(FB_SPECIALQUESTS_GOAL));
             double progress = Double.parseDouble(q.get(FB_SPECIALQUESTS_PROGRESS));
+            int level = Integer.parseInt(q.get(FB_SPECIALQUESTS_LEVEL));
             Constants.SpecialQuestsType type = Constants.SpecialQuestsType.valueOf(id);
 
             switch (type){
                 case NQUESTIONS:
-                    SpecialQuestNQuestions newQuest = new SpecialQuestNQuestions(title, description, goal);
+                    SpecialQuestNQuestions newQuest = new SpecialQuestNQuestions(title, description, goal, level);
                     newQuest.setProgress(progress);
                     questList.add(newQuest);
                     break;
@@ -220,6 +222,7 @@ public class Player implements SpecialQuestObservable {
             quest.put(FB_SPECIALQUESTS_DESCRIPTION, sq.getDescription());
             quest.put(FB_SPECIALQUESTS_GOAL, Integer.toString(sq.getGoal()));
             quest.put(FB_SPECIALQUESTS_PROGRESS, Double.toString(sq.getProgress()));
+            quest.put(FB_SPECIALQUESTS_LEVEL, Integer.toString(sq.getLevel()));
             questList.add(quest);
         }
         return questList;

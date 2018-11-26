@@ -44,6 +44,7 @@ public abstract class Constants {
     public static final String FB_SPECIALQUESTS_DESCRIPTION = "specialQuests_description";
     public static final String FB_SPECIALQUESTS_GOAL = "specialQuests_goal";
     public static final String FB_SPECIALQUESTS_PROGRESS = "specialQuests_progress";
+    public static final String FB_SPECIALQUESTS_LEVEL = "specialQuests_level";
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS);
@@ -127,7 +128,7 @@ public abstract class Constants {
         List<SpecialQuest> quests = new ArrayList<>();
         //TODO make the title and description a string value
         String simpleSpecialQuestDesc = "Answer three questions correctly in a row\n to get a suprise item!";
-        SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3);
+        SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3, 1);
         quests.add(simpleSpecialQuest);
 
         return quests;

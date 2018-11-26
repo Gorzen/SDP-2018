@@ -1,10 +1,6 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
-import android.util.Log;
-
-import java.io.Serializable;
 import java.util.Random;
-import java.util.Timer;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
@@ -14,11 +10,12 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 public class SpecialQuestNQuestions implements SpecialQuest {
 
-    private Items reward;
+    private final int level;
+    private final Items reward;
     private int questionCount;
     private int goal;
-    private String title;
-    private String description;
+    private final String title;
+    private final String description;
 
     /**
      * Create a new Quest that is acheived when answering a certain number of questions
@@ -26,7 +23,7 @@ public class SpecialQuestNQuestions implements SpecialQuest {
      * @param goal the number of question to be answered before the quest is completed
      * @param description a description of the special quest
      */
-    public SpecialQuestNQuestions(String title, String description, int goal) {
+    public SpecialQuestNQuestions(String title, String description, int goal, int level) {
 
         this.title = title;
         this.description = description;
@@ -36,9 +33,12 @@ public class SpecialQuestNQuestions implements SpecialQuest {
 
         this.goal = goal;
         this.questionCount = 0;
+        this.level = level;
 
         //register to the player as an Observer
-        Player.get().addObserver(this);
+        if (level < Player.get().getLevel()) {
+            Player.get().addObserver(this);
+        }
     }
 
     @Override
@@ -63,6 +63,11 @@ public class SpecialQuestNQuestions implements SpecialQuest {
     @Override
     public Constants.SpecialQuestsType getId() {
         return Constants.SpecialQuestsType.NQUESTIONS;
+    }
+
+    @Override
+    public int getLevel() {
+        return level;
     }
 
     @Override
@@ -91,6 +96,16 @@ public class SpecialQuestNQuestions implements SpecialQuest {
                 questionCount++;
                 Firestore.get().updateRemotePlayerDataFromLocal();
             }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof SpecialQuestNQuestions) {
+            SpecialQuestNQuestions other = (SpecialQuestNQuestions) o;
+            return other.title == this.title && other.description == this.description;
+        } else {
+            return false;
         }
     }
 }

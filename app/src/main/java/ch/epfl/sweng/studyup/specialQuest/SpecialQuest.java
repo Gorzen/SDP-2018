@@ -44,6 +44,9 @@ public interface SpecialQuest extends SpecialQuestObserver, Serializable {
     public int getGoal();
 
     public Constants.SpecialQuestsType getId();
+
+    public int getLevel();
+
 //Setters
     /**
      * Set the goal of the Quests
@@ -64,5 +67,8 @@ public interface SpecialQuest extends SpecialQuestObserver, Serializable {
      * -Add the reward to the player
      */
     public void onComplete();
+
+    @Override
+    public boolean equals(Object o);
 
 }
