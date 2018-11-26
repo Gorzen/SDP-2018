@@ -87,6 +87,7 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(invalidCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
 
         onView(withId(R.id.student)).perform(click());
@@ -105,6 +106,7 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(studentCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
 
         intended(hasComponent(HomeActivity.class.getName()));
@@ -122,6 +124,7 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(teacherCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
 
         intended(hasComponent(AddOrEditQuestionActivity.class.getName()));
