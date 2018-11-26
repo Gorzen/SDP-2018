@@ -156,6 +156,9 @@ public class QuestsActivityTeacher extends NavigationTeacher {
             ImageView lang_view = convertView.findViewById(R.id.lang_img);
             lang_view.setImageResource(lang.get(position));
 
+            TextView course = convertView.findViewById(R.id.course_quest);
+            course.setText(questions.get(position).getCourseName());
+
             return convertView;
         }
     }
