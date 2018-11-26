@@ -64,7 +64,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/title_schedule_teacher"
-                android:textColor="@color/colorPrimary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/listViewCourses"
                 app:layout_constraintEnd_toEndOf="parent"
