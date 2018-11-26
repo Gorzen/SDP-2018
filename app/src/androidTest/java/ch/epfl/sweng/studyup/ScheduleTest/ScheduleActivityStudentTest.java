@@ -124,6 +124,8 @@ public class ScheduleActivityStudentTest {
 
     @Test
     public void testOptionNoException() {
+        mActivityRule.launchActivity(new Intent());
+
         onView(ViewMatchers.withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
