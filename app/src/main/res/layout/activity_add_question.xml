@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorWhite"
-    tools:context=".questions.AddQuestionActivity">
+    tools:context=".questions.AddOrEditQuestionActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"

@@ -22,7 +22,7 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
@@ -82,13 +82,13 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(parent.getContext(), AddQuestionActivity.class).putExtra(AddQuestionActivity.class.getSimpleName(), quests.get(position)));
+                startActivity(new Intent(parent.getContext(), AddOrEditQuestionActivity.class).putExtra(AddOrEditQuestionActivity.class.getSimpleName(), quests.get(position)));
             }
         });
     }
 
     public void addNewQuestion(View view) {
-        startActivity(new Intent(this.getApplicationContext(), AddQuestionActivity.class));
+        startActivity(new Intent(this.getApplicationContext(), AddOrEditQuestionActivity.class));
     }
 
 

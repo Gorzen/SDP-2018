@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".questions.AddQuestionActivity"
+            android:name=".questions.AddOrEditQuestionActivity"
             android:windowSoftInputMode="stateHidden"
             android:label="Add a question" />
 

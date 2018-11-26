@@ -55,8 +55,8 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class AddQuestionActivity extends NavigationStudent {
-    private static final String TAG = "AddQuestionActivity";
+public class AddOrEditQuestionActivity extends NavigationStudent {
+    private static final String TAG = "AddOrEditQuestionAct";
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
@@ -80,7 +80,7 @@ public class AddQuestionActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         Intent intent = getIntent();
-        Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
+        Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
 
         view_chosen_course = findViewById(R.id.chosenCourseTextView);

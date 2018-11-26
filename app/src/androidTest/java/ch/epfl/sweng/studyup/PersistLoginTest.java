@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +17,6 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -134,6 +131,6 @@ public class PersistLoginTest {
         rule.finishActivity();
         rule.launchActivity(new Intent());
 
-        intended(hasComponent(AddQuestionActivity.class.getName()));
+        intended(hasComponent(AddOrEditQuestionActivity.class.getName()));
     }*/
 }

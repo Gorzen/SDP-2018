@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -26,7 +25,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
@@ -48,19 +47,18 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.stringContainsInOrder;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
-public class AddQuestionActivityTest {
-    private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
+public class AddOrEditQuestionActivityTest {
+    private static final String TAG = AddOrEditQuestionActivityTest.class.getSimpleName();
 
     @Rule
-    public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
+    public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
+            new ActivityTestRule<>(AddOrEditQuestionActivity.class, true, false);
 
     @BeforeClass
     public static void enableMock() {
