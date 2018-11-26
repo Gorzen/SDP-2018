@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.utils.Utils;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.init;
@@ -51,6 +53,7 @@ public class PersistLoginTest {
     public void setupTest() {
         init();
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(100, "Wait to activity to launch.");
         loginDataCacher = new FileCacher<>(rule.getActivity().getApplicationContext(), PERSIST_LOGIN_FILENAME);
         toLogin.setClass(rule.getActivity(), LoginActivity.class);
 
