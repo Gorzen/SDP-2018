@@ -75,13 +75,9 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             eventStart.set(Calendar.MINUTE, 0);
 
             Calendar eventEnd = Calendar.getInstance();
-            eventEnd.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
-            eventEnd.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
-            eventEnd.set(Calendar.DAY_OF_MONTH, day);
-            eventEnd.set(Calendar.HOUR_OF_DAY, hour);
-            eventEnd.set(Calendar.MINUTE, 59);
+            eventEnd.setTimeInMillis(eventStart.getTimeInMillis() + 59 * 60000);
 
-            weekViewEvents.add(new WeekViewEvent(id, courseName + '\n' + "CO_0_1", eventStart, eventEnd));
+            weekViewEvents.add(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "CO_0_1", eventStart, eventEnd));
             id += 1;
             weekView.notifyDatasetChanged();
         }
@@ -161,7 +157,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     }
 
     public void onSaveButtonClick(View view){
-        Firestore.get().addEventsToCourse(Constants.Course.valueOf(courseName), weekViewEvents);
+        Firestore.get().addEventsToCourse(Constants.Course.valueOf(courseName), getWeekViewEvents());
     }
 
     public void onBackButtonScheduleTeacher(View v) {

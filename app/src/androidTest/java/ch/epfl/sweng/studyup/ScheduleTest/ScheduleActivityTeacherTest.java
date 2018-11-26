@@ -68,7 +68,7 @@ public class ScheduleActivityTeacherTest {
 
     @Test
     public void addEventAndRemoveEventTest() {
-        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.SWENG.name()));
+        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
 
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
 
@@ -87,16 +87,16 @@ public class ScheduleActivityTeacherTest {
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
-    @Ignore
+    @Test
     public void saveButtonTest() {
-        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, "Sweng"));
+        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
 
-        onView(withId(R.id.fab)).perform(click());
+        mActivityRule.getActivity().onSaveButtonClick(null);
     }
 
     @Test
     public void updateScheduleTest() {
-        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, "Sweng"));
+        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
 
         final List<WeekViewEvent> events = new ArrayList<>();
@@ -120,8 +120,8 @@ public class ScheduleActivityTeacherTest {
         eventEnd.set(Calendar.HOUR_OF_DAY, hour);
         eventEnd.set(Calendar.MINUTE, 59);
 
-        events.add(new WeekViewEvent(0, "Sweng", "CO_0_1", eventStart, eventEnd));
-        events.add(new WeekViewEvent(1, "Not valid course", "CO_0_1", eventStart, eventEnd));
+        events.add(new WeekViewEvent(0, Constants.Course.FakeCourse.name(), "CO_0_1", eventStart, eventEnd));
+        events.add(new WeekViewEvent(1, "XXX", "CO_0_1", eventStart, eventEnd));
 
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override

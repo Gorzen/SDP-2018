@@ -26,6 +26,7 @@ import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
+import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -322,8 +324,6 @@ public class Firestore {
         final List<WeekViewEvent> schedule = new ArrayList<>();
         final boolean isTeacher = p.getRole() == Role.teacher;
 
-        final AtomicInteger courseCounter = new AtomicInteger(0);
-        final int maxWaitingLoop = 40;
         final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
         for(final Course c : courses) {
@@ -332,42 +332,26 @@ public class Firestore {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()) {
-                                if(task.getResult().isEmpty()) {
-                                    courseCounter.incrementAndGet();
-                                    return;
-                                }
+                                if(!task.getResult().isEmpty()) {
+                                    // Adding periods to the course
+                                    for (QueryDocumentSnapshot q : task.getResult()) {
+                                        schedule.add(queryDocumentSnapshotToWeekView(q));
+                                    }
 
-                                // Adding periods to the course
-                                for (QueryDocumentSnapshot q : task.getResult()) {
-                                    schedule.add(queryDocumentSnapshotToWeekView(q));
+                                    onScheduleCompleted(act, role, schedule);
                                 }
-
-                                courseCounter.incrementAndGet();
                             }
                         }
                     });
         }
-
-        /*int loopCounter = 0;
-        while(courseCounter.get() < courses.size() && ++loopCounter < maxWaitingLoop) {
-            waitAndTag(100, TAG);
-        }
-        if(loopCounter >= maxWaitingLoop) {
-            Toast.makeText(act, "Unable to get course(s) data from the server.", Toast.LENGTH_SHORT).show();
-        }*/
-
-        waitAndTag(2000, TAG);
-        onScheduleCompleted(act, role, schedule);
     }
 
     private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
         long id = Long.parseLong(q.get("id").toString());
-        Map<String, Object> startMap = (Map<String, Object>) q.get("startTime");
         Calendar start = Calendar.getInstance();
-        start.setTimeInMillis((Long) startMap.get("timeInMillis"));
-        Map<String, Object> endMap = (Map<String, Object>) q.get("startTime");
+        start.setTimeInMillis(Long.parseLong(q.get("startTimeInMillis").toString()));
         Calendar end = Calendar.getInstance();
-        end.setTimeInMillis((Long) endMap.get("timeInMillis"));
+        end.setTimeInMillis(Long.parseLong(q.get("endTimeInMillis").toString()));
         String name = q.get("name").toString();
         String location = q.get("location").toString();
 
@@ -375,10 +359,16 @@ public class Firestore {
         return new WeekViewEvent(id, name, location, start, end);
     }
 
-    private void onScheduleCompleted(final Activity act, final Role role, final List<WeekViewEvent> schedule) {
+    private void onScheduleCompleted(final Activity act, final Role role, List<WeekViewEvent> schedule) {
 
             if(act instanceof ScheduleActivityStudent) {
-            (    (ScheduleActivityStudent) act).updateSchedule(schedule);
+                ScheduleActivityStudent actCasted = (ScheduleActivityStudent) act;
+                schedule.addAll(actCasted.getWeekViewEvents());
+                actCasted.updateSchedule(schedule);
+            } else if(act instanceof ScheduleActivityTeacher) {
+                ScheduleActivityTeacher actCasted = (ScheduleActivityTeacher) act;
+                schedule.addAll(actCasted.getWeekViewEvents());
+                actCasted.updateSchedule(schedule);
             }
 
 
@@ -479,18 +469,22 @@ public class Firestore {
 
                             // Adding new periods
                             for(WeekViewEvent p : periodsToAdd) {
-                                WeekViewEvent pNew = new WeekViewEvent();
-                                pNew.setStartTime(p.getStartTime());
-                                pNew.setEndTime(p.getEndTime());
-                                pNew.setIdentifier(p.getIdentifier());
-                                pNew.setName(p.getName());
-                                pNew.setId(p.getId());
-                                pNew.setLocation(p.getLocation());
-                                eventsOfCourse.add(pNew);
+                                eventsOfCourse.add(WeekViewEventToMap(p));
                             }
                         }
                     }
                 });
+    }
+
+    private Map<String, Object> WeekViewEventToMap(WeekViewEvent e) {
+        Map<String, Object> eventMap = new HashMap<>();
+        eventMap.put("id", e.getId());
+        eventMap.put("name", e.getName());
+        eventMap.put("location", e.getLocation());
+        eventMap.put("startTimeInMillis", e.getStartTime().getTimeInMillis());
+        eventMap.put("endTimeInMillis", e.getEndTime().getTimeInMillis());
+
+        return eventMap;
     }
 
     public void deleteCourse(Course c) {
