@@ -58,7 +58,6 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     public void backToSettings(View v) {
-        Intent toSettings = new Intent(ChooseColorActivity.this, SettingsActivity.class);
-        startActivity(toSettings);
+        finish();
     }
 }

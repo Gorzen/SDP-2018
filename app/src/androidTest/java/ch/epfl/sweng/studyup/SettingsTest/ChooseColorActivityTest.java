@@ -5,6 +5,8 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -72,6 +74,6 @@ public class ChooseColorActivityTest {
     @Test
     public void canGoBack() {
         onView(withId(R.id.back_button)).perform(click());
-        intended(hasComponent(SettingsActivity.class.getName()));
+        TestCase.assertTrue(rule.getActivity().isFinishing());
     }
 }
