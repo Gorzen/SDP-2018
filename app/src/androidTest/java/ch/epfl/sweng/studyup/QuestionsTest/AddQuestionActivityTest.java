@@ -127,7 +127,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void activityResultTest() {
-        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(click());
+        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(click());
     }
 
 
