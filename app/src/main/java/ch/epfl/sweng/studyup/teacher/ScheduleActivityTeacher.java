@@ -10,7 +10,6 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -19,24 +18,19 @@ import com.alamkanak.weekview.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
-import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
@@ -193,7 +187,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     }
 
     public void onSaveButtonClick(View view){
-        Firestore.get().addEventsToCourse(Constants.Course.valueOf(courseName), getWeekViewEvents());
+        Firestore.get().setCourseEvents(Constants.Course.valueOf(courseName), getWeekViewEvents());
     }
 
     public void onBackButtonScheduleTeacher(View v) {

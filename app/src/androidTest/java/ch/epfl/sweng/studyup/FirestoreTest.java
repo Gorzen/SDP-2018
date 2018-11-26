@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 
 import com.alamkanak.weekview.WeekViewEvent;
@@ -11,7 +10,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +24,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom; //Random int library
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
-import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
@@ -202,7 +199,7 @@ public class FirestoreTest {
         // Verifying that we can add a course
         Firestore.get().setCourseTeacher(c);
         waitAndTag(500, "Waiting for the course to be added.");
-        Firestore.get().addEventsToCourse(c, periods);
+        Firestore.get().setCourseEvents(c, periods);
         waitAndTag(500, "Waiting for the course's periods to be added.");
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);
@@ -211,7 +208,7 @@ public class FirestoreTest {
         //Verifying that we can change course schedule
         periods.get(0).setLocation("CO_2");
         periods.get(1).setLocation("CO_2");
-        Firestore.get().addEventsToCourse(c, periods);
+        Firestore.get().setCourseEvents(c, periods);
         waitAndTag(500, "Waiting for the course's periods to be updated.");
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);

@@ -447,7 +447,7 @@ public class Firestore {
      * @param periodsToAdd The times of the periods for the course, containing all needed data
      *                     (Room, startTime, endTime, etc...)
      */
-    public void addEventsToCourse(final Course c, final List<WeekViewEvent> periodsToAdd) {
+    public void setCourseEvents(final Course c, final List<WeekViewEvent> periodsToAdd) {
         final CollectionReference eventsOfCourse = db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS);
 
 
@@ -462,13 +462,7 @@ public class Firestore {
                             if(!task.getResult().isEmpty()) {
                                 // Deleting periods that are replaced
                                 for(QueryDocumentSnapshot q : task.getResult()) {
-                                    WeekViewEvent periodChecked = queryDocumentSnapshotToWeekView(q);
-
-                                    for(WeekViewEvent p : periodsToAdd) {
-                                        if(p.getStartTime() == periodChecked.getStartTime()) {
-                                            q.getReference().delete();
-                                        }
-                                    }
+                                    q.getReference().delete();
                                 }
                             }
 
