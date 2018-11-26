@@ -44,8 +44,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
@@ -171,12 +173,19 @@ public class AddOrEditQuestionActivityTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
-                    //assertEquals(0, questions.get(0).getAnswer());
-                    assertFalse(questions.get(0).isTrueFalse());
-                    assertEquals(Course.SWENG.name(), questions.get(0).getCourseName());
+                    for(Question q : questions) {
+                        if(q.getQuestionId().equals(MOCK_UUID)) {
+                            assertTrue(q.getTitle().equals("A Title"));
+                            assertTrue(q.getAnswer() == 0);
+                            assertFalse(q.isTrueFalse());
+
+                            return;
+                        }
+                    }
                 }
             }
         });
+
         Utils.waitAndTag(100, TAG);
     }
 }
