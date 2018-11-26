@@ -85,11 +85,7 @@ public class ScheduleActivityTeacherTest {
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
         Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
-        onView(withText("CE_1_3"))
-                .inRoot(isDialog())
-                .check(matches(isDisplayed()))
-                .perform(click());
-        Utils.waitAndTag(500, "Waiting for dialog");
+        
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
         Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");

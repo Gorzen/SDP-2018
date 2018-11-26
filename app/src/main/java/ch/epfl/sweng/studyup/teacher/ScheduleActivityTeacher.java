@@ -94,9 +94,6 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             } else {
                 launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
             }
-
-
-            launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
         }
     };
 
