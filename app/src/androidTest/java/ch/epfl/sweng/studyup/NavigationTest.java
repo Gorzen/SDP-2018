@@ -18,6 +18,7 @@ import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -61,7 +62,7 @@ public class NavigationTest {
         b.setSelectedItemId(R.id.navigation_quests_student);
         intended(hasComponent(QuestsActivityStudent.class.getName()));
         b.setSelectedItemId(R.id.navigation_schedule);
-        intended(hasComponent(ShopActivity.class.getName()));
+        intended(hasComponent(ScheduleActivityStudent.class.getName()));
     }
 
     /*@Test
