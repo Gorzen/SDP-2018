@@ -183,8 +183,8 @@ public class FirestoreTest {
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
     }
 
-    @Ignore
-    public void testFunctionnality() {
+    @Test
+    public void testCourseSync() {
         List<WeekViewEvent> periods = getSimpleSchedule();
         Course c = Course.FakeCourse;
         List<Course> fakeCourseList = new ArrayList<>();
