@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +38,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
@@ -43,6 +46,7 @@ public class EditQuestionActivityTest {
     private final String questionUUID = "Temporary fake uuid";
     private Question q;
     private ListView list;
+    private String TAG = "EditQuestionActivityTest";
 
     @Rule
     public final ActivityTestRule<QuestsActivityTeacher> mActivityRule =
@@ -63,18 +67,16 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editTrueFalseQuestionAnswer0to1Test()  {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
@@ -93,20 +95,19 @@ public class EditQuestionActivityTest {
     }
 
 
+
     @Test
     public void editTrueFalseQuestionAnswer1to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.radio_answer1)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -128,19 +129,17 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editTrueFalseToMCQAnswer0To3Test() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.radio_answer3)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.mcq_radio)).perform(click());
-        onView(withId(R.id.radio_answer3)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -161,18 +160,16 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer0to1Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -193,18 +190,16 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer1to2Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 1, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 1, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -225,18 +220,16 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer2to3Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -257,18 +250,16 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQQuestionAnswer3to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.radio_answer2)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -289,19 +280,17 @@ public class EditQuestionActivityTest {
 
     @Test
     public void editMCQToTrueFalseQuestionAnswer3to0Test() {
-        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
+        onView(withId(R.id.true_false_radio)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
 
-        onView(withId(R.id.true_false_radio)).perform(click());
-        onView(withId(R.id.radio_answer1)).perform(click());
-        onView(withId(R.id.addQuestionButton)).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -322,28 +311,26 @@ public class EditQuestionActivityTest {
 
    @Test
     public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-       onView(withId(R.id.questionText)).perform(scrollTo());
-       Utils.waitAndTag(100, "Waiting for scroll");
-
-        onView(withId(R.id.text_radio_button)).perform(click());
+        onView(withId(R.id.text_radio_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.questionText))
+
+                .perform(scrollTo())
                 .perform(clearText())
                 .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
-        Utils.waitAndTag(500, this.getClass().getName());
 
-       onView(withId(R.id.addQuestionButton)).perform(scrollTo());
-       Utils.waitAndTag(100, "Waiting for scroll");
+        Utils.waitAndTag(2000, this.getClass().getName());
 
-        onView(withId(R.id.radio_answer2));
-        onView(withId(R.id.addQuestionButton)).perform(click());
+        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.addQuestionButton)).perform(scrollTo()).perform(click());
+
         Utils.waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -355,7 +342,9 @@ public class EditQuestionActivityTest {
                     for (Question q : questions) {
                         if(q.getQuestionId() == questionUUID) {
                             assertEquals(true, q.isTrueFalse());
+                            return;
                         }
+                        //assertTrue("Question not found", false);
                     }
                 }
             }
@@ -364,21 +353,19 @@ public class EditQuestionActivityTest {
 
     @Test
     public void backButtonTest() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name());
+        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
 
-        onView(withId(R.id.back_button)).perform(scrollTo());
-        Utils.waitAndTag(100, "Waiting for scroll");
-
         onView(withId(R.id.back_button)).perform(click());
     }
 
     private void clickOnListViewItem() {
         mActivityRule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "wait for questions to load");
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -386,5 +373,6 @@ public class EditQuestionActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
+        Utils.waitAndTag(500, "wait for click to be performed");
     }
 }

@@ -20,6 +20,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
@@ -143,6 +144,7 @@ public class Player implements SpecialQuestObservable {
         List<String> defaultCourseList = new ArrayList<>();
         defaultCourseList.add(Course.SWENG.name());
         courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+        answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
 
         Log.d(TAG, "Loaded courses: " + courses.toString());
     }
@@ -202,6 +204,8 @@ public class Player implements SpecialQuestObservable {
     public List<Course> getCourses() {
         return courses;
     }
+    public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
+
 
     public List<SpecialQuest> getActiveQuests() { return new ArrayList<>(activeQuests); }
 
@@ -311,10 +315,6 @@ public class Player implements SpecialQuestObservable {
             this.answeredQuestions.put(questionID, isAnswerGood);
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
-    }
-
-    public Map<String, Boolean> getAnsweredQuestion() {
-        return this.answeredQuestions;
     }
 
     public boolean isDefault() throws NumberFormatException {

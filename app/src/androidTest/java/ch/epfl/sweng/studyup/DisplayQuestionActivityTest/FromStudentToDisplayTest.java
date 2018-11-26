@@ -38,7 +38,7 @@ public class FromStudentToDisplayTest {
     @Before
     public void addQuestionThatWillBeDisplayed() {
         Player.get().resetPlayer();
-        q = new Question(MOCK_UUID, fakeTitle, false, 3, Constants.Course.SWENG.name());
+        q = new Question(MOCK_UUID, fakeTitle, false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
         Player.get().setRole(Constants.Role.teacher);

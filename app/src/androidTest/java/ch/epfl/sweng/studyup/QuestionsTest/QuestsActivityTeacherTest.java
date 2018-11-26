@@ -78,7 +78,7 @@ public class QuestsActivityTeacherTest {
     }
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name());
+        q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
         rule.launchActivity(new Intent());
@@ -132,7 +132,7 @@ public class QuestsActivityTeacherTest {
 
         //should be able to click on bottom bar at this point
         BottomNavigationView b = rule.getActivity().findViewById(R.id.bottomNavView_Bar);
-        b.setSelectedItemId(R.id.navigation_add_question);
+        b.setSelectedItemId(R.id.navigation_quests_teacher);
     }
 
     @Test

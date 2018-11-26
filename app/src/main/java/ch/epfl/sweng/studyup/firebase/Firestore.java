@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.firebase;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -15,15 +16,23 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
+import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
@@ -36,6 +45,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
@@ -43,6 +53,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
@@ -131,8 +144,9 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
-        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses()));
         localPlayerData.put(FB_SPECIALQUESTS, currPlayer.getActiveQuestsMap());
+        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses(), false));
+        localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
             .set(localPlayerData)
@@ -172,6 +186,7 @@ public class Firestore {
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
         questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
+        questionData.put(FB_QUESTION_LANG, question.getLang());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
@@ -224,10 +239,13 @@ public class Firestore {
                         String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+                        String questionCourseName = questionData.get(FB_COURSE).toString();
+                        String questionLang = (String) questionData.get(FB_QUESTION_LANG);
+                        if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
+                            questionLang = "en";
+                        }
 
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
                         questionList.add(question);
                     }
                 }
@@ -291,4 +309,84 @@ public class Firestore {
                 @Override
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
+
+
+
+    @SuppressWarnings("unchecked")
+    public void loadUsersForStats(final Activity act) {
+        final List<UserData> userList = new ArrayList<>();
+
+        db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Map<String, Object> remotePlayerData = document.getData();
+
+                        UserData user = new UserData(INITIAL_SCIPER,
+                                INITIAL_FIRSTNAME,
+                                INITIAL_LASTNAME,
+                                new HashMap<String, Boolean>(),
+                                new ArrayList<Course>());
+                        user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
+                        user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
+                        user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
+                        user.setAnsweredQuestions((HashMap<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
+                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, new ArrayList<Course>())));
+
+                        userList.add(user);
+                    }
+
+                    if (act instanceof CourseStatsActivity) {
+                        CourseStatsActivity.setUsers(userList);
+                    }
+                } else {
+                    Log.e(TAG, "Error getting documents for courses: ", task.getException());
+                }
+            }
+        });
+
+    }
+
+
+    /**
+     *
+     * Load all questions in order to give statistics for each course, students, questions
+     *
+     * @param act activity in which this function can be used : CourseStatsActivity
+     * @throws NullPointerException  If the data received from the server is not of a valid format
+     */
+    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
+
+        final List<Question> questionList = new ArrayList<>();
+
+        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> remoteQuestionData = document.getData();
+                        String questionId = document.getId();
+                        String questionTitle = (String) remoteQuestionData.get(FB_QUESTION_TITLE);
+                        Boolean questionTrueFalse = (Boolean) remoteQuestionData.get(FB_QUESTION_TRUEFALSE);
+                        int questionAnswer = Integer.parseInt((remoteQuestionData.get(FB_QUESTION_ANSWER)).toString());
+                        String questionCourseName = remoteQuestionData.get(FB_COURSE).toString();
+                        String langQuestion = remoteQuestionData.get(FB_QUESTION_LANG).toString();
+
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, langQuestion);
+
+
+                        questionList.add(question);
+                    }
+                    if (act instanceof CourseStatsActivity) {
+                        CourseStatsActivity.setQuestions(questionList);
+                    }
+
+                } else Log.e(TAG, "Error getting documents for courses: ", task.getException());
+            }
+        });
+    }
+
+
 }
