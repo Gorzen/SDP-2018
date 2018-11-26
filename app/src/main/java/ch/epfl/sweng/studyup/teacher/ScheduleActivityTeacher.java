@@ -85,8 +85,13 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
             Calendar eventEnd = Calendar.getInstance();
             eventEnd.setTimeInMillis(eventStart.getTimeInMillis() + 59 * 60000);
-
-            launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
+            if(MOCK_ENABLED) {
+                weekViewEvents.add(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "CO_1_1", eventStart, eventEnd));
+                id += 1;
+                weekView.notifyDatasetChanged();
+            } else {
+                launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
+            }
         }
     };
 
