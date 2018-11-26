@@ -58,8 +58,8 @@ public class AddQuestionActivity extends NavigationStudent {
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
-    private RadioGroup trueFalseRadioGroup;
-    private RadioGroup imageTextRadioGroup;
+
+    private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
     private Course chosenCourse;
     private TextView view_chosen_course;
@@ -165,6 +165,7 @@ public class AddQuestionActivity extends NavigationStudent {
 
             boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
 
+            String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
 
@@ -223,7 +224,7 @@ public class AddQuestionActivity extends NavigationStudent {
                 return;
             }
             String questionCourseName = chosenCourse.name();
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, selectedCourseName, langQuestion);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -247,8 +248,6 @@ public class AddQuestionActivity extends NavigationStudent {
         }
     }
 
-
-
     private void addRadioListener() {
         trueFalseRadioGroup = findViewById(R.id.true_false_or_mcq_radio_group);
         trueFalseRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -265,6 +264,8 @@ public class AddQuestionActivity extends NavigationStudent {
                 setUpImageOrTextBasedRadioButtons(checkedId);
             }
         });
+
+        langRadioGroup = findViewById(R.id.lang_radio_group);
     }
 
     /**

@@ -2,15 +2,21 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/list_view_shape"
+        android:backgroundTint="@color/colorListItems"
         android:orientation="vertical"
         android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,11 +24,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/colorListItems"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
 
         tools:ignore="MissingConstraints">
 
@@ -64,15 +65,26 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_gravity="top|end"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="is the quest done?"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.984"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703"
+        app:layout_constraintVertical_bias="0.764"
         app:srcCompat="@drawable/ic_todo_grey_24dp"
         tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/lang_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/ic_check_green_24dp"
+        tools:layout_editor_absoluteX="320dp" />
+
 </android.support.constraint.ConstraintLayout>

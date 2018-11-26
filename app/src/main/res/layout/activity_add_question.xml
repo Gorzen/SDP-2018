@@ -470,6 +470,8 @@
             </ScrollView>
         </android.support.constraint.ConstraintLayout>
 
+        <!--BOTTOM NAV BAR-->
+
     </RelativeLayout>
 
     <!--OVERLAPPING THINGS-->

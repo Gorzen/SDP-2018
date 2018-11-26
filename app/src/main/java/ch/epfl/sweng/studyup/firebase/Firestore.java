@@ -44,6 +44,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
@@ -181,6 +182,7 @@ public class Firestore {
         questionData.put(FB_QUESTION_TITLE, question.getTitle());
         questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
+        questionData.put(FB_QUESTION_LANG, question.getLang());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
@@ -230,9 +232,12 @@ public class Firestore {
                         Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
                         String questionCourseName = Course.SWENG.name(); //questionData.get(FB_COURSE).toString();
+                        String questionLang = (String) questionData.get(FB_QUESTION_LANG);
+                        if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
+                            questionLang = "en";
+                        }
 
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName);
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
                         questionList.add(question);
                     }
                 }
