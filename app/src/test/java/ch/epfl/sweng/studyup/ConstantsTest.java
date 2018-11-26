@@ -19,7 +19,7 @@ public class ConstantsTest {
     public void getNamesForCoursesReturnsCorrectListTest() {
         List<Constants.Course> courses = Arrays.asList(Constants.Course.Algebra, Constants.Course.SWENG, Constants.Course.Algebra);
         List<String> coursesNames = Constants.Course.getNamesFromCourses(courses);
-        assertEquals(Arrays.asList("Algebra", "SWENG", "Algebra"), coursesNames);
+        assertEquals(Arrays.asList("Algebra", "Software Engineering", "Algebra"), coursesNames);
     }
 
     @Test
