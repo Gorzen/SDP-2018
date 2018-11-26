@@ -15,6 +15,7 @@ import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher.COURSE_NAME_INTENT_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.COURSE_SELECTION_FOR_SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
 
 public class CourseSelectionForScheduleActivity extends NavigationTeacher {
@@ -24,7 +25,7 @@ public class CourseSelectionForScheduleActivity extends NavigationTeacher {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_selection_for_schedule);
-        navigationSwitcher(CourseSelectionForScheduleActivity.this, CourseSelectionForScheduleActivity.class, COURSE_STAT_INDEX);
+        navigationSwitcher(CourseSelectionForScheduleActivity.this, CourseSelectionForScheduleActivity.class, COURSE_SELECTION_FOR_SCHEDULE_INDEX);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
