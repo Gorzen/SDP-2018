@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.settings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,9 @@ import android.view.View;
 
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
@@ -19,32 +23,38 @@ public class ChooseColorActivity extends RefreshContext {
 
     public void setColorRed(View v) {
         GlobalAccessVariables.APP_THEME = R.style.AppTheme;
-        startActivity(new Intent(this, HomeActivity.class));
+        backToApp();
         finish();
     }
 
     public void setColorGreen(View v) {
         GlobalAccessVariables.APP_THEME = R.style.AppThemeGreen;
-        startActivity(new Intent(this, HomeActivity.class));
+        backToApp();
         finish();
     }
 
     public void setColorBlue(View v) {
         GlobalAccessVariables.APP_THEME = R.style.AppThemeBlue;
-        startActivity(new Intent(this, HomeActivity.class));
+        backToApp();
         finish();
     }
 
     public void setColorBrown(View v) {
         GlobalAccessVariables.APP_THEME = R.style.AppThemeBrown;
-        startActivity(new Intent(this, HomeActivity.class));
+        backToApp();
         finish();
     }
 
     public void setColorMulti(View v) {
         GlobalAccessVariables.APP_THEME = R.style.AppThemeMulti;
-        startActivity(new Intent(this, HomeActivity.class));
+        backToApp();
         finish();
+    }
+
+    public void backToApp() {
+        Class act = Player.get().getRole() == Constants.Role.teacher ?
+                QuestsActivityTeacher.class : HomeActivity.class;
+        startActivity(new Intent(this, act));
     }
 
     public void backToSettings(View v) {
