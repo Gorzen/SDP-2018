@@ -110,6 +110,13 @@ public abstract class Constants {
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
     public static final String USER_PREFS = "StudyUpPrefs";
+    public static final String LANG_SETTINGS_KEYWORD = "lang";
+    public static final String COLOR_SETTINGS_KEYWORD = "color";
+    public static final String SETTINGS_COLOR_RED = "red";
+    public static final String SETTINGS_COLOR_GREEN = "green";
+    public static final String SETTINGS_COLOR_BROWN = "brown";
+    public static final String SETTINGS_COLOR_BLUE = "blue";
+    public static final String SETTINGS_COLOR_MULTI = "multi";
 
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;

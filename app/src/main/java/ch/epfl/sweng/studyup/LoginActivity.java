@@ -36,6 +36,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_AUTO_LOGIN;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
 
 public class LoginActivity extends RefreshContext {
 
@@ -49,8 +50,13 @@ public class LoginActivity extends RefreshContext {
 
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
-                .getString("lang", Locale.getDefault().getLanguage());
+                .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());
         setLocale(lang, this);
+
+        // Color
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        setupColor(col);
 
         if(!MOCK_ENABLED) {
             try {

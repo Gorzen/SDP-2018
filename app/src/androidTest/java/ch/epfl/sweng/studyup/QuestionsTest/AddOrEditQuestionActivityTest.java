@@ -137,7 +137,7 @@ public class AddOrEditQuestionActivityTest {
         List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
         Player.get().setCourses(courses);
         onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
-        onView(withText("Software Engineering")).inRoot(isDialog())
+        onView(withText(Course.SWENG.toString())).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());

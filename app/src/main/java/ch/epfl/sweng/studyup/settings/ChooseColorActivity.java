@@ -14,6 +14,16 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
+import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
+
 public class ChooseColorActivity extends RefreshContext {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,39 +32,50 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     public void setColorRed(View v) {
-        GlobalAccessVariables.APP_THEME = R.style.AppTheme;
+        setupSettingsColor(SETTINGS_COLOR_RED);
+        setupColor(SETTINGS_COLOR_RED);
         backToApp();
         finish();
     }
 
     public void setColorGreen(View v) {
-        GlobalAccessVariables.APP_THEME = R.style.AppThemeGreen;
+        setupSettingsColor(SETTINGS_COLOR_GREEN);
+        setupColor(SETTINGS_COLOR_GREEN);
         backToApp();
         finish();
     }
 
     public void setColorBlue(View v) {
-        GlobalAccessVariables.APP_THEME = R.style.AppThemeBlue;
+        setupSettingsColor(SETTINGS_COLOR_BLUE);
+        setupColor(SETTINGS_COLOR_BLUE);
         backToApp();
         finish();
     }
 
     public void setColorBrown(View v) {
-        GlobalAccessVariables.APP_THEME = R.style.AppThemeBrown;
+        setupSettingsColor(SETTINGS_COLOR_BROWN);
+        setupColor(SETTINGS_COLOR_BROWN);
         backToApp();
         finish();
     }
 
     public void setColorMulti(View v) {
-        GlobalAccessVariables.APP_THEME = R.style.AppThemeMulti;
+        setupSettingsColor(SETTINGS_COLOR_MULTI);
+        setupColor(SETTINGS_COLOR_MULTI);
         backToApp();
         finish();
     }
 
-    public void backToApp() {
+    private void backToApp() {
         Class act = Player.get().getRole() == Constants.Role.teacher ?
                 QuestsActivityTeacher.class : HomeActivity.class;
         startActivity(new Intent(this, act));
+    }
+
+    private void setupSettingsColor(String col) {
+        getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
+                .putString(COLOR_SETTINGS_KEYWORD, col)
+                .apply();
     }
 
     public void backToSettings(View v) {

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 
@@ -23,6 +24,11 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FIRST_DAY_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.LAST_DAY_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.WEEK_VIEW_LOADER;
 
@@ -100,6 +106,28 @@ public abstract class Utils {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+    }
+
+    public static void setupColor(String col) {
+        switch(col) {
+            case SETTINGS_COLOR_RED:
+                GlobalAccessVariables.APP_THEME = R.style.AppTheme;
+                return;
+            case SETTINGS_COLOR_GREEN:
+                GlobalAccessVariables.APP_THEME = R.style.AppThemeGreen;
+                return;
+            case SETTINGS_COLOR_BROWN:
+                GlobalAccessVariables.APP_THEME = R.style.AppThemeBrown;
+                return;
+            case SETTINGS_COLOR_BLUE:
+                GlobalAccessVariables.APP_THEME = R.style.AppThemeBlue;
+                return;
+            case SETTINGS_COLOR_MULTI:
+                GlobalAccessVariables.APP_THEME = R.style.AppThemeMulti;
+                return;
+            default:
+                GlobalAccessVariables.APP_THEME = R.style.AppTheme;
+        }
     }
 
     public static void setupWeekView(WeekView weekView,

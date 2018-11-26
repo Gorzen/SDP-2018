@@ -19,6 +19,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -54,7 +55,7 @@ public class SettingsActivity extends RefreshContext {
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
                 }
                 getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
-                        .putString("lang", lang)
+                        .putString(LANG_SETTINGS_KEYWORD, lang)
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
