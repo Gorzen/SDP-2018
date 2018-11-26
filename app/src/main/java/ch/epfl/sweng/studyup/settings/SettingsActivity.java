@@ -13,6 +13,8 @@ import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
@@ -56,7 +58,9 @@ public class SettingsActivity extends RefreshContext {
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
-                startActivity(new Intent(MOST_RECENT_ACTIVITY, HomeActivity.class));
+                Class nextActivity = Player.get().getRole() == Constants.Role.teacher ?
+                        QuestsActivityTeacher.class : HomeActivity.class;
+                startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);
