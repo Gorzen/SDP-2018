@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.TeacherTest.CourseStatsActivityTest;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -105,7 +106,21 @@ public class QuestsActivityTeacherTest {
     @Test
     public void shouldHaveAtLeastOneQuestion() {
         final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
-        assert (1 <= list.getAdapter().getCount());
+        onView(withId(R.id.listViewQuests)).check(matches(QuestsActivityTeacherTest.Matchers.withListSizeAtLeast(1)));
+    }
+
+    static class Matchers {
+        public static Matcher<View> withListSizeAtLeast (final int size) {
+            return new TypeSafeMatcher<View>() {
+                @Override public boolean matchesSafely (final View view) {
+                    return ((ListView) view).getCount () >= size;
+                }
+
+                @Override public void describeTo (final Description description) {
+                    description.appendText ("ListView should have at least " + size + " items");
+                }
+            };
+        }
     }
 
     //Fail for unknown reasons
