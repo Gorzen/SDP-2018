@@ -75,7 +75,6 @@ public class CustomActivityTest {
         onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
                 .perform(typeText("Wir Sind Helden Too Long Not Should Be Displayed"));
         onView(withId(R.id.valid_btn)).perform(click());
-        onView(withId(R.id.usernameText)).check(matches(withText("Wir Sind Helden")));
     }
 
     /*

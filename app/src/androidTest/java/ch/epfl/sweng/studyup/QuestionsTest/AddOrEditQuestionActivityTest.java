@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -26,7 +25,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
@@ -45,22 +44,23 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.stringContainsInOrder;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
-public class AddQuestionActivityTest {
-    private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
+public class AddOrEditQuestionActivityTest {
+    private static final String TAG = AddOrEditQuestionActivityTest.class.getSimpleName();
 
     @Rule
-    public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class, true, false);
+    public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
+            new ActivityTestRule<>(AddOrEditQuestionActivity.class, true, false);
 
     @BeforeClass
     public static void enableMock() {
@@ -137,7 +137,7 @@ public class AddQuestionActivityTest {
         List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
         Player.get().setCourses(courses);
         onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
-        onView(withText("Software Engineering")).inRoot(isDialog())
+        onView(withText(Course.SWENG.toString())).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
@@ -161,7 +161,7 @@ public class AddQuestionActivityTest {
         });
         Utils.waitAndTag(500, "Waiting for scroll");
 
-        onView(ViewMatchers.withId(R.id.addQuestionButton)).perform(scrollTo(), click());
+        onView(ViewMatchers.withId(R.id.addOrEditQuestionButton)).perform(scrollTo(), click());
         Utils.waitAndTag(500, TAG);
         Player.get().setRole(Role.teacher);
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -173,12 +173,19 @@ public class AddQuestionActivityTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
-                    //assertEquals(0, questions.get(0).getAnswer());
-                    assertFalse(questions.get(0).isTrueFalse());
-                    assertEquals(Course.SWENG.name(), questions.get(0).getCourseName());
+                    for(Question q : questions) {
+                        if(q.getQuestionId().equals(MOCK_UUID)) {
+                            assertTrue(q.getTitle().equals("A Title"));
+                            assertTrue(q.getAnswer() == 0);
+                            assertFalse(q.isTrueFalse());
+
+                            return;
+                        }
+                    }
                 }
             }
         });
+
         Utils.waitAndTag(100, TAG);
     }
 }

@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 
 public class mockImagePathGetter implements imagePathGetter {
     public static final Uri fakeUri = Uri.parse("studyup://fake/path");
@@ -28,8 +28,8 @@ public class mockImagePathGetter implements imagePathGetter {
         Intent i = new Intent();
         i.setData(fakeUri);
 
-        if(activity instanceof AddQuestionActivity) {
-            ((AddQuestionActivity) activity).onActivityResult(requestCode, Activity.RESULT_OK, i);
+        if(activity instanceof AddOrEditQuestionActivity) {
+            ((AddOrEditQuestionActivity) activity).onActivityResult(requestCode, Activity.RESULT_OK, i);
         }
     }
 }

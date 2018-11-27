@@ -11,6 +11,7 @@ import java.util.Arrays;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.ListItemAdapter;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class ListAdapterTest {
     ListItemAdapter listItemAdapter;
     ArrayList<Items> items;
-    CourseStatsActivity.ListCourseAdapter listCourseAdapter;
+    ListCourseAdapter listCourseAdapter;
     ArrayList<Constants.Course> courses;
 
 
@@ -29,7 +30,7 @@ public class ListAdapterTest {
         items = new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.COIN_SACK, Items.XP_POTION));
         courses = new ArrayList<>(Arrays.asList(Constants.Course.SWENG, Constants.Course.Algebra, Constants.Course.Ecology));
         listItemAdapter = new ListItemAdapter(null, items, false);
-        listCourseAdapter = new CourseStatsActivity.ListCourseAdapter(null, courses);
+        listCourseAdapter = new ListCourseAdapter(null, courses);
     }
 
     @Test
@@ -48,6 +49,6 @@ public class ListAdapterTest {
     @Test
     public void getItemIdReturnsCorrectId() {
         assertEquals(Items.XP_POTION.ordinal(), listItemAdapter.getItemId(2));
-        assertEquals(Constants.Course.SWENG.ordinal(), listItemAdapter.getItemId(2));
+        assertEquals(Constants.Course.FakeCourse.ordinal(), listItemAdapter.getItemId(2));
     }
 }

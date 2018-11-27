@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -29,8 +29,8 @@ import com.kosalgeek.android.caching.FileCacher;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
@@ -48,12 +48,12 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDE
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
-public class MainActivity extends NavigationStudent {
+public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
-    CircularProgressIndicator levelProgress;
+    public CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
     ImageButton pic_button;
 
@@ -91,7 +91,7 @@ public class MainActivity extends NavigationStudent {
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
         ActivityCompat.requestPermissions(
-                MainActivity.this,
+                HomeActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
 
@@ -103,10 +103,10 @@ public class MainActivity extends NavigationStudent {
         }
 
         //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
+        navigationSwitcher(HomeActivity.this, HomeActivity.class, MAIN_INDEX);
 
         ActivityCompat.requestPermissions(
-                MainActivity.this,
+                HomeActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 123);
 
@@ -125,7 +125,7 @@ public class MainActivity extends NavigationStudent {
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                Intent intent = new Intent(HomeActivity.this, CustomActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
@@ -133,7 +133,7 @@ public class MainActivity extends NavigationStudent {
         pic_button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                Intent intent = new Intent(HomeActivity.this, CustomActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
                 pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));
@@ -236,7 +236,7 @@ public class MainActivity extends NavigationStudent {
         specialQuestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent displaySpecialQuestion = new Intent(MainActivity.this, SpecialQuestDisplayActivity.class);
+                Intent displaySpecialQuestion = new Intent(HomeActivity.this, SpecialQuestDisplayActivity.class);
                 displaySpecialQuestion.putExtra(SPECIAL_QUEST_INDEX_KEY, position);
 
                 startActivity(displaySpecialQuestion);

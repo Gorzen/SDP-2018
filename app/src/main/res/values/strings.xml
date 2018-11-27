@@ -5,13 +5,14 @@
     <string name="title_activity_auth_redirect" translatable="false">AuthRedirectActivity</string>
 
     <string name="title_quests">Quests</string>
-    <string name="title_shop">Shop</string>
+    <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
     <string name="title_home">Home</string>
     <string name="title_map">Map</string>
-    <string name="title_inventory">Inventory</string>
+    <string name="title_inventory">Items</string>
     <string name="title_infos">Infos</string>
 
+    <string name="go_to_shop_button">Buy more items</string>
     <string name="save_value">Save</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
@@ -120,20 +121,30 @@
     <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
-    <string name="course_statistics">Course Statistics</string>
-    <string name="displaycourseactivity">DisplayCourseActivity</string>
-    <string name="courses">Courses</string>
-    <string name="select_the_correct_answer">Select the correct answer</string>
-    <string name="mcq_or_tf_question">MCQ or TF Question ?</string>
-    <string name="write_your_question">Write your question</string>
-    <string name="picture_text_question">Picture/Text Question ?</string>
-    <string name="chosen_course">Chosen course:</string>
-    <string name="course_for_this_quest">Course for this quest</string>
-    <string name="add_a_new_question_text">Add a new question</string>
     <string name="question_edited">Question successfully edited !</string>
     <string name="text_failed_update_courses">Failed to update courses!</string>
     <string name="text_courses_updated">Courses updated!</string>
     <string name="congrat_text_special_quest">Yay! You just completed this quest! You earned a new item: </string>
     <string name="choose_the_language_of_your_question">Choose the language of your question</string>
     <string name="special_quests_title">Special Quests</string>
+    <string name="title_activity_schedule">ScheduleActivity</string>
+    <string name="course_statistics">Course Statistics</string>
+    <string name="displaycourseactivity">DisplayCourseActivity</string>
+    <string name="courses">Stats</string>
+    <string name="select_the_correct_answer">Select the Correct Answer</string>
+    <string name="mcq_or_tf_question">MCQ or TF Question?</string>
+    <string name="write_your_question">Write / Select the Image for the Question</string>
+    <string name="picture_text_question">Picture or Text Question?</string>
+    <string name="course_for_this_quest">Course for this Quest</string>
+    <string name="add_a_new_question_text">Add a new Question</string>
+    <string name="title_schedule_teacher">My courses</string>
+    <string name="title_schedule_student">Schedule</string>
+    <string name="room_alert_title">Choose the Room</string>
+    <string name="text_insert_title_for_question">Please Insert a Title</string>
+    <string name="text_select_course_for_question">Please Select a Course</string>
+    <string name="error_when_download_question">An Error Occured when Downloading the Question</string>
+    <string name="chosen_course_for_question">Chosen Course : </string>
+    <string name="edit_button_text">Edit</string>
+    <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
+    <string name="write_here_your_question_text">Write Here the Question</string>
 </resources>

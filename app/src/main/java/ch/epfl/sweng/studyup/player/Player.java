@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.alamkanak.weekview.WeekViewEvent;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
@@ -20,8 +21,9 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
@@ -37,7 +39,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
@@ -69,7 +70,9 @@ public class Player implements SpecialQuestObservable {
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
 
-    private List<Course> courses;
+    private List<Course> coursesEnrolled;
+    private List<Course> coursesTeached;
+    private List<WeekViewEvent> scheduleStudent;
 
     private List<SpecialQuest> specialQuests;
 
@@ -83,12 +86,13 @@ public class Player implements SpecialQuestObservable {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        // By default every player is enrolled in SWENG
-        courses.add(Course.SWENG);
         specialQuests = new ArrayList<>();
         // By default every player has a "three questions" special quest
         specialQuests.add(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS));
+        coursesEnrolled = new ArrayList<>();
+        coursesTeached = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     public static Player get() {
@@ -109,8 +113,9 @@ public class Player implements SpecialQuestObservable {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
-        courses = new ArrayList<>();
-        courses.add(Course.SWENG);
+        coursesEnrolled = new ArrayList<>();
+        coursesEnrolled.add(Course.SWENG);
+        scheduleStudent = new ArrayList<>();
     }
 
     /**
@@ -143,12 +148,18 @@ public class Player implements SpecialQuestObservable {
         }
         //TODO: call the update method for quests
 
-        List<String> defaultCourseList = new ArrayList<>();
-        defaultCourseList.add(Course.SWENG.name());
-        courses = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, defaultCourseList));
+        List<String> defaultCourseListEnrolled = new ArrayList<>();
+        defaultCourseListEnrolled.add(Course.SWENG.name());
+        coursesEnrolled = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, defaultCourseListEnrolled));
+
+        List<String> defaultCourseListTeached = new ArrayList<>();
+        coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
+
         answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
 
-        Log.d(TAG, "Loaded courses: " + courses.toString());
+        Log.d(TAG, "Loaded courses: \n");
+        Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
+        Log.d(TAG, "Teached: "+coursesTeached.toString()+"\n");
     }
 
     // Getters
@@ -160,7 +171,6 @@ public class Player implements SpecialQuestObservable {
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
     public int getCurrency() { return this.currency; }
-    public String getCurrentRoom() { return ROOM_NUM; }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
     }
@@ -175,8 +185,14 @@ public class Player implements SpecialQuestObservable {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public List<Course> getCoursesEnrolled() {
+        return coursesEnrolled;
+    }
+    public List<Course> getCoursesTeached() {
+        return coursesTeached;
+    }
+    public List<WeekViewEvent> getScheduleStudent() {
+        return scheduleStudent;
     }
     public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
@@ -217,10 +233,10 @@ public class Player implements SpecialQuestObservable {
         experience += xp;
         updateLevel(activity);
 
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).updateXpAndLvlDisplay();
-            ((MainActivity) activity).updateCurrDisplay();
-            Log.i("Check", "Activity is " + activity.toString() + " " + ((MainActivity) activity).getLocalClassName());
+        if (activity instanceof HomeActivity) {
+            ((HomeActivity) activity).updateXpAndLvlDisplay();
+            ((HomeActivity) activity).updateCurrDisplay();
+            Log.i("Check", "Activity is " + activity.toString() + " " + ((HomeActivity) activity).getLocalClassName());
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -229,8 +245,8 @@ public class Player implements SpecialQuestObservable {
     public void addCurrency(int curr, Activity activity) {
         currency += curr;
 
-        if (activity instanceof MainActivity) {
-            ((MainActivity) activity).updateCurrDisplay();
+        if (activity instanceof HomeActivity) {
+            ((HomeActivity) activity).updateCurrDisplay();
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -248,9 +264,28 @@ public class Player implements SpecialQuestObservable {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
+    /**
+     * Set the given courses as this player's course (depending on the role). When setting some
+     * teacher's courses, it will upload the courses' data on the server accordingly (overriding
+     * the schedule of the course if someone else was teaching that course).
+     *
+     * @param courses The courses the player attends/teaches
+     */
     public void setCourses(List<Course> courses) {
-        this.courses = courses;
+        if(role == Role.student) {
+            this.coursesEnrolled = courses;
+        } else {
+            this.coursesTeached= courses;
+            for(Course c : courses) {
+                Firestore.get().setCourseTeacher(c);
+            }
+        }
+
         Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {
+        this.scheduleStudent = scheduleStudent;
     }
 
     /**

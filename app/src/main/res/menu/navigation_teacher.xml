@@ -11,4 +11,8 @@
         android:id="@+id/navigation_courses_stats_teacher"
         android:icon="@drawable/ic_book_black_24dp"
         android:title="@string/courses" />
+    <item
+        android:id="@+id/navigation_courses_schedule_teacher"
+        android:icon="@drawable/ic_schedule_24dp"
+        android:title="@string/title_schedule_teacher" />
 </menu>

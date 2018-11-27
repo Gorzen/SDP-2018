@@ -1,5 +1,6 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.SettingsTest;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.BeforeClass;
@@ -9,7 +10,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -21,7 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.not;
 
-public class CoursesActivityTest {
+public class CoursesActivityTestStudent {
 
     @Rule
     public final ActivityTestRule<CourseSelectionActivity> mActivityRule =
@@ -29,6 +32,7 @@ public class CoursesActivityTest {
 
     @BeforeClass
     public static void setupTests() {
+        Player.get().setRole(Role.student);
         List<Course> testCourseList = new ArrayList<>();
         testCourseList.add(Course.Algebra);
         testCourseList.add(Course.Blacksmithing);
@@ -47,7 +51,7 @@ public class CoursesActivityTest {
     public void testCourseSelection() {
         onView(withText(Course.Ecology.name())).perform(click());
 
-        onView(withText(R.string.save_value)).perform(click());
-        assert(Player.get().getCourses().contains(Course.Ecology));
+        onView(ViewMatchers.withText(R.string.save_value)).perform(click());
+        assert(Player.get().getCoursesEnrolled().contains(Course.Ecology));
     }
 }

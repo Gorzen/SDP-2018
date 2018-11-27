@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,19 +19,15 @@ import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
 
-import java.io.IOException;
-import java.util.List;
-
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
 
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
@@ -41,6 +36,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_AUTO_LOGIN;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
 
 public class LoginActivity extends RefreshContext {
 
@@ -54,8 +50,13 @@ public class LoginActivity extends RefreshContext {
 
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
-                .getString("lang", Locale.getDefault().getLanguage());
+                .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());
         setLocale(lang, this);
+
+        // Color
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        setupColor(col);
 
         if(!MOCK_ENABLED) {
             try {
@@ -99,7 +100,7 @@ public class LoginActivity extends RefreshContext {
                  */
 
                 HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
-                        MainActivity.class : QuestsActivityTeacher.class;
+                        HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));
             }
@@ -182,7 +183,7 @@ public class LoginActivity extends RefreshContext {
 
             Role loginRole = checkedRole.getId() == R.id.student ? Role.student : Role.teacher;
             HOME_ACTIVITY = loginRole.equals(Role.student) ?
-                    MainActivity.class : QuestsActivityTeacher.class;
+                    HomeActivity.class : QuestsActivityTeacher.class;
             Player.get().setRole(loginRole);
 
             startActivity(authServerRedirect);

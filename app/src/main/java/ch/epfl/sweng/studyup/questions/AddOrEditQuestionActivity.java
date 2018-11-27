@@ -34,6 +34,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import ch.epfl.sweng.studyup.R;
@@ -41,6 +42,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.imagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
@@ -53,8 +55,8 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class AddQuestionActivity extends NavigationStudent {
-    private static final String TAG = "AddQuestionActivity";
+public class AddOrEditQuestionActivity extends NavigationStudent {
+    private static final String TAG = "AddOrEditQuestionAct";
 
     private static final int READ_REQUEST_CODE = 42;
     private Uri imageURI = null;
@@ -78,7 +80,7 @@ public class AddQuestionActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         Intent intent = getIntent();
-        Question question = (Question) intent.getSerializableExtra(AddQuestionActivity.class.getSimpleName());
+        Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());
         Log.d("TEST_EDIT_QUESTION", "question = " + question);
 
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
@@ -91,7 +93,7 @@ public class AddQuestionActivity extends NavigationStudent {
             this.question = question;
             answer = question.getAnswer();
             isNewQuestion = false;
-            int trueFalseOrMCQ = question.isTrueFalse() == true ? R.id.true_false_radio : R.id.mcq_radio;
+            int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
             int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
             chosenCourse = Course.valueOf(question.getCourseName());
             setupEditQuestion(trueFalseOrMCQ, langButtonId);
@@ -179,7 +181,7 @@ public class AddQuestionActivity extends NavigationStudent {
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
             if (newQuestionTitle.isEmpty()) {
-                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -207,7 +209,7 @@ public class AddQuestionActivity extends NavigationStudent {
                     TextView questionTextView = findViewById(R.id.questionText);
                     String questionData = questionTextView.getText().toString();
                     if (questionData.isEmpty()) {
-                        Toast.makeText(this.getApplicationContext(), "Please insert a question", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     writer.write(questionData);
@@ -219,12 +221,12 @@ public class AddQuestionActivity extends NavigationStudent {
 
             Log.e(TAG, "create the question");
             if (newQuestionTitle.length() == 0) {
-                Toast.makeText(this.getApplicationContext(), "Please insert a title", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if(chosenCourse==null){
-                Toast.makeText(this.getApplicationContext(), "Please select a course", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_select_course_for_question), Toast.LENGTH_SHORT).show();
                 return;
             }
             String questionCourseName = chosenCourse.name();
@@ -292,8 +294,8 @@ public class AddQuestionActivity extends NavigationStudent {
             fourthRadioButton.setVisibility(View.INVISIBLE);
             fourthRadioButton.setChecked(false);
             //Change the text to the 1st and second button to True and False
-            firstRadioButton.setText(R.string.truth_value);
-            secondRadioButton.setText(R.string.false_value);
+            firstRadioButton.setText(getString(R.string.truth_value));
+            secondRadioButton.setText(getString(R.string.false_value));
             if (!isNewQuestion && question.isTrueFalse()) {
                 switch (answer) {
                     case 0:
@@ -370,12 +372,12 @@ public class AddQuestionActivity extends NavigationStudent {
         setupTextAndImage();
         setupLang(langButtonId);
 
-        view_chosen_course.setText("Chosen Course : "+ chosenCourse.toString());
+        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+ chosenCourse.toString());
     }
 
     private void changeAddButtonToEditButton() {
-        Button addEditButton = findViewById(R.id.addQuestionButton);
-        addEditButton.setText("Edit");
+        Button addEditButton = findViewById(R.id.addOrEditQuestionButton);
+        addEditButton.setText(getString(R.string.edit_button_text));
     }
 
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
@@ -391,20 +393,22 @@ public class AddQuestionActivity extends NavigationStudent {
         AlertDialog.Builder courseChoiceBuilder = new AlertDialog.Builder(this);
         courseChoiceBuilder.setTitle(getString(R.string.course_for_this_quest));
 
-        ArrayList<String> stringList = getStringListFromCourseList(Player.get().getCourses(), true);
+        final List<Course> courses = Player.get().getRole() == Constants.Role.teacher ?
+                Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
+        ArrayList<String> stringList = getStringListFromCourseList(courses, true);
         String[] stringArray = new String[stringList.size()];
         courseChoiceBuilder.setItems(stringList.toArray(stringArray), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (Course c : Player.get().getCourses()){
+                for (Course c : courses){
                     if(which == c.ordinal()){
                         chosenCourse = c;
-                        view_chosen_course.setText("Chosen Course : "+c.toString());
+                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
                     }
                 }
             }
         });
-        courseChoiceBuilder.setNegativeButton(R.string.cancel, null);
+        courseChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
         courseChoiceBuilder.create().show();
     }
 
@@ -451,7 +455,7 @@ public class AddQuestionActivity extends NavigationStudent {
             setupImage(questionImage, tempImage);
             setupText(questionText, tempText);
         } catch (IOException e) {
-            Toast.makeText(this, "An error occured when downloading the question", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_when_download_question), Toast.LENGTH_SHORT).show();
             finish();
         }
     }

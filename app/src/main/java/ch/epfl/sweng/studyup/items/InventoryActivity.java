@@ -34,6 +34,15 @@ public class InventoryActivity extends NavigationStudent {
         getSupportActionBar().setTitle(null);
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupListView();
+    }
+
+    private void setupListView() {
         ListView ownedItems = findViewById(R.id.listViewItems);
         HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
         listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
@@ -47,11 +56,7 @@ public class InventoryActivity extends NavigationStudent {
         });
     }
 
-    //Display the toolbar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater i = getMenuInflater();
-        i.inflate(R.menu.top_navigation, menu);
-        return true;
+    public void goToShop(View view){
+        startActivity(new Intent(this, ShopActivity.class));
     }
 }

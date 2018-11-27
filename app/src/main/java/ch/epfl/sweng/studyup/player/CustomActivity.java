@@ -76,8 +76,6 @@ public class CustomActivity extends NavigationStudent {
         email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
 
-        final TextView view_username = findViewById(R.id.usernameText);//todo REMOVE
-
         //initial picture
         FileStorage.downloadProfilePicture(Player.get().getSciperNum(), imageview);
 
@@ -92,7 +90,6 @@ public class CustomActivity extends NavigationStudent {
             @Override
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
-                view_username.setText(edit_username.getText().toString());
                 Player.get().setUserName(edit_username.getText().toString());
             }
         });

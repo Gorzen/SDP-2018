@@ -11,8 +11,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
@@ -32,7 +32,7 @@ public class AuthenticationActivityTest {
     @BeforeClass
     public static void setupMock() {
         MOCK_ENABLED = true;
-        HOME_ACTIVITY = MainActivity.class;
+        HOME_ACTIVITY = HomeActivity.class;
     }
 
     @AfterClass

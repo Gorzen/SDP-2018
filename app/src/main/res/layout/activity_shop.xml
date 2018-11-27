@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="ch.epfl.sweng.studyup.MainActivity">
+    tools:context=".items.ShopActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,6 +31,18 @@
 
             </android.support.v7.widget.Toolbar>
 
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="33dp"
+                android:layout_height="34dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onBackButtonShop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
 
@@ -49,26 +61,6 @@
                 tools:layout_editor_absoluteX="8dp" />
         </android.support.constraint.ConstraintLayout>
 
-
-        <!--BOTTOM NAV BAR-->
-
-        <android.support.constraint.ConstraintLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/bottomBar"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/bottomNavView_Bar"
-                android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/navigation_student"
-                app:labelVisibilityMode="labeled">
-            </android.support.design.widget.BottomNavigationView>
-
-        </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
 

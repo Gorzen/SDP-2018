@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGreyClair"
-    tools:context="ch.epfl.sweng.studyup.SettingsActivity">
+    tools:context="ch.epfl.sweng.studyup.settings.SettingsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
