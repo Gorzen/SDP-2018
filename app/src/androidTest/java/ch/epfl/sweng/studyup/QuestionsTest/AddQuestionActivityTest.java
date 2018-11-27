@@ -1,15 +1,21 @@
 package ch.epfl.sweng.studyup.QuestionsTest;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ScrollView;
 
 import org.junit.AfterClass;
@@ -42,6 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.Course.SWENG;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
@@ -76,7 +83,7 @@ public class AddQuestionActivityTest {
 
     @Before
     public void initiateIntents() {
-        List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
+        List<Course> courses = Arrays.asList(SWENG, Course.Algebra);
         Player.get().setCourses(courses);
         mActivityRule.launchActivity(new Intent());
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
@@ -106,12 +113,12 @@ public class AddQuestionActivityTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testFalseInstanceQuestion() {
-        Question nullQ = new Question("1", null, false, 0, Course.SWENG.name(), "en");
+        Question nullQ = new Question("1", null, false, 0, SWENG.name(), "en");
     }
 
     @Test
     public void testSimpleInstanceQuestionTrueFalse() {
-        Question simple = new Question("1", "test2134", true, 0, Course.SWENG.name(), "en");
+        Question simple = new Question("1", "test2134", true, 0, SWENG.name(), "en");
         assert (simple.isTrueFalse());
         assert (simple.getAnswer() == 0);
         assert (simple.getQuestionId().equals("1"));
@@ -120,7 +127,7 @@ public class AddQuestionActivityTest {
 
     @Test
     public void testSimpleInstanceQuestionMCQ() {
-        Question simple = new Question("4", "test", false, 2, Course.SWENG.name(), "en");
+        Question simple = new Question("4", "test", false, 2, SWENG.name(), "en");
         assert (!simple.isTrueFalse());
         assert (simple.getAnswer() == 2);
         assert (simple.getTitle().equals("test"));
@@ -137,9 +144,13 @@ public class AddQuestionActivityTest {
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0, course: SWENG
         onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
-        onView(withText(Course.SWENG.toString())).inRoot(isDialog())
-                .check(matches(isDisplayed()))
-                .perform(click());
+
+        // Initialize UiDevice instance
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        // Search for correct button in the dialog.
+        UiObject button = uiDevice.findObject(new UiSelector().text(SWENG.toString()));
+        button.click();
+
         onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
         onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
         onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(click());
@@ -173,8 +184,8 @@ public class AddQuestionActivityTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
-                    for(Question q : questions) {
-                        if(q.getQuestionId().equals(MOCK_UUID)) {
+                    for (Question q : questions) {
+                        if (q.getQuestionId().equals(MOCK_UUID)) {
                             assertTrue(q.getTitle().equals("A Title"));
                             assertTrue(q.getAnswer() == 0);
                             assertFalse(q.isTrueFalse());
