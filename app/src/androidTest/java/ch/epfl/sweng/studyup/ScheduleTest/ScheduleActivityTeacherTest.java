@@ -58,6 +58,16 @@ public class ScheduleActivityTeacherTest {
     public final ActivityTestRule<ScheduleActivityTeacher> mActivityRule =
             new ActivityTestRule<>(ScheduleActivityTeacher.class, true, false);
 
+    @BeforeClass
+    public static void enableMock(){
+        MOCK_ENABLED = true;
+    }
+
+    @AfterClass
+    public static void disableMock(){
+        MOCK_ENABLED = false;
+    }
+
     @Before
     public void resetPlayerBefore() {
         Player.get().resetPlayer();

@@ -88,7 +88,10 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     private void launchRoomSelectionDialog(final WeekViewEvent e) {
         final AlertDialog.Builder roomChoiceDialog = new AlertDialog.Builder(this);
         roomChoiceDialog.setTitle(R.string.room_alert_title);
-        final String[] roomsAsArray = (new ArrayList<>(Rooms.ROOMS_LOCATIONS.keySet())).toArray(new String[0]);
+        final String[] roomsAsArray = MOCK_ENABLED ?
+                (new ArrayList<>(Rooms.ROOMS_LOCATIONS.keySet())).toArray(new String[0])
+                :
+                new String[]{"CE_1_1"};
 
         roomChoiceDialog.setItems(roomsAsArray , new DialogInterface.OnClickListener() {
             @SuppressWarnings("HardCodedStringLiteral")
