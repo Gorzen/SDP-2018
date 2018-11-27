@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -76,11 +77,13 @@ public class ShopActivityAndBuyItemActivityTest {
         onView(withId(R.id.buy_button)).perform(click());
         onView(withId(R.id.back_button_display_item)).perform(click());
         assertEquals(0, Player.get().getItems().size());
-        BottomNavigationView b = mActivityRule.getActivity().findViewById(R.id.bottomNavView_Bar); //Check if back in shopActivity since bottom bar isn't displayed in buyItemActivity
-        b.setSelectedItemId(R.id.navigation_inventory);
     }
 
-
+    @Test
+    public void backButtonTest() {
+        onView(withId(R.id.back_button)).perform(click());
+        intended(hasComponent(InventoryActivity.class.getName()));
+    }
 
     @After
     public void resetPlayer() {

@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.studyup.questions.AddQuestionActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
@@ -30,8 +30,8 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 public class QuestionParserTest {
 
     @Rule
-    public final ActivityTestRule<AddQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddQuestionActivity.class);
+    public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
+            new ActivityTestRule<>(AddOrEditQuestionActivity.class);
 
     @BeforeClass
     public static void runOnceBeforeClass() {

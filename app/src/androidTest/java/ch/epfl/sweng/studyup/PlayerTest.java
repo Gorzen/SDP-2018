@@ -57,9 +57,19 @@ public class PlayerTest {
 
     @Test
     public void enrollInCoursesTest() {
+        Player.get().setRole(Role.student);
         List<Course> testCourseList = new ArrayList<>();
         testCourseList.add(Course.Blacksmithing);
         Player.get().setCourses(testCourseList);
-        assert(Player.get().getCourses().equals(testCourseList));
+        assert(Player.get().getCoursesEnrolled().equals(testCourseList));
+    }
+
+    @Test
+    public void addTeachingCourseTest() {
+        Player.get().setRole(Role.teacher);
+        List<Course> testCourseList = new ArrayList<>();
+        testCourseList.add(Course.Blacksmithing);
+        Player.get().setCourses(testCourseList);
+        assert(Player.get().getCoursesEnrolled().equals(testCourseList));
     }
 }

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -7,7 +7,6 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,33 +25,26 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
-
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
-public class MainActivity extends NavigationStudent {
+public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
 
     // Text that will be displayed in the levelProgress layout
-    CircularProgressIndicator levelProgress;
+    public CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
     ImageButton pic_button;
 
@@ -90,7 +82,7 @@ public class MainActivity extends NavigationStudent {
         Log.d("GPS_MAP", "Started main");
         // GPS Job scheduler
         ActivityCompat.requestPermissions(
-                MainActivity.this,
+                HomeActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
 
@@ -102,10 +94,10 @@ public class MainActivity extends NavigationStudent {
         }
 
         //bottom navigation bar
-        navigationSwitcher(MainActivity.this, MainActivity.class, MAIN_INDEX);
+        navigationSwitcher(HomeActivity.this, HomeActivity.class, MAIN_INDEX);
 
         ActivityCompat.requestPermissions(
-                MainActivity.this,
+                HomeActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 123);
 
@@ -123,7 +115,7 @@ public class MainActivity extends NavigationStudent {
         pic_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                Intent intent = new Intent(HomeActivity.this, CustomActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
             }
@@ -131,7 +123,7 @@ public class MainActivity extends NavigationStudent {
         pic_button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomActivity.class);
+                Intent intent = new Intent(HomeActivity.this, CustomActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.go_right_in, R.anim.go_right_out);
                 pic_button2.setBackground(getResources().getDrawable(R.drawable.ic_mode_edit_clicked_24dp));

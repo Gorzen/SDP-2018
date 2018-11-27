@@ -44,11 +44,15 @@ public class CourseStatsActivityTest {
 
     @BeforeClass
     public static void init() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.teacher);
         Intents.init();
     }
 
     @AfterClass
     public static void clean() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.student);
         Intents.release();
     }
 
@@ -72,7 +76,7 @@ public class CourseStatsActivityTest {
         Player.get().setCourses(courseList);
         //reload activity
         mActivityRule.launchActivity(new Intent());
-        Utils.waitAndTag(500, "waiting for the display to be drawn");
+        Utils.waitAndTag(1000, "waiting for the display to be drawn");
     }
 
     static class Matchers {

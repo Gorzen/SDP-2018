@@ -4,6 +4,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 
+import com.alamkanak.weekview.WeekViewEvent;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,7 +14,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom; //Random int library
 
@@ -171,5 +178,57 @@ public class FirestoreTest {
 
         Player.get().addCurrency(100, null);
         assertEquals(CURRENCY_PER_LEVEL + 100, Player.get().getCurrency());
+    }
+
+    @Test
+    public void testCourseSync() {
+        List<WeekViewEvent> periods = getSimpleSchedule();
+        Course c = Course.FakeCourse;
+        List<Course> fakeCourseList = new ArrayList<>();
+        fakeCourseList.add(c);
+
+        Firestore.get().deleteCourse(c);
+
+        // Verifying that course has been deleted
+        Player.get().setRole(Role.student);
+        Player.get().setCourses(fakeCourseList);
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
+
+        // Verifying that we can add a course
+        Firestore.get().setCourseTeacher(c);
+        waitAndTag(500, "Waiting for the course to be added.");
+        Firestore.get().setCourseEvents(c, periods);
+        waitAndTag(500, "Waiting for the course's periods to be added.");
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        assert periods.equals(Player.get().getScheduleStudent());
+
+        //Verifying that we can change course schedule
+        periods.get(0).setLocation("CO_2");
+        periods.get(1).setLocation("CO_2");
+        Firestore.get().setCourseEvents(c, periods);
+        waitAndTag(500, "Waiting for the course's periods to be updated.");
+        Firestore.get().getCoursesSchedule(null, Role.student);
+        waitAndTag(1000, TAG);
+        assert periods.equals(Player.get().getScheduleStudent());
+    }
+
+    private List<WeekViewEvent> getSimpleSchedule() {
+        final String room = "CO_1_1";
+        List<WeekViewEvent> periods = new ArrayList<>();
+        Date d1 = new Date();
+        d1.setTime(123);
+        Date d2 = new Date();
+        d2.setTime(1234);
+        Calendar end1 = new GregorianCalendar(2018,11,26);
+        Calendar end2 = new GregorianCalendar(2018,11,27);
+        WeekViewEvent w1 = new WeekViewEvent(0, Course.FakeCourse.name(), room, Calendar.getInstance(), end1);
+        WeekViewEvent w2 = new WeekViewEvent(0, Course.FakeCourse.name(), room, Calendar.getInstance(), end2);
+        periods.add(w1);
+        periods.add(w2);
+
+        return periods;
     }
 }

@@ -4,6 +4,9 @@ import android.content.res.Resources;
 
 import com.google.common.collect.Sets;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
@@ -22,6 +25,8 @@ public abstract class Constants {
     public static final String FB_ROLE_S = "student";
     public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";
+    public static final String FB_COURSES_ENROLLED = "attending courses";
+    public static final String FB_COURSES_TEACHED = "teaching courses";
     public static final String FB_CURRENCY = "currency";
     public static final String FB_LEVEL = "level";
     public static final String FB_SECTION = "section";
@@ -30,15 +35,19 @@ public abstract class Constants {
     public static final String FB_QUESTIONS = "questions";
     public static final String FB_QUESTION_AUTHOR = "author";
     public static final String FB_QUESTION_TITLE = "title";
-    public static final String FB_QUESTION_ID = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTION_LANG = "lang";
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
+    public static final String FB_EVENTS = "events";
+    public static final String FB_EVENTS_ID = "id";
+    public static final String FB_EVENTS_NAME = "name";
+    public static final String FB_EVENTS_LOCATION = "location";
+    public static final String FB_EVENTS_START = "startTimeInMillis";
+    public static final String FB_EVENTS_END = "endTimeInMillis";
     public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
-
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS, FB_ANSWERED_QUESTIONS);
@@ -94,13 +103,26 @@ public abstract class Constants {
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
+    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SCHEDULE_INDEX =2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
+    public static final int QUESTS_INDEX_TEACHER=0, COURSE_STAT_INDEX =1, COURSE_SELECTION_FOR_SCHEDULE_INDEX =2;
 
 
     //Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
     public static final String USER_PREFS = "StudyUpPrefs";
+    public static final String LANG_SETTINGS_KEYWORD = "lang";
+    public static final String COLOR_SETTINGS_KEYWORD = "color";
+    public static final String SETTINGS_COLOR_RED = "red";
+    public static final String SETTINGS_COLOR_GREEN = "green";
+    public static final String SETTINGS_COLOR_BROWN = "brown";
+    public static final String SETTINGS_COLOR_BLUE = "blue";
+    public static final String SETTINGS_COLOR_MULTI = "multi";
+
+    // Constants for schedule
+    public static final int FIRST_DAY_SCHEDULE = 19;
+    public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
+    public static final int MONTH_OF_SCHEDULE = 10;
+    public static final int YEAR_OF_SCHEDULE = 2018;
 
     // Enums for Role, Course
     public enum Role {
@@ -109,6 +131,7 @@ public abstract class Constants {
     }
 
     public enum Course {
+        FakeCourse("A fake course"),
         SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
@@ -127,7 +150,13 @@ public abstract class Constants {
             return name;
         }
 
-
+        public static List<String> getNamesFromCourses(List<Course> courses) {
+            ArrayList<java.lang.String> coursesName = new ArrayList<>(courses.size());
+            for (int i = 0; i < courses.size(); ++i) {
+                coursesName.add(courses.get(i).toString());
+            }
+            return coursesName;
+        }
     }
 
 }

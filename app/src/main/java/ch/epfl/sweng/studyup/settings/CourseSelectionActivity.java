@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.settings;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,16 +9,18 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class CourseSelectionActivity extends RefreshContext {
 
-    private String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +31,14 @@ public class CourseSelectionActivity extends RefreshContext {
 
         LinearLayout formContainer = findViewById(R.id.courseFormContainer);
         for (Course course : Course.values()) {
+            if(course == Course.FakeCourse) continue;
 
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
-            if (Player.get().getCourses().contains(course)) {
+            Player p = Player.get();
+            boolean courseSelected = p.getRole() == Constants.Role.teacher && p.getCoursesTeached().contains(course)
+                    || p.getRole() == Constants.Role.student && p.getCoursesEnrolled().contains(course);
+            if (courseSelected) {
                 courseCheckbox.setChecked(true);
             }
             courseSelections.add(courseCheckbox);
@@ -59,7 +65,7 @@ public class CourseSelectionActivity extends RefreshContext {
         formContainer.addView(saveButton);
     }
 
-    protected void updatePlayerCourses(List<CheckBox> courseSelections) throws ClassNotFoundException {
+    protected void updatePlayerCourses(List<CheckBox> courseSelections) {
 
         List<Course> updateCourseList = new ArrayList<>();
 

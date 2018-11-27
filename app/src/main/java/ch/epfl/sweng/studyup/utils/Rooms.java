@@ -1,12 +1,18 @@
 package ch.epfl.sweng.studyup.utils;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.map.Room;
+import ch.epfl.sweng.studyup.player.Player;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
@@ -57,13 +63,26 @@ public abstract class Rooms {
 
         int meterConversion = 1609;
 
-        return new Double(distance * meterConversion).doubleValue();
+        return distance * meterConversion;
     }
 
-    public static boolean checkIfUserIsInRoom(String room) {
-        if(POSITION == null || !ROOMS_LOCATIONS.containsKey(room)){
+    public static boolean checkIfUserIsInRoom() {
+        if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty() ||
+                POSITION == null) {
             return false;
         }
-        return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM;
+
+        Calendar currTime = Calendar.getInstance();
+        List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
+
+        for(WeekViewEvent event : Player.get().getScheduleStudent()) {
+            if(playersCourses.contains(event.getName()) && ROOMS_LOCATIONS.containsKey(event.getLocation())) {
+                return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(event.getLocation()).getLocation(), POSITION) <= RADIUS_ROOM &&
+                        currTime.after(event.getStartTime()) &&
+                        currTime.before(event.getEndTime());
+            }
+        }
+        return false;
     }
+
 }

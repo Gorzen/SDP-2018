@@ -1,11 +1,8 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.SettingsTest;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.rule.GrantPermissionRule;
 
 import com.kosalgeek.android.caching.FileCacher;
 
@@ -19,9 +16,14 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.util.Locale;
 
-
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
+import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -33,11 +35,9 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static android.support.v4.content.ContextCompat.startActivity;
 import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
-import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -51,11 +51,15 @@ public class SettingsActivityTest {
 
     @Before
     public void initiateIntents() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.student);
         Intents.init();
     }
 
     @After
     public void releaseIntents() {
+        Player.get().resetPlayer();
+        Player.get().setRole(Constants.Role.student);
         Intents.release();
     }
 
@@ -68,7 +72,7 @@ public class SettingsActivityTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.logout_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.logout_button)).perform(click());
         assertTrue(!persistLogin.hasCache());
         intended(hasComponent(LoginActivity.class.getName()));
     }
@@ -87,7 +91,7 @@ public class SettingsActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     // Test that must run at last to make the tests run in the basic language (english)
@@ -99,7 +103,7 @@ public class SettingsActivityTest {
                 .check(matches(isDisplayed()))
                 .perform(click());
 
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test

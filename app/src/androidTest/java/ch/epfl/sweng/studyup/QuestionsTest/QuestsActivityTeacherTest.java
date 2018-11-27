@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.TeacherTest.CourseStatsActivityTest;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -100,12 +101,6 @@ public class QuestsActivityTeacherTest {
                         .perform(click());
             }
         }
-    }
-
-    @Test
-    public void shouldHaveAtLeastOneQuestion() {
-        final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
-        assert (1 <= list.getAdapter().getCount());
     }
 
     //Fail for unknown reasons

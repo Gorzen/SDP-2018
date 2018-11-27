@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.SettingsActivity;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 

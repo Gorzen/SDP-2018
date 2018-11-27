@@ -11,10 +11,12 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
@@ -62,12 +64,12 @@ public class BackgroundLocation extends JobService {
                 if (location != null) {
                     // Log.d("GPS_MAP", "NEW POS: Latitude = " + location.getLatitude() + "  Longitude: " + location.getLongitude());
                     POSITION = new LatLng(location.getLatitude(), location.getLongitude());
-                    String str = R.string.text_newposition + POSITION.latitude + ", " + POSITION.longitude;
-                    if (Rooms.checkIfUserIsInRoom(Player.get().getCurrentRoom())) {
-                        str += '\n' + R.string.text_inyourroom + Player.get().getCurrentRoom();
+                    String str = "NEW POS: " + POSITION.latitude + ", " + POSITION.longitude;
+                    if (Rooms.checkIfUserIsInRoom()) {
+                        str += '\n' + "You are in your room: ";
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
-                        str += '\n' + MOST_RECENT_ACTIVITY.getString(R.string.text_notinyourroom) + Player.get().getCurrentRoom();
+                        str += '\n' + "You are not in your room: ";
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);
@@ -86,8 +88,8 @@ public class BackgroundLocation extends JobService {
 
         @Override
         public JobParameters doInBackground(Void[] voids) {
-            if (activity.get() == null) {
-                Log.d("GPS_MAP", "Context = null");
+            if (activity.get() == null || LOCATION_PROVIDER_CLIENT == null) {
+                Log.d("GPS_MAP", "Context = null or Location provider = null");
                 return jobParameters;
             }
             if (ContextCompat.checkSelfPermission(activity.get(),

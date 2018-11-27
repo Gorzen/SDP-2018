@@ -14,9 +14,9 @@
         android:title="@string/title_quests" />
 
     <item
-        android:id="@+id/navigation_shop"
-        android:icon="@drawable/ic_shop_black_24dp"
-        android:title="@string/title_shop" />
+        android:id="@+id/navigation_schedule"
+        android:icon="@drawable/ic_schedule_black_24dp"
+        android:title="@string/title_schedule" />
 
     <item
         android:id="@+id/navigation_map"

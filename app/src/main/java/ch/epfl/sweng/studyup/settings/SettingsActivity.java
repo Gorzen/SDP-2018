@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.settings;
 
 import android.app.AlertDialog;
 import android.app.job.JobScheduler;
@@ -9,12 +9,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.LoginActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-import static ch.epfl.sweng.studyup.MainActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -50,11 +55,13 @@ public class SettingsActivity extends RefreshContext {
                     Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
                 }
                 getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
-                        .putString("lang", lang)
+                        .putString(LANG_SETTINGS_KEYWORD, lang)
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
-                startActivity(new Intent(MOST_RECENT_ACTIVITY, MainActivity.class));
+                Class nextActivity = Player.get().getRole() == Constants.Role.teacher ?
+                        QuestsActivityTeacher.class : HomeActivity.class;
+                startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);

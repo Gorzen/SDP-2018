@@ -5,11 +5,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -17,26 +20,38 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_END;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_ID;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
-import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
+import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
@@ -60,6 +75,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 
 /**
  * Firestore
@@ -142,7 +158,8 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
-        localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses(), false));
+        localPlayerData.put(FB_COURSES_ENROLLED, getStringListFromCourseList(currPlayer.getCoursesEnrolled(), false));
+        localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached(), false));
         localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
@@ -219,7 +236,7 @@ public class Firestore {
                         // If question is associated with a course, only load question if the user enrolled in that course.
                         String questionCourseName = questionData.get(FB_COURSE).toString();
                         questionCourseMatchesPlayer =
-                                Player.get().getCourses().contains(Course.valueOf(questionCourseName));
+                                Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
                     }
 
                     boolean isValidQuestion = questionCourseMatchesPlayer &&
@@ -302,7 +319,183 @@ public class Firestore {
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
 
+    /**
+     * Method that get the schedule of the current player, that he/she be teacher or student, and
+     * will update the layout accordingly using the updateSchedule method in the activity given as
+     * parameter and/or update the schedule of the player
+     *
+     * @param act  The activity displaying the layout (if it is a schedule activity, ignored otherwise)
+     * @param role The role, which the caller can choose
+     * @throws NullPointerException     If the format is incorrect on the database
+     */
+    public void getCoursesSchedule(final Activity act, final Role role) throws NullPointerException {
+        final Player p = Player.get();
+        final CollectionReference coursesRef = db.collection(FB_COURSES);
+        final List<WeekViewEvent> schedule = new ArrayList<>();
+        final boolean isTeacher = p.getRole() == Role.teacher;
 
+        final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
+        // Iteration over all events of all needed courses
+        for(final Course c : courses) {
+            coursesRef.document(c.name()).collection(FB_EVENTS).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                if(!task.getResult().isEmpty()) {
+                                    // Adding periods to the course
+                                    for (QueryDocumentSnapshot q : task.getResult()) {
+                                        schedule.add(queryDocumentSnapshotToWeekView(q));
+                                    }
+
+                                    onScheduleCompleted(act, role, schedule);
+                                }
+                            }
+                        }
+                    });
+        }
+    }
+
+    private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
+        long id = Long.parseLong(q.get(FB_EVENTS_ID).toString());
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_START).toString()));
+        Calendar end = Calendar.getInstance();
+        end.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_END).toString()));
+        String name = q.get(FB_EVENTS_NAME).toString();
+        String location = q.get(FB_EVENTS_LOCATION).toString();
+
+
+        return new WeekViewEvent(id, name, location, start, end);
+    }
+
+    private void onScheduleCompleted(final Activity act, final Role role, List<WeekViewEvent> schedule) {
+
+            if(act instanceof ScheduleActivityStudent) {
+                ScheduleActivityStudent actCasted = (ScheduleActivityStudent) act;
+                schedule.addAll(actCasted.getWeekViewEvents());
+                actCasted.updateSchedule(schedule);
+            } else if(act instanceof ScheduleActivityTeacher) {
+                ScheduleActivityTeacher actCasted = (ScheduleActivityTeacher) act;
+                schedule.addAll(actCasted.getWeekViewEvents());
+                actCasted.updateSchedule(schedule);
+            }
+
+
+            if(role == Role.student) {
+                Player.get().setScheduleStudent(schedule);
+            }
+    }
+
+    /**
+     * Used when a teacher select her/his courses, replace the old course if someone else was
+     * teaching it or don't do anything if the teacher where already teaching this course. The
+     * teacher is the current player.
+     *
+     * @param c The course
+     */
+    public void setCourseTeacher(final Course c) {
+
+        db.collection(FB_COURSES).document(c.name()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot doc = task.getResult();
+
+                            if(!doc.exists() || !Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
+                                changeCourseTeacher(c);
+                            }
+
+                        } else {
+                            Log.w(TAG, "The schedule fail to load or no course are present.");
+                        }
+                    }
+                });
+    }
+
+    private void changeCourseTeacher(final Course c) {
+        // Setting new teacher
+        Map<String, Object> courseData = new HashMap<>();
+        courseData.put(FB_SCIPER, Player.get().getSciperNum());
+        db.collection(FB_COURSES).document(c.name()).set(courseData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "Teacher successfully updated.");
+                    }
+                });
+
+        // Deleting previous teacher schedule
+        db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(final QueryDocumentSnapshot q : queryDocumentSnapshots) {
+                            q.getReference().delete()
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.i(TAG, "Failed during an old teacher period's deletion: \n"+q.toObject(WeekViewEvent.class));
+                                        }
+                                    });
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Add periods to the course on the server by removing the old ones with corresponding start
+     * time and adding the new ones.
+     *
+     * @param c The course
+     * @param periodsToAdd The times of the periods for the course, containing all needed data
+     *                     (Room, startTime, endTime, etc...)
+     */
+    public void setCourseEvents(final Course c, final List<WeekViewEvent> periodsToAdd) {
+        final CollectionReference eventsOfCourse = db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS);
+
+
+
+        eventsOfCourse.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            Log.i(TAG, "Got the course's events to add new ones to server.");
+
+                            if(!task.getResult().isEmpty()) {
+                                // Deleting periods that are replaced
+                                for(QueryDocumentSnapshot q : task.getResult()) {
+                                    q.getReference().delete();
+                                }
+                            }
+
+                            // Adding new periods
+                            for(WeekViewEvent p : periodsToAdd) {
+                                eventsOfCourse.add(WeekViewEventToMap(p));
+                            }
+                        }
+                    }
+                });
+    }
+
+    private Map<String, Object> WeekViewEventToMap(WeekViewEvent e) {
+        Map<String, Object> eventMap = new HashMap<>();
+        eventMap.put(FB_EVENTS_ID, e.getId());
+        eventMap.put(FB_EVENTS_NAME, e.getName());
+        eventMap.put(FB_EVENTS_LOCATION, e.getLocation());
+        eventMap.put(FB_EVENTS_START, e.getStartTime().getTimeInMillis());
+        eventMap.put(FB_EVENTS_END, e.getEndTime().getTimeInMillis());
+
+        return eventMap;
+    }
+
+    public void deleteCourse(Course c) {
+        changeCourseTeacher(c); // To delete the periods on the server
+        waitAndTag(1000, TAG);
+        db.collection(FB_COURSES).document(c.name()).delete();
+    }
 
     @SuppressWarnings("unchecked")
     public void loadUsersForStats(final Activity act) {
@@ -379,6 +572,5 @@ public class Firestore {
             }
         });
     }
-
 
 }

@@ -1,15 +1,22 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.SettingsTest;
 
-import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -36,37 +43,37 @@ public class ChooseColorActivityTest {
 
     @Test
     public void canSelectThemeRed() {
-        onView(withId(R.id.setThemeRed)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        onView(ViewMatchers.withId(R.id.setThemeRed)).perform(click());
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeGreen() {
         onView(withId(R.id.setThemeGreen)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeBlue() {
         onView(withId(R.id.setThemeBlue)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeBrown() {
         onView(withId(R.id.setThemeBrown)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
     public void canSelectThemeMulti() {
         onView(withId(R.id.setThemeMulti)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
     
     @Test
     public void canGoBack() {
         onView(withId(R.id.back_button)).perform(click());
-        intended(hasComponent(SettingsActivity.class.getName()));
+        TestCase.assertTrue(rule.getActivity().isFinishing());
     }
 }
