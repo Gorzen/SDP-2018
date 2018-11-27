@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -13,10 +14,9 @@ import ch.epfl.sweng.studyup.MainActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -26,12 +26,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_DESCRIPTION;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_GOAL;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_ID;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_LEVEL;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_PROGRESS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -47,6 +41,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_NUM;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.getSpecialQuestListFromMapList;
 
 /**
  * Player
@@ -54,11 +49,6 @@ import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
  * Used to store the Player's state and informations.
  */
 public class Player implements SpecialQuestObservable {
-
-    //Observe list for quests
-    private List<SpecialQuestObserver> observers;
-
-    private List<SpecialQuest> activeQuests;
 
     private static final String TAG = Player.class.getSimpleName();
 
@@ -81,6 +71,8 @@ public class Player implements SpecialQuestObservable {
 
     private List<Course> courses;
 
+    private List<SpecialQuest> specialQuests;
+
     private Player() {
         sciperNum = INITIAL_SCIPER;
         firstName = INITIAL_FIRSTNAME;
@@ -92,9 +84,11 @@ public class Player implements SpecialQuestObservable {
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
         courses = new ArrayList<>();
+        // By default every player is enrolled in SWENG
         courses.add(Course.SWENG);
-        observers = new ArrayList<>();
-        activeQuests = new ArrayList<>();
+        specialQuests = new ArrayList<>();
+        // By default every player has a "three questions" special quest
+        specialQuests.add(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS));
     }
 
     public static Player get() {
@@ -137,8 +131,16 @@ public class Player implements SpecialQuestObservable {
         currency = Integer.parseInt(getOrDefault(remotePlayerData, FB_CURRENCY, INITIAL_CURRENCY).toString());
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
-        activeQuests = getQuestsFromMap((List<Map<String, String>>) getOrDefault(remotePlayerData, FB_SPECIALQUESTS, Constants.getDefaultFirebaseQuests()));
 
+        List<SpecialQuest> remoteSpecialQuests =
+                getSpecialQuestListFromMapList((List<Map<String, String>>) remotePlayerData.get(FB_SPECIALQUESTS));
+        if (remoteSpecialQuests != null) {
+            /*
+            If special quests data in firebase, populate Player specialQuests with this data.
+            Otherwise, leave Player specialQuests as is (the default).
+             */
+            this.specialQuests = remoteSpecialQuests;
+        }
         //TODO: call the update method for quests
 
         List<String> defaultCourseList = new ArrayList<>();
@@ -148,34 +150,6 @@ public class Player implements SpecialQuestObservable {
 
         Log.d(TAG, "Loaded courses: " + courses.toString());
     }
-
-    private List<SpecialQuest> getQuestsFromMap(List<Map<String, String>> questsAsStrings) {
-        if (questsAsStrings.isEmpty()) {
-            return Constants.DefaultQuests();
-        }
-        List<SpecialQuest> questList = new ArrayList<>();
-        for (Map<String, String> q: questsAsStrings) {
-            String id = q.get(FB_SPECIALQUESTS_ID);
-            String title = q.get(FB_SPECIALQUESTS_TITLE);
-            String description = q.get(FB_SPECIALQUESTS_DESCRIPTION);
-            int goal = Integer.parseInt(q.get(FB_SPECIALQUESTS_GOAL));
-            double progress = Double.parseDouble(q.get(FB_SPECIALQUESTS_PROGRESS));
-            int level = Integer.parseInt(q.get(FB_SPECIALQUESTS_LEVEL));
-            Constants.SpecialQuestsType type = Constants.SpecialQuestsType.valueOf(id);
-
-            switch (type){
-                case NQUESTIONS:
-                    SpecialQuestNQuestions newQuest = new SpecialQuestNQuestions(title, description, goal, level);
-                    newQuest.setProgress(progress);
-                    questList.add(newQuest);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Quest ID " + id + "not found: cannot create the new quest");
-            }
-        }
-        return questList;
-    }
-
 
     // Getters
     public String getSciperNum() { return this.sciperNum; }
@@ -207,30 +181,7 @@ public class Player implements SpecialQuestObservable {
     public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
 
-    public List<SpecialQuest> getActiveQuests() { return new ArrayList<>(activeQuests); }
-
-    public List<Map<String, String>> getActiveQuestsMap() {
-        /*
-         *String format:
-         * -Id
-         * -Title
-         * -Description
-         * -Goal
-         * -Progress
-         */
-        List<Map<String, String>> questList = new ArrayList<>();
-        for (SpecialQuest sq: activeQuests) {
-            Map<String, String> quest = new HashMap<>();
-            quest.put(FB_SPECIALQUESTS_ID, sq.getId().name());
-            quest.put(FB_SPECIALQUESTS_TITLE, sq.getTitle());
-            quest.put(FB_SPECIALQUESTS_DESCRIPTION, sq.getDescription());
-            quest.put(FB_SPECIALQUESTS_GOAL, Integer.toString(sq.getGoal()));
-            quest.put(FB_SPECIALQUESTS_PROGRESS, Double.toString(sq.getProgress()));
-            quest.put(FB_SPECIALQUESTS_LEVEL, Integer.toString(sq.getLevel()));
-            questList.add(quest);
-        }
-        return questList;
-    }
+    public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -302,11 +253,6 @@ public class Player implements SpecialQuestObservable {
         Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
-    public void setActiveQuests(List<SpecialQuest> quests) {
-        activeQuests = new ArrayList<>(quests);
-        Firestore.get().updateRemotePlayerDataFromLocal();
-    }
-
     /**
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
      */
@@ -329,25 +275,10 @@ public class Player implements SpecialQuestObservable {
             this.sciperNum.equals(INITIAL_SCIPER);
     }
 
-    public void removeQuest(SpecialQuest q) {
-        activeQuests.remove(q);
-    }
-
     @Override
-    public void addObserver(SpecialQuestObserver o) {
-        if (!observers.contains(o))
-            observers.add(o);
-    }
-
-    @Override
-    public void removeObserver(SpecialQuestObserver o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers(Object param) {
-        for (SpecialQuestObserver o: observers) {
-            o.update(this, param);
+    public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
+        for (SpecialQuestObserver specialQuest : specialQuests) {
+            specialQuest.update(context, specialQuestType);
         }
     }
 }

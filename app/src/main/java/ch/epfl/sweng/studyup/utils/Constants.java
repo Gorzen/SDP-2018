@@ -2,13 +2,11 @@ package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
+import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -40,12 +38,8 @@ public abstract class Constants {
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
     public static final String FB_SPECIALQUESTS = "specialQuests";
-    public static final String FB_SPECIALQUESTS_ID = "specialQuests_id";
-    public static final String FB_SPECIALQUESTS_TITLE = "specialQuests_title";
-    public static final String FB_SPECIALQUESTS_DESCRIPTION = "specialQuests_description";
-    public static final String FB_SPECIALQUESTS_GOAL = "specialQuests_goal";
-    public static final String FB_SPECIALQUESTS_PROGRESS = "specialQuests_progress";
-    public static final String FB_SPECIALQUESTS_LEVEL = "specialQuests_level";
+    public static final String FB_SPECIALQUEST_TYPE = "specialQuestType";
+    public static final String FB_SPECIAL_QUEST_COMPLETION_COUNT = "completionCount";
     public static final String FB_ANSWERED_QUESTIONS = "answeredQuestions";
 
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
@@ -103,16 +97,20 @@ public abstract class Constants {
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Constants for special quests
-    public static final String SPECIAL_QUEST_KEY = "SPECIAL_QUEST_KEY";
+    public static final String SPECIAL_QUEST_INDEX_KEY = "SPECIAL_QUEST_KEY";
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SHOP_INDEX=2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
 
-
-    //Settings constants
+    // Settings constants
     public static final String[] LANGUAGES = {"English", "Français"};
+    public static final String ENGLISH = "English";
     public static final String USER_PREFS = "StudyUpPrefs";
+
+    // Special quest completion alert messages
+    public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
+    public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
 
     // Enums for Role, Course
     public enum Role {
@@ -139,26 +137,5 @@ public abstract class Constants {
             return name;
         }
 
-
-    }
-
-//Special quests related
-    public static List<SpecialQuest> DefaultQuests() {
-        List<SpecialQuest> quests = new ArrayList<>();
-        //TODO make the title and description a string value
-        String simpleSpecialQuestDesc = "Answer three questions correctly in a row\n to get a suprise item!";
-        SpecialQuestNQuestions simpleSpecialQuest = new SpecialQuestNQuestions("Three questions in row!", simpleSpecialQuestDesc,3, 1);
-        quests.add(simpleSpecialQuest);
-
-        return quests;
-    }
-
-    public enum SpecialQuestsType {
-        NQUESTIONS
-    }
-
-    public static List<Map<String, String>> getDefaultFirebaseQuests() {
-        List<Map<String, String>> empty = new ArrayList<>();
-        return empty;
     }
 }

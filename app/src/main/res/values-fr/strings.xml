@@ -114,5 +114,6 @@
     <string name="question_edited">La question a été modifiée !</string>
     <string name="text_failed_update_courses">Une erreur est survenue en chargant les cours</string>
     <string name="text_courses_updated">Les cours ont été mis à jour!</string>
-    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête !</string>
+    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel article: </string>
+    <string name="special_quests_title">Quêtes Spéciales</string>
 </resources>

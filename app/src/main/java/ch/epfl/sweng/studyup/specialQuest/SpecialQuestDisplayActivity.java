@@ -2,20 +2,20 @@ package ch.epfl.sweng.studyup.specialQuest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
+import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
 
-/*
-Basic implementation of an activity for displaying a special quest.
-For now it simply displays the title, description, and progress.
-Progress, of course, is initially zero.
- */
 public class SpecialQuestDisplayActivity extends AppCompatActivity {
 
     @Override
@@ -23,21 +23,48 @@ public class SpecialQuestDisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special_quest_display);
 
-        SpecialQuest specialQuest = (SpecialQuest) getIntent().getSerializableExtra(SPECIAL_QUEST_KEY);
+        loadSpecialQuestData();
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        loadSpecialQuestData();
+    }
+
+    public void loadSpecialQuestData() {
+        SpecialQuest specialQuest = Player.get().getSpecialQuests().get(
+                getIntent().getIntExtra(SPECIAL_QUEST_INDEX_KEY, 0)
+        );
+
+        Log.d("SpecialQuestDisplay", "Special quest progress: " + specialQuest.getProgress());
+
+        String displayTitle, displayDesc;
+        if (Locale.getDefault().getDisplayLanguage().equals(ENGLISH)) {
+            displayTitle = specialQuest.getSpecialQuestType().getEnglishTitle();
+            displayDesc = specialQuest.getSpecialQuestType().getEnglishDesc();
+        }
+        else {
+            displayTitle = specialQuest.getSpecialQuestType().getFrenchTitle();
+            displayDesc = specialQuest.getSpecialQuestType().getFrenchDesc();
+        }
 
         TextView titleView = findViewById(R.id.specialQuestTitle);
-        titleView.setText(specialQuest.getTitle());
+        titleView.setText(displayTitle);
 
         TextView descriptionView = findViewById(R.id.specialQuestDescription);
-        descriptionView.setText(specialQuest.getDescription());
+        descriptionView.setText(displayDesc);
 
         CircularProgressIndicator progressBarView = findViewById(R.id.specialQuestProgress);
         progressBarView.setProgressTextAdapter(new CustomProgressTextAdapter());
-        progressBarView.setProgress(specialQuest.getProgress()*100, 100);
+        progressBarView.setProgress(specialQuest.getProgress() * 100, 100);
 
-        if (specialQuest.getProgress() >= 1.0) {
-            Toast.makeText(this, R.string.congrat_text_special_quest, Toast.LENGTH_LONG).show();
-            specialQuest.onComplete();
+        if (specialQuest.getProgress() == 1.0) {
+            TextView congratText = findViewById(R.id.specialQuestCongrat);
+            congratText.setText(R.string.congrat_text_special_quest);
+            TextView rewardItemText = findViewById(R.id.specialQuestReward);
+            rewardItemText.setText(specialQuest.getReward().getName());
         }
     }
 

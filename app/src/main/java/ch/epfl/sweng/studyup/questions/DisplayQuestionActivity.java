@@ -40,6 +40,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -329,7 +330,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             Player.get().addItem(Items.COIN_SACK);
         }
 
-        Player.get().notifyObservers(displayQuestion);
+        Player.get().notifySpecialQuestObservers(getApplicationContext(), SpecialQuestType.THREE_QUESTIONS);
 
     }
 

@@ -8,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+
+import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
 
 public class SpecialQuestListViewAdapter extends BaseAdapter {
 
@@ -47,7 +51,12 @@ public class SpecialQuestListViewAdapter extends BaseAdapter {
             convertView = View.inflate(context, idLayout, null);
         }
         TextView text_view = convertView.findViewById(R.id.special_quest_list_title);
-        text_view.setText(specialQuests.get(position).getTitle());
+
+        SpecialQuestType specialQuestType = specialQuests.get(position).getSpecialQuestType();
+        String displayTitle = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
+                specialQuestType.getEnglishTitle() : specialQuestType.getFrenchTitle();
+
+        text_view.setText(displayTitle);
         ImageView image_view = convertView.findViewById(R.id.is_special_quest_done);
         image_view.setImageResource(ids.get(position));
         return convertView;

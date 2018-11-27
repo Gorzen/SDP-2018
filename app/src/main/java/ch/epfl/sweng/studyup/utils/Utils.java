@@ -7,14 +7,19 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUEST_TYPE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIAL_QUEST_COMPLETION_COUNT;
 
 public abstract class Utils {
 
@@ -67,6 +72,36 @@ public abstract class Utils {
             else courseStrings.add(course.name());
         }
         return courseStrings;
+    }
+
+    public static List<SpecialQuest> getSpecialQuestListFromMapList(List<Map<String, String>> mapList) {
+        if (mapList != null) {
+            List<SpecialQuest> specialQuestList = new ArrayList<>();
+            for (Map<String, String> specialQuestData : mapList) {
+                SpecialQuestType specialQuestType =
+                        SpecialQuestType.valueOf(specialQuestData.get(FB_SPECIALQUEST_TYPE));
+                SpecialQuest currSpecialQuest = new SpecialQuest(specialQuestType);
+                currSpecialQuest.setCompletionCount(
+                    Integer.valueOf(specialQuestData.get(FB_SPECIAL_QUEST_COMPLETION_COUNT))
+                );
+                specialQuestList.add(currSpecialQuest);
+            }
+            return specialQuestList;
+        }
+        return null;
+    }
+
+    public static List<Map<String, String>> getMapListFromSpecialQuestList(List<SpecialQuest> specialQuestList) {
+
+        List<Map<String, String>> mapList = new ArrayList<>();
+        for (SpecialQuest specialQuest : specialQuestList) {
+            Map<String, String> currSpecialQuestMap = new HashMap<>();
+            currSpecialQuestMap.put(FB_SPECIALQUEST_TYPE, specialQuest.getSpecialQuestType().toString());
+            currSpecialQuestMap.put(FB_SPECIAL_QUEST_COMPLETION_COUNT, String.valueOf(specialQuest.getCompletionCount()));
+            mapList.add(currSpecialQuestMap);
+        }
+
+        return mapList;
     }
 
     public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {

@@ -18,6 +18,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
+import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 
@@ -144,7 +145,7 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
-        localPlayerData.put(FB_SPECIALQUESTS, currPlayer.getActiveQuestsMap());
+        localPlayerData.put(FB_SPECIALQUESTS, getMapListFromSpecialQuestList(currPlayer.getSpecialQuests()));
         localPlayerData.put(FB_COURSES, getStringListFromCourseList(currPlayer.getCourses(), false));
         localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
 

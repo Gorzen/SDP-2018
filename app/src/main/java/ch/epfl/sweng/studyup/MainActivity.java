@@ -37,14 +37,13 @@ import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -210,26 +209,20 @@ public class MainActivity extends NavigationStudent {
         ((TextView) findViewById(R.id.levelText)).setText(getString(R.string.text_level) + Player.get().getLevel());
     }
 
-    /*
-    Unfinished method to populate new view for special quests.
-    For consistency, it uses largely the same architecture as QuestsActivityStudent.
-     */
     public void populateSpecialQuestsList() {
 
-        /*
-        As a proof of concept, the list view will be populated with one sample special quest.
-        This will be a SpecialQuestNQuestions object.
-         */
 
-        final List<SpecialQuest> specialQuestsList = Player.get().getActiveQuests();
+        final List<SpecialQuest> specialQuestsList = Player.get().getSpecialQuests();
 
-        /*
-        Image id list to store icon for special quest (finished vs unfinished).
-        The item at index i corresponds to the special quest at index i in specialQuestList.
-        As a proof of concept it is populated with one unfinished icon.
-         */
         List<Integer> iconList = new ArrayList<>();
-        iconList.add(R.drawable.ic_todo_grey_24dp);
+        for (SpecialQuest currSpecialQuest : specialQuestsList) {
+            if (currSpecialQuest.getProgress() == 1) {
+                iconList.add(R.drawable.ic_check_green_24dp);
+            }
+            else {
+                iconList.add(R.drawable.ic_todo_grey_24dp);
+            }
+        }
 
         ListView specialQuestsListView = findViewById(R.id.specialQuestsListView);
         SpecialQuestListViewAdapter listAdapter =
@@ -244,7 +237,7 @@ public class MainActivity extends NavigationStudent {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent displaySpecialQuestion = new Intent(MainActivity.this, SpecialQuestDisplayActivity.class);
-                displaySpecialQuestion.putExtra(SPECIAL_QUEST_KEY, specialQuestsList.get(position));
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_INDEX_KEY, position);
 
                 startActivity(displaySpecialQuestion);
             }});

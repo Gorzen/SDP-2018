@@ -1,74 +1,66 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.io.Serializable;
-import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.player.Player;
 
-/**
- * Interface or SpecialQuest.
- * All special quests must implement at least this functionality.
- * Implements serializable so that it can be passed between Activities as an extra.
- */
-public interface SpecialQuest extends SpecialQuestObserver, Serializable {
-//Getters
-    /**
-     * Show the item that get rewarded when completing the quest
-     * @return The item that we will get when the quest is completed
+import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_ENGLISH;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_FRENCH;
+
+public class SpecialQuest implements SpecialQuestObserver, Serializable {
+
+    private SpecialQuestType specialQuestType;
+    private Items reward;
+    private int completionCount;
+
+    public SpecialQuest(SpecialQuestType specialQuestType) {
+        this.specialQuestType = specialQuestType;
+        this.completionCount = 0;
+
+        // All special quests reward a random item
+        Random random = new Random();
+        this.reward = Items.values()[random.nextInt(Items.values().length)];
+    }
+
+    public SpecialQuestType getSpecialQuestType() { return this.specialQuestType; }
+
+    public int getCompletionCount() { return this.completionCount; }
+    public double getProgress() { return (double)this.completionCount/(double)this.specialQuestType.getGoal(); }
+    public Items getReward() { return reward; }
+
+    public void setCompletionCount(int completionCount) { this.completionCount = completionCount; }
+
+    /*
+    Called when an update is dispatched to an observing special quest.
+    If the update type matches the current special quest type,
+    then the special quest completion count should be incremented.
      */
-    public Items reward();
+    public void update(Context context, SpecialQuestType updateType) {
 
-    /**
-     * Get title of the special quest
-     * @return the title
-     */
-    public String getTitle();
+        if (updateType.equals(this.specialQuestType)) {
+            // Increment completion count is special quest not already complete.
+            if (this.completionCount < this.specialQuestType.getGoal()) {
 
-    /**
-     * Get the description of the special quest
-     * @return the description
-     */
-    public String getDescription();
+                this.completionCount++;
+                Firestore.get().updateRemotePlayerDataFromLocal();
 
-    /**
-     * Get the current progress of the special quest
-     * @return the progress, as a value between 0 and 1
-     */
-    public double getProgress();
+                if (this.completionCount == this.specialQuestType.getGoal()) {
+                    // Reached goal, reward player with item, display congratulations
+                    Player.get().addItem(reward);
 
-    /**
-     * Get the target number of the quest
-     * @return The number of things to be done before the quest is complete
-     */
-    public int getGoal();
-
-    public Constants.SpecialQuestsType getId();
-
-    public int getLevel();
-
-//Setters
-    /**
-     * Set the goal of the Quests
-     * @param goal the number of things to be done before the quest is complete
-     */
-    public void setGoal(int goal);
-
-    /**
-     * Set the progress of the quest, a double between 0 and 1
-     * @param progress The actual progress
-     */
-    public void setProgress(double progress);
-
-    /**
-     * This method should be called when the quest has just been completed and perform the following:
-     * -Remove itself from the observer list
-     * -Remove itself to the active quest list
-     * -Add the reward to the player
-     */
-    public void onComplete();
-
-    @Override
-    public boolean equals(Object o);
-
+                    String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
+                            SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
+                    Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 }

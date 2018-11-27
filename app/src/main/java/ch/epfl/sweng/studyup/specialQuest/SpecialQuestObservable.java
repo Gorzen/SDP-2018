@@ -1,9 +1,8 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import android.content.Context;
+
 public interface SpecialQuestObservable {
-    void addObserver(SpecialQuestObserver o);
 
-    void removeObserver(SpecialQuestObserver o );
-
-    void notifyObservers(Object param);
+    void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType);
 }

@@ -15,14 +15,13 @@ import org.junit.runners.JUnit4;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestNQuestions;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -55,21 +54,29 @@ public class SpecialQuestDisplayActivityTest {
     }
 
     @Test
-    public void basicTest() {
-        //Launch Activity with basic quest
+    public void basicDisplayTest() {
+
         Intent launchIntent = new Intent();
-        String title = "Test title";
-        String desc = "This is a description";
-        SpecialQuestNQuestions fakeQuest = new SpecialQuestNQuestions(title, desc, 10, 0);
-        fakeQuest.setProgress(0.5);
-        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, fakeQuest);
+        /*
+        Launch special quest view for first of Player's special quests.
+        By default, this is the "Answer 3 questions" special quest.
+         */
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+
         mActivityRule.launchActivity(launchIntent);
 
         Utils.waitAndTag(500, "Waiting for the activity to be launched");
 
-        Intents.intended(hasComponent(SpecialQuestDisplayActivity.class.getName()));
-        onView(withId(R.id.specialQuestTitle)).check(matches(withText(title)));
-        onView(withId(R.id.specialQuestDescription)).check(matches(withText(desc)));
+        /*
+        Test that the activity correctly displayed special quest name.
+        This assumes English is the default language.
+         */
+        onView(withId(R.id.specialQuestTitle)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getEnglishTitle())));
+        onView(withId(R.id.specialQuestDescription)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getEnglishDesc())));
+
+        /*
+        Check that progress bar is displayed.
+         */
         onView(withId(R.id.specialQuestProgress)).check(matches(isDisplayed()));
     }
 }
