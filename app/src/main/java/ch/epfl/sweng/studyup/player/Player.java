@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.alamkanak.weekview.WeekViewEvent;
@@ -13,6 +14,10 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -22,6 +27,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -36,13 +42,14 @@ import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.getSpecialQuestListFromMapList;
 
 /**
  * Player
  * <p>
  * Used to store the Player's state and informations.
  */
-public class Player {
+public class Player implements SpecialQuestObservable {
 
     private static final String TAG = Player.class.getSimpleName();
 
@@ -67,6 +74,8 @@ public class Player {
     private List<Course> coursesTeached;
     private List<WeekViewEvent> scheduleStudent;
 
+    private List<SpecialQuest> specialQuests;
+
     private Player() {
         sciperNum = INITIAL_SCIPER;
         firstName = INITIAL_FIRSTNAME;
@@ -77,6 +86,9 @@ public class Player {
         username = INITIAL_USERNAME;
         answeredQuestions = new HashMap<>();
         items = new ArrayList<>();
+        specialQuests = new ArrayList<>();
+        // By default every player has a "three questions" special quest
+        specialQuests.add(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS));
         coursesEnrolled = new ArrayList<>();
         coursesTeached = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
@@ -124,6 +136,17 @@ public class Player {
         currency = Integer.parseInt(getOrDefault(remotePlayerData, FB_CURRENCY, INITIAL_CURRENCY).toString());
         level = Integer.parseInt(getOrDefault(remotePlayerData, FB_LEVEL, INITIAL_LEVEL).toString());
         items = getItemsFromString((List<String>) getOrDefault(remotePlayerData, FB_ITEMS, new ArrayList<String>()));
+
+        List<SpecialQuest> remoteSpecialQuests =
+                getSpecialQuestListFromMapList((List<Map<String, String>>) remotePlayerData.get(FB_SPECIALQUESTS));
+        if (remoteSpecialQuests != null) {
+            /*
+            If special quests data in firebase, populate Player specialQuests with this data.
+            Otherwise, leave Player specialQuests as is (the default).
+             */
+            this.specialQuests = remoteSpecialQuests;
+        }
+        //TODO: call the update method for quests
 
         List<String> defaultCourseListEnrolled = new ArrayList<>();
         defaultCourseListEnrolled.add(Course.SWENG.name());
@@ -173,6 +196,8 @@ public class Player {
     }
     public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
+
+    public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -283,5 +308,12 @@ public class Player {
         return this.firstName.equals(INITIAL_FIRSTNAME) &&
             this.lastName.equals(INITIAL_LASTNAME) &&
             this.sciperNum.equals(INITIAL_SCIPER);
+    }
+
+    @Override
+    public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
+        for (SpecialQuestObserver specialQuest : specialQuests) {
+            specialQuest.update(context, specialQuestType);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.utils;
+package ch.epfl.sweng.studyup.utils.adapters;
 
 import android.content.Context;
 import android.view.View;
@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 public class ListCourseAdapter extends BaseAdapter {
     private Context cnx;

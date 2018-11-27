@@ -1,15 +1,13 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.content.res.Resources;
-
 import com.google.common.collect.Sets;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -41,6 +39,9 @@ public abstract class Constants {
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
+    public static final String FB_SPECIALQUESTS = "specialQuests";
+    public static final String FB_SPECIALQUEST_TYPE = "specialQuestType";
+    public static final String FB_SPECIAL_QUEST_COMPLETION_COUNT = "completionCount";
     public static final String FB_EVENTS = "events";
     public static final String FB_EVENTS_ID = "id";
     public static final String FB_EVENTS_NAME = "name";
@@ -102,13 +103,18 @@ public abstract class Constants {
     // Constants for questions
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
+    // Constants for special quests
+    public static final String SPECIAL_QUEST_INDEX_KEY = "SPECIAL_QUEST_KEY";
+
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SCHEDULE_INDEX =2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
     public static final int QUESTS_INDEX_TEACHER=0, COURSE_STAT_INDEX =1, COURSE_SELECTION_FOR_SCHEDULE_INDEX =2;
 
+    // Settings constants
+    public static final String ENGLISH = "English";
+    public static final String FRENCH = "Français";
+    public static final String[] LANGUAGES = {ENGLISH, FRENCH};
 
-    //Settings constants
-    public static final String[] LANGUAGES = {"English", "Français"};
     public static final String USER_PREFS = "StudyUpPrefs";
     public static final String LANG_SETTINGS_KEYWORD = "lang";
     public static final String COLOR_SETTINGS_KEYWORD = "color";
@@ -123,6 +129,10 @@ public abstract class Constants {
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
+
+    // Special quest completion alert messages
+    public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
+    public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
 
     // Enums for Role, Course
     public enum Role {
@@ -158,5 +168,4 @@ public abstract class Constants {
             return coursesName;
         }
     }
-
 }
