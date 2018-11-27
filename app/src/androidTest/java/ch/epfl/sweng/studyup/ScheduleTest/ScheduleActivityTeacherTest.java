@@ -82,6 +82,8 @@ public class ScheduleActivityTeacherTest {
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
 
+        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+
         // Initialize UiDevice instance
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         // Search for correct button in the dialog.
