@@ -120,7 +120,7 @@
     <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
-    <string name="question_edited">Question successfully edited !</string>
+    <string name="question_edited">Question successfully edited!</string>
     <string name="text_failed_update_courses">Failed to update courses!</string>
     <string name="text_courses_updated">Courses updated!</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
