@@ -76,6 +76,8 @@ public class AddOrEditQuestionActivityTest {
 
     @Before
     public void initiateIntents() {
+        List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
+        Player.get().setCourses(courses);
         mActivityRule.launchActivity(new Intent());
         QuestionDatabase.get(mActivityRule.getActivity()).clearAllTables();
         closeSoftKeyboard();
@@ -134,8 +136,6 @@ public class AddOrEditQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0, course: SWENG
-        List<Course> courses = Arrays.asList(Course.SWENG, Course.Algebra);
-        Player.get().setCourses(courses);
         onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
         onView(withText(Course.SWENG.toString())).inRoot(isDialog())
                 .check(matches(isDisplayed()))

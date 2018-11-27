@@ -131,11 +131,11 @@ public abstract class Constants {
     }
 
     public enum Course {
-        FakeCourse("A fake course"),
         SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
-        Blacksmithing("Blacksmithing");
+        Blacksmithing("Blacksmithing"),
+        FakeCourse("A fake course");
 
         private String name = "";
 

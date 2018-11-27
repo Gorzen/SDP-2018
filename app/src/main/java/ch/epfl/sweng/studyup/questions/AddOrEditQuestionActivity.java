@@ -94,12 +94,14 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 
-        this.question = question;
-        isNewQuestion = false;
-        int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
-        int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
-        chosenCourse = Course.valueOf(question.getCourseName());
-        setupEditQuestion(trueFalseOrMCQ, langButtonId);
+        if(question != null) {
+            this.question = question;
+            isNewQuestion = false;
+            int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
+            int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
+            chosenCourse = Course.valueOf(question.getCourseName());
+            setupEditQuestion(trueFalseOrMCQ, langButtonId);
+        }
 
         addRadioListener();
     }
@@ -146,8 +148,99 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+public void addQuestion(View current) {
+        /*if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button ){
+            Toast.makeText(this.getApplicationContext(), "Please insert image or text", Toast.LENGTH_SHORT).show();
+            return;
+        }*/
+    if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
+        RadioGroup answerGroup = findViewById(R.id.question_radio_group);
+        RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
+        //get the tag of the button to know the answer number
+        int answerNumber = Integer.parseInt(checkedButton.getTag().toString()) - 1;
 
-    public void addQuestion(View current) {
+
+        boolean isTrueFalseQuestion = trueFalseRadioGroup.getCheckedRadioButtonId() == R.id.true_false_radio;
+
+        langRadioGroup = findViewById(R.id.lang_radio_group);
+        String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
+        String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
+
+
+        //Delete the txt file, if there was any
+        FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".txt")).delete();
+
+        EditText newQuestionTitleView = findViewById(R.id.questionTitle);
+        String newQuestionTitle = newQuestionTitleView.getText().toString();
+        if (newQuestionTitle.isEmpty()) {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
+        File questionFile = null;
+
+        if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
+            questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
+            try {
+                Bitmap imageBitmap = imageURI == null ? bitmap : getBitmapFromUri(imageURI);
+                FileOutputStream out = new FileOutputStream(questionFile);
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+        } else {
+            //If the edited question goes from image to text, we delete the image from firebase
+            FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
+
+            try {
+                Log.e(TAG, "text selected write file");
+                questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".txt");
+                FileWriter writer = new FileWriter(questionFile);
+                TextView questionTextView = findViewById(R.id.questionText);
+                String questionData = questionTextView.getText().toString();
+                if (questionData.isEmpty()) {
+                    Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                writer.write(questionData);
+                writer.close();
+            } catch (IOException e) {
+                Log.e("Exception", "File write failed: " + e.toString());
+            }
+        }
+
+        Log.e(TAG, "create the question");
+        if (newQuestionTitle.length() == 0) {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(chosenCourse==null){
+            Toast.makeText(this.getApplicationContext(), getString(R.string.text_select_course_for_question), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String questionCourseName = chosenCourse.name();
+
+        Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion);
+
+        // Upload the problem image file to the Firebase Storage server
+        FileStorage.uploadProblemImage(questionFile);
+        // Add question to FireStore
+        Firestore.get().addQuestion(newQuestion);
+
+        if(isNewQuestion) {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.question_added), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this.getApplicationContext(), getString(R.string.question_edited), Toast.LENGTH_SHORT).show();
+        }
+        finish();
+    }
+}
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* public void addQuestion(View current) {
         if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
@@ -239,7 +332,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         }
 
         return null;
-    }
+    }*/
 
     private String getUUID() {
         if (MOCK_ENABLED) {

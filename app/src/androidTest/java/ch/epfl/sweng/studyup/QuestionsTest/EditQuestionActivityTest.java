@@ -33,10 +33,9 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
@@ -54,13 +53,13 @@ public class EditQuestionActivityTest {
     @Before
     public void init() {
         Player.get().setRole(Constants.Role.teacher);
-        MOCK_ENABLED_EDIT_QUESTION = true;
+        MOCK_ENABLED = true;
     }
 
     @After
     public void disableMock() {
         Player.get().resetPlayer();
-        MOCK_ENABLED_EDIT_QUESTION = false;
+        MOCK_ENABLED = false;
     }
 
     @Test
