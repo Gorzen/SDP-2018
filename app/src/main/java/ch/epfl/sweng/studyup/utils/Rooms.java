@@ -63,7 +63,7 @@ public abstract class Rooms {
 
         int meterConversion = 1609;
 
-        return new Double(distance * meterConversion).doubleValue();
+        return distance * meterConversion;
     }
 
     public static boolean checkIfUserIsInRoom() {
@@ -75,14 +75,11 @@ public abstract class Rooms {
         Calendar currTime = Calendar.getInstance();
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
-        for(WeekViewEvent weekViewEvent : Player.get().getScheduleStudent()) {
-            String eventCourseAndRoom = weekViewEvent.getName();
-            String[] courseAndRoom = eventCourseAndRoom.split("\n");
-            String courseName = courseAndRoom[0]; String room = courseAndRoom[1];
-            if(playersCourses.contains(courseName) && ROOMS_LOCATIONS.containsKey(room)) {
-                return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(room).getLocation(), POSITION) <= RADIUS_ROOM &&
-                        currTime.after(weekViewEvent.getStartTime()) &&
-                        currTime.before(weekViewEvent.getEndTime());
+        for(WeekViewEvent event : Player.get().getScheduleStudent()) {
+            if(playersCourses.contains(event.getName()) && ROOMS_LOCATIONS.containsKey(event.getLocation())) {
+                return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(event.getLocation()).getLocation(), POSITION) <= RADIUS_ROOM &&
+                        currTime.after(event.getStartTime()) &&
+                        currTime.before(event.getEndTime());
             }
         }
         return false;

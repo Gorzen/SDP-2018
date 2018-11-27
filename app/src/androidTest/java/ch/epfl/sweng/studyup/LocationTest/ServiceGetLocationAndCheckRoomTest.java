@@ -91,8 +91,8 @@ public class ServiceGetLocationAndCheckRoomTest {
 
         Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, beforeCurrTime, afterCurrTime);
-        WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name() + "\n" + CO3, unrelatedTime1, unrelatedTime2);
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name(), CO1, beforeCurrTime, afterCurrTime);
+        WeekViewEvent weekViewEvent2 = new WeekViewEvent(1, Constants.Course.Algebra.name(), CO3, unrelatedTime1, unrelatedTime2);
         Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(weekViewEvent1, weekViewEvent2)));
 
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
@@ -113,7 +113,7 @@ public class ServiceGetLocationAndCheckRoomTest {
 
         Player.get().setRole(Constants.Role.student);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
-        Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO3, beforeCurrTime, afterCurrTime))));
+        Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(new WeekViewEvent(0, Constants.Course.Algebra.name(), CO3, beforeCurrTime, afterCurrTime))));
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -129,7 +129,7 @@ public class ServiceGetLocationAndCheckRoomTest {
     public void checkIfUserIsInRoomReturnsFalseWhenNoEventMatchesTest() {
         final LatLng roomOfPlayer = Rooms.ROOMS_LOCATIONS.get(CO1).getLocation();
         setLocation(roomOfPlayer);
-        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name() + "\n" + CO1, unrelatedTime1, unrelatedTime2);
+        WeekViewEvent weekViewEvent1 = new WeekViewEvent(0, Constants.Course.Algebra.name(), CO1, unrelatedTime1, unrelatedTime2);
         Player.get().setCourses(Arrays.asList(Constants.Course.Algebra));
         Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(weekViewEvent1)));
         POSITION = new LatLng(location.getLatitude(), location.getLongitude());
