@@ -117,7 +117,6 @@
     <string name="choose_theme_brown">Brown</string>
     <string name="choose_theme_blue">Blue</string>
     <string name="choose_theme_multicolor">Multicolor</string>
-    <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
     <string name="question_edited">Question successfully edited!</string>
