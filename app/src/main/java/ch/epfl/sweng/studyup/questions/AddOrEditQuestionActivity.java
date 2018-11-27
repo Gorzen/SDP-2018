@@ -398,16 +398,12 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         final List<Course> courses = Player.get().getRole() == Constants.Role.teacher ?
                 Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         ArrayList<String> stringList = getStringListFromCourseList(courses, true);
-        String[] stringArray = new String[stringList.size()];
-        courseChoiceBuilder.setItems(stringList.toArray(stringArray), new DialogInterface.OnClickListener() {
+        final String[] coursesArray = stringList.toArray(new String[stringList.size()]);
+        courseChoiceBuilder.setItems(coursesArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (Course c : courses){
-                    if(which == c.ordinal()){
-                        chosenCourse = c;
-                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
-                    }
-                }
+                chosenCourse = Course.valueOf(coursesArray[which]);
+                view_chosen_course.setText(getString(R.string.chosen_course_for_question)+chosenCourse.toString());
             }
         });
         courseChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
