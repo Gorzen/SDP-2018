@@ -105,14 +105,10 @@ public class EditQuestionActivityTest {
 
     private boolean getExpectedIsTrueFalse(boolean changeType, boolean wasTrueFalse) {
         boolean exp;
-        if(changeType && wasTrueFalse) {
+        if (changeType && wasTrueFalse) {
             exp = false;
-        } else if(changeType) {
-            exp = true;
-        } else if(wasTrueFalse){
-            exp = true;
         } else {
-            exp = false;
+            exp = changeType || wasTrueFalse;
         }
 
         return exp;
