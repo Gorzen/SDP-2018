@@ -7,16 +7,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.ListItemAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
-
-import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 
 public class ShopActivity extends RefreshContext {
     private ListView itemsToBuy;

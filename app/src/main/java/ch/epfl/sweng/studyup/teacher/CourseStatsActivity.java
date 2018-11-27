@@ -18,7 +18,7 @@ import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
-import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;

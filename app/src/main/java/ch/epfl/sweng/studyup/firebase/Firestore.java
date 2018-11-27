@@ -209,10 +209,6 @@ public class Firestore {
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
 
-    public void updateQuests(Map<String, Object> remotePlayerData) {
-        //TODO
-    }
-
     /**
      * Load all questions that have not been created by the current player if role is student.
      * Load all questions that have been created by the current player if the role is teacher.
