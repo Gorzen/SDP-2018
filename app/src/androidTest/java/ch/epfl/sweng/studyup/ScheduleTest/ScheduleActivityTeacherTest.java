@@ -87,7 +87,7 @@ public class ScheduleActivityTeacherTest {
         // Initialize UiDevice instance
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         // Search for correct button in the dialog.
-        UiObject button = uiDevice.findObject(new UiSelector().text("CE_1_3"));
+        UiObject button = uiDevice.findObject(new UiSelector().text("CE_1_1"));
         button.click();
 
         Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
