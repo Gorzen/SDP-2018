@@ -59,11 +59,12 @@ public class LoginActivityUITest {
     }
 
     @Test
-    public void swipeTheViewPager() {
+    public void pagerSlideTest() {
         onView(withId(R.id.viewPager)).perform(swipeLeft());
         onView(allOf(withId(R.drawable.login_slide2), isDisplayed()));
     }
 
+    @Test
     public void a_userHasToChooseRoleBeforeContinuing() {
         onView(withId(R.id.loginButton)).perform(click());
         //If we're still on the loginActivity, that means we can still use the buttons

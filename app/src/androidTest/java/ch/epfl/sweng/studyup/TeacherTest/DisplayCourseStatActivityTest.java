@@ -5,11 +5,14 @@ import android.support.test.rule.ActivityTestRule;
 
 import junit.framework.TestCase;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.DisplayCourseStatsActivity;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -21,9 +24,15 @@ public class DisplayCourseStatActivityTest {
     public final ActivityTestRule<DisplayCourseStatsActivity> mActivityRule =
             new ActivityTestRule<>(DisplayCourseStatsActivity.class, true, false);
 
+    @Before
+    public void putCourseInIntent() {
+        Intent i = new Intent();
+        i.putExtra(DisplayQuestionActivity.class.getName(), Constants.Course.SWENG.name());
+        mActivityRule.launchActivity(i);
+    }
+
     @Test
     public void backButtonTest() {
-        mActivityRule.launchActivity(new Intent());
         onView(withId(R.id.back_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }

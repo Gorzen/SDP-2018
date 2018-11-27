@@ -49,6 +49,6 @@ public class ListAdapterTest {
     @Test
     public void getItemIdReturnsCorrectId() {
         assertEquals(Items.XP_POTION.ordinal(), listItemAdapter.getItemId(2));
-        assertEquals(Constants.Course.FakeCourse.ordinal(), listItemAdapter.getItemId(2));
+        assertEquals(Constants.Course.SWENG.ordinal(), listItemAdapter.getItemId(2));
     }
 }
