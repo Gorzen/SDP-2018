@@ -55,8 +55,8 @@ import static org.junit.Assert.assertFalse;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
-public class AddOrEditQuestionActivityTest {
-    private static final String TAG = AddOrEditQuestionActivityTest.class.getSimpleName();
+public class AddQuestionActivityTest {
+    private static final String TAG = AddQuestionActivityTest.class.getSimpleName();
 
     @Rule
     public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
