@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.QuestsTest;
+package ch.epfl.sweng.studyup.SpecialQuestsTest;
 
 import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -78,5 +80,30 @@ public class SpecialQuestDisplayActivityTest {
         Check that progress bar is displayed.
          */
         onView(withId(R.id.specialQuestProgress)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void questCompleteDisplayTest() {
+
+        SpecialQuest defaultQuest = Player.get().getSpecialQuests().get(0);
+        /*
+        Set special quest to complete.
+         */
+        defaultQuest.setCompletionCount(3);
+
+        Intent launchIntent = new Intent();
+        /*
+        Launch special quest view for first of Player's special quests.
+        By default, this is the "Answer 3 questions" special quest.
+        This special quest should now be complete.
+         */
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+
+        mActivityRule.launchActivity(launchIntent);
+
+        /*
+        Should display message indicating special quest has been completed.
+         */
+        onView(withId(R.id.specialQuestCongrat)).check(matches(withText(R.string.congrat_text_special_quest)));
     }
 }

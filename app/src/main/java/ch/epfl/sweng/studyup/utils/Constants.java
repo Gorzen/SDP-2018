@@ -104,8 +104,10 @@ public abstract class Constants {
     public static final int QUESTS_INDEX_TEACHER=0, COURSE_INDEX=1;
 
     // Settings constants
-    public static final String[] LANGUAGES = {"English", "Français"};
     public static final String ENGLISH = "English";
+    public static final String FRENCH = "Français";
+    public static final String[] LANGUAGES = {ENGLISH, FRENCH};
+
     public static final String USER_PREFS = "StudyUpPrefs";
 
     // Special quest completion alert messages
