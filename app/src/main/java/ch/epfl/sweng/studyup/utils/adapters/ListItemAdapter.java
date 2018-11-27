@@ -1,4 +1,4 @@
-package ch.epfl.sweng.studyup.utils;
+package ch.epfl.sweng.studyup.utils.adapters;
 
 import android.content.Context;
 import android.view.View;

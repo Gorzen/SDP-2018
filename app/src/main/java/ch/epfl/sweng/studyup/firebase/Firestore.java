@@ -26,6 +26,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
+import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
 
@@ -41,6 +42,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
@@ -63,6 +65,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -158,6 +161,7 @@ public class Firestore {
         localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
         localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
         localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
+        localPlayerData.put(FB_SPECIALQUESTS, getMapListFromSpecialQuestList(currPlayer.getSpecialQuests()));
         localPlayerData.put(FB_COURSES_ENROLLED, getStringListFromCourseList(currPlayer.getCoursesEnrolled(), false));
         localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached(), false));
         localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
@@ -176,6 +180,7 @@ public class Firestore {
                     Log.e(TAG, "Unable to update remote player data");
                 }
             });
+
     }
 
     public void deleteUserFromDatabase(String sciperNum) {

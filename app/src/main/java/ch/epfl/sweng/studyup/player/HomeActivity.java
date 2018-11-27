@@ -16,8 +16,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,16 +27,23 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -102,6 +111,7 @@ public class HomeActivity extends NavigationStudent {
                 123);
 
         loadInterface();
+        populateSpecialQuestsList();
     }
 
     private void loadInterface() {
@@ -153,6 +163,7 @@ public class HomeActivity extends NavigationStudent {
         updateUsernameDisplay();
         updateCurrDisplay();
         updateXpAndLvlDisplay();
+        populateSpecialQuestsList();
     }
 
     @Override
@@ -196,6 +207,40 @@ public class HomeActivity extends NavigationStudent {
     public void updateXpAndLvlDisplay() {
         levelProgress.setCurrentProgress(Player.get().getLevelProgress());
         ((TextView) findViewById(R.id.levelText)).setText(getString(R.string.text_level) + Player.get().getLevel());
+    }
+
+    public void populateSpecialQuestsList() {
+
+
+        final List<SpecialQuest> specialQuestsList = Player.get().getSpecialQuests();
+
+        List<Integer> iconList = new ArrayList<>();
+        for (SpecialQuest currSpecialQuest : specialQuestsList) {
+            if (currSpecialQuest.getProgress() == 1) {
+                iconList.add(R.drawable.ic_check_green_24dp);
+            }
+            else {
+                iconList.add(R.drawable.ic_todo_grey_24dp);
+            }
+        }
+
+        ListView specialQuestsListView = findViewById(R.id.specialQuestsListView);
+        SpecialQuestListViewAdapter listAdapter =
+            new SpecialQuestListViewAdapter(this, R.layout.special_quest_model, specialQuestsList, iconList);
+        specialQuestsListView.setAdapter(listAdapter);
+
+        /*
+        Set onClick listeners for all special quests that will open SpecialQuestDisplayActivity,
+        passing the Special Quest as a serializable object. It will be de-serialized and used in that activity.
+         */
+        specialQuestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent displaySpecialQuestion = new Intent(HomeActivity.this, SpecialQuestDisplayActivity.class);
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_INDEX_KEY, position);
+
+                startActivity(displaySpecialQuestion);
+            }});
     }
 
     public void updateCurrDisplay() {

@@ -11,12 +11,11 @@ import android.widget.ListView;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher.COURSE_NAME_INTENT_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.COURSE_SELECTION_FOR_SCHEDULE_INDEX;
-import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
 
 public class CourseSelectionForScheduleActivity extends NavigationTeacher {
     private ListCourseAdapter listCourseAdapter;
