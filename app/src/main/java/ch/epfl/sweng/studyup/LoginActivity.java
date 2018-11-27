@@ -26,7 +26,7 @@ import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.ViewPagerAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ViewPagerAdapter;
 
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;

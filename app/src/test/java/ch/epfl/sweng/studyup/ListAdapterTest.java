@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.ListCourseAdapter;
-import ch.epfl.sweng.studyup.utils.ListItemAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 import static org.junit.Assert.assertEquals;
 

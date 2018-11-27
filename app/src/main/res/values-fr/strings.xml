@@ -105,6 +105,17 @@
     <string name="choose_theme_blue">Bleu</string>
     <string name="choose_theme_multicolor">Multicouleur</string>
     <string name="back_button_settings_color_text">Retour aux paramètres</string>
+    <string name="special_quest_list_title">Quête spéciale</string>
+    <string name="ask_confirmation_deletion_quest">Êtes-vous sûr de vouloir supprimer cette question ?</string>
+    <string name="yes_upper">OUI</string>
+    <string name="no_upper">NON</string>
+    <string name="existing_questions_text">Vos questions existantes:</string>
+    <string name="back_button_simple_text">Retour</string>
+    <string name="question_edited">La question a été modifiée !</string>
+    <string name="text_failed_update_courses">Une erreur est survenue en chargant les cours</string>
+    <string name="text_courses_updated">Les cours ont été mis à jour!</string>
+    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel article: </string>
+    <string name="special_quests_title">Quêtes Spéciales</string>
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
     <string name="go_to_shop_button">Acheter plus d\'objets</string>

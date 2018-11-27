@@ -55,6 +55,7 @@
     <string name="FB_user_pictures_directory_name" translatable="false">user_pictures</string>
     <string name="log_out">Log out</string>
     <string name="quest_title">Title Quest</string>
+    <string name="special_quest_list_title">Special Quest</string>
     <string name="quest_course">Course Quest</string>
     <string name="image_radio_text">Image-based question</string>
     <string name="text_radio">Text-based question</string>
@@ -123,6 +124,9 @@
     <string name="question_edited">Question successfully edited !</string>
     <string name="text_failed_update_courses">Failed to update courses!</string>
     <string name="text_courses_updated">Courses updated!</string>
+    <string name="congrat_text_special_quest">Yay! You just completed this quest! You earned a new item: </string>
+    <string name="choose_the_language_of_your_question">Choose the language of your question</string>
+    <string name="special_quests_title">Special Quests</string>
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="course_statistics">Course Statistics</string>
     <string name="displaycourseactivity">DisplayCourseActivity</string>
@@ -136,7 +140,6 @@
     <string name="title_schedule_teacher">My courses</string>
     <string name="title_schedule_student">Schedule</string>
     <string name="room_alert_title">Choose the Room</string>
-    <string name="choose_the_language_of_your_question">Choose the Language of your Question</string>
     <string name="text_insert_title_for_question">Please Insert a Title</string>
     <string name="text_select_course_for_question">Please Select a Course</string>
     <string name="error_when_download_question">An Error Occured when Downloading the Question</string>
