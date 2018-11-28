@@ -238,6 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:checkedButton="@+id/image_radio_button"
+                        android:onClick="onTextCheckedListener"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.505"
                         app:layout_constraintStart_toStartOf="parent"

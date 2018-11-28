@@ -62,6 +62,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
     private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
+    private ProgressBar progressBar;
     private Course chosenCourse;
     private TextView view_chosen_course;
     private Bitmap bitmap = null;
@@ -83,7 +84,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
 
         // Setup progress bar
-        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         if(MOCK_ENABLED) progressBar.setVisibility(View.GONE); else progressBar.setVisibility(View.VISIBLE);
 
         // Setup path getter
@@ -430,6 +431,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         } else {
             RadioButton mcqRadio = findViewById(R.id.mcq_radio);
             mcqRadio.setChecked(true);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -470,7 +472,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
 
-                ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
 
                 bitmap = displayImage;
@@ -501,9 +502,13 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                 setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
 
-                (findViewById(R.id.progressBar)).setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void onTextCheckedListener(View v) {
+        progressBar.setVisibility(View.GONE);
     }
 
     public void onBackButtonAddQuestion(View view) {
