@@ -401,7 +401,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 for (Course c : courses){
-                    if(which == c.ordinal()){
+                    if(which == c.ordinal()-1){
                         chosenCourse = c;
                         view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
                     }
