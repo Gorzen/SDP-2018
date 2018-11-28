@@ -4,17 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ScrollView;
+import android.widget.RadioButton;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +23,6 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -51,13 +46,12 @@ public class EditQuestionActivityTest {
     private String TAG = "EditQuestionActivityTest";
 
     @Rule
-    public final ActivityTestRule<QuestsActivityTeacher> mActivityRule =
-            new ActivityTestRule<>(QuestsActivityTeacher.class);
+    public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
+            new ActivityTestRule<>(AddOrEditQuestionActivity.class);
 
 
     @Before
     public void init() {
-        Player.get().setRole(Constants.Role.teacher);
         MOCK_ENABLED = true;
     }
 
@@ -68,12 +62,7 @@ public class EditQuestionActivityTest {
     }
 
     private void editAndCheckQuestion(int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
-        Firestore.get().addQuestion(q);
-        Utils.waitAndTag(1500, this.getClass().getName());
-        Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1500, this.getClass().getName());
-        clickOnListViewItem();
-        Utils.waitAndTag(100, "Waiting for edit activity to launch");
+        mActivityRule.launchActivity(new Intent().putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q));
 
         // Change Type
         final boolean isTrueFalseBeforeEdition = q.isTrueFalse();
@@ -84,9 +73,9 @@ public class EditQuestionActivityTest {
         }
 
         // Change answer
-        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(200, "Waiting for scroll");
-        onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
+        unsetAnswerRadioButtons();
+        RadioButton newAnswerButton = mActivityRule.getActivity().findViewById(newAnswerId);
+        newAnswerButton.setChecked(true);
 
         // Edit and Check
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
@@ -109,6 +98,18 @@ public class EditQuestionActivityTest {
                 }
             }
         });
+    }
+
+    private void unsetAnswerRadioButtons() {
+        RadioButton r1 = mActivityRule.getActivity().findViewById(R.id.radio_answer1);
+        RadioButton r2 = mActivityRule.getActivity().findViewById(R.id.radio_answer2);
+        RadioButton r3 = mActivityRule.getActivity().findViewById(R.id.radio_answer3);
+        RadioButton r4 = mActivityRule.getActivity().findViewById(R.id.radio_answer4);
+
+        r1.setChecked(false);
+        r2.setChecked(false);
+        r3.setChecked(false);
+        r4.setChecked(false);
     }
 
     private boolean getExpectedIsTrueFalse(boolean changeType, boolean wasTrueFalse) {
@@ -176,7 +177,7 @@ public class EditQuestionActivityTest {
     @Test
     public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
-        addQuestionAndClick(q);
+        //addQuestionAndClick(q);
 
         onView(withId(R.id.text_radio_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.questionText))
@@ -194,7 +195,7 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(1000, "Waiting for questions to load.");
         checkQuestionIsTrueFalse();
     }
-
+/*
     private void addQuestionAndClick(Question q) {
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(3000, this.getClass().getName());
@@ -202,7 +203,7 @@ public class EditQuestionActivityTest {
         Utils.waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
     }
-
+*/
     private void checkQuestionIsTrueFalse() {
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -224,24 +225,9 @@ public class EditQuestionActivityTest {
     @Test
     public void backButtonTest() {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
-        Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, this.getClass().getName());
-        Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(3000, this.getClass().getName());
-        clickOnListViewItem();
+        Intent iWithSimpleQ = new Intent();
+        iWithSimpleQ.putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q);
+        mActivityRule.launchActivity(iWithSimpleQ);
         onView(withId(R.id.back_button)).perform(click());
-    }
-
-    private void clickOnListViewItem() {
-        mActivityRule.launchActivity(new Intent());
-        Utils.waitAndTag(1000, "wait for questions to load");
-        list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
-        mActivityRule.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
-            }
-        });
-        Utils.waitAndTag(500, "wait for click to be performed");
     }
 }
