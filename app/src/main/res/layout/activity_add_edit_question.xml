@@ -81,17 +81,11 @@
 
                     <Button
                         android:id="@+id/choice_course_button"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="57dp"
-<<<<<<< HEAD:app/src/main/res/layout/activity_add_question.xml
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="16dp"
-=======
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="12dp"
->>>>>>> ac32aa17c00ca4d56a86e8ba5b035cd4870da8ef:app/src/main/res/layout/activity_add_edit_question.xml
                         android:background="@android:color/transparent"
                         android:gravity="top"
                         android:onClick="onClickCourseChoice"
@@ -100,7 +94,6 @@
                         android:textAllCaps="false"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.421"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,11 +104,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
-<<<<<<< HEAD:app/src/main/res/layout/activity_add_question.xml
-                        android:layout_marginEnd="8dp"
-=======
-                        android:layout_marginTop="40dp"
->>>>>>> ac32aa17c00ca4d56a86e8ba5b035cd4870da8ef:app/src/main/res/layout/activity_add_edit_question.xml
                         android:text="@string/chosen_course_for_question"
                         app:layout_constraintBottom_toBottomOf="@+id/choice_course_button"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -506,14 +494,8 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="32dp"
-<<<<<<< HEAD:app/src/main/res/layout/activity_add_question.xml
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="24dp"
                         android:background="@drawable/list_view_shape"
                         android:backgroundTint="@color/colorPrimary"
-=======
-                        android:background="?attr/colorPrimary"
->>>>>>> ac32aa17c00ca4d56a86e8ba5b035cd4870da8ef:app/src/main/res/layout/activity_add_edit_question.xml
                         android:onClick="addQuestion"
                         android:text="@string/add_text"
                         android:textColor="@color/colorWhite"
@@ -526,13 +508,13 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="18dp"
+                        android:layout_height="19dp"
                         android:layout_marginBottom="8dp"
-                        android:layout_marginTop="3dp"
                         app:layout_constraintBottom_toTopOf="@+id/chosenCourseTextView"
                         app:layout_constraintStart_toEndOf="@+id/choice_course_button"
                         app:layout_constraintTop_toTopOf="@+id/choice_course_button"
+                        app:layout_constraintVertical_bias="0.13"
                         app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
 
 
