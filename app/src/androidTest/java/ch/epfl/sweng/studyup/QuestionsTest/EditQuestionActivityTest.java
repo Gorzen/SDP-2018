@@ -24,6 +24,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
@@ -72,6 +73,7 @@ public class EditQuestionActivityTest {
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(1500, this.getClass().getName());
         clickOnListViewItem();
+        Utils.waitAndTag(100, "Waiting for edit activity to launch");
 
         // Change Type
         final boolean isTrueFalseBeforeEdition = q.isTrueFalse();
@@ -82,22 +84,8 @@ public class EditQuestionActivityTest {
         }
 
         // Change answer
-        mActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                EditText title = mActivityRule.getActivity().findViewById(R.id.questionTitle);
-                title.setText("A Title");
-            }
-        });
-
-        final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.scrollViewAddQuestion);
-        mActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                scroll.fullScroll(View.FOCUS_DOWN);
-            }
-        });
-        Utils.waitAndTag(500, "Waiting for scroll");
+        onView(withId(newAnswerId)).perform(scrollTo());
+        Utils.waitAndTag(200, "Waiting for scroll");
         onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
 
         // Edit and Check
