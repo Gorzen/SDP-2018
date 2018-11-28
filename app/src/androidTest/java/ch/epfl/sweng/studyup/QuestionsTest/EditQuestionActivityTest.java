@@ -84,7 +84,7 @@ public class EditQuestionActivityTest {
         }
 
         // Change answer
-        onView(withId(newAnswerId)).perform(scrollTo());
+        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo());
         Utils.waitAndTag(200, "Waiting for scroll");
         onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
 
