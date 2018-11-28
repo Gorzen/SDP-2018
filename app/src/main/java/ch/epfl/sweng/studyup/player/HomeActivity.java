@@ -76,7 +76,7 @@ public class HomeActivity extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         displayLoginSuccessMessage(getIntent());
 
