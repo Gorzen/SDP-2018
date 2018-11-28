@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup.teacher;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.format.DateFormat;

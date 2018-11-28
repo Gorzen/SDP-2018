@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,41 +18,33 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_END;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_ID;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
-import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
-import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
-import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
-import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_END;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_ID;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
@@ -77,6 +68,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
+import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
+import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
+import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 

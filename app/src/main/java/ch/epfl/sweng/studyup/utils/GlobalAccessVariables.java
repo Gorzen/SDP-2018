@@ -2,19 +2,15 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
 import android.location.Location;
-import android.text.format.DateFormat;
 
-import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewLoader;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;

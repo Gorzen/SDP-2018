@@ -1,13 +1,10 @@
 package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
-import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
