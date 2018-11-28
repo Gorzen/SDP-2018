@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup.player;
 import java.util.HashMap;
 import java.util.List;
 
-
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 
 /**

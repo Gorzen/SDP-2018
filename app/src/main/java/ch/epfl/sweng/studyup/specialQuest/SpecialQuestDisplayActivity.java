@@ -1,22 +1,21 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ProgressBar;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
 
-public class SpecialQuestDisplayActivity extends AppCompatActivity {
+public class SpecialQuestDisplayActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +65,10 @@ public class SpecialQuestDisplayActivity extends AppCompatActivity {
             TextView rewardItemText = findViewById(R.id.specialQuestReward);
             rewardItemText.setText(specialQuest.getReward().getName());
         }
+    }
+
+    public void onBackButtonSpecialQuest(View v) {
+        finish();
     }
 
     public final class CustomProgressTextAdapter implements CircularProgressIndicator.ProgressTextAdapter {

@@ -50,7 +50,6 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED_EDIT_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 
@@ -63,17 +62,17 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
     private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
+    private ProgressBar progressBar;
     private Course chosenCourse;
     private TextView view_chosen_course;
     private Bitmap bitmap = null;
-    private int answer = 1;
     private boolean isNewQuestion = true;
     private Question question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_question);
+        setContentView(R.layout.activity_add_edit_question);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,33 +80,28 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());
-        Log.d("TEST_EDIT_QUESTION", "question = " + question);
 
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
 
-        if (question != null) {
-            if(!MOCK_ENABLED_EDIT_QUESTION) {
-                ProgressBar progressBar = findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.VISIBLE);
-            }
+        // Setup progress bar
+        progressBar = findViewById(R.id.progressBar);
+        if(MOCK_ENABLED) progressBar.setVisibility(View.GONE); else progressBar.setVisibility(View.VISIBLE);
+
+        // Setup path getter
+        if (MOCK_ENABLED) {
+            getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
+        } else {
+            Firestore.get().loadQuestions(this);
+            getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
+        }
+
+        if(question != null) {
             this.question = question;
-            answer = question.getAnswer();
             isNewQuestion = false;
             int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
             int langButtonId = question.getLang().equals("en") ? R.id.radio_en : R.id.radio_fr;
             chosenCourse = Course.valueOf(question.getCourseName());
             setupEditQuestion(trueFalseOrMCQ, langButtonId);
-        }
-
-        if (!MOCK_ENABLED) {
-            Firestore.get().loadQuestions(this);
-            getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
-        }
-        else getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
-
-        if(MOCK_ENABLED_EDIT_QUESTION){
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.GONE);
         }
 
         addRadioListener();
@@ -157,10 +151,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
 
     public void addQuestion(View current) {
-        /*if(imageURI==null && imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button ){
-            Toast.makeText(this.getApplicationContext(), "Please insert image or text", Toast.LENGTH_SHORT).show();
-            return;
-        }*/
         if (imageURI != null || bitmap != null || imageTextRadioGroup.getCheckedRadioButtonId() == R.id.text_radio_button) {
             RadioGroup answerGroup = findViewById(R.id.question_radio_group);
             RadioButton checkedButton = findViewById(answerGroup.getCheckedRadioButtonId());
@@ -174,49 +164,20 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             String langQuestion = langRadioGroup.getCheckedRadioButtonId() == R.id.radio_en ? "en" : "fr";
             String newQuestionID = isNewQuestion ? getUUID() : question.getQuestionId();
 
-
-            //Delete the txt file, if there was any
-            FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".txt")).delete();
-
             EditText newQuestionTitleView = findViewById(R.id.questionTitle);
             String newQuestionTitle = newQuestionTitleView.getText().toString();
-            if (newQuestionTitle.isEmpty()) {
-                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             RadioGroup imageTextRadioGroup = findViewById(R.id.text_or_image_radio_group);
-            File questionFile = null;
+            File questionFile;
 
             if (imageTextRadioGroup.getCheckedRadioButtonId() == R.id.image_radio_button) {
-                questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".png");
-                try {
-                    Bitmap imageBitmap = imageURI == null ? bitmap : getBitmapFromUri(imageURI);
-                    FileOutputStream out = new FileOutputStream(questionFile);
-                    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    out.close();
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-                }
+                //Delete the txt file, if there was any
+                FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".txt")).delete();
+                questionFile = setupFileImage(newQuestionID);
             } else {
                 //If the edited question goes from image to text, we delete the image from firebase
                 FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
-
-                try {
-                    Log.e(TAG, "text selected write file");
-                    questionFile = new File(this.getApplicationContext().getFilesDir(), newQuestionID + ".txt");
-                    FileWriter writer = new FileWriter(questionFile);
-                    TextView questionTextView = findViewById(R.id.questionText);
-                    String questionData = questionTextView.getText().toString();
-                    if (questionData.isEmpty()) {
-                        Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    writer.write(questionData);
-                    writer.close();
-                } catch (IOException e) {
-                    Log.e("Exception", "File write failed: " + e.toString());
-                }
+                questionFile = setupFileText(newQuestionID);
             }
 
             Log.e(TAG, "create the question");
@@ -245,6 +206,42 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             }
             finish();
         }
+    }
+
+    private File setupFileImage(String ID) {
+        File questionFile = new File(this.getApplicationContext().getFilesDir(), ID + ".png");
+        try {
+            Bitmap imageBitmap = imageURI == null ? bitmap : getBitmapFromUri(imageURI);
+            FileOutputStream out = new FileOutputStream(questionFile);
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+        } catch (IOException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return questionFile;
+    }
+
+    private File setupFileText(String ID) {
+        try {
+            Log.e(TAG, "text selected write file");
+            File questionFile = new File(this.getApplicationContext().getFilesDir(), ID + ".txt");
+            FileWriter writer = new FileWriter(questionFile);
+            TextView questionTextView = findViewById(R.id.questionText);
+            String questionData = questionTextView.getText().toString();
+            if (questionData.isEmpty()) {
+                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            writer.write(questionData);
+            writer.close();
+
+            return questionFile;
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
+        return null;
     }
 
     private String getUUID() {
@@ -288,57 +285,63 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         RadioButton fourthRadioButton = findViewById(R.id.radio_answer4);
 
         if (trueFalseOrMCQID == R.id.true_false_radio) {
-            //mask the 3rd and 4th radio button and uncheck them
-            thirdRadioButton.setVisibility(View.INVISIBLE);
-            thirdRadioButton.setChecked(false);
-            fourthRadioButton.setVisibility(View.INVISIBLE);
-            fourthRadioButton.setChecked(false);
-            //Change the text to the 1st and second button to True and False
-            firstRadioButton.setText(getString(R.string.truth_value));
-            secondRadioButton.setText(getString(R.string.false_value));
-            if (!isNewQuestion && question.isTrueFalse()) {
-                switch (answer) {
-                    case 0:
-                        firstRadioButton.setChecked(true);
-                        break;
-                    case 1:
-                        secondRadioButton.setChecked(true);
-                        break;
-                }
-            }  else {
-                firstRadioButton.setChecked(true);
-            }
-
+            setupRadioButtonForTrueFalse(firstRadioButton, secondRadioButton, thirdRadioButton, fourthRadioButton);
         } else {
-            //unmask the last two buttons and set the text to the first ones to numbers
-            thirdRadioButton.setVisibility(View.VISIBLE);
-            thirdRadioButton.setChecked(false);
-            fourthRadioButton.setVisibility(View.VISIBLE);
-            fourthRadioButton.setChecked(false);
-            if (!isNewQuestion && !question.isTrueFalse()) {
-                switch (answer) {
-                    case 0:
-                        firstRadioButton.setChecked(true);
-                        break;
-                    case 1:
-                        secondRadioButton.setChecked(true);
-                        break;
-                    case 2:
-                        thirdRadioButton.setChecked(true);
-                        break;
-                    case 3:
-                        fourthRadioButton.setChecked(true);
-                        break;
-                }
-            } else {
-                firstRadioButton.setChecked(true);
-            }
-            //Change the text to the 1st and second button to True and False
-            firstRadioButton.setText("1");
-            secondRadioButton.setText("2");
+            setupRadioButtonForMCQ(firstRadioButton, secondRadioButton, thirdRadioButton, fourthRadioButton);
         }
     }
 
+    private void setupRadioButtonForTrueFalse(RadioButton r1, RadioButton r2, RadioButton r3, RadioButton r4) {
+        //mask the 3rd and 4th radio button and uncheck them
+        r3.setVisibility(View.INVISIBLE);
+        r3.setChecked(false);
+        r4.setVisibility(View.INVISIBLE);
+        r4.setChecked(false);
+        //Change the text to the 1st and second button to True and False
+        r1.setText(getString(R.string.truth_value));
+        r2.setText(getString(R.string.false_value));
+        if (!isNewQuestion && question.isTrueFalse()) {
+            switch (question.getAnswer()) {
+                case 0:
+                    r1.setChecked(true);
+                    break;
+                case 1:
+                    r2.setChecked(true);
+                    break;
+            }
+        }  else {
+            r1.setChecked(true);
+        }
+    }
+
+    private void setupRadioButtonForMCQ(RadioButton r1, RadioButton r2, RadioButton r3, RadioButton r4) {
+        //unmask the last two buttons and set the text to the first ones to numbers
+        r3.setVisibility(View.VISIBLE);
+        r3.setChecked(false);
+        r4.setVisibility(View.VISIBLE);
+        r4.setChecked(false);
+        if (!isNewQuestion && !question.isTrueFalse()) {
+            switch (question.getAnswer()) {
+                case 0:
+                    r1.setChecked(true);
+                    break;
+                case 1:
+                    r2.setChecked(true);
+                    break;
+                case 2:
+                    r3.setChecked(true);
+                    break;
+                case 3:
+                    r4.setChecked(true);
+                    break;
+            }
+        } else {
+            r1.setChecked(true);
+        }
+        //Change the text to the 1st and second button to True and False
+        r1.setText("1");
+        r2.setText("2");
+    }
     /**
      * Sets the Image-based or Text-based Radio Buttons. This method is used when a question is being edited
      * to display the corresponding checked radio buttons and is also used when the radio listener is being set
@@ -396,16 +399,13 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         final List<Course> courses = Player.get().getRole() == Constants.Role.teacher ?
                 Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         ArrayList<String> stringList = getStringListFromCourseList(courses, true);
-        String[] stringArray = new String[stringList.size()];
-        courseChoiceBuilder.setItems(stringList.toArray(stringArray), new DialogInterface.OnClickListener() {
+        final ArrayList<String> stringListName = getStringListFromCourseList(courses, false);
+        final String[] coursesArray = stringList.toArray(new String[stringList.size()]);
+        courseChoiceBuilder.setItems(coursesArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for (Course c : courses){
-                    if(which == c.ordinal()){
-                        chosenCourse = c;
-                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
-                    }
-                }
+                chosenCourse = Course.valueOf(stringListName.get(which));
+                view_chosen_course.setText(getString(R.string.chosen_course_for_question)+chosenCourse.toString());
             }
         });
         courseChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
@@ -431,6 +431,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         } else {
             RadioButton mcqRadio = findViewById(R.id.mcq_radio);
             mcqRadio.setChecked(true);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -471,7 +472,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
 
-                ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
 
                 bitmap = displayImage;
@@ -486,8 +486,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                 String displayText = "";
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
+                    StringBuilder sb = new StringBuilder(); String line;
                     while ((line = reader.readLine()) != null) {
                         sb.append(line).append("\n");
                     }
@@ -497,19 +496,19 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                     if (sb.length() > 0) {
                         displayText = sb.toString().substring(0, sb.length() - 1);
                     }
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                    finish();
-                }
-                EditText questionEditText = findViewById(R.id.questionText);
-                questionEditText.setText(displayText);
+                } catch (Exception e) { Log.e(TAG, e.toString()); finish(); }
+
+                ((EditText) findViewById(R.id.questionText)).setText(displayText);
                 setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
 
-                ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void onTextCheckedListener(View v) {
+        progressBar.setVisibility(View.GONE);
     }
 
     public void onBackButtonAddQuestion(View view) {

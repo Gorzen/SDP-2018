@@ -29,15 +29,14 @@ import com.kosalgeek.android.caching.FileCacher;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.player.CustomActivity;
-import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -77,7 +76,7 @@ public class HomeActivity extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         displayLoginSuccessMessage(getIntent());
 

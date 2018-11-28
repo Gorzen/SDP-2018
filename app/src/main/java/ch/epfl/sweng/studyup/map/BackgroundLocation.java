@@ -5,20 +5,16 @@ import android.app.Activity;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
-import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
 

@@ -9,12 +9,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
-import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
 

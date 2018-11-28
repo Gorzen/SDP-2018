@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup.firebase;
 
-import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -12,16 +11,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
-
 import java.io.File;
 
 import ch.epfl.sweng.studyup.R;
-import java.io.File;
 
 import static ch.epfl.sweng.studyup.utils.Constants.PROFILE_PICTURES_DIRECTORY_NAME;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTION_IMAGES_DIRECTORY_NAME;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 public abstract class FileStorage {
 

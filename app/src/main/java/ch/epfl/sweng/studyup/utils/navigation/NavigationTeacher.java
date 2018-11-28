@@ -8,9 +8,9 @@ import ch.epfl.sweng.studyup.teacher.CourseSelectionForScheduleActivity;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 
-import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
-import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.COURSE_SELECTION_FOR_SCHEDULE_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 
 public class NavigationTeacher extends Navigation {
     private final ArrayList<Integer> buttonIdsTeacher = new ArrayList<>(Arrays.asList(

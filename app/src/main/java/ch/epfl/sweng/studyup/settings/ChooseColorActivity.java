@@ -1,21 +1,18 @@
 package ch.epfl.sweng.studyup.settings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
-import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;

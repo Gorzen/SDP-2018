@@ -145,19 +145,6 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         return questStrFromCourse;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     private class ListUserAdapter extends BaseAdapter {
 
         private Context cnx;
