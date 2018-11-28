@@ -508,8 +508,8 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="18dp"
-                        android:layout_height="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toTopOf="@+id/chosenCourseTextView"
                         app:layout_constraintStart_toEndOf="@+id/choice_course_button"
