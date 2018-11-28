@@ -3,7 +3,6 @@ package ch.epfl.sweng.studyup.teacher;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -81,20 +80,17 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             Calendar eventEnd = Calendar.getInstance();
             eventEnd.setTimeInMillis(eventStart.getTimeInMillis() + 59 * 60000);
 
-            if(MOCK_ENABLED) {
-                weekViewEvents.add(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "CO_1_1", eventStart, eventEnd));
-                id += 1;
-                weekView.notifyDatasetChanged();
-            } else {
-                launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
-            }
+            launchRoomSelectionDialog(new WeekViewEvent(id % 100 + 100 * Constants.Course.valueOf(courseName).ordinal(), courseName, "", eventStart, eventEnd));
         }
     };
 
     private void launchRoomSelectionDialog(final WeekViewEvent e) {
         final AlertDialog.Builder roomChoiceDialog = new AlertDialog.Builder(this);
         roomChoiceDialog.setTitle(R.string.room_alert_title);
-        final String[] roomsAsArray = (new ArrayList<>(Rooms.ROOMS_LOCATIONS.keySet())).toArray(new String[0]);
+        final String[] roomsAsArray = MOCK_ENABLED ?
+                new String[]{"CE_1_1"}
+                :
+                (new ArrayList<>(Rooms.ROOMS_LOCATIONS.keySet())).toArray(new String[0]);
 
         roomChoiceDialog.setItems(roomsAsArray , new DialogInterface.OnClickListener() {
             @SuppressWarnings("HardCodedStringLiteral")
@@ -188,7 +184,6 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     }
 
     public void onBackButtonScheduleTeacher(View v) {
-        Intent toCourseSelection = new Intent(this, CourseSelectionForScheduleActivity.class);
-        startActivity(toCourseSelection);
+        finish();
     }
 }

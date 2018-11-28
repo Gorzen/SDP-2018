@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 public class ShopActivity extends RefreshContext {
     private ListView itemsToBuy;

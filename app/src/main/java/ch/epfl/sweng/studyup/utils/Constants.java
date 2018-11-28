@@ -1,15 +1,18 @@
 package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+<<<<<<< HEAD
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
+=======
+>>>>>>> ac32aa17c00ca4d56a86e8ba5b035cd4870da8ef
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
 
@@ -139,11 +142,11 @@ public abstract class Constants {
     }
 
     public enum Course {
-        FakeCourse("A fake course"),
         SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
-        Blacksmithing("Blacksmithing");
+        Blacksmithing("Blacksmithing"),
+        FakeCourse("A fake course");
 
         private String name = "";
 

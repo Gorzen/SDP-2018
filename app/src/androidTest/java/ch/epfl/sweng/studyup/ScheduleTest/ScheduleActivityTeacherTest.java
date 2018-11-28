@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.ScheduleTest;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralClickAction;
@@ -9,10 +10,16 @@ import android.support.test.espresso.action.Press;
 import android.support.test.espresso.action.Tap;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.view.Display;
 import android.view.View;
 
 import com.alamkanak.weekview.WeekViewEvent;
+
+import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -52,12 +59,12 @@ public class ScheduleActivityTeacherTest {
             new ActivityTestRule<>(ScheduleActivityTeacher.class, true, false);
 
     @BeforeClass
-    public static void enableMock() {
+    public static void enableMock(){
         MOCK_ENABLED = true;
     }
 
     @AfterClass
-    public static void disableMock() {
+    public static void disableMock(){
         MOCK_ENABLED = false;
     }
 
@@ -72,7 +79,7 @@ public class ScheduleActivityTeacherTest {
     }
 
     @Test
-    public void addEventAndRemoveEventTest() {
+    public void addEventAndRemoveEventTest() throws UiObjectNotFoundException {
         mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
 
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
@@ -84,8 +91,17 @@ public class ScheduleActivityTeacherTest {
         int height = size.y;
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
+
         Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
-        
+
+        // Initialize UiDevice instance
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        // Search for correct button in the dialog.
+        UiObject button = uiDevice.findObject(new UiSelector().text("CE_1_1"));
+        button.click();
+
+        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
         Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
@@ -157,5 +173,12 @@ public class ScheduleActivityTeacherTest {
                     }
                 },
                 Press.FINGER);
+    }
+
+    @Test
+    public void backButtonTest() {
+        mActivityRule.launchActivity(new Intent());
+        onView(withId(R.id.back_button)).perform(click());
+        TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }

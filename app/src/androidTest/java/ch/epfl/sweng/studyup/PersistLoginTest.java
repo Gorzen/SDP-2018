@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -34,28 +37,17 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 public class PersistLoginTest {
 
     @Rule
-    public final ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(LoginActivity.class);
+    public final ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(LoginActivity.class, true, false);
 
     FileCacher<List<String>> loginDataCacher;
-    Intent toLogin = new Intent();
-
-    @BeforeClass
-    public static void setup() {
-        MOCK_ENABLED = true;
-    }
-
-    @AfterClass
-    public static void breakDown() {
-        MOCK_ENABLED = false;
-    }
 
     @Before
     public void setupTest() {
         init();
+        MOCK_ENABLED = true;
         rule.launchActivity(new Intent());
         Utils.waitAndTag(100, "Wait to activity to launch.");
         loginDataCacher = new FileCacher<>(rule.getActivity().getApplicationContext(), PERSIST_LOGIN_FILENAME);
-        toLogin.setClass(rule.getActivity(), LoginActivity.class);
 
         try {
             loginDataCacher.clearCache();
@@ -67,6 +59,7 @@ public class PersistLoginTest {
     @After
     public void clear() {
         release();
+        MOCK_ENABLED = false;
         try {
             loginDataCacher.clearCache();
         } catch (IOException e) {
@@ -95,13 +88,13 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(invalidCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
         onView(withId(R.id.student)).perform(click());
     }
 
-    /*
-    These tests don't work.
 
     @Test
     public void validCacheShouldRedirectStudent() throws Exception {
@@ -115,9 +108,11 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(studentCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
@@ -132,8 +127,10 @@ public class PersistLoginTest {
         loginDataCacher.writeCache(teacherCacheData);
 
         rule.finishActivity();
+        MOCK_ENABLED = false;
         rule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "Waiting for activity to launch.");
 
-        intended(hasComponent(AddOrEditQuestionActivity.class.getName()));
-    }*/
+        intended(hasComponent(QuestsActivityTeacher.class.getName()));
+    }
 }
