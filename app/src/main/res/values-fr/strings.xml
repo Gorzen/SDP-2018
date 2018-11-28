@@ -58,8 +58,8 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="textViewSettings">Paramètres</string>
     <string name="toast_text_infos_are_coming">Informations are coming</string>
-    <string name="language_choice_settings_button">Choisis ton langage</string>
-    <string name="language_title_alert_dialog">Langage</string>
+    <string name="language_choice_settings_button">Choisissez votre langue</string>
+    <string name="language_title_alert_dialog">Langues</string>
     <string name="cancel">Annuler</string>
     <string name="location_required">Cette application nécessite la géolocalisation</string>
     <string name="question_added">Question ajoutée</string>
@@ -69,7 +69,7 @@
     <string name="text_newposition">NOUVELLE POSITION:</string>
     <string name="text_inyourroom">"Tu es dans ta salle : "</string>
     <string name="text_notinyourroom">"Tu n'es pas dans ta salle : "</string>
-    <string name="text_imagesaved">Image sauvegardée !</string>
+    <string name="text_saved">Enregistré !</string>
     <string name="text_failed">Echec !</string>
     <string name="text_photospermissions">Impossible de prendre une photo sans autorisation.</string>
     <string name="text_addimage">Ajouter une image</string>
@@ -135,4 +135,9 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="camera">Appareil Photo</string>
+    <string name="gallery">Gallerie</string>
+    <string name="app_name" translatable="false">StudyUp</string>
+
+
 </resources>

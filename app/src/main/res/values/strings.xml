@@ -81,7 +81,7 @@
     <string name="text_newposition">NEW POS:</string>
     <string name="text_inyourroom">You are in your room:</string>
     <string name="text_notinyourroom">You are not in your room:</string>
-    <string name="text_imagesaved">Image Saved!</string>
+    <string name="text_saved">Saved !</string>
     <string name="text_failed">Failed!</string>
     <string name="text_photospermissions">Can\'t take photos without permission.</string>
     <string name="text_addimage">Add an image</string>
@@ -147,4 +147,7 @@
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+
 </resources>

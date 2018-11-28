@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
@@ -72,9 +73,6 @@ public abstract class Constants {
     public static final int MIN_SCIPER = 100000;
     public static final long LOCATION_REQ_INTERVAL = 5 * 1000;
     public static final long LOCATION_REQ_FASTEST_INTERVAL = 5 * 1000;
-    public static final String CAMERA = "Camera";
-    public static final String GALLERY = "Gallery";
-    public static final String CANCEL = "Cancel";
     public static final String JUSTONCE = "JUST ONCE";
 
     // URLs and filenames used in app
