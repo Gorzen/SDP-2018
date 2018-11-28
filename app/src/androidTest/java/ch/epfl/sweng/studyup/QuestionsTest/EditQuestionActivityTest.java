@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -63,7 +66,7 @@ public class EditQuestionActivityTest {
         MOCK_ENABLED = false;
     }
 
-    private void editAndCheckQuestion(int newAnswerId, final int newAnswerNumber, final boolean changeType) {
+    private void editAndCheckQuestion(int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(1500, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -79,6 +82,22 @@ public class EditQuestionActivityTest {
         }
 
         // Change answer
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EditText title = mActivityRule.getActivity().findViewById(R.id.questionTitle);
+                title.setText("A Title");
+            }
+        });
+
+        final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.scrollViewAddQuestion);
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scroll.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+        Utils.waitAndTag(500, "Waiting for scroll");
         onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
 
         // Edit and Check
@@ -116,53 +135,52 @@ public class EditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswer0to1Test()  {
+    public void editTrueFalseQuestionAnswer0to1Test()  throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer2, 1, false);
     }
 
 
 
-    // Fail because of fail scroll
-    @Ignore
-    public void editTrueFalseQuestionAnswer1to0Test() {
+    @Test
+    public void editTrueFalseQuestionAnswer1to0Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer1, 0, false);
     }
 
 
     @Test
-    public void editTrueFalseToMCQAnswer0To3Test() {
+    public void editTrueFalseToMCQAnswer0To3Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer3, 2, true);
     }
 
     @Test
-    public void editMCQQuestionAnswer0to1Test() {
+    public void editMCQQuestionAnswer0to1Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer2, 1, false);
     }
 
     @Test
-    public void editMCQQuestionAnswer1to2Test() {
+    public void editMCQQuestionAnswer1to2Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), false, 0, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer2, 1, false);
     }
 
     @Test
-    public void editMCQQuestionAnswer3to2Test() {
+    public void editMCQQuestionAnswer3to2Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), false, 2, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer2, 1, false);
     }
 
     @Test
-    public void editMCQQuestionAnswer4to1Test() {
+    public void editMCQQuestionAnswer4to1Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer1, 0, false);
     }
 
     @Test
-    public void editMCQToTrueFalseQuestionAnswer4to0Test() {
+    public void editMCQToTrueFalseQuestionAnswer4to0Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), false, 3, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer1, 0, true);
     }
