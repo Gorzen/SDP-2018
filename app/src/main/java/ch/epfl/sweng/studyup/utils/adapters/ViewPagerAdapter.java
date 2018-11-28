@@ -14,21 +14,11 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context cnx;
     private LayoutInflater layoutInflaterService;
-    private String lang;
+    private Integer[] images;
 
-    private Integer [] images = (lang.equals("en")) ? {R.drawable.login_slide1,
-            R.drawable.login_slide2,
-            R.drawable.login_slide3,
-            R.drawable.login_slide4} :
-            {R.drawable.login_slide1_fr,
-                    R.drawable.login_slide2_fr,
-                    R.drawable.login_slide3_fr,
-                    R.drawable.login_slide4_fr}
-            ;
-
-    public ViewPagerAdapter(Context context, String lang) {
+    public ViewPagerAdapter(Context context, Integer[] images) {
         this.cnx = context;
-        this.lang = lang;
+        this.images = images;
     }
 
     @Override

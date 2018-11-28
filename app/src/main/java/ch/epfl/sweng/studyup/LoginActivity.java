@@ -70,7 +70,7 @@ public class LoginActivity extends RefreshContext {
         setContentView(R.layout.activity_login);
         // TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
       
-        loadInterface();
+        loadInterface(lang);
     }
 
 
@@ -132,12 +132,10 @@ public class LoginActivity extends RefreshContext {
 
     }
 
-    private void loadInterface() {
+    private void loadInterface(String lang) {
 
         viewPager = findViewById(R.id.viewPager);
         sliderDotsLayout = findViewById(R.id.SliderDots);
-        String lang =  getSharedPreferences(USER_PREFS, MODE_PRIVATE)
-                .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());
 
         Integer[] images = {R.drawable.login_slide1,
                         R.drawable.login_slide2,
@@ -145,12 +143,12 @@ public class LoginActivity extends RefreshContext {
                         R.drawable.login_slide4 };
         if(lang.equals("fr")) {
             images[0] = R.drawable.login_slide1_fr;
-            images[0] = R.drawable.login_slide1_fr;
-            images[0] = R.drawable.login_slide1_fr;
-            images[0] = R.drawable.login_slide1_fr;
+            images[1] = R.drawable.login_slide2_fr;
+            images[2] = R.drawable.login_slide3_fr;
+            images[3] = R.drawable.login_slide4_fr;
         }
                 ;
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, lang);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, images);
         viewPager.setAdapter(viewPagerAdapter);
 
         final int dotsNumber = viewPagerAdapter.getCount();
