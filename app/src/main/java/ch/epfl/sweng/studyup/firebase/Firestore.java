@@ -52,6 +52,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_DURATION;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
@@ -199,6 +201,8 @@ public class Firestore {
         questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
         questionData.put(FB_QUESTION_LANG, question.getLang());
+        questionData.put(FB_QUESTION_CLICKEDINSTANT, question.getClickedInstant());
+        questionData.put(FB_QUESTION_DURATION, question.getDuration());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
@@ -249,11 +253,13 @@ public class Firestore {
                         int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
                         String questionCourseName = questionData.get(FB_COURSE).toString();
                         String questionLang = (String) questionData.get(FB_QUESTION_LANG);
+                        long clickedInstant = Long.parseLong(questionData.get(FB_QUESTION_CLICKEDINSTANT).toString());
+                        long duration = Long.parseLong(questionData.get(FB_QUESTION_DURATION).toString());
                         if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
                             questionLang = "en";
                         }
 
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
+                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang, clickedInstant, duration);
                         questionList.add(question);
                     }
                 }

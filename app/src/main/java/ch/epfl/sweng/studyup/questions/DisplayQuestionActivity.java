@@ -61,6 +61,11 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String DISPLAY_QUESTION_CLICKEDINSTANT = "display_question_clickedInstant";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String DISPLAY_QUESTION_DURATION = "display_question_duration";
+
     private Question displayQuestion;
 
     private RadioGroup answerGroupTOP;
@@ -89,7 +94,11 @@ public class DisplayQuestionActivity extends RefreshContext {
         questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);;
+        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
+        long clickedInstant = Long.parseLong(intent.getStringExtra(DISPLAY_QUESTION_CLICKEDINSTANT));
+
+        if (clickedInstant == 0) {
+        }
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
@@ -144,6 +153,16 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
 
         if (!intent.hasExtra(DISPLAY_QUESTION_LANG)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_CLICKEDINSTANT)) {
+            quit();
+            return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
             quit();
             return false;
         }
@@ -344,6 +363,8 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
+        goToQuestion.putExtra(DISPLAY_QUESTION_CLICKEDINSTANT, q.getClickedInstant());
+        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, q.getDuration());
         return goToQuestion;
     }
 }

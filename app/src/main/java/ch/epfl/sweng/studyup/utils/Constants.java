@@ -33,6 +33,8 @@ public abstract class Constants {
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTION_LANG = "lang";
+    public static final String FB_QUESTION_CLICKEDINSTANT = "clickedInstant";
+    public static final String FB_QUESTION_DURATION = "duration";
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
     public static final String FB_COURSES = "courses";
