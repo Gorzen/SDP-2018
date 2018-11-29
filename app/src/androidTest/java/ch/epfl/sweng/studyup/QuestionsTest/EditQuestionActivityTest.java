@@ -130,7 +130,7 @@ public class EditQuestionActivityTest {
 
 
 
-    @Test
+    //@Test
     public void editTrueFalseQuestionAnswer1to0Test() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 1, Constants.Course.SWENG.name(), "en");
         editAndCheckQuestion(R.id.radio_answer1, 0, false);
