@@ -98,11 +98,11 @@
     <string name="text_unabletouploadimage">Unable to upload image</string>
     <string name="text_imageuploadsuccess">Successfully uploaded image</string>
     <string name="title_playerposition">Player position</string>
-    <string name="text_questiondlerror">An error occured when downloading the question</string>
+    <string name="text_questiondlerror">An error occurred when downloading the question</string>
     <string name="text_questiondisplayerror">Error while displaying the question</string>
     <string name="text_makechoice">Make your choice!</string>
     <string name="text_cantanswertwice">You can\'t answer a question twice!</string>
-    <string name="text_wronganswer">Wrong answer... Maybe next time?</string>
+    <string name="text_wronganswer">Wrong answer… Maybe next time?</string>
     <string name="text_correctanswer">Correct answer! Congrats!</string>
     <string name="text_langen" translatable="false">Damn you\'re english !</string>
     <string name="text_langfr" translatable="false">Omelette du fromage</string>
@@ -141,9 +141,10 @@
     <string name="room_alert_title">Choose the Room</string>
     <string name="text_insert_title_for_question">Please Insert a Title</string>
     <string name="text_select_course_for_question">Please Select a Course</string>
-    <string name="error_when_download_question">An Error Occured when Downloading the Question</string>
+    <string name="error_when_download_question">An Error Occurred when Downloading the Question</string>
     <string name="chosen_course_for_question">Chosen Course : </string>
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
+    <string name="time_out_notification">A question has timed out, be quicker next time !</string>
 </resources>

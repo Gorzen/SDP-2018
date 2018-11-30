@@ -87,6 +87,9 @@
         <activity android:name=".teacher.DisplayCourseStatsActivity"/>
         <activity android:name=".teacher.ScheduleActivityTeacher" />
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
+
+        <receiver android:name=".questions.TimeOutNotificationPublisher" />
     </application>
+
 
 </manifest>

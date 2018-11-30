@@ -1,11 +1,15 @@
 package ch.epfl.sweng.studyup.questions;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -95,15 +99,15 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
-        long clickedInstant = Long.parseLong(intent.getStringExtra(DISPLAY_QUESTION_CLICKEDINSTANT));
+        long clickedInstant = intent.getParcelableExtra(DISPLAY_QUESTION_CLICKEDINSTANT);
 
-        if (clickedInstant == 0) {
-        }
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
                 Constants.Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
+
+        handleTimedQuestion(displayQuestion);
 
         setupLayout(displayQuestion);
 
@@ -195,6 +199,49 @@ public class DisplayQuestionActivity extends RefreshContext {
             });
         }
 
+    }
+
+    private void handleTimedQuestion(Question displayQuestion) {
+        if (displayQuestion.getDuration() == 0) {
+            //There is no time constraint
+            //TODO: handle this
+            return;
+        } else if (displayQuestion.getClickedInstant() == 0) {
+            //The question has not been clicked on yet
+            displayQuestion.setClickedInstant(System.currentTimeMillis());
+            setupNotificationManager();
+        } else {
+            long now = System.currentTimeMillis();
+            if (displayQuestion.getClickedInstant() + displayQuestion.getDuration() > now) {
+                //TODO: Handle the case where the time is out
+                Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+            } else {
+                //TODO: display the time remaining
+            }
+        }
+    }
+
+    private void setupNotificationManager() {
+
+        Notification notification = prepareNotification(getString(R.string.time_out_notification));
+
+        Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTION, displayQuestion);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification prepareNotification(String text) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle(R.string.app_name + "!");
+        builder.setContentText(text);
+        builder.setSmallIcon(R.drawable.logo);
+        return builder.build();
     }
 
     /**

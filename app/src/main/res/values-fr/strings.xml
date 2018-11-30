@@ -90,7 +90,7 @@
     <string name="text_questiondisplayerror">Une erreur est survenue en affichant la question</string>
     <string name="text_makechoice">Choisis la réponse !</string>
     <string name="text_cantanswertwice">Tu ne peux répondre à une question deux fois !</string>
-    <string name="text_wronganswer">Loupé... Une prochaine fois ?</string>
+    <string name="text_wronganswer">Loupé… Une prochaine fois ?</string>
     <string name="text_correctanswer">Bonne réponse ! Bien joué !</string>
     <string name="save_value">Sauvegarder</string>
     <string name="course_choice_settings_button">Choisissez vos cours</string>
@@ -135,4 +135,5 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="time_out_notification">Time out ! Vous n\'avez pas répondu à une question dans le temps imparti</string>
 </resources>
