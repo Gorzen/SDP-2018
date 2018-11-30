@@ -310,6 +310,14 @@ public class Player implements SpecialQuestObservable {
             this.sciperNum.equals(INITIAL_SCIPER);
     }
 
+    public boolean isTeacher() {
+        return getRole() == Role.teacher;
+    }
+
+    public boolean isStudent() {
+        return getRole() == Role.student;
+    }
+
     @Override
     public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
         for (SpecialQuestObserver specialQuest : specialQuests) {

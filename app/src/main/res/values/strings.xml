@@ -146,4 +146,7 @@
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
+    <string name="course_choice_settings_button_teacher">Manage your courses</string>
+    <string name="other_courses_text">Other courses</string>
+    <string name="your_courses_text">Your courses</string>
 </resources>

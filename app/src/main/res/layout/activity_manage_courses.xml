@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--TOP TOOL BAR-->
+
+        <android.support.constraint.ConstraintLayout
+
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/colorPrimaryDark"
+                android:minHeight="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <!--MIDDLE SPACE-->
+
+        <ScrollView
+            android:id="@+id/scrollViewManageCourses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="0dp"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_below="@id/topBar">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OAwindowaindoawd"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text1" >
+
+                    <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                        android:id="@+id/listViewOtherCourses"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp">
+                    </ch.epfl.sweng.studyup.utils.NonScrollableListView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/listViewOtherCourses">
+                        <TextView
+                            android:id="@+id/text2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="OAwindowaindoawd"/>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text2">
+
+                            <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                                android:id="@+id/listViewPendingCourses"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp">
+                            </ch.epfl.sweng.studyup.utils.NonScrollableListView>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/listViewPendingCourses">
+                                <TextView
+                                    android:id="@+id/text3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="OAwindowaindoawd"/>
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/text3">
+
+                                    <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                                        android:id="@+id/listViewAcceptedCourses"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="16dp">
+                                    </ch.epfl.sweng.studyup.utils.NonScrollableListView>
+
+                                </RelativeLayout>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+    <!--OVERLAPPING THINGS-->
+
+
+</android.support.constraint.ConstraintLayout>
