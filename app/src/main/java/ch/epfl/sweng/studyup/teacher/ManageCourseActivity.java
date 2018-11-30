@@ -6,17 +6,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
-import ch.epfl.sweng.studyup.utils.NonScrollableListView;
-import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 public class ManageCourseActivity extends NavigationTeacher{
@@ -54,7 +49,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView==null){
-                convertView = View.inflate(cnx, R.layout.model_course_request, null);
+                convertView = View.inflate(cnx, R.layout.model_course_request_super, null);
             }
             CourseRequest req = requests.get(position);
             TextView courseText = findViewById(R.id.pendingCourseName);
