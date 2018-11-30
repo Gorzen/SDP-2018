@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.teacher;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,10 +9,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
+import ch.epfl.sweng.studyup.utils.NonScrollableListView;
+import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
+import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 public class ManageCourseActivity extends NavigationTeacher{
@@ -24,8 +35,34 @@ public class ManageCourseActivity extends NavigationTeacher{
     }
 
     private void setupListViews() {
+        List<Course> otherCourses = Arrays.asList(Course.values());
 
+        Firestore.get().syncPlayerData(); // ?
+        List<Course> acceptedCourses = Player.get().getCoursesTeached(); // Synchro Firebase?
+        otherCourses.removeAll(acceptedCourses); // return value
+        // List<CourseRequest> requests = getRequestsFromFirebase();
+        List<Course> requestsList = Arrays.asList(Course.values());
+        List<CourseRequest> allRequests = new ArrayList<>();
+        for(Course c : requestsList) {
+            allRequests.add(new CourseRequest(c, Player.get().getSciperNum(), Player.get().getFirstName(), Player.get().getLastName()));
+        }
+        List<Course> playerPendingCourses = new ArrayList<>();
+        List<Course> otherPendingCourses = new ArrayList<>();
+        for(CourseRequest req : allRequests)  {
+            if(req.sciper.equals(Player.get().getSciperNum())) {
+                playerPendingCourses.add(req.course);
+            } else {
+                otherPendingCourses.add(req.course);
+            }
+        }
 
+        ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
+        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, acceptedCourses, R.layout.course_item_model));
+        ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.model_course_send_request));
+    }
+
+    public void sendRequest(View v) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private class ManageRequestListViewAdapter extends BaseAdapter {

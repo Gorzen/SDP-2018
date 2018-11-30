@@ -149,4 +149,5 @@
     <string name="course_choice_settings_button_teacher">Manage your courses</string>
     <string name="other_courses_text">Other courses</string>
     <string name="your_courses_text">Your courses</string>
+    <string name="send_request_text">Send Request</string>
 </resources>
