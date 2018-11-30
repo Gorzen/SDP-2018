@@ -35,7 +35,4 @@
     <color name="colorGrey">#c3c3c3 </color>
     <color name="colorGreyBlack">#333333 </color>
     <color name="colorGreyClair">#dddddd </color>
-    
-    <color name="colorPendingYellow">#fff133</color>
-    <color name="colorConfirmGreen">#12e620</color>
 </resources>
