@@ -12,8 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -22,7 +20,6 @@ import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
-import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 public class ManageCourseActivity extends NavigationTeacher{
@@ -39,7 +36,11 @@ public class ManageCourseActivity extends NavigationTeacher{
 
         Firestore.get().syncPlayerData(); // ?
         List<Course> acceptedCourses = Player.get().getCoursesTeached(); // Synchro Firebase?
-        otherCourses.removeAll(acceptedCourses); // return value
+        /* otherCourses.removeAll(acceptedCourses); // return value
+        for(Course c : acceptedCourses) {
+            otherCourses.remove(c);
+        }*/
+
         // List<CourseRequest> requests = getRequestsFromFirebase();
         List<Course> requestsList = Arrays.asList(Course.values());
         List<CourseRequest> allRequests = new ArrayList<>();
@@ -52,11 +53,12 @@ public class ManageCourseActivity extends NavigationTeacher{
             if(req.sciper.equals(Player.get().getSciperNum())) {
                 playerPendingCourses.add(req.course);
             } else {
-                otherPendingCourses.add(req.course);
+                allRequests.remove(req); // Will be the demand of future teacher
             }
         }
 
         ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
+        ((NonScrollableListView) findViewById(R.id.listViewCourseRequests)).setAdapter(new requestListViewAdapter(this, allRequests));
         ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, acceptedCourses, R.layout.course_item_model));
         ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.model_course_send_request));
     }
@@ -65,11 +67,11 @@ public class ManageCourseActivity extends NavigationTeacher{
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    private class ManageRequestListViewAdapter extends BaseAdapter {
+    private class requestListViewAdapter extends BaseAdapter {
         private Context cnx;
         private List<CourseRequest> requests;
 
-        protected ManageRequestListViewAdapter(Context cnx, List<CourseRequest> requests) {
+        protected requestListViewAdapter(Context cnx, List<CourseRequest> requests) {
             this.cnx = cnx;
             this.requests = requests;
         }
@@ -89,8 +91,8 @@ public class ManageCourseActivity extends NavigationTeacher{
                 convertView = View.inflate(cnx, R.layout.model_course_request_super, null);
             }
             CourseRequest req = requests.get(position);
-            TextView courseText = findViewById(R.id.pendingCourseName);
-            TextView playerInfos = findViewById(R.id.sciperAndNamePending);
+            TextView courseText = convertView.findViewById(R.id.pendingCourseName);
+            TextView playerInfos = convertView.findViewById(R.id.sciperAndNamePending);
             courseText.setText(req.getCourse().name());
             String infoFormat = req.getSciper()+", "+req.getLastname().toUpperCase()+" "+req.getFirstname();
             playerInfos.setText(infoFormat);

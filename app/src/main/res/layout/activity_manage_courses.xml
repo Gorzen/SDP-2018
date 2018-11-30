@@ -55,10 +55,12 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/text1"
+                    android:id="@+id/otherCoursesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OAwindowaindoawd"/>
+                    android:text="@string/other_courses_text"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                             android:layout_below="@+id/text2">
 
                             <ch.epfl.sweng.studyup.utils.NonScrollableListView
-                                android:id="@+id/listViewPendingCourses"
+                                android:id="@+id/listViewCourseRequests"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp">
@@ -96,32 +98,55 @@
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/listViewPendingCourses">
+                                android:layout_below="@+id/listViewCourseRequests">
+
                                 <TextView
                                     android:id="@+id/text3"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="OAwindowaindoawd"/>
+                                
                                 <RelativeLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/text3">
+                                    android:layout_height="wrap_content">
 
                                     <ch.epfl.sweng.studyup.utils.NonScrollableListView
-                                        android:id="@+id/listViewAcceptedCourses"
+                                        android:id="@+id/listViewPendingCourses"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="16dp">
                                     </ch.epfl.sweng.studyup.utils.NonScrollableListView>
 
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/listViewPendingCourses">
+                                        <TextView
+                                            android:id="@+id/text4"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:text="OAwindowaindoawd"/>
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@+id/text4">
+
+                                            <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                                                android:id="@+id/listViewAcceptedCourses"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="16dp">
+                                            </ch.epfl.sweng.studyup.utils.NonScrollableListView>
+
+                                        </RelativeLayout>
+                                    </RelativeLayout>
                                 </RelativeLayout>
-                            </RelativeLayout>
 
                         </RelativeLayout>
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
-
+            </RelativeLayout>
         </ScrollView>
 
     </RelativeLayout>
