@@ -16,9 +16,10 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 public class ListCourseAdapter extends BaseAdapter {
     private Context cnx;
+    private int idLayout;
     private List<Constants.Course> courses;
 
-    public ListCourseAdapter(Context cnx, List<Constants.Course> courses) {
+    public ListCourseAdapter(Context cnx, List<Constants.Course> courses, int idLayout) {
         this.cnx=cnx;
         //sort courses to display
         ArrayList<Constants.Course> sortedCourses = new ArrayList<>(courses);
@@ -28,6 +29,7 @@ public class ListCourseAdapter extends BaseAdapter {
                 return o1.toString().compareToIgnoreCase(o2.toString());
             }
         });
+        this.idLayout = idLayout;
         this.courses=sortedCourses;
     }
 
@@ -47,7 +49,7 @@ public class ListCourseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView=View.inflate(cnx, R.layout.course_item_model, null);
+            convertView=View.inflate(cnx, idLayout, null);
         }
         TextView text_view_title_nice = convertView.findViewById(R.id.course_title);
         TextView text_view_title_bref = convertView.findViewById(R.id.abbreviation);

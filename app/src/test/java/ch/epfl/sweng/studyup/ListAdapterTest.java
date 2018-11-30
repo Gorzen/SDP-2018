@@ -29,7 +29,7 @@ public class ListAdapterTest {
         items = new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.COIN_SACK, Items.XP_POTION));
         courses = new ArrayList<>(Arrays.asList(Constants.Course.SWENG, Constants.Course.Algebra, Constants.Course.Ecology));
         listItemAdapter = new ListItemAdapter(null, items, false);
-        listCourseAdapter = new ListCourseAdapter(null, courses);
+        listCourseAdapter = new ListCourseAdapter(null, courses, R.layout.course_item_model);
     }
 
     @Test

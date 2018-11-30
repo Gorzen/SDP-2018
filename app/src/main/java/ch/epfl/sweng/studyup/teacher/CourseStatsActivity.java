@@ -73,7 +73,7 @@ public class CourseStatsActivity extends NavigationTeacher {
 
         ArrayList<Course> playerCourses = new ArrayList<>(Player.get().getCoursesTeached());
 
-        listCourseAdapter = new ListCourseAdapter(this, playerCourses);
+        listCourseAdapter = new ListCourseAdapter(this, playerCourses, R.layout.course_item_model);
         listView.setAdapter(listCourseAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
