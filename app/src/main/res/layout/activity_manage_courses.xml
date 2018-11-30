@@ -65,7 +65,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text1" >
+                    android:layout_below="@+id/otherCoursesTextView" >
 
                     <ch.epfl.sweng.studyup.utils.NonScrollableListView
                         android:id="@+id/listViewOtherCourses"
@@ -78,15 +78,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/listViewOtherCourses">
+
                         <TextView
-                            android:id="@+id/text2"
+                            android:id="@+id/courseRequestsTextView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="OAwindowaindoawd"/>
+                            android:text="@string/course_requests_text"
+                            android:textSize="24sp" />
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/text2">
+                            android:layout_below="@+id/courseRequestsTextView">
 
                             <ch.epfl.sweng.studyup.utils.NonScrollableListView
                                 android:id="@+id/listViewCourseRequests"
@@ -101,10 +103,11 @@
                                 android:layout_below="@+id/listViewCourseRequests">
 
                                 <TextView
-                                    android:id="@+id/text3"
+                                    android:id="@+id/pendingCoursesTextView"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:text="OAwindowaindoawd"/>
+                                    android:text="@string/pending_courses_text"
+                                    android:textSize="24sp" />
                                 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -121,15 +124,17 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/listViewPendingCourses">
+
                                         <TextView
-                                            android:id="@+id/text4"
+                                            android:id="@+id/acceptedCoursesTextView"
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
-                                            android:text="OAwindowaindoawd"/>
+                                            android:text="OAwindowaindoawd"
+                                            android:textSize="24sp" />
                                         <RelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_below="@+id/text4">
+                                            android:layout_below="@+id/acceptedCoursesTextView">
 
                                             <ch.epfl.sweng.studyup.utils.NonScrollableListView
                                                 android:id="@+id/listViewAcceptedCourses"

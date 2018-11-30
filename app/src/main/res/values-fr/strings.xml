@@ -139,4 +139,7 @@
     <string name="other_courses_text">Autres cours</string>
     <string name="your_courses_text">Mes cours</string>
     <string name="send_request_text">M\'enr�ler</string>
+    <string name="course_requests_text">Requ�tes de cours</string>
+    <string name="pending_courses_text">Cours en attente</string>
+    <string name="accepted_courses_text">Vos cours</string>
 </resources>

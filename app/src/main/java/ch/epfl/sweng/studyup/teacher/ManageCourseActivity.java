@@ -27,8 +27,21 @@ public class ManageCourseActivity extends NavigationTeacher{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_courses);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         setupListViews();
+        checkSuperUser();
+    }
+
+    private void checkSuperUser() {
+        if(!(!Player.get().getSciperNum().equals("262413") && !Player.get().getSciperNum().equals("272432") && !Player.get().getSciperNum().equals("274999") && !Player.get().getSciperNum().equals("300137"))) {
+            findViewById(R.id.courseRequestsTextView).setVisibility(View.GONE);
+            findViewById(R.id.listViewCourseRequests).setVisibility(View.GONE);
+        }
     }
 
     private void setupListViews() {
@@ -47,6 +60,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         for(Course c : requestsList) {
             allRequests.add(new CourseRequest(c, Player.get().getSciperNum(), Player.get().getFirstName(), Player.get().getLastName()));
         }
+        
         List<Course> playerPendingCourses = new ArrayList<>();
         List<Course> otherPendingCourses = new ArrayList<>();
         for(CourseRequest req : allRequests)  {
@@ -60,7 +74,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
         ((NonScrollableListView) findViewById(R.id.listViewCourseRequests)).setAdapter(new requestListViewAdapter(this, allRequests));
         ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, acceptedCourses, R.layout.course_item_model));
-        ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.model_course_send_request));
+        ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.course_item_model));
     }
 
     public void sendRequest(View v) {

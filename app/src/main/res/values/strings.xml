@@ -150,4 +150,7 @@
     <string name="other_courses_text">Other courses</string>
     <string name="your_courses_text">Your courses</string>
     <string name="send_request_text">Enroll</string>
+    <string name="course_requests_text">Courses Requests</string>
+    <string name="pending_courses_text">Pending courses</string>
+    <string name="accepted_courses_text">Accepted courses</string>
 </resources>
