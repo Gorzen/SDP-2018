@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/sciperAndName"
-                android:layout_width="match_constraint"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
                 android:layout_marginEnd="8dp"
