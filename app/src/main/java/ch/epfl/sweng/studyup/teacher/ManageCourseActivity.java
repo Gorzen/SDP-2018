@@ -33,35 +33,6 @@ public class ManageCourseActivity extends NavigationTeacher{
 
     }
 
-    private class ManageCourseListViewAdapter extends BaseAdapter {
-        private Context cnx;
-        private int idLayout;
-        private List<Course> courses;
-
-        protected ManageCourseListViewAdapter(Context cnx, int idLayout, List<Course> courses) {
-            this.cnx = cnx;
-            this.idLayout = idLayout;
-            this.courses = courses;
-        }
-
-        @Override
-        public int getCount() { courses.size(); }
-
-        @Override
-        public Object getItem(int position) { return courses.get(position); }
-
-        @Override
-        public long getItemId(int position) { return position; }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = View.inflate(cnx, idLayout, null);
-            }
-            return convertView;
-        }
-    }
-
     private class ManageRequestListViewAdapter extends BaseAdapter {
         private Context cnx;
         private List<CourseRequest> requests;
