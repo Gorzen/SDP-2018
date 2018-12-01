@@ -143,18 +143,27 @@ public class AddQuestionActivityTest {
     @Test
     public void addQuestionTest() throws Throwable {
         //Question: MCQ, answer: 0, course: SWENG
-        onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
 
-        // Initialize UiDevice instance
+        setAndAddQuestion();
+        Player.get().setRole(Role.teacher);
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Utils.waitAndTag(1000, TAG);
+
+        verifyAddedQuestion();
+        }
+
+    private void setAndAddQuestion() throws Throwable {
+        //Select Course
+        onView(withId(R.id.choice_course_button)).perform(scrollTo()).perform(click());
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        // Search for correct button in the dialog.
         UiObject button = uiDevice.findObject(new UiSelector().text(SWENG.toString()));
         button.click();
 
-        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(click());
+        //Select language
+        onView(withId(R.id.radio_fr)).perform(click());
+        onView(withId(R.id.radio_en)).perform(click());
 
+        // Setting title
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -163,6 +172,11 @@ public class AddQuestionActivityTest {
             }
         });
 
+        //Setting type of question
+        onView(withId(R.id.image_radio_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.selectImageButton)).perform(scrollTo()).perform(click());
+
+        // Scrolling
         final ScrollView scroll = mActivityRule.getActivity().findViewById(R.id.scrollViewAddQuestion);
         mActivityRule.runOnUiThread(new Runnable() {
             @Override
@@ -172,12 +186,18 @@ public class AddQuestionActivityTest {
         });
         Utils.waitAndTag(500, "Waiting for scroll");
 
+        // Setting answer and add
+        onView(ViewMatchers.withId(R.id.true_false_radio)).perform(scrollTo()).perform(click());
+        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer4)).perform(scrollTo()).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer3)).perform(scrollTo()).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
         onView(ViewMatchers.withId(R.id.addOrEditQuestionButton)).perform(scrollTo(), click());
         Utils.waitAndTag(500, TAG);
-        Player.get().setRole(Role.teacher);
-        Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(500, TAG);
+    }
 
+    private void verifyAddedQuestion() {
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
