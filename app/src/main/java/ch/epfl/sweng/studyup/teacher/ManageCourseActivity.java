@@ -41,7 +41,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.Course.FakeCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
@@ -61,13 +61,15 @@ public class ManageCourseActivity extends NavigationTeacher{
 
     private void setupListViews(){
         List<Course> otherCourses = Arrays.asList(Course.values());
-        if(!MOCK_ENABLED) otherCourses.remove(Course.FakeCourse);
+        otherCourses.remove(FakeCourse);
+        if(MOCK_ENABLED) otherCourses.add(0, FakeCourse);
 
         List<Course> pendingCourses = new ArrayList<>();
         for(CourseRequest request : requests){
             if(Player.get().getSciperNum().equals(request.sciper))
                 pendingCourses.add(request.course);
         }
+        if(pendingCourses.remove(FakeCourse)) pendingCourses.add(0, FakeCourse);
 
         List<Course> teachingCourses = Player.get().getCoursesTeached();
 
