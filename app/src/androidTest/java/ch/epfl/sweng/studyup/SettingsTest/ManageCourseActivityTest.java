@@ -13,12 +13,20 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -29,7 +37,10 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.Role.teacher;
 import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static org.hamcrest.CoreMatchers.anything;
@@ -41,44 +52,20 @@ public class ManageCourseActivityTest {
     public final ActivityTestRule<ManageCourseActivity> mActivityRule =
             new ActivityTestRule<>(ManageCourseActivity.class);
 
-    @BeforeClass
-    public static void setupTests() {
-        //Reset player locally and on Firebase
-        Player.get().resetPlayer();
-        Player.get().setRole(teacher);
-
-        Firestore.get().updateRemotePlayerDataFromLocal();
-        Utils.waitAndTag(2000, ManageCourseActivityTest.class.getName());
-    }
-
     @Before
-    public void waitFirebase(){
-        Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
+    public void resetPlayer(){
+        resetPlayerInfo();
     }
 
     @After
-    public void removeTestSciperFromSuperUsers(){
-        //Always remove test SCIPER from Superusers, even if a test fails
+    public void resetPlayerAndRemoveSciperFromSuperUsers(){
         SUPER_USERS.remove(Player.get().getSciperNum());
+        resetPlayerInfo();
     }
 
     @Test
-    public void testManageCourseNormalUser() throws Exception {
-        int numberOfOtherCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewOtherCourses)).getCount();
-        int numberOfPendingCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewPendingCourses)).getCount();
-
-        onData(anything()).inAdapterView(withId(R.id.listViewOtherCourses))
-                .atPosition(0)
-                .onChildView(withId(R.id.send_course_request))
-                .perform(click());
-
-        Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
-
-        int newNumberOfOtherCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewOtherCourses)).getCount();
-        int newNumberOfPendingCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewPendingCourses)).getCount();
-
-        assertEquals(numberOfOtherCourses - 1, newNumberOfOtherCourses);
-        assertEquals(numberOfPendingCourses + 1, newNumberOfPendingCourses);
+    public void testManageCourseNormalUser() {
+        testManageCourseSample(R.id.listViewOtherCourses, R.id.send_course_request, -1, 1, 0);
     }
 
     @Test
@@ -91,5 +78,56 @@ public class ManageCourseActivityTest {
             }
         });
         Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
+
+        //Add pending course
+        testManageCourseSample(R.id.listViewOtherCourses, R.id.send_course_request, -1, 1, 0);
+
+        //Accept pending course
+        testManageCourseSample(R.id.listViewPendingCourses, R.id.acceptCourse, 0, -1, 1);
+    }
+
+    private void testManageCourseSample(int listViewToClickOn, int buttonToClick, int otherCoursesChangeCount, int pendingCoursesChangeCount, int acceptedCoursesChangeCount) {
+        int numberOfOtherCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewOtherCourses)).getCount();
+        int numberOfPendingCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewPendingCourses)).getCount();
+        int numberOfAcceptedCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewAcceptedCourses)).getCount();
+
+        onData(anything()).inAdapterView(withId(listViewToClickOn))
+                .atPosition(0)
+                .onChildView(withId(buttonToClick))
+                .perform(scrollTo())
+                .perform(click());
+
+        Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
+
+        int newNumberOfOtherCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewOtherCourses)).getCount();
+        int newNumberOfPendingCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewPendingCourses)).getCount();
+        int newNumberOfAcceptedCourses = ((NonScrollableListView)mActivityRule.getActivity().findViewById(R.id.listViewAcceptedCourses)).getCount();
+
+        assertEquals(numberOfOtherCourses + otherCoursesChangeCount, newNumberOfOtherCourses);
+        assertEquals(numberOfPendingCourses + pendingCoursesChangeCount, newNumberOfPendingCourses);
+        assertEquals(numberOfAcceptedCourses + acceptedCoursesChangeCount, newNumberOfAcceptedCourses);
+    }
+
+    private void resetCourseRequest(){
+        final DocumentReference userRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(Player.get().getSciperNum());
+        userRequestsRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        Map<String, Object> userData = documentSnapshot.getData();
+                        userData.put(FB_REQUESTED_COURSES, new ArrayList<>());
+                        userRequestsRef.set(userData);
+                    }
+                });
+    }
+
+    private void resetPlayerInfo(){
+        //Reset player locally and on Firebase
+        Player.get().resetPlayer();
+        Player.get().setRole(teacher);
+
+        resetCourseRequest();
+        Firestore.get().updateRemotePlayerDataFromLocal();
+        Utils.waitAndTag(2000, ManageCourseActivityTest.class.getName());
     }
 }
