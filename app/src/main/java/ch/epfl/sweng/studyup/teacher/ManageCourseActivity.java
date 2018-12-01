@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,11 +81,11 @@ public class ManageCourseActivity extends NavigationTeacher{
         if(Player.get().isSuperUser()){
             ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new requestListViewAdapter(this, requests));
         }else{
-            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.course_item_model));
+            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.model_course_pending));
         }
 
         //Accepted courses
-        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.course_item_model));
+        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.model_course_accepted));
     }
 
     public void getAllRequests() {
@@ -102,7 +103,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                                     String lastname = q.get(FB_LASTNAME).toString();
                                     List<String> courses;
                                     try {
-                                        courses = Arrays.asList((String[]) q.get(FB_REQUESTED_COURSES));
+                                        courses = (List<String>) q.get(FB_REQUESTED_COURSES);
                                     } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of courses requested.", Toast.LENGTH_SHORT).show(); return; }
 
                                     for(String c : courses) {
@@ -117,6 +118,9 @@ public class ManageCourseActivity extends NavigationTeacher{
     }
 
     public void addRequest(final String course, final String sciper, final String firstname, final String lastname) {
+        requests.add(new CourseRequest(Course.valueOf(course), sciper, firstname, lastname));
+        setupListViews();
+
         final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(sciper);
         playerRequestsRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -125,8 +129,13 @@ public class ManageCourseActivity extends NavigationTeacher{
                         if(task.isSuccessful()) {
                             if(task.getResult().exists()) {
                                 Map<String, Object> userData = task.getResult().getData();
-                                List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
+                                List<String> userRequestedCourses;
+                                try {
+                                    userRequestedCourses = (List<String>)userData.get(FB_REQUESTED_COURSES);
+                                } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of courses requested.", Toast.LENGTH_SHORT).show(); return; }
+
                                 if(!userRequestedCourses.contains(course)) userRequestedCourses.add(course);
+
                                 userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                                 playerRequestsRef.set(userData);
                             } else {
@@ -174,14 +183,14 @@ public class ManageCourseActivity extends NavigationTeacher{
             String infoFormat = req.getSciper()+", "+req.getLastname().toUpperCase()+" "+req.getFirstname();
             playerInfos.setText(infoFormat);
 
-            findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
+            convertView.findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     respondToRequest(req, true);
                 }
             });
 
-            findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
+            convertView.findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     respondToRequest(req, false);
@@ -192,13 +201,21 @@ public class ManageCourseActivity extends NavigationTeacher{
         }
 
         private void respondToRequest(final CourseRequest req, boolean accept) {
+            requests.remove(req);
+            if(accept) {
+                List<Course> newCourses = Player.get().getCoursesTeached();
+                newCourses.add(req.course);
+                Player.get().setCourses(newCourses);
+            }
+            setupListViews();
+
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
             final DocumentReference playerInfoRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
             playerRequestsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Map<String, Object> userData = documentSnapshot.getData();
-                            List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
+                            List<String> userRequestedCourses = ((List<String>) userData.get(FB_REQUESTED_COURSES));
                             userRequestedCourses.remove(req.course.name());
                             userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                             playerRequestsRef.set(userData);
@@ -209,11 +226,11 @@ public class ManageCourseActivity extends NavigationTeacher{
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Map<String, Object> userData = documentSnapshot.getData();
-                            List<Course> userTeachingCourses;
+                            List<String> userTeachingCourses;
                             try {
-                                userTeachingCourses = ((List<Course>) userData.get(FB_COURSES_TEACHED));
+                                userTeachingCourses = ((List<String>) userData.get(FB_COURSES_TEACHED));
                             } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of teaching courses.", Toast.LENGTH_SHORT).show(); return; }
-                            userTeachingCourses.add(req.course);
+                            if(!userTeachingCourses.contains(req.course.name())) userTeachingCourses.add(req.course.name());
                             userData.put(FB_COURSES_TEACHED, userTeachingCourses);
                             playerInfoRef.set(userData);
                         }
