@@ -72,6 +72,9 @@ public abstract class Rooms {
         }
 
         Calendar currTime = Calendar.getInstance();
+        currTime.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
+        currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
+        currTime.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
         for(WeekViewEvent event : Player.get().getScheduleStudent()) {

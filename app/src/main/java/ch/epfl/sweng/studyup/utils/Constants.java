@@ -124,6 +124,7 @@ public abstract class Constants {
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
+    public static final int WEEK_OF_SCHEDULE = 3;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
