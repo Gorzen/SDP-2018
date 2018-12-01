@@ -42,6 +42,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class ManageCourseActivity extends NavigationTeacher{
     private List<CourseRequest> requests;
@@ -59,8 +60,9 @@ public class ManageCourseActivity extends NavigationTeacher{
 
     private void setupListViews(){
         List<Course> otherCourses = Arrays.asList(Course.values());
-        List<Course> pendingCourses = new ArrayList<>();
+        if(!MOCK_ENABLED) otherCourses.remove(Course.FakeCourse);
 
+        List<Course> pendingCourses = new ArrayList<>();
         for(CourseRequest request : requests){
             if(Player.get().getSciperNum().equals(request.sciper))
                 pendingCourses.add(request.course);
