@@ -143,7 +143,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         public long getItemId(int position) { return position; }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView==null){
                 convertView = View.inflate(cnx, R.layout.model_course_request_super, null);
             }
@@ -154,7 +154,29 @@ public class ManageCourseActivity extends NavigationTeacher{
             String infoFormat = req.getSciper()+", "+req.getLastname().toUpperCase()+" "+req.getFirstname();
             playerInfos.setText(infoFormat);
 
+            findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    acceptRequest();
+                }
+            });
+
             return convertView;
+        }
+
+        private void acceptRequest() {
+            final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
+            playerRequestsRef.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Map<String, Object> userData = documentSnapshot.getData();
+                            List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
+                            //userRequestedCourses.add(req.course.name());
+                            userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
+                            playerRequestsRef.set(userData);
+                        }
+                    });
         }
     }
 
