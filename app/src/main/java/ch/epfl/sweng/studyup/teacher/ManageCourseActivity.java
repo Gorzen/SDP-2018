@@ -43,6 +43,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.Course.FakeCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class ManageCourseActivity extends NavigationTeacher{
@@ -64,12 +67,15 @@ public class ManageCourseActivity extends NavigationTeacher{
         otherCourses.remove(FakeCourse);
         if(MOCK_ENABLED) otherCourses.add(0, FakeCourse);
 
+        CourseRequest testRequest = new CourseRequest(FakeCourse, INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
+        if(requests.remove(testRequest))
+            requests.add(0, testRequest);
+
         List<Course> pendingCourses = new ArrayList<>();
         for(CourseRequest request : requests){
             if(Player.get().getSciperNum().equals(request.sciper))
                 pendingCourses.add(request.course);
         }
-        if(pendingCourses.remove(FakeCourse)) pendingCourses.add(0, FakeCourse);
 
         List<Course> teachingCourses = Player.get().getCoursesTeached();
 
@@ -77,17 +83,17 @@ public class ManageCourseActivity extends NavigationTeacher{
         otherCourses.removeAll(teachingCourses);
 
         //Other courses
-        ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
+        ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request, false));
 
         //Pending courses
         if(Player.get().isSuperUser()){
             ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new requestListViewAdapter(this, requests));
         }else{
-            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.model_course_pending));
+            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.model_course_pending, false));
         }
 
         //Accepted courses
-        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.model_course_accepted));
+        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.model_course_accepted, false));
     }
 
     public void getAllRequests() {
@@ -257,5 +263,23 @@ public class ManageCourseActivity extends NavigationTeacher{
         protected String getSciper() { return sciper; }
         protected String getFirstname() { return firstname; }
         protected String getLastname() { return lastname; }
+
+        @Override
+        public boolean equals(Object o){
+            if(o == null)
+                return false;
+
+            if(o instanceof CourseRequest){
+                CourseRequest that = (CourseRequest)o;
+                return course.equals(that.course) && sciper.equals(that.sciper) && firstname.equals(that.firstname) && lastname.equals(that.lastname);
+            }else{
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
     }
 }

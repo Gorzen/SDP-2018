@@ -30,7 +30,7 @@ public class ListCourseAdapter extends BaseAdapter {
     private int idLayout;
     private List<Constants.Course> courses;
 
-    public ListCourseAdapter(Activity act, List<Constants.Course> courses, int idLayout) {
+    public ListCourseAdapter(Activity act, List<Constants.Course> courses, int idLayout, boolean sort) {
         this.act=act;
         //sort courses to display
         ArrayList<Constants.Course> sortedCourses = new ArrayList<>(courses);
