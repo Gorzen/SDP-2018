@@ -79,7 +79,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/otherCoursesTextView"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
                 <TextView
                     android:id="@+id/pendingCoursesTextView"
@@ -96,7 +98,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pendingCoursesTextView"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
                 <TextView
                     android:id="@+id/acceptedCoursesTextView"
@@ -113,7 +117,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/acceptedCoursesTextView"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
             </RelativeLayout>
         </ScrollView>
 
