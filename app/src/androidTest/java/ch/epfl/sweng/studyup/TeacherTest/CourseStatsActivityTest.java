@@ -72,7 +72,7 @@ public class CourseStatsActivityTest {
 
     private void cleanAndAdd(){
         List<Constants.Course> courseList = new ArrayList<>();
-        courseList.add(Constants.Course.Blacksmithing);
+        courseList.add(Constants.Course.SWENG);
         Player.get().setCourses(courseList);
         //reload activity
         mActivityRule.launchActivity(new Intent());

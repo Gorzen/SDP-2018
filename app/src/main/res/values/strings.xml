@@ -118,10 +118,9 @@
     <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Blue</string>
     <string name="choose_theme_multicolor">Multicolor</string>
-    <string name="back_button_settings_color_text">Back to settings</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
-    <string name="question_edited">Question successfully edited !</string>
+    <string name="question_edited">Question successfully edited!</string>
     <string name="text_failed_update_courses">Failed to update courses!</string>
     <string name="text_courses_updated">Courses updated!</string>
     <string name="congrat_text_special_quest">Yay! You just completed this quest! You earned a new item: </string>
