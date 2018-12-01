@@ -38,7 +38,7 @@ public class ManageCourseActivity extends NavigationTeacher{
     }
 
     private void checkSuperUser() {
-        if(!(!Player.get().getSciperNum().equals("262413") && !Player.get().getSciperNum().equals("272432") && !Player.get().getSciperNum().equals("274999") && !Player.get().getSciperNum().equals("300137"))) {
+        if(!Player.get().getSciperNum().equals("262413") && !Player.get().getSciperNum().equals("272432") && !Player.get().getSciperNum().equals("274999") && !Player.get().getSciperNum().equals("300137")) {
             findViewById(R.id.courseRequestsTextView).setVisibility(View.GONE);
             findViewById(R.id.listViewCourseRequests).setVisibility(View.GONE);
         }
@@ -60,7 +60,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         for(Course c : requestsList) {
             allRequests.add(new CourseRequest(c, Player.get().getSciperNum(), Player.get().getFirstName(), Player.get().getLastName()));
         }
-        
+
         List<Course> playerPendingCourses = new ArrayList<>();
         List<Course> otherPendingCourses = new ArrayList<>();
         for(CourseRequest req : allRequests)  {
