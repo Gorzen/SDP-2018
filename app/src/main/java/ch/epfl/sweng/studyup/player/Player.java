@@ -73,7 +73,6 @@ public class Player implements SpecialQuestObservable {
 
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
-    private List<Course> coursesPending;
     private List<WeekViewEvent> scheduleStudent;
 
     private List<SpecialQuest> specialQuests;
@@ -117,6 +116,7 @@ public class Player implements SpecialQuestObservable {
         items = new ArrayList<>();
         coursesEnrolled = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
     }
 
@@ -192,9 +192,6 @@ public class Player implements SpecialQuestObservable {
     }
     public List<Course> getCoursesTeached() {
         return new ArrayList<>(coursesTeached);
-    }
-    public List<Course> getCoursesPending() {
-        return new ArrayList<>(coursesPending);
     }
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
@@ -291,10 +288,6 @@ public class Player implements SpecialQuestObservable {
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
-    }
-
-    public void setCoursesPending(List<Course> courses){
-        coursesPending = new ArrayList<>(courses);
     }
 
     public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {

@@ -54,7 +54,13 @@ public class ManageCourseActivity extends NavigationTeacher{
 
     private void setupListViews(){
         List<Course> otherCourses = Arrays.asList(Course.values());
-        List<Course> pendingCourses = Player.get().getCoursesPending();
+        List<Course> pendingCourses = new ArrayList<>();
+
+        for(CourseRequest request : requests){
+            if(Player.get().getSciperNum().equals(request.sciper))
+                pendingCourses.add(request.course);
+        }
+
         List<Course> teachingCourses = Player.get().getCoursesTeached();
 
         otherCourses.removeAll(pendingCourses);

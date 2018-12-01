@@ -56,7 +56,7 @@
 
                 <TextView
                     android:id="@+id/otherCoursesTextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/other_courses_text"
                     android:textAlignment="center"
@@ -81,13 +81,16 @@
                         <TextView
                             android:id="@+id/pendingCoursesTextView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
                             android:text="@string/pending_courses_text"
-                            android:textSize="24sp" />
+                            android:textSize="24sp"
+                            android:textAlignment="center"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/pendingCoursesTextView">
 
                             <ch.epfl.sweng.studyup.utils.NonScrollableListView
                                 android:id="@+id/listViewPendingCourses"
@@ -103,9 +106,11 @@
                                 <TextView
                                     android:id="@+id/acceptedCoursesTextView"
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
                                     android:text="@string/accepted_courses_text"
-                                    android:textSize="24sp" />
+                                    android:textSize="24sp"
+                                    android:textAlignment="center"/>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -121,7 +126,6 @@
                                 </RelativeLayout>
                             </RelativeLayout>
                         </RelativeLayout>
-
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
