@@ -39,7 +39,6 @@ public class ManageCourseActivityTest {
     public static void setupTests() {
         Player.get().resetPlayer();
         Player.get().setRole(teacher);
-        Firestore.get().syncPlayerData();
         Player.get().setCourses(Lists.newArrayList(Ecology));
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -48,7 +47,11 @@ public class ManageCourseActivityTest {
 
     @Before
     public void waitForFirebase(){
-        Utils.waitAndTag(10000, ManageCourseActivityTest.class.getName());
+        mActivityRule.getActivity().addRequest(Algebra.name(), Player.get().getSciperNum(), Player.get().getFirstName(), Player.get().getLastName());
+        Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
+
+        mActivityRule.getActivity().getAllRequests();
+        Utils.waitAndTag(2000, ManageCourseActivityTest.class.getName());
     }
 
     @Ignore

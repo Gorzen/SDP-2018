@@ -52,6 +52,7 @@ public class ManageCourseActivity extends NavigationTeacher{
     @Override
     protected void onResume() {
         super.onResume();
+        getAllRequests();
     }
 
     private void setupListViews(){
@@ -82,7 +83,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.course_item_model));
     }
 
-    private void getAllRequests() {
+    public void getAllRequests() {
         requests = new ArrayList<>();
 
         Firestore.get().getDb().collection(FB_COURSE_REQUESTS).get()
@@ -104,6 +105,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                                         requests.add(new CourseRequest(Course.valueOf(c), sciper, firstname, lastname));
                                     }
                                 }
+                                setupListViews();
                             }
                         }
                     }
