@@ -124,7 +124,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                             if(task.getResult().exists()) {
                                 Map<String, Object> userData = task.getResult().getData();
                                 List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
-                                userRequestedCourses.add(course);
+                                if(!userRequestedCourses.contains(course)) userRequestedCourses.add(course);
                                 userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                                 playerRequestsRef.set(userData);
                             } else {
@@ -192,8 +192,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         private void respondToRequest(final CourseRequest req, boolean accept) {
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
             final DocumentReference playerInfoRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
-            playerRequestsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            playerRequestsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Map<String, Object> userData = documentSnapshot.getData();
@@ -204,8 +203,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                         }
                     });
             if(!accept) return;
-            playerInfoRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            playerInfoRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Map<String, Object> userData = documentSnapshot.getData();
