@@ -1,5 +1,7 @@
 language: android
 sudo: required
+notifications:
+  email: false
 android:
   components:
     # The BuildTools version used by your project
