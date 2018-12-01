@@ -1,9 +1,11 @@
 package ch.epfl.sweng.studyup.SettingsTest;
 
+import android.content.Intent;
 import android.support.test.espresso.core.internal.deps.guava.collect.Lists;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -27,6 +29,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course.Blacksmithing;
 import static ch.epfl.sweng.studyup.utils.Constants.Course.Ecology;
 import static ch.epfl.sweng.studyup.utils.Constants.Course.SWENG;
 import static ch.epfl.sweng.studyup.utils.Constants.Role.teacher;
+import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,6 +57,11 @@ public class ManageCourseActivityTest {
         Utils.waitAndTag(2000, ManageCourseActivityTest.class.getName());
     }
 
+    @After
+    public void removeTestSciperFromSuperUsers(){
+        SUPER_USERS.remove(Player.get().getSciperNum());
+    }
+
     @Ignore
     public void testPlayerCoursesAreChecked() {
         onView(withText(SWENG.name())).check(matches(not((isChecked()))));
@@ -71,7 +79,14 @@ public class ManageCourseActivityTest {
     }
 
     @Test
-    public void testManageCourse(){
-        
+    public void testManageCourseNormalUser(){
+        Utils.waitAndTag(10000, ManageCourseActivityTest.class.getName());
+    }
+
+    @Ignore
+    public void testManageCourseSuperUser(){
+        SUPER_USERS.add(Player.get().getSciperNum());
+        mActivityRule.getActivity().setupListViews();
+        Utils.waitAndTag(10000, ManageCourseActivityTest.class.getName());
     }
 }

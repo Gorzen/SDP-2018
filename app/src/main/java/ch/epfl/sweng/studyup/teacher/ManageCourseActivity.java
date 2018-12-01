@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +56,8 @@ public class ManageCourseActivity extends NavigationTeacher{
         getAllRequests();
     }
 
-    private void setupListViews(){
-        List<Course> otherCourses = Arrays.asList(Course.values());
+    public void setupListViews(){
+        List<Course> otherCourses = new ArrayList<>(Arrays.asList(Course.values()));
         List<Course> pendingCourses = new ArrayList<>();
 
         for(CourseRequest request : requests){
@@ -76,11 +77,11 @@ public class ManageCourseActivity extends NavigationTeacher{
         if(Player.get().isSuperUser()){
             ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new requestListViewAdapter(this, requests));
         }else{
-            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.course_item_model));
+            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.model_course_pending));
         }
 
         //Accepted courses
-        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.course_item_model));
+        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.model_course_accepted));
     }
 
     public void getAllRequests() {
@@ -98,7 +99,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                                     String lastname = q.get(FB_LASTNAME).toString();
                                     List<String> courses;
                                     try {
-                                        courses = Arrays.asList((String[]) q.get(FB_REQUESTED_COURSES));
+                                        courses = (List<String>) q.get(FB_REQUESTED_COURSES);
                                     } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of courses requested.", Toast.LENGTH_SHORT).show(); return; }
 
                                     for(String c : courses) {
@@ -121,7 +122,11 @@ public class ManageCourseActivity extends NavigationTeacher{
                         if(task.isSuccessful()) {
                             if(task.getResult().exists()) {
                                 Map<String, Object> userData = task.getResult().getData();
-                                List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
+                                List<String> userRequestedCourses;
+                                try {
+                                    userRequestedCourses = (List<String>)userData.get(FB_REQUESTED_COURSES);
+                                } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of courses requested.", Toast.LENGTH_SHORT).show(); return; }
+
                                 userRequestedCourses.add(course);
                                 userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                                 playerRequestsRef.set(userData);
@@ -173,14 +178,14 @@ public class ManageCourseActivity extends NavigationTeacher{
             findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    acceptRequest();
+                    //acceptRequest();
                 }
             });
 
             return convertView;
         }
 
-        private void acceptRequest() {
+        /*private void acceptRequest() {
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
             playerRequestsRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -193,7 +198,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                             playerRequestsRef.set(userData);
                         }
                     });
-        }
+        }*/
     }
 
     private class CourseRequest {
