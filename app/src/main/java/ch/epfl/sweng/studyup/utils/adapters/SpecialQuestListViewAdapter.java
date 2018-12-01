@@ -53,8 +53,7 @@ public class SpecialQuestListViewAdapter extends BaseAdapter {
         TextView text_view = convertView.findViewById(R.id.special_quest_list_title);
 
         SpecialQuestType specialQuestType = specialQuests.get(position).getSpecialQuestType();
-        String displayTitle = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
-                specialQuestType.getEnglishTitle() : specialQuestType.getFrenchTitle();
+        String displayTitle = specialQuestType.getTitle();
 
         text_view.setText(displayTitle);
         ImageView image_view = convertView.findViewById(R.id.is_special_quest_done);

@@ -153,5 +153,7 @@
     <string name="item_xp_potion_description">A potion that gives you some xp when drunk !</string>
     <string name="item_coin_sack_description">A sack containing lots of shiny coins !</string>
     <string name="item_use_button_text">Use</string>
+    <string name="special_quest_three_questions_title">Three Questions</string>
+    <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
 
 </resources>
