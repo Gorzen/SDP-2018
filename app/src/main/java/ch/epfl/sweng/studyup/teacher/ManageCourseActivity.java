@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 
 public class ManageCourseActivity extends NavigationTeacher{
     private List<CourseRequest> requests;
@@ -108,18 +110,30 @@ public class ManageCourseActivity extends NavigationTeacher{
                 });
     }
 
-    public void addRequest(String course, String sciper, String firstname, String lastname) {
-        final CourseRequest req = new CourseRequest(Course.valueOf(course), sciper, firstname, lastname);
-        final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
+    public void addRequest(final String course, final String sciper, final String firstname, final String lastname) {
+        final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(sciper);
         playerRequestsRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Map<String, Object> userData = documentSnapshot.getData();
-                        List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
-                        userRequestedCourses.add(req.course.name());
-                        userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
-                        playerRequestsRef.set(userData);
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            if(task.getResult().exists()) {
+                                Map<String, Object> userData = task.getResult().getData();
+                                List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
+                                userRequestedCourses.add(course);
+                                userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
+                                playerRequestsRef.set(userData);
+                            } else {
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put(FB_FIRSTNAME, firstname);
+                                userData.put(FB_LASTNAME, lastname);
+
+                                List<String> newCourseReq = new ArrayList<>();
+                                newCourseReq.add(course);
+                                userData.put(FB_REQUESTED_COURSES, newCourseReq);
+                                playerRequestsRef.set(userData);
+                            }
+                        }
                     }
                 });
     }
