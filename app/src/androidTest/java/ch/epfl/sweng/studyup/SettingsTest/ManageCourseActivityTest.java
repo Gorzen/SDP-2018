@@ -26,6 +26,7 @@ import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -34,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.Role.teacher;
 import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.junit.Assert.assertEquals;
 
@@ -70,7 +72,28 @@ public class ManageCourseActivityTest {
     }
 
     @Test
-    public void testManageCourseSuperUser(){
+    public void testManageCourseSuperUserAcceptRequest(){
+        setupSuperUserTest();
+
+        //Accept pending course
+        testManageCourseSample(R.id.listViewPendingCourses, R.id.acceptCourse, 0, -1, 1);
+    }
+
+    @Test
+    public void testManageCourseSuperUserRefuseRequest(){
+        setupSuperUserTest();
+
+        //Refuse pending course
+        testManageCourseSample(R.id.listViewPendingCourses, R.id.refuseCourse, 1, -1, 0);
+    }
+
+    @Test
+    public void backButtonTest(){
+        onView(withId(R.id.back_button)).perform(click());
+        assertTrue(mActivityRule.getActivity().isFinishing());
+    }
+
+    private void setupSuperUserTest(){
         SUPER_USERS.add(Player.get().getSciperNum());
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -82,9 +105,6 @@ public class ManageCourseActivityTest {
 
         //Add pending course
         testManageCourseSample(R.id.listViewOtherCourses, R.id.send_course_request, -1, 1, 0);
-
-        //Accept pending course
-        testManageCourseSample(R.id.listViewPendingCourses, R.id.acceptCourse, 0, -1, 1);
     }
 
     private void testManageCourseSample(int listViewToClickOn, int buttonToClick, int otherCoursesChangeCount, int pendingCoursesChangeCount, int acceptedCoursesChangeCount) {
