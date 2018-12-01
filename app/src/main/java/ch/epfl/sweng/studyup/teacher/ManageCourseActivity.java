@@ -62,6 +62,10 @@ public class ManageCourseActivity extends NavigationTeacher{
         getAllRequests();
     }
 
+    public void onBackButton(View view){
+        finish();
+    }
+
     public void setupListViews(){
         List<Course> otherCourses = new ArrayList<>(Arrays.asList(Course.values()));
         otherCourses.remove(FakeCourse);
