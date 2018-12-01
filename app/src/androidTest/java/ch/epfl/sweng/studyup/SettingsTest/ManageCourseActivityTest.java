@@ -1,30 +1,20 @@
 package ch.epfl.sweng.studyup.SettingsTest;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.CoordinatesProvider;
-import android.support.test.espresso.action.GeneralClickAction;
-import android.support.test.espresso.action.Press;
-import android.support.test.espresso.action.Tap;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiSelector;
-import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -43,6 +33,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.Role.teacher;
 import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.junit.Assert.assertEquals;
 
@@ -51,6 +42,16 @@ public class ManageCourseActivityTest {
     @Rule
     public final ActivityTestRule<ManageCourseActivity> mActivityRule =
             new ActivityTestRule<>(ManageCourseActivity.class);
+
+    @BeforeClass
+    public static void enableMock(){
+        MOCK_ENABLED = true;
+    }
+
+    @AfterClass
+    public static void disableMock(){
+        MOCK_ENABLED = false;
+    }
 
     @Before
     public void resetPlayer(){
