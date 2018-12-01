@@ -12,23 +12,23 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
-    public static final String QUESTION = "question";
+    public static final String QUESTIONID = "questionID";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        Question question = intent.getParcelableExtra(QUESTION);
+        String questionID = intent.getParcelableExtra(QUESTIONID);
 
         Player player = Player.get();
 
-        if (player.getAnsweredQuestion().containsKey(question.getQuestionId())) {
+        if (player.getAnsweredQuestion().containsKey(questionID)) {
             //The question has been answered in the meantime
             return;
         }
 
-        player.addAnsweredQuestion(question.getQuestionId(), false);
+        player.addAnsweredQuestion(questionID, false);
 
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
         notificationManager.notify(id, notification);

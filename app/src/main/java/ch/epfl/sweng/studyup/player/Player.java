@@ -69,6 +69,7 @@ public class Player implements SpecialQuestObservable {
     private int currency;
     private Map<String, Boolean> answeredQuestions;
     private List<Items> items;
+    private Map<String, Long> clickedInstants;
 
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
@@ -93,6 +94,7 @@ public class Player implements SpecialQuestObservable {
         coursesTeached = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
         scheduleStudent = new ArrayList<>();
+        clickedInstants = new HashMap<>();
     }
 
     public static Player get() {
@@ -196,8 +198,9 @@ public class Player implements SpecialQuestObservable {
     }
     public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
-
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
+
+    public Map<String, Long> getClickedInstants() {return Collections.unmodifiableMap(new HashMap<>(clickedInstants)); }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -296,6 +299,10 @@ public class Player implements SpecialQuestObservable {
             this.answeredQuestions.put(questionID, isAnswerGood);
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
+    }
+
+    public void addClickedInstant(String questionID, Long instant) {
+        clickedInstants.put(questionID, instant);
     }
 
     public boolean isDefault() throws NumberFormatException {

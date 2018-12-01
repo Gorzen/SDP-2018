@@ -38,9 +38,6 @@ public class Question implements Serializable {
     @ColumnInfo(name = "lang")
     private String lang;
 
-    @ColumnInfo(name = "clickedInstant")
-    private long clickedInstant;
-
     @ColumnInfo(name = "duration")
     private long duration;
 
@@ -74,7 +71,6 @@ public class Question implements Serializable {
             this.lang = lang;
         }
 
-        this.clickedInstant = 0;
         this.duration = 0; //one hour
     }
 
@@ -85,15 +81,13 @@ public class Question implements Serializable {
      * @param trueFalse    If the question is a True/False question or not
      * @param answer The number of the answer, starting at 0 (0 is the first answer)
      * @param lang The question lang
-     * @param clickedInstant the Date when the user opened the question
      * @param duration the time the user have to answer the question, if 0 then there is
      *                 no constraint
      */
     @Ignore
     public Question(@NonNull String questionId, String title, boolean trueFalse, int answer,
-                    String courseName, String lang, long clickedInstant, long duration) {
+                    String courseName, String lang, long duration) {
         this(questionId, title, trueFalse, answer, courseName, lang);
-        this.clickedInstant = clickedInstant;
         this.duration = duration;
 
     }
@@ -140,16 +134,8 @@ public class Question implements Serializable {
         return this.lang;
     }
 
-    public long getClickedInstant() {
-        return clickedInstant;
-    }
-
     public long getDuration() {
         return duration;
-    }
-
-    public void setClickedInstant(long clickedInstant) {
-        this.clickedInstant = clickedInstant;
     }
 
     public void setDuration(long duration) {

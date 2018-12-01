@@ -41,6 +41,7 @@ import java.util.Random;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -66,11 +67,10 @@ public class DisplayQuestionActivity extends RefreshContext {
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
     @SuppressWarnings("HardCodedStringLiteral")
-    public static final String DISPLAY_QUESTION_CLICKEDINSTANT = "display_question_clickedInstant";
-    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_DURATION = "display_question_duration";
 
     private Question displayQuestion;
+    private Player player;
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
@@ -99,8 +99,8 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
-        long clickedInstant = intent.getParcelableExtra(DISPLAY_QUESTION_CLICKEDINSTANT);
 
+        player = Player.get();
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
@@ -161,11 +161,6 @@ public class DisplayQuestionActivity extends RefreshContext {
             return false;
         }
 
-        if (!intent.hasExtra(DISPLAY_QUESTION_CLICKEDINSTANT)) {
-            quit();
-            return false;
-        }
-
         if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
             quit();
             return false;
@@ -202,21 +197,25 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void handleTimedQuestion(Question displayQuestion) {
-        if (displayQuestion.getDuration() == 0) {
-            //There is no time constraint
-            //TODO: handle this
-            return;
-        } else if (displayQuestion.getClickedInstant() == 0) {
+        String questionId = displayQuestion.getQuestionId();
+
+        if (!player.getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
-            displayQuestion.setClickedInstant(System.currentTimeMillis());
+            player.addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
         } else {
-            long now = System.currentTimeMillis();
-            if (displayQuestion.getClickedInstant() + displayQuestion.getDuration() > now) {
-                //TODO: Handle the case where the time is out
-                Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+            long clickedInstant = player.getClickedInstants().get(questionId);
+            if (displayQuestion.getDuration() == 0) {
+                //There is no time constraint
+                //TODO
             } else {
-                //TODO: display the time remaining
+                long now = System.currentTimeMillis();
+                if (clickedInstant + displayQuestion.getDuration() > now) {
+                    //TODO: Handle the case where the time is out
+                    Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+                } else {
+                    //TODO: display the time remaining
+                }
             }
         }
     }
@@ -228,7 +227,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
-        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTION, displayQuestion);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, displayQuestion.getQuestionId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
@@ -410,7 +409,6 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
-        goToQuestion.putExtra(DISPLAY_QUESTION_CLICKEDINSTANT, q.getClickedInstant());
         goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, q.getDuration());
         return goToQuestion;
     }
