@@ -37,7 +37,13 @@ public class ManageCourseActivity extends NavigationTeacher{
 
     private void setupListViews(){
         List<Course> otherCourses = Arrays.asList(Course.values());
-        List<Course> pendingCourses = Player.get().getCoursesPending();
+        List<Course> pendingCourses = new ArrayList<>();
+
+        for(CourseRequest request : requests){
+            if(Player.get().getSciperNum().equals(request.sciper))
+                pendingCourses.add(request.course);
+        }
+
         List<Course> teachingCourses = Player.get().getCoursesTeached();
 
         otherCourses.removeAll(pendingCourses);
@@ -88,10 +94,6 @@ public class ManageCourseActivity extends NavigationTeacher{
         //((NonScrollableListView) findViewById(R.id.listViewCourseRequests)).setAdapter(new requestListViewAdapter(this, allRequests));
         ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, acceptedCourses, R.layout.course_item_model));
         ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.course_item_model));
-    }
-
-    public void sendRequest(View v) {
-        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private class requestListViewAdapter extends BaseAdapter {

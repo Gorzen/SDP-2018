@@ -40,7 +40,6 @@ public class ManageCourseActivityTest {
         Player.get().resetPlayer();
         Player.get().setRole(teacher);
         Firestore.get().syncPlayerData();
-        Player.get().setCoursesPending(Lists.newArrayList(Algebra));
         Player.get().setCourses(Lists.newArrayList(Ecology));
 
         Firestore.get().updateRemotePlayerDataFromLocal();
