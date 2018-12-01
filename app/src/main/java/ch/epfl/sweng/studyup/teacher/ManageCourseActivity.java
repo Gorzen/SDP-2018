@@ -126,7 +126,9 @@ public class ManageCourseActivity extends NavigationTeacher{
     }
 
     public void addRequest(final String course, final String sciper, final String firstname, final String lastname) {
-        requests.add(new CourseRequest(Course.valueOf(course), sciper, firstname, lastname));
+        CourseRequest request = new CourseRequest(Course.valueOf(course), sciper, firstname, lastname);
+        if(!requests.contains(request))
+            requests.add(request);
         setupListViews();
 
         final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(sciper);
@@ -210,10 +212,13 @@ public class ManageCourseActivity extends NavigationTeacher{
 
         private void respondToRequest(final CourseRequest req, boolean accept) {
             requests.remove(req);
-            if(accept) {
+            if(accept && Player.get().getSciperNum().equals(req.sciper)) {
                 List<Course> newCourses = Player.get().getCoursesTeached();
-                newCourses.add(req.course);
-                Player.get().setCourses(newCourses);
+
+                if(!newCourses.contains(req.course)) {
+                    newCourses.add(req.course);
+                    Player.get().setCourses(newCourses);
+                }
             }
             setupListViews();
 
