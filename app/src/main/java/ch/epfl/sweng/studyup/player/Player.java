@@ -38,6 +38,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
@@ -72,6 +73,7 @@ public class Player implements SpecialQuestObservable {
 
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
+    private List<Course> coursesPending;
     private List<WeekViewEvent> scheduleStudent;
 
     private List<SpecialQuest> specialQuests;
@@ -186,10 +188,13 @@ public class Player implements SpecialQuestObservable {
     }
 
     public List<Course> getCoursesEnrolled() {
-        return coursesEnrolled;
+        return new ArrayList<>(coursesEnrolled);
     }
     public List<Course> getCoursesTeached() {
-        return coursesTeached;
+        return new ArrayList<>(coursesTeached);
+    }
+    public List<Course> getCoursesPending() {
+        return new ArrayList<>(coursesPending);
     }
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
@@ -198,6 +203,10 @@ public class Player implements SpecialQuestObservable {
 
 
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
+
+    public boolean isSuperUser() {
+        return SUPER_USERS.contains(getSciperNum());
+    }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -273,15 +282,19 @@ public class Player implements SpecialQuestObservable {
      */
     public void setCourses(List<Course> courses) {
         if(role == Role.student) {
-            this.coursesEnrolled = courses;
+            this.coursesEnrolled = new ArrayList<>(courses);
         } else {
-            this.coursesTeached= courses;
+            this.coursesTeached = new ArrayList<>(courses);
             for(Course c : courses) {
                 Firestore.get().setCourseTeacher(c);
             }
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
+    public void setCoursesPending(List<Course> courses){
+        coursesPending = new ArrayList<>(courses);
     }
 
     public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {

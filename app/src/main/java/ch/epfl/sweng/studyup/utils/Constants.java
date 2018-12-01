@@ -49,6 +49,8 @@ public abstract class Constants {
     public static final Set<String> FB_ALL_ENTRIES = Sets.newHashSet(
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS, FB_ANSWERED_QUESTIONS);
+    public static final Set<String> SUPER_USERS = Sets.newHashSet(
+            "262413", "272432", "274999", "300137");
 
 
     // Values associated with Firebase storage

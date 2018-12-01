@@ -23,6 +23,7 @@ import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 public class ManageCourseActivity extends NavigationTeacher{
+    private List<CourseRequest> requests;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,19 +33,31 @@ public class ManageCourseActivity extends NavigationTeacher{
     @Override
     protected void onResume() {
         super.onResume();
-
-        setupListViews();
-        checkSuperUser();
     }
 
-    private void checkSuperUser() {
-        if(!Player.get().getSciperNum().equals("262413") && !Player.get().getSciperNum().equals("272432") && !Player.get().getSciperNum().equals("274999") && !Player.get().getSciperNum().equals("300137")) {
-            findViewById(R.id.courseRequestsTextView).setVisibility(View.GONE);
-            findViewById(R.id.listViewCourseRequests).setVisibility(View.GONE);
+    private void setupListViews(){
+        List<Course> otherCourses = Arrays.asList(Course.values());
+        List<Course> pendingCourses = Player.get().getCoursesPending();
+        List<Course> teachingCourses = Player.get().getCoursesTeached();
+
+        otherCourses.removeAll(pendingCourses);
+        otherCourses.removeAll(teachingCourses);
+
+        //Other courses
+        ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
+
+        //Pending courses
+        if(Player.get().isSuperUser()){
+            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new requestListViewAdapter(this, requests));
+        }else{
+            ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, pendingCourses, R.layout.course_item_model));
         }
+
+        //Accepted courses
+        ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, teachingCourses, R.layout.course_item_model));
     }
 
-    private void setupListViews() {
+    private void setupListViews1() {
         List<Course> otherCourses = Arrays.asList(Course.values());
 
         Firestore.get().syncPlayerData(); // ?
@@ -72,7 +85,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         }
 
         ((NonScrollableListView) findViewById(R.id.listViewOtherCourses)).setAdapter(new ListCourseAdapter(this, otherCourses, R.layout.model_course_send_request));
-        ((NonScrollableListView) findViewById(R.id.listViewCourseRequests)).setAdapter(new requestListViewAdapter(this, allRequests));
+        //((NonScrollableListView) findViewById(R.id.listViewCourseRequests)).setAdapter(new requestListViewAdapter(this, allRequests));
         ((NonScrollableListView) findViewById(R.id.listViewAcceptedCourses)).setAdapter(new ListCourseAdapter(this, acceptedCourses, R.layout.course_item_model));
         ((NonScrollableListView) findViewById(R.id.listViewPendingCourses)).setAdapter(new ListCourseAdapter(this, otherPendingCourses, R.layout.course_item_model));
     }
