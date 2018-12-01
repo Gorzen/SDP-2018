@@ -40,6 +40,7 @@ public class ManageCourseActivityTest {
 
     @BeforeClass
     public static void setupTests() {
+        //Reset player locally and on Firebase
         Player.get().resetPlayer();
         Player.get().setRole(teacher);
         Player.get().setCourses(Lists.newArrayList(Ecology));
@@ -50,32 +51,19 @@ public class ManageCourseActivityTest {
 
     @Before
     public void waitForFirebase(){
+        //Add request on Firebase
         mActivityRule.getActivity().addRequest(Algebra.name(), Player.get().getSciperNum(), Player.get().getFirstName(), Player.get().getLastName());
         Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
 
+        //Reload requests
         mActivityRule.getActivity().getAllRequests();
         Utils.waitAndTag(2000, ManageCourseActivityTest.class.getName());
     }
 
     @After
     public void removeTestSciperFromSuperUsers(){
+        //Always remove test SCIPER from Firebase
         SUPER_USERS.remove(Player.get().getSciperNum());
-    }
-
-    @Ignore
-    public void testPlayerCoursesAreChecked() {
-        onView(withText(SWENG.name())).check(matches(not((isChecked()))));
-        onView(withText(Ecology.name())).check(matches(not((isChecked()))));
-        onView(withText(Algebra.name())).check(matches((isChecked())));
-        onView(withText(Blacksmithing.name())).check(matches((isChecked())));
-    }
-
-    @Ignore
-    public void testCourseSelection() {
-        onView(withText(Ecology.name())).perform(click());
-
-        onView(withText(R.string.save_value)).perform(click());
-        assert(Player.get().getCoursesTeached().contains(Ecology));
     }
 
     @Test
