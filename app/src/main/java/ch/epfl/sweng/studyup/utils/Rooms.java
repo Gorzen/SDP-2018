@@ -75,11 +75,11 @@ public abstract class Rooms {
         List<String> playersCourses = Collections.unmodifiableList(new ArrayList<>(Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled())));
 
         for(WeekViewEvent event : Player.get().getScheduleStudent()) {
-            if(playersCourses.contains(event.getName()) && ROOMS_LOCATIONS.containsKey(event.getLocation())) {
-                return distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(event.getLocation()).getLocation(), POSITION) <= RADIUS_ROOM &&
+            if(playersCourses.contains(event.getName()) &&
+                    ROOMS_LOCATIONS.containsKey(event.getLocation()) &&
+                    distanceBetweenTwoLatLng(ROOMS_LOCATIONS.get(event.getLocation()).getLocation(), POSITION) <= RADIUS_ROOM &&
                         currTime.after(event.getStartTime()) &&
-                        currTime.before(event.getEndTime());
-            }
+                        currTime.before(event.getEndTime())) return true;
         }
         return false;
     }
