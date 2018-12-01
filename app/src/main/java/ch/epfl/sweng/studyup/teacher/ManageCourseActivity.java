@@ -175,14 +175,21 @@ public class ManageCourseActivity extends NavigationTeacher{
             findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    acceptRequest(req);
+                    respondToRequest(req, true);
+                }
+            });
+
+            findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    respondToRequest(req, false);
                 }
             });
 
             return convertView;
         }
 
-        private void acceptRequest(final CourseRequest req) {
+        private void respondToRequest(final CourseRequest req, boolean accept) {
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
             final DocumentReference playerInfoRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
             playerRequestsRef.get()
@@ -196,6 +203,7 @@ public class ManageCourseActivity extends NavigationTeacher{
                             playerRequestsRef.set(userData);
                         }
                     });
+            if(!accept) return;
             playerInfoRef.get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
