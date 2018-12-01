@@ -178,14 +178,14 @@ public class ManageCourseActivity extends NavigationTeacher{
             String infoFormat = req.getSciper()+", "+req.getLastname().toUpperCase()+" "+req.getFirstname();
             playerInfos.setText(infoFormat);
 
-            findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
+            convertView.findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     respondToRequest(req, true);
                 }
             });
 
-            findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
+            convertView.findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     respondToRequest(req, false);

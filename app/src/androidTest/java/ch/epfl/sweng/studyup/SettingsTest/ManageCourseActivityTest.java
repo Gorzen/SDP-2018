@@ -83,10 +83,15 @@ public class ManageCourseActivityTest {
         Utils.waitAndTag(10000, ManageCourseActivityTest.class.getName());
     }
 
-    @Ignore
+    @Test
     public void testManageCourseSuperUser(){
         SUPER_USERS.add(Player.get().getSciperNum());
-        mActivityRule.getActivity().setupListViews();
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().setupListViews();
+            }
+        });
         Utils.waitAndTag(10000, ManageCourseActivityTest.class.getName());
     }
 }
