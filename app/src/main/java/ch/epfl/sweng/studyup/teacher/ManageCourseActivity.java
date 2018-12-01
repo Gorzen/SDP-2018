@@ -102,7 +102,8 @@ public class ManageCourseActivity extends NavigationTeacher{
                 });
     }
 
-    private void addRequest(final CourseRequest req) {
+    public void addRequest(String course, String sciper, String firstname, String lastname) {
+        final CourseRequest req = new CourseRequest(Course.valueOf(course), sciper, firstname, lastname);
         final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
         playerRequestsRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -115,10 +116,6 @@ public class ManageCourseActivity extends NavigationTeacher{
                         playerRequestsRef.set(userData);
                     }
                 });
-    }
-
-    public void sendRequest(View v) {
-        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     private class requestListViewAdapter extends BaseAdapter {
