@@ -146,7 +146,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         private Context cnx;
         private List<CourseRequest> requests;
 
-        protected requestListViewAdapter(Context cnx, List<CourseRequest> requests) {
+        requestListViewAdapter(Context cnx, List<CourseRequest> requests) {
             this.cnx = cnx;
             this.requests = requests;
         }
@@ -182,7 +182,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         private final String firstname;
         private final String lastname;
 
-        protected CourseRequest(Course course, String sciper, String firstname, String lastname) {
+        CourseRequest(Course course, String sciper, String firstname, String lastname) {
             this.course = course;
             this.sciper = sciper;
             this.firstname = firstname;
