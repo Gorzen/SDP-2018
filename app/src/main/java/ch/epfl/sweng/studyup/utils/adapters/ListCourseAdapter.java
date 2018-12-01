@@ -72,18 +72,12 @@ public class ListCourseAdapter extends BaseAdapter {
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(Player.get().getSciperNum()).get()
-                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                @Override
-                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                    if(act instanceof ManageCourseActivity) {
-                                        ((ManageCourseActivity) act).addRequest(courses.get(position).name(),
-                                                Player.get().getSciperNum(),
-                                                Player.get().getFirstName(),
-                                                Player.get().getLastName());
-                                    }
-                                }
-                            });
+                    if(act instanceof ManageCourseActivity) {
+                        ((ManageCourseActivity) act).addRequest(courses.get(position).name(),
+                                Player.get().getSciperNum(),
+                                Player.get().getFirstName(),
+                                Player.get().getLastName());
+                    }
                 }
             });
         }
