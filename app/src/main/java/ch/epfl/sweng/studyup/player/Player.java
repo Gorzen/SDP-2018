@@ -117,6 +117,8 @@ public class Player implements SpecialQuestObservable {
         items = new ArrayList<>();
         coursesEnrolled = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        coursesPending = new ArrayList<>();
+        coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
     }
 
