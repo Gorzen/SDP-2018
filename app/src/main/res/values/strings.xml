@@ -148,5 +148,10 @@
     <string name="write_here_your_question_text">Write Here the Question</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="item_xp_potion_name">XP potion</string>
+    <string name="item_coin_sack_name">Sack of coin</string>
+    <string name="item_xp_potion_description">A potion that gives you some xp when drunk !</string>
+    <string name="item_coin_sack_description">A sack containing lots of shiny coins !</string>
+    <string name="item_use_button_text">Use</string>
 
 </resources>
