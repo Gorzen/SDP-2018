@@ -342,6 +342,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         r1.setText("1");
         r2.setText("2");
     }
+
     /**
      * Sets the Image-based or Text-based Radio Buttons. This method is used when a question is being edited
      * to display the corresponding checked radio buttons and is also used when the radio listener is being set
