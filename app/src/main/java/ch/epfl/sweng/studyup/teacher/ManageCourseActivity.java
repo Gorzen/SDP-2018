@@ -36,11 +36,13 @@ import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 
 public class ManageCourseActivity extends NavigationTeacher{
     private List<CourseRequest> requests;
@@ -127,7 +129,8 @@ public class ManageCourseActivity extends NavigationTeacher{
                                     userRequestedCourses = (List<String>)userData.get(FB_REQUESTED_COURSES);
                                 } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of courses requested.", Toast.LENGTH_SHORT).show(); return; }
 
-                                userRequestedCourses.add(course);
+                                if(!userRequestedCourses.contains(course)) userRequestedCourses.add(course);
+
                                 userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                                 playerRequestsRef.set(userData);
                             } else {
@@ -168,7 +171,7 @@ public class ManageCourseActivity extends NavigationTeacher{
             if(convertView==null){
                 convertView = View.inflate(cnx, R.layout.model_course_request_super, null);
             }
-            CourseRequest req = requests.get(position);
+            final CourseRequest req = requests.get(position);
             TextView courseText = convertView.findViewById(R.id.pendingCourseName);
             TextView playerInfos = convertView.findViewById(R.id.sciperAndNamePending);
             courseText.setText(req.getCourse().name());
@@ -178,27 +181,48 @@ public class ManageCourseActivity extends NavigationTeacher{
             findViewById(R.id.acceptCourse).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //acceptRequest();
+                    respondToRequest(req, true);
+                }
+            });
+
+            findViewById(R.id.refuseCourse).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    respondToRequest(req, false);
                 }
             });
 
             return convertView;
         }
 
-        /*private void acceptRequest() {
+        private void respondToRequest(final CourseRequest req, boolean accept) {
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
-            playerRequestsRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            final DocumentReference playerInfoRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
+            playerRequestsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             Map<String, Object> userData = documentSnapshot.getData();
                             List<String> userRequestedCourses = Arrays.asList((String[]) userData.get(FB_REQUESTED_COURSES));
-                            //userRequestedCourses.add(req.course.name());
+                            userRequestedCourses.remove(req.course.name());
                             userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
                             playerRequestsRef.set(userData);
                         }
                     });
-        }*/
+            if(!accept) return;
+            playerInfoRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            Map<String, Object> userData = documentSnapshot.getData();
+                            List<Course> userTeachingCourses;
+                            try {
+                                userTeachingCourses = ((List<Course>) userData.get(FB_COURSES_TEACHED));
+                            } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of teaching courses.", Toast.LENGTH_SHORT).show(); return; }
+                            userTeachingCourses.add(req.course);
+                            userData.put(FB_COURSES_TEACHED, userTeachingCourses);
+                            playerInfoRef.set(userData);
+                        }
+                    });
+        }
     }
 
     private class CourseRequest {
