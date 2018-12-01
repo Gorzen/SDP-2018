@@ -59,7 +59,7 @@ public class ManageCourseActivity extends NavigationTeacher{
         getAllRequests();
     }
 
-    private void setupListViews(){
+    public void setupListViews(){
         List<Course> otherCourses = Arrays.asList(Course.values());
         if(!MOCK_ENABLED) otherCourses.remove(Course.FakeCourse);
 
