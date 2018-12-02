@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
@@ -151,6 +154,11 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                         .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
                         .title(getString(R.string.room_objective))
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+                mMap.addPolyline(new PolylineOptions()
+                        .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                        .width(5)
+                        .color(Color.BLUE));
             }
         }
     }
