@@ -202,7 +202,7 @@ public class FirestoreTest {
         assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
 
         // Verifying that we can add a course
-        Firestore.get().addPlayerToTeachingStaff(c);
+        Firestore.get().setCourseTeacher(c);
         waitAndTag(500, "Waiting for the course to be added.");
         Firestore.get().setCourseEvents(c, periods);
         waitAndTag(500, "Waiting for the course's periods to be added.");

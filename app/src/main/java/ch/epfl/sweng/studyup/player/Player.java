@@ -281,14 +281,9 @@ public class Player implements SpecialQuestObservable {
         if(role == Role.student) {
             this.coursesEnrolled = new ArrayList<>(courses);
         } else {
-            List<Course> oldCourses = getCoursesTeached();
-            coursesTeached = new ArrayList<>(courses);
-            oldCourses.removeAll(courses);
+            this.coursesTeached = new ArrayList<>(courses);
             for(Course c : courses) {
-                Firestore.get().addPlayerToTeachingStaff(c);
-            }
-            for(Course c : oldCourses) {
-                //Firestore.get().removePlayerFromTeachingStaff(c);
+                Firestore.get().setCourseTeacher(c);
             }
         }
 

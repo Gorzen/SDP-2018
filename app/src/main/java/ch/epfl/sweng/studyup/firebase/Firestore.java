@@ -313,7 +313,7 @@ public class Firestore {
      *
      * @param c The course
      */
-    public void addPlayerToTeachingStaff(final Course c) {
+    public void setCourseTeacher(final Course c) {
 
         db.collection(FB_COURSES).document(c.name()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
