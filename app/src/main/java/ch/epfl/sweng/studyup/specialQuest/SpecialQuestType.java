@@ -12,6 +12,8 @@ public enum SpecialQuestType {
         3
     );
 
+
+
     private final int titleId;
     private final int descriptionId;
     private int goal;
