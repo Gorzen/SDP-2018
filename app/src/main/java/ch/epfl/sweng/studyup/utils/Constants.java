@@ -1,14 +1,10 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.app.Activity;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -177,7 +173,7 @@ public abstract class Constants {
     }
 
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_Charlie), new LatLng(46.539886, 6.653563), R.drawable.dabbing_unicorn),
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_clam_girl), new LatLng(46.520288, 6.565392), R.drawable.greedy_clam_girl)
+            new NPC("Charlie", new LatLng(46.539886, 6.653563), R.drawable.charlie),
+            new NPC("Cynthia", new LatLng(46.520288, 6.565392), R.drawable.greedy_clam_girl)
     ));
 }
