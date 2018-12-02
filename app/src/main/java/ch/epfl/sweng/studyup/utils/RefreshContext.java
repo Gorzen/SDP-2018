@@ -11,6 +11,7 @@ public class RefreshContext extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MOST_RECENT_ACTIVITY = this;
         setTheme(APP_THEME);
     }
 
