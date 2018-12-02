@@ -160,7 +160,7 @@
     <string name="special_quest_five_questions_title">Five Questions</string>
     <string name="special_quest_five_questions_description">Answer five questions for a surprise item!</string>
     
-    <string name="special_quest_level_up_bonus_title">Extra Level Bonus</string>
+    <string name="special_quest_level_up_bonus_title">Level Up Bonus</string>
     <string name="special_quest_level_up_bonus_description">Get a bonus surprise item when you level up!</string>
 
     <string name="special_quest_creative_username_title">Creative Username</string>

@@ -18,6 +18,7 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -311,9 +312,9 @@ public class Player implements SpecialQuestObservable {
     }
 
     @Override
-    public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
+    public void notifySpecialQuestObservers(Context context, Constants.SpecialQuestUpdateFlag updateFlag) {
         for (SpecialQuestObserver specialQuest : specialQuests) {
-            specialQuest.update(context, specialQuestType);
+            specialQuest.update(context, updateFlag);
         }
     }
 }

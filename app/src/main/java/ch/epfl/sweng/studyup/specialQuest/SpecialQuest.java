@@ -10,6 +10,7 @@ import java.util.Random;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 
 import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_ENGLISH;
@@ -43,9 +44,9 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
     If the update type matches the current special quest type,
     then the special quest completion count should be incremented.
      */
-    public void update(Context context, SpecialQuestType updateType) {
+    public void update(Context context, SpecialQuestUpdateFlag updateFlag) {
 
-        if (updateType.equals(this.specialQuestType)) {
+        if (updateFlag.equals(this.specialQuestType.getUpdateFlag())) {
             // Increment completion count is special quest not already complete.
             if (this.completionCount < this.specialQuestType.getGoal()) {
 

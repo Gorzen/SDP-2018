@@ -162,4 +162,12 @@ public abstract class Constants {
             return coursesName;
         }
     }
+
+    // Flags for triggering special quest listener
+    public enum SpecialQuestUpdateFlag {
+        ANSWERED_QUESTION,
+        LEVEL_UP,
+        SET_USERNAME,
+        USER_LOGIN
+    }
 }
