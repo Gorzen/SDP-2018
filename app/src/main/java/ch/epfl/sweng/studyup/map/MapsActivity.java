@@ -37,6 +37,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 public class MapsActivity extends NavigationStudent implements OnMapReadyCallback {
     private Marker location = null;
+    private Marker roomObjective = null;
     private GoogleMap mMap = null;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
     private boolean isFirstPosition = true;
@@ -91,6 +92,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
+        findAndMarkRoom();
     }
 
     @Override
@@ -131,6 +133,12 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);
+        }
+    }
+
+    public void findAndMarkRoom() {
+        if(mMap != null) {
+            
         }
     }
 

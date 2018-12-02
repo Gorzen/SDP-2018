@@ -1,5 +1,7 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.util.Log;
+
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
@@ -142,16 +144,31 @@ public abstract class Constants {
         FakeCourse("A fake course");
 
         private String name = "";
+        private String room = "";
 
         Course(String name){
             this.name = name;
         }
+        Course(String name, String room){
+            this.name = name;
+            this.setRoom(room);
+        }
+
         /**
          * return the longer description of the course,
          * contrary to name() function that returns only the shorter name
          */
         public String toString(){
-            return name;
+            return name + " in " + this.room;
+        }
+
+        public void setRoom(String room) {
+            if(Rooms.ROOMS_LOCATIONS.containsKey(room)) {
+                this.room = room;
+            } else {
+                Log.w("Course", "The room does not exists.");
+                this.room = "";
+            }
         }
 
         public static List<String> getNamesFromCourses(List<Course> courses) {
