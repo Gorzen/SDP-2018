@@ -22,6 +22,9 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 
@@ -42,7 +45,10 @@ public class NPCTest {
             @Override
             public void run() {
                 onSuccessListener.onSuccess(location);
-                onView(withText(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_accept))).perform(click());
+                onView(withText(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_accept)))
+                        .inRoot(isDialog())
+                        .check(matches(isDisplayed()))
+                        .perform(click());
             }
         });
     }
