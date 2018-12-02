@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup.player;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.TabHost;
 
 import com.alamkanak.weekview.WeekViewEvent;
 
@@ -292,9 +293,9 @@ public class Player implements SpecialQuestObservable {
         this.scheduleStudent = scheduleStudent;
     }
 
-    public Course getCurrentCourse() {
+    public String getCurrentCourseLocation() {
         if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty()) {
-            Log.d(TAG, "No course 1");
+            Log.d(TAG, "No course");
             return null;
         }
 
@@ -309,7 +310,7 @@ public class Player implements SpecialQuestObservable {
                     ROOMS_LOCATIONS.containsKey(event.getLocation()) /*&&
                     currTime.after(event.getStartTime()) &&
                     currTime.before(event.getEndTime())*/)
-                return Course.valueOf(event.getName());
+                return event.getLocation();
         }
 
         Log.d(TAG, "No found course");

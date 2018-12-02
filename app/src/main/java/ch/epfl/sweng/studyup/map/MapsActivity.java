@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
@@ -96,8 +97,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        findAndMarkRoom(Player.get().getCurrentCourse() != null ?
-                Player.get().getCurrentCourse().getRoom() : null);
+        findAndMarkRoom(Player.get().getCurrentCourseLocation() != null ?
+                Player.get().getCurrentCourseLocation() : null);
     }
 
     @Override
@@ -142,12 +143,12 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         }
     }
 
-    public void findAndMarkRoom(Room room) {
+    public void findAndMarkRoom(String room) {
         if(mMap != null) {
             if(room != null) {
-                Log.d("GPS_MAP", "New objective: " + room.getLocation().toString());
+                Log.d("GPS_MAP", "New objective: " + room);
                 roomObjective = mMap.addMarker(new MarkerOptions()
-                        .position(room.getLocation())
+                        .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
                         .title(getString(R.string.room_objective))
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
             }

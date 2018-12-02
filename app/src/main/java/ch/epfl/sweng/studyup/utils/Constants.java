@@ -163,7 +163,7 @@ public abstract class Constants {
          * contrary to name() function that returns only the shorter name
          */
         public String toString(){
-            return name + " in " + this.room;
+            return name;
         }
 
         public void setRoom(String room) {
