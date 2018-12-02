@@ -17,6 +17,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -28,6 +30,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVA
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_OBJECTIVE;
 
 /**
  * MapActivity
@@ -92,7 +95,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        findAndMarkRoom();
+        findAndMarkRoom(ROOM_OBJECTIVE);
     }
 
     @Override
@@ -124,21 +127,25 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 if (location != null) {
                     location.remove();
                 }
+                location = mMap.addMarker(new MarkerOptions()
+                        .position(latLong)
+                        .title(getString(R.string.title_playerposition))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 if(isFirstPosition) {
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
                     isFirstPosition = false;
-                }else{
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);
         }
     }
 
-    public void findAndMarkRoom() {
+    public void findAndMarkRoom(LatLng latLong) {
         if(mMap != null) {
-            
+            roomObjective = mMap.addMarker(new MarkerOptions()
+                    .position(latLong)
+                    .title(getString(R.string.room_objective))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
     }
 

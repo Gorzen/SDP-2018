@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.Room;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class GlobalAccessVariables {
@@ -22,7 +23,7 @@ public abstract class GlobalAccessVariables {
     public static final String MOCK_TOKEN = "NON-NULL TOKEN VALUE";
     public static Activity MOST_RECENT_ACTIVITY = null;
     public static LatLng POSITION = null;
-    public static String ROOM_NUM = "INN_3_26";
+    public static Room ROOM_OBJECTIVE = 
     public static FusedLocationProviderClient LOCATION_PROVIDER_CLIENT = null;
     public static Boolean MOCK_ENABLED = false;
     public static Location MOC_LOC = null;

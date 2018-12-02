@@ -148,6 +148,7 @@ public abstract class Constants {
 
         Course(String name){
             this.name = name;
+            this.setRoom("");
         }
         Course(String name, String room){
             this.name = name;
@@ -166,8 +167,8 @@ public abstract class Constants {
             if(Rooms.ROOMS_LOCATIONS.containsKey(room)) {
                 this.room = room;
             } else {
-                Log.w("Course", "The room does not exists.");
                 this.room = "";
+                Log.w("Course", "The room is not defined.");
             }
         }
 
