@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.player;
 
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -88,20 +89,22 @@ public class ScheduleActivityStudent extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_student);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
-
         if(MOCK_ENABLED){
             weekView.setNumberOfVisibleDays(1);
         }
 
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+            setContentView(R.layout.activity_schedule_student_api_higher_than_27);
+        } else {
+            setContentView(R.layout.activity_schedule_student);
+            Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         navigationSwitcher(ScheduleActivityStudent.this, ScheduleActivityStudent.class, SCHEDULE_INDEX);
     }
@@ -113,6 +116,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
     }
 
     public void updateSchedule(List<WeekViewEvent> events){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
         for(WeekViewEvent event : events){
             weekViewEvents.add(event);

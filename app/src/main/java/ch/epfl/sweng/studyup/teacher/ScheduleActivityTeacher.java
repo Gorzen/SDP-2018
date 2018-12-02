@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -140,7 +141,6 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_teacher);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
@@ -149,9 +149,14 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             weekView.setNumberOfVisibleDays(1);
         }
 
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+            setContentView(R.layout.activity_schedule_teacher_api_higher_than_27);
+        } else {
+            setContentView(R.layout.activity_schedule_teacher);
+            Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        }
+
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         ((TextView) findViewById(R.id.course_text_schedule_teacher)).setText(courseName);
 
         Firestore.get().getCoursesSchedule(this, Player.get().getRole());
@@ -160,6 +165,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
 
     public void updateSchedule(List<WeekViewEvent> events){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         List<WeekViewEvent> localEvents = new ArrayList<>(events);
 
         // Filter of the events, to keep only the wanted course

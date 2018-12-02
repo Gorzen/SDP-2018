@@ -135,4 +135,5 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="text_too_recent_API">L\'affichage de l\'horaire n\'est disponible que jusqu\'à la version 8 d'android (API 27).</string>
 </resources>
