@@ -1,10 +1,15 @@
 package ch.epfl.sweng.studyup.utils;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import ch.epfl.sweng.studyup.npc.NPC;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -60,7 +65,7 @@ public abstract class Constants {
 
     /**
      * Constant of firebase (mostly testing purpose)
-     *
+     * <p>
      * Reserved sciper:
      * MIN_SCIPER, MAX_SCIPER, 123456: reserved to manipulate in tests
      * MIN_SCIPER + 1: user present in database but with empty document (not valid format)
@@ -104,8 +109,8 @@ public abstract class Constants {
     public static final String SPECIAL_QUEST_INDEX_KEY = "SPECIAL_QUEST_KEY";
 
     // Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SCHEDULE_INDEX =2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, COURSE_STAT_INDEX =1, COURSE_SELECTION_FOR_SCHEDULE_INDEX =2;
+    public static final int MAIN_INDEX = 0, QUESTS_INDEX_STUDENT = 1, SCHEDULE_INDEX = 2, MAP_INDEX = 3, INVENTORY_INDEX = 4, DEFAULT_INDEX_STUDENT = MAIN_INDEX;
+    public static final int QUESTS_INDEX_TEACHER = 0, COURSE_STAT_INDEX = 1, COURSE_SELECTION_FOR_SCHEDULE_INDEX = 2;
 
     // Settings constants
     public static final String ENGLISH = "English";
@@ -146,14 +151,15 @@ public abstract class Constants {
 
         private String name = "";
 
-        Course(String name){
+        Course(String name) {
             this.name = name;
         }
+
         /**
          * return the longer description of the course,
          * contrary to name() function that returns only the shorter name
          */
-        public String toString(){
+        public String toString() {
             return name;
         }
 
@@ -165,4 +171,6 @@ public abstract class Constants {
             return coursesName;
         }
     }
+
+    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(new NPC("George", new LatLng(46.539886, 6.653563))));
 }
