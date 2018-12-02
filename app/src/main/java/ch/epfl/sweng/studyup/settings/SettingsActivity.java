@@ -39,6 +39,19 @@ public class SettingsActivity extends RefreshContext {
         startActivity(intent);
     }
 
+    public void onChangeRoleClick(View v) {
+        Intent i;
+        if(Player.get().getRole() == Constants.Role.teacher) {
+            Player.get().setRole(Constants.Role.student);
+            i = new Intent(SettingsActivity.this, HomeActivity.class);
+        } else {
+            Player.get().setRole(Constants.Role.teacher);
+            i = new Intent(SettingsActivity.this, QuestsActivityTeacher.class);
+        }
+
+        startActivity(i);
+    }
+
     public void onLanguageChoiceClick(View view) {
         AlertDialog.Builder languageChoiceBuilder = new AlertDialog.Builder(this);
         languageChoiceBuilder.setTitle(R.string.language_title_alert_dialog);

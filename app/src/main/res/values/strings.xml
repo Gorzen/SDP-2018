@@ -147,4 +147,5 @@
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
     <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
+    <string name="change_role_button_text">Change role</string>
 </resources>

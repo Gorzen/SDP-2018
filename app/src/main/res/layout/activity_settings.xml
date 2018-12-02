@@ -105,8 +105,8 @@
 
             <TextView
                 android:id="@+id/textLogoutButton"
-                android:layout_width="match_constraint"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:text="@string/log_out"
                 android:textColor="@color/colorGreyBlack"
@@ -127,7 +127,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/colorWhite"
-                android:onClick="onCourseChoiceClick"
+                android:onClick="onChangeRoleClick"
                 android:scaleType="fitStart"
                 app:layout_constraintBottom_toTopOf="@+id/languageChoiceButton"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -139,11 +139,11 @@
 
             <TextView
                 android:id="@+id/textChangeRoleButton"
-                android:layout_width="match_constraint"
-                android:layout_height="match_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
-                android:onClick="onCourseChoiceClick"
-                android:text="AAA"
+                android:onClick="onChangeRoleClick"
+                android:text="@string/change_role_button_text"
                 android:textColor="@color/colorGreyBlack"
                 android:textSize="22sp"
                 android:textStyle="bold"
@@ -156,7 +156,7 @@
             <ImageButton
                 android:id="@+id/languageChoiceButton"
                 android:layout_width="match_parent"
-                android:layout_height="34"
+                android:layout_height="34dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -173,8 +173,8 @@
 
             <TextView
                 android:id="@+id/textLanguageButton"
-                android:layout_width="match_constraint"
-                android:layout_height="match_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:onClick="onLanguageChoiceClick"
                 android:text="@string/language_choice_settings_button"
@@ -183,6 +183,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/languageChoiceButton"
                 app:layout_constraintEnd_toEndOf="@+id/languageChoiceButton"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/languageChoiceButton"
                 app:layout_constraintTop_toTopOf="@+id/languageChoiceButton" />
 
@@ -206,8 +207,8 @@
 
             <TextView
                 android:id="@+id/textCourseButton"
-                android:layout_width="match_constraint"
-                android:layout_height="match_constraint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:onClick="onCourseChoiceClick"
                 android:text="@string/course_choice_settings_button"
@@ -216,9 +217,10 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/courseChoiceButton"
                 app:layout_constraintEnd_toEndOf="@+id/courseChoiceButton"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/courseChoiceButton"
                 app:layout_constraintTop_toTopOf="@+id/courseChoiceButton"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.51" />
 
             <ImageButton
                 android:id="@+id/colorChoiceButton"
@@ -239,8 +241,8 @@
 
             <TextView
                 android:id="@+id/textColorButton"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:onClick="onColorChoiceClick"
                 android:text="@string/color_choice_settings_button"
