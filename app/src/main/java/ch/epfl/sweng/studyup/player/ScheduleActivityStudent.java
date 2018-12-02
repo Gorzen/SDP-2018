@@ -91,15 +91,15 @@ public class ScheduleActivityStudent extends NavigationStudent {
         super.onCreate(savedInstanceState);
 
         weekViewEvents = new ArrayList<>();
-        weekView = findViewById(R.id.weekView);
-        if(MOCK_ENABLED){
-            weekView.setNumberOfVisibleDays(1);
-        }
 
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
             setContentView(R.layout.activity_schedule_student_api_higher_than_27);
         } else {
             setContentView(R.layout.activity_schedule_student);
+            weekView = findViewById(R.id.weekView);
+            if(MOCK_ENABLED){
+                weekView.setNumberOfVisibleDays(1);
+            }
             Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         }
         Toolbar toolbar = findViewById(R.id.toolbar);

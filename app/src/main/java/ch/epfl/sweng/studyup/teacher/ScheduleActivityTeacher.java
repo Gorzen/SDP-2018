@@ -143,16 +143,15 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
         super.onCreate(savedInstanceState);
 
         weekViewEvents = new ArrayList<>();
-        weekView = findViewById(R.id.weekView);
-
-        if(MOCK_ENABLED){
-            weekView.setNumberOfVisibleDays(1);
-        }
 
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
             setContentView(R.layout.activity_schedule_teacher_api_higher_than_27);
         } else {
             setContentView(R.layout.activity_schedule_teacher);
+            weekView = findViewById(R.id.weekView);
+            if(MOCK_ENABLED){
+                weekView.setNumberOfVisibleDays(1);
+            }
             Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         }
 
