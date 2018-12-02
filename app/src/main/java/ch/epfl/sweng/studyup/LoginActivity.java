@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -95,7 +96,7 @@ public class LoginActivity extends RefreshContext {
                     return;
                 }
 
-                Firestore.get().syncPlayerData();
+                AuthenticationActivity.syncPlayerData();
                 Utils.waitAndTag(TIME_TO_WAIT_FOR_AUTO_LOGIN, TAG);
                 /*
                 Auto-login successful.

@@ -104,48 +104,6 @@ public class Firestore {
         return db;
     }
 
-    /**
-     * Function used to synchronize the data of the player, either from local to the remote
-     * or from the remote to the local depending if it is a new user or not.
-     *
-     * @throws NullPointerException If the data received from the server is not of a valid format
-     * @throws IllegalArgumentException If the sciper of the player is not valid
-     */
-    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
-        final Player currPlayer = Player.get();
-        final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
-
-        if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
-            throw new IllegalArgumentException("The Sciper number should be a six digit number.");
-        }
-
-        db.collection(FB_USERS).document(currPlayer.getSciperNum())
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            Map<String, Object> remotePlayerData = document.getData();
-                            /*
-                            Player is a return user. They have stored remote data.
-                            Update local data with remote data.
-                             */
-                            currPlayer.updateLocalDataFromRemote(remotePlayerData);
-                        } else {
-                            /*
-                                Player is logging in for the first time.
-                                Update remote data with initialized local data.
-                                 */
-                            updateRemotePlayerDataFromLocal();
-                        }
-                    }
-                }
-            });
-    }
-
     public void updateRemotePlayerDataFromLocal() {
 
         Player currPlayer = Player.get();
@@ -181,19 +139,7 @@ public class Firestore {
 
     }
 
-    public void deleteUserFromDatabase(String sciperNum) {
-        db.collection(FB_USERS).document(sciperNum).delete()
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.i(TAG, "The user has been deleted from the database.");
-                    } else {
-                        Log.w(TAG, "Failed to delete the user from the database.");
-                    }
-                }
-            });
-    }
+
 
     public void addQuestion(final Question question) {
         Map<String, Object> questionData = new HashMap<>();
@@ -269,36 +215,6 @@ public class Firestore {
             }
             }
         });
-    }
-
-    /**
-     * Method that delete a question and its corresponding image
-     *
-     * @param questionId the id of the question
-     */
-    public void deleteQuestion(final String questionId) {
-        db.collection(FB_QUESTIONS).document(questionId).delete()
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        if(questionId.equals(MOCK_UUID)) {
-                            Log.i(TAG, "The question has been deleted from the database.");
-                            return;
-                        }
-                        FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Log.i(TAG, "The question image has been deleted from the database.");
-                                }
-                            }
-                        });
-                    } else {
-                        Log.e(TAG, "Failed to delete the question's data from the database.");
-                    }
-                }
-            });
     }
 
     /**
@@ -397,7 +313,7 @@ public class Firestore {
      *
      * @param c The course
      */
-    public void setCourseTeacher(final Course c) {
+    public void addPlayerToTeachingStaff(final Course c) {
 
         db.collection(FB_COURSES).document(c.name()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -498,82 +414,6 @@ public class Firestore {
         changeCourseTeacher(c); // To delete the periods on the server
         waitAndTag(1000, TAG);
         db.collection(FB_COURSES).document(c.name()).delete();
-    }
-
-    @SuppressWarnings("unchecked")
-    public void loadUsersForStats(final Activity act) {
-        final List<UserData> userList = new ArrayList<>();
-
-        db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        Map<String, Object> remotePlayerData = document.getData();
-
-                        UserData user = new UserData(INITIAL_SCIPER,
-                                INITIAL_FIRSTNAME,
-                                INITIAL_LASTNAME,
-                                new HashMap<String, Boolean>(),
-                                new ArrayList<Course>());
-                        user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
-                        user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
-                        user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        user.setAnsweredQuestions((HashMap<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
-                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, new ArrayList<Course>())));
-
-                        userList.add(user);
-                    }
-
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setUsers(userList);
-                    }
-                } else {
-                    Log.e(TAG, "Error getting documents for courses: ", task.getException());
-                }
-            }
-        });
-
-    }
-
-
-    /**
-     *
-     * Load all questions in order to give statistics for each course, students, questions
-     *
-     * @param act activity in which this function can be used : CourseStatsActivity
-     * @throws NullPointerException  If the data received from the server is not of a valid format
-     */
-    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
-
-        final List<Question> questionList = new ArrayList<>();
-
-        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> remoteQuestionData = document.getData();
-                        String questionId = document.getId();
-                        String questionTitle = (String) remoteQuestionData.get(FB_QUESTION_TITLE);
-                        Boolean questionTrueFalse = (Boolean) remoteQuestionData.get(FB_QUESTION_TRUEFALSE);
-                        int questionAnswer = Integer.parseInt((remoteQuestionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = remoteQuestionData.get(FB_COURSE).toString();
-                        String langQuestion = remoteQuestionData.get(FB_QUESTION_LANG).toString();
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, langQuestion);
-
-
-                        questionList.add(question);
-                    }
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setQuestions(questionList);
-                    }
-
-                } else Log.e(TAG, "Error getting documents for courses: ", task.getException());
-            }
-        });
     }
 
 }

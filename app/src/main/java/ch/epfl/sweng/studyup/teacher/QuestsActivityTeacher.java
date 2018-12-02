@@ -6,9 +6,12 @@ import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,10 +20,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
@@ -28,8 +35,10 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 
 public class QuestsActivityTeacher extends NavigationTeacher {
     private static final String TAG = QuestsActivityTeacher.class.getSimpleName();
@@ -137,7 +146,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                             .setPositiveButton(R.string.yes_upper, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Firestore.get().deleteQuestion(questions.get(position).getQuestionId());
+                                    deleteQuestion(questions.get(position).getQuestionId());
                                     if (!MOCK_ENABLED) {
                                         Utils.waitAndTag(500, TAG);
                                         onResume();
@@ -155,6 +164,36 @@ public class QuestsActivityTeacher extends NavigationTeacher {
             course.setText(questions.get(position).getCourseName());
 
             return convertView;
+        }
+
+        /**
+         * Method that delete a question and its corresponding image
+         *
+         * @param questionId the id of the question
+         */
+        private void deleteQuestion(final String questionId) {
+            Firestore.get().getDb().collection(FB_QUESTIONS).document(questionId).delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if(questionId.equals(MOCK_UUID)) {
+                                    Log.i(TAG, "The question has been deleted from the database.");
+                                    return;
+                                }
+                                FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            Log.i(TAG, "The question image has been deleted from the database.");
+                                        }
+                                    }
+                                });
+                            } else {
+                                Log.e(TAG, "Failed to delete the question's data from the database.");
+                            }
+                        }
+                    });
         }
     }
 }

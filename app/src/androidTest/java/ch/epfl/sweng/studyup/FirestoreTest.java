@@ -1,10 +1,14 @@
 package ch.epfl.sweng.studyup;
 
+import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -30,6 +34,7 @@ import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 import static ch.epfl.sweng.studyup.utils.Constants.*;
 import static ch.epfl.sweng.studyup.utils.Utils.*;
+import static ch.epfl.sweng.studyup.auth.AuthenticationActivity.syncPlayerData;
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -80,7 +85,7 @@ public class FirestoreTest {
     @After
     public void cleanupFirebase() {
 
-        Firestore.get().deleteUserFromDatabase(TEST_SCIPER);
+        deleteUserFromDatabase(TEST_SCIPER);
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
         resetTestValues();
@@ -90,19 +95,19 @@ public class FirestoreTest {
     public void sciperTooLowTest() throws Exception {
 
         Player.get().setSciperNum("99999");
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperTooHighTest() throws Exception {
         Player.get().setSciperNum("1000000");
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void sciperNegativeTest() throws Exception {
         Player.get().setSciperNum("-42");
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
     }
 
 
@@ -112,11 +117,11 @@ public class FirestoreTest {
         Player.get().setSciperNum(maxSciper);
         Player.get().setFirstName("John");
         Player.get().setLastName("Doe");
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
         Player.get().addExperience(XP_STEP, null);
-        Firestore.get().deleteUserFromDatabase(maxSciper);
+        deleteUserFromDatabase(maxSciper);
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
         Firestore.get().getData(MAX_SCIPER);
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
@@ -133,13 +138,13 @@ public class FirestoreTest {
         Player.get().setSciperNum(maxSciper);
         Player.get().setFirstName("John");
         Player.get().setLastName("Doe");
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
         Player.get().addCurrency(ThreadLocalRandom.current().nextInt(1, 1000 + 1), null);
-        Firestore.get().deleteUserFromDatabase(maxSciper);
+        deleteUserFromDatabase(maxSciper);
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
-        Firestore.get().syncPlayerData();
+        syncPlayerData();
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
         Firestore.get().getData(MAX_SCIPER);
         waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
@@ -197,7 +202,7 @@ public class FirestoreTest {
         assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
 
         // Verifying that we can add a course
-        Firestore.get().setCourseTeacher(c);
+        Firestore.get().addPlayerToTeachingStaff(c);
         waitAndTag(500, "Waiting for the course to be added.");
         Firestore.get().setCourseEvents(c, periods);
         waitAndTag(500, "Waiting for the course's periods to be added.");
@@ -230,5 +235,19 @@ public class FirestoreTest {
         periods.add(w2);
 
         return periods;
+    }
+
+    public void deleteUserFromDatabase(String sciperNum) {
+        Firestore.get().getDb().collection(FB_USERS).document(sciperNum).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.i(TAG, "The user has been deleted from the database.");
+                        } else {
+                            Log.w(TAG, "Failed to delete the user from the database.");
+                        }
+                    }
+                });
     }
 }
