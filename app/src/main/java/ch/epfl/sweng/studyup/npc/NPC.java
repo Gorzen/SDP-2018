@@ -12,15 +12,13 @@ import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
 public class NPC {
-    private String nameEN;
-    private String nameFR;
+    private String name;
     private LatLng npcLatLng;
     private int image;
     private final double NPC_RANGE = 20.0;
 
-    public NPC(String nameEN, String nameFR, LatLng latLng, int image) {
-        this.nameEN = nameEN;
-        this.nameFR = nameFR;
+    public NPC(String name, LatLng latLng, int image) {
+        this.name = name;
         npcLatLng = latLng;
         this.image = image;
     }
@@ -32,7 +30,7 @@ public class NPC {
                     .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            GlobalAccessVariables.MOST_RECENT_ACTIVITY.startActivity(new Intent(GlobalAccessVariables.MOST_RECENT_ACTIVITY, NPCActivity.class).putExtra("name", getName()));
+                            GlobalAccessVariables.MOST_RECENT_ACTIVITY.startActivity(new Intent(GlobalAccessVariables.MOST_RECENT_ACTIVITY, NPCActivity.class).putExtra("name", name));
                         }
                     })
                     .setNegativeButton("Refuse", null);
@@ -42,11 +40,7 @@ public class NPC {
     }
 
     public String getName() {
-        if(Locale.getDefault().getLanguage().equals("en")) {
-            return nameEN;
-        } else {
-            return nameFR;
-        }
+        return name;
     }
 
     public int getImage() {
