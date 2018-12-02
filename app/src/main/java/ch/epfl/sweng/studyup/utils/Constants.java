@@ -1,8 +1,11 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.app.Activity;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

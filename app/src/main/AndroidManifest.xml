@@ -44,9 +44,8 @@
         </activity>
         <activity
             android:name=".questions.AddOrEditQuestionActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="Add a question" />
-
+            android:label="Add a question"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
         <activity android:name=".items.ShopActivity" />
@@ -79,14 +78,15 @@
         <activity android:name=".questions.DisplayQuestionActivity" />
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity" />
-        <activity android:name=".specialQuest.SpecialQuestDisplayActivity"></activity>
+        <activity android:name=".specialQuest.SpecialQuestDisplayActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.CourseSelectionActivity" />
         <activity android:name=".player.ScheduleActivityStudent" />
         <activity android:name=".teacher.CourseStatsActivity" />
-        <activity android:name=".teacher.DisplayCourseStatsActivity"/>
+        <activity android:name=".teacher.DisplayCourseStatsActivity" />
         <activity android:name=".teacher.ScheduleActivityTeacher" />
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
+        <activity android:name=".npc.NPCActivity"></activity>
     </application>
 
 </manifest>

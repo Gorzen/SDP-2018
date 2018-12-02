@@ -8,6 +8,7 @@ import com.alamkanak.weekview.WeekViewLoader;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,6 +27,7 @@ public abstract class GlobalAccessVariables {
     public static FusedLocationProviderClient LOCATION_PROVIDER_CLIENT = null;
     public static Boolean MOCK_ENABLED = false;
     public static Location MOC_LOC = null;
+    public static WeakReference<Activity> currentActivity;
 
     public static Map<String, Object> DB_STATIC_INFO = null;
 
