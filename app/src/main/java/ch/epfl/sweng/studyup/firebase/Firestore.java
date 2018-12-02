@@ -433,7 +433,7 @@ public class Firestore {
                             if(teachers.remove(Player.get().getSciperNum()) && teachers.isEmpty()) {
                                 deleteCourseInfos(c);
                             }
-                            courseData.put(FB_TEACHING_STAFF, );
+                            courseData.put(FB_TEACHING_STAFF, teachers);
                             courseRef.set(courseData);
                         } else {
                             Log.w(TAG, "The schedule fail to load or no course are present.");
