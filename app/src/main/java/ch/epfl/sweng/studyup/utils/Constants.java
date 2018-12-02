@@ -172,8 +172,11 @@ public abstract class Constants {
         }
     }
 
+    public final static LatLng CHARLIE_POSITION = new LatLng(46.539886, 6.653563);
+    public final static LatLng CYNTHIA_POSITION = new LatLng(46.520288, 6.565392);
+
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
-            new NPC("Charlie", new LatLng(46.539886, 6.653563), R.drawable.charlie),
-            new NPC("Cynthia", new LatLng(46.520288, 6.565392), R.drawable.greedy_clam_girl)
+            new NPC("Charlie", CHARLIE_POSITION, R.drawable.charlie),
+            new NPC("Cynthia", CYNTHIA_POSITION, R.drawable.cynthia)
     ));
 }

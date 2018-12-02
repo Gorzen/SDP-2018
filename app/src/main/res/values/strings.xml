@@ -149,4 +149,6 @@
     <string name="NPC_interaction">wants to interact with you</string>
     <string name="NPC_Charlie">Charlie the unicorn</string>
     <string name="NPC_clam_girl">Greedy clam girl</string>
+    <string name="NPC_accept">Accept</string>
+    <string name="NPC_refuse">Refuse</string>
 </resources>
