@@ -7,11 +7,45 @@
     tools:context=".settings.ChooseColorActivity"
     tools:layout_editor_absoluteY="25dp">
 
+    <!--TOP TOOL BAR-->
+
+    <android.support.constraint.ConstraintLayout
+
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="33dp"
+            android:layout_height="34dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:onClick="backToSettings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.024"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/colorPrimaryDark"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.constraint.ConstraintLayout>
 
     <Button
         android:id="@+id/setThemeRed"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -24,14 +58,14 @@
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/setThemeGreen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <Button
         android:id="@+id/setThemeGreen"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -42,16 +76,16 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/setThemeBrown"
+        app:layout_constraintBottom_toTopOf="@+id/setThemeBlue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setThemeRed" />
 
     <Button
         android:id="@+id/setThemeBlue"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -62,16 +96,16 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/setThemeMulti"
+        app:layout_constraintBottom_toTopOf="@+id/setThemeBrown"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setThemeBrown" />
+        app:layout_constraintTop_toBottomOf="@+id/setThemeGreen" />
 
     <Button
         android:id="@+id/setThemeBrown"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -82,19 +116,19 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/setThemeBlue"
+        app:layout_constraintBottom_toTopOf="@+id/setThemeMulti"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setThemeGreen" />
+        app:layout_constraintTop_toBottomOf="@+id/setThemeBlue" />
 
     <Button
         android:id="@+id/setThemeMulti"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@color/colorPrimaryDarkMulti"
         android:onClick="setColorMulti"
         android:text="@string/choose_theme_multicolor"
@@ -103,24 +137,8 @@
         android:textSize="28sp"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setThemeBlue" />
+        app:layout_constraintTop_toBottomOf="@+id/setThemeBrown" />
 
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="105dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="105dp"
-        android:onClick="backToSettings"
-        android:text="@string/back_button_simple_text"
-        android:textAllCaps="false"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setThemeMulti" />
 </android.support.constraint.ConstraintLayout>
