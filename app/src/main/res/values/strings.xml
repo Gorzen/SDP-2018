@@ -159,7 +159,7 @@
 
     <string name="special_quest_five_questions_title">Five Questions</string>
     <string name="special_quest_five_questions_description">Answer five questions for a surprise item!</string>
-    
+
     <string name="special_quest_level_up_bonus_title">Level Up Bonus</string>
     <string name="special_quest_level_up_bonus_description">Get a bonus surprise item when you level up!</string>
 
@@ -168,4 +168,7 @@
 
     <string name="special_quest_consistent_use_title">Consistent Use</string>
     <string name="special_quest_consistent_use_description">Use StudyUp three days in a row and earn a surprise item!</string>
+
+    <string name="your_special_quests">Your Special Quests</string>
+    <string name="available_special_quests">Available Quests</string>
 </resources>

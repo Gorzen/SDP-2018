@@ -35,6 +35,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
@@ -240,6 +241,10 @@ public class HomeActivity extends NavigationStudent {
 
                 startActivity(displaySpecialQuestion);
             }});
+    }
+
+    public void onAvailableSpecialQuestsButtonClick(View view) {
+        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
 
     public void updateCurrDisplay() {

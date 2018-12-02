@@ -317,7 +317,7 @@ public class Player implements SpecialQuestObservable {
     @Override
     public void notifySpecialQuestObservers(Context context, Constants.SpecialQuestUpdateFlag updateFlag) {
         for (SpecialQuestObserver specialQuest : specialQuests) {
-            specialQuest.update(Optional.of(context), updateFlag);
+            specialQuest.update(Optional.fromNullable(context), updateFlag);
         }
     }
 }

@@ -160,4 +160,6 @@
     <string name="special_quest_consistent_use_title">Usage cohérent</string>
     <string name="special_quest_consistent_use_description">Utilisez StudyUp trois jours de suite et gagnez un article surprise !</string>
 
+    <string name="your_special_quests">Vos quêtes spéciales</string>
+    <string name="available_special_quests">Quêtes disponibles</string>
 </resources>
