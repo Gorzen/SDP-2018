@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.npc.NPC;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -175,5 +176,5 @@ public abstract class Constants {
         }
     }
 
-    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(new NPC("George", new LatLng(46.539886, 6.653563))));
+    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(new NPC("Charlie the unicorn", new LatLng(46.539886, 6.653563), R.drawable.dabbing_unicorn)));
 }
