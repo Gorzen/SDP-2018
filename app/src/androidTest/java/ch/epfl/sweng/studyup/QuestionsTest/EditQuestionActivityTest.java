@@ -33,6 +33,8 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
@@ -61,7 +63,7 @@ public class EditQuestionActivityTest {
         MOCK_ENABLED = false;
     }
 
-    private void editAndCheckQuestion(int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
+    private void editAndCheckQuestion(final int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
         mActivityRule.launchActivity(new Intent().putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q));
 
         // Change Type
@@ -73,14 +75,20 @@ public class EditQuestionActivityTest {
         }
 
         // Change answer
-        unsetAnswerRadioButtons();
-        RadioButton newAnswerButton = mActivityRule.getActivity().findViewById(newAnswerId);
-        newAnswerButton.setChecked(true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                unsetAnswerRadioButtons();
+                RadioButton newAnswerButton = mActivityRule.getActivity().findViewById(newAnswerId);
+                newAnswerButton.setChecked(true);
+            }
+        });
+        waitAndTag(150, "Wait for radio to be set.");
 
         // Edit and Check
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1000, "Waiting for questions to load.");
+        waitAndTag(1000, "Waiting for questions to load.");
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
@@ -186,13 +194,13 @@ public class EditQuestionActivityTest {
                 .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
 
-        Utils.waitAndTag(2000, this.getClass().getName());
+        waitAndTag(2000, this.getClass().getName());
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
-        Utils.waitAndTag(1000, this.getClass().getName());
+        waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1000, "Waiting for questions to load.");
+        waitAndTag(1000, "Waiting for questions to load.");
         checkQuestionIsTrueFalse();
     }
 /*
