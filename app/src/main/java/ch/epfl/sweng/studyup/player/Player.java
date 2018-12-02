@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -216,6 +217,7 @@ public class Player implements SpecialQuestObservable {
     public void setUserName(String newUsername) {
         username = newUsername;
         Firestore.get().updateRemotePlayerDataFromLocal();
+        notifySpecialQuestObservers(null, Constants.SpecialQuestUpdateFlag.SET_USERNAME);
     }
 
     // Method suppose that we can only gain experience.
@@ -228,6 +230,7 @@ public class Player implements SpecialQuestObservable {
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
+        notifySpecialQuestObservers(null, Constants.SpecialQuestUpdateFlag.LEVEL_UP);
     }
 
     public void addExperience(int xp, Activity activity) {
@@ -314,7 +317,7 @@ public class Player implements SpecialQuestObservable {
     @Override
     public void notifySpecialQuestObservers(Context context, Constants.SpecialQuestUpdateFlag updateFlag) {
         for (SpecialQuestObserver specialQuest : specialQuests) {
-            specialQuest.update(context, updateFlag);
+            specialQuest.update(Optional.of(context), updateFlag);
         }
     }
 }

@@ -3,6 +3,8 @@ package ch.epfl.sweng.studyup.specialQuest;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.google.common.base.Optional;
+
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Random;
@@ -44,7 +46,7 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
     If the update type matches the current special quest type,
     then the special quest completion count should be incremented.
      */
-    public void update(Context context, SpecialQuestUpdateFlag updateFlag) {
+    public void update(Optional<Context> context, SpecialQuestUpdateFlag updateFlag) {
 
         if (updateFlag.equals(this.specialQuestType.getUpdateFlag())) {
             // Increment completion count is special quest not already complete.
@@ -59,7 +61,9 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
 
                     String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
                             SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
-                    Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show();
+                    if(context.isPresent()) {
+                        Toast.makeText(context.get(), alertMessage, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
