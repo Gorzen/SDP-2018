@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.map.Room;
+
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
 
@@ -123,6 +125,7 @@ public abstract class Constants {
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
+    public static final int WEEK_OF_SCHEDULE = 3;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
@@ -169,6 +172,15 @@ public abstract class Constants {
             } else {
                 this.room = "";
                 Log.w("Course", "The room is not defined.");
+            }
+        }
+
+        public Room getRoom() {
+            if(Rooms.ROOMS_LOCATIONS.containsKey(this.room)) {
+                return  Rooms.ROOMS_LOCATIONS.get(this.room);
+            } else {
+                Log.e("Course", "The room is not defined.");
+                return null;
             }
         }
 

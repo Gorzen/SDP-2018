@@ -23,7 +23,7 @@ public abstract class GlobalAccessVariables {
     public static final String MOCK_TOKEN = "NON-NULL TOKEN VALUE";
     public static Activity MOST_RECENT_ACTIVITY = null;
     public static LatLng POSITION = null;
-    public static Room ROOM_OBJECTIVE = 
+    public static Room ROOM_OBJECTIVE = null;
     public static FusedLocationProviderClient LOCATION_PROVIDER_CLIENT = null;
     public static Boolean MOCK_ENABLED = false;
     public static Location MOC_LOC = null;

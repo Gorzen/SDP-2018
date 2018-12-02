@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
@@ -95,7 +96,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        findAndMarkRoom(ROOM_OBJECTIVE);
+        findAndMarkRoom(Player.get().getCurrentCourse() != null ?
+                Player.get().getCurrentCourse().getRoom() : null);
     }
 
     @Override
@@ -140,12 +142,15 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         }
     }
 
-    public void findAndMarkRoom(LatLng latLong) {
+    public void findAndMarkRoom(Room room) {
         if(mMap != null) {
-            roomObjective = mMap.addMarker(new MarkerOptions()
-                    .position(latLong)
-                    .title(getString(R.string.room_objective))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            if(room != null) {
+                Log.d("GPS_MAP", "New objective: " + room.getLocation().toString());
+                roomObjective = mMap.addMarker(new MarkerOptions()
+                        .position(room.getLocation())
+                        .title(getString(R.string.room_objective))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            }
         }
     }
 

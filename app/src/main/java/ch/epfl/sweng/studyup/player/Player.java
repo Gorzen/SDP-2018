@@ -7,6 +7,7 @@ import android.util.Log;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -39,6 +41,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.Rooms.ROOMS_LOCATIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
@@ -286,6 +290,30 @@ public class Player implements SpecialQuestObservable {
 
     public void setScheduleStudent(List<WeekViewEvent> scheduleStudent) {
         this.scheduleStudent = scheduleStudent;
+    }
+
+    public Course getCurrentCourse() {
+        if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty()) {
+            Log.d(TAG, "No course 1");
+            return null;
+        }
+
+        Calendar currTime = Calendar.getInstance();
+        currTime.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
+        currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
+        currTime.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
+        List<String> playersCourses = Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled());
+
+        for(WeekViewEvent event : Player.get().getScheduleStudent()) {
+            if(playersCourses.contains(event.getName()) &&
+                    ROOMS_LOCATIONS.containsKey(event.getLocation()) /*&&
+                    currTime.after(event.getStartTime()) &&
+                    currTime.before(event.getEndTime())*/)
+                return Course.valueOf(event.getName());
+        }
+
+        Log.d(TAG, "No found course");
+        return null;
     }
 
     /**
