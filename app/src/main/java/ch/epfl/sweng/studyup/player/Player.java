@@ -28,6 +28,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -275,9 +276,14 @@ public class Player implements SpecialQuestObservable {
         if(role == Role.student) {
             this.coursesEnrolled = courses;
         } else {
-            this.coursesTeached= courses;
+            List<Course> oldCourses = getCoursesTeached();
+            coursesTeached = new ArrayList<>(courses);
+            oldCourses.removeAll(courses);
             for(Course c : courses) {
-                Firestore.get().setCourseTeacher(c);
+                Firestore.get().addPlayerToTeachingStaff(c);
+            }
+            for(Course c : oldCourses) {
+                //Firestore.get().removePlayerFromTeachingStaff(c);
             }
         }
 

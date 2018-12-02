@@ -39,6 +39,7 @@ public abstract class Constants {
     public static final String FB_SPECIALQUESTS = "specialQuests";
     public static final String FB_SPECIALQUEST_TYPE = "specialQuestType";
     public static final String FB_SPECIAL_QUEST_COMPLETION_COUNT = "completionCount";
+    public static final String FB_TEACHING_STAFF = "teaching staff";
     public static final String FB_EVENTS = "events";
     public static final String FB_EVENTS_ID = "id";
     public static final String FB_EVENTS_NAME = "name";
