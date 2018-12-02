@@ -135,4 +135,5 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="NPC_interaction">souhaite intéragir avec vous</string>
 </resources>

@@ -176,5 +176,8 @@ public abstract class Constants {
         }
     }
 
-    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(new NPC("Charlie the unicorn", new LatLng(46.539886, 6.653563), R.drawable.dabbing_unicorn)));
+    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
+            new NPC("Charlie the unicorn ", "Charlie la licorne ", new LatLng(46.539886, 6.653563), R.drawable.dabbing_unicorn),
+            new NPC("Greedy clam girl", "Fille palourde cupide ", new LatLng(46.520288, 6.565392), R.drawable.greedy_clam_girl)
+    ));
 }
