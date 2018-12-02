@@ -135,5 +135,5 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
-    <string name="time_out_notification">Time out ! Vous n\'avez pas répondu à une question dans le temps imparti</string>
+    <string name="time_out_notification">Vous n\'avez pas répondu à une question dans le temps imparti</string>
 </resources>

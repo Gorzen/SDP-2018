@@ -2,15 +2,19 @@ package ch.epfl.sweng.studyup.questions;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +45,6 @@ import java.util.Random;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -68,6 +71,8 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_DURATION = "display_question_duration";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String CHANNEL_ID = "studyup_question_timeout";
 
     private Question displayQuestion;
     private Player player;
@@ -199,10 +204,12 @@ public class DisplayQuestionActivity extends RefreshContext {
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
 
-        if (!player.getClickedInstants().containsKey(questionId)) {
+        if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
             player.addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
+
+            //TODO: display time remaining
         } else {
             long clickedInstant = player.getClickedInstants().get(questionId);
             if (displayQuestion.getDuration() == 0) {
@@ -222,7 +229,7 @@ public class DisplayQuestionActivity extends RefreshContext {
 
     private void setupNotificationManager() {
 
-        Notification notification = prepareNotification(getString(R.string.time_out_notification));
+        Notification notification = prepareNotification("Time out !", getString(R.string.time_out_notification));
 
         Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
@@ -233,13 +240,34 @@ public class DisplayQuestionActivity extends RefreshContext {
         long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
     }
 
-    private Notification prepareNotification(String text) {
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle(R.string.app_name + "!");
+    private Notification prepareNotification(String title, String text) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setContentTitle(title);
         builder.setContentText(text);
         builder.setSmallIcon(R.drawable.logo);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        //Lanching the quest activity when clicked on
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, QuestsActivityStudent.class), 0);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText(text);
+        bigText.setBigContentTitle(title);
+        bigText.setSummaryText(text);
+
+        builder.setStyle(bigText);
+
+        //To ensure compatibility with version under Oreo
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+
         return builder.build();
     }
 
