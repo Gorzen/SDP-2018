@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.kosalgeek.android.caching.FileCacher;
 
@@ -16,7 +17,9 @@ import java.util.List;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -108,4 +111,13 @@ public class AuthenticationActivity extends RefreshContext {
 
         startActivity(new Intent(this, HOME_ACTIVITY));
     }
+
+    public void onContinueToMain(View v) {
+        if(Player.get().getRole() == Role.student) {
+            startActivity(new Intent(this, HomeActivity.class));
+        } else {
+            startActivity(new Intent(this, QuestsActivityTeacher.class));
+        }
+    }
+
 }
