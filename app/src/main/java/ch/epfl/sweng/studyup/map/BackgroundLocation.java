@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
 
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -69,7 +70,9 @@ public class BackgroundLocation extends JobService {
                     } else {
                         str += '\n' + "You are not in your room: ";
                     }
-                    Constants.allNPCs.get(0).isInRange(new LatLng(location.getLatitude(), location.getLongitude()), activity);
+                    for (NPC npc : Constants.allNPCs) {
+                        npc.isInRange(POSITION);
+                    }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);
                     Log.d("GPS_MAP", "Context = " + activity.get());

@@ -19,6 +19,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
@@ -49,6 +50,15 @@ public abstract class Utils {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {Log.w(tag, "Test was interrupted: " + e.getMessage()); return;}
+    }
+
+    public static NPC getNPCfromName(String name) {
+        for (NPC npc : Constants.allNPCs) {
+            if (npc.getName().equals(name)) {
+                return npc;
+            }
+        }
+        return null;
     }
 
     public static List<String> getItemsString(){
