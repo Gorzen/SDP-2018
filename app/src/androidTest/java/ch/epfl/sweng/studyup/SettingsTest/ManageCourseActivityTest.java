@@ -105,6 +105,8 @@ public class ManageCourseActivityTest {
 
         //Add pending course
         testManageCourseSample(R.id.listViewOtherCourses, R.id.send_course_request, -1, 1, 0);
+
+        Utils.waitAndTag(1000, ManageCourseActivityTest.class.getName());
     }
 
     private void testManageCourseSample(int listViewToClickOn, int buttonToClick, int otherCoursesChangeCount, int pendingCoursesChangeCount, int acceptedCoursesChangeCount) {
