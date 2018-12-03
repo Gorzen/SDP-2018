@@ -30,6 +30,7 @@ import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -170,33 +171,8 @@ public class Firestore {
                     String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
                     boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
 
-                    // Questions without associated courses (created before this feature), will appear for all players
-                    boolean questionCourseMatchesPlayer = true;
-                    if (questionData.get(FB_COURSE) != null) {
-                        // If question is associated with a course, only load question if the user enrolled in that course.
-                        String questionCourseName = questionData.get(FB_COURSE).toString();
-                        questionCourseMatchesPlayer =
-                                Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
-                    }
-
-                    boolean isValidQuestion = questionCourseMatchesPlayer &&
-                            ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
-                             (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
-
-                    if(isValidQuestion) {
-
-                        String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
-                        Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                        int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = questionData.get(FB_COURSE).toString();
-                        String questionLang = (String) questionData.get(FB_QUESTION_LANG);
-                        if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
-                            questionLang = "en";
-                        }
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
-                        questionList.add(question);
-                    }
+                    Question q = extractQuestionData(currPlayer, questionId, currPlayerIsAuthor, questionData);
+                    if(q != null) questionList.add(q);
                 }
 
                 QuestionParser.writeQuestions(questionList, context);
@@ -206,6 +182,37 @@ public class Firestore {
             }
             }
         });
+    }
+
+    private Question extractQuestionData(Player currPlayer, String id, boolean isAuthor, Map<String, Object> questionData) {
+        // Questions without associated courses (created before this feature), will appear for all players
+        boolean questionCourseMatchesPlayer = true;
+        if (questionData.get(FB_COURSE) != null) {
+            // If question is associated with a course, only load question if the user enrolled in that course.
+            String questionCourseName = questionData.get(FB_COURSE).toString();
+            questionCourseMatchesPlayer =
+                    Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
+        }
+
+        boolean isValidQuestion = questionCourseMatchesPlayer &&
+                ((isAuthor && currPlayer.getRole() == Role.teacher) ||
+                        (!isAuthor && currPlayer.getRole() == Role.student));
+
+        if(isValidQuestion) {
+
+            String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
+            Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+            int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+            String questionCourseName = questionData.get(FB_COURSE).toString();
+            String questionLang = (String) questionData.get(FB_QUESTION_LANG);
+            if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
+                questionLang = "en";
+            }
+
+            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
+        }
+
+        return null;
     }
 
     /**
