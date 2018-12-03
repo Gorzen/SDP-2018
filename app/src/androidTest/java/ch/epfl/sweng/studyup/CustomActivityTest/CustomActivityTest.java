@@ -31,13 +31,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Constants.CAMERA;
-import static ch.epfl.sweng.studyup.utils.Constants.CANCEL;
-import static ch.epfl.sweng.studyup.utils.Constants.GALLERY;
-import static ch.epfl.sweng.studyup.utils.Constants.JUSTONCE;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -77,23 +71,14 @@ public class CustomActivityTest {
         onView(withId(R.id.valid_btn)).perform(click());
     }
 
-    /*
-    @Test
-    public void email_check() {
-        Player.get().setFirstName(INITIAL_FIRSTNAME);
-        Player.get().setLastName(INITIAL_LASTNAME);
-        ViewInteraction a = onView(withId(R.id.user_email));
-        System.out.print(a);
-        a.check(matches(withText("jean-louis.reymond@epfl.ch")));
-    }*/
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
         onView(withId(R.id.pic_btn)).perform(click());
-        assertTrue(device.findObject(new UiSelector().text(CAMERA)).exists());
-        assertTrue(device.findObject(new UiSelector().text(GALLERY)).exists());
-        assertTrue(device.findObject(new UiSelector().text(CANCEL)).exists());
-        clickButton(GALLERY);
+        assertTrue(device.findObject(new UiSelector().text(mActivityRule.getActivity().getApplicationContext().getString(R.string.camera))).exists());
+        assertTrue(device.findObject(new UiSelector().text(mActivityRule.getActivity().getApplicationContext().getString(R.string.gallery))).exists());
+        assertTrue(device.findObject(new UiSelector().text(mActivityRule.getActivity().getApplicationContext().getString(R.string.cancel))).exists());
+        clickButton(mActivityRule.getActivity().getApplicationContext().getString(R.string.gallery));
     }
 
     public void clickButton(String textButton) throws UiObjectNotFoundException {

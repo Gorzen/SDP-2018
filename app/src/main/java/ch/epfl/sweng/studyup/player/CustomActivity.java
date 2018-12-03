@@ -90,6 +90,7 @@ public class CustomActivity extends NavigationStudent {
             @Override
             public void onClick(View v) {
                 valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
+                Toast.makeText(getApplicationContext(), getString(R.string.text_saved), Toast.LENGTH_SHORT).show();
                 Player.get().setUserName(edit_username.getText().toString());
             }
         });
@@ -99,7 +100,7 @@ public class CustomActivity extends NavigationStudent {
     private void selectImage() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle(getString(R.string.text_addimage));
-        final String[] items = {Constants.GALLERY, Constants.CAMERA, Constants.CANCEL};
+        final String[] items = {getString(R.string.gallery), getString(R.string.camera), getString(R.string.cancel)};
 
         dialogBuilder.setItems(items, new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
@@ -198,7 +199,7 @@ public class CustomActivity extends NavigationStudent {
         RoundedBitmapDrawable rbd = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
         rbd.setCircular(true);
 
-        Toast.makeText(CustomActivity.this, getString(R.string.text_imagesaved), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CustomActivity.this, getString(R.string.text_saved), Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
     }
 }

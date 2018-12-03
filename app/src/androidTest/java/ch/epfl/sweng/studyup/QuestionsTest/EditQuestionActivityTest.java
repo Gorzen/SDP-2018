@@ -38,6 +38,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
@@ -67,13 +68,13 @@ public class EditQuestionActivityTest {
         MOCK_ENABLED = false;
     }
 
-    private void editAndCheckQuestion(int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
+    private void editAndCheckQuestion(final int newAnswerId, final int newAnswerNumber, final boolean changeType) {
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(1500, this.getClass().getName());
+        waitAndTag(1500, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1500, this.getClass().getName());
+        waitAndTag(1500, this.getClass().getName());
         clickOnListViewItem();
-        Utils.waitAndTag(100, "Waiting for edit activity to launch");
+        waitAndTag(100, "Waiting for edit activity to launch");
 
         // Change Type
         final boolean isTrueFalseBeforeEdition = q.isTrueFalse();
@@ -85,13 +86,16 @@ public class EditQuestionActivityTest {
 
         // Change answer
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo());
-        Utils.waitAndTag(200, "Waiting for scroll");
+        waitAndTag(200, "Waiting for scroll");
         onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
 
-        // Edit and Check
+        editAndCheckQuestion(newAnswerNumber, changeType, isTrueFalseBeforeEdition);
+    }
+
+    private void editAndCheckQuestion(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1000, "Waiting for questions to load.");
+        waitAndTag(1000, "Waiting for questions to load.");
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
         parsedList.observe(mActivityRule.getActivity(), new Observer<List<Question>>() {
@@ -109,6 +113,7 @@ public class EditQuestionActivityTest {
                 }
             }
         });
+        waitAndTag(100, "Waiting for asynchronous questions to launch.");
     }
 
     private boolean getExpectedIsTrueFalse(boolean changeType, boolean wasTrueFalse) {
@@ -185,21 +190,21 @@ public class EditQuestionActivityTest {
                 .perform(typeText("Q"))
                 .perform(closeSoftKeyboard());
 
-        Utils.waitAndTag(2000, this.getClass().getName());
+        waitAndTag(2000, this.getClass().getName());
 
         onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
-        Utils.waitAndTag(1000, this.getClass().getName());
+        waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(1000, "Waiting for questions to load.");
+        waitAndTag(1000, "Waiting for questions to load.");
         checkQuestionIsTrueFalse();
     }
 
     private void addQuestionAndClick(Question q) {
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
     }
 
@@ -225,16 +230,16 @@ public class EditQuestionActivityTest {
     public void backButtonTest() {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
         onView(withId(R.id.back_button)).perform(click());
     }
 
     private void clickOnListViewItem() {
         mActivityRule.launchActivity(new Intent());
-        Utils.waitAndTag(1000, "wait for questions to load");
+        waitAndTag(1000, "wait for questions to load");
         list = mActivityRule.getActivity().findViewById(R.id.listViewQuests);
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -242,6 +247,6 @@ public class EditQuestionActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
-        Utils.waitAndTag(500, "wait for click to be performed");
+        waitAndTag(500, "wait for click to be performed");
     }
 }

@@ -12,28 +12,28 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 
 @SuppressWarnings("HardCodedStringLiteral") // Pain in the ass to translate.
 public enum Items {
-    XP_POTION(Items.XP_POTION_NAME, Items.XP_POTION_DESCRIPTION, Items.XP_POTION_PRICE),
-    COIN_SACK(Items.COIN_SACK_NAME, Items.COIN_SACK_DESCRIPTION, Items.COIN_SACK_PRICE);
+    XP_POTION(Items.XP_POTION_NAME_ID, Items.XP_POTION_DESCRIPTION_ID, Items.XP_POTION_PRICE),
+    COIN_SACK(Items.COIN_SACK_NAME_ID, Items.COIN_SACK_DESCRIPTION_ID, Items.COIN_SACK_PRICE);
 
     //Names
-    public static final String XP_POTION_NAME = "XP potion";
-    public static final String COIN_SACK_NAME = "Sack of coin";
+    public static final int XP_POTION_NAME_ID = R.string.item_xp_potion_name;
+    public static final int COIN_SACK_NAME_ID = R.string.item_coin_sack_name;
 
     //Descriptions
-    public static final String XP_POTION_DESCRIPTION = "A potion that gives you some xp when drunk !";
-    public static final String COIN_SACK_DESCRIPTION = "A sack containing lots of shiny coins !";
+    public static final int XP_POTION_DESCRIPTION_ID = R.string.item_xp_potion_description;
+    public static final int COIN_SACK_DESCRIPTION_ID = R.string.item_coin_sack_description;
 
     //Prices
     public static final int XP_POTION_PRICE = 10;
     public static final int COIN_SACK_PRICE = 10;
 
-    private final String name;
-    private final String description;
+    private final int nameId;
+    private final int descriptionId;
     private final int price;
 
-    Items(String name, String description, int price) {
-        this.name = name;
-        this.description = description;
+    Items(int nameId, int descriptionId, int price) {
+        this.nameId = nameId;
+        this.descriptionId = descriptionId;
         this.price = price;
     }
 
@@ -54,11 +54,11 @@ public enum Items {
     }
 
     public String getDescription() {
-        return description;
+        return MOST_RECENT_ACTIVITY.getString(descriptionId);
     }
 
     public String getName() {
-        return name;
+        return MOST_RECENT_ACTIVITY.getString(nameId);
     }
 
     public int getImageName() {
@@ -72,13 +72,11 @@ public enum Items {
     }
 
     public static Items getItemFromName(String name){
-        switch (name) {
-            case XP_POTION_NAME:
-                return XP_POTION;
-            case COIN_SACK_NAME:
-                return COIN_SACK;
-            default: throw new IllegalArgumentException("Unknown name of item");
+        for(Items i : Items.values()){
+            if(name.equals(i.getName()))
+                return i;
         }
+        throw new IllegalArgumentException("Unknown item: " + name);
     }
 
     public static ArrayList<String> getPlayersItemsNames() {

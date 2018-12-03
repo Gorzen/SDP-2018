@@ -14,13 +14,11 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private Context cnx;
     private LayoutInflater layoutInflaterService;
-    private Integer [] images = {R.drawable.login_slide1,
-            R.drawable.login_slide2,
-            R.drawable.login_slide3,
-            R.drawable.login_slide4};
+    private Integer[] images;
 
-    public ViewPagerAdapter(Context context) {
+    public ViewPagerAdapter(Context context, Integer[] images) {
         this.cnx = context;
+        this.images = images;
     }
 
     @Override

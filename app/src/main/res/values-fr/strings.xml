@@ -58,8 +58,8 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="textViewSettings">Paramètres</string>
     <string name="toast_text_infos_are_coming">Informations are coming</string>
-    <string name="language_choice_settings_button">Choisis ton langage</string>
-    <string name="language_title_alert_dialog">Langage</string>
+    <string name="language_choice_settings_button">Choisissez votre langue</string>
+    <string name="language_title_alert_dialog">Langues</string>
     <string name="cancel">Annuler</string>
     <string name="location_required">Cette application nécessite la géolocalisation</string>
     <string name="question_added">Question ajoutée</string>
@@ -69,7 +69,7 @@
     <string name="text_newposition">NOUVELLE POSITION:</string>
     <string name="text_inyourroom">"Tu es dans ta salle : "</string>
     <string name="text_notinyourroom">"Tu n'es pas dans ta salle : "</string>
-    <string name="text_imagesaved">Image sauvegardée !</string>
+    <string name="text_saved">Enregistré !</string>
     <string name="text_failed">Echec !</string>
     <string name="text_photospermissions">Impossible de prendre une photo sans autorisation.</string>
     <string name="text_addimage">Ajouter une image</string>
@@ -101,7 +101,7 @@
     <string name="item_sackofcoins_desc">Un sac avec des piécettes sonnantes et trébuchantes !</string>
     <string name="choose_theme_red">Rouge</string>
     <string name="choose_theme_green">Vert</string>
-    <string name="choose_theme_brown">Brun</string>
+    <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Bleu</string>
     <string name="choose_theme_multicolor">Multicouleur</string>
     <string name="special_quest_list_title">Quête spéciale</string>
@@ -113,7 +113,7 @@
     <string name="question_edited">La question a été modifiée !</string>
     <string name="text_failed_update_courses">Une erreur est survenue en chargant les cours</string>
     <string name="text_courses_updated">Les cours ont été mis à jour!</string>
-    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel article: </string>
+    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel objet: </string>
     <string name="special_quests_title">Quêtes Spéciales</string>
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
@@ -140,4 +140,15 @@
     <string name="send_request_text">M\'enrôler</string>
     <string name="pending_courses_text">Cours en attente</string>
     <string name="accepted_courses_text">Vos cours</string>
+    <string name="camera">Appareil Photo</string>
+    <string name="gallery">Galerie</string>
+    <string name="app_name" translatable="false">StudyUp</string>
+
+    <string name="item_xp_potion_name">Potion d\'XP</string>
+    <string name="item_coin_sack_name">Bourse d\'or</string>
+    <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
+    <string name="item_coin_sack_description">Une bourse contenant plein de pièces chatoyantes !</string>
+    <string name="item_use_button_text">Utiliser</string>
+    <string name="special_quest_three_questions_title">Trois Questions</string>
+    <string name="special_quest_three_questions_description">Répondez à trois questions pour un objet surprise !</string>
 </resources>
