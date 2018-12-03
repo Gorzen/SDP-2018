@@ -256,29 +256,28 @@ public class DisplayQuestionActivity extends RefreshContext {
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
         if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
+            return;
         }
-        else {
-            int realCheck = (chkTOP == -1) ? chkBOT : chkTOP;
-            RadioButton checkedAnswer = findViewById(realCheck);
+        int realCheck = (chkTOP == -1) ? chkBOT : chkTOP;
+        RadioButton checkedAnswer = findViewById(realCheck);
 
-            //subtract 1 to have answer between 0 and 3
-            int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
+        //subtract 1 to have answer between 0 and 3
+        int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
-            //TODO : What to do next ?
-            if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
-                Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
-            }
-
-            else if (answer == displayQuestion.getAnswer()) {
-                goodAnswer();
-            } else {
-                badAnswer();
-            }
-
-            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-            startActivity(goToQuests);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        //TODO : What to do next ?
+        if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
+            Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
         }
+
+        else if (answer == displayQuestion.getAnswer()) {
+            goodAnswer();
+        } else {
+            badAnswer();
+        }
+
+        Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
+        startActivity(goToQuests);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void badAnswer() {
