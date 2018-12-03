@@ -2,8 +2,6 @@ package ch.epfl.sweng.studyup.questions;
 
 import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -228,14 +226,19 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void setupNotificationManager() {
+        //Don't use notification when in testing
+        if (MOCK_ENABLED) return;
 
-        Notification notification = prepareNotification("Time out !", getString(R.string.time_out_notification));
+        Notification notification = prepareNotificationTimeOut(getString(R.string.time_out_title),
+                getString(R.string.time_out_notification));
 
         Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
-        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, displayQuestion.getQuestionId());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID,
+                displayQuestion.getQuestionId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -243,7 +246,7 @@ public class DisplayQuestionActivity extends RefreshContext {
 
     }
 
-    private Notification prepareNotification(String title, String text) {
+    public Notification prepareNotificationTimeOut(String title, String text) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
         builder.setContentTitle(title);
         builder.setContentText(text);

@@ -156,5 +156,6 @@
     <string name="item_use_button_text">Use</string>
     <string name="special_quest_three_questions_title">Three Questions</string>
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
+    <string name="time_out_title">Time out !</string>
 
 </resources>
