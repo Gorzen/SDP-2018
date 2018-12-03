@@ -63,7 +63,7 @@ public class SpecialQuestDisplayActivityTest {
         Launch special quest view for first of Player's special quests.
         By default, this is the "Answer 3 questions" special quest.
          */
-        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(0));
 
         mActivityRule.launchActivity(launchIntent);
 
@@ -97,7 +97,7 @@ public class SpecialQuestDisplayActivityTest {
         By default, this is the "Answer 3 questions" special quest.
         This special quest should now be complete.
          */
-        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(0));
 
         mActivityRule.launchActivity(launchIntent);
 

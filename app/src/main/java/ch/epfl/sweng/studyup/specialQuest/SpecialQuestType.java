@@ -34,7 +34,7 @@ public enum SpecialQuestType {
     CONSISTENT_USE (
         R.string.special_quest_consistent_use_title,
         R.string.special_quest_consistent_use_description,
-        1,
+        3,
         SpecialQuestUpdateFlag.USER_LOGIN
     );
 
