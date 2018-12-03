@@ -10,15 +10,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <!--TOP TOOL BAR-->
 
         <android.support.constraint.ConstraintLayout
 
+            android:id="@+id/topBar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/topBar">
+            android:layout_height="50dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -28,8 +30,9 @@
                 android:layout_centerHorizontal="true"
                 android:background="?attr/colorPrimaryDark"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
             </android.support.v7.widget.Toolbar>
 
         </android.support.constraint.ConstraintLayout>
@@ -40,40 +43,48 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottomBar">
-
-            <ListView
-                android:id="@+id/listViewQuests"
-                android:layout_width="match_parent"
-                android:layout_height="430dp"
-                android:layout_marginTop="56dp"
-                android:dividerHeight="0dp"
-                android:divider="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/add_new_question_button"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:onClick="addNewQuestion"
-                android:text="@string/add_a_new_question_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_above="@+id/bottomBar"
+            android:layout_below="@+id/topBar">
 
             <TextView
                 android:id="@+id/your_existing_questions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/existing_questions_text"
-                android:textColor="?attr/colorPrimaryDark"
-                android:textSize="20sp"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ListView
+                android:id="@+id/listViewQuests"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="80dp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+            <Button
+                android:id="@+id/add_new_question_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/round_button"
+                android:onClick="addNewQuestion"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -96,6 +107,7 @@
                 android:background="@drawable/white_grey_border_top"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/navigation_teacher">
+
             </android.support.design.widget.BottomNavigationView>
 
         </android.support.constraint.ConstraintLayout>
@@ -104,6 +116,17 @@
 
 
     <!--OVERLAPPING THINGS-->
+
+    <ImageView
+        android:id="@+id/imageViewPlus"
+        android:layout_width="44dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        tools:ignore="ContentDescription" />
 
 
 </android.support.constraint.ConstraintLayout>

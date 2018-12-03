@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">StudyUp</string>
+    <string name="app_name">StudyUp</string>
     <string name="character_homepage">Your Character</string>
 
     <string name="title_activity_auth_redirect" translatable="false">AuthRedirectActivity</string>
@@ -81,7 +81,7 @@
     <string name="text_newposition">NEW POS:</string>
     <string name="text_inyourroom">You are in your room:</string>
     <string name="text_notinyourroom">You are not in your room:</string>
-    <string name="text_imagesaved">Image Saved!</string>
+    <string name="text_saved">Saved !</string>
     <string name="text_failed">Failed!</string>
     <string name="text_photospermissions">Can\'t take photos without permission.</string>
     <string name="text_addimage">Add an image</string>
@@ -115,7 +115,7 @@
     <string name="no_upper">NO</string>
     <string name="choose_theme_red">Red</string>
     <string name="choose_theme_green">Green</string>
-    <string name="choose_theme_brown">Brown</string>
+    <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Blue</string>
     <string name="choose_theme_multicolor">Multicolor</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
@@ -129,7 +129,7 @@
     <string name="title_activity_schedule">ScheduleActivity</string>
     <string name="course_statistics">Course Statistics</string>
     <string name="displaycourseactivity">DisplayCourseActivity</string>
-    <string name="courses">Stats</string>
+    <string name="courses" translatable="false">Stats</string>
     <string name="select_the_correct_answer">Select the Correct Answer</string>
     <string name="mcq_or_tf_question">MCQ or TF Question?</string>
     <string name="write_your_question">Write / Select the Image for the Question</string>
@@ -147,4 +147,14 @@
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
     <string name="time_out_notification">A question has timed out, be quicker next time !</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="item_xp_potion_name">XP potion</string>
+    <string name="item_coin_sack_name">Sack of coin</string>
+    <string name="item_xp_potion_description">A potion that gives you some xp when drunk !</string>
+    <string name="item_coin_sack_description">A sack containing lots of shiny coins !</string>
+    <string name="item_use_button_text">Use</string>
+    <string name="special_quest_three_questions_title">Three Questions</string>
+    <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
+
 </resources>
