@@ -88,6 +88,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         String questionTitle;
         String questionID;
         String questionLang;
+        long questionDuration;
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
@@ -102,12 +103,13 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
+        questionDuration = Long.valueOf(intent.getStringExtra(DISPLAY_QUESTION_DURATION));
 
         player = Player.get();
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
-                Constants.Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Constants.Course.SWENG.name(), questionLang, questionDuration); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
 
         handleTimedQuestion(displayQuestion);
@@ -209,11 +211,11 @@ public class DisplayQuestionActivity extends RefreshContext {
 
             //TODO: display time remaining
         } else {
-            long clickedInstant = player.getClickedInstants().get(questionId);
             if (displayQuestion.getDuration() == 0) {
                 //There is no time constraint
                 //TODO
             } else {
+                long clickedInstant = player.getClickedInstants().get(questionId);
                 long now = System.currentTimeMillis();
                 if (clickedInstant + displayQuestion.getDuration() > now) {
                     //TODO: Handle the case where the time is out
@@ -440,7 +442,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
-        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, q.getDuration());
+        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, Long.toString(q.getDuration()));
         return goToQuestion;
     }
 }

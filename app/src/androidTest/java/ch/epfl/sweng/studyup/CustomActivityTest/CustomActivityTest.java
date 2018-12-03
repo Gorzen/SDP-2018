@@ -32,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
