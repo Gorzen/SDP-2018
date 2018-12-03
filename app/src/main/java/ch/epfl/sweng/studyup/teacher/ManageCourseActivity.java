@@ -65,11 +65,15 @@ public class ManageCourseActivity extends NavigationTeacher{
     public void setupListViews(){
         List<Course> otherCourses = new ArrayList<>(Arrays.asList(Course.values()));
         otherCourses.remove(FakeCourse);
-        if(MOCK_ENABLED) otherCourses.add(0, FakeCourse);
+        if(MOCK_ENABLED) otherCourses = new ArrayList<>(Arrays.asList(FakeCourse));
 
         CourseRequest testRequest = new CourseRequest(FakeCourse, INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME);
-        if(requests.remove(testRequest))
-            requests.add(0, testRequest);
+        if(MOCK_ENABLED) {
+            if (requests.contains(testRequest))
+                requests = new ArrayList<>(Arrays.asList(testRequest));
+            else
+                requests = new ArrayList<>();
+        }
 
         List<Course> pendingCourses = new ArrayList<>();
         for(CourseRequest request : requests){
