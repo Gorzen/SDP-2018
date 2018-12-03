@@ -174,11 +174,10 @@ public class DisplayQuestionActivity extends RefreshContext {
         if(isQansweredYet) {
             //TODO OOOOOO
             //if the previous answer was false
-            List<Integer> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
-            if(pair.get(0) == 0) {
-                radioButtons.get(pair.get(1)).setBackgroundResource(R.drawable.button_quests_clicked_shape);
-                radioButtons.get(displayQuestion.getAnswer()).setBackgroundColor(Color.parseColor("#9BCDAD"));
-            }
+            List<String> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
+            Integer playerAnswer = Integer.valueOf(pair.get(1));
+            radioButtons.get(playerAnswer).setBackgroundResource(R.drawable.button_quests_clicked_shape);
+            radioButtons.get(displayQuestion.getAnswer()).setBackgroundResource(R.drawable.button_quests_clicked_shape_true);
 
         }
 
@@ -326,12 +325,12 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void badAnswer(int answer) {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), 0, answer);
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false, answer);
         Toast.makeText(this, getString(R.string.text_wronganswer), Toast.LENGTH_SHORT).show();
     }
 
     private void goodAnswer(int answer) {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), 1, answer);
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true, answer);
         Toast.makeText(this, getString(R.string.text_correctanswer), Toast.LENGTH_SHORT).show();
         Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 

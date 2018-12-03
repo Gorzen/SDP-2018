@@ -20,6 +20,7 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
@@ -108,7 +109,6 @@ public abstract class Utils {
     }
 
     public static List<Map<String, String>> getMapListFromSpecialQuestList(List<SpecialQuest> specialQuestList) {
-
         List<Map<String, String>> mapList = new ArrayList<>();
         for (SpecialQuest specialQuest : specialQuestList) {
             Map<String, String> currSpecialQuestMap = new HashMap<>();
@@ -119,6 +119,7 @@ public abstract class Utils {
 
         return mapList;
     }
+
 
     public static Object getOrDefault(Map<String, Object> map, String key, Object defaultRet) {
 

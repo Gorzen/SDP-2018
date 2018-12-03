@@ -512,12 +512,12 @@ public class Firestore {
                         UserData user = new UserData(INITIAL_SCIPER,
                                 INITIAL_FIRSTNAME,
                                 INITIAL_LASTNAME,
-                                new HashMap<String, List<Integer>>(),
+                                new HashMap<String, List<String>>(),
                                 new ArrayList<Course>());
                         user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
                         user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
                         user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        user.setAnsweredQuestions((HashMap<String, List<Integer>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
+                        user.setAnsweredQuestions((HashMap<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
                         user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Course>())));
 
                         userList.add(user);
