@@ -59,8 +59,8 @@ public class CourseStatsActivity extends NavigationTeacher {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_stats);
+        super.onCreate(savedInstanceState);
         navigationSwitcher(CourseStatsActivity.this, CourseStatsActivity.class, COURSE_STAT_INDEX);
 
         setupListView();

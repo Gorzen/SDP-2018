@@ -87,8 +87,8 @@ public class ScheduleActivityStudent extends NavigationStudent {
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_student);
+        super.onCreate(savedInstanceState);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);

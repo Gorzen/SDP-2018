@@ -68,8 +68,8 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_question);
+        super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());

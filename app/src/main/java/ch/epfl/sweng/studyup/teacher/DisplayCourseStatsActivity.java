@@ -30,8 +30,8 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_course_stats);
+        super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
         course = Course.valueOf(intent.getStringExtra(DisplayQuestionActivity.class.getName()));

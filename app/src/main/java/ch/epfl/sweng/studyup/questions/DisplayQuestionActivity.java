@@ -71,6 +71,10 @@ public class DisplayQuestionActivity extends RefreshContext {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
             progressBar.setVisibility(View.GONE);
@@ -181,7 +185,7 @@ public class DisplayQuestionActivity extends RefreshContext {
                             questionText.getFile(tempText)
                                     .addOnSuccessListener(getListenerTextFetching(tempText));
                         }
-                    };
+                    });
         } catch (IOException e){
             Toast.makeText(this, getString(R.string.text_questiondlerror), Toast.LENGTH_SHORT).show();
             quit();

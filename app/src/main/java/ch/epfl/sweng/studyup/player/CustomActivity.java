@@ -54,8 +54,8 @@ public class CustomActivity extends NavigationStudent {
     @SuppressWarnings("HardCodedStringLiteral")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
+        super.onCreate(savedInstanceState);
 
         navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX_STUDENT);
 

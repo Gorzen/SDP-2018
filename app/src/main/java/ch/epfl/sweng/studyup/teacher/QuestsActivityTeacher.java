@@ -45,8 +45,8 @@ public class QuestsActivityTeacher extends NavigationTeacher {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_teacher);
+        super.onCreate(savedInstanceState);
 
         navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
     }

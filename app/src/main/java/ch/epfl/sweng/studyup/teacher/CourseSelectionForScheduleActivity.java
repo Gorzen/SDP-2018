@@ -22,8 +22,8 @@ public class CourseSelectionForScheduleActivity extends NavigationTeacher {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_selection_for_schedule);
+        super.onCreate(savedInstanceState);
         navigationSwitcher(CourseSelectionForScheduleActivity.this, CourseSelectionForScheduleActivity.class, COURSE_SELECTION_FOR_SCHEDULE_INDEX);
     }
 
