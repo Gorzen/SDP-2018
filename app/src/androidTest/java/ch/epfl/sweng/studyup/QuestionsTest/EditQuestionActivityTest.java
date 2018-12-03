@@ -89,10 +89,10 @@ public class EditQuestionActivityTest {
         waitAndTag(200, "Waiting for scroll");
         onView(withId(newAnswerId)).perform(scrollTo()).perform(click());
 
-        editAndCheckQuestion(newAnswerId, newAnswerNumber, changeType, isTrueFalseBeforeEdition);
+        editAndCheckQuestion(newAnswerNumber, changeType, isTrueFalseBeforeEdition);
     }
 
-    private void editAndCheckQuestion(final int newAnswerId, final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
+    private void editAndCheckQuestion(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");

@@ -1,32 +1,34 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import ch.epfl.sweng.studyup.R;
+
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+
 public enum SpecialQuestType {
 
     THREE_QUESTIONS (
-        "Three Questions",
-        "Answer three questions for a surprise item!",
-        "Trois Questions",
-        "Répondez à trois questions pour un objet surprise !",
+        R.string.special_quest_three_questions_title,
+        R.string.special_quest_three_questions_description,
         3
     );
 
-    private String englishTitle;
-    private String englishDesc;
-    private String frenchTitle;
-    private String frenchDesc;
+    private final int titleId;
+    private final int descriptionId;
     private int goal;
 
-    SpecialQuestType(String englishTitle, String englishDesc, String frenchTitle, String frenchDesc, int goal) {
-        this.englishTitle = englishTitle;
-        this.englishDesc = englishDesc;
-        this.frenchTitle = frenchTitle;
-        this.frenchDesc = frenchDesc;
+    SpecialQuestType(int titleId, int descriptionId, int goal) {
+        this.titleId = titleId;
+        this.descriptionId = descriptionId;
         this.goal = goal;
     }
 
-    public String getEnglishTitle() { return this.englishTitle; }
-    public String getEnglishDesc() { return this.englishDesc; }
-    public String getFrenchTitle() { return this.frenchTitle; }
-    public String getFrenchDesc() { return this.frenchDesc; }
+    public String getTitle() {
+        return MOST_RECENT_ACTIVITY.getString(titleId);
+    }
+
+    public String getDescription() {
+        return MOST_RECENT_ACTIVITY.getString(descriptionId);
+    }
+
     public int getGoal() { return this.goal; }
 }

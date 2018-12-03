@@ -114,7 +114,7 @@
     <string name="question_edited">La question a été modifiée !</string>
     <string name="text_failed_update_courses">Une erreur est survenue en chargant les cours</string>
     <string name="text_courses_updated">Les cours ont été mis à jour!</string>
-    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel article: </string>
+    <string name="congrat_text_special_quest">Yay ! Vous venez de réussir cette quête ! Vous avez gagné un nouvel objet: </string>
     <string name="special_quests_title">Quêtes Spéciales</string>
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
@@ -139,5 +139,11 @@
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>
 
-
+    <string name="item_xp_potion_name">Potion d\'XP</string>
+    <string name="item_coin_sack_name">Bourse d\'or</string>
+    <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
+    <string name="item_coin_sack_description">Une bourse contenant plein de pièces chatoyantes !</string>
+    <string name="item_use_button_text">Utiliser</string>
+    <string name="special_quest_three_questions_title">Trois Questions</string>
+    <string name="special_quest_three_questions_description">Répondez à trois questions pour un objet surprise !</string>
 </resources>
