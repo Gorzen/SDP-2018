@@ -106,4 +106,21 @@ public class SpecialQuestDisplayActivityTest {
          */
         onView(withId(R.id.specialQuestCongrat)).check(matches(withText(R.string.congrat_text_special_quest)));
     }
+
+    @Test
+    public void unenrolledSpecialQuestDisplayTest() {
+
+        /*
+        Test is run with default player, and should not include this special quest.
+        Thus, the special quest should display an "enroll button" rather than a progress bar.
+         */
+        SpecialQuest newQuest = new SpecialQuest(SpecialQuestType.CONSISTENT_USE);
+
+        Intent launchIntent = new Intent();
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, newQuest);
+
+        mActivityRule.launchActivity(launchIntent);
+
+        onView(withId(R.id.specialQuestEnrollButton)).check(matches(isDisplayed()));
+    }
 }

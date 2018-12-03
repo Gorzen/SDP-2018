@@ -36,10 +36,24 @@ public class SpecialQuestTest {
 
     @Test
     public void completionUpdateTest() {
-        SpecialQuest specialQuest = new SpecialQuest(SpecialQuestType.THREE_QUESTIONS);
+        SpecialQuest specialQuest = new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS);
 
-        specialQuest.setCompletionCount(3);
-        assert(specialQuest.getCompletionCount() == 3);
+        specialQuest.setCompletionCount(5);
+        assert(specialQuest.getCompletionCount() == 5);
         assert(specialQuest.getProgress() == 1);
+    }
+
+    @Test
+    public void testEqualityOverloadValid() {
+        SpecialQuest specialQuestA = new SpecialQuest(SpecialQuestType.CONSISTENT_USE);
+        SpecialQuest specialQuestB = new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME);
+        assert(!specialQuestA.equals(specialQuestB));
+    }
+
+    @Test
+    public void testEqualityOverloadInvalid() {
+        SpecialQuest specialQuestA = new SpecialQuest(SpecialQuestType.LEVEL_UP_BONUS);
+        SpecialQuest specialQuestB = new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME);
+        assert(specialQuestA.equals(specialQuestB));
     }
 }

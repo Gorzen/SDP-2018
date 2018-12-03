@@ -19,7 +19,7 @@ public enum SpecialQuestType {
         5,
         SpecialQuestUpdateFlag.ANSWERED_QUESTION
     ),
-    EXTRA_LEVEL (
+    LEVEL_UP_BONUS (
         R.string.special_quest_level_up_bonus_title,
         R.string.special_quest_level_up_bonus_description,
         1,
