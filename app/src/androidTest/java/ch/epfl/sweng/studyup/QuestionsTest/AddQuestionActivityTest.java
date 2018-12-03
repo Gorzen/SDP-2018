@@ -150,7 +150,7 @@ public class AddQuestionActivityTest {
         Utils.waitAndTag(1000, TAG);
 
         verifyAddedQuestion();
-        }
+    }
 
     private void setAndAddQuestion() throws Throwable {
         //Select Course
@@ -187,13 +187,20 @@ public class AddQuestionActivityTest {
         Utils.waitAndTag(500, "Waiting for scroll");
 
         // Setting answer and add
-        onView(ViewMatchers.withId(R.id.true_false_radio)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.radio_answer4)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.radio_answer3)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(scrollTo()).perform(click());
-        onView(ViewMatchers.withId(R.id.addOrEditQuestionButton)).perform(scrollTo(), click());
+        onView(ViewMatchers.withId(R.id.true_false_radio)).perform(click());
+        onView(ViewMatchers.withId(R.id.mcq_radio)).perform(click());
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scroll.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+        Utils.waitAndTag(500, "Waiting for scroll");
+        onView(ViewMatchers.withId(R.id.radio_answer4)).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer3)).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer2)).perform(click());
+        onView(ViewMatchers.withId(R.id.radio_answer1)).perform(click());
+        onView(ViewMatchers.withId(R.id.addOrEditQuestionButton)).perform(click());
         Utils.waitAndTag(500, TAG);
     }
 
