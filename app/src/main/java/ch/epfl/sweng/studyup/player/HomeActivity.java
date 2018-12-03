@@ -53,7 +53,6 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
-    AlertDialog dialog;
 
     // Text that will be displayed in the levelProgress layout
     public CircularProgressIndicator levelProgress;
@@ -74,20 +73,6 @@ public class HomeActivity extends NavigationStudent {
         super.onDestroy();
         Log.d("GPS_MAP", "Destroyed main and canceled Background location service");
         unScheduleBackgroundLocation();
-    }
-
-    public void showDialog(final String nameNPC) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(nameNPC + getString(R.string.NPC_interaction))
-                .setPositiveButton(getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra("name", nameNPC));
-                    }
-                })
-                .setNegativeButton(getString(R.string.NPC_refuse), null);
-        dialog = builder.create();
-        dialog.show();
     }
 
     @SuppressLint("MissingPermission")
@@ -184,14 +169,7 @@ public class HomeActivity extends NavigationStudent {
         populateSpecialQuestsList();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
