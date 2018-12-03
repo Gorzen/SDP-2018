@@ -109,14 +109,10 @@ public class Firestore {
         Player currPlayer = Player.get();
         Map<String, Object> localPlayerData = new HashMap<>();
 
-        localPlayerData.put(FB_SCIPER, currPlayer.getSciperNum());
-        localPlayerData.put(FB_FIRSTNAME, currPlayer.getFirstName());
-        localPlayerData.put(FB_LASTNAME, currPlayer.getLastName());
-        localPlayerData.put(FB_USERNAME, currPlayer.getUserName());
-        localPlayerData.put(FB_XP, currPlayer.getExperience());
-        localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
-        localPlayerData.put(FB_LEVEL, currPlayer.getLevel());
-        localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
+        localPlayerData.put(FB_SCIPER, currPlayer.getSciperNum()); localPlayerData.put(FB_FIRSTNAME, currPlayer.getFirstName());
+        localPlayerData.put(FB_LASTNAME, currPlayer.getLastName()); localPlayerData.put(FB_USERNAME, currPlayer.getUserName());
+        localPlayerData.put(FB_XP, currPlayer.getExperience()); localPlayerData.put(FB_CURRENCY, currPlayer.getCurrency());
+        localPlayerData.put(FB_LEVEL, currPlayer.getLevel()); localPlayerData.put(FB_ITEMS, currPlayer.getItemNames());
         localPlayerData.put(FB_SPECIALQUESTS, getMapListFromSpecialQuestList(currPlayer.getSpecialQuests()));
         localPlayerData.put(FB_COURSES_ENROLLED, getStringListFromCourseList(currPlayer.getCoursesEnrolled(), false));
         localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached(), false));
@@ -126,16 +122,11 @@ public class Firestore {
             .set(localPlayerData)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
-                public void onSuccess(Void aVoid) {
-                    Log.i(TAG, "Remote player data was updated.");
-                }
+                public void onSuccess(Void aVoid) { Log.i(TAG, "Remote player data was updated."); }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, "Unable to update remote player data");
-                }
-            });
+                public void onFailure(@NonNull Exception e) { Log.e(TAG, "Unable to update remote player data"); }});
 
     }
 
