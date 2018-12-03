@@ -58,13 +58,13 @@ public class QuestsActivityStudent extends NavigationStudent {
         List<Integer> listImageID = new ArrayList<>();
         List<Integer> listLang = new ArrayList<>();
 
-        Map<String, Boolean> answeredQuestion = Player.get().getAnsweredQuestion();
+        Map<String, List<Integer>> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
 
         for (Question q : quests) {
             if (answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
                 listImageID.add(R.drawable.ic_todo_grey_24dp);
-            } else if (answeredQuestion.get(q.getQuestionId())) {
+            } else if (answeredQuestion.get(q.getQuestionId()).get(0) == 1) {
                 listImageID.add(R.drawable.ic_check_green_24dp);
             } else {
                 listImageID.add(R.drawable.ic_cross_red_24dp);

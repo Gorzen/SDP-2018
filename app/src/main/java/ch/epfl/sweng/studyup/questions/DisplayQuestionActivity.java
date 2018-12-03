@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -30,8 +32,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -89,7 +93,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);;
+        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
@@ -106,7 +110,9 @@ public class DisplayQuestionActivity extends RefreshContext {
             }
         });
 
-        setupRadioButton();
+        boolean isQansweredYet = Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId());
+
+        setupRadioButton(isQansweredYet);
 
         TextView questTitle = findViewById(R.id.quest_title);
         questTitle.setText(displayQuestion.getTitle());
@@ -151,7 +157,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         return true;
     }
 
-    private void setupRadioButton() {
+    private void setupRadioButton(boolean isQansweredYet) {
         answerGroupTOP = findViewById(R.id.answer_radio_group_top);
         answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
         answerGroupTOP.clearCheck();
@@ -164,6 +170,17 @@ public class DisplayQuestionActivity extends RefreshContext {
                 (RadioButton) findViewById(R.id.answer2),
                 (RadioButton) findViewById(R.id.answer3),
                 (RadioButton) findViewById(R.id.answer4)));
+
+        if(isQansweredYet) {
+            //TODO OOOOOO
+            //if the previous answer was false
+            List<Integer> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
+            if(pair.get(0) == 0) {
+                radioButtons.get(pair.get(1)).setBackgroundResource(R.drawable.button_quests_clicked_shape);
+                radioButtons.get(displayQuestion.getAnswer()).setBackgroundColor(Color.parseColor("#9BCDAD"));
+            }
+
+        }
 
         for (RadioButton rdb : radioButtons) {
             rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -292,15 +309,14 @@ public class DisplayQuestionActivity extends RefreshContext {
             //subtract 1 to have answer between 0 and 3
             int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
-            //TODO : What to do next ?
             if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
                 Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
             }
 
             else if (answer == displayQuestion.getAnswer()) {
-                goodAnswer();
+                goodAnswer(answer);
             } else {
-                badAnswer();
+                badAnswer(answer);
             }
 
             Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
@@ -309,13 +325,13 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
     }
 
-    private void badAnswer() {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
+    private void badAnswer(int answer) {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), 0, answer);
         Toast.makeText(this, getString(R.string.text_wronganswer), Toast.LENGTH_SHORT).show();
     }
 
-    private void goodAnswer() {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
+    private void goodAnswer(int answer) {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), 1, answer);
         Toast.makeText(this, getString(R.string.text_correctanswer), Toast.LENGTH_SHORT).show();
         Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 
