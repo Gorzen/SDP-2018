@@ -236,74 +236,11 @@ public class Firestore {
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
 
-    /**
-     * Method that get the schedule of the current player, that he/she be teacher or student, and
-     * will update the layout accordingly using the updateSchedule method in the activity given as
-     * parameter and/or update the schedule of the player
-     *
-     * @param act  The activity displaying the layout (if it is a schedule activity, ignored otherwise)
-     * @param role The role, which the caller can choose
-     * @throws NullPointerException     If the format is incorrect on the database
-     */
     public void getCoursesSchedule(final Activity act, final Role role) throws NullPointerException {
-        final Player p = Player.get();
-        final CollectionReference coursesRef = db.collection(FB_COURSES);
-        final List<WeekViewEvent> schedule = new ArrayList<>();
-        final boolean isTeacher = p.getRole() == Role.teacher;
-
-        final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
-        // Iteration over all events of all needed courses
-        for(final Course c : courses) {
-            coursesRef.document(c.name()).collection(FB_EVENTS).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()) {
-                                if(!task.getResult().isEmpty()) {
-                                    // Adding periods to the course
-                                    for (QueryDocumentSnapshot q : task.getResult()) {
-                                        schedule.add(queryDocumentSnapshotToWeekView(q));
-                                    }
-
-                                    onScheduleCompleted(act, role, schedule);
-                                }
-                            }
-                        }
-                    });
-        }
+        FirestoreSchedule.getCoursesSchedule(db, act, role);
     }
 
-    private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
-        long id = Long.parseLong(q.get(FB_EVENTS_ID).toString());
-        Calendar start = Calendar.getInstance();
-        start.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_START).toString()));
-        Calendar end = Calendar.getInstance();
-        end.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_END).toString()));
-        String name = q.get(FB_EVENTS_NAME).toString();
-        String location = q.get(FB_EVENTS_LOCATION).toString();
-
-
-        return new WeekViewEvent(id, name, location, start, end);
-    }
-
-    private void onScheduleCompleted(final Activity act, final Role role, List<WeekViewEvent> schedule) {
-
-            if(act instanceof ScheduleActivityStudent) {
-                ScheduleActivityStudent actCasted = (ScheduleActivityStudent) act;
-                schedule.addAll(actCasted.getWeekViewEvents());
-                actCasted.updateSchedule(schedule);
-            } else if(act instanceof ScheduleActivityTeacher) {
-                ScheduleActivityTeacher actCasted = (ScheduleActivityTeacher) act;
-                schedule.addAll(actCasted.getWeekViewEvents());
-                actCasted.updateSchedule(schedule);
-            }
-
-
-            if(role == Role.student) {
-                Player.get().setScheduleStudent(schedule);
-            }
-    }
-
+    //TODO refactor again after merge with make-course-have-multiple-...
     /**
      * Used when a teacher select her/his courses, replace the old course if someone else was
      * teaching it or don't do anything if the teacher where already teaching this course. The
@@ -330,7 +267,6 @@ public class Firestore {
                     }
                 });
     }
-
     private void changeCourseTeacher(final Course c) {
         // Setting new teacher
         Map<String, Object> courseData = new HashMap<>();
@@ -360,58 +296,12 @@ public class Firestore {
                     }
                 });
     }
-
-    /**
-     * Add periods to the course on the server by removing the old ones with corresponding start
-     * time and adding the new ones.
-     *
-     * @param c The course
-     * @param periodsToAdd The times of the periods for the course, containing all needed data
-     *                     (Room, startTime, endTime, etc...)
-     */
     public void setCourseEvents(final Course c, final List<WeekViewEvent> periodsToAdd) {
-        final CollectionReference eventsOfCourse = db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS);
-
-
-
-        eventsOfCourse.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            Log.i(TAG, "Got the course's events to add new ones to server.");
-
-                            if(!task.getResult().isEmpty()) {
-                                // Deleting periods that are replaced
-                                for(QueryDocumentSnapshot q : task.getResult()) {
-                                    q.getReference().delete();
-                                }
-                            }
-
-                            // Adding new periods
-                            for(WeekViewEvent p : periodsToAdd) {
-                                eventsOfCourse.add(WeekViewEventToMap(p));
-                            }
-                        }
-                    }
-                });
+        FirestoreSchedule.setCourseEvents(db, c, periodsToAdd);
     }
-
-    private Map<String, Object> WeekViewEventToMap(WeekViewEvent e) {
-        Map<String, Object> eventMap = new HashMap<>();
-        eventMap.put(FB_EVENTS_ID, e.getId());
-        eventMap.put(FB_EVENTS_NAME, e.getName());
-        eventMap.put(FB_EVENTS_LOCATION, e.getLocation());
-        eventMap.put(FB_EVENTS_START, e.getStartTime().getTimeInMillis());
-        eventMap.put(FB_EVENTS_END, e.getEndTime().getTimeInMillis());
-
-        return eventMap;
-    }
-
     public void deleteCourse(Course c) {
         changeCourseTeacher(c); // To delete the periods on the server
         waitAndTag(1000, TAG);
         db.collection(FB_COURSES).document(c.name()).delete();
     }
-
 }
