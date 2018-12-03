@@ -131,11 +131,7 @@ public class CourseStatsActivity extends NavigationTeacher {
 
                         Map<String, Object> remotePlayerData = document.getData();
 
-                        UserData user = new UserData(INITIAL_SCIPER,
-                                INITIAL_FIRSTNAME,
-                                INITIAL_LASTNAME,
-                                new HashMap<String, Boolean>(),
-                                new ArrayList<Course>());
+                        UserData user = new UserData(INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME, new HashMap<String, Boolean>(), new ArrayList<Course>());
                         user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
                         user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
                         user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
@@ -145,12 +141,8 @@ public class CourseStatsActivity extends NavigationTeacher {
                         userList.add(user);
                     }
 
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setUsers(userList);
-                    }
-                } else {
-                    Log.e(this.getClass().getSimpleName(), "Error getting documents for courses: ", task.getException());
-                }
+                    if (act instanceof CourseStatsActivity) { CourseStatsActivity.setUsers(userList); }
+                } else { Log.e(this.getClass().getSimpleName(), "Error getting documents for courses: ", task.getException()); }
             }
         });
 
