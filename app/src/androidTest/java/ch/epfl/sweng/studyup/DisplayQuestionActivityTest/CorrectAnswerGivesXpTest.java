@@ -51,6 +51,4 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
         assertEquals(expectedXP, actualXP);
         Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
     }
-
-
 }
