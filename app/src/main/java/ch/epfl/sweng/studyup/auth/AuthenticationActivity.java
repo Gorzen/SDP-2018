@@ -102,6 +102,7 @@ public class AuthenticationActivity extends RefreshContext {
         catch (Exception e) {
             Log.e(TAG, e.getMessage());
             startActivity(new Intent(AuthenticationActivity.this, LoginActivity.class));
+            return;
         }
 
         Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
