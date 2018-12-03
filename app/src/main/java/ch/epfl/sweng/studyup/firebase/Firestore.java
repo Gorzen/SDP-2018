@@ -185,31 +185,23 @@ public class Firestore {
     }
 
     private Question extractQuestionData(Player currPlayer, String id, boolean isAuthor, Map<String, Object> questionData) {
-        // Questions without associated courses (created before this feature), will appear for all players
-        boolean questionCourseMatchesPlayer = true;
-        if (questionData.get(FB_COURSE) != null) {
-            // If question is associated with a course, only load question if the user enrolled in that course.
-            String questionCourseName = questionData.get(FB_COURSE).toString();
-            questionCourseMatchesPlayer =
-                    Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
-        }
-
-        boolean isValidQuestion = questionCourseMatchesPlayer &&
+        Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
+        boolean questionCourseMatchesPlayer = Player.get().getCoursesEnrolled().contains(questionCourse);
+        boolean isValidQuestion =
                 ((isAuthor && currPlayer.getRole() == Role.teacher) ||
-                        (!isAuthor && currPlayer.getRole() == Role.student));
+                        (!isAuthor && currPlayer.getRole() == Role.student && questionCourseMatchesPlayer));
 
         if(isValidQuestion) {
 
             String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
             Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
             int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-            String questionCourseName = questionData.get(FB_COURSE).toString();
             String questionLang = (String) questionData.get(FB_QUESTION_LANG);
             if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
                 questionLang = "en";
             }
 
-            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang);
+            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourse.name(), questionLang);
         }
 
         return null;
