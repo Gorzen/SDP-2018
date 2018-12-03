@@ -28,6 +28,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVA
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 /**
  * MapActivity
@@ -53,9 +54,10 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_maps);
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.activity_maps);
+        setupToolbar(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

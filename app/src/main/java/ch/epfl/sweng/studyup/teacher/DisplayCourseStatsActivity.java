@@ -22,6 +22,8 @@ import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
+
 
 public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
@@ -30,8 +32,9 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_display_course_stats);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_course_stats);
+        setupToolbar(this);
 
         Intent intent = getIntent();
         course = Course.valueOf(intent.getStringExtra(DisplayQuestionActivity.class.getName()));

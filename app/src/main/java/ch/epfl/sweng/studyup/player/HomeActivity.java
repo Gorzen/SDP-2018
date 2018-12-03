@@ -46,6 +46,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
@@ -75,8 +76,9 @@ public class HomeActivity extends NavigationStudent {
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_home);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        setupToolbar(this);
 
         displayLoginSuccessMessage(getIntent());
 

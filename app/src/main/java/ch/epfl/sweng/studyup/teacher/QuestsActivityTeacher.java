@@ -39,14 +39,16 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class QuestsActivityTeacher extends NavigationTeacher {
     private static final String TAG = QuestsActivityTeacher.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_quests_teacher);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quests_teacher);
+        setupToolbar(this);
 
         navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
     }

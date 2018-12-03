@@ -34,9 +34,6 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupNavigation();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
     }
 
     public void navigationSwitcher(final Context cn, final Class<?> activity, final int current_index) {

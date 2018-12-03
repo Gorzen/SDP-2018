@@ -1,8 +1,10 @@
 package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -22,6 +24,7 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+import ch.epfl.sweng.studyup.utils.navigation.Navigation;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUEST_TYPE;
@@ -45,10 +48,16 @@ public abstract class Utils {
      * @param time time in ms to wait
      * @param tag  error message if any
      */
-    public static final void waitAndTag(int time, String tag) {
+    public static void waitAndTag(int time, String tag) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {Log.w(tag, "Test was interrupted: " + e.getMessage()); return;}
+    }
+
+    public static void setupToolbar(RefreshContext act) {
+        Toolbar toolbar = act.findViewById(R.id.toolbar);
+        act.setSupportActionBar(toolbar);
+        act.getSupportActionBar().setTitle(null);
     }
 
     public static List<String> getItemsString(){

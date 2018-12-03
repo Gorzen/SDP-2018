@@ -46,6 +46,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
@@ -70,10 +71,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        setupToolbar(this);
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);

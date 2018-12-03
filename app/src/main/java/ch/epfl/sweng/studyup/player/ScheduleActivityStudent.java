@@ -26,6 +26,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class ScheduleActivityStudent extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
@@ -87,8 +88,9 @@ public class ScheduleActivityStudent extends NavigationStudent {
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_schedule_student);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schedule_student);
+        setupToolbar(this);
 
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);

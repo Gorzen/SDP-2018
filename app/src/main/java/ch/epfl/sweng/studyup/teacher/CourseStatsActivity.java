@@ -49,6 +49,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class CourseStatsActivity extends NavigationTeacher {
 
@@ -59,8 +60,9 @@ public class CourseStatsActivity extends NavigationTeacher {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_course_stats);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_course_stats);
+        setupToolbar(this);
         navigationSwitcher(CourseStatsActivity.this, CourseStatsActivity.class, COURSE_STAT_INDEX);
 
         setupListView();

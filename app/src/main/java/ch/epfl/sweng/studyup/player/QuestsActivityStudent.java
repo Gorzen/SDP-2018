@@ -27,13 +27,15 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class QuestsActivityStudent extends NavigationStudent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_quests_student);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quests_student);
+        setupToolbar(this);
         navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, QUESTS_INDEX_STUDENT);
     }
 

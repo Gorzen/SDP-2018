@@ -51,6 +51,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public class AddOrEditQuestionActivity extends NavigationStudent {
@@ -68,8 +69,9 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_add_edit_question);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_edit_question);
+        setupToolbar(this);
 
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());

@@ -16,14 +16,16 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher.COURSE_NAME_INTENT_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.COURSE_SELECTION_FOR_SCHEDULE_INDEX;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class CourseSelectionForScheduleActivity extends NavigationTeacher {
     private ListCourseAdapter listCourseAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_course_selection_for_schedule);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_course_selection_for_schedule);
+        setupToolbar(this);
         navigationSwitcher(CourseSelectionForScheduleActivity.this, CourseSelectionForScheduleActivity.class, COURSE_SELECTION_FOR_SCHEDULE_INDEX);
     }
 
