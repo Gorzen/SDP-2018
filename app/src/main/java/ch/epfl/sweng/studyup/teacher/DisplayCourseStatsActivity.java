@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -81,8 +80,10 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             s2.retainAll(s1); //s2 = only String Question Id (from course) which user answered to
             nb_answer_course = s2.size();
             for (String s : s2) {
-                boolean isAnswerTrue = Boolean.parseBoolean(answered_total.get(s).get(0));
-                if(isAnswerTrue) nb_good_answer_course++;
+                if(answered_total.get(s) != null) {
+                    boolean isAnswerTrue = Boolean.parseBoolean(answered_total.get(s).get(0));
+                    if(isAnswerTrue) nb_good_answer_course++;
+                }
             }
             int rate_user_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
             rates.add(rate_user_in_a_course);

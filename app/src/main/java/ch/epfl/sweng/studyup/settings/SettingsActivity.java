@@ -6,8 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.kosalgeek.android.caching.FileCacher;
+
+import java.io.IOException;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
@@ -20,6 +26,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -37,6 +44,35 @@ public class SettingsActivity extends RefreshContext {
         clearCacheToLogOut(SettingsActivity.this);
         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void onChangeRoleClick(View v) {
+        Intent i;
+        if(Player.get().getRole() == Constants.Role.teacher) {
+            Player.get().setRole(Constants.Role.student);
+            setRoleInCache(Constants.Role.student);
+            i = new Intent(SettingsActivity.this, HomeActivity.class);
+        } else {
+            Player.get().setRole(Constants.Role.teacher);
+            setRoleInCache(Constants.Role.teacher);
+            i = new Intent(SettingsActivity.this, QuestsActivityTeacher.class);
+        }
+
+        startActivity(i);
+    }
+
+    private void setRoleInCache(Constants.Role r) {
+        try {
+            FileCacher<List<String>> userDataCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+            if (userDataCache.hasCache()) {
+                final List<String> playerCacheData = userDataCache.readCache();
+                playerCacheData.set(3, r.name());
+                userDataCache.writeCache(playerCacheData);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onLanguageChoiceClick(View view) {

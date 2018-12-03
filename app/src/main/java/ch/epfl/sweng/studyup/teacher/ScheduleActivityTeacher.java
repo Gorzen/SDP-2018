@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -32,6 +34,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
 
 public class ScheduleActivityTeacher extends NavigationTeacher {
     private List<WeekViewEvent> weekViewEvents;
@@ -140,18 +143,21 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_teacher);
 
         weekViewEvents = new ArrayList<>();
-        weekView = findViewById(R.id.weekView);
 
-        if(MOCK_ENABLED){
-            weekView.setNumberOfVisibleDays(1);
+        if(tooRecentAPI()) {
+            setContentView(R.layout.activity_schedule_teacher_api_higher_than_27);
+        } else {
+            setContentView(R.layout.activity_schedule_teacher);
+            weekView = findViewById(R.id.weekView);
+            if(MOCK_ENABLED){
+                weekView.setNumberOfVisibleDays(1);
+            }
+            Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         }
 
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         courseName = getIntent().getStringExtra(COURSE_NAME_INTENT_SCHEDULE);
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         ((TextView) findViewById(R.id.course_text_schedule_teacher)).setText(courseName);
 
         Firestore.get().getCoursesSchedule(this, Player.get().getRole());
@@ -160,6 +166,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
 
     public void updateSchedule(List<WeekViewEvent> events){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         List<WeekViewEvent> localEvents = new ArrayList<>(events);
 
         // Filter of the events, to keep only the wanted course
@@ -168,9 +175,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
         }
 
         weekViewEvents.clear();
-        for(WeekViewEvent event : localEvents){
-            weekViewEvents.add(event);
-        }
+        weekViewEvents.addAll(localEvents);
         id += localEvents.size();
         weekView.notifyDatasetChanged();
     }
@@ -181,6 +186,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
     public void onSaveButtonClick(View view){
         Firestore.get().setCourseEvents(Constants.Course.valueOf(courseName), getWeekViewEvents());
+        Toast.makeText(this, R.string.schedule_updated_confirmation, Toast.LENGTH_SHORT).show();
     }
 
     public void onBackButtonScheduleTeacher(View v) {

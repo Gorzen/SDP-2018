@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -32,10 +30,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -172,26 +168,24 @@ public class DisplayQuestionActivity extends RefreshContext {
                 (RadioButton) findViewById(R.id.answer4)));
 
         if(isQansweredYet) {
-            //TODO OOOOOO
-            //if the previous answer was false
             List<String> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
             Integer playerAnswer = Integer.valueOf(pair.get(1));
             radioButtons.get(playerAnswer).setBackgroundResource(R.drawable.button_quests_clicked_shape);
             radioButtons.get(displayQuestion.getAnswer()).setBackgroundResource(R.drawable.button_quests_clicked_shape_true);
-
         }
 
-        for (RadioButton rdb : radioButtons) {
-            rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (buttonView.isChecked()) {
-                        buttonView.setBackgroundResource(R.drawable.button_quests_clicked_shape);
-                    } else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
-                }
-            });
+        else {
+            for (RadioButton rdb : radioButtons) {
+                rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (buttonView.isChecked()) {
+                            buttonView.setBackgroundResource(R.drawable.button_quests_clicked_shape);
+                        } else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
+                    }
+                });
+            }
         }
-
     }
 
     /**
@@ -298,7 +292,10 @@ public class DisplayQuestionActivity extends RefreshContext {
     public void answerQuestion(View view) {
         int chkTOP = answerGroupTOP.getCheckedRadioButtonId();
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
-        if(chkBOT == -1 && chkTOP == -1) {
+        if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
+            Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
+        }
+        else if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -308,11 +305,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             //subtract 1 to have answer between 0 and 3
             int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
-            if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
-                Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
-            }
-
-            else if (answer == displayQuestion.getAnswer()) {
+            if (answer == displayQuestion.getAnswer()) {
                 goodAnswer(answer);
             } else {
                 badAnswer(answer);
