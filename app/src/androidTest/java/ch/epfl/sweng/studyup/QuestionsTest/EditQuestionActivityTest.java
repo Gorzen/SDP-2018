@@ -85,7 +85,10 @@ public class EditQuestionActivityTest {
         });
         waitAndTag(150, "Wait for radio to be set.");
 
-        // Edit and Check
+        editAndCheckQuestionHelper(newAnswerNumber, changeType, isTrueFalseBeforeEdition);
+    }
+
+    private void editAndCheckQuestionHelper(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");
@@ -106,6 +109,7 @@ public class EditQuestionActivityTest {
                 }
             }
         });
+        waitAndTag(100, "Waiting for asynchronous questions to launch.");
     }
 
     private void unsetAnswerRadioButtons() {
@@ -215,9 +219,9 @@ public class EditQuestionActivityTest {
 /*
     private void addQuestionAndClick(Question q) {
         Firestore.get().addQuestion(q);
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
-        Utils.waitAndTag(3000, this.getClass().getName());
+        waitAndTag(3000, this.getClass().getName());
         clickOnListViewItem();
     }
 */
