@@ -33,10 +33,6 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_course_stats);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         Intent intent = getIntent();
         course = Course.valueOf(intent.getStringExtra(DisplayQuestionActivity.class.getName()));
 

@@ -145,16 +145,9 @@ public class HomeActivity extends NavigationStudent {
         view_username.setMaxLines(1);
         view_username.setMaxWidth(300);
 
-        // Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        updateCurrDisplay();
-        updateXpAndLvlDisplay();
     }
     @Override
     protected void onResume() {

@@ -71,10 +71,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_question);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         Intent intent = getIntent();
         Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());
 

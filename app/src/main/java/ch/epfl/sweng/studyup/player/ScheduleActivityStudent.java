@@ -90,10 +90,6 @@ public class ScheduleActivityStudent extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_student);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         weekViewEvents = new ArrayList<>();
         weekView = findViewById(R.id.weekView);
 

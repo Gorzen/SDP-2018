@@ -71,12 +71,6 @@ public class DisplayQuestionActivity extends RefreshContext {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
 
-        int answerNumber;
-        boolean trueFalse;
-        String questionTitle;
-        String questionID;
-        String questionLang;
-
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
             progressBar.setVisibility(View.GONE);
@@ -85,37 +79,28 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         Intent intent = getIntent();
         if (!checkIntent(intent)) return;
-        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);;
 
         //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
-                Constants.Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-        displayImage(questionID);
+        displayQuestion = extractQuestion(intent);
+        displayImage(intent.getStringExtra(DISPLAY_QUESTION_ID));
 
-        setupLayout(displayQuestion);
+        setupLayout(displayQuestion); setupRadioButton();;
 
-        Button backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        setupRadioButton();
-
-        TextView questTitle = findViewById(R.id.quest_title);
-        questTitle.setText(displayQuestion.getTitle());
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        ((TextView) findViewById(R.id.quest_title)).setText(displayQuestion.getTitle());
     }
 
+    private Question extractQuestion(Intent i) {
+        return new Question(i.getStringExtra(DISPLAY_QUESTION_ID), i.getStringExtra(DISPLAY_QUESTION_TITLE),
+                Boolean.parseBoolean(i.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE)), Integer.parseInt(i.getStringExtra(DISPLAY_QUESTION_ANSWER)),
+                Constants.Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG)); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+    }
     /**
      * Check that the Intent that launched the activity has all the needed fields
      *
@@ -123,29 +108,8 @@ public class DisplayQuestionActivity extends RefreshContext {
      */
     private boolean checkIntent(Intent intent) {
 
-        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_LANG)) {
-            quit();
-            return false;
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE) || !intent.hasExtra(DISPLAY_QUESTION_ID) || !intent.hasExtra(DISPLAY_QUESTION_ANSWER) || !intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE) || !intent.hasExtra(DISPLAY_QUESTION_LANG)) {
+            quit(); return false;
         }
 
         return true;
@@ -209,51 +173,59 @@ public class DisplayQuestionActivity extends RefreshContext {
         try {
             final File tempImage = File.createTempFile(questionID, "png");
             final File tempText = File.createTempFile(questionID, "txt");
-            questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    ProgressBar progressBar = findViewById(R.id.questionProgressBar);
-                    progressBar.setVisibility(View.GONE);
-                    Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
-                    ImageView displayImageView = findViewById(R.id.question_display_view);
-                    displayImageView.setImageBitmap(displayImage);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            questionImage.getFile(tempImage)
+                    .addOnSuccessListener(getListenerImageFetching(tempImage))
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            String displayText = "";
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line).append("\n");
-                                }
-                                reader.close();
-                                displayText = sb.toString();
-                            } catch (FileNotFoundException e) {
-                                Log.e(TAG, e.toString());
-                                quit();
-                            } catch (IOException e) {
-                                Log.e(TAG, e.toString());
-                                quit();
-                            }
-                            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
-                            progressBar.setVisibility(View.GONE);
-                            TextView textQuestion = findViewById(R.id.question_text_display);
-                            textQuestion.setText(displayText);
-                            textQuestion.setVisibility(View.VISIBLE);
+                        public void onFailure(@NonNull Exception e) {
+                            questionText.getFile(tempText)
+                                    .addOnSuccessListener(getListenerTextFetching(tempText));
                         }
-                    });
-                }
-            });
+                    };
         } catch (IOException e){
             Toast.makeText(this, getString(R.string.text_questiondlerror), Toast.LENGTH_SHORT).show();
             quit();
         }
+    }
+
+    private OnSuccessListener<FileDownloadTask.TaskSnapshot> getListenerImageFetching(final File tempImage) {
+        return new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                progressBar.setVisibility(View.GONE);
+                Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
+                ImageView displayImageView = findViewById(R.id.question_display_view);
+                displayImageView.setImageBitmap(displayImage);
+            }
+        };
+    }
+
+    private OnSuccessListener<FileDownloadTask.TaskSnapshot> getListenerTextFetching(final File tempText) {
+        return new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                String displayText = "";
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line).append("\n");
+                    }
+                    reader.close();
+                    displayText = sb.toString();
+                } catch (IOException e) {
+                    Log.e(TAG, e.toString());
+                    quit();
+                }
+                ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                progressBar.setVisibility(View.GONE);
+                TextView textQuestion = findViewById(R.id.question_text_display);
+                textQuestion.setText(displayText);
+                textQuestion.setVisibility(View.VISIBLE);
+            }
+        };
     }
 
     private void quit() {

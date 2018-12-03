@@ -27,10 +27,6 @@ public class InventoryActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
     }
 

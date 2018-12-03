@@ -49,10 +49,6 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         setContentView(R.layout.activity_quests_teacher);
 
         navigationSwitcher(QuestsActivityTeacher.this, QuestsActivityTeacher.class, QUESTS_INDEX_TEACHER);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
     }
 
     @Override

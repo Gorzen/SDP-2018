@@ -68,10 +68,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         navigationSwitcher(MapsActivity.this, MapsActivity.class, MAP_INDEX);
     }
 

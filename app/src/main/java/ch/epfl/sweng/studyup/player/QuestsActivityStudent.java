@@ -35,10 +35,6 @@ public class QuestsActivityStudent extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quests_student);
         navigationSwitcher(QuestsActivityStudent.this, QuestsActivityStudent.class, QUESTS_INDEX_STUDENT);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
     }
 
     @Override

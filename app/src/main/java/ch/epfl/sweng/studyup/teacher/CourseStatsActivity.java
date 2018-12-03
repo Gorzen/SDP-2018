@@ -63,10 +63,6 @@ public class CourseStatsActivity extends NavigationTeacher {
         setContentView(R.layout.activity_course_stats);
         navigationSwitcher(CourseStatsActivity.this, CourseStatsActivity.class, COURSE_STAT_INDEX);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         setupListView();
     }
 

@@ -25,10 +25,6 @@ public class CourseSelectionForScheduleActivity extends NavigationTeacher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_selection_for_schedule);
         navigationSwitcher(CourseSelectionForScheduleActivity.this, CourseSelectionForScheduleActivity.class, COURSE_SELECTION_FOR_SCHEDULE_INDEX);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
     }
 
     @Override
