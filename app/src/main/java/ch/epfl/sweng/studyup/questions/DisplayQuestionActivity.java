@@ -329,7 +329,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             Player.get().addItem(Items.COIN_SACK);
         }
 
-        Player.get().notifySpecialQuestObservers(getApplicationContext(), SpecialQuestUpdateFlag.ANSWERED_QUESTION);
+        Player.get().notifySpecialQuestObservers(SpecialQuestUpdateFlag.ANSWERED_QUESTION);
     }
 
     /**

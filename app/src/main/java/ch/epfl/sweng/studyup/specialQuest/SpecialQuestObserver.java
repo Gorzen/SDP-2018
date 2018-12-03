@@ -7,5 +7,5 @@ import com.google.common.base.Optional;
 import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 
 public interface SpecialQuestObserver {
-    void update(Optional<Context> context, SpecialQuestUpdateFlag updateFlag);
+    void update(SpecialQuestUpdateFlag updateFlag);
 }

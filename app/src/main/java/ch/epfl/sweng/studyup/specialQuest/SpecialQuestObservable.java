@@ -6,5 +6,5 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 public interface SpecialQuestObservable {
 
-    void notifySpecialQuestObservers(Context context, Constants.SpecialQuestUpdateFlag updateFlag);
+    void notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag updateFlag);
 }

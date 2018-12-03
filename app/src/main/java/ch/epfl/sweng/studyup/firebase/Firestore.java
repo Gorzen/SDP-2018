@@ -131,7 +131,7 @@ public class Firestore {
                             Update local data with remote data.
                              */
                             currPlayer.updateLocalDataFromRemote(remotePlayerData);
-                            currPlayer.notifySpecialQuestObservers(null, Constants.SpecialQuestUpdateFlag.USER_LOGIN);
+                            currPlayer.notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.USER_LOGIN);
                         } else {
                             /*
                                 Player is logging in for the first time.
