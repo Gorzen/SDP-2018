@@ -70,7 +70,6 @@ public class NPCTest {
             }
 
         });
-        Utils.waitAndTag(5000, "");
     }
 
     @Test

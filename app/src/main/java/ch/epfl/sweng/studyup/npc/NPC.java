@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.google.android.gms.maps.model.LatLng;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
@@ -25,18 +26,8 @@ public class NPC {
 
     public void isInRange(LatLng playerLatLng) {
         if (Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
-            currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
-            AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
-            builder.setTitle(getName() + currentActivity.getString(R.string.NPC_interaction))
-                    .setPositiveButton(currentActivity.getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            currentActivity.startActivity(new Intent(currentActivity, NPCActivity.class).putExtra("name", name));
-                        }
-                    })
-                    .setNegativeButton(currentActivity.getString(R.string.NPC_refuse), null);
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            HomeActivity activity = (HomeActivity)GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+            activity.showDialog(name);
         }
     }
 

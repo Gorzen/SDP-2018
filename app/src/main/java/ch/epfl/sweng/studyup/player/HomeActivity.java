@@ -2,10 +2,12 @@ package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -35,6 +37,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
@@ -50,6 +53,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
+    AlertDialog dialog;
 
     // Text that will be displayed in the levelProgress layout
     public CircularProgressIndicator levelProgress;
@@ -72,9 +76,24 @@ public class HomeActivity extends NavigationStudent {
         unScheduleBackgroundLocation();
     }
 
+    public void showDialog(final String nameNPC) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(nameNPC + getString(R.string.NPC_interaction))
+                .setPositiveButton(getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra("name", nameNPC));
+                    }
+                })
+                .setNegativeButton(getString(R.string.NPC_refuse), null);
+        dialog = builder.create();
+        dialog.show();
+    }
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -163,6 +182,15 @@ public class HomeActivity extends NavigationStudent {
         updateCurrDisplay();
         updateXpAndLvlDisplay();
         populateSpecialQuestsList();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     @Override
