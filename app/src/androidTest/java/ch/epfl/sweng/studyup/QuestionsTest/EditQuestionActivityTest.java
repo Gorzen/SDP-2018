@@ -49,7 +49,7 @@ public class EditQuestionActivityTest {
 
     @Rule
     public final ActivityTestRule<AddOrEditQuestionActivity> mActivityRule =
-            new ActivityTestRule<>(AddOrEditQuestionActivity.class);
+            new ActivityTestRule<>(AddOrEditQuestionActivity.class, true , false);
 
 
     @Before
@@ -183,9 +183,9 @@ public class EditQuestionActivityTest {
     }
 
     @Test
-    public void editTrueFalseQuestionAnswerImagedToTextBasedTest() {
+    public void editTrueFalseQuestionAnswerImagedToTextBasedTest() throws Throwable {
         q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
-        //addQuestionAndClick(q);
+        mActivityRule.launchActivity(new Intent().putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q));
 
         onView(withId(R.id.text_radio_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.questionText))
@@ -196,7 +196,16 @@ public class EditQuestionActivityTest {
 
         waitAndTag(2000, this.getClass().getName());
 
-        onView(withId(R.id.radio_answer2)).perform(scrollTo()).perform(click());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                unsetAnswerRadioButtons();
+                RadioButton newAnswerButton = mActivityRule.getActivity().findViewById(R.id.radio_answer2);
+                newAnswerButton.setChecked(true);
+            }
+        });
+        waitAndTag(150, "Wait for radio to be set.");
+
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
@@ -222,20 +231,23 @@ public class EditQuestionActivityTest {
                     for (Question q : questions) {
                         if(q.getQuestionId().equals(questionUUID)) {
                             assertEquals(true, q.isTrueFalse());
+                            assertEquals(1, q.getAnswer());
                             return;
                         }
                     }
                 }
             }
         });
+        waitAndTag(100, "Waiting for main thread to run checks.");
     }
 
     @Test
     public void backButtonTest() {
-        q = new Question(questionUUID, this.getClass().getName(), true, 0, Constants.Course.SWENG.name(), "en");
         Intent iWithSimpleQ = new Intent();
-        iWithSimpleQ.putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q);
+        String nullS = null;
+        iWithSimpleQ.putExtra(AddOrEditQuestionActivity.class.getSimpleName(), nullS);
         mActivityRule.launchActivity(iWithSimpleQ);
+        waitAndTag(100, "Waiting for activity to launch");
         onView(withId(R.id.back_button)).perform(click());
     }
 }
