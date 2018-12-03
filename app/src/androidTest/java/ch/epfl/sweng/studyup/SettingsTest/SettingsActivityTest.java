@@ -42,6 +42,7 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sweng.studyup.auth.AuthenticationActivity.cachePlayerData;
 import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -86,6 +87,7 @@ public class SettingsActivityTest {
 
     @Test
     public void changeRoleToTeacherTest() {
+        cachePlayerData(mActivityRule.getActivity().getApplicationContext());
         onView(withId(R.id.changeRoleButton)).perform(click());
         intended(hasComponent(QuestsActivityTeacher.class.getName()));
     }
@@ -93,6 +95,7 @@ public class SettingsActivityTest {
     @Test
     public void changeRoleToStudentTest() {
         Player.get().setRole(Constants.Role.teacher);
+        cachePlayerData(mActivityRule.getActivity().getApplicationContext());
         mActivityRule.finishActivity();
         mActivityRule.launchActivity(new Intent());
         onView(withId(R.id.changeRoleButton)).perform(click());

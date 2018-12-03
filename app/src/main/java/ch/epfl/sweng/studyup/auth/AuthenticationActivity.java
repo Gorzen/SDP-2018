@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.auth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,10 +67,10 @@ public class AuthenticationActivity extends RefreshContext {
         }
     }
 
-    public void cachePlayerData() {
+    public static void cachePlayerData(Context cnx) {
 
         Player currPlayer = Player.get();
-        FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+        FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(cnx, PERSIST_LOGIN_FILENAME);
 
         List<String> playerDataCache = new ArrayList<>();
 
@@ -81,7 +82,7 @@ public class AuthenticationActivity extends RefreshContext {
         try {
             loginPersistenceCache.writeCache(playerDataCache);
         } catch (IOException e) {
-            Log.d(TAG, "Unable to cache player data.");
+            Log.d(cnx.getClass().getSimpleName(), "Unable to cache player data.");
         }
     }
 
@@ -106,7 +107,7 @@ public class AuthenticationActivity extends RefreshContext {
         Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
         if(!Player.get().isDefault() && !MOCK_ENABLED) {
-            cachePlayerData();
+            cachePlayerData(this);
         }
 
         startActivity(new Intent(this, HOME_ACTIVITY));
