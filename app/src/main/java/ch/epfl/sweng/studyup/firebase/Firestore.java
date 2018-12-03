@@ -5,12 +5,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -395,16 +398,27 @@ public class Firestore {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot doc = task.getResult();
+                            if(task.getResult().exists()) {
+                                DocumentSnapshot doc = task.getResult();
 
-                            List<String> teachers;
-                            try {
-                                 teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
-                            } catch(ClassCastException e) { Log.d(TAG, "onComplete: The info for the teacher of "+c.name()+" is incorrect."); return; }
+                                List<String> teachers;
+                                try {
+                                    teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
+                                } catch (ClassCastException e) {
+                                    Log.d(TAG, "onComplete: The info for the teacher of " + c.name() + " is incorrect.");
+                                    return;
+                                }
 
-                            if(!doc.exists() || !teachers.contains(Player.get().getSciperNum())){
-                                Map<String, Object> courseData = doc.getData();
-                                courseData.put(FB_TEACHING_STAFF, teachers.add(Player.get().getSciperNum()));
+                                if (!teachers.contains(Player.get().getSciperNum())) {
+                                    Map<String, Object> courseData = doc.getData();
+                                    teachers.add(Player.get().getSciperNum());
+                                    courseData.put(FB_TEACHING_STAFF, teachers);
+                                    courseRef.set(courseData);
+                                }
+                            } else {
+                                Map<String, Object> courseData = new HashMap<>();
+                                ArrayList<String> staff = new ArrayList<>(Arrays.asList(Player.get().getSciperNum()));
+                                courseData.put(FB_TEACHING_STAFF, staff);
                                 courseRef.set(courseData);
                             }
 
@@ -432,9 +446,10 @@ public class Firestore {
                             Map<String, Object> courseData = doc.getData();
                             if(teachers.remove(Player.get().getSciperNum()) && teachers.isEmpty()) {
                                 deleteCourseInfos(c);
+                            } else {
+                                courseData.put(FB_TEACHING_STAFF, teachers);
+                                courseRef.set(courseData);
                             }
-                            courseData.put(FB_TEACHING_STAFF, teachers);
-                            courseRef.set(courseData);
                         } else {
                             Log.w(TAG, "The schedule fail to load or no course are present.");
                         }
@@ -443,7 +458,8 @@ public class Firestore {
     }
 
     private void resetCourseSchedule(final Course c) {
-        db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS).get()
+        DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.collection(FB_EVENTS).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
