@@ -27,6 +27,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
 
 public class ScheduleActivityStudent extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
@@ -92,7 +93,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
 
         weekViewEvents = new ArrayList<>();
 
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+        if(tooRecentAPI()) {
             setContentView(R.layout.activity_schedule_student_api_higher_than_27);
         } else {
             setContentView(R.layout.activity_schedule_student);
@@ -118,9 +119,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
     public void updateSchedule(List<WeekViewEvent> events){
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
-        for(WeekViewEvent event : events){
-            weekViewEvents.add(event);
-        }
+        weekViewEvents.addAll(events);
         id += events.size();
         weekView.notifyDatasetChanged();
     }
