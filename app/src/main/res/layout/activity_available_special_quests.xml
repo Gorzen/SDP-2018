@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="?attr/colorPrimaryDark"
+            android:background="?android:attr/colorPrimaryDark"
             android:minHeight="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark">
@@ -39,7 +39,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/your_special_quests"
+        android:id="@+id/your_special_quests_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -58,18 +58,28 @@
         android:background="@android:color/transparent"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/your_special_quests" />
+        app:layout_constraintTop_toBottomOf="@+id/your_special_quests_title" />
 
     <TextView
-        android:id="@+id/available_special_quests"
+        android:id="@+id/available_special_quests_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/available_special_quests"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/your_special_quests_list_view" />
+
+    <ListView
+        android:id="@+id/available_special_quests_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/available_special_quests_title" />
 
 </android.support.constraint.ConstraintLayout>

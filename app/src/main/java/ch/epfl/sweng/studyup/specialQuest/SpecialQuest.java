@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.common.base.Optional;
@@ -67,5 +68,14 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
                 }
             }
         }
+    }
+
+    /*
+    Special quests are equal if they have the same type.
+    This is used for determining whether a player is enrolled in a give special quest type.
+     */
+    public boolean equals(Object compSpecialQuest) {
+        return this.getSpecialQuestType()
+            .equals(((SpecialQuest)compSpecialQuest).getSpecialQuestType());
     }
 }
