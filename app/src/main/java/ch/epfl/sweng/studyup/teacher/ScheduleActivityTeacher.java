@@ -10,6 +10,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -186,6 +187,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
 
     public void onSaveButtonClick(View view){
         Firestore.get().setCourseEvents(Constants.Course.valueOf(courseName), getWeekViewEvents());
+        Toast.makeText(this, R.string.schedule_updated_confirmation, Toast.LENGTH_SHORT).show();
     }
 
     public void onBackButtonScheduleTeacher(View v) {
