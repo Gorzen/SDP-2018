@@ -81,7 +81,7 @@
     <string name="text_newposition">NEW POS:</string>
     <string name="text_inyourroom">You are in your room:</string>
     <string name="text_notinyourroom">You are not in your room:</string>
-    <string name="text_imagesaved">Image Saved!</string>
+    <string name="text_saved">Saved !</string>
     <string name="text_failed">Failed!</string>
     <string name="text_photospermissions">Can\'t take photos without permission.</string>
     <string name="text_addimage">Add an image</string>
@@ -115,7 +115,7 @@
     <string name="no_upper">NO</string>
     <string name="choose_theme_red">Red</string>
     <string name="choose_theme_green">Green</string>
-    <string name="choose_theme_brown">Brown</string>
+    <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Blue</string>
     <string name="choose_theme_multicolor">Multicolor</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
@@ -152,4 +152,13 @@
     <string name="send_request_text">Enroll</string>
     <string name="pending_courses_text">Pending courses</string>
     <string name="accepted_courses_text">Accepted courses</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="item_xp_potion_name">XP potion</string>
+    <string name="item_coin_sack_name">Sack of coin</string>
+    <string name="item_xp_potion_description">A potion that gives you some xp when drunk !</string>
+    <string name="item_coin_sack_description">A sack containing lots of shiny coins !</string>
+    <string name="item_use_button_text">Use</string>
+    <string name="special_quest_three_questions_title">Three Questions</string>
+    <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
 </resources>
