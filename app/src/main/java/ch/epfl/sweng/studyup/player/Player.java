@@ -302,6 +302,11 @@ public class Player implements SpecialQuestObservable {
         }
     }
 
+    public void addSpecialQuest(SpecialQuest specialQuest) {
+        this.specialQuests.add(specialQuest);
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
     public boolean isDefault() throws NumberFormatException {
 
         /*

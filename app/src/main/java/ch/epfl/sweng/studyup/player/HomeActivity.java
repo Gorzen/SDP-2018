@@ -43,7 +43,7 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -237,7 +237,7 @@ public class HomeActivity extends NavigationStudent {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent displaySpecialQuestion = new Intent(HomeActivity.this, SpecialQuestDisplayActivity.class);
-                displaySpecialQuestion.putExtra(SPECIAL_QUEST_INDEX_KEY, position);
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(position));
 
                 startActivity(displaySpecialQuestion);
             }});

@@ -12,12 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 
 public class AvailableSpecialQuestsActivity extends RefreshContext {
 
@@ -65,7 +64,7 @@ public class AvailableSpecialQuestsActivity extends RefreshContext {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent displaySpecialQuestion = new Intent(AvailableSpecialQuestsActivity.this, SpecialQuestDisplayActivity.class);
-                displaySpecialQuestion.putExtra(SPECIAL_QUEST_INDEX_KEY, position);
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(position));
 
                 startActivity(displaySpecialQuestion);
             }});
@@ -73,14 +72,15 @@ public class AvailableSpecialQuestsActivity extends RefreshContext {
 
     public void populateAvailableSpecialQuestsList() {
 
-        List<SpecialQuest> alreadyEnrolledSpecialQuests = Player.get().getSpecialQuests();
         final List<SpecialQuest> availableSpecialQuestList = new ArrayList<>();
         List<Integer> iconList = new ArrayList<>();
 
         /*
         Create special quests for enrollment only if the current player isn't
         already enrolled in a special quest of a given type.
+        For all available special quests, use default icon.
          */
+        List<SpecialQuest> alreadyEnrolledSpecialQuests = Player.get().getSpecialQuests();
         for (final SpecialQuestType specialQuestType : SpecialQuestType.values()) {
             SpecialQuest newSpecialQuest = new SpecialQuest(specialQuestType);
             if(!alreadyEnrolledSpecialQuests.contains(newSpecialQuest)) {
@@ -93,6 +93,19 @@ public class AvailableSpecialQuestsActivity extends RefreshContext {
         SpecialQuestListViewAdapter listAdapter =
                 new SpecialQuestListViewAdapter(this, R.layout.special_quest_model, availableSpecialQuestList, iconList);
         availableQuestsListView.setAdapter(listAdapter);
+
+        /*
+        Set onClick listeners for available special quests that will open SpecialQuestDisplayActivity,
+        passing the Special Quest as a serializable object. It will be de-serialized and used in that activity.
+         */
+        availableQuestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent displaySpecialQuestion = new Intent(AvailableSpecialQuestsActivity.this, SpecialQuestDisplayActivity.class);
+                displaySpecialQuestion.putExtra(SPECIAL_QUEST_KEY, availableSpecialQuestList.get(position));
+
+                startActivity(displaySpecialQuestion);
+            }});
     }
 
     public void onBackButtonAvailableSpecialQuests(View v) {
