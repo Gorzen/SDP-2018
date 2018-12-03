@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.Pair;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -296,6 +295,8 @@ public class Firestore {
                     }
                 }
             });
+        //TODO: for all users delete this question in their answered question field
+        //TODO: or retrieve all questions in the player class and initialize answeredQuestion with question that are still "alive"
     }
 
     /**
@@ -542,7 +543,7 @@ public class Firestore {
      * @param act activity in which this function can be used : CourseStatsActivity
      * @throws NullPointerException  If the data received from the server is not of a valid format
      */
-    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
+    public void loadAllQuestions(final Activity act) throws NullPointerException {
 
         final List<Question> questionList = new ArrayList<>();
 

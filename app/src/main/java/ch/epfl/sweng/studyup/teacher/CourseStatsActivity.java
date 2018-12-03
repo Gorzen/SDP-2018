@@ -46,7 +46,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.get().loadQuestionsForStats(this);
+        Firestore.get().loadAllQuestions(this);
         Firestore.get().loadUsersForStats(this);
     }
 
@@ -57,8 +57,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     }
 
     //retrieve users from firebase
-    public static void setUsers(List<UserData> userList) {allUsers = userList;
-    }
+    public static void setUsers(List<UserData> userList) {allUsers = userList; }
     //retrieve questions from firebase
     public static void setQuestions(List<Question> qList) { allQuestions = qList;}
 

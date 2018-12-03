@@ -156,6 +156,7 @@ public class Player implements SpecialQuestObservable {
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
+
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
 
         Log.d(TAG, "Loaded courses: \n");
