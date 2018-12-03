@@ -77,6 +77,9 @@ public class ManageCourseActivityTest {
 
         //Accept pending course
         testManageCourseSample(R.id.listViewPendingCourses, R.id.acceptCourse, 0, -1, 1);
+
+        //Resign accepted course
+        testManageCourseSample(R.id.listViewAcceptedCourses, R.id.resignButton, 1, 0, -1);
     }
 
     @Test

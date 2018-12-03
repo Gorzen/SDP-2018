@@ -161,4 +161,5 @@
     <string name="item_use_button_text">Use</string>
     <string name="special_quest_three_questions_title">Three Questions</string>
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
+    <string name="manage_course_resign_button">Resign</string>
 </resources>
