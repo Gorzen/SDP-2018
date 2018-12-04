@@ -146,7 +146,6 @@
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>
-
     <string name="item_xp_potion_name">Potion d\'XP</string>
     <string name="item_coin_sack_name">Bourse d\'or</string>
     <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
