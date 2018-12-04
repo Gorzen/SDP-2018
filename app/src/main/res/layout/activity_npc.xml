@@ -63,8 +63,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="164dp"
-            android:textSize="60dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30dp"
+            android:textColor="@color/colorGreyBlack"
             android:text="@string/NPC_temp_description" />
 
     </RelativeLayout>
