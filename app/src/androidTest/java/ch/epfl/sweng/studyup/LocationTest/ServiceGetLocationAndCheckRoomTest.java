@@ -53,12 +53,16 @@ public class ServiceGetLocationAndCheckRoomTest {
     public void init() {
         beforeCurrTime = Calendar.getInstance();
         beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
+        setCalendarToRightWeek(beforeCurrTime);
         afterCurrTime = Calendar.getInstance();
         afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
+        setCalendarToRightWeek(afterCurrTime);
         unrelatedTime1 = Calendar.getInstance();
         unrelatedTime1.set(Calendar.HOUR_OF_DAY, unrelatedTime1.get(Calendar.HOUR_OF_DAY) + 4);
+        setCalendarToRightWeek(unrelatedTime1);
         unrelatedTime2 = Calendar.getInstance();
         unrelatedTime2.set(Calendar.HOUR_OF_DAY, unrelatedTime2.get(Calendar.HOUR_OF_DAY) + 5);
+        setCalendarToRightWeek(unrelatedTime2);
     }
 
     @Test
@@ -165,6 +169,12 @@ public class ServiceGetLocationAndCheckRoomTest {
         location.setAccuracy(1);
         location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
         location.setTime(System.currentTimeMillis());
+    }
+
+    private void setCalendarToRightWeek(Calendar calendar) {
+        calendar.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
+        calendar.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
+        calendar.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
     }
 
 }
