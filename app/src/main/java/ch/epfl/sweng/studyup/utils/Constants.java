@@ -192,7 +192,7 @@ public abstract class Constants {
             new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
             new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
     )));
-}
+
 
     // Flags for triggering special quest listener
     public enum SpecialQuestUpdateFlag {
