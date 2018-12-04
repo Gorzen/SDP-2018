@@ -56,7 +56,6 @@ public class CourseStatsActivityTest {
         Intents.release();
     }
 
-    /*
     @Test
     public void singleCourseTest(){
         cleanAndAdd();
@@ -93,5 +92,7 @@ public class CourseStatsActivityTest {
             };
         }
     }
-    */
+
+
+
 }
