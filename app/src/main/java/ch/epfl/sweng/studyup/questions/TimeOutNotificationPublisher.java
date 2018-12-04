@@ -27,8 +27,8 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
             //The question has been answered in the meantime
             return;
         }
-
-        int wrongAnswer = (question.getAnswer()-1)%4;
+        int modulo = question.isTrueFalse() ? 2 : 4;
+        int wrongAnswer = (question.getAnswer()+1)%modulo;
         player.addAnsweredQuestion(question.getQuestionId(), false, wrongAnswer);
 
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
