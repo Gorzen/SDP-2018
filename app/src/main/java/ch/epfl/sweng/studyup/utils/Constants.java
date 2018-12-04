@@ -175,11 +175,11 @@ public abstract class Constants {
 
     //NPCS
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_Charlie), Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_clam_girl), Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_Death), Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
+            new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
+            new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
+            new NPC("El muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
-            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_devil), Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
+            new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
             new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
     ));
 }
