@@ -16,13 +16,14 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
     public static String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
     public static final String QUESTION = "question";
+    public static final String QUESTIONID = "questionId";
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
-
         Question question = intent.getParcelableExtra(QUESTION);
 
         Player player = Player.get();
