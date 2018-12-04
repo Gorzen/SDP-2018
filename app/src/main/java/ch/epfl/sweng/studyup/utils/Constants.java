@@ -167,7 +167,7 @@ public abstract class Constants {
         public static List<String> getNamesFromCourses(List<Course> courses) {
             ArrayList<java.lang.String> coursesName = new ArrayList<>(courses.size());
             for (int i = 0; i < courses.size(); ++i) {
-                coursesName.add(courses.get(i).toString());
+                coursesName.add(courses.get(i).name());
             }
             return coursesName;
         }
