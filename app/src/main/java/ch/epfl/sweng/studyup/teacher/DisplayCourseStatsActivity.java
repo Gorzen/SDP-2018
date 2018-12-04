@@ -80,7 +80,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             s2.retainAll(s1); //s2 = only String Question Id (from course) which user answered to
             nb_answer_course = s2.size();
             for (String s : s2) {
-                if(answered_total.get(s)) nb_good_answer_course++;
+                if(answered_total.get(s) != null && answered_total.get(s)) nb_good_answer_course++;
             }
             int rate_user_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
             rates.add(rate_user_in_a_course);

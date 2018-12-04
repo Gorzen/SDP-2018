@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.SettingsTest;
 
+import android.content.Intent;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -16,6 +17,11 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
@@ -24,6 +30,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
 import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -35,6 +42,7 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sweng.studyup.auth.AuthenticationActivity.cachePlayerData;
 import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -63,18 +71,35 @@ public class SettingsActivityTest {
         Intents.release();
     }
 
-    //@Test
+    @Test
     public void logoutButton() {
-        FileCacher<String[]> persistLogin = new FileCacher<>(mActivityRule.getActivity(), PERSIST_LOGIN_FILENAME);
+        FileCacher<List<String>> persistLogin = new FileCacher<>(mActivityRule.getActivity(), PERSIST_LOGIN_FILENAME);
         try {
-            String[] s = {"Test"};
-            persistLogin.writeCache(s);
+            List<String> data = new ArrayList<>(Collections.singletonList("Test"));
+            persistLogin.writeCache(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
         onView(ViewMatchers.withId(R.id.logout_button)).perform(click());
         assertTrue(!persistLogin.hasCache());
         intended(hasComponent(LoginActivity.class.getName()));
+    }
+
+    @Test
+    public void changeRoleToTeacherTest() {
+        cachePlayerData(mActivityRule.getActivity().getApplicationContext());
+        onView(withId(R.id.changeRoleButton)).perform(click());
+        intended(hasComponent(QuestsActivityTeacher.class.getName()));
+    }
+
+    @Test
+    public void changeRoleToStudentTest() {
+        Player.get().setRole(Constants.Role.teacher);
+        cachePlayerData(mActivityRule.getActivity().getApplicationContext());
+        mActivityRule.finishActivity();
+        mActivityRule.launchActivity(new Intent());
+        onView(withId(R.id.changeRoleButton)).perform(click());
+        intended(hasComponent(HomeActivity.class.getName()));
     }
 
     @Test
