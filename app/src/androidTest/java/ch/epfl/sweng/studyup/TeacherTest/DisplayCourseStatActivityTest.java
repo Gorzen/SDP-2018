@@ -27,7 +27,7 @@ public class DisplayCourseStatActivityTest {
     @Before
     public void putCourseInIntent() {
         Intent i = new Intent();
-        i.putExtra(DisplayQuestionActivity.class.getName(), Constants.Course.SWENG.name());
+        i.putExtra(DisplayCourseStatsActivity.class.getName(), Constants.Course.SWENG.name());
         mActivityRule.launchActivity(i);
     }
 
