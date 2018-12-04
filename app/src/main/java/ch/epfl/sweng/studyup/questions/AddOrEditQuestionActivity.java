@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -62,7 +61,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
     private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
-    private ProgressBar progressBar;
     private Course chosenCourse;
     private TextView view_chosen_course;
     private Bitmap bitmap = null;
@@ -83,10 +81,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
 
-        // Setup progress bar
-        progressBar = findViewById(R.id.progressBar);
-        if(MOCK_ENABLED) progressBar.setVisibility(View.GONE); else progressBar.setVisibility(View.VISIBLE);
-
         // Setup path getter
         if (MOCK_ENABLED) {
             getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
@@ -96,6 +90,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         }
 
         if(question != null) {
+            if(!MOCK_ENABLED) findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
             this.question = question;
             isNewQuestion = false;
             int trueFalseOrMCQ = question.isTrueFalse() ? R.id.true_false_radio : R.id.mcq_radio;
@@ -121,7 +116,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         // The ACTION_OPEN_DOCUMENT intent was sent with the request code
         // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
         // response to some other intent, and the code below shouldn't run at all.
-
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // The document selected by the user won't be returned in the intent.
             // Instead, a URI to that document will be contained in the return intent
@@ -342,6 +336,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         r1.setText("1");
         r2.setText("2");
     }
+
     /**
      * Sets the Image-based or Text-based Radio Buttons. This method is used when a question is being edited
      * to display the corresponding checked radio buttons and is also used when the radio listener is being set
@@ -404,6 +399,14 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         courseChoiceBuilder.setItems(coursesArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                /*
+                for (Course c : courses){
+                    if(which == c.ordinal()-1){
+                        chosenCourse = c;
+                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
+                    }
+                }*/
+
                 chosenCourse = Course.valueOf(stringListName.get(which));
                 view_chosen_course.setText(getString(R.string.chosen_course_for_question)+chosenCourse.toString());
             }
@@ -431,7 +434,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         } else {
             RadioButton mcqRadio = findViewById(R.id.mcq_radio);
             mcqRadio.setChecked(true);
-            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -471,9 +473,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
 
                 setImageOrTextBasedRadioButtonFirstTime(R.id.image_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.image_radio_button);
-
-                progressBar.setVisibility(View.GONE);
-
+                if(!MOCK_ENABLED) findViewById(R.id.progressBar).setVisibility(View.GONE);
                 bitmap = displayImage;
             }
         });
@@ -497,18 +497,12 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
                         displayText = sb.toString().substring(0, sb.length() - 1);
                     }
                 } catch (Exception e) { Log.e(TAG, e.toString()); finish(); }
-
+                if(!MOCK_ENABLED) findViewById(R.id.progressBar).setVisibility(View.GONE);
                 ((EditText) findViewById(R.id.questionText)).setText(displayText);
                 setImageOrTextBasedRadioButtonFirstTime(R.id.text_radio_button);
                 setUpImageOrTextBasedRadioButtons(R.id.text_radio_button);
-
-                progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-    public void onTextCheckedListener(View v) {
-        progressBar.setVisibility(View.GONE);
     }
 
     public void onBackButtonAddQuestion(View view) {

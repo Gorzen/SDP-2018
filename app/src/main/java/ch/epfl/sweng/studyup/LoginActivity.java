@@ -73,8 +73,9 @@ public class LoginActivity extends RefreshContext {
         setContentView(R.layout.activity_login);
         // TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
       
-        loadInterface();
+        loadInterface(lang);
     }
+
 
     private void attemptLoginFromCache() throws Exception {
 
@@ -131,14 +132,26 @@ public class LoginActivity extends RefreshContext {
         currPlayer.setFirstName(firstName);
         currPlayer.setLastName(lastName);
         currPlayer.setRole(role);
+
     }
 
-    private void loadInterface() {
+    private void loadInterface(String lang) {
 
         viewPager = findViewById(R.id.viewPager);
         sliderDotsLayout = findViewById(R.id.SliderDots);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        Integer[] images = {R.drawable.login_slide1,
+                        R.drawable.login_slide2,
+                        R.drawable.login_slide3,
+                        R.drawable.login_slide4 };
+        if(lang.equals("fr")) {
+            images[0] = R.drawable.login_slide1_fr;
+            images[1] = R.drawable.login_slide2_fr;
+            images[2] = R.drawable.login_slide3_fr;
+            images[3] = R.drawable.login_slide4_fr;
+        }
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, images);
         viewPager.setAdapter(viewPagerAdapter);
 
         final int dotsNumber = viewPagerAdapter.getCount();

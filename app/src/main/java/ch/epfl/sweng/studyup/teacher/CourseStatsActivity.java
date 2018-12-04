@@ -46,7 +46,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.get().loadQuestionsForStats(this);
+        Firestore.get().loadAllQuestions(this);
         Firestore.get().loadUsersForStats(this);
     }
 
@@ -57,8 +57,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     }
 
     //retrieve users from firebase
-    public static void setUsers(List<UserData> userList) {allUsers = userList;
-    }
+    public static void setUsers(List<UserData> userList) {allUsers = userList; }
     //retrieve questions from firebase
     public static void setQuestions(List<Question> qList) { allQuestions = qList;}
 
@@ -73,7 +72,7 @@ public class CourseStatsActivity extends NavigationTeacher {
 
         ArrayList<Course> playerCourses = new ArrayList<>(Player.get().getCoursesTeached());
 
-        listCourseAdapter = new ListCourseAdapter(this, playerCourses);
+        listCourseAdapter = new ListCourseAdapter(this, playerCourses, R.layout.course_item_model, true);
         listView.setAdapter(listCourseAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

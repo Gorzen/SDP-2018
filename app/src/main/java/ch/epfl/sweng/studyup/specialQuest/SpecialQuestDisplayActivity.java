@@ -39,15 +39,8 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
 
         Log.d("SpecialQuestDisplay", "Special quest progress: " + specialQuest.getProgress());
 
-        String displayTitle, displayDesc;
-        if (Locale.getDefault().getDisplayLanguage().equals(ENGLISH)) {
-            displayTitle = specialQuest.getSpecialQuestType().getEnglishTitle();
-            displayDesc = specialQuest.getSpecialQuestType().getEnglishDesc();
-        }
-        else {
-            displayTitle = specialQuest.getSpecialQuestType().getFrenchTitle();
-            displayDesc = specialQuest.getSpecialQuestType().getFrenchDesc();
-        }
+        String displayTitle = specialQuest.getSpecialQuestType().getTitle();
+        String displayDesc = specialQuest.getSpecialQuestType().getDescription();
 
         TextView titleView = findViewById(R.id.specialQuestTitle);
         titleView.setText(displayTitle);

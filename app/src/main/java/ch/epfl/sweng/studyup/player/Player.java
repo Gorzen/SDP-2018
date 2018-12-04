@@ -7,6 +7,7 @@ import android.util.Log;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
@@ -67,7 +69,7 @@ public class Player implements SpecialQuestObservable {
     private int experience;
     private int level;
     private int currency;
-    private Map<String, Boolean> answeredQuestions;
+    private Map<String, List<String>> answeredQuestions;
     private List<Items> items;
 
     private List<Course> coursesEnrolled;
@@ -115,6 +117,7 @@ public class Player implements SpecialQuestObservable {
         items = new ArrayList<>();
         coursesEnrolled = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
     }
 
@@ -155,7 +158,8 @@ public class Player implements SpecialQuestObservable {
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
-        answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
+
+        answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -186,18 +190,22 @@ public class Player implements SpecialQuestObservable {
     }
 
     public List<Course> getCoursesEnrolled() {
-        return coursesEnrolled;
+        return new ArrayList<>(coursesEnrolled);
     }
     public List<Course> getCoursesTeached() {
-        return coursesTeached;
+        return new ArrayList<>(coursesTeached);
     }
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
     }
-    public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
+    public Map<String, List<String>> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
 
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
+
+    public boolean isSuperUser() {
+        return SUPER_USERS.contains(getSciperNum());
+    }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -273,9 +281,9 @@ public class Player implements SpecialQuestObservable {
      */
     public void setCourses(List<Course> courses) {
         if(role == Role.student) {
-            this.coursesEnrolled = courses;
+            this.coursesEnrolled = new ArrayList<>(courses);
         } else {
-            this.coursesTeached= courses;
+            this.coursesTeached = new ArrayList<>(courses);
             for(Course c : courses) {
                 Firestore.get().setCourseTeacher(c);
             }
@@ -291,9 +299,10 @@ public class Player implements SpecialQuestObservable {
     /**
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
      */
-    public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
+    public void addAnsweredQuestion(String questionID, boolean isAnswerGood, int ansNb) {
         if(this.answeredQuestions.get(questionID) == null) {
-            this.answeredQuestions.put(questionID, isAnswerGood);
+            String isAnswerGoodStr = isAnswerGood ? "true" : "false";
+            this.answeredQuestions.put(questionID, Arrays.asList(isAnswerGoodStr, Integer.toString(ansNb)));
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
     }
@@ -308,6 +317,14 @@ public class Player implements SpecialQuestObservable {
         return this.firstName.equals(INITIAL_FIRSTNAME) &&
             this.lastName.equals(INITIAL_LASTNAME) &&
             this.sciperNum.equals(INITIAL_SCIPER);
+    }
+
+    public boolean isTeacher() {
+        return getRole() == Role.teacher;
+    }
+
+    public boolean isStudent() {
+        return getRole() == Role.student;
     }
 
     @Override

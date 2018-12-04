@@ -73,8 +73,8 @@ public class SpecialQuestDisplayActivityTest {
         Test that the activity correctly displayed special quest name.
         This assumes English is the default language.
          */
-        onView(withId(R.id.specialQuestTitle)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getEnglishTitle())));
-        onView(withId(R.id.specialQuestDescription)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getEnglishDesc())));
+        onView(withId(R.id.specialQuestTitle)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getTitle())));
+        onView(withId(R.id.specialQuestDescription)).check(matches(withText(SpecialQuestType.THREE_QUESTIONS.getDescription())));
 
         /*
         Check that progress bar is displayed.

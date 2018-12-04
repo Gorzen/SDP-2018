@@ -1,11 +1,13 @@
 package ch.epfl.sweng.studyup.auth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.kosalgeek.android.caching.FileCacher;
 
@@ -16,7 +18,9 @@ import java.util.List;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -63,10 +67,10 @@ public class AuthenticationActivity extends RefreshContext {
         }
     }
 
-    public void cachePlayerData() {
+    public static void cachePlayerData(Context cnx) {
 
         Player currPlayer = Player.get();
-        FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
+        FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(cnx, PERSIST_LOGIN_FILENAME);
 
         List<String> playerDataCache = new ArrayList<>();
 
@@ -78,7 +82,7 @@ public class AuthenticationActivity extends RefreshContext {
         try {
             loginPersistenceCache.writeCache(playerDataCache);
         } catch (IOException e) {
-            Log.d(TAG, "Unable to cache player data.");
+            Log.d(cnx.getClass().getSimpleName(), "Unable to cache player data.");
         }
     }
 
@@ -98,14 +102,24 @@ public class AuthenticationActivity extends RefreshContext {
         catch (Exception e) {
             Log.e(TAG, e.getMessage());
             startActivity(new Intent(AuthenticationActivity.this, LoginActivity.class));
+            return;
         }
 
         Utils.waitAndTag(TIME_TO_WAIT_FOR_LOGIN, TAG);
 
         if(!Player.get().isDefault() && !MOCK_ENABLED) {
-            cachePlayerData();
+            cachePlayerData(this);
         }
 
         startActivity(new Intent(this, HOME_ACTIVITY));
     }
+
+    public void onContinueToMain(View v) {
+        if(Player.get().getRole() == Role.student) {
+            startActivity(new Intent(this, HomeActivity.class));
+        } else {
+            startActivity(new Intent(this, QuestsActivityTeacher.class));
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.player;
 
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,13 +14,13 @@ public class UserData {
     private String sciperNum;
     private String firstName;
     private String lastName;
-    private HashMap<String, Boolean> answeredQuestions;
+    private HashMap<String, List<String>> answeredQuestions;
     private List<Course> courses;
 
     public  UserData(String sciperNum,
                      String firstName,
                      String lastName,
-                     HashMap<String, Boolean> answeredQuestions,
+                     HashMap<String, List<String>> answeredQuestions,
                      List<Course> courses) {
         this.sciperNum=sciperNum;
         this.firstName=firstName;
@@ -36,7 +37,7 @@ public class UserData {
         this.lastName = lastName;
     }
     public void setCourses(List<Course> courses) { this.courses = courses; }
-    public void setAnsweredQuestions(HashMap<String, Boolean> answeredQuestions) {
+    public void setAnsweredQuestions(HashMap<String, List<String>> answeredQuestions) {
         this.answeredQuestions = answeredQuestions;
     }
 
@@ -44,7 +45,7 @@ public class UserData {
         return courses;
     }
 
-    public HashMap<String, Boolean> getAnsweredQuestions() {
+    public HashMap<String, List<String>> getAnsweredQuestions() {
         return answeredQuestions;
     }
 

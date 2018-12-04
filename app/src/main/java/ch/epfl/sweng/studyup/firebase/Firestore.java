@@ -102,6 +102,10 @@ public class Firestore {
         return instance;
     }
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     /**
      * Function used to synchronize the data of the player, either from local to the remote
      * or from the remote to the local depending if it is a new user or not.
@@ -310,6 +314,8 @@ public class Firestore {
                     }
                 }
             });
+        //TODO: for all users delete this question in their answered question field
+        //TODO: or retrieve all questions in the player class and initialize answeredQuestion with question that are still "alive"
     }
 
     /**
@@ -526,13 +532,13 @@ public class Firestore {
                         UserData user = new UserData(INITIAL_SCIPER,
                                 INITIAL_FIRSTNAME,
                                 INITIAL_LASTNAME,
-                                new HashMap<String, Boolean>(),
+                                new HashMap<String, List<String>>(),
                                 new ArrayList<Course>());
                         user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
                         user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
                         user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        user.setAnsweredQuestions((HashMap<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
-                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, new ArrayList<Course>())));
+                        user.setAnsweredQuestions((HashMap<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
+                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Course>())));
 
                         userList.add(user);
                     }
@@ -556,7 +562,7 @@ public class Firestore {
      * @param act activity in which this function can be used : CourseStatsActivity
      * @throws NullPointerException  If the data received from the server is not of a valid format
      */
-    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
+    public void loadAllQuestions(final Activity act) throws NullPointerException {
 
         final List<Question> questionList = new ArrayList<>();
 

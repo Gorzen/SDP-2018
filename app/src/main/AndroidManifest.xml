@@ -79,7 +79,7 @@
         <activity android:name=".questions.DisplayQuestionActivity" />
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity" />
-        <activity android:name=".specialQuest.SpecialQuestDisplayActivity"></activity>
+        <activity android:name=".specialQuest.SpecialQuestDisplayActivity"/>
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.CourseSelectionActivity" />
         <activity android:name=".player.ScheduleActivityStudent" />
@@ -89,6 +89,7 @@
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
 
         <receiver android:name=".questions.TimeOutNotificationPublisher" />
+        <activity android:name=".teacher.ManageCourseActivity" />
     </application>
 
 
