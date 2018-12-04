@@ -140,10 +140,12 @@
     <string name="send_request_text">M\'enrôler</string>
     <string name="pending_courses_text">Cours en attente</string>
     <string name="accepted_courses_text">Vos cours</string>
+    <string name="text_too_recent_API">L\'affichage de l\'horaire n\'est disponible que jusqu\'à la version 8 d'android (API 27).</string>
+    <string name="change_role_button_text">Changer de r�le</string>
+    <string name="schedule_updated_confirmation">Horaire du cours mis à jour</string>
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>
-
     <string name="item_xp_potion_name">Potion d\'XP</string>
     <string name="item_coin_sack_name">Bourse d\'or</string>
     <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
@@ -152,4 +154,5 @@
     <string name="special_quest_three_questions_title">Trois Questions</string>
     <string name="special_quest_three_questions_description">Répondez à trois questions pour un objet surprise !</string>
     <string name="manage_course_resign_button">Démissioner</string>
+    <string name="choose_your_theme">Choisissez votre thème :</string>
 </resources>

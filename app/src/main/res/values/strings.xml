@@ -152,6 +152,9 @@
     <string name="send_request_text">Enroll</string>
     <string name="pending_courses_text">Pending courses</string>
     <string name="accepted_courses_text">Accepted courses</string>
+    <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
+    <string name="change_role_button_text">Change role</string>
+    <string name="schedule_updated_confirmation">Course\'s schedule updated</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="item_xp_potion_name">XP potion</string>
@@ -162,4 +165,5 @@
     <string name="special_quest_three_questions_title">Three Questions</string>
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
     <string name="manage_course_resign_button">Resign</string>
+    <string name="choose_your_theme">Choose your theme :</string>
 </resources>

@@ -2,8 +2,8 @@ package ch.epfl.sweng.studyup.player;
 
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -27,7 +27,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
-
+import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
 public class ScheduleActivityStudent extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
     private WeekView weekView;
@@ -90,16 +90,20 @@ public class ScheduleActivityStudent extends NavigationStudent {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_student);
-        setupToolbar(this);
 
         weekViewEvents = new ArrayList<>();
-        weekView = findViewById(R.id.weekView);
 
-        if(MOCK_ENABLED){
-            weekView.setNumberOfVisibleDays(1);
+        if(tooRecentAPI()) {
+            setContentView(R.layout.activity_schedule_student_api_higher_than_27);
+        } else {
+            setContentView(R.layout.activity_schedule_student);
+            weekView = findViewById(R.id.weekView);
+            if(MOCK_ENABLED){
+                weekView.setNumberOfVisibleDays(1);
+            }
+            Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         }
-
-        Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
+        setupToolbar(this);
 
         navigationSwitcher(ScheduleActivityStudent.this, ScheduleActivityStudent.class, SCHEDULE_INDEX);
     }
@@ -111,10 +115,9 @@ public class ScheduleActivityStudent extends NavigationStudent {
     }
 
     public void updateSchedule(List<WeekViewEvent> events){
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
-        for(WeekViewEvent event : events){
-            weekViewEvents.add(event);
-        }
+        weekViewEvents.addAll(events);
         id += events.size();
         weekView.notifyDatasetChanged();
     }
