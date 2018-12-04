@@ -14,11 +14,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class NotificationTest extends DisplayQuestionActivityTest {
 
@@ -51,5 +53,14 @@ public class NotificationTest extends DisplayQuestionActivityTest {
 
         NotificationManager notificationManager = (NotificationManager) mActivityRule.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+
+    @Test
+    public void timedQuestionTest() {
+        Question timeTest = new Question("TIME ID", "test title", true, 0, "SWENG", "en", 100000);
+        Intent launchIntent = DisplayQuestionActivity.getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), timeTest);
+        mActivityRule.launchActivity(launchIntent);
+
+        assertTrue(Player.get().getClickedInstants().containsKey(timeTest.getQuestionId()));
     }
 }

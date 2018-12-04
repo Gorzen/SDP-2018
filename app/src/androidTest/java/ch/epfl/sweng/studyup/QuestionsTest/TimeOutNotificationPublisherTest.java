@@ -26,6 +26,7 @@ import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.TimeOutNotificationPublisher;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
@@ -48,11 +49,15 @@ public class TimeOutNotificationPublisherTest {
     @BeforeClass
     public static void init() {
         Intents.init();
+        Player.get().resetPlayer();
+        GlobalAccessVariables.MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void clean() {
         Intents.release();
+        Player.get().resetPlayer();
+        GlobalAccessVariables.MOCK_ENABLED = false;
     }
 
     //@Before

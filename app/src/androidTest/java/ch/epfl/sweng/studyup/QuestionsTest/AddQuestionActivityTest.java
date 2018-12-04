@@ -12,6 +12,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import android.widget.EditText;
@@ -33,9 +34,11 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
+import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -218,5 +221,22 @@ public class AddQuestionActivityTest {
         });
 
         Utils.waitAndTag(100, TAG);
+    }
+
+    @Test
+    public void durationChoiceTest() throws UiObjectNotFoundException {
+        onView(withId(R.id.choice_course_button)).perform(scrollTo(), click());
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        UiObject courseButton = uiDevice.findObject(new UiSelector().text(SWENG.toString()));
+        courseButton.click();
+
+        onView(withId(R.id.duration_selection_text)).perform(scrollTo(), click());
+
+        UiObject durationButton = uiDevice.findObject(new UiSelector().text(Constants.durationChoice.get(1)));
+        durationButton.click();
+
+        onView(withId(R.id.chosen_duration_text)).check(matches(withText(
+                InstrumentationRegistry.getTargetContext().getString(R.string.chosen_duration) +
+                        Constants.durationChoice.get(1))));
     }
 }

@@ -75,6 +75,7 @@ public class CustomActivityTest {
 
     @Test
     public void Z_checkDisplayAndAccessToGallery() throws Exception {
+        waitAndTag(500, "wait for the thing to be displayed");
         onView(withId(R.id.pic_btn)).perform(click());
         assertTrue(device.findObject(new UiSelector().text(mActivityRule.getActivity().getApplicationContext().getString(R.string.camera))).exists());
         assertTrue(device.findObject(new UiSelector().text(mActivityRule.getActivity().getApplicationContext().getString(R.string.gallery))).exists());
