@@ -25,27 +25,65 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.Matchers.not;
 
 @SuppressWarnings("HardCodedStringLiteral")
-public class CannotAnswerTwiceTest extends DisplayQuestionActivityTest{
+public class CannotAnswerTwiceTest {
 
-    //@Test
-    public void cannotAnswerTwice(){
-        Question testQuestion = new Question("abc", "test", true, 0, Constants.Course.SWENG.name(), "en");
-        Player player = Player.get();
-        player.addAnsweredQuestion(testQuestion.getQuestionId(), true, 0);
+    @Rule
+    public final ActivityTestRule<QuestsActivityStudent> rule =
+            new ActivityTestRule<>(QuestsActivityStudent.class, true, false);
+    private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
+    private Question q;
+    private  final String fakeTitle = "fake title from student to display for text";
+    private final String UUID = "UUID-for-text-question";
+
+    @Before
+    public void addQuestionThatWillBeDisplayed() {
+        q = new Question(UUID, fakeTitle, true, 0, Constants.Course.SWENG.name(), "en");
+        Firestore.get().addQuestion(q);
+        waitAndTag(1000, TAG);
+        Player.get().addAnsweredQuestion(q.getQuestionId(), true, 0);
+        Player.get().setRole(Constants.Role.student);
         Firestore.get().updateRemotePlayerDataFromLocal();
+        rule.launchActivity(new Intent());
+        waitAndTag(1000, TAG);
+        GlobalAccessVariables.MOCK_ENABLED = true;
+    }
 
-        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), testQuestion);
-        mActivityRule.launchActivity(i);
-        onView(withId(R.id.answer_button)).perform(click());
-        onView(withId(R.id.answer1)).perform(click());
-        Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
+    @After
+    public void stopMock() {
+        GlobalAccessVariables.MOCK_ENABLED = false;
+    }
+
+
+    @Test
+    public void correctAnswerGivesXpTest() {
+        final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
+        for (int i = 0; i < list.getAdapter().getCount(); ++i) {
+            Question currQuestion = (Question) list.getAdapter().getItem(i);
+            if (currQuestion.getTitle().equals(fakeTitle)) {
+                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                        .atPosition(i)
+                        .perform(click());
+                waitAndTag(4000, TAG);
+
+                int playerXp = Player.get().getExperience();
+                onView(withId(R.id.answer1)).perform(click()).check(matches(isChecked()));
+                onView(withId(R.id.answer_button)).perform(click());
+                waitAndTag(1500, this.getClass().getName());
+                int expectedXP = Player.get().getExperience();
+                assertEquals(expectedXP, playerXp);
+                Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
+            }
+        }
     }
 }

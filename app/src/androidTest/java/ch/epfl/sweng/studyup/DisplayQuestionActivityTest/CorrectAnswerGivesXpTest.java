@@ -9,12 +9,13 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.ListView;
 
+import junit.framework.TestCase;
+
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -29,12 +30,10 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.anything;
@@ -56,7 +55,7 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
         q = new Question(UUID, fakeTitle, true, 0, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
-        Player.get().setRole(Constants.Role.teacher);
+        Player.get().setRole(Constants.Role.student);
         rule.launchActivity(new Intent());
         waitAndTag(1000, TAG);
         GlobalAccessVariables.MOCK_ENABLED = true;
@@ -93,6 +92,23 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
                 int actualXP = playerXp + Constants.XP_GAINED_WITH_QUESTION;
                 assertEquals(expectedXP, actualXP);
                 Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
+            }
+        }
+    }
+
+    @Test
+    public void backButtonTest() {
+        final ListView list = rule.getActivity().findViewById(R.id.listViewQuests);
+        for (int i = 0; i < list.getAdapter().getCount(); ++i) {
+            Question currQuestion = (Question) list.getAdapter().getItem(i);
+            if (currQuestion.getTitle().equals(fakeTitle)) {
+                onData(anything()).inAdapterView(withId(R.id.listViewQuests))
+                        .atPosition(i)
+                        .perform(click());
+                waitAndTag(4000, TAG);
+
+                onView(withId(R.id.back_button)).perform(click());
+                TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
             }
         }
     }
