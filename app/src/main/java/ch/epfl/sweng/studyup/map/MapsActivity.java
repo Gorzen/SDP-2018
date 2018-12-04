@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -29,6 +30,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
@@ -102,10 +105,9 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    if (marker.getTitle().contains("NPC") || marker.getTitle().contains("PNJ")) {
-                        startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getTitle().split("\n")[1]));
-                        return true;
-                    }
+                    if (marker.getTitle().equals(getString(R.string.NPC))) {
+                        if(!Utils.getNPCfromName(marker.getSnippet()).isInRange(POSITION)) { Toast.makeText(MapsActivity.this, R.string.NPC_too_far_away, Toast.LENGTH_SHORT).show();
+                        return false; } else { return true;} }
                     return false;
                 }
             });
@@ -181,7 +183,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
                 mMap.addMarker(new MarkerOptions()
                         .position(npc.getPosition())
-                        .title(getString(R.string.NPC) + "\n" + npc.getName())
+                        .title(getString(R.string.NPC))
+                        .snippet(npc.getName())
                         .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
             }
         }

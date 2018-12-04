@@ -26,7 +26,7 @@ public class NPC {
         this.image = image;
     }
 
-    public void isInRange(LatLng playerLatLng) {
+    public boolean isInRange(LatLng playerLatLng) {
         if (counter % MAX_COUNTER == 0 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
             counter = 1;
             currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -41,8 +41,10 @@ public class NPC {
                     .setNegativeButton(currentActivity.getString(R.string.NPC_refuse), null);
             AlertDialog dialog = builder.create();
             dialog.show();
+            return true;
         }
         ++counter;
+        return false;
     }
 
     public String getName() {

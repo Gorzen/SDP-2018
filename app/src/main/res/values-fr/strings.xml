@@ -140,5 +140,6 @@
     <string name="NPC_refuse">Refuser</string>
     <string name="NPC">PNJ  </string>
     <string name="NPC_temp_description">Yo, une petite bière ?</string>
+    <string name="NPC_too_far_away">You are too far away</string>
 
 </resources>
