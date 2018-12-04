@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants;
 
+import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_DURATION;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_ID;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
 import static junit.framework.TestCase.assertTrue;
@@ -21,6 +22,14 @@ public class MoreDisplayTest extends DisplayQuestionActivityTest {
     public void launchIntentWithoutUriTest(){
         Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0, Constants.Course.SWENG.name(), "en"));
         i.removeExtra(DISPLAY_QUESTION_ID);
+        mActivityRule.launchActivity(i);
+        assertTrue(mActivityRule.getActivity().isFinishing());
+    }
+
+    @Test
+    public void launchIntentWithoutDurationTest(){
+        Intent i = getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), new Question("abc","test", true, 0, Constants.Course.SWENG.name(), "en"));
+        i.removeExtra(DISPLAY_QUESTION_DURATION);
         mActivityRule.launchActivity(i);
         assertTrue(mActivityRule.getActivity().isFinishing());
     }

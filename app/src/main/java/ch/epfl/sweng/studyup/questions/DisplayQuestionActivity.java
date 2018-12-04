@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -66,11 +68,12 @@ public class DisplayQuestionActivity extends RefreshContext {
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
     @SuppressWarnings("HardCodedStringLiteral")
-    public static final String DISPLAY_QUESTION_CLICKEDINSTANT = "display_question_clickedInstant";
-    @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_DURATION = "display_question_duration";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String CHANNEL_ID = "studyup_question_timeout";
 
     private Question displayQuestion;
+    private Player player;
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
@@ -85,6 +88,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         String questionTitle;
         String questionID;
         String questionLang;
+        long questionDuration;
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
@@ -99,12 +103,13 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
-        long clickedInstant = intent.getParcelableExtra(DISPLAY_QUESTION_CLICKEDINSTANT);
+        questionDuration = Long.parseLong(intent.getStringExtra(DISPLAY_QUESTION_DURATION));
 
+        player = Player.get();
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
-                Constants.Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Constants.Course.SWENG.name(), questionLang, questionDuration); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
 
         handleTimedQuestion(displayQuestion);
@@ -163,11 +168,6 @@ public class DisplayQuestionActivity extends RefreshContext {
             return false;
         }
 
-        if (!intent.hasExtra(DISPLAY_QUESTION_CLICKEDINSTANT)) {
-            quit();
-            return false;
-        }
-
         if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
             quit();
             return false;
@@ -217,45 +217,77 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void handleTimedQuestion(Question displayQuestion) {
-        if (displayQuestion.getDuration() == 0) {
-            //There is no time constraint
-            //TODO: handle this
-            return;
-        } else if (displayQuestion.getClickedInstant() == 0) {
+        String questionId = displayQuestion.getQuestionId();
+
+        if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
-            displayQuestion.setClickedInstant(System.currentTimeMillis());
+            player.addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
+
+            //TODO: display time remaining
         } else {
-            long now = System.currentTimeMillis();
-            if (displayQuestion.getClickedInstant() + displayQuestion.getDuration() > now) {
-                //TODO: Handle the case where the time is out
-                Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+            if (displayQuestion.getDuration() == 0) {
+                //There is no time constraint
+                //TODO
             } else {
-                //TODO: display the time remaining
+                long clickedInstant = player.getClickedInstants().get(questionId);
+                long now = System.currentTimeMillis();
+                if (clickedInstant + displayQuestion.getDuration() > now) {
+                    //TODO: Handle the case where the time is out
+                    Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+                } else {
+                    //TODO: display the time remaining
+                }
             }
         }
     }
 
     private void setupNotificationManager() {
+        //Don't use notification when in testing
+        if (MOCK_ENABLED) return;
 
-        Notification notification = prepareNotification(getString(R.string.time_out_notification));
+        Notification notification = prepareNotificationTimeOut(getString(R.string.time_out_title),
+                getString(R.string.time_out_notification));
 
         Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
-        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTION, displayQuestion);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID,
+                displayQuestion.getQuestionId());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
     }
 
-    private Notification prepareNotification(String text) {
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle(R.string.app_name + "!");
+    public Notification prepareNotificationTimeOut(String title, String text) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setContentTitle(title);
         builder.setContentText(text);
         builder.setSmallIcon(R.drawable.logo);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        //Lanching the quest activity when clicked on
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, QuestsActivityStudent.class), 0);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText(text);
+        bigText.setBigContentTitle(title);
+        bigText.setSummaryText(text);
+
+        builder.setStyle(bigText);
+
+        //To ensure compatibility with version under Oreo
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+
         return builder.build();
     }
 
@@ -423,8 +455,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
-        goToQuestion.putExtra(DISPLAY_QUESTION_CLICKEDINSTANT, q.getClickedInstant());
-        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, q.getDuration());
+        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, Long.toString(q.getDuration()));
         return goToQuestion;
     }
 }

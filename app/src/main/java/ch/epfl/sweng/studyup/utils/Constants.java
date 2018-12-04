@@ -2,7 +2,9 @@ package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -27,13 +29,13 @@ public abstract class Constants {
     public static final String FB_SECTION = "section";
     public static final String FB_YEAR = "year";
     public static final String FB_TOKEN = "token";
+    public static final String FB_QUESTION_CLICKEDINSTANT = "clickedInstants questions";
     public static final String FB_QUESTIONS = "questions";
     public static final String FB_QUESTION_AUTHOR = "author";
     public static final String FB_QUESTION_TITLE = "title";
     public static final String FB_QUESTION_ANSWER = "answer";
     public static final String FB_QUESTION_TRUEFALSE = "trueFalse";
     public static final String FB_QUESTION_LANG = "lang";
-    public static final String FB_QUESTION_CLICKEDINSTANT = "clickedInstant";
     public static final String FB_QUESTION_DURATION = "duration";
     public static final String FB_QUESTS = "quests";
     public static final String FB_COURSE = "course";
@@ -133,6 +135,9 @@ public abstract class Constants {
     // Special quest completion alert messages
     public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
     public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
+
+    public static final List<String> durationChoice = Arrays.asList("0", "1h", "5h", "24h");
+    public static final List<Long> durationCorrespond = Arrays.asList(0l, 3600000l, 18000000l, 86400000l);
 
     // Enums for Role, Course
     public enum Role {
