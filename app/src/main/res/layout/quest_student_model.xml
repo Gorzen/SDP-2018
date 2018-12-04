@@ -91,6 +91,25 @@ android:background="@color/colorWhite">
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_cross_red_24dp" />
 
+        <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+            android:id="@+id/time_progress"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:clickable="false"
+            android:soundEffectsEnabled="false"
+            app:direction="clockwise"
+            app:enableProgressAnimation="true"
+            app:layout_constraintBottom_toBottomOf="@+id/lang_img"
+            app:layout_constraintEnd_toEndOf="@+id/lang_img"
+            app:layout_constraintStart_toStartOf="@+id/lang_img"
+            app:layout_constraintTop_toTopOf="@+id/lang_img"
+            app:progressBackgroundColor="@color/colorGrey"
+            app:progressColor="@color/colorGreyDark"
+            app:progressStrokeWidth="3dp"
+            app:textColor="@android:color/transparent"
+            app:textSize="24sp"
+            tools:layout_alignParentBottom="true" />
+
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

@@ -117,6 +117,8 @@ public class Question implements Serializable {
         return trueFalse;
     }
 
+    public boolean isQuestionTimed() { return duration == 0; };
+
     public void setTrueFalse(boolean trueFalse) {
         this.trueFalse = trueFalse;
     }

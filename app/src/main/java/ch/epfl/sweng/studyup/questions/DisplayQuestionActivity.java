@@ -232,7 +232,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             } else {
                 long clickedInstant = player.getClickedInstants().get(questionId);
                 long now = System.currentTimeMillis();
-                if (clickedInstant + displayQuestion.getDuration() > now) {
+                if (now > clickedInstant + displayQuestion.getDuration()) {
                     //TODO: Handle the case where the time is out
                     Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
                 } else {

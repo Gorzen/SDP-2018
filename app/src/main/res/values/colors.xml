@@ -35,4 +35,6 @@
     <color name="colorGrey">#c3c3c3 </color>
     <color name="colorGreyBlack">#333333 </color>
     <color name="colorGreyClair">#dddddd </color>
+    <color name="colorGreyDark">#555555 </color>
+    <color name="transparent">#00000000 </color>
 </resources>
