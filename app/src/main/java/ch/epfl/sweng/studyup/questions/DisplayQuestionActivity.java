@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -77,6 +78,7 @@ public class DisplayQuestionActivity extends RefreshContext {
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
+    private boolean tooLate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
                 Constants.Course.SWENG.name(), questionLang, questionDuration); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
+
 
         handleTimedQuestion(displayQuestion);
 
@@ -223,20 +226,28 @@ public class DisplayQuestionActivity extends RefreshContext {
             //The question has not been clicked on yet
             player.addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
-
-            //TODO: display time remaining
         } else {
+            TextView time_left = findViewById(R.id.time_left);
+            ImageView alarm = findViewById(R.id.alarmImage);
             if (displayQuestion.getDuration() == 0) {
                 //There is no time constraint
-                //TODO
+                alarm.setImageAlpha(0);
+                time_left.setText("");
             } else {
                 long clickedInstant = player.getClickedInstants().get(questionId);
                 long now = System.currentTimeMillis();
                 if (now > clickedInstant + displayQuestion.getDuration()) {
-                    //TODO: Handle the case where the time is out
-                    Toast.makeText(this, "Time out !", Toast.LENGTH_SHORT); //remove this toast when implemented
+                    //too late, the player cannot answer anymore
+                    tooLate = true;
+                    time_left.setText(getString(R.string.elapsed_time));
                 } else {
-                    //TODO: display the time remaining
+                    //display remaining time
+                    int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+                    String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
+                    time_left.setText(displayedText);
+                    if(timeLeft < 0){
+                        time_left.setText(getString(R.string.elapsed_time));
+                    }
                 }
             }
         }
@@ -398,6 +409,9 @@ public class DisplayQuestionActivity extends RefreshContext {
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
         if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
             Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
+        }
+        if(tooLate) {
+            Toast.makeText(this, getString(R.string.elapsed_time), Toast.LENGTH_SHORT).show();
         }
         else if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();

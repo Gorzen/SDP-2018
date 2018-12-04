@@ -103,8 +103,8 @@ android:background="@color/colorWhite">
             app:layout_constraintEnd_toEndOf="@+id/lang_img"
             app:layout_constraintStart_toStartOf="@+id/lang_img"
             app:layout_constraintTop_toTopOf="@+id/lang_img"
-            app:progressBackgroundColor="@color/colorGrey"
-            app:progressColor="@color/colorGreyDark"
+            app:progressBackgroundColor="@android:color/transparent"
+            app:progressColor="@android:color/transparent"
             app:progressStrokeWidth="3dp"
             app:textColor="@android:color/transparent"
             app:textSize="24sp"
@@ -114,10 +114,11 @@ android:background="@color/colorWhite">
             android:id="@+id/testProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="TextView"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="1dp"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/course_quest"
-            app:layout_constraintStart_toEndOf="@+id/course_quest" />
+            app:layout_constraintEnd_toStartOf="@+id/is_quest_done" />
 
     </android.support.constraint.ConstraintLayout>
 

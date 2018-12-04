@@ -162,5 +162,8 @@
     <string name="chosen_duration">"Temps: "</string>
     <string name="duration">Durée</string>
     <string name="time_constraint_text">Pas de limite de temps</string>
+    <string name="remaining_time">Temps restant :</string>
+    <string name="elapsed_time">Temps écoulé</string>
+
 
 </resources>

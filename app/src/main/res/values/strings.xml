@@ -171,4 +171,6 @@
     <string name="chosen_duration" >"Time: "</string>
     <string name="duration">Duration</string>
     <string name="time_constraint_text">No time constraint</string>
+    <string name="remaining_time">Time left:</string>
+    <string name="elapsed_time">Elapsed time</string>
 </resources>
