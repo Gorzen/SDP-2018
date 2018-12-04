@@ -245,6 +245,7 @@ public class DisplayQuestionActivity extends RefreshContext {
                     int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
                     String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
                     time_left.setText(displayedText);
+                    time_left.setTextColor(getColor(R.color.colorPrimary));
                     if(timeLeft < 0){
                         time_left.setText(getString(R.string.elapsed_time));
                     }
