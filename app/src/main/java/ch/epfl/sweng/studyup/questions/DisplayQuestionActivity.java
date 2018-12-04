@@ -254,6 +254,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
         notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID,
                 displayQuestion.getQuestionId());
+        notificationIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(displayQuestion.getAnswer()));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
                 notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

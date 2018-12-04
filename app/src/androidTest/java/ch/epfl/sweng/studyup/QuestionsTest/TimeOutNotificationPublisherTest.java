@@ -86,6 +86,7 @@ public class TimeOutNotificationPublisherTest {
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, notifID);
         notifIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, questionID);
+        notifIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(0));
 
         TimeOutNotificationPublisher notificationPublisher = new TimeOutNotificationPublisher();
         notificationPublisher.onReceive(mActivityRule.getActivity(), notifIntent);
@@ -114,8 +115,9 @@ public class TimeOutNotificationPublisherTest {
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, notifID);
         notifIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, questionID);
+        notifIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(0));
 
-        Player.get().addAnsweredQuestion(questionID + " unique", true);
+        Player.get().addAnsweredQuestion(questionID + " unique", true, 0);
 
         TimeOutNotificationPublisher notificationPublisher = new TimeOutNotificationPublisher();
         notificationPublisher.onReceive(mActivityRule.getActivity(), notifIntent);
