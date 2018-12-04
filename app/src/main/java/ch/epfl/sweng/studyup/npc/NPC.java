@@ -16,7 +16,9 @@ public class NPC {
     private LatLng npcLatLng;
     private int image;
     private final double NPC_RANGE = 20.0;
+    private final int MAX_COUNTER = 50;
     private Activity currentActivity;
+    private int counter = 0;
 
     public NPC(String name, LatLng latLng, int image) {
         this.name = name;
@@ -25,7 +27,8 @@ public class NPC {
     }
 
     public void isInRange(LatLng playerLatLng) {
-        if (Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
+        if (counter == MAX_COUNTER && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
+            counter = 0;
             currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
             AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
             builder.setTitle(getName() + currentActivity.getString(R.string.NPC_interaction))
@@ -39,6 +42,7 @@ public class NPC {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+        ++counter;
     }
 
     public String getName() {
