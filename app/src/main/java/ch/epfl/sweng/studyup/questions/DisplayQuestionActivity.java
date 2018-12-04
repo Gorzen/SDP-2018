@@ -103,7 +103,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
         trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
         questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
-        questionDuration = Long.valueOf(intent.getStringExtra(DISPLAY_QUESTION_DURATION));
+        questionDuration = Long.parseLong(intent.getStringExtra(DISPLAY_QUESTION_DURATION));
 
         player = Player.get();
 

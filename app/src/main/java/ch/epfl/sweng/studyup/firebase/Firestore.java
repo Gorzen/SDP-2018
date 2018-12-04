@@ -254,6 +254,9 @@ public class Firestore {
                         String questionCourseName = questionData.get(FB_COURSE).toString();
                         String questionLang = (String) questionData.get(FB_QUESTION_LANG);
                         long clickedInstant = getLongValueOrDefault(questionData, FB_QUESTION_CLICKEDINSTANT);
+                        if (clickedInstant != 0) {
+                            Player.get().addClickedInstant(questionId, clickedInstant);
+                        }
                         long duration = getLongValueOrDefault(questionData, FB_QUESTION_DURATION);
                         if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
                             questionLang = "en";
