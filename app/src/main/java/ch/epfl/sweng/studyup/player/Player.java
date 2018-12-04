@@ -312,8 +312,6 @@ public class Player implements SpecialQuestObservable {
                     currTime.before(event.getEndTime()))
                 return event.getLocation();
         }
-
-        Log.d(TAG, "No found course");
         return null;
     }
 
