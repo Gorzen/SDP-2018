@@ -28,7 +28,7 @@ public class NPC {
 
     public void isInRange(LatLng playerLatLng) {
         if (counter % MAX_COUNTER == 0 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
-            counter = 0;
+            counter = 1;
             currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
             AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
             builder.setTitle(getName() + " " + currentActivity.getString(R.string.NPC_interaction))
