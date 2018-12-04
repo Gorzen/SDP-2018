@@ -3,18 +3,22 @@ package ch.epfl.sweng.studyup.QuestionsTest;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDAO;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,6 +29,10 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 public class QuestionDatabaseTest {
     private QuestionDAO questionDAO;
     private QuestionDatabase database;
+
+    @Rule
+    public final ActivityTestRule<TestbedActivity> mActivityRule =
+            new ActivityTestRule<>(TestbedActivity.class);
 
     @Before
     public void createDb() {
