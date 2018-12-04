@@ -147,15 +147,9 @@ public abstract class Constants {
         FakeCourse("A fake course");
 
         private String name = "";
-        private String room = "";
 
         Course(String name){
             this.name = name;
-            this.setRoom("");
-        }
-        Course(String name, String room){
-            this.name = name;
-            this.setRoom(room);
         }
 
         /**
@@ -164,24 +158,6 @@ public abstract class Constants {
          */
         public String toString(){
             return name;
-        }
-
-        public void setRoom(String room) {
-            if(Rooms.ROOMS_LOCATIONS.containsKey(room)) {
-                this.room = room;
-            } else {
-                this.room = "";
-                Log.w("Course", "The room is not defined.");
-            }
-        }
-
-        public Room getRoom() {
-            if(Rooms.ROOMS_LOCATIONS.containsKey(this.room)) {
-                return  Rooms.ROOMS_LOCATIONS.get(this.room);
-            } else {
-                Log.e("Course", "The room is not defined.");
-                return null;
-            }
         }
 
         public static List<String> getNamesFromCourses(List<Course> courses) {
