@@ -37,7 +37,7 @@ public class NPCTest {
 
     @Test
     public void ifWithinRangeOfNPCTest() {
-        setLocation(Constants.CYNTHIA_POSITION);
+        //setLocation(Constants.CYNTHIA_POSITION);
         mActivityRule2.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
