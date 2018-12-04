@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -223,6 +225,7 @@ public class Player implements SpecialQuestObservable {
     public void setUserName(String newUsername) {
         username = newUsername;
         Firestore.get().updateRemotePlayerDataFromLocal();
+        notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.SET_USERNAME);
     }
 
     // Method suppose that we can only gain experience.
@@ -232,6 +235,7 @@ public class Player implements SpecialQuestObservable {
         if (newLevel - level > 0) {
             addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, activity);
             level = newLevel;
+            notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.LEVEL_UP);
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -307,6 +311,11 @@ public class Player implements SpecialQuestObservable {
         }
     }
 
+    public void addSpecialQuest(SpecialQuest specialQuest) {
+        this.specialQuests.add(specialQuest);
+        Firestore.get().updateRemotePlayerDataFromLocal();
+    }
+
     public boolean isDefault() throws NumberFormatException {
 
         /*
@@ -328,9 +337,9 @@ public class Player implements SpecialQuestObservable {
     }
 
     @Override
-    public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
+    public void notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag updateFlag) {
         for (SpecialQuestObserver specialQuest : specialQuests) {
-            specialQuest.update(context, specialQuestType);
+            specialQuest.update(updateFlag);
         }
     }
 }
