@@ -77,8 +77,10 @@ public class QuestsActivityTeacherTest {
     public static void disableMock() {
         GlobalAccessVariables.MOCK_ENABLED = false;
     }
+
     @Before
     public void addQuestionThatWillBeDisplayed() {
+        Player.get().resetPlayer();
         q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
