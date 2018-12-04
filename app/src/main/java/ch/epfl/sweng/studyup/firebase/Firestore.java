@@ -176,10 +176,7 @@ public class Firestore {
                     String questionId = document.getId();
                     Map<String, Object> questionData = document.getData();
 
-                    String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
-                    boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
-
-                    Question q = extractQuestionData(currPlayer, questionId, currPlayerIsAuthor, questionData);
+                    Question q = extractQuestionData(currPlayer, questionId, questionData);
                     if(q != null) questionList.add(q);
                 }
 
@@ -192,23 +189,18 @@ public class Firestore {
         });
     }
 
-    private Question extractQuestionData(Player currPlayer, String id, boolean isAuthor, Map<String, Object> questionData) {
+    private Question extractQuestionData(Player currPlayer, String id, Map<String, Object> questionData) {
         Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
-        boolean questionCourseMatchesPlayer = Player.get().getCoursesEnrolled().contains(questionCourse);
-        boolean isValidQuestion =
-                ((isAuthor && currPlayer.getRole() == Role.teacher) ||
-                        (!isAuthor && currPlayer.getRole() == Role.student && questionCourseMatchesPlayer));
+        List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesTeached();
+        boolean questionCourseMatchesPlayer = playerCourse.contains(questionCourse);
 
-        if(isValidQuestion) {
+        if(questionCourseMatchesPlayer) {
 
             String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
             Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
             int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-            String questionLang = (String) questionData.get(FB_QUESTION_LANG);
-            if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
-                questionLang = "en";
-            }
-
+            String questionLang = questionData.get(FB_QUESTION_LANG).toString();
+            
             return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourse.name(), questionLang);
         }
 
