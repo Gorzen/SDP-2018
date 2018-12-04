@@ -27,11 +27,11 @@ public class NPC {
     }
 
     public void isInRange(LatLng playerLatLng) {
-        if (counter == MAX_COUNTER && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
+        if (counter % MAX_COUNTER == 0 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
             counter = 0;
             currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
             AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
-            builder.setTitle(getName() + currentActivity.getString(R.string.NPC_interaction))
+            builder.setTitle(getName() + " " + currentActivity.getString(R.string.NPC_interaction))
                     .setPositiveButton(currentActivity.getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
