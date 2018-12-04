@@ -28,7 +28,8 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
             return;
         }
 
-        player.addAnsweredQuestion(question.getQuestionId(), false);
+        int wrongAnswer = (question.getAnswer()-1)%4;
+        player.addAnsweredQuestion(question.getQuestionId(), false, wrongAnswer);
 
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
         notificationManager.notify(id, notification);
