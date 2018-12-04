@@ -110,6 +110,15 @@ android:background="@color/colorWhite">
             app:textSize="24sp"
             tools:layout_alignParentBottom="true" />
 
+        <TextView
+            android:id="@+id/testProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/course_quest"
+            app:layout_constraintStart_toEndOf="@+id/course_quest" />
+
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

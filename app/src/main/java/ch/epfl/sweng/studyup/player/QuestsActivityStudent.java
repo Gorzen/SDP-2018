@@ -177,6 +177,9 @@ public class QuestsActivityStudent extends NavigationStudent {
             TextView course = convertView.findViewById(R.id.course_quest);
             course.setText(questions.get(position).getCourseName());
 
+
+            TextView testProgress = convertView.findViewById(R.id.testProgress);
+            testProgress.setText(progressBars.get(position).toString());
             CircularProgressIndicator levelProgress = findViewById(R.id.time_progress);
             double progressBarQ = progressBars.get(position);
             if(progressBarQ >= 0) {
