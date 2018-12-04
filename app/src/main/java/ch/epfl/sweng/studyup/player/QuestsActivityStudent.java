@@ -62,32 +62,39 @@ public class QuestsActivityStudent extends NavigationStudent {
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
 
         for (Question q : quests) {
-            if (answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
-                listImageID.add(R.drawable.ic_todo_grey_24dp);
-            } else {
-                List<String> pair = answeredQuestion.get(q.getQuestionId());
-                boolean isAnswerTrue = Boolean.parseBoolean(pair.get(0));
-
-                if (isAnswerTrue) {
-                    listImageID.add(R.drawable.ic_check_green_24dp);
-                }
-                else listImageID.add(R.drawable.ic_cross_red_24dp);
-            }
-
-            switch (q.getLang()) {
-                case "fr":
-                    listLang.add(R.drawable.ic_fr_flag);
-                    break;
-                case "en":
-                    listLang.add(R.drawable.ic_en_flag);
-                    break;
-                default: // Error
-                    listLang.add(R.drawable.ic_cross_red_24dp);
-                    break;
-            }
+            setCorrectImageAnswer(listImageID, answeredQuestion, answeredQuestionId, q);
+            setCorrectFlagLang(listLang, q);
         }
 
         setupOnClickListenerListView(quests, quests, listImageID, listLang);
+    }
+
+    private void setCorrectFlagLang(List<Integer> listLang, Question q) {
+        switch (q.getLang()) {
+            case "fr":
+                listLang.add(R.drawable.ic_fr_flag);
+                break;
+            case "en":
+                listLang.add(R.drawable.ic_en_flag);
+                break;
+            default: // Error
+                listLang.add(R.drawable.ic_cross_red_24dp);
+                break;
+        }
+    }
+
+    private void setCorrectImageAnswer(List<Integer> listImageID, Map<String, List<String>> answeredQuestion, Set<String> answeredQuestionId, Question q) {
+        if (answeredQuestion == null || !answeredQuestionId.contains(q.getQuestionId())) {
+            listImageID.add(R.drawable.ic_todo_grey_24dp);
+        } else {
+            List<String> pair = answeredQuestion.get(q.getQuestionId());
+            boolean isAnswerTrue = Boolean.parseBoolean(pair.get(0));
+
+            if (isAnswerTrue) {
+                listImageID.add(R.drawable.ic_check_green_24dp);
+            }
+            else listImageID.add(R.drawable.ic_cross_red_24dp);
+        }
     }
 
     private void setupOnClickListenerListView(final List<Question> quests, List<Question> questions, List<Integer> listImageID, List<Integer> listLang) {

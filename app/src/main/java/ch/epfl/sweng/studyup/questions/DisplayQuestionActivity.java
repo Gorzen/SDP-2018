@@ -154,18 +154,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void setupRadioButton(boolean isQansweredYet) {
-        answerGroupTOP = findViewById(R.id.answer_radio_group_top);
-        answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
-        answerGroupTOP.clearCheck();
-        answerGroupBOT.clearCheck();
-        answerGroupTOP.setOnCheckedChangeListener(listener1);
-        answerGroupBOT.setOnCheckedChangeListener(listener2);
-
-        List<RadioButton> radioButtons = new ArrayList<>(Arrays.asList(
-                (RadioButton) findViewById(R.id.answer1),
-                (RadioButton) findViewById(R.id.answer2),
-                (RadioButton) findViewById(R.id.answer3),
-                (RadioButton) findViewById(R.id.answer4)));
+        List<RadioButton> radioButtons = getRadioButtons();
 
         if(isQansweredYet) {
             List<String> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
@@ -186,6 +175,22 @@ public class DisplayQuestionActivity extends RefreshContext {
                 });
             }
         }
+    }
+
+    @NonNull
+    private List<RadioButton> getRadioButtons() {
+        answerGroupTOP = findViewById(R.id.answer_radio_group_top);
+        answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
+        answerGroupTOP.clearCheck();
+        answerGroupBOT.clearCheck();
+        answerGroupTOP.setOnCheckedChangeListener(listener1);
+        answerGroupBOT.setOnCheckedChangeListener(listener2);
+
+        return new ArrayList<>(Arrays.asList(
+                (RadioButton) findViewById(R.id.answer1),
+                (RadioButton) findViewById(R.id.answer2),
+                (RadioButton) findViewById(R.id.answer3),
+                (RadioButton) findViewById(R.id.answer4)));
     }
 
     /**
