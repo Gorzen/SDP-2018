@@ -1,7 +1,10 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.google.common.base.Optional;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -10,10 +13,12 @@ import java.util.Random;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 
 import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_ENGLISH;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_FRENCH;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 public class SpecialQuest implements SpecialQuestObserver, Serializable {
 
@@ -43,9 +48,9 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
     If the update type matches the current special quest type,
     then the special quest completion count should be incremented.
      */
-    public void update(Context context, SpecialQuestType updateType) {
+    public void update(SpecialQuestUpdateFlag updateFlag) {
 
-        if (updateType.equals(this.specialQuestType)) {
+        if (updateFlag.equals(this.specialQuestType.getUpdateFlag())) {
             // Increment completion count is special quest not already complete.
             if (this.completionCount < this.specialQuestType.getGoal()) {
 
@@ -58,9 +63,19 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
 
                     String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
                             SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
-                    Toast.makeText(context, alertMessage, Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(MOST_RECENT_ACTIVITY.getApplicationContext(), alertMessage, Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    /*
+    Special quests are equal if they have the same type.
+    This is used for determining whether a player is enrolled in a give special quest type.
+     */
+    public boolean equals(Object compSpecialQuest) {
+        return this.getSpecialQuestType()
+            .equals(((SpecialQuest)compSpecialQuest).getSpecialQuestType());
     }
 }

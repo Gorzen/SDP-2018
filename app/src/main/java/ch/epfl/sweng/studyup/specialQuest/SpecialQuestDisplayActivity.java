@@ -1,20 +1,24 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.Locale;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_INDEX_KEY;
+import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 
+/*
+This activity is used for displaying special quests.
+It is called when a player clicks on a special quest in HomeActivity.
+It is also called from AvailableSpecialQuests activity.
+Thus the SpecialQuest that is passed as an intent extra may or may not be one that
+the current player is enrolled in. See checks in code below.
+ */
 public class SpecialQuestDisplayActivity extends RefreshContext {
 
     @Override
@@ -22,22 +26,19 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_special_quest_display);
 
-        loadSpecialQuestData();
+        renderSpecialQuestInterface();
     }
 
     @Override
     public void onResume() {
 
         super.onResume();
-        loadSpecialQuestData();
+        renderSpecialQuestInterface();
     }
 
-    public void loadSpecialQuestData() {
-        SpecialQuest specialQuest = Player.get().getSpecialQuests().get(
-                getIntent().getIntExtra(SPECIAL_QUEST_INDEX_KEY, 0)
-        );
+    public void renderSpecialQuestInterface() {
 
-        Log.d("SpecialQuestDisplay", "Special quest progress: " + specialQuest.getProgress());
+        SpecialQuest specialQuest = (SpecialQuest) getIntent().getSerializableExtra(SPECIAL_QUEST_KEY);
 
         String displayTitle = specialQuest.getSpecialQuestType().getTitle();
         String displayDesc = specialQuest.getSpecialQuestType().getDescription();
@@ -48,9 +49,14 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         TextView descriptionView = findViewById(R.id.specialQuestDescription);
         descriptionView.setText(displayDesc);
 
-        CircularProgressIndicator progressBarView = findViewById(R.id.specialQuestProgress);
-        progressBarView.setProgressTextAdapter(new CustomProgressTextAdapter());
-        progressBarView.setProgress(specialQuest.getProgress() * 100, 100);
+        if (Player.get().getSpecialQuests().contains(specialQuest)) {
+            // Player enrolled in special quest, display progress
+            renderProgressBar(specialQuest.getProgress());
+        }
+        else {
+            // Player not enrolled, do not display progress, display enrollment button
+            renderEnrollmentButton(specialQuest);
+        }
 
         if (specialQuest.getProgress() == 1.0) {
             TextView congratText = findViewById(R.id.specialQuestCongrat);
@@ -58,6 +64,25 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
             TextView rewardItemText = findViewById(R.id.specialQuestReward);
             rewardItemText.setText(specialQuest.getReward().getName());
         }
+    }
+
+    private void renderProgressBar(Double progress) {
+        CircularProgressIndicator progressBarView = findViewById(R.id.specialQuestProgress);
+        progressBarView.setVisibility(View.VISIBLE);
+        progressBarView.setProgressTextAdapter(new CustomProgressTextAdapter());
+        progressBarView.setProgress(progress * 100, 100);
+    }
+
+    private void renderEnrollmentButton(final SpecialQuest specialQuest) {
+        Button enrollmentButton = findViewById(R.id.specialQuestEnrollButton);
+        enrollmentButton.setVisibility(View.VISIBLE);
+        enrollmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Player.get().addSpecialQuest(specialQuest);
+                finish();
+            }
+        });
     }
 
     public void onBackButtonSpecialQuest(View v) {
