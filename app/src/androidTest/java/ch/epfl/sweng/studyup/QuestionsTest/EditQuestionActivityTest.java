@@ -83,7 +83,7 @@ public class EditQuestionActivityTest {
                 newAnswerButton.setChecked(true);
             }
         });
-        waitAndTag(150, "Wait for radio to be set.");
+        waitAndTag(400, "Wait for radio to be set.");
 
         editAndCheckQuestionHelper(newAnswerNumber, changeType, isTrueFalseBeforeEdition);
     }
