@@ -35,8 +35,7 @@ public class CourseSelectionActivity extends RefreshContext {
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
             Player p = Player.get();
-            boolean courseSelected = p.getRole() == Constants.Role.teacher && p.getCoursesTeached().contains(course)
-                    || p.getRole() == Constants.Role.student && p.getCoursesEnrolled().contains(course);
+            boolean courseSelected = p.getCoursesEnrolled().contains(course);
             if (courseSelected) {
                 courseCheckbox.setChecked(true);
             }
