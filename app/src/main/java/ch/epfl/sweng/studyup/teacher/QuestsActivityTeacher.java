@@ -138,10 +138,8 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Firestore.get().deleteQuestion(questions.get(position).getQuestionId());
-                                    if (!MOCK_ENABLED) {
-                                        Utils.waitAndTag(500, TAG);
-                                        onResume();
-                                    }
+                                    Utils.waitAndTag(500, TAG);
+                                    onResume();
                                 }
                             });
                     alertDialogDelete.show();

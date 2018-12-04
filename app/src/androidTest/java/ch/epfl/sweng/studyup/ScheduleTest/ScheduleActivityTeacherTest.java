@@ -50,6 +50,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher.COURSE_NAME_INTENT_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -92,7 +93,7 @@ public class ScheduleActivityTeacherTest {
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
 
-        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
 
         // Initialize UiDevice instance
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
@@ -100,11 +101,11 @@ public class ScheduleActivityTeacherTest {
         UiObject button = uiDevice.findObject(new UiSelector().text("CE_1_1"));
         button.click();
 
-        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
 
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height / 2));
-        Utils.waitAndTag(1000, "ScheduleActivityTeacherTest");
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
         assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
@@ -112,7 +113,13 @@ public class ScheduleActivityTeacherTest {
     public void saveButtonTest() {
         mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
 
-        mActivityRule.getActivity().onSaveButtonClick(null);
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().onSaveButtonClick(null);
+            }
+        });
+        waitAndTag(150, "Waiting for the main thread to click");
     }
 
     @Test
@@ -151,7 +158,7 @@ public class ScheduleActivityTeacherTest {
             }
         });
 
-        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
+        waitAndTag(1000, "ScheduleActivityStudentTest");
         assertEquals(1, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 

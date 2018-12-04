@@ -77,8 +77,10 @@ public class QuestsActivityTeacherTest {
     public static void disableMock() {
         GlobalAccessVariables.MOCK_ENABLED = false;
     }
+
     @Before
     public void addQuestionThatWillBeDisplayed() {
+        Player.get().resetPlayer();
         q = new Question(MOCK_UUID, fakeTitle, true, 0, Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         Utils.waitAndTag(500, TAG);
@@ -168,9 +170,7 @@ public class QuestsActivityTeacherTest {
                 onView(withText(R.string.yes_upper)).inRoot(isDialog())
                         .check(matches(isDisplayed()))
                         .perform(click());
-                Utils.waitAndTag(2000, TAG);
-                Firestore.get().loadQuestions(rule.getActivity());
-                Utils.waitAndTag(2000, TAG);
+                Utils.waitAndTag(10000, TAG);
             }
         } catch (Exception e) {}
     }
