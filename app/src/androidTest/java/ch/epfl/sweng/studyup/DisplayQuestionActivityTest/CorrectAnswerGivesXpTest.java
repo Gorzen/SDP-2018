@@ -1,11 +1,17 @@
 package ch.epfl.sweng.studyup.DisplayQuestionActivityTest;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Root;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.By;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.Until;
 import android.view.View;
 import android.widget.ListView;
 
@@ -52,7 +58,8 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
-        q = new Question(UUID, fakeTitle, true, 0, Constants.Course.SWENG.name(), "en");
+        Player.get().resetPlayer();
+        q = new Question(UUID, fakeTitle, true, 0, Constants.Course.SWENG.name(), "en", 500);
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
         Player.get().setRole(Constants.Role.student);
@@ -79,6 +86,20 @@ public class CorrectAnswerGivesXpTest extends DisplayQuestionActivityTest {
                 waitAndTag(4000, TAG);
                 //noinspection HardCodedStringLiteral
                 onView(withId(R.id.question_text_display)).check(matches(withText("Short text\n")));
+
+                //Test the notification
+                String titleString = mActivityRule.getActivity().getString(R.string.time_out_title);
+                String desc = mActivityRule.getActivity().getString(R.string.time_out_notification);
+                UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+                device.openNotification();
+                device.wait(Until.hasObject(By.text(titleString)), 2000);
+                UiObject2 title = device.findObject(By.text(titleString));
+                UiObject2 text = device.findObject(By.text(desc));
+                assertEquals(titleString, title.getText());
+                assertEquals(desc, text.getText());
+
+                NotificationManager notificationManager = (NotificationManager) mActivityRule.getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
 
                 int playerXp = Player.get().getExperience();
                 onView(withId(R.id.answer_button)).perform(click());

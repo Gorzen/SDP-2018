@@ -193,6 +193,14 @@ public class QuestsActivityStudent extends NavigationStudent {
             }
             /*
             else {
+            TextView testProgress = convertView.findViewById(R.id.testProgress);
+            testProgress.setText(progressBars.get(position).toString());
+            CircularProgressIndicator levelProgress = findViewById(R.id.time_progress);
+            double progressBarQ = progressBars.get(position);
+            Log.e("blalalalaalalala", progressBars.toString());
+            if(progressBarQ >= 0) {
+                levelProgress.setProgress(progressBarQ, 1);
+            } else {
                 //levelProgress.setProgress(0, 1);
                 //levelProgress.setProgressBackgroundStrokeWidthDp(0);
                 //levelProgress.setProgressBackgroundColor(Color.parseColor("#ecf1f2"));

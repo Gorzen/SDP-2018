@@ -7,8 +7,6 @@ package ch.epfl.sweng.studyup.questions;
         import android.content.Context;
         import android.content.Intent;
         import android.os.Build;
-        import android.widget.Toast;
-
         import ch.epfl.sweng.studyup.player.Player;
 
 public class TimeOutNotificationPublisher extends BroadcastReceiver {
@@ -44,6 +42,5 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
 
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
         notificationManager.notify(id, notification);
-
     }
 }
