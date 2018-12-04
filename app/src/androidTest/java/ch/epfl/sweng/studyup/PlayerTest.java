@@ -101,8 +101,10 @@ public class PlayerTest {
 
         Calendar beforeCurrTime = Calendar.getInstance();
         beforeCurrTime.set(Calendar.HOUR_OF_DAY, beforeCurrTime.get(Calendar.HOUR_OF_DAY) - 1);
+        setCalendarToRightWeek(beforeCurrTime);
         Calendar afterCurrTime = Calendar.getInstance();
         afterCurrTime.set(Calendar.HOUR_OF_DAY, afterCurrTime.get(Calendar.HOUR_OF_DAY) + 1);
+        setCalendarToRightWeek(afterCurrTime);
 
         String CO1 = "CO_1_1";
 
@@ -110,5 +112,11 @@ public class PlayerTest {
         Player.get().setScheduleStudent(new ArrayList<>(Arrays.asList(weekViewEvent)));
 
         assertEquals(CO1, Player.get().getCurrentCourseLocation());
+    }
+
+    private void setCalendarToRightWeek(Calendar calendar) {
+        calendar.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
+        calendar.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
+        calendar.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
     }
 }
