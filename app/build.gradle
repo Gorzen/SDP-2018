@@ -65,7 +65,7 @@ android {
         androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
         androidTestImplementation 'com.android.support.test:rules:1.0.2'
         implementation 'com.google.code.gson:gson:2.8.5'
-        // Firestore
+        // Firebase
         implementation 'com.google.firebase:firebase-core:16.0.4' // Core
         implementation 'com.google.firebase:firebase-auth:16.0.4' // Auth
         implementation 'com.google.firebase:firebase-firestore:17.1.1' // Database
