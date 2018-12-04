@@ -63,12 +63,6 @@ public class TimeOutNotificationPublisherTest {
         GlobalAccessVariables.MOCK_ENABLED = false;
     }
 
-    //@Before
-    public void removeNotif() {
-        NotificationManager notificationManager = (NotificationManager) InstrumentationRegistry.getTargetContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-    }
-
     @After
     public void closeNotifPanel() {
         Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
@@ -102,31 +96,5 @@ public class TimeOutNotificationPublisherTest {
         assertEquals(descTest, text.getText());
         title.click();
         Intents.intending(hasComponent(QuestsActivityStudent.class.getName()));
-    }
-
-    @Test
-    public void A_notifTestButQuestionHasAlreadyBeenAnswered() {
-        Question question = new Question("ID test notif", "Title", true, 0, "SWENG", "en");
-        Intent launchIntent = DisplayQuestionActivity.getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), question);
-        mActivityRule.launchActivity(launchIntent);
-
-        Notification notification = mActivityRule.getActivity().prepareNotificationTimeOut(titleTest, descTest);
-        Intent notifIntent = new Intent();
-        notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
-        notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, notifID);
-        notifIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, questionID);
-        notifIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(0));
-
-        Player.get().addAnsweredQuestion(questionID + " unique", true, 0);
-
-        TimeOutNotificationPublisher notificationPublisher = new TimeOutNotificationPublisher();
-        notificationPublisher.onReceive(mActivityRule.getActivity(), notifIntent);
-
-        waitAndTag(500, "Waiting for the notification to be displayed");
-
-        UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        device.openNotification();
-        UiObject2 title = device.findObject(By.text(titleTest));
-        assertNull(title);
     }
 }
