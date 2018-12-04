@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -95,7 +97,17 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        setMarkers();
+        setNPCSMarker();
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.getTitle().contains("NPC") || marker.getTitle().contains("PNJ")) {
+                    startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getTitle().split("\n")[1]));
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -159,12 +171,15 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         }
     }
 
-    private void setMarkers() {
+    private void setNPCSMarker() {
         for (NPC npc : Constants.allNPCs) {
             BitmapDrawable npcBitMapDraw =(BitmapDrawable)getResources().getDrawable(npc.getImage());
             Bitmap npcBitMap = npcBitMapDraw.getBitmap();
-            Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, 25, 25, false);
-            mMap.addMarker(new MarkerOptions().position(npc.getPosition()).title(npc.getName()).icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
+            Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
+            mMap.addMarker(new MarkerOptions()
+                    .position(npc.getPosition())
+                    .title(getString(R.string.NPC) + "\n" + npc.getName())
+                    .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
         }
     }
 }

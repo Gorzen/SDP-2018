@@ -138,5 +138,7 @@
     <string name="NPC_interaction"> souhaite intéragir avec vous</string>
     <string name="NPC_accept">Accepter</string>
     <string name="NPC_refuse">Refuser</string>
+    <string name="NPC">PNJ  </string>
+    <string name="NPC_temp_description">Yo, une petite bière ?</string>
 
 </resources>

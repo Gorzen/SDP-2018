@@ -149,6 +149,8 @@
     <string name="NPC_interaction"> wants to interact with you</string>
     <string name="NPC_accept">Accept</string>
     <string name="NPC_refuse">Refuser</string>
+    <string name="NPC">NPC  </string>
+    <string name="NPC_temp_description">Hey there, wanna hang ?</string>
 
 
 </resources>

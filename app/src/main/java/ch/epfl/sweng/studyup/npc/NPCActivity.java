@@ -3,9 +3,13 @@ package ch.epfl.sweng.studyup.npc;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.InventoryActivity;
+import ch.epfl.sweng.studyup.items.ShopActivity;
+import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -22,4 +26,7 @@ public class NPCActivity extends AppCompatActivity {
         imageView.setImageResource(npc.getImage());
     }
 
+    public void onBackButtonShop(View v) {
+        startActivity(new Intent(NPCActivity.this, MapsActivity.class));
+    }
 }

@@ -1,21 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite"
     tools:context=".npc.NPCActivity">
 
-    <ImageView
-        android:id="@+id/npc_image"
-        android:layout_width="188dp"
-        android:layout_height="309dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="98dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/white_view" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="80dp">
+
+        <!--TOP TOOL BAR-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/colorPrimaryDark"
+                android:minHeight="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            </android.support.v7.widget.Toolbar>
+
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="33dp"
+                android:layout_height="34dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onBackButtonShop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/npc_image"
+            android:layout_width="141dp"
+            android:layout_height="258dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            app:srcCompat="@drawable/white_view" />
+
+        <TextView
+            android:id="@+id/temp_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="164dp"
+            android:textSize="60dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/NPC_temp_description" />
+
+    </RelativeLayout>
+
+    <!--OVERLAPPING THINGS-->
+
+
 
 </android.support.constraint.ConstraintLayout>
