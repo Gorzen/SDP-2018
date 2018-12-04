@@ -2,7 +2,9 @@ package ch.epfl.sweng.studyup.utils;
 
 import com.google.common.collect.Sets;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -129,6 +131,9 @@ public abstract class Constants {
     // Special quest completion alert messages
     public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
     public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
+
+    public static final List<String> durationChoice = Arrays.asList("0", "1h", "5h", "24h");
+    public static final List<Long> durationCorrespond = Arrays.asList(0l, 3600000l, 18000000l, 86400000l);
 
     // Enums for Role, Course
     public enum Role {

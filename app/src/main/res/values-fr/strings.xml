@@ -124,7 +124,7 @@
     <string name="text_insert_title_for_question">Insérez un titre</string>
     <string name="text_select_course_for_question">Sélectionnez un cours</string>
     <string name="error_when_download_question">Une erreur est survenue en téléchargeant la question</string>
-    <string name="chosen_course_for_question">Course Choisi : </string>
+    <string name="chosen_course_for_question">"Cours Choisi : "</string>
     <string name="edit_button_text">Editer</string>
     <string name="course_for_this_quest">Cours de la question</string>
     <string name="choose_course_for_question_text">Choisissez le cours pour la question</string>
@@ -150,4 +150,8 @@
     <string name="displaycourseactivity">Affichage des cours</string>
     <string name="title_activity_schedule">Horaire</string>
     <string name="time_out_title">Time out !</string>
+    <string name="question_duration_selection">Sélectionnez la durée de la question</string>
+    <string name="chosen_duration">"Temps: "</string>
+    <string name="duration">Durée</string>
+    <string name="time_constraint_text">Pas de limite de temps</string>
 </resources>
