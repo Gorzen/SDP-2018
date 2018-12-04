@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -177,11 +178,11 @@ public class QuestsActivityStudent extends NavigationStudent {
             TextView course = convertView.findViewById(R.id.course_quest);
             course.setText(questions.get(position).getCourseName());
 
-
             TextView testProgress = convertView.findViewById(R.id.testProgress);
             testProgress.setText(progressBars.get(position).toString());
             CircularProgressIndicator levelProgress = findViewById(R.id.time_progress);
             double progressBarQ = progressBars.get(position);
+            Log.e("blalalalaalalala", levelProgress.toString());
             if(progressBarQ >= 0) {
                 levelProgress.setProgress(progressBarQ, 1);
             }
