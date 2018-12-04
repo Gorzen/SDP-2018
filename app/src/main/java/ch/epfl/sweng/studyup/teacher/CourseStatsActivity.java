@@ -35,6 +35,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.COURSE_STAT_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
@@ -71,7 +72,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     @Override
     protected void onResume() {
         super.onResume();
-        loadQuestionsForStats(this);
+        loadAllQuestions(this);
         loadUsersForStats(this);
     }
 
@@ -82,8 +83,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     }
 
     //retrieve users from firebase
-    public static void setUsers(List<UserData> userList) {allUsers = userList;
-    }
+    public static void setUsers(List<UserData> userList) {allUsers = userList; }
     //retrieve questions from firebase
     public static void setQuestions(List<Question> qList) { allQuestions = qList;}
 
@@ -129,18 +129,26 @@ public class CourseStatsActivity extends NavigationTeacher {
 
                         Map<String, Object> remotePlayerData = document.getData();
 
-                        UserData user = new UserData(INITIAL_SCIPER, INITIAL_FIRSTNAME, INITIAL_LASTNAME, new HashMap<String, Boolean>(), new ArrayList<Course>());
+                        UserData user = new UserData(INITIAL_SCIPER,
+                                INITIAL_FIRSTNAME,
+                                INITIAL_LASTNAME,
+                                new HashMap<String, List<String>>(),
+                                new ArrayList<Course>());
                         user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
                         user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
                         user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        user.setAnsweredQuestions((HashMap<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
-                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES, new ArrayList<Course>())));
+                        user.setAnsweredQuestions((HashMap<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
+                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Course>())));
 
                         userList.add(user);
                     }
 
-                    if (act instanceof CourseStatsActivity) { CourseStatsActivity.setUsers(userList); }
-                } else { Log.e(this.getClass().getSimpleName(), "Error getting documents for courses: ", task.getException()); }
+                    if (act instanceof CourseStatsActivity) {
+                        CourseStatsActivity.setUsers(userList);
+                    }
+                } else {
+                    Log.e(this.getClass().getSimpleName(), "Error getting documents for courses: ", task.getException());
+                }
             }
         });
 
@@ -154,7 +162,7 @@ public class CourseStatsActivity extends NavigationTeacher {
      * @param act activity in which this function can be used : CourseStatsActivity
      * @throws NullPointerException  If the data received from the server is not of a valid format
      */
-    public void loadQuestionsForStats(final Activity act) throws NullPointerException {
+    public void loadAllQuestions(final Activity act) throws NullPointerException {
 
         final List<Question> questionList = new ArrayList<>();
 

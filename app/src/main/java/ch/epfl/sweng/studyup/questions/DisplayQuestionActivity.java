@@ -41,7 +41,8 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Constants.Course;
+import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
@@ -86,7 +87,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         displayQuestion = extractQuestion(intent);
         displayImage(intent.getStringExtra(DISPLAY_QUESTION_ID));
 
-        setupLayout(displayQuestion); setupRadioButton();;
+        setupLayout(displayQuestion);
 
         findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,14 +95,17 @@ public class DisplayQuestionActivity extends RefreshContext {
                 finish();
             }
         });
-
         ((TextView) findViewById(R.id.quest_title)).setText(displayQuestion.getTitle());
+
+        boolean isQansweredYet = Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId());
+        setupRadioButton(isQansweredYet);
+
     }
 
     private Question extractQuestion(Intent i) {
         return new Question(i.getStringExtra(DISPLAY_QUESTION_ID), i.getStringExtra(DISPLAY_QUESTION_TITLE),
                 Boolean.parseBoolean(i.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE)), Integer.parseInt(i.getStringExtra(DISPLAY_QUESTION_ANSWER)),
-                Constants.Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG)); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG)); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
     }
     /**
      * Check that the Intent that launched the activity has all the needed fields
@@ -117,7 +121,32 @@ public class DisplayQuestionActivity extends RefreshContext {
         return true;
     }
 
-    private void setupRadioButton() {
+    private void setupRadioButton(boolean isQansweredYet) {
+        List<RadioButton> radioButtons = getRadioButtons();
+
+        if(isQansweredYet) {
+            List<String> pair = Player.get().getAnsweredQuestion().get(displayQuestion.getQuestionId());
+            Integer playerAnswer = Integer.valueOf(pair.get(1));
+            radioButtons.get(playerAnswer).setBackgroundResource(R.drawable.button_quests_clicked_shape);
+            radioButtons.get(displayQuestion.getAnswer()).setBackgroundResource(R.drawable.button_quests_clicked_shape_true);
+        }
+
+        else {
+            for (RadioButton rdb : radioButtons) {
+                rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (buttonView.isChecked()) {
+                            buttonView.setBackgroundResource(R.drawable.button_quests_clicked_shape);
+                        } else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
+                    }
+                });
+            }
+        }
+    }
+
+    @NonNull
+    private List<RadioButton> getRadioButtons() {
         answerGroupTOP = findViewById(R.id.answer_radio_group_top);
         answerGroupBOT = findViewById(R.id.answer_radio_group_bot);
         answerGroupTOP.clearCheck();
@@ -125,23 +154,11 @@ public class DisplayQuestionActivity extends RefreshContext {
         answerGroupTOP.setOnCheckedChangeListener(listener1);
         answerGroupBOT.setOnCheckedChangeListener(listener2);
 
-        List<RadioButton> radioButtons = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 (RadioButton) findViewById(R.id.answer1),
                 (RadioButton) findViewById(R.id.answer2),
                 (RadioButton) findViewById(R.id.answer3),
                 (RadioButton) findViewById(R.id.answer4)));
-
-        for (RadioButton rdb : radioButtons) {
-            rdb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (buttonView.isChecked()) {
-                        buttonView.setBackgroundResource(R.drawable.button_quests_clicked_shape);
-                    } else buttonView.setBackgroundResource(R.drawable.button_quests_shape);
-                }
-            });
-        }
-
     }
 
     /**
@@ -256,7 +273,10 @@ public class DisplayQuestionActivity extends RefreshContext {
     public void answerQuestion(View view) {
         int chkTOP = answerGroupTOP.getCheckedRadioButtonId();
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
-        if(chkBOT == -1 && chkTOP == -1) {
+        if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
+            Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
+        }
+        else if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -266,15 +286,10 @@ public class DisplayQuestionActivity extends RefreshContext {
         //subtract 1 to have answer between 0 and 3
         int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
-        //TODO : What to do next ?
-        if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
-            Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
-        }
-
-        else if (answer == displayQuestion.getAnswer()) {
-            goodAnswer();
+        if (answer == displayQuestion.getAnswer()) {
+            goodAnswer(answer);
         } else {
-            badAnswer();
+            badAnswer(answer);
         }
 
         Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
@@ -282,13 +297,13 @@ public class DisplayQuestionActivity extends RefreshContext {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    private void badAnswer() {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false);
+    private void badAnswer(int answer) {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), false, answer);
         Toast.makeText(this, getString(R.string.text_wronganswer), Toast.LENGTH_SHORT).show();
     }
 
-    private void goodAnswer() {
-        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true);
+    private void goodAnswer(int answer) {
+        Player.get().addAnsweredQuestion(displayQuestion.getQuestionId(), true, answer);
         Toast.makeText(this, getString(R.string.text_correctanswer), Toast.LENGTH_SHORT).show();
         Player.get().addExperience(XP_GAINED_WITH_QUESTION, this);
 
@@ -301,8 +316,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             Player.get().addItem(Items.COIN_SACK);
         }
 
-        Player.get().notifySpecialQuestObservers(getApplicationContext(), SpecialQuestType.THREE_QUESTIONS);
-
+        Player.get().notifySpecialQuestObservers(SpecialQuestUpdateFlag.ANSWERED_QUESTION);
     }
 
     /**

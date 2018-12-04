@@ -11,6 +11,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.widget.EditText;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,6 +33,7 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -65,9 +67,14 @@ public class CustomActivityTest {
     }
 
     @Test
-    public void A_changeUserName() {
-        onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
-                .perform(typeText("Wir Sind Helden Too Long Not Should Be Displayed"));
+    public void A_changeUserName() throws Throwable {
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((EditText) mActivityRule.getActivity().findViewById(R.id.edit_username)).setText("Wir Sind Helden Too Long Not Should Be Displayed");
+            }
+        });
+        waitAndTag(300, "Waiting for main thread to set the text.");
         onView(withId(R.id.valid_btn)).perform(click());
     }
 

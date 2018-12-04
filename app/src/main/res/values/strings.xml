@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">StudyUp</string>
     <string name="character_homepage">Your Character</string>
 
@@ -126,10 +126,10 @@
     <string name="congrat_text_special_quest">Yay! You just completed this quest! You earned a new item: </string>
     <string name="choose_the_language_of_your_question">Choose the language of your question</string>
     <string name="special_quests_title">Special Quests</string>
-    <string name="title_activity_schedule">ScheduleActivity</string>
+    <string name="title_activity_schedule" tools:ignore="MissingTranslation">ScheduleActivity</string>
     <string name="course_statistics">Course Statistics</string>
-    <string name="displaycourseactivity">DisplayCourseActivity</string>
-    <string name="courses">Stats</string>
+    <string name="displaycourseactivity" tools:ignore="MissingTranslation">DisplayCourseActivity</string>
+    <string name="courses" tools:ignore="MissingTranslation">Stats</string>
     <string name="select_the_correct_answer">Select the Correct Answer</string>
     <string name="mcq_or_tf_question">MCQ or TF Question?</string>
     <string name="write_your_question">Write / Select the Image for the Question</string>
@@ -146,15 +146,15 @@
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
+    <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
+    <string name="change_role_button_text">Change role</string>
+    <string name="schedule_updated_confirmation">Course\'s schedule updated</string>
     <string name="course_choice_settings_button_teacher">Manage your courses</string>
     <string name="other_courses_text">Other courses</string>
     <string name="your_courses_text">Your courses</string>
     <string name="send_request_text">Enroll</string>
     <string name="pending_courses_text">Pending courses</string>
     <string name="accepted_courses_text">Accepted courses</string>
-    <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
-    <string name="change_role_button_text">Change role</string>
-    <string name="schedule_updated_confirmation">Course\'s schedule updated</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="item_xp_potion_name">XP potion</string>
@@ -166,4 +166,15 @@
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
     <string name="manage_course_resign_button">Resign</string>
     <string name="choose_your_theme">Choose your theme :</string>
+    <string name="special_quest_five_questions_title">Five Questions</string>
+    <string name="special_quest_five_questions_description">Answer five questions for a surprise item!</string>
+    <string name="special_quest_level_up_bonus_title">Level Up Bonus</string>
+    <string name="special_quest_level_up_bonus_description">Get a bonus surprise item when you level up!</string>
+    <string name="special_quest_creative_username_title">Creative Username</string>
+    <string name="special_quest_creative_username_description">Set a creative username and earn a surprise item!</string>
+    <string name="special_quest_consistent_use_title">Consistent Use</string>
+    <string name="special_quest_consistent_use_description">Use StudyUp three days in a row and earn a surprise item!</string>
+    <string name="your_special_quests">Your Special Quests</string>
+    <string name="available_special_quests">Available Special Quests</string>
+    <string name="enroll_button_text">Enroll</string>
 </resources>

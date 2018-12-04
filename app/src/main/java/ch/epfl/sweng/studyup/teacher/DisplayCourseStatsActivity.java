@@ -71,7 +71,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         Set<String> s1 = new HashSet<>(quests_course);
 
         for (UserData user : userList) {
-            HashMap<String, Boolean> answered_total = new HashMap<>(user.getAnsweredQuestions());
+            HashMap<String, List<String>> answered_total = new HashMap<>(user.getAnsweredQuestions());
 
             double nb_good_answer_course = 0;
             int nb_answer_course;
@@ -79,7 +79,10 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             s2.retainAll(s1); //s2 = only String Question Id (from course) which user answered to
             nb_answer_course = s2.size();
             for (String s : s2) {
-                if(answered_total.get(s) != null && answered_total.get(s)) nb_good_answer_course++;
+                if(answered_total.get(s) != null) {
+                    boolean isAnswerTrue = Boolean.parseBoolean(answered_total.get(s).get(0));
+                    if(isAnswerTrue) nb_good_answer_course++;
+                }
             }
             int rate_user_in_a_course = nb_answer_course == 0 ? 0 : (int)(100*nb_good_answer_course/nb_answer_course);
             rates.add(rate_user_in_a_course);
@@ -103,10 +106,11 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
             int a_user_ans = 0;
             int a_user_good_ans = 0;
             for(UserData user : students_in_course) {
-                HashMap<String, Boolean> user_ans_q = new HashMap<>(user.getAnsweredQuestions());
+                HashMap<String, List<String>> user_ans_q = new HashMap<>(user.getAnsweredQuestions());
                 if (user_ans_q.containsKey(question_string)) {
                     a_user_ans++;
-                    if (user_ans_q.get(question_string)) {
+                    boolean isAnswerTrue = Boolean.parseBoolean(user_ans_q.get(question_string).get(0));
+                    if (isAnswerTrue) {
                         a_user_good_ans++;
                     }
                 }

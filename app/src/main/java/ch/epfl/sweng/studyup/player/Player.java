@@ -5,8 +5,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
@@ -68,7 +71,7 @@ public class Player implements SpecialQuestObservable {
     private int experience;
     private int level;
     private int currency;
-    private Map<String, Boolean> answeredQuestions;
+    private Map<String, List<String>> answeredQuestions;
     private List<Items> items;
 
     private List<Course> coursesEnrolled;
@@ -157,7 +160,8 @@ public class Player implements SpecialQuestObservable {
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
-        answeredQuestions = (Map<String, Boolean>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>());
+
+        answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -196,7 +200,7 @@ public class Player implements SpecialQuestObservable {
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
     }
-    public Map<String, Boolean> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
+    public Map<String, List<String>> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
 
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
@@ -221,6 +225,7 @@ public class Player implements SpecialQuestObservable {
     public void setUserName(String newUsername) {
         username = newUsername;
         Firestore.get().updateRemotePlayerDataFromLocal();
+        notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.SET_USERNAME);
     }
 
     // Method suppose that we can only gain experience.
@@ -230,6 +235,7 @@ public class Player implements SpecialQuestObservable {
         if (newLevel - level > 0) {
             addCurrency((newLevel - level) * CURRENCY_PER_LEVEL, activity);
             level = newLevel;
+            notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.LEVEL_UP);
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();
@@ -297,11 +303,17 @@ public class Player implements SpecialQuestObservable {
     /**
      * Add the questionID to answered questions field in Firebase, mapped with the value of the answer.
      */
-    public void addAnsweredQuestion(String questionID, boolean isAnswerGood) {
+    public void addAnsweredQuestion(String questionID, boolean isAnswerGood, int ansNb) {
         if(this.answeredQuestions.get(questionID) == null) {
-            this.answeredQuestions.put(questionID, isAnswerGood);
+            String isAnswerGoodStr = isAnswerGood ? "true" : "false";
+            this.answeredQuestions.put(questionID, Arrays.asList(isAnswerGoodStr, Integer.toString(ansNb)));
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
+    }
+
+    public void addSpecialQuest(SpecialQuest specialQuest) {
+        this.specialQuests.add(specialQuest);
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     public boolean isDefault() throws NumberFormatException {
@@ -325,9 +337,9 @@ public class Player implements SpecialQuestObservable {
     }
 
     @Override
-    public void notifySpecialQuestObservers(Context context, SpecialQuestType specialQuestType) {
+    public void notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag updateFlag) {
         for (SpecialQuestObserver specialQuest : specialQuests) {
-            specialQuest.update(context, specialQuestType);
+            specialQuest.update(updateFlag);
         }
     }
 }

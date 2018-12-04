@@ -151,7 +151,7 @@ public class LoginActivity extends RefreshContext {
             images[2] = R.drawable.login_slide3_fr;
             images[3] = R.drawable.login_slide4_fr;
         }
-                ;
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this, images);
         viewPager.setAdapter(viewPagerAdapter);
 
