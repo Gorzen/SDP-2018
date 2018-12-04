@@ -179,7 +179,7 @@ public abstract class Constants {
     public static final int NPC_MARKER_HEIGHT = 140;
     public static final int NPC_MARKER_WIDTH = 80;
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
-            new NPC("Charlie", new LatLng(46.539872, 6.653775), R.drawable.charlie),
+            new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
             new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
