@@ -113,7 +113,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
     }
 
     public void updateSchedule(List<WeekViewEvent> events){
-        Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>(events));
+        //Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>(events));
 
         weekViewEvents.clear();
         for(WeekViewEvent event : events){

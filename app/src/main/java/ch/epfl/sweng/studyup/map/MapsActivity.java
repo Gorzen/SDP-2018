@@ -64,7 +64,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -133,13 +133,16 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 if (location != null) {
                     location.remove();
                 }
-                location = mMap.addMarker(new MarkerOptions()
+                /*location = mMap.addMarker(new MarkerOptions()
                         .position(latLong)
                         .title(getString(R.string.title_playerposition))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));*/
                 if(isFirstPosition) {
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
                     isFirstPosition = false;
+                }else{
+                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);
@@ -147,8 +150,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     public void findAndMarkRoom(String room) {
-        if(mMap != null) {
-            if(room != null) {
+        if (mMap != null) {
+            if (room != null) {
                 Log.d("GPS_MAP", "New objective: " + room);
                 roomObjective = mMap.addMarker(new MarkerOptions()
                         .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
