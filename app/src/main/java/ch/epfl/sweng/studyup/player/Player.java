@@ -39,6 +39,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
@@ -116,6 +117,7 @@ public class Player implements SpecialQuestObservable {
         items = new ArrayList<>();
         coursesEnrolled = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
+        coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
     }
 
@@ -188,10 +190,10 @@ public class Player implements SpecialQuestObservable {
     }
 
     public List<Course> getCoursesEnrolled() {
-        return coursesEnrolled;
+        return new ArrayList<>(coursesEnrolled);
     }
     public List<Course> getCoursesTeached() {
-        return coursesTeached;
+        return new ArrayList<>(coursesTeached);
     }
     public List<WeekViewEvent> getScheduleStudent() {
         return scheduleStudent;
@@ -200,6 +202,10 @@ public class Player implements SpecialQuestObservable {
 
 
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
+
+    public boolean isSuperUser() {
+        return SUPER_USERS.contains(getSciperNum());
+    }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -275,9 +281,9 @@ public class Player implements SpecialQuestObservable {
      */
     public void setCourses(List<Course> courses) {
         if(role == Role.student) {
-            this.coursesEnrolled = courses;
+            this.coursesEnrolled = new ArrayList<>(courses);
         } else {
-            this.coursesTeached= courses;
+            this.coursesTeached = new ArrayList<>(courses);
             for(Course c : courses) {
                 Firestore.get().setCourseTeacher(c);
             }
@@ -311,6 +317,14 @@ public class Player implements SpecialQuestObservable {
         return this.firstName.equals(INITIAL_FIRSTNAME) &&
             this.lastName.equals(INITIAL_LASTNAME) &&
             this.sciperNum.equals(INITIAL_SCIPER);
+    }
+
+    public boolean isTeacher() {
+        return getRole() == Role.teacher;
+    }
+
+    public boolean isStudent() {
+        return getRole() == Role.student;
     }
 
     @Override

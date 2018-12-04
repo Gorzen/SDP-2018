@@ -105,7 +105,7 @@ public class QuestsActivityStudent extends NavigationStudent {
         });
     }
 
-    public class QuestListViewAdapterStudent extends BaseAdapter {
+    private class QuestListViewAdapterStudent extends BaseAdapter {
         private Context cnx;
         private List<Question> questions;
         private int idLayout;

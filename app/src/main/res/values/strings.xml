@@ -149,6 +149,12 @@
     <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
     <string name="change_role_button_text">Change role</string>
     <string name="schedule_updated_confirmation">Course\'s schedule updated</string>
+    <string name="course_choice_settings_button_teacher">Manage your courses</string>
+    <string name="other_courses_text">Other courses</string>
+    <string name="your_courses_text">Your courses</string>
+    <string name="send_request_text">Enroll</string>
+    <string name="pending_courses_text">Pending courses</string>
+    <string name="accepted_courses_text">Accepted courses</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="item_xp_potion_name">XP potion</string>
