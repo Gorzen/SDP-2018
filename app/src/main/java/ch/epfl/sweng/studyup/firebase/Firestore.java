@@ -31,6 +31,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
 import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
+import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
@@ -136,6 +137,7 @@ public class Firestore {
                             Update local data with remote data.
                              */
                             currPlayer.updateLocalDataFromRemote(remotePlayerData);
+                            currPlayer.notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.USER_LOGIN);
                         } else {
                             /*
                                 Player is logging in for the first time.

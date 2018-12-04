@@ -44,9 +44,8 @@
         </activity>
         <activity
             android:name=".questions.AddOrEditQuestionActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="Add a question" />
-
+            android:label="Add a question"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".player.QuestsActivityStudent" />
         <activity android:name=".teacher.QuestsActivityTeacher" />
         <activity android:name=".items.ShopActivity" />
@@ -84,12 +83,14 @@
         <activity android:name=".settings.CourseSelectionActivity" />
         <activity android:name=".player.ScheduleActivityStudent" />
         <activity android:name=".teacher.CourseStatsActivity" />
-        <activity android:name=".teacher.DisplayCourseStatsActivity"/>
+        <activity android:name=".teacher.DisplayCourseStatsActivity" />
         <activity android:name=".teacher.ScheduleActivityTeacher" />
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
+        <activity android:name=".specialQuest.AvailableSpecialQuestsActivity"></activity>
+        <activity android:name=".teacher.ManageCourseActivity" />
+        <activity android:name=".npc.NPCActivity"></activity>
 
         <receiver android:name=".questions.TimeOutNotificationPublisher" />
-        <activity android:name=".teacher.ManageCourseActivity" />
     </application>
 
 

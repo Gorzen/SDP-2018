@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.pm.PackageManager;
@@ -15,7 +16,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.lang.ref.WeakReference;
 
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
@@ -66,6 +69,9 @@ public class BackgroundLocation extends JobService {
                         Player.get().addExperience(2 * XP_STEP, activity.get());
                     } else {
                         str += '\n' + "You are not in your room: ";
+                    }
+                    for (NPC npc : Constants.allNPCs) {
+                        npc.isInRange(POSITION);
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);

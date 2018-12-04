@@ -10,6 +10,8 @@ import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
+import static org.junit.Assert.assertFalse;
+
 
 @RunWith(JUnit4.class)
 public class SpecialQuestTest {
@@ -36,10 +38,24 @@ public class SpecialQuestTest {
 
     @Test
     public void completionUpdateTest() {
-        SpecialQuest specialQuest = new SpecialQuest(SpecialQuestType.THREE_QUESTIONS);
+        SpecialQuest specialQuest = new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS);
 
-        specialQuest.setCompletionCount(3);
-        assert(specialQuest.getCompletionCount() == 3);
+        specialQuest.setCompletionCount(5);
+        assert(specialQuest.getCompletionCount() == 5);
         assert(specialQuest.getProgress() == 1);
+    }
+
+    @Test
+    public void testEqualityOverloadValid() {
+        SpecialQuest specialQuestA = new SpecialQuest(SpecialQuestType.CONSISTENT_USE);
+        SpecialQuest specialQuestB = new SpecialQuest(SpecialQuestType.CONSISTENT_USE);
+        assert(specialQuestA.equals(specialQuestB));
+    }
+
+    @Test
+    public void testEqualityOverloadInvalid() {
+        SpecialQuest specialQuestA = new SpecialQuest(SpecialQuestType.LEVEL_UP_BONUS);
+        SpecialQuest specialQuestB = new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME);
+        assertFalse(specialQuestA.equals(specialQuestB));
     }
 }

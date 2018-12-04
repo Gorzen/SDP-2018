@@ -1,13 +1,18 @@
 package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -17,17 +22,29 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Rooms;
+import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.npc.NPCActivity;
+import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_OBJECTIVE;
 
 /**
  * MapActivity
@@ -37,6 +54,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 
 public class MapsActivity extends NavigationStudent implements OnMapReadyCallback {
     private Marker location = null;
+    private Marker roomObjective = null;
     private GoogleMap mMap = null;
     private FusedLocationProviderClient fusedLocationProviderClient = null;
     private boolean isFirstPosition = true;
@@ -55,7 +73,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -91,6 +108,20 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
+        findAndMarkRoom(Player.get().getCurrentCourseLocation() != null ?
+                Player.get().getCurrentCourseLocation() : null);
+        setNPCSMarker();
+        if(googleMap != null) {
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    if (marker.getTitle().equals(getString(R.string.NPC))) {
+                        if(!Utils.getNPCfromName(marker.getSnippet()).isInRange(POSITION)) { Toast.makeText(MapsActivity.this, R.string.NPC_too_far_away, Toast.LENGTH_SHORT).show();
+                        return false; } else { return true;} }
+                    return false;
+                }
+            });
+        }
     }
 
     @Override
@@ -122,6 +153,10 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 if (location != null) {
                     location.remove();
                 }
+                /*location = mMap.addMarker(new MarkerOptions()
+                        .position(latLong)
+                        .title(getString(R.string.title_playerposition))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));*/
                 if(isFirstPosition) {
                     location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
@@ -131,6 +166,23 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);
+        }
+    }
+
+    public void findAndMarkRoom(String room) {
+        if (mMap != null) {
+            if (room != null) {
+                Log.d("GPS_MAP", "New objective: " + room);
+                roomObjective = mMap.addMarker(new MarkerOptions()
+                        .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                        .title(getString(R.string.room_objective))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+                mMap.addPolyline(new PolylineOptions()
+                        .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                        .width(5)
+                        .color(Color.BLUE));
+            }
         }
     }
 
@@ -151,6 +203,21 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
         } else {
             return null;
+        }
+    }
+
+    private void setNPCSMarker() {
+        if(mMap != null) {
+            for (NPC npc : Constants.allNPCs) {
+                BitmapDrawable npcBitMapDraw = (BitmapDrawable) getResources().getDrawable(npc.getImage());
+                Bitmap npcBitMap = npcBitMapDraw.getBitmap();
+                Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
+                mMap.addMarker(new MarkerOptions()
+                        .position(npc.getPosition())
+                        .title(getString(R.string.NPC))
+                        .snippet(npc.getName())
+                        .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
+            }
         }
     }
 }

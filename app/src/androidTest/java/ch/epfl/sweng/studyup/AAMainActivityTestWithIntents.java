@@ -14,6 +14,7 @@ import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -52,4 +53,9 @@ public class AAMainActivityTestWithIntents {
         intended(hasComponent(CustomActivity.class.getName()));
     }
 
+    @Test
+    public void testToSpecialActivites() {
+        onView(withId(R.id.availableSpecialQuestsButton)).perform(click());
+        intended(hasComponent(AvailableSpecialQuestsActivity.class.getName()));
+    }
 }

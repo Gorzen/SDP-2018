@@ -1,12 +1,21 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import ch.epfl.sweng.studyup.map.Room;
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.Room;
+import ch.epfl.sweng.studyup.npc.NPC;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -68,7 +77,7 @@ public abstract class Constants {
 
     /**
      * Constant of firebase (mostly testing purpose)
-     *
+     * <p>
      * Reserved sciper:
      * MIN_SCIPER, MAX_SCIPER, 123456: reserved to manipulate in tests
      * MIN_SCIPER + 1: user present in database but with empty document (not valid format)
@@ -106,11 +115,11 @@ public abstract class Constants {
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Constants for special quests
-    public static final String SPECIAL_QUEST_INDEX_KEY = "SPECIAL_QUEST_KEY";
+    public static final String SPECIAL_QUEST_KEY = "SPECIAL_QUEST_KEY";
 
     // Navigation items indexes for smooth transitions
-    public static final int MAIN_INDEX=0, QUESTS_INDEX_STUDENT =1, SCHEDULE_INDEX =2, MAP_INDEX=3, INVENTORY_INDEX =4, DEFAULT_INDEX_STUDENT=MAIN_INDEX;
-    public static final int QUESTS_INDEX_TEACHER=0, COURSE_STAT_INDEX =1, COURSE_SELECTION_FOR_SCHEDULE_INDEX =2;
+    public static final int MAIN_INDEX = 0, QUESTS_INDEX_STUDENT = 1, SCHEDULE_INDEX = 2, MAP_INDEX = 3, INVENTORY_INDEX = 4, DEFAULT_INDEX_STUDENT = MAIN_INDEX;
+    public static final int QUESTS_INDEX_TEACHER = 0, COURSE_STAT_INDEX = 1, COURSE_SELECTION_FOR_SCHEDULE_INDEX = 2;
 
     // Settings constants
     public static final String ENGLISH = "English";
@@ -129,6 +138,7 @@ public abstract class Constants {
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
+    public static final int WEEK_OF_SCHEDULE = 3;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
@@ -154,23 +164,48 @@ public abstract class Constants {
 
         private String name = "";
 
-        Course(String name){
+        Course(String name) {
             this.name = name;
         }
+
         /**
          * return the longer description of the course,
          * contrary to name() function that returns only the shorter name
          */
-        public String toString(){
+        public String toString() {
             return name;
         }
 
         public static List<String> getNamesFromCourses(List<Course> courses) {
             ArrayList<java.lang.String> coursesName = new ArrayList<>(courses.size());
             for (int i = 0; i < courses.size(); ++i) {
-                coursesName.add(courses.get(i).toString());
+                coursesName.add(courses.get(i).name());
             }
             return coursesName;
         }
     }
+
+
+    //NPCS
+    public static final String NPC_ACTIVITY_INTENT_NAME = "name";
+    public static final int NPC_MARKER_HEIGHT = 140;
+    public static final int NPC_MARKER_WIDTH = 80;
+    public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
+            new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
+            new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
+            new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
+            new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
+            new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
+            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
+    )));
+
+
+    // Flags for triggering special quest listener
+    public enum SpecialQuestUpdateFlag {
+        ANSWERED_QUESTION,
+        LEVEL_UP,
+        SET_USERNAME,
+        USER_LOGIN
+    }
 }
+

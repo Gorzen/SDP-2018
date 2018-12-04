@@ -48,7 +48,8 @@ import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Constants.Course;
+import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
@@ -111,7 +112,7 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         //Create the question
         displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
-                Constants.Course.SWENG.name(), questionLang, questionDuration); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Course.SWENG.name(), questionLang); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
         displayImage(questionID);
 
 
@@ -455,8 +456,7 @@ public class DisplayQuestionActivity extends RefreshContext {
             Player.get().addItem(Items.COIN_SACK);
         }
 
-        Player.get().notifySpecialQuestObservers(getApplicationContext(), SpecialQuestType.THREE_QUESTIONS);
-
+        Player.get().notifySpecialQuestObservers(SpecialQuestUpdateFlag.ANSWERED_QUESTION);
     }
 
     /**
