@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -178,13 +179,12 @@ public abstract class Constants {
     public static final String NPC_ACTIVITY_INTENT_NAME = "name";
     public static final int NPC_MARKER_HEIGHT = 140;
     public static final int NPC_MARKER_WIDTH = 80;
-    public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
+    public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
             new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
             new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
             new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
-
-    ));
+    )));
 }
