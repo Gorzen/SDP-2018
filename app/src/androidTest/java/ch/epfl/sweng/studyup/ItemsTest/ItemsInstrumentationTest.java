@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -31,8 +32,8 @@ public class ItemsInstrumentationTest {
     public void init() {
         items = new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.COIN_SACK, Items.XP_POTION));
         courses = new ArrayList<>(Arrays.asList(Constants.Course.SWENG, Constants.Course.Algebra, Constants.Course.Ecology));
-        listItemAdapter = new ListItemAdapter(null, items, false);
-        listCourseAdapter = new ListCourseAdapter(null, courses);
+        listItemAdapter = new ListItemAdapter(mActivityRule.getActivity(), items, false);
+        listCourseAdapter = new ListCourseAdapter(mActivityRule.getActivity(), courses, R.layout.course_item_model, true);
     }
 
     @Test
