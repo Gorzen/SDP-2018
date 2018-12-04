@@ -16,7 +16,7 @@ public class NPC {
     private LatLng npcLatLng;
     private int image;
     private final double NPC_RANGE = 20.0;
-    private final int MAX_COUNTER = 50;
+    private final int MAX_COUNTER = 1000;
     private Activity currentActivity;
     private int counter = 0;
 
