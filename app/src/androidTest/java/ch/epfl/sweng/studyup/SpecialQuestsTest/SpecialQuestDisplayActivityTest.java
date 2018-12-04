@@ -63,7 +63,7 @@ public class SpecialQuestDisplayActivityTest {
         Launch special quest view for first of Player's special quests.
         By default, this is the "Answer 3 questions" special quest.
          */
-        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(0));
 
         mActivityRule.launchActivity(launchIntent);
 
@@ -97,7 +97,7 @@ public class SpecialQuestDisplayActivityTest {
         By default, this is the "Answer 3 questions" special quest.
         This special quest should now be complete.
          */
-        launchIntent.putExtra(Constants.SPECIAL_QUEST_INDEX_KEY, 0);
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, Player.get().getSpecialQuests().get(0));
 
         mActivityRule.launchActivity(launchIntent);
 
@@ -105,5 +105,22 @@ public class SpecialQuestDisplayActivityTest {
         Should display message indicating special quest has been completed.
          */
         onView(withId(R.id.specialQuestCongrat)).check(matches(withText(R.string.congrat_text_special_quest)));
+    }
+
+    @Test
+    public void unenrolledSpecialQuestDisplayTest() {
+
+        /*
+        Test is run with default player, and should not include this special quest.
+        Thus, the special quest should display an "enroll button" rather than a progress bar.
+         */
+        SpecialQuest newQuest = new SpecialQuest(SpecialQuestType.CONSISTENT_USE);
+
+        Intent launchIntent = new Intent();
+        launchIntent.putExtra(Constants.SPECIAL_QUEST_KEY, newQuest);
+
+        mActivityRule.launchActivity(launchIntent);
+
+        onView(withId(R.id.specialQuestEnrollButton)).check(matches(isDisplayed()));
     }
 }

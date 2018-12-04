@@ -112,7 +112,7 @@ public abstract class Constants {
     public static final int XP_GAINED_WITH_QUESTION = 10;
 
     // Constants for special quests
-    public static final String SPECIAL_QUEST_INDEX_KEY = "SPECIAL_QUEST_KEY";
+    public static final String SPECIAL_QUEST_KEY = "SPECIAL_QUEST_KEY";
 
     // Navigation items indexes for smooth transitions
     public static final int MAIN_INDEX = 0, QUESTS_INDEX_STUDENT = 1, SCHEDULE_INDEX = 2, MAP_INDEX = 3, INVENTORY_INDEX = 4, DEFAULT_INDEX_STUDENT = MAIN_INDEX;
@@ -193,3 +193,13 @@ public abstract class Constants {
             new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
     )));
 }
+
+    // Flags for triggering special quest listener
+    public enum SpecialQuestUpdateFlag {
+        ANSWERED_QUESTION,
+        LEVEL_UP,
+        SET_USERNAME,
+        USER_LOGIN
+    }
+}
+
