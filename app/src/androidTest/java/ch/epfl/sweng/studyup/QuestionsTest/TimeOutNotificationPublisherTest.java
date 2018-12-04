@@ -51,22 +51,26 @@ public class TimeOutNotificationPublisherTest {
 
     @BeforeClass
     public static void init() {
-        Intents.init();
         Player.get().resetPlayer();
         GlobalAccessVariables.MOCK_ENABLED = true;
     }
 
     @AfterClass
     public static void clean() {
-        Intents.release();
         Player.get().resetPlayer();
         GlobalAccessVariables.MOCK_ENABLED = false;
+    }
+
+    @Before
+    public void initIntents() {
+        Intents.init();
     }
 
     @After
     public void closeNotifPanel() {
         Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         InstrumentationRegistry.getTargetContext().sendBroadcast(it);
+        Intents.release();
     }
 
     @Test
