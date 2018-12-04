@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
-import butterknife.ButterKnife;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
@@ -168,7 +167,6 @@ public class QuestsActivityStudent extends NavigationStudent {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = View.inflate(cnx, idLayout, null);
-                ButterKnife.bind(this, view);
             }
             TextView text_view = convertView.findViewById(R.id.quest_title);
             text_view.setText(questions.get(position).getTitle());
