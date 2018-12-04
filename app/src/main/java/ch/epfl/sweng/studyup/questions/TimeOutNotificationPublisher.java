@@ -1,34 +1,34 @@
 package ch.epfl.sweng.studyup.questions;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.widget.Toast;
+        import android.app.Notification;
+        import android.app.NotificationChannel;
+        import android.app.NotificationManager;
+        import android.content.BroadcastReceiver;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.os.Build;
+        import android.widget.Toast;
 
-import ch.epfl.sweng.studyup.player.Player;
+        import ch.epfl.sweng.studyup.player.Player;
 
 public class TimeOutNotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
-    public static final String QUESTION = "question";
-    public static final String QUESTIONID = "questionId";
-
+    public static final String QUESTIONID = "questionID";
+    public static final String ANSWER_NUMBER = "answerNumber";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        Question question = intent.getParcelableExtra(QUESTION);
+        String questionID = intent.getStringExtra(QUESTIONID);
+        int answerNumber = Integer.parseInt(intent.getStringExtra(ANSWER_NUMBER));
 
         Player player = Player.get();
 
-        if (player.getAnsweredQuestion().containsKey(question.getQuestionId())) {
+        if (player.getAnsweredQuestion().containsKey(questionID)) {
             //The question has been answered in the meantime
             return;
         }
@@ -39,10 +39,8 @@ public class TimeOutNotificationPublisher extends BroadcastReceiver {
                     "Timed out question", NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
-        int modulo = question.isTrueFalse() ? 2 : 4;
-        int wrongAnswer = (question.getAnswer()+1)%modulo;
-        player.addAnsweredQuestion(question.getQuestionId(), false, wrongAnswer);
 
+        player.addAnsweredQuestion(questionID, false, answerNumber);
 
         int id = intent.getIntExtra(NOTIFICATION_ID, 0);
         notificationManager.notify(id, notification);

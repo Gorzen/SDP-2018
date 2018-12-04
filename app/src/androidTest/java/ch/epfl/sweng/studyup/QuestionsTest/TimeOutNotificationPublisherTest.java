@@ -16,10 +16,12 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -34,6 +36,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
 @RunWith(JUnit4.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TimeOutNotificationPublisherTest {
 
     private String titleTest = "Test Title";
@@ -83,6 +86,7 @@ public class TimeOutNotificationPublisherTest {
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, notifID);
         notifIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, questionID);
+        notifIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(0));
 
         TimeOutNotificationPublisher notificationPublisher = new TimeOutNotificationPublisher();
         notificationPublisher.onReceive(mActivityRule.getActivity(), notifIntent);
@@ -101,7 +105,7 @@ public class TimeOutNotificationPublisherTest {
     }
 
     @Test
-    public void notifTestButQuestionHasAlreadyBeenAnswered() {
+    public void A_notifTestButQuestionHasAlreadyBeenAnswered() {
         Question question = new Question("ID test notif", "Title", true, 0, "SWENG", "en");
         Intent launchIntent = DisplayQuestionActivity.getIntentForDisplayQuestion(InstrumentationRegistry.getTargetContext(), question);
         mActivityRule.launchActivity(launchIntent);
@@ -111,8 +115,9 @@ public class TimeOutNotificationPublisherTest {
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
         notifIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, notifID);
         notifIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID, questionID);
+        notifIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(0));
 
-        Player.get().addAnsweredQuestion(questionID + " unique", true);
+        Player.get().addAnsweredQuestion(questionID + " unique", true, 0);
 
         TimeOutNotificationPublisher notificationPublisher = new TimeOutNotificationPublisher();
         notificationPublisher.onReceive(mActivityRule.getActivity(), notifIntent);
