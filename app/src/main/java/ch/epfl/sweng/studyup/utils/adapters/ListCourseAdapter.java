@@ -1,10 +1,16 @@
 package ch.epfl.sweng.studyup.utils.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,14 +18,20 @@ import java.util.Comparator;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
+
 public class ListCourseAdapter extends BaseAdapter {
-    private Context cnx;
+    private Activity act;
+    private int idLayout;
     private List<Constants.Course> courses;
 
-    public ListCourseAdapter(Context cnx, List<Constants.Course> courses) {
-        this.cnx=cnx;
+    public ListCourseAdapter(Activity act, List<Constants.Course> courses, int idLayout, boolean sort) {
+        this.act=act;
         //sort courses to display
         ArrayList<Constants.Course> sortedCourses = new ArrayList<>(courses);
         Collections.sort(sortedCourses, new Comparator<Constants.Course>() {
@@ -28,6 +40,7 @@ public class ListCourseAdapter extends BaseAdapter {
                 return o1.toString().compareToIgnoreCase(o2.toString());
             }
         });
+        this.idLayout = idLayout;
         this.courses=sortedCourses;
     }
 
@@ -45,14 +58,29 @@ public class ListCourseAdapter extends BaseAdapter {
     public long getItemId(int position) { return courses.get(position).ordinal(); }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         if(convertView==null){
-            convertView=View.inflate(cnx, R.layout.course_item_model, null);
+            convertView=View.inflate(act, idLayout, null);
         }
         TextView text_view_title_nice = convertView.findViewById(R.id.course_title);
         TextView text_view_title_bref = convertView.findViewById(R.id.abbreviation);
         text_view_title_nice.setText(courses.get(position).toString());
         text_view_title_bref.setText(courses.get(position).name());
+
+        if(idLayout == R.layout.model_course_send_request) {
+            TextView send = convertView.findViewById(R.id.send_course_request);
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(act instanceof ManageCourseActivity) {
+                        ((ManageCourseActivity) act).addRequest(courses.get(position).name(),
+                                Player.get().getSciperNum(),
+                                Player.get().getFirstName(),
+                                Player.get().getLastName());
+                    }
+                }
+            });
+        }
 
         return convertView;
     }

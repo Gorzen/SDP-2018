@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ch.epfl.sweng.studyup.LoginActivity;
@@ -14,6 +15,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -29,6 +31,14 @@ public class SettingsActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Player.get().isTeacher()) {
+            ((TextView) findViewById(R.id.textCourseButton)).setText(R.string.course_choice_settings_button_teacher);
+        }
     }
 
     public void onLogoutClick(View view) {
@@ -69,7 +79,9 @@ public class SettingsActivity extends RefreshContext {
     }
 
     public void onCourseChoiceClick(View view) {
-        Intent intent = new Intent(SettingsActivity.this, CourseSelectionActivity.class);
+        Intent intent = Player.get().isStudent() ?
+                new Intent(SettingsActivity.this, CourseSelectionActivity.class)
+                : new Intent(SettingsActivity.this, ManageCourseActivity.class);
         startActivity(intent);
     }
 

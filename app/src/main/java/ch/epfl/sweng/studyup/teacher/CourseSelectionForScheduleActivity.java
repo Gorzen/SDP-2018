@@ -40,7 +40,7 @@ public class CourseSelectionForScheduleActivity extends NavigationTeacher {
     private void setupListView() {
         ListView listView = findViewById(R.id.listViewCourses);
 
-        listCourseAdapter = new ListCourseAdapter(this, Player.get().getCoursesTeached());
+        listCourseAdapter = new ListCourseAdapter(this, Player.get().getCoursesTeached(), R.layout.course_item_model, true);
         listView.setAdapter(listCourseAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

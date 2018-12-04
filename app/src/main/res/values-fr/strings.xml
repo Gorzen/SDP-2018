@@ -104,7 +104,6 @@
     <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Bleu</string>
     <string name="choose_theme_multicolor">Multicouleur</string>
-    <string name="back_button_settings_color_text">Retour aux paramètres</string>
     <string name="special_quest_list_title">Quête spéciale</string>
     <string name="ask_confirmation_deletion_quest">Êtes-vous sûr de vouloir supprimer cette question ?</string>
     <string name="yes_upper">OUI</string>
@@ -135,6 +134,12 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="course_choice_settings_button_teacher">Mes cours</string>
+    <string name="other_courses_text">Autres cours</string>
+    <string name="your_courses_text">Mes cours</string>
+    <string name="send_request_text">M\'enrôler</string>
+    <string name="pending_courses_text">Cours en attente</string>
+    <string name="accepted_courses_text">Vos cours</string>
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>

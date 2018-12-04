@@ -101,6 +101,10 @@ public class Firestore {
         return instance;
     }
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
     /**
      * Function used to synchronize the data of the player, either from local to the remote
      * or from the remote to the local depending if it is a new user or not.
