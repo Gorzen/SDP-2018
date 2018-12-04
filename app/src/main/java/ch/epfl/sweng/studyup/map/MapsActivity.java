@@ -98,16 +98,18 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
         setNPCSMarker();
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if (marker.getTitle().contains("NPC") || marker.getTitle().contains("PNJ")) {
-                    startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getTitle().split("\n")[1]));
-                    return true;
+        if(googleMap != null) {
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    if (marker.getTitle().contains("NPC") || marker.getTitle().contains("PNJ")) {
+                        startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getTitle().split("\n")[1]));
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -172,14 +174,16 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     private void setNPCSMarker() {
-        for (NPC npc : Constants.allNPCs) {
-            BitmapDrawable npcBitMapDraw =(BitmapDrawable)getResources().getDrawable(npc.getImage());
-            Bitmap npcBitMap = npcBitMapDraw.getBitmap();
-            Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
-            mMap.addMarker(new MarkerOptions()
-                    .position(npc.getPosition())
-                    .title(getString(R.string.NPC) + "\n" + npc.getName())
-                    .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
+        if(mMap != null) {
+            for (NPC npc : Constants.allNPCs) {
+                BitmapDrawable npcBitMapDraw = (BitmapDrawable) getResources().getDrawable(npc.getImage());
+                Bitmap npcBitMap = npcBitMapDraw.getBitmap();
+                Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
+                mMap.addMarker(new MarkerOptions()
+                        .position(npc.getPosition())
+                        .title(getString(R.string.NPC) + "\n" + npc.getName())
+                        .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
+            }
         }
     }
 }
