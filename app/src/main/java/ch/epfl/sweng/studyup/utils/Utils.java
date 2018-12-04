@@ -3,6 +3,7 @@ package ch.epfl.sweng.studyup.utils;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -204,6 +205,10 @@ public abstract class Utils {
 
         weekView.setMinTime(8);
         weekView.setMaxTime(20);
+    }
+
+    public static boolean tooRecentAPI() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1;
     }
 }
 

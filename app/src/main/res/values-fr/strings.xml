@@ -134,6 +134,9 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="text_too_recent_API">L\'affichage de l\'horaire n\'est disponible que jusqu\'à la version 8 d'android (API 27).</string>
+    <string name="change_role_button_text">Changer de r�le</string>
+    <string name="schedule_updated_confirmation">Horaire du cours mis à jour</string>
     <string name="course_choice_settings_button_teacher">Mes cours</string>
     <string name="other_courses_text">Autres cours</string>
     <string name="your_courses_text">Mes cours</string>
@@ -143,7 +146,6 @@
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>
-
     <string name="item_xp_potion_name">Potion d\'XP</string>
     <string name="item_coin_sack_name">Bourse d\'or</string>
     <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
@@ -151,4 +153,5 @@
     <string name="item_use_button_text">Utiliser</string>
     <string name="special_quest_three_questions_title">Trois Questions</string>
     <string name="special_quest_three_questions_description">Répondez à trois questions pour un objet surprise !</string>
+    <string name="choose_your_theme">Choisissez votre thème :</string>
 </resources>
