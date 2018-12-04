@@ -2,6 +2,8 @@ package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -159,7 +161,10 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
 
     private void setMarkers() {
         for (NPC npc : Constants.allNPCs) {
-            mMap.addMarker(new MarkerOptions().position(npc.getPosition()).title(npc.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.user_init_pic)));
+            BitmapDrawable npcBitMapDraw =(BitmapDrawable)getResources().getDrawable(npc.getImage());
+            Bitmap npcBitMap = npcBitMapDraw.getBitmap();
+            Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, 25, 25, false);
+            mMap.addMarker(new MarkerOptions().position(npc.getPosition()).title(npc.getName()).icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
         }
     }
 }

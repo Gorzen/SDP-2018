@@ -147,6 +147,8 @@
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
     <string name="NPC_interaction"> wants to interact with you</string>
+    <string name="NPC_accept">Accept</string>
+    <string name="NPC_refuse">Refuser</string>
 
 
 </resources>

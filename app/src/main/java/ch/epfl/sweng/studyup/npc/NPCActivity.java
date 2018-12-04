@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public class NPCActivity extends AppCompatActivity {
@@ -15,7 +16,7 @@ public class NPCActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_npc);
         Intent intent = getIntent();
-        String npcName = intent.getStringExtra("name");
+        String npcName = intent.getStringExtra(Constants.NPC_ACTIVITY_INTENT_NAME);
         NPC npc = Utils.getNPCfromName(npcName);
         ImageView imageView = findViewById(R.id.npc_image);
         imageView.setImageResource(npc.getImage());

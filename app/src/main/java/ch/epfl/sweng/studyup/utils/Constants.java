@@ -173,6 +173,7 @@ public abstract class Constants {
         }
     }
 
+    public static final String NPC_ACTIVITY_INTENT_NAME = "name";
     //NPCS
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
             new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
