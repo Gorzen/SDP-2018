@@ -115,6 +115,8 @@ public class ScheduleActivityStudent extends NavigationStudent {
     }
 
     public void updateSchedule(List<WeekViewEvent> events){
+        Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>(events));
+
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
         weekViewEvents.addAll(events);

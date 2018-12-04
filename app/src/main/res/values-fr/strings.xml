@@ -155,6 +155,8 @@
     <string name="special_quest_three_questions_description">Répondez à trois questions pour un objet surprise !</string>
     <string name="manage_course_resign_button">Démissioner</string>
     <string name="choose_your_theme">Choisissez votre thème :</string>
+    <string name="room_objective">Votre objectif : </string>
+    <string name="gallery_android_text">Galerie</string>
     <string name="special_quest_five_questions_title">Cinq questions</string>
     <string name="special_quest_five_questions_description">Répondez à cinq questions pour un objet surprise !</string>
     <string name="special_quest_level_up_bonus_title">Bonus de niveau</string>
@@ -166,4 +168,10 @@
     <string name="your_special_quests">Vos quêtes spéciales</string>
     <string name="available_special_quests">Quêtes spéciales disponibles</string>
     <string name="enroll_button_text">Inscrivez-vous</string>
+    <string name="NPC_interaction"> souhaite intéragir avec vous</string>
+    <string name="NPC_accept">Accepter</string>
+    <string name="NPC_refuse">Refuser</string>
+    <string name="NPC">PNJ  </string>
+    <string name="NPC_temp_description">Yo, une petite bière ?</string>
+    <string name="NPC_too_far_away">Vous devez vous approcher du PNJ</string>
 </resources>

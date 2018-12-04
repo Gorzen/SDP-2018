@@ -22,6 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
@@ -49,7 +50,7 @@ public class CustomActivityTest2 {
 
         onView(ViewMatchers.withId(R.id.pic_btn)).perform(click());
 
-        onView(withText("Gallery")).inRoot(isDialog())
+        onView(withText(MOST_RECENT_ACTIVITY.getString(R.string.gallery_android_text))).inRoot(isDialog())
                 .check(matches(isDisplayed()))
                 .perform(click());
     }
