@@ -50,4 +50,7 @@ public class NPC {
         return image;
     }
 
+    public LatLng getPosition() {
+        return npcLatLng;
+    }
 }

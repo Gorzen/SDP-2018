@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.npc.NPC;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -172,11 +173,13 @@ public abstract class Constants {
         }
     }
 
-    public final static LatLng CHARLIE_POSITION = new LatLng(46.539886, 6.653563);
-    public final static LatLng CYNTHIA_POSITION = new LatLng(46.520288, 6.565392);
-
+    //NPCS
     public static ArrayList<NPC> allNPCs = new ArrayList<>(Arrays.asList(
-            new NPC("Charlie", CHARLIE_POSITION, R.drawable.charlie),
-            new NPC("Cynthia", CYNTHIA_POSITION, R.drawable.cynthia)
+            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_Charlie), Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
+            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_clam_girl), Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
+            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_Death), Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
+            new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
+            new NPC(GlobalAccessVariables.MOST_RECENT_ACTIVITY.getString(R.string.NPC_devil), Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
+            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
     ));
 }

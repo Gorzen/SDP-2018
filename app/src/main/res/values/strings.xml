@@ -146,9 +146,11 @@
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
-    <string name="NPC_interaction">wants to interact with you</string>
+    <string name="NPC_interaction"> wants to interact with you</string>
     <string name="NPC_Charlie">Charlie the unicorn</string>
     <string name="NPC_clam_girl">Greedy clam girl</string>
     <string name="NPC_accept">Accept</string>
     <string name="NPC_refuse">Refuse</string>
+    <string name="NPC_Death">Death</string>
+    <string name="NPC_devil">The devil</string>
 </resources>

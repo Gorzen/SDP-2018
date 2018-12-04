@@ -17,11 +17,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
@@ -55,7 +58,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -91,6 +93,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
+        setMarkers();
     }
 
     @Override
@@ -151,6 +154,12 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
             return new LatLng(location.getPosition().latitude, location.getPosition().longitude);
         } else {
             return null;
+        }
+    }
+
+    private void setMarkers() {
+        for (NPC npc : Constants.allNPCs) {
+            mMap.addMarker(new MarkerOptions().position(npc.getPosition()).title(npc.getName()).icon(BitmapDescriptorFactory.fromResource(R.drawable.user_init_pic)));
         }
     }
 }
