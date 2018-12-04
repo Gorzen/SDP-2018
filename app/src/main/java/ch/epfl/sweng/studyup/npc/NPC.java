@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Locale;
-
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;

@@ -181,5 +181,6 @@ public abstract class Constants {
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
             new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
             new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
+
     ));
 }
