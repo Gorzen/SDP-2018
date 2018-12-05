@@ -7,17 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -34,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -47,7 +43,6 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -76,7 +71,6 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String CHANNEL_ID = "studyup_question_timeout";
 
     private Question displayQuestion;
-    private Player player;
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
@@ -186,11 +180,11 @@ public class DisplayQuestionActivity extends RefreshContext {
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
         TextView time_left = findViewById(R.id.time_left); ImageView alarm = findViewById(R.id.alarmImage);
-        long now = System.currentTimeMillis(), clickedInstant = player.getClickedInstants().get(questionId);
+        long now = System.currentTimeMillis(), clickedInstant = Player.get().getClickedInstants().get(questionId);
 
-        if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
+        if (displayQuestion.getDuration() != 0 && !Player.get().getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
-            player.addClickedInstant(questionId, System.currentTimeMillis());
+            Player.get().addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
         } else if (displayQuestion.getDuration() == 0) {
             //There is no time constraint

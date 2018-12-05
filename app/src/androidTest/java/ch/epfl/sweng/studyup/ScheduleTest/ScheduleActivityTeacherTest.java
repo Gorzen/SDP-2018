@@ -184,7 +184,7 @@ public class ScheduleActivityTeacherTest {
 
     @Test
     public void backButtonTest() {
-        mActivityRule.launchActivity(new Intent());
+        mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
         onView(withId(R.id.back_button)).perform(click());
         TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
