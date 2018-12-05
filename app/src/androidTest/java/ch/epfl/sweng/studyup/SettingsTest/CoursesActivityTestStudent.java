@@ -54,13 +54,7 @@ public class CoursesActivityTestStudent {
     public void testCourseSelection() {
         onView(withText(Course.Ecology.name())).perform(click());
 
-        onView(ViewMatchers.withText(R.string.save_value)).perform(click());
+        onView(withId(R.id.saveButton)).perform(click());
         assert(Player.get().getCoursesEnrolled().contains(Course.Ecology));
-    }
-
-    @Ignore
-    public void onBackButtonTest() {
-        onView(withId(R.id.back_button)).perform(click());
-        TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }

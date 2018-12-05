@@ -162,7 +162,6 @@ public abstract class Constants {
         Ecology("Ecology"),
         Blacksmithing("Blacksmithing"),
         Analyse("Analyse"),
-        Algorithms("Algorithms"),
         Physics("Physics"),
         ToC("Theory of Computation"),
         ProbaStat("Probability And Statistics"),
