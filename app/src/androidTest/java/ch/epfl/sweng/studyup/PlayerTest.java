@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -37,6 +38,8 @@ public class PlayerTest {
     @Before
     public void setup() {
         Player.get().resetPlayer();
+        Player.get().setRole(Role.student);
+        Firestore.get().getCoursesSchedule(rule.getActivity(), Player.get().getRole());
     }
 
     @Test
@@ -46,7 +49,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void consumeItemXpTest() throws Exception {
+    public void consumeItemXpTest() {
         Player.get().addItem(Items.XP_POTION);
         int xp = Player.get().getExperience();
         Player.get().consumeItem(Items.XP_POTION);
