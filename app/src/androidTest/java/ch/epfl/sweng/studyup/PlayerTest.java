@@ -10,7 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.annotation.IncompleteAnnotationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,6 +25,7 @@ import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
@@ -80,6 +80,15 @@ public class PlayerTest {
         testCourseList.add(Course.Blacksmithing);
         Player.get().setCourses(testCourseList);
         assert(Player.get().getCoursesEnrolled().equals(testCourseList));
+    }
+
+    @Test
+    public void addClickedInstantTest() {
+        long instantTest = 12345;
+        String keyTest = "SimpleKeyRTest";
+        Player.get().addClickedInstant(keyTest, instantTest);
+        assertTrue(Player.get().getClickedInstants().containsKey(keyTest));
+        assertEquals(Long.valueOf(instantTest), Player.get().getClickedInstants().get(keyTest));
     }
 
     @Test

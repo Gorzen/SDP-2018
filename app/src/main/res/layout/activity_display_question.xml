@@ -69,13 +69,38 @@
                 android:gravity="top|center"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <ImageView
+                android:id="@+id/alarmImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/time_left"
+                android:layout_alignBottom="@+id/time_left"
+                android:layout_marginTop="-2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="-2dp"
+                android:layout_toStartOf="@+id/time_left"
+                app:srcCompat="@drawable/ic_alarm_primary_24dp" />
+
+            <TextView
+                android:id="@+id/time_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/quest_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="9dp"
+                android:text="@string/time_left_text"
+                android:textColor="?attr/colorPrimary" />
+
             <ImageView
                 android:id="@+id/question_display_view"
                 android:layout_width="match_parent"
                 android:layout_height="295dp"
+                android:layout_below="@+id/time_left"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="52dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="18dp"
                 android:adjustViewBounds="true"
                 android:gravity="top"
                 android:maxHeight="350dp"
@@ -108,6 +133,7 @@
                 android:textStyle="bold"
                 android:visibility="gone"
                 tools:text="Does it work ?" />
+
 
         </RelativeLayout>
 

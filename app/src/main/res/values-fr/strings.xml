@@ -90,7 +90,7 @@
     <string name="text_questiondisplayerror">Une erreur est survenue en affichant la question</string>
     <string name="text_makechoice">Choisis la réponse !</string>
     <string name="text_cantanswertwice">Tu ne peux répondre à une question deux fois !</string>
-    <string name="text_wronganswer">Loupé... Une prochaine fois ?</string>
+    <string name="text_wronganswer">Loupé… Une prochaine fois ?</string>
     <string name="text_correctanswer">Bonne réponse ! Bien joué !</string>
     <string name="save_value">Sauvegarder</string>
     <string name="course_choice_settings_button">Choisissez vos cours</string>
@@ -123,7 +123,7 @@
     <string name="text_insert_title_for_question">Insérez un titre</string>
     <string name="text_select_course_for_question">Sélectionnez un cours</string>
     <string name="error_when_download_question">Une erreur est survenue en téléchargeant la question</string>
-    <string name="chosen_course_for_question">Course Choisi : </string>
+    <string name="chosen_course_for_question">Cours Choisi : </string>
     <string name="edit_button_text">Editer</string>
     <string name="course_for_this_quest">Cours de la question</string>
     <string name="choose_course_for_question_text">Choisissez le cours pour la question</string>
@@ -134,15 +134,16 @@
     <string name="mcq_or_tf_question">QCM or Vrai/Faux?</string>
     <string name="choose_the_language_of_your_question">Choisissez la langue de la question</string>
     <string name="course_statistics">Statistiques des Cours</string>
+    <string name="time_out_notification">Trop tard ! Vous n\'avez pas répondu à une question dans le temps imparti</string>
+    <string name="text_too_recent_API">L\'affichage de l\'horaire n\'est disponible que jusqu\'à la version 8 d'android (API 27).</string>
+    <string name="change_role_button_text">Changer de rôle</string>
+    <string name="schedule_updated_confirmation">Horaire du cours mis à jour</string>
     <string name="course_choice_settings_button_teacher">Mes cours</string>
     <string name="other_courses_text">Autres cours</string>
     <string name="your_courses_text">Mes cours</string>
     <string name="send_request_text">M\'enrôler</string>
     <string name="pending_courses_text">Cours en attente</string>
     <string name="accepted_courses_text">Vos cours</string>
-    <string name="text_too_recent_API">L\'affichage de l\'horaire n\'est disponible que jusqu\'à la version 8 d'android (API 27).</string>
-    <string name="change_role_button_text">Changer de r�le</string>
-    <string name="schedule_updated_confirmation">Horaire du cours mis à jour</string>
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
     <string name="app_name" translatable="false">StudyUp</string>
@@ -168,10 +169,20 @@
     <string name="your_special_quests">Vos quêtes spéciales</string>
     <string name="available_special_quests">Quêtes spéciales disponibles</string>
     <string name="enroll_button_text">Inscrivez-vous</string>
+    <string name="displaycourseactivity">Affichage des cours</string>
+    <string name="title_activity_schedule">Horaire</string>
+    <string name="time_out_title">Time out !</string>
+    <string name="question_duration_selection">Sélectionnez la durée de la question</string>
+    <string name="chosen_duration">"Temps: "</string>
+    <string name="duration">Durée</string>
+    <string name="time_constraint_text">Pas de limite de temps</string>
+    <string name="remaining_time">Temps restant :</string>
+    <string name="elapsed_time">Temps écoulé</string>
     <string name="NPC_interaction"> souhaite intéragir avec vous</string>
     <string name="NPC_accept">Accepter</string>
     <string name="NPC_refuse">Refuser</string>
     <string name="NPC">PNJ  </string>
     <string name="NPC_temp_description">Yo, une petite bière ?</string>
     <string name="NPC_too_far_away">Vous devez vous approcher du PNJ</string>
+    <string name="time_left_text">Temps restant</string>
 </resources>

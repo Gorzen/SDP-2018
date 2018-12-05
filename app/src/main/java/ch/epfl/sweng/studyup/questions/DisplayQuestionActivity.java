@@ -1,12 +1,19 @@
 package ch.epfl.sweng.studyup.questions;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -63,10 +70,17 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String DISPLAY_QUESTION_ANSWER = "display_question_answer";
     @SuppressWarnings("HardCodedStringLiteral")
     public static final String DISPLAY_QUESTION_LANG = "display_question_lang";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String DISPLAY_QUESTION_DURATION = "display_question_duration";
+    @SuppressWarnings("HardCodedStringLiteral")
+    public static final String CHANNEL_ID = "studyup_question_timeout";
+
     private Question displayQuestion;
+    private Player player;
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
+    private boolean tooLate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +96,12 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         Intent intent = getIntent();
         if (!checkIntent(intent)) return;
-
         //Create the question
         displayQuestion = extractQuestion(intent);
         displayImage(intent.getStringExtra(DISPLAY_QUESTION_ID));
+
+
+        handleTimedQuestion(displayQuestion);
 
         setupLayout(displayQuestion);
 
@@ -105,8 +121,9 @@ public class DisplayQuestionActivity extends RefreshContext {
     private Question extractQuestion(Intent i) {
         return new Question(i.getStringExtra(DISPLAY_QUESTION_ID), i.getStringExtra(DISPLAY_QUESTION_TITLE),
                 Boolean.parseBoolean(i.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE)), Integer.parseInt(i.getStringExtra(DISPLAY_QUESTION_ANSWER)),
-                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG)); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG), Long.parseLong(i.getStringExtra(DISPLAY_QUESTION_DURATION))); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
     }
+
     /**
      * Check that the Intent that launched the activity has all the needed fields
      *
@@ -116,6 +133,11 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         if (!intent.hasExtra(DISPLAY_QUESTION_TITLE) || !intent.hasExtra(DISPLAY_QUESTION_ID) || !intent.hasExtra(DISPLAY_QUESTION_ANSWER) || !intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE) || !intent.hasExtra(DISPLAY_QUESTION_LANG)) {
             quit(); return false;
+        }
+
+        if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
+            quit();
+            return false;
         }
 
         return true;
@@ -159,6 +181,90 @@ public class DisplayQuestionActivity extends RefreshContext {
                 (RadioButton) findViewById(R.id.answer2),
                 (RadioButton) findViewById(R.id.answer3),
                 (RadioButton) findViewById(R.id.answer4)));
+    }
+
+    private void handleTimedQuestion(Question displayQuestion) {
+        String questionId = displayQuestion.getQuestionId();
+
+        if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
+            //The question has not been clicked on yet
+            player.addClickedInstant(questionId, System.currentTimeMillis());
+            setupNotificationManager();
+        } else {
+            TextView time_left = findViewById(R.id.time_left);
+            ImageView alarm = findViewById(R.id.alarmImage);
+            if (displayQuestion.getDuration() == 0) {
+                //There is no time constraint
+                alarm.setImageAlpha(0);
+                time_left.setText("");
+            } else {
+                long clickedInstant = player.getClickedInstants().get(questionId);
+                long now = System.currentTimeMillis();
+                if (now > clickedInstant + displayQuestion.getDuration()) {
+                    //too late, the player cannot answer anymore
+                    tooLate = true;
+                    time_left.setText(getString(R.string.elapsed_time));
+                } else {
+                    //display remaining time
+                    int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+                    String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
+                    time_left.setText(displayedText);
+                    if(timeLeft < 0){
+                        time_left.setText(getString(R.string.elapsed_time));
+                    }
+                }
+            }
+        }
+    }
+
+    private void setupNotificationManager() {
+        //Don't use notification when in testing
+        if (MOCK_ENABLED) return;
+
+        Notification notification = prepareNotificationTimeOut(getString(R.string.time_out_title),
+                getString(R.string.time_out_notification));
+
+        Intent notificationIntent = new Intent(this, TimeOutNotificationPublisher.class);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.NOTIFICATION, notification);
+        notificationIntent.putExtra(TimeOutNotificationPublisher.QUESTIONID,
+                displayQuestion.getQuestionId());
+        notificationIntent.putExtra(TimeOutNotificationPublisher.ANSWER_NUMBER, Integer.toString(displayQuestion.getAnswer()));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + displayQuestion.getDuration();
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+
+    }
+
+    public Notification prepareNotificationTimeOut(String title, String text) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+        builder.setContentTitle(title);
+        builder.setContentText(text);
+        builder.setSmallIcon(R.drawable.logo);
+        builder.setAutoCancel(true);
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        //Lanching the quest activity when clicked on
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, QuestsActivityStudent.class), 0);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+        bigText.bigText(text);
+        bigText.setBigContentTitle(title);
+        bigText.setSummaryText(text);
+
+        builder.setStyle(bigText);
+
+        //To ensure compatibility with version under Oreo
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder.setChannelId(CHANNEL_ID);
+        }
+
+        return builder.build();
     }
 
     /**
@@ -276,6 +382,9 @@ public class DisplayQuestionActivity extends RefreshContext {
         if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
             Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
         }
+        if(tooLate) {
+            Toast.makeText(this, getString(R.string.elapsed_time), Toast.LENGTH_SHORT).show();
+        }
         else if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
             return;
@@ -331,6 +440,7 @@ public class DisplayQuestionActivity extends RefreshContext {
         goToQuestion.putExtra(DISPLAY_QUESTION_TRUE_FALSE, Boolean.toString(q.isTrueFalse()));
         goToQuestion.putExtra(DISPLAY_QUESTION_ANSWER, Integer.toString(q.getAnswer()));
         goToQuestion.putExtra(DISPLAY_QUESTION_LANG, q.getLang());
+        goToQuestion.putExtra(DISPLAY_QUESTION_DURATION, Long.toString(q.getDuration()));
         return goToQuestion;
     }
 }

@@ -54,6 +54,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_ANSWER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_AUTHOR;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_DURATION;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_LANG;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
@@ -123,6 +125,7 @@ public class Firestore {
         localPlayerData.put(FB_COURSES_ENROLLED, getStringListFromCourseList(currPlayer.getCoursesEnrolled(), false));
         localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached(), false));
         localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
+        localPlayerData.put(FB_QUESTION_CLICKEDINSTANT, currPlayer.getClickedInstants());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
                 .set(localPlayerData)
@@ -149,6 +152,7 @@ public class Firestore {
         questionData.put(FB_COURSE, question.getCourseName());
         questionData.put(FB_QUESTION_AUTHOR, Player.get().getSciperNum());
         questionData.put(FB_QUESTION_LANG, question.getLang());
+        questionData.put(FB_QUESTION_DURATION, question.getDuration());
 
         db.collection(FB_QUESTIONS).document(question.getQuestionId()).set(questionData);
     }
@@ -189,22 +193,37 @@ public class Firestore {
         });
     }
 
+
     private Question extractQuestionData(Player currPlayer, String id, Map<String, Object> questionData) {
         Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
         List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesTeached();
         boolean questionCourseMatchesPlayer = playerCourse.contains(questionCourse);
 
-        if(questionCourseMatchesPlayer) {
+        if (questionCourseMatchesPlayer) {
 
             String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
             Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
             int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
             String questionLang = questionData.get(FB_QUESTION_LANG).toString();
-            
-            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourse.name(), questionLang);
+            long clickedInstant = getLongValueOrDefault(questionData, FB_QUESTION_CLICKEDINSTANT);
+            if (clickedInstant != 0) {
+                Player.get().addClickedInstant(id, clickedInstant);
+            }
+            long duration = getLongValueOrDefault(questionData, FB_QUESTION_DURATION);
+
+            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourse.name(), questionLang, duration);
         }
 
         return null;
+    }
+
+    private long getLongValueOrDefault(Map<String, Object> questionData, String fbParameter) {
+        Object getFromFB = questionData.get(fbParameter);
+        if (getFromFB == null) {
+            return 0;
+        } else {
+            return Long.parseLong(getFromFB.toString());
+        }
     }
 
     /**

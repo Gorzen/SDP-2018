@@ -32,6 +32,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -77,6 +78,7 @@ public class Player implements SpecialQuestObservable {
     private int currency;
     private Map<String, List<String>> answeredQuestions;
     private List<Items> items;
+    private Map<String, Long> clickedInstants;
 
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
@@ -101,6 +103,7 @@ public class Player implements SpecialQuestObservable {
         coursesTeached = new ArrayList<>();
         coursesEnrolled.add(Course.SWENG);
         scheduleStudent = new ArrayList<>();
+        clickedInstants = new HashMap<>();
     }
 
     public static Player get() {
@@ -164,8 +167,8 @@ public class Player implements SpecialQuestObservable {
         List<String> defaultCourseListTeached = new ArrayList<>();
         coursesTeached = getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_TEACHED, defaultCourseListTeached));
 
-
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
+        clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -206,12 +209,12 @@ public class Player implements SpecialQuestObservable {
     }
     public Map<String, List<String>> getAnsweredQuestion() { return Collections.unmodifiableMap(new HashMap<>(answeredQuestions)); }
 
-
     public List<SpecialQuest> getSpecialQuests() { return specialQuests; }
 
     public boolean isSuperUser() {
         return SUPER_USERS.contains(getSciperNum());
     }
+    public Map<String, Long> getClickedInstants() {return Collections.unmodifiableMap(new HashMap<>(clickedInstants)); }
 
     // Setters
     public void setSciperNum(String sciperNum) {
@@ -330,6 +333,11 @@ public class Player implements SpecialQuestObservable {
             this.answeredQuestions.put(questionID, Arrays.asList(isAnswerGoodStr, Integer.toString(ansNb)));
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
+    }
+
+    public void addClickedInstant(String questionID, Long instant) {
+        clickedInstants.put(questionID, instant);
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     public void addSpecialQuest(SpecialQuest specialQuest) {
