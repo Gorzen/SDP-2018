@@ -64,11 +64,11 @@ public class NPC {
         return npcLatLng;
     }
 
-    public void enableNPCInteraction() {
-        NPCInteraction = true;
+    public boolean enableNPCInteraction() {
+        return NPCInteraction = true;
     }
 
-    public void disableNPCInteraction() {
-        NPCInteraction = false;
+    public boolean disableNPCInteraction() {
+        return NPCInteraction = false;
     }
 }

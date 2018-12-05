@@ -54,4 +54,14 @@ public class NPCTest {
         assertEquals(Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation().latitude, roberto.getPosition().latitude, 0);
         assertEquals(Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation().longitude, roberto.getPosition().longitude, 0);
     }
+
+    @Test
+    public void enableInteractionTest() {
+        assertTrue(roberto.enableNPCInteraction());
+    }
+
+    @Test
+    public void disableInteractionTest() {
+        assertTrue(roberto.disableNPCInteraction());
+    }
 }
