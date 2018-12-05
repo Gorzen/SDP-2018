@@ -62,7 +62,9 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
     private RadioGroup trueFalseRadioGroup, imageTextRadioGroup, langRadioGroup;
     private imagePathGetter getPath;
     private Course chosenCourse;
+    public long chosenDuration;
     private TextView view_chosen_course;
+    private TextView view_chosen_duration;
     private Bitmap bitmap = null;
     private boolean isNewQuestion = true;
     private Question question;
@@ -80,6 +82,10 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         Question question = (Question) intent.getSerializableExtra(AddOrEditQuestionActivity.class.getSimpleName());
 
         view_chosen_course = findViewById(R.id.chosenCourseTextView);
+        view_chosen_duration = findViewById(R.id.chosen_duration_text);
+        view_chosen_duration.setText(getString(R.string.chosen_duration) + getString(R.string.time_constraint_text));
+        //No time limit by default
+        chosenDuration = 0;
 
         // Setup path getter
         if (MOCK_ENABLED) {
@@ -186,7 +192,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             }
             String questionCourseName = chosenCourse.name();
 
-            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion);
+            Question newQuestion = new Question(newQuestionID, newQuestionTitle, isTrueFalseQuestion, answerNumber, questionCourseName, langQuestion, chosenDuration);
 
             // Upload the problem image file to the Firebase Storage server
             FileStorage.uploadProblemImage(questionFile);
@@ -413,6 +419,27 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         });
         courseChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
         courseChoiceBuilder.create().show();
+    }
+
+    public void onClickDurationChoice(View view) {
+        AlertDialog.Builder durationChoiceBuilder = new AlertDialog.Builder(this);
+        durationChoiceBuilder.setTitle(R.string.duration);
+
+        ArrayList<String> durationChoice = new ArrayList<>(Constants.durationChoice);
+        String[] durationChoiceArray = durationChoice.toArray(new String[durationChoice.size()]);
+        durationChoiceBuilder.setItems(durationChoiceArray, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                chosenDuration = Constants.durationCorrespond.get(which);
+                if (chosenDuration == 0) {
+                    view_chosen_duration.setText(getString(R.string.chosen_duration) + getString(R.string.time_constraint_text));
+                } else {
+                    view_chosen_duration.setText(getString(R.string.chosen_duration) + Constants.durationChoice.get(which));
+                }
+            }
+        });
+        durationChoiceBuilder.setNegativeButton(getString(R.string.cancel), null);
+        durationChoiceBuilder.create().show();
     }
 
 

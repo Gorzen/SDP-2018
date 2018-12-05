@@ -55,7 +55,8 @@ public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
     private ImageView image_view;
 
-    // Text that will be displayed in the levelProgress layout
+    // Text that will be displayed in the
+    // layout
     public CircularProgressIndicator levelProgress;
     ImageButton pic_button2;
     ImageButton pic_button;

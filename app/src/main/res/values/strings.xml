@@ -98,11 +98,11 @@
     <string name="text_unabletouploadimage">Unable to upload image</string>
     <string name="text_imageuploadsuccess">Successfully uploaded image</string>
     <string name="title_playerposition">Player position</string>
-    <string name="text_questiondlerror">An error occured when downloading the question</string>
+    <string name="text_questiondlerror">An error occurred when downloading the question</string>
     <string name="text_questiondisplayerror">Error while displaying the question</string>
     <string name="text_makechoice">Make your choice!</string>
     <string name="text_cantanswertwice">You can\'t answer a question twice!</string>
-    <string name="text_wronganswer">Wrong answer... Maybe next time?</string>
+    <string name="text_wronganswer">Wrong answer… Maybe next time?</string>
     <string name="text_correctanswer">Correct answer! Congrats!</string>
     <string name="text_langen" translatable="false">Damn you\'re english !</string>
     <string name="text_langfr" translatable="false">Omelette du fromage</string>
@@ -128,8 +128,8 @@
     <string name="special_quests_title">Special Quests</string>
     <string name="title_activity_schedule" tools:ignore="MissingTranslation">ScheduleActivity</string>
     <string name="course_statistics">Course Statistics</string>
-    <string name="displaycourseactivity" tools:ignore="MissingTranslation">DisplayCourseActivity</string>
-    <string name="courses" tools:ignore="MissingTranslation">Stats</string>
+    <string name="displaycourseactivity">DisplayCourseActivity</string>
+    <string name="courses" translatable="false">Stats</string>
     <string name="select_the_correct_answer">Select the Correct Answer</string>
     <string name="mcq_or_tf_question">MCQ or TF Question?</string>
     <string name="write_your_question">Write / Select the Image for the Question</string>
@@ -141,11 +141,12 @@
     <string name="room_alert_title">Choose the Room</string>
     <string name="text_insert_title_for_question">Please Insert a Title</string>
     <string name="text_select_course_for_question">Please Select a Course</string>
-    <string name="error_when_download_question">An Error Occured when Downloading the Question</string>
+    <string name="error_when_download_question">An Error Occurred when Downloading the Question</string>
     <string name="chosen_course_for_question">Chosen Course : </string>
     <string name="edit_button_text">Edit</string>
     <string name="choose_course_for_question_text">Choose the Course that Corresponds to your Question</string>
     <string name="write_here_your_question_text">Write Here the Question</string>
+    <string name="time_out_notification">A question has timed out, be quicker next time !</string>
     <string name="text_too_recent_API">The display of the schedule is not available yet for API greater than 27.</string>
     <string name="change_role_button_text">Change role</string>
     <string name="schedule_updated_confirmation">Course\'s schedule updated</string>
@@ -184,4 +185,11 @@
     <string name="available_special_quests">Available Special Quests</string>
     <string name="enroll_button_text">Enroll</string>
     <string name="choose_your_theme">Choose your theme :</string>
+    <string name="time_out_title">Time out !</string>
+    <string name="question_duration_selection">Select the time duration</string>
+    <string name="chosen_duration" >"Time: "</string>
+    <string name="duration">Duration</string>
+    <string name="time_constraint_text">No time constraint</string>
+    <string name="remaining_time">Time left:</string>
+    <string name="elapsed_time">Elapsed time</string>
 </resources>

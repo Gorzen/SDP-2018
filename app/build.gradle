@@ -87,6 +87,8 @@ android {
         implementation 'de.hdodenhof:circleimageview:2.1.0'
 
 
+        // UIAutomator dependency
+        androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
     }
 
     tasks.withType(Test) {
