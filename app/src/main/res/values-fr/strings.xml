@@ -123,7 +123,7 @@
     <string name="text_insert_title_for_question">Insérez un titre</string>
     <string name="text_select_course_for_question">Sélectionnez un cours</string>
     <string name="error_when_download_question">Une erreur est survenue en téléchargeant la question</string>
-    <string name="chosen_course_for_question">"Cours Choisi : "</string>
+    <string name="chosen_course_for_question">Cours Choisi : </string>
     <string name="edit_button_text">Editer</string>
     <string name="course_for_this_quest">Cours de la question</string>
     <string name="choose_course_for_question_text">Choisissez le cours pour la question</string>
