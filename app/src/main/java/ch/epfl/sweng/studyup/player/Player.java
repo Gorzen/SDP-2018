@@ -342,6 +342,7 @@ public class Player implements SpecialQuestObservable {
 
     public void addClickedInstant(String questionID, Long instant) {
         clickedInstants.put(questionID, instant);
+        Firestore.get().updateRemotePlayerDataFromLocal();
     }
 
     public void addSpecialQuest(SpecialQuest specialQuest) {

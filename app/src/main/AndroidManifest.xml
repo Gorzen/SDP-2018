@@ -90,6 +90,8 @@
         <activity android:name=".specialQuest.AvailableSpecialQuestsActivity"/>
         <activity android:name=".teacher.ManageCourseActivity" />
         <activity android:name=".npc.NPCActivity"/>
+
+        <receiver android:name=".questions.TimeOutNotificationPublisher" />
     </application>
 
 
