@@ -52,6 +52,7 @@ public abstract class Constants {
     public static final String FB_SPECIALQUESTS = "specialQuests";
     public static final String FB_SPECIALQUEST_TYPE = "specialQuestType";
     public static final String FB_SPECIAL_QUEST_COMPLETION_COUNT = "completionCount";
+    public static final String FB_TEACHING_STAFF = "teaching staff";
     public static final String FB_EVENTS = "events";
     public static final String FB_EVENTS_ID = "id";
     public static final String FB_EVENTS_NAME = "name";
@@ -146,8 +147,8 @@ public abstract class Constants {
     public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
     public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
 
-    public static final List<String> durationChoice = Arrays.asList("0", "1h", "5h", "24h");
-    public static final List<Long> durationCorrespond = Arrays.asList(0l, 3600000l, 18000000l, 86400000l);
+    public static final List<String> durationChoice = Arrays.asList("0", "2mn", "1h", "5h", "24h");
+    public static final List<Long> durationCorrespond = Arrays.asList(0l, 120000l, 3600000l, 18000000l, 86400000l);
 
     // Enums for Role, Course
     public enum Role {
@@ -160,6 +161,11 @@ public abstract class Constants {
         Algebra("Algebra"),
         Ecology("Ecology"),
         Blacksmithing("Blacksmithing"),
+        Analyse("Analyse"),
+        Physics("Physics"),
+        ToC("Theory of Computation"),
+        ProbaStat("Probability And Statistics"),
+        FunProg("Functional Programming"),
         FakeCourse("A fake course");
 
         private String name = "";

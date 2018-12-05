@@ -35,10 +35,10 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
         this.reward = Items.values()[random.nextInt(Items.values().length)];
     }
 
-    public SpecialQuestType getSpecialQuestType() { return this.specialQuestType; }
+    public SpecialQuestType getSpecialQuestType() { return specialQuestType; }
 
-    public int getCompletionCount() { return this.completionCount; }
-    public double getProgress() { return (double)this.completionCount/(double)this.specialQuestType.getGoal(); }
+    public int getCompletionCount() { return completionCount; }
+    public double getProgress() { return (double)completionCount/(double)specialQuestType.getGoal(); }
     public Items getReward() { return reward; }
 
     public void setCompletionCount(int completionCount) { this.completionCount = completionCount; }
@@ -49,24 +49,21 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
     then the special quest completion count should be incremented.
      */
     public void update(SpecialQuestUpdateFlag updateFlag) {
+        if (!updateFlag.equals(this.specialQuestType.getUpdateFlag()) || completionCount >= specialQuestType.getGoal()) {
+            return;
+        }
 
-        if (updateFlag.equals(this.specialQuestType.getUpdateFlag())) {
-            // Increment completion count is special quest not already complete.
-            if (this.completionCount < this.specialQuestType.getGoal()) {
+        completionCount++;
+        Firestore.get().updateRemotePlayerDataFromLocal();
 
-                this.completionCount++;
-                Firestore.get().updateRemotePlayerDataFromLocal();
+        if (completionCount == specialQuestType.getGoal()) {
+            // Reached goal, reward player with item, display congratulations
+            Player.get().addItem(reward);
 
-                if (this.completionCount == this.specialQuestType.getGoal()) {
-                    // Reached goal, reward player with item, display congratulations
-                    Player.get().addItem(reward);
+            String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
+                    SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
 
-                    String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
-                            SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
-
-                    Toast.makeText(MOST_RECENT_ACTIVITY.getApplicationContext(), alertMessage, Toast.LENGTH_SHORT).show();
-                }
-            }
+            Toast.makeText(MOST_RECENT_ACTIVITY.getApplicationContext(), alertMessage, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,7 +72,9 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
     This is used for determining whether a player is enrolled in a give special quest type.
      */
     public boolean equals(Object compSpecialQuest) {
-        return this.getSpecialQuestType()
-            .equals(((SpecialQuest)compSpecialQuest).getSpecialQuestType());
+        return compSpecialQuest != null &&
+                compSpecialQuest instanceof SpecialQuest &&
+                this.getSpecialQuestType().equals(((SpecialQuest) compSpecialQuest).getSpecialQuestType());
+
     }
 }

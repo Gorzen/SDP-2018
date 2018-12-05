@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
@@ -50,6 +51,7 @@ public class LoginActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Firestore.get().getCoursesSchedule(this, Role.student);
 
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
@@ -96,14 +98,14 @@ public class LoginActivity extends RefreshContext {
                     return;
                 }
 
-                Firestore.get().syncPlayerData();
+                AuthenticationActivity.syncPlayerData();
                 Utils.waitAndTag(TIME_TO_WAIT_FOR_AUTO_LOGIN, TAG);
                 /*
                 Auto-login successful.
                 Direct user to home activity corresponding to their role.
                  */
 
-                HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
+                HOME_ACTIVITY = Player.get().isStudent() ?
                         HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));

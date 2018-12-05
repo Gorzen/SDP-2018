@@ -5,13 +5,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,7 @@ import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
+import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 
@@ -60,6 +65,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -107,49 +113,6 @@ public class Firestore {
         return db;
     }
 
-    /**
-     * Function used to synchronize the data of the player, either from local to the remote
-     * or from the remote to the local depending if it is a new user or not.
-     *
-     * @throws NullPointerException If the data received from the server is not of a valid format
-     * @throws IllegalArgumentException If the sciper of the player is not valid
-     */
-    public void syncPlayerData() throws NullPointerException, IllegalArgumentException {
-        final Player currPlayer = Player.get();
-        final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
-
-        if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
-            throw new IllegalArgumentException("The Sciper number should be a six digit number.");
-        }
-
-        db.collection(FB_USERS).document(currPlayer.getSciperNum())
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            Map<String, Object> remotePlayerData = document.getData();
-                            /*
-                            Player is a return user. They have stored remote data.
-                            Update local data with remote data.
-                             */
-                            currPlayer.updateLocalDataFromRemote(remotePlayerData);
-                            currPlayer.notifySpecialQuestObservers(Constants.SpecialQuestUpdateFlag.USER_LOGIN);
-                        } else {
-                            /*
-                                Player is logging in for the first time.
-                                Update remote data with initialized local data.
-                                 */
-                            updateRemotePlayerDataFromLocal();
-                        }
-                    }
-                }
-            });
-    }
-
     public void updateRemotePlayerDataFromLocal() {
 
         Player currPlayer = Player.get();
@@ -170,34 +133,20 @@ public class Firestore {
         localPlayerData.put(FB_QUESTION_CLICKEDINSTANT, currPlayer.getClickedInstants());
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
-            .set(localPlayerData)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.i(TAG, "Remote player data was updated.");
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.e(TAG, "Unable to update remote player data");
-                }
-            });
-
-    }
-
-    public void deleteUserFromDatabase(String sciperNum) {
-        db.collection(FB_USERS).document(sciperNum).delete()
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Log.i(TAG, "The user has been deleted from the database.");
-                    } else {
-                        Log.w(TAG, "Failed to delete the user from the database.");
+                .set(localPlayerData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "Remote player data was updated.");
                     }
-                }
-            });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Unable to update remote player data");
+                    }
+                });
+
     }
 
     public void addQuestion(final Question question) {
@@ -236,41 +185,8 @@ public class Firestore {
                     String questionId = document.getId();
                     Map<String, Object> questionData = document.getData();
 
-                    String QuestionAuthorSciperNum = questionData.get(FB_QUESTION_AUTHOR).toString();
-                    boolean currPlayerIsAuthor = QuestionAuthorSciperNum.equals(currPlayer.getSciperNum());
-
-                    // Questions without associated courses (created before this feature), will appear for all players
-                    boolean questionCourseMatchesPlayer = true;
-                    if (questionData.get(FB_COURSE) != null) {
-                        // If question is associated with a course, only load question if the user enrolled in that course.
-                        String questionCourseName = questionData.get(FB_COURSE).toString();
-                        questionCourseMatchesPlayer =
-                                Player.get().getCoursesEnrolled().contains(Course.valueOf(questionCourseName));
-                    }
-
-                    boolean isValidQuestion = questionCourseMatchesPlayer &&
-                            ((currPlayerIsAuthor && currPlayer.getRole() == Role.teacher) ||
-                             (!currPlayerIsAuthor && currPlayer.getRole() == Role.student));
-
-                    if(isValidQuestion) {
-
-                        String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
-                        Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
-                        int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = questionData.get(FB_COURSE).toString();
-                        String questionLang = (String) questionData.get(FB_QUESTION_LANG);
-                        long clickedInstant = getLongValueOrDefault(questionData, FB_QUESTION_CLICKEDINSTANT);
-                        if (clickedInstant != 0) {
-                            Player.get().addClickedInstant(questionId, clickedInstant);
-                        }
-                        long duration = getLongValueOrDefault(questionData, FB_QUESTION_DURATION);
-                        if (questionLang == null || !(questionLang.equals("en") || questionLang.equals("fr"))) {
-                            questionLang = "en";
-                        }
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, questionLang, duration);
-                        questionList.add(question);
-                    }
+                    Question q = extractQuestionData(currPlayer, questionId, questionData);
+                    if(q != null) questionList.add(q);
                 }
 
                 QuestionParser.writeQuestions(questionList, context);
@@ -282,45 +198,37 @@ public class Firestore {
         });
     }
 
-    public long getLongValueOrDefault(Map<String, Object> questionData, String fbParameter) {
+
+    private Question extractQuestionData(Player currPlayer, String id, Map<String, Object> questionData) {
+        Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
+        List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesTeached();
+        boolean questionCourseMatchesPlayer = playerCourse.contains(questionCourse);
+
+        if (questionCourseMatchesPlayer) {
+
+            String questionTitle = (String) questionData.get(FB_QUESTION_TITLE);
+            Boolean questionTrueFalse = (Boolean) questionData.get(FB_QUESTION_TRUEFALSE);
+            int questionAnswer = Integer.parseInt((questionData.get(FB_QUESTION_ANSWER)).toString());
+            String questionLang = questionData.get(FB_QUESTION_LANG).toString();
+            long clickedInstant = getLongValueOrDefault(questionData, FB_QUESTION_CLICKEDINSTANT);
+            if (clickedInstant != 0) {
+                Player.get().addClickedInstant(id, clickedInstant);
+            }
+            long duration = getLongValueOrDefault(questionData, FB_QUESTION_DURATION);
+
+            return new Question(id, questionTitle, questionTrueFalse, questionAnswer, questionCourse.name(), questionLang, duration);
+        }
+
+        return null;
+    }
+
+    private long getLongValueOrDefault(Map<String, Object> questionData, String fbParameter) {
         Object getFromFB = questionData.get(fbParameter);
         if (getFromFB == null) {
             return 0;
         } else {
             return Long.parseLong(getFromFB.toString());
         }
-    }
-
-    /**
-     * Method that delete a question and its corresponding image
-     *
-     * @param questionId the id of the question
-     */
-    public void deleteQuestion(final String questionId) {
-        db.collection(FB_QUESTIONS).document(questionId).delete()
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        if(questionId.equals(MOCK_UUID)) {
-                            Log.i(TAG, "The question has been deleted from the database.");
-                            return;
-                        }
-                        FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Log.i(TAG, "The question image has been deleted from the database.");
-                                }
-                            }
-                        });
-                    } else {
-                        Log.e(TAG, "Failed to delete the question's data from the database.");
-                    }
-                }
-            });
-        //TODO: for all users delete this question in their answered question field
-        //TODO: or retrieve all questions in the player class and initialize answeredQuestion with question that are still "alive"
     }
 
     /**
@@ -344,92 +252,39 @@ public class Firestore {
                 public void onFailure(@NonNull Exception e) {Log.i(TAG, "Failed to load data for player with Sciper number: " + sciper); }});
     }
 
-    /**
-     * Method that get the schedule of the current player, that he/she be teacher or student, and
-     * will update the layout accordingly using the updateSchedule method in the activity given as
-     * parameter and/or update the schedule of the player
-     *
-     * @param act  The activity displaying the layout (if it is a schedule activity, ignored otherwise)
-     * @param role The role, which the caller can choose
-     * @throws NullPointerException     If the format is incorrect on the database
-     */
     public void getCoursesSchedule(final Activity act, final Role role) throws NullPointerException {
-        final Player p = Player.get();
-        final CollectionReference coursesRef = db.collection(FB_COURSES);
-        final List<WeekViewEvent> schedule = new ArrayList<>();
-        final boolean isTeacher = p.getRole() == Role.teacher;
-
-        final List<Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
-        // Iteration over all events of all needed courses
-        for(final Course c : courses) {
-            coursesRef.document(c.name()).collection(FB_EVENTS).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()) {
-                                if(!task.getResult().isEmpty()) {
-                                    // Adding periods to the course
-                                    for (QueryDocumentSnapshot q : task.getResult()) {
-                                        schedule.add(queryDocumentSnapshotToWeekView(q));
-                                    }
-
-                                    onScheduleCompleted(act, role, schedule);
-                                }
-                            }
-                        }
-                    });
-        }
+        FirestoreSchedule.getCoursesSchedule(db, act, role);
     }
 
-    private WeekViewEvent queryDocumentSnapshotToWeekView(QueryDocumentSnapshot q) {
-        long id = Long.parseLong(q.get(FB_EVENTS_ID).toString());
-        Calendar start = Calendar.getInstance();
-        start.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_START).toString()));
-        Calendar end = Calendar.getInstance();
-        end.setTimeInMillis(Long.parseLong(q.get(FB_EVENTS_END).toString()));
-        String name = q.get(FB_EVENTS_NAME).toString();
-        String location = q.get(FB_EVENTS_LOCATION).toString();
-
-
-        return new WeekViewEvent(id, name, location, start, end);
-    }
-
-    private void onScheduleCompleted(final Activity act, final Role role, List<WeekViewEvent> schedule) {
-
-            if(act instanceof ScheduleActivityStudent) {
-                ScheduleActivityStudent actCasted = (ScheduleActivityStudent) act;
-                schedule.addAll(actCasted.getWeekViewEvents());
-                actCasted.updateSchedule(schedule);
-            } else if(act instanceof ScheduleActivityTeacher) {
-                ScheduleActivityTeacher actCasted = (ScheduleActivityTeacher) act;
-                schedule.addAll(actCasted.getWeekViewEvents());
-                actCasted.updateSchedule(schedule);
-            }
-
-
-            if(role == Role.student) {
-                Player.get().setScheduleStudent(schedule);
-            }
-    }
-
-    /**
-     * Used when a teacher select her/his courses, replace the old course if someone else was
-     * teaching it or don't do anything if the teacher where already teaching this course. The
-     * teacher is the current player.
-     *
-     * @param c The course
-     */
-    public void setCourseTeacher(final Course c) {
-
-        db.collection(FB_COURSES).document(c.name()).get()
+    public void addPlayerToTeachingStaff(final Course c, final String sciper) {
+        final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot doc = task.getResult();
+                            if(task.getResult().exists()) {
+                                DocumentSnapshot doc = task.getResult();
 
-                            if(!doc.exists() || !Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
-                                changeCourseTeacher(c);
+                                List<String> teachers;
+                                try {
+                                    teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
+                                } catch (ClassCastException e) {
+                                    Log.d(TAG, "onComplete: The info for the teacher of " + c.name() + " is incorrect.");
+                                    return;
+                                }
+
+                                if (!teachers.contains(sciper)) {
+                                    Map<String, Object> courseData = doc.getData();
+                                    teachers.add(sciper);
+                                    courseData.put(FB_TEACHING_STAFF, teachers);
+                                    courseRef.set(courseData);
+                                }
+                            } else {
+                                Map<String, Object> courseData = new HashMap<>();
+                                ArrayList<String> staff = new ArrayList<>(Arrays.asList(sciper));
+                                courseData.put(FB_TEACHING_STAFF, staff);
+                                courseRef.set(courseData);
                             }
 
                         } else {
@@ -439,20 +294,37 @@ public class Firestore {
                 });
     }
 
-    private void changeCourseTeacher(final Course c) {
-        // Setting new teacher
-        Map<String, Object> courseData = new HashMap<>();
-        courseData.put(FB_SCIPER, Player.get().getSciperNum());
-        db.collection(FB_COURSES).document(c.name()).set(courseData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void removePlayerFromTeachingStaff(final Course c, final String sciper) {
+        final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Teacher successfully updated.");
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            DocumentSnapshot doc = task.getResult();
+
+                            List<String> teachers;
+                            try {
+                                teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
+                            } catch(ClassCastException e) { Log.d(TAG, "onComplete: The info for the teacher of "+c.name()+" is incorrect."); return; }
+
+                            Map<String, Object> courseData = doc.getData();
+                            if(teachers.remove(sciper) && teachers.isEmpty()) {
+                                deleteCourseInfos(c);
+                            } else {
+                                courseData.put(FB_TEACHING_STAFF, teachers);
+                                courseRef.set(courseData);
+                            }
+                        } else {
+                            Log.w(TAG, "The schedule fail to load or no course are present.");
+                        }
                     }
                 });
+    }
 
-        // Deleting previous teacher schedule
-        db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS).get()
+    private void resetCourseSchedule(final Course c) {
+        DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.collection(FB_EVENTS).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -461,141 +333,20 @@ public class Firestore {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.i(TAG, "Failed during an old teacher period's deletion: \n"+q.toObject(WeekViewEvent.class));
+                                            Log.i(TAG, "Failed during the deletion of period: \n"+q.toObject(WeekViewEvent.class));
                                         }
                                     });
                         }
                     }
                 });
     }
-
-    /**
-     * Add periods to the course on the server by removing the old ones with corresponding start
-     * time and adding the new ones.
-     *
-     * @param c The course
-     * @param periodsToAdd The times of the periods for the course, containing all needed data
-     *                     (Room, startTime, endTime, etc...)
-     */
     public void setCourseEvents(final Course c, final List<WeekViewEvent> periodsToAdd) {
-        final CollectionReference eventsOfCourse = db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS);
-
-
-
-        eventsOfCourse.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            Log.i(TAG, "Got the course's events to add new ones to server.");
-
-                            if(!task.getResult().isEmpty()) {
-                                // Deleting periods that are replaced
-                                for(QueryDocumentSnapshot q : task.getResult()) {
-                                    q.getReference().delete();
-                                }
-                            }
-
-                            // Adding new periods
-                            for(WeekViewEvent p : periodsToAdd) {
-                                eventsOfCourse.add(WeekViewEventToMap(p));
-                            }
-                        }
-                    }
-                });
+        FirestoreSchedule.setCourseEvents(db, c, periodsToAdd);
     }
 
-    private Map<String, Object> WeekViewEventToMap(WeekViewEvent e) {
-        Map<String, Object> eventMap = new HashMap<>();
-        eventMap.put(FB_EVENTS_ID, e.getId());
-        eventMap.put(FB_EVENTS_NAME, e.getName());
-        eventMap.put(FB_EVENTS_LOCATION, e.getLocation());
-        eventMap.put(FB_EVENTS_START, e.getStartTime().getTimeInMillis());
-        eventMap.put(FB_EVENTS_END, e.getEndTime().getTimeInMillis());
-
-        return eventMap;
-    }
-
-    public void deleteCourse(Course c) {
-        changeCourseTeacher(c); // To delete the periods on the server
+    public void deleteCourseInfos(Course c) {
+        resetCourseSchedule(c); // To delete the periods on the server
         waitAndTag(1000, TAG);
         db.collection(FB_COURSES).document(c.name()).delete();
     }
-
-    @SuppressWarnings("unchecked")
-    public void loadUsersForStats(final Activity act) {
-        final List<UserData> userList = new ArrayList<>();
-
-        db.collection(FB_USERS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        Map<String, Object> remotePlayerData = document.getData();
-
-                        UserData user = new UserData(INITIAL_SCIPER,
-                                INITIAL_FIRSTNAME,
-                                INITIAL_LASTNAME,
-                                new HashMap<String, List<String>>(),
-                                new ArrayList<Course>());
-                        user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
-                        user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
-                        user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
-                        user.setAnsweredQuestions((HashMap<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
-                        user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Course>())));
-
-                        userList.add(user);
-                    }
-
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setUsers(userList);
-                    }
-                } else {
-                    Log.e(TAG, "Error getting documents for courses: ", task.getException());
-                }
-            }
-        });
-
-    }
-
-
-    /**
-     *
-     * Load all questions in order to give statistics for each course, students, questions
-     *
-     * @param act activity in which this function can be used : CourseStatsActivity
-     * @throws NullPointerException  If the data received from the server is not of a valid format
-     */
-    public void loadAllQuestions(final Activity act) throws NullPointerException {
-
-        final List<Question> questionList = new ArrayList<>();
-
-        db.collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Map<String, Object> remoteQuestionData = document.getData();
-                        String questionId = document.getId();
-                        String questionTitle = (String) remoteQuestionData.get(FB_QUESTION_TITLE);
-                        Boolean questionTrueFalse = (Boolean) remoteQuestionData.get(FB_QUESTION_TRUEFALSE);
-                        int questionAnswer = Integer.parseInt((remoteQuestionData.get(FB_QUESTION_ANSWER)).toString());
-                        String questionCourseName = remoteQuestionData.get(FB_COURSE).toString();
-                        String langQuestion = remoteQuestionData.get(FB_QUESTION_LANG).toString();
-
-                        Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, langQuestion);
-
-
-                        questionList.add(question);
-                    }
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setQuestions(questionList);
-                    }
-
-                } else Log.e(TAG, "Error getting documents for courses: ", task.getException());
-            }
-        });
-    }
-
 }

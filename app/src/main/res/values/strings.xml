@@ -1,9 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">StudyUp</string>
     <string name="character_homepage">Your Character</string>
-
     <string name="title_activity_auth_redirect" translatable="false">AuthRedirectActivity</string>
-
     <string name="title_quests">Quests</string>
     <string name="title_schedule">Schedule</string>
     <string name="title_settings">Settings</string>
@@ -11,7 +9,6 @@
     <string name="title_map">Map</string>
     <string name="title_inventory">Items</string>
     <string name="title_infos">Infos</string>
-
     <string name="go_to_shop_button">Buy more items</string>
     <string name="save_value">Save</string>
     <string name="truth_value">True</string>
@@ -165,6 +162,8 @@
     <string name="item_use_button_text">Use</string>
     <string name="special_quest_three_questions_title">Three Questions</string>
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
+    <string name="manage_course_resign_button">Resign</string>
+    <string name="choose_your_theme">Choose your theme :</string>
     <string name="room_objective">Your objective: </string>
     <string name="gallery_android_text">Gallery</string>
     <string name="NPC_interaction"> wants to interact with you</string>
@@ -184,7 +183,6 @@
     <string name="your_special_quests">Your Special Quests</string>
     <string name="available_special_quests">Available Special Quests</string>
     <string name="enroll_button_text">Enroll</string>
-    <string name="choose_your_theme">Choose your theme :</string>
     <string name="time_out_title">Time out !</string>
     <string name="question_duration_selection">Select the time duration</string>
     <string name="chosen_duration" >"Time: "</string>
@@ -192,4 +190,6 @@
     <string name="time_constraint_text">No time constraint</string>
     <string name="remaining_time">Time left:</string>
     <string name="elapsed_time">Elapsed time</string>
+    <string name="time_left_text">Time left</string>
+    <string name="select_courses_text">Select your courses</string>
 </resources>

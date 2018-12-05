@@ -25,7 +25,7 @@ public class ShopActivity extends RefreshContext {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-
+        
         itemsToBuy = findViewById(R.id.list_view_shop);
         listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(Arrays.asList(Items.values())), true);
         itemsToBuy.setAdapter(listItemAdapter);

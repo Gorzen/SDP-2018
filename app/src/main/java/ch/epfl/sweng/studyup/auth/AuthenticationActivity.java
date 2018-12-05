@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
@@ -24,6 +29,9 @@ import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_LOGIN;
@@ -63,8 +71,50 @@ public class AuthenticationActivity extends RefreshContext {
         }
 
         if (!MOCK_ENABLED) {
-            Firestore.get().syncPlayerData();
+            syncPlayerData();
         }
+    }
+
+    /**
+     * Function used to synchronize the data of the player, either from local to the remote
+     * or from the remote to the local depending if it is a new user or not.
+     *
+     * @throws NullPointerException If the data received from the server is not of a valid format
+     * @throws IllegalArgumentException If the sciper of the player is not valid
+     */
+    public static void syncPlayerData() throws NullPointerException, IllegalArgumentException {
+        final Player currPlayer = Player.get();
+        final int intSciper = Integer.parseInt(currPlayer.getSciperNum());
+
+        if (intSciper < MIN_SCIPER || intSciper > MAX_SCIPER) {
+            throw new IllegalArgumentException("The Sciper number should be a six digit number.");
+        }
+
+        Firestore.get().getDb().collection(FB_USERS).document(currPlayer.getSciperNum())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                Map<String, Object> remotePlayerData = document.getData();
+                            /*
+                            Player is a return user. They have stored remote data.
+                            Update local data with remote data.
+                             */
+                                currPlayer.updateLocalDataFromRemote(remotePlayerData);
+                            } else {
+                            /*
+                                Player is logging in for the first time.
+                                Update remote data with initialized local data.
+                                 */
+                                Firestore.get().updateRemotePlayerDataFromLocal();
+                            }
+                        }
+                    }
+                });
     }
 
     public static void cachePlayerData(Context cnx) {
@@ -115,7 +165,7 @@ public class AuthenticationActivity extends RefreshContext {
     }
 
     public void onContinueToMain(View v) {
-        if(Player.get().getRole() == Role.student) {
+        if(Player.get().isStudent()) {
             startActivity(new Intent(this, HomeActivity.class));
         } else {
             startActivity(new Intent(this, QuestsActivityTeacher.class));

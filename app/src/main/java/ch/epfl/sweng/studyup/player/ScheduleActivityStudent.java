@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -27,8 +26,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.SCHEDULE_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
-
 public class ScheduleActivityStudent extends NavigationStudent {
     private List<WeekViewEvent> weekViewEvents;
     private WeekView weekView;
@@ -90,6 +89,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schedule_student);
 
         weekViewEvents = new ArrayList<>();
 
@@ -103,9 +103,7 @@ public class ScheduleActivityStudent extends NavigationStudent {
             }
             Utils.setupWeekView(weekView, eventLongPressListener, dateTimeInterpreter, monthChangeListener, eventClickListener, emptyViewClickListener);
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        setupToolbar(this);
 
         navigationSwitcher(ScheduleActivityStudent.this, ScheduleActivityStudent.class, SCHEDULE_INDEX);
     }
@@ -117,8 +115,6 @@ public class ScheduleActivityStudent extends NavigationStudent {
     }
 
     public void updateSchedule(List<WeekViewEvent> events){
-        Player.get().setScheduleStudent(new ArrayList<WeekViewEvent>(events));
-
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
         weekViewEvents.addAll(events);

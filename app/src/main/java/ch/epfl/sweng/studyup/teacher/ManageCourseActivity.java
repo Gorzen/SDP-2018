@@ -62,6 +62,10 @@ public class ManageCourseActivity extends NavigationTeacher{
         getAllRequests();
     }
 
+    public void onBackButton(View view){
+        finish();
+    }
+
     public void setupListViews(){
         List<Course> otherCourses = new ArrayList<>(Arrays.asList(Course.values()));
         otherCourses.remove(FakeCourse);
@@ -130,7 +134,9 @@ public class ManageCourseActivity extends NavigationTeacher{
     }
 
     public void addRequest(final String course, final String sciper, final String firstname, final String lastname) {
-        requests.add(new CourseRequest(Course.valueOf(course), sciper, firstname, lastname));
+        CourseRequest request = new CourseRequest(Course.valueOf(course), sciper, firstname, lastname);
+        if(!requests.contains(request))
+            requests.add(request);
         setupListViews();
 
         final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(sciper);
@@ -213,40 +219,52 @@ public class ManageCourseActivity extends NavigationTeacher{
         }
 
         private void respondToRequest(final CourseRequest req, boolean accept) {
+            // Local display update
             requests.remove(req);
-            if(accept) {
+            if(accept && Player.get().getSciperNum().equals(req.sciper)) {
                 List<Course> newCourses = Player.get().getCoursesTeached();
-                newCourses.add(req.course);
-                Player.get().setCourses(newCourses);
+
+                if(!newCourses.contains(req.course)) {
+                    newCourses.add(req.course);
+                    Player.get().setCourses(newCourses);
+                }
             }
             setupListViews();
 
+            // Remote update
             final DocumentReference playerRequestsRef = Firestore.get().getDb().collection(FB_COURSE_REQUESTS).document(req.getSciper());
-            final DocumentReference playerInfoRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
-            playerRequestsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Map<String, Object> userData = documentSnapshot.getData();
-                            List<String> userRequestedCourses = ((List<String>) userData.get(FB_REQUESTED_COURSES));
-                            userRequestedCourses.remove(req.course.name());
-                            userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
-                            playerRequestsRef.set(userData);
-                        }
-                    });
-            if(!accept) return;
-            playerInfoRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            Map<String, Object> userData = documentSnapshot.getData();
-                            List<String> userTeachingCourses;
-                            try {
-                                userTeachingCourses = ((List<String>) userData.get(FB_COURSES_TEACHED));
-                            } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of teaching courses.", Toast.LENGTH_SHORT).show(); return; }
-                            if(!userTeachingCourses.contains(req.course.name())) userTeachingCourses.add(req.course.name());
-                            userData.put(FB_COURSES_TEACHED, userTeachingCourses);
-                            playerInfoRef.set(userData);
-                        }
-                    });
+            final DocumentReference playerRef = Firestore.get().getDb().collection(FB_USERS).document(req.getSciper());
+            removeRequest(playerRequestsRef, req);
+            if(accept) acceptRequest(playerRef, req); Firestore.get().addPlayerToTeachingStaff(req.course, req.sciper);
+        }
+
+        private void removeRequest(final DocumentReference reqsRef, final CourseRequest req) {
+            reqsRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> userData = documentSnapshot.getData();
+                    List<String> userRequestedCourses = ((List<String>) userData.get(FB_REQUESTED_COURSES));
+                    userRequestedCourses.remove(req.course.name());
+                    userData.put(FB_REQUESTED_COURSES, userRequestedCourses);
+                    reqsRef.set(userData);
+                }
+            });
+        }
+
+        private void acceptRequest(final DocumentReference playerRef, final CourseRequest req) {
+            playerRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> userData = documentSnapshot.getData();
+                    List<String> userTeachingCourses;
+                    try {
+                        userTeachingCourses = ((List<String>) userData.get(FB_COURSES_TEACHED));
+                    } catch (ClassCastException e) { Toast.makeText(ManageCourseActivity.this, "Wrong format of teaching courses.", Toast.LENGTH_SHORT).show(); return; }
+                    if(!userTeachingCourses.contains(req.course.name())) userTeachingCourses.add(req.course.name());
+                    userData.put(FB_COURSES_TEACHED, userTeachingCourses);
+                    playerRef.set(userData);
+                }
+            });
         }
     }
 
@@ -270,20 +288,12 @@ public class ManageCourseActivity extends NavigationTeacher{
 
         @Override
         public boolean equals(Object o){
-            if(o == null)
+            if(o == null || !(o instanceof CourseRequest)) {
                 return false;
-
-            if(o instanceof CourseRequest){
-                CourseRequest that = (CourseRequest)o;
+            } else {
+                CourseRequest that = (CourseRequest) o;
                 return course.equals(that.course) && sciper.equals(that.sciper) && firstname.equals(that.firstname) && lastname.equals(that.lastname);
-            }else{
-                return false;
             }
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
         }
     }
 }

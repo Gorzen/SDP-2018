@@ -34,6 +34,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -291,12 +292,17 @@ public class Player implements SpecialQuestObservable {
      * @param courses The courses the player attends/teaches
      */
     public void setCourses(List<Course> courses) {
-        if(role == Role.student) {
+        if(isStudent()) {
             this.coursesEnrolled = new ArrayList<>(courses);
         } else {
-            this.coursesTeached = new ArrayList<>(courses);
+            List<Course> oldCourses = getCoursesTeached();
+            coursesTeached = new ArrayList<>(courses);
+            oldCourses.removeAll(courses);
             for(Course c : courses) {
-                Firestore.get().setCourseTeacher(c);
+                Firestore.get().addPlayerToTeachingStaff(c, sciperNum);
+            }
+            for(Course c : oldCourses) {
+                Firestore.get().removePlayerFromTeachingStaff(c, sciperNum);
             }
         }
 
@@ -308,11 +314,6 @@ public class Player implements SpecialQuestObservable {
     }
 
     public String getCurrentCourseLocation() {
-        if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty()) {
-            Log.d(TAG, "No course");
-            return null;
-        }
-
         Calendar currTime = Calendar.getInstance();
         currTime.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
         currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);

@@ -17,6 +17,7 @@ import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.INVENTORY_INDEX;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class InventoryActivity extends NavigationStudent {
     private ArrayAdapter<String> adapter;
@@ -26,10 +27,7 @@ public class InventoryActivity extends NavigationStudent {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        setupToolbar(this);
 
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
     }

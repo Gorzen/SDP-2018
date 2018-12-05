@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context="ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher">
+    tools:context="ch.epfl.sweng.studyup.teacher.ManageCourseActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,6 +35,18 @@
 
             </android.support.v7.widget.Toolbar>
 
+            <Button
+                android:id="@+id/back_button"
+                android:layout_width="33dp"
+                android:layout_height="34dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onBackButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
 
@@ -62,72 +74,52 @@
                     android:textAlignment="center"
                     android:textSize="24sp" />
 
-                <RelativeLayout
+                <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                    android:id="@+id/listViewOtherCourses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/otherCoursesTextView">
+                    android:layout_below="@+id/otherCoursesTextView"
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
-                    <ch.epfl.sweng.studyup.utils.NonScrollableListView
-                        android:id="@+id/listViewOtherCourses"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"></ch.epfl.sweng.studyup.utils.NonScrollableListView>
+                <TextView
+                    android:id="@+id/pendingCoursesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/listViewOtherCourses"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/pending_courses_text"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/listViewOtherCourses">
+                <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                    android:id="@+id/listViewPendingCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pendingCoursesTextView"
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
 
-                        <TextView
-                            android:id="@+id/pendingCoursesTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/pending_courses_text"
-                            android:textSize="24sp"
-                            android:textAlignment="center"/>
+                <TextView
+                    android:id="@+id/acceptedCoursesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/listViewPendingCourses"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/accepted_courses_text"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/pendingCoursesTextView">
-
-                            <ch.epfl.sweng.studyup.utils.NonScrollableListView
-                                android:id="@+id/listViewPendingCourses"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"></ch.epfl.sweng.studyup.utils.NonScrollableListView>
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/listViewPendingCourses">
-
-                                <TextView
-                                    android:id="@+id/acceptedCoursesTextView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp"
-                                    android:text="@string/accepted_courses_text"
-                                    android:textSize="24sp"
-                                    android:textAlignment="center"/>
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/acceptedCoursesTextView">
-
-                                    <ch.epfl.sweng.studyup.utils.NonScrollableListView
-                                        android:id="@+id/listViewAcceptedCourses"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="16dp"></ch.epfl.sweng.studyup.utils.NonScrollableListView>
-
-                                </RelativeLayout>
-                            </RelativeLayout>
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
+                <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                    android:id="@+id/listViewAcceptedCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/acceptedCoursesTextView"
+                    android:layout_marginTop="16dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp" />
             </RelativeLayout>
         </ScrollView>
 

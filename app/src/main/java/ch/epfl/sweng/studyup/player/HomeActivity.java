@@ -50,6 +50,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
@@ -83,6 +84,7 @@ public class HomeActivity extends NavigationStudent {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setupToolbar(this);
 
         displayLoginSuccessMessage(getIntent());
 
@@ -151,16 +153,9 @@ public class HomeActivity extends NavigationStudent {
         view_username.setMaxLines(1);
         view_username.setMaxWidth(300);
 
-        // Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         levelProgress = findViewById(R.id.level_progress);
         levelProgress.setProgress(Player.get().getLevelProgress(), 1);
         levelProgress.setStartAngle(270);
-        updateCurrDisplay();
-        updateXpAndLvlDisplay();
     }
     @Override
     protected void onResume() {

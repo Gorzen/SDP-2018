@@ -54,6 +54,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_GAINED_WITH_QUESTION;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class DisplayQuestionActivity extends RefreshContext {
 
@@ -85,13 +86,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_question);
-
-        int answerNumber;
-        boolean trueFalse;
-        String questionTitle;
-        String questionID;
-        String questionLang;
-        long questionDuration;
+        setupToolbar(this);
 
         if (MOCK_ENABLED) {
             ProgressBar progressBar = findViewById(R.id.questionProgressBar);
@@ -101,44 +96,32 @@ public class DisplayQuestionActivity extends RefreshContext {
 
         Intent intent = getIntent();
         if (!checkIntent(intent)) return;
-        questionTitle = intent.getStringExtra(DISPLAY_QUESTION_TITLE);
-        questionID = intent.getStringExtra(DISPLAY_QUESTION_ID);
-        answerNumber = Integer.parseInt(intent.getStringExtra(DISPLAY_QUESTION_ANSWER));
-        trueFalse = Boolean.parseBoolean(intent.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE));
-        questionLang = intent.getStringExtra(DISPLAY_QUESTION_LANG);
-        questionDuration = Long.parseLong(intent.getStringExtra(DISPLAY_QUESTION_DURATION));
-
-        player = Player.get();
-
         //Create the question
-        displayQuestion = new Question(questionID, questionTitle, trueFalse, answerNumber,
-                Course.SWENG.name(), questionLang, questionDuration); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
-
-        displayImage(questionID);
+        displayQuestion = extractQuestion(intent);
+        displayImage(intent.getStringExtra(DISPLAY_QUESTION_ID));
 
 
         handleTimedQuestion(displayQuestion);
 
         setupLayout(displayQuestion);
 
-        Button backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        ((TextView) findViewById(R.id.quest_title)).setText(displayQuestion.getTitle());
 
         boolean isQansweredYet = Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId());
-
         setupRadioButton(isQansweredYet);
 
-        TextView questTitle = findViewById(R.id.quest_title);
-        questTitle.setText(displayQuestion.getTitle());
+    }
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+    private Question extractQuestion(Intent i) {
+        return new Question(i.getStringExtra(DISPLAY_QUESTION_ID), i.getStringExtra(DISPLAY_QUESTION_TITLE),
+                Boolean.parseBoolean(i.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE)), Integer.parseInt(i.getStringExtra(DISPLAY_QUESTION_ANSWER)),
+                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG), Long.parseLong(i.getStringExtra(DISPLAY_QUESTION_DURATION))); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
     }
 
     /**
@@ -148,29 +131,8 @@ public class DisplayQuestionActivity extends RefreshContext {
      */
     private boolean checkIntent(Intent intent) {
 
-        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ID)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_ANSWER)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE)) {
-            quit();
-            return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_LANG)) {
-            quit();
-            return false;
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE) || !intent.hasExtra(DISPLAY_QUESTION_ID) || !intent.hasExtra(DISPLAY_QUESTION_ANSWER) || !intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE) || !intent.hasExtra(DISPLAY_QUESTION_LANG)) {
+            quit(); return false;
         }
 
         if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
@@ -223,36 +185,25 @@ public class DisplayQuestionActivity extends RefreshContext {
 
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
+        TextView time_left = findViewById(R.id.time_left); ImageView alarm = findViewById(R.id.alarmImage);
+        long now = System.currentTimeMillis(), clickedInstant = player.getClickedInstants().get(questionId);
 
         if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
             player.addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
+        } else if (displayQuestion.getDuration() == 0) {
+            //There is no time constraint
+            alarm.setImageAlpha(0); time_left.setText("");
+        } else if (now > clickedInstant + displayQuestion.getDuration()) {
+            //too late, the player cannot answer anymore
+            tooLate = true; time_left.setText(getString(R.string.elapsed_time));
         } else {
-            TextView time_left = findViewById(R.id.time_left);
-            ImageView alarm = findViewById(R.id.alarmImage);
-            if (displayQuestion.getDuration() == 0) {
-                //There is no time constraint
-                alarm.setImageAlpha(0);
-                time_left.setText("");
-            } else {
-                long clickedInstant = player.getClickedInstants().get(questionId);
-                long now = System.currentTimeMillis();
-                if (now > clickedInstant + displayQuestion.getDuration()) {
-                    //too late, the player cannot answer anymore
-                    tooLate = true;
-                    time_left.setText(getString(R.string.elapsed_time));
-                } else {
-                    //display remaining time
-                    int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
-                    String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
-                    time_left.setText(displayedText);
-                    time_left.setTextColor(getColor(R.color.colorPrimary));
-                    if(timeLeft < 0){
-                        time_left.setText(getString(R.string.elapsed_time));
-                    }
-                }
-            }
+            //display remaining time
+            int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+            String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
+            time_left.setText(displayedText);
+            if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
         }
     }
 
@@ -337,51 +288,59 @@ public class DisplayQuestionActivity extends RefreshContext {
         try {
             final File tempImage = File.createTempFile(questionID, "png");
             final File tempText = File.createTempFile(questionID, "txt");
-            questionImage.getFile(tempImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    ProgressBar progressBar = findViewById(R.id.questionProgressBar);
-                    progressBar.setVisibility(View.GONE);
-                    Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
-                    ImageView displayImageView = findViewById(R.id.question_display_view);
-                    displayImageView.setImageBitmap(displayImage);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    questionText.getFile(tempText).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            questionImage.getFile(tempImage)
+                    .addOnSuccessListener(getListenerImageFetching(tempImage))
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            String displayText = "";
-                            try {
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
-                                StringBuilder sb = new StringBuilder();
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    sb.append(line).append("\n");
-                                }
-                                reader.close();
-                                displayText = sb.toString();
-                            } catch (FileNotFoundException e) {
-                                Log.e(TAG, e.toString());
-                                quit();
-                            } catch (IOException e) {
-                                Log.e(TAG, e.toString());
-                                quit();
-                            }
-                            ProgressBar progressBar = findViewById(R.id.questionProgressBar);
-                            progressBar.setVisibility(View.GONE);
-                            TextView textQuestion = findViewById(R.id.question_text_display);
-                            textQuestion.setText(displayText);
-                            textQuestion.setVisibility(View.VISIBLE);
+                        public void onFailure(@NonNull Exception e) {
+                            questionText.getFile(tempText)
+                                    .addOnSuccessListener(getListenerTextFetching(tempText));
                         }
                     });
-                }
-            });
         } catch (IOException e){
             Toast.makeText(this, getString(R.string.text_questiondlerror), Toast.LENGTH_SHORT).show();
             quit();
         }
+    }
+
+    private OnSuccessListener<FileDownloadTask.TaskSnapshot> getListenerImageFetching(final File tempImage) {
+        return new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                progressBar.setVisibility(View.GONE);
+                Bitmap displayImage = BitmapFactory.decodeFile(tempImage.getAbsolutePath());
+                ImageView displayImageView = findViewById(R.id.question_display_view);
+                displayImageView.setImageBitmap(displayImage);
+            }
+        };
+    }
+
+    private OnSuccessListener<FileDownloadTask.TaskSnapshot> getListenerTextFetching(final File tempText) {
+        return new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                String displayText = "";
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
+                    StringBuilder sb = new StringBuilder();
+                    String line = null;
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line).append("\n");
+                    }
+                    reader.close();
+                    displayText = sb.toString();
+                } catch (IOException e) {
+                    Log.e(TAG, e.toString());
+                    quit();
+                }
+                ProgressBar progressBar = findViewById(R.id.questionProgressBar);
+                progressBar.setVisibility(View.GONE);
+                TextView textQuestion = findViewById(R.id.question_text_display);
+                textQuestion.setText(displayText);
+                textQuestion.setVisibility(View.VISIBLE);
+            }
+        };
     }
 
     private void quit() {
@@ -418,24 +377,23 @@ public class DisplayQuestionActivity extends RefreshContext {
         }
         else if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
+            return;
         }
-        else {
-            int realCheck = (chkTOP == -1) ? chkBOT : chkTOP;
-            RadioButton checkedAnswer = findViewById(realCheck);
+        int realCheck = (chkTOP == -1) ? chkBOT : chkTOP;
+        RadioButton checkedAnswer = findViewById(realCheck);
 
-            //subtract 1 to have answer between 0 and 3
-            int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
+        //subtract 1 to have answer between 0 and 3
+        int answer = Integer.parseInt(checkedAnswer.getTag().toString()) - 1;
 
-            if (answer == displayQuestion.getAnswer()) {
-                goodAnswer(answer);
-            } else {
-                badAnswer(answer);
-            }
-
-            Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
-            startActivity(goToQuests);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        if (answer == displayQuestion.getAnswer()) {
+            goodAnswer(answer);
+        } else {
+            badAnswer(answer);
         }
+
+        Intent goToQuests = new Intent(this, QuestsActivityStudent.class);
+        startActivity(goToQuests);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     private void badAnswer(int answer) {

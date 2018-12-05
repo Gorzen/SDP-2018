@@ -76,6 +76,6 @@ public class LoginActivityUITest {
     public void studentRoleIsStored() {
         onView(withId(R.id.student)).perform(click());
         onView(withId(R.id.loginButton)).perform(click());
-        assertTrue(Player.get().getRole().equals(Role.student));
+        assertTrue(Player.get().isStudent());
     }
 }

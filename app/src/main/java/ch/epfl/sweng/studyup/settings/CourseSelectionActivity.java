@@ -3,12 +3,16 @@ package ch.epfl.sweng.studyup.settings;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -19,14 +23,12 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class CourseSelectionActivity extends RefreshContext {
-
+    final List<CheckBox> courseSelections = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_selection);
-
-        final List<CheckBox> courseSelections = new ArrayList<>();
 
         LinearLayout formContainer = findViewById(R.id.courseFormContainer);
         for (Course course : Course.values()) {
@@ -47,23 +49,9 @@ public class CourseSelectionActivity extends RefreshContext {
 
             formContainer.addView(courseCheckbox, params);
         }
-
-        Button saveButton = new Button(this);
-        saveButton.setText(R.string.save_value);
-        saveButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View view) {
-                try {
-                    updatePlayerCourses(courseSelections);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.text_failed_update_courses), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        formContainer.addView(saveButton);
     }
 
-    protected void updatePlayerCourses(List<CheckBox> courseSelections) {
+    public void updatePlayerCourses(View v) {
 
         List<Course> updateCourseList = new ArrayList<>();
 
@@ -76,6 +64,10 @@ public class CourseSelectionActivity extends RefreshContext {
         Player.get().setCourses(updateCourseList);
         Toast.makeText(getApplicationContext(), getString(R.string.text_courses_updated), Toast.LENGTH_SHORT).show();
 
+        finish();
+    }
+
+    public void backToSettings(View v) {
         finish();
     }
 }

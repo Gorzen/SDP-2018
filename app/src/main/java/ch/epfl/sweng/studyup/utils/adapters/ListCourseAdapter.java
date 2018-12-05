@@ -1,16 +1,10 @@
 package ch.epfl.sweng.studyup.utils.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,12 +12,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 
-import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class ListCourseAdapter extends BaseAdapter {
     private Activity act;
@@ -77,6 +70,23 @@ public class ListCourseAdapter extends BaseAdapter {
                                 Player.get().getSciperNum(),
                                 Player.get().getFirstName(),
                                 Player.get().getLastName());
+                    }
+                }
+            });
+        }
+
+        if(idLayout == R.layout.model_course_accepted) {
+            TextView resign = convertView.findViewById(R.id.resignButton);
+            resign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Course courseToRemove = courses.get(position);
+                    List<Course> newCoursesTeached = Player.get().getCoursesTeached();
+                    newCoursesTeached.remove(courseToRemove);
+                    Player.get().setCourses(newCoursesTeached);
+
+                    if(act instanceof ManageCourseActivity) {
+                        ((ManageCourseActivity) act).setupListViews();
                     }
                 }
             });

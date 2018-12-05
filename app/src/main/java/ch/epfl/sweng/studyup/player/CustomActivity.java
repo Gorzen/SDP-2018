@@ -54,50 +54,31 @@ public class CustomActivity extends NavigationStudent {
     @SuppressWarnings("HardCodedStringLiteral")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
+        super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
         navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX_STUDENT);
 
-        ImageButton pic_button = findViewById(R.id.pic_btn);
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
         edit_username = findViewById(R.id.edit_username);
         edit_username.setText(Player.get().getUserName());
-        final TextView user_email = findViewById(R.id.user_email);
 
-        //mail
+        setMailInTextView();
+        //initial picture
+        FileStorage.downloadProfilePicture(Player.get().getSciperNum(), imageview);
+    }
+
+    private void setMailInTextView() {
+        final TextView user_email = findViewById(R.id.user_email);
         String email_1 = Player.get().getFirstName().split(" ")[0].toLowerCase();
         email_1 = Normalizer.normalize(email_1, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
         email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
-
-        //initial picture
-        FileStorage.downloadProfilePicture(Player.get().getSciperNum(), imageview);
-
-
-        pic_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
-        });
-        valid_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
-                Toast.makeText(getApplicationContext(), getString(R.string.text_saved), Toast.LENGTH_SHORT).show();
-                Player.get().setUserName(edit_username.getText().toString());
-            }
-        });
-
     }
 
-    private void selectImage() {
+    public void selectImage(View v) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
         dialogBuilder.setTitle(getString(R.string.text_addimage));
         final String[] items = {getString(R.string.gallery), getString(R.string.camera), getString(R.string.cancel)};
@@ -201,5 +182,14 @@ public class CustomActivity extends NavigationStudent {
 
         Toast.makeText(CustomActivity.this, getString(R.string.text_saved), Toast.LENGTH_SHORT).show();
         imageview.setImageDrawable(rbd);
+    }
+
+    public void setEditUsername(View v) {
+        Toast.makeText(getApplicationContext(), getString(R.string.text_saved), Toast.LENGTH_SHORT).show();
+        Player.get().setUserName(edit_username.getText().toString());
+    }
+
+    public void makeValidBtnVisible(View v) {
+        valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
     }
 }

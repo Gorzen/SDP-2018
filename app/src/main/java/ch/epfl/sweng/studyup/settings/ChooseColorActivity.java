@@ -64,7 +64,7 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     private void backToApp() {
-        Class act = Player.get().getRole() == Constants.Role.teacher ?
+        Class act = Player.get().isTeacher() ?
                 QuestsActivityTeacher.class : HomeActivity.class;
         startActivity(new Intent(this, act));
     }

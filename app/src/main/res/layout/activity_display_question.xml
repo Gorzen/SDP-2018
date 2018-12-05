@@ -89,7 +89,8 @@
                 android:layout_below="@+id/quest_title"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
-                android:text="Time Left" />
+                android:text="@string/time_left_text"
+                android:textColor="?attr/colorPrimary" />
 
             <ImageView
                 android:id="@+id/question_display_view"

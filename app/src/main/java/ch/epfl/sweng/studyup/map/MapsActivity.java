@@ -44,7 +44,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVA
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.ROOM_OBJECTIVE;
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 /**
  * MapActivity
@@ -73,6 +73,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        setupToolbar(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -84,10 +86,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         locationRequest.setFastestInterval(LOCATION_REQ_FASTEST_INTERVAL);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         Log.d("GPS_MAP", "Created map activity");
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
 
         navigationSwitcher(MapsActivity.this, MapsActivity.class, MAP_INDEX);
     }
@@ -108,8 +106,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        findAndMarkRoom(Player.get().getCurrentCourseLocation() != null ?
-                Player.get().getCurrentCourseLocation() : null);
+        findAndMarkRoom(Player.get().getCurrentCourseLocation());
         setNPCSMarker();
         if(googleMap != null) {
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -170,20 +167,17 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     public void findAndMarkRoom(String room) {
-        if (mMap != null) {
-            if (room != null) {
-                Log.d("GPS_MAP", "New objective: " + room);
-                roomObjective = mMap.addMarker(new MarkerOptions()
-                        .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
-                        .title(getString(R.string.room_objective))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        if (mMap == null || room == null) return;
+        Log.d("GPS_MAP", "New objective: " + room);
+        roomObjective = mMap.addMarker(new MarkerOptions()
+                .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                .title(getString(R.string.room_objective))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-                mMap.addPolyline(new PolylineOptions()
-                        .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
-                        .width(5)
-                        .color(Color.BLUE));
-            }
-        }
+        mMap.addPolyline(new PolylineOptions()
+                .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                .width(5)
+                .color(Color.BLUE));
     }
 
     public long getIntervals() {
