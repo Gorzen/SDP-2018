@@ -3,7 +3,10 @@ package ch.epfl.sweng.studyup.SettingsTest;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
+import junit.framework.TestCase;
+
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -53,5 +56,11 @@ public class CoursesActivityTestStudent {
 
         onView(ViewMatchers.withText(R.string.save_value)).perform(click());
         assert(Player.get().getCoursesEnrolled().contains(Course.Ecology));
+    }
+
+    @Ignore
+    public void onBackButtonTest() {
+        onView(withId(R.id.back_button)).perform(click());
+        TestCase.assertTrue(mActivityRule.getActivity().isFinishing());
     }
 }

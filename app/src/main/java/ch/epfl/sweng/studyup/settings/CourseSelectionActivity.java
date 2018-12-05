@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -47,7 +49,7 @@ public class CourseSelectionActivity extends RefreshContext {
         }
     }
 
-    protected void updatePlayerCourses(View v) {
+    public void updatePlayerCourses(View v) {
 
         List<Course> updateCourseList = new ArrayList<>();
 

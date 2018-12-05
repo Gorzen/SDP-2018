@@ -13,6 +13,8 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/courseSelectionTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,6 +39,10 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/colorPrimaryDark"
             android:minHeight="?attr/actionBarSize"
+            app:layout_constraintBottom_toTopOf="@+id/back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -49,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/select_courses_text"
         android:textColor="@color/colorGreyBlack"
         android:textSize="24sp"
@@ -74,7 +80,7 @@
         android:id="@+id/saveButton"
         android:layout_width="248dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/list_view_shape"
         android:backgroundTint="@color/colorListItems"
