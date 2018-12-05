@@ -230,5 +230,19 @@ public abstract class Utils {
     public static boolean tooRecentAPI() {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1;
     }
+
+    public static void disableAllNPCsInteraction() {
+        for (NPC npc : Constants.allNPCs) {
+            npc.disableNPCInteraction();
+        }
+        GlobalAccessVariables.NPCInteractionState = false;
+    }
+
+    public static void enableAllNPCsInteraction() {
+        for (NPC npc : Constants.allNPCs) {
+            npc.enableNPCInteraction();
+        }
+        GlobalAccessVariables.NPCInteractionState = true;
+    }
 }
 

@@ -226,14 +226,12 @@
                 android:id="@+id/colorChoiceButton"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorWhite"
                 android:onClick="onColorChoiceClick"
                 android:scaleType="fitStart"
-                app:layout_constraintBottom_toTopOf="@+id/deactiveNpcDialogButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -256,37 +254,18 @@
                 app:layout_constraintStart_toStartOf="@+id/colorChoiceButton"
                 app:layout_constraintTop_toTopOf="@+id/colorChoiceButton" />
 
-            <ImageButton
-                android:id="@+id/deactiveNpcDialogButton"
-                android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/colorWhite"
-                android:onClick="onColorChoiceClick"
-                android:scaleType="fitStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/colorChoiceButton"
-                app:srcCompat="@drawable/choose_color_settings"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/textDeactiveNpcDialog"
+            <CheckBox
+                android:id="@+id/NPCInteractioncheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:onClick="onColorChoiceClick"
-                android:text="@string/deactive_npc_dialog_text"
                 android:textColor="@color/colorGreyBlack"
+                android:layout_marginStart="16dp"
+                android:onClick="onNPCInteractionStateChange"
+                android:layout_marginTop="8dp"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/deactiveNpcDialogButton"
-                app:layout_constraintEnd_toEndOf="@+id/deactiveNpcDialogButton"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/deactiveNpcDialogButton"
-                app:layout_constraintTop_toTopOf="@+id/deactiveNpcDialogButton" />
+                android:text="@string/NPC_interaction_enable"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/colorChoiceButton" />
 
         </android.support.constraint.ConstraintLayout>
 

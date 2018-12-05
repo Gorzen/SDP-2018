@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,12 +20,15 @@ import java.util.List;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
@@ -38,6 +42,7 @@ public class SettingsActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        setCheckBoxNPC();
     }
 
     @Override
@@ -46,6 +51,17 @@ public class SettingsActivity extends RefreshContext {
         if(Player.get().isTeacher()) {
             ((TextView) findViewById(R.id.textCourseButton)).setText(R.string.course_choice_settings_button_teacher);
         }
+        setCheckBoxNPC();
+    }
+
+    private void setCheckBoxNPC() {
+        CheckBox NPCCheckBox = findViewById(R.id.NPCInteractioncheckBox);
+        final float shift = this.getResources().getDisplayMetrics().density; //Drawable of checkBox can change according to device, this is safer
+        NPCCheckBox.setPadding(NPCCheckBox.getPaddingLeft() + (int)(9.0f * shift + 0.5f),
+                NPCCheckBox.getPaddingTop(),
+                NPCCheckBox.getPaddingRight(),
+                NPCCheckBox.getPaddingBottom());
+        NPCCheckBox.setChecked(GlobalAccessVariables.NPCInteractionState);
     }
 
     public void onLogoutClick(View view) {
@@ -126,8 +142,11 @@ public class SettingsActivity extends RefreshContext {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    public void onColorChoiceClick(View view){
-        Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
-        startActivity(intent);
+    public void onNPCInteractionStateChange(View view){
+        if(GlobalAccessVariables.NPCInteractionState == true) {
+            Utils.disableAllNPCsInteraction();
+        } else {
+            Utils.enableAllNPCsInteraction();
+        }
     }
 }
