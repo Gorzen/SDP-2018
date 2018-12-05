@@ -127,8 +127,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         return chosenCourse;
     }
     /**
-     * Function called when the user wants to choose an image in gallery
-     *
+     * Function called when the user wants to choose an image in gallery    
      * @param current the current view
      */
     public void performFileSearch(View current) {

@@ -215,7 +215,7 @@ public class Player implements SpecialQuestObservable {
     public boolean isSuperUser() {
         return SUPER_USERS.contains(getSciperNum());
     }
-    public Map<String, Long> getClickedInstants() {return Collections.unmodifiableMap(new HashMap<>(clickedInstants)); }
+    public Map<String, Long> getClickedInstants() {return Collections.unmodifiableMap(clickedInstants); }
 
     // Setters
     public void setSciperNum(String sciperNum) {

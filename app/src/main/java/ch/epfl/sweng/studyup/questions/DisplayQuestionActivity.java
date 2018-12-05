@@ -76,7 +76,6 @@ public class DisplayQuestionActivity extends RefreshContext {
     public static final String CHANNEL_ID = "studyup_question_timeout";
 
     private Question displayQuestion;
-    private Player player;
 
     private RadioGroup answerGroupTOP;
     private RadioGroup answerGroupBOT;
@@ -186,24 +185,28 @@ public class DisplayQuestionActivity extends RefreshContext {
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
         TextView time_left = findViewById(R.id.time_left); ImageView alarm = findViewById(R.id.alarmImage);
-        long now = System.currentTimeMillis(), clickedInstant = player.getClickedInstants().get(questionId);
+        long now = System.currentTimeMillis();
 
-        if (displayQuestion.getDuration() != 0 && !player.getClickedInstants().containsKey(questionId)) {
+        if (displayQuestion.getDuration() != 0 && !Player.get().getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
-            player.addClickedInstant(questionId, System.currentTimeMillis());
+            Player.get().addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
         } else if (displayQuestion.getDuration() == 0) {
             //There is no time constraint
             alarm.setImageAlpha(0); time_left.setText("");
-        } else if (now > clickedInstant + displayQuestion.getDuration()) {
-            //too late, the player cannot answer anymore
-            tooLate = true; time_left.setText(getString(R.string.elapsed_time));
         } else {
-            //display remaining time
-            int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
-            String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
-            time_left.setText(displayedText);
-            if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
+            long clickedInstant = Player.get().getClickedInstants().get(questionId);
+            if (now > clickedInstant + displayQuestion.getDuration()) {
+                //too late, the player cannot answer anymore
+                tooLate = true;
+                time_left.setText(getString(R.string.elapsed_time));
+            } else {
+                //display remaining time
+                int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+                String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
+                time_left.setText(displayedText);
+                if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
+            }
         }
     }
 
