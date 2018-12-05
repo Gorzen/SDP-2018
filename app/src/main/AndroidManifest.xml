@@ -86,9 +86,9 @@
         <activity android:name=".teacher.DisplayCourseStatsActivity" />
         <activity android:name=".teacher.ScheduleActivityTeacher" />
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
-        <activity android:name=".specialQuest.AvailableSpecialQuestsActivity"></activity>
+        <activity android:name=".specialQuest.AvailableSpecialQuestsActivity"/>
         <activity android:name=".teacher.ManageCourseActivity" />
-        <activity android:name=".npc.NPCActivity"></activity>
+        <activity android:name=".npc.NPCActivity"/>
     </application>
 
 </manifest>

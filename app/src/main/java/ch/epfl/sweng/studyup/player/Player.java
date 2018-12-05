@@ -305,11 +305,6 @@ public class Player implements SpecialQuestObservable {
     }
 
     public String getCurrentCourseLocation() {
-        if(Player.get().getCoursesEnrolled().isEmpty() || Player.get().getScheduleStudent().isEmpty()) {
-            Log.d(TAG, "No course");
-            return null;
-        }
-
         Calendar currTime = Calendar.getInstance();
         currTime.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
         currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);

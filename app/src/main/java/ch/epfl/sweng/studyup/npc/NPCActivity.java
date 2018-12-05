@@ -11,9 +11,10 @@ import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
-public class NPCActivity extends AppCompatActivity {
+public class NPCActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class NPCActivity extends AppCompatActivity {
         imageView.setImageResource(npc.getImage());
     }
 
-    public void onBackButtonShop(View v) {
+    public void onBackButtonNPC(View v) {
         startActivity(new Intent(NPCActivity.this, MapsActivity.class));
     }
 }

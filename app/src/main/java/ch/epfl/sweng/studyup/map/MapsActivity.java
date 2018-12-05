@@ -167,20 +167,17 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     public void findAndMarkRoom(String room) {
-        if (mMap != null) {
-            if (room != null) {
-                Log.d("GPS_MAP", "New objective: " + room);
-                roomObjective = mMap.addMarker(new MarkerOptions()
-                        .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
-                        .title(getString(R.string.room_objective))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        if (mMap == null || room == null) return;
+        Log.d("GPS_MAP", "New objective: " + room);
+        roomObjective = mMap.addMarker(new MarkerOptions()
+                .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                .title(getString(R.string.room_objective))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
-                mMap.addPolyline(new PolylineOptions()
-                        .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
-                        .width(5)
-                        .color(Color.BLUE));
-            }
-        }
+        mMap.addPolyline(new PolylineOptions()
+                .add(POSITION, Rooms.ROOMS_LOCATIONS.get(room).getLocation())
+                .width(5)
+                .color(Color.BLUE));
     }
 
     public long getIntervals() {
