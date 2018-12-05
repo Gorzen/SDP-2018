@@ -232,16 +232,10 @@ public abstract class Utils {
     }
 
     public static void disableAllNPCsInteraction() {
-        for (NPC npc : Constants.allNPCs) {
-            npc.disableNPCInteraction();
-        }
         GlobalAccessVariables.NPCInteractionState = false;
     }
 
     public static void enableAllNPCsInteraction() {
-        for (NPC npc : Constants.allNPCs) {
-            npc.enableNPCInteraction();
-        }
         GlobalAccessVariables.NPCInteractionState = true;
     }
 }

@@ -18,7 +18,6 @@ public class NPC {
     private int image;
     private final int MAX_COUNTER = 100;
     private boolean isFirstInteraction = true;
-    private boolean NPCInteraction = true;
     private Activity currentActivity;
     private int counter = 0;
 
@@ -30,7 +29,7 @@ public class NPC {
 
     public boolean isInRange(LatLng playerLatLng) {
         currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
-        if (NPCInteraction && !(currentActivity instanceof MapsActivity)
+        if (GlobalAccessVariables.NPCInteractionState && !(currentActivity instanceof MapsActivity)
                 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < Constants.NPC_RANGE
                 && (counter >= MAX_COUNTER || isFirstInteraction)) {
             counter = 0;
@@ -64,15 +63,4 @@ public class NPC {
         return npcLatLng;
     }
 
-    public boolean enableNPCInteraction() {
-        return NPCInteraction = true;
-    }
-
-    public boolean disableNPCInteraction() {
-        return NPCInteraction = false;
-    }
-
-    public boolean getNPCInteractionState() {
-        return NPCInteraction;
-    }
 }

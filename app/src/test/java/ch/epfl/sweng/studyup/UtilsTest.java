@@ -53,17 +53,11 @@ public class UtilsTest {
     public void disableAllNPCsInteractionTest() {
         Utils.disableAllNPCsInteraction();
         assertFalse(GlobalAccessVariables.NPCInteractionState);
-        for (NPC npc : Constants.allNPCs) {
-            assertFalse(npc.getNPCInteractionState());
-        }
     }
 
     @Test
     public void enableAllNPCsInteractionTest() {
         Utils.enableAllNPCsInteraction();
         assertTrue(GlobalAccessVariables.NPCInteractionState);
-        for (NPC npc : Constants.allNPCs) {
-            assertTrue(npc.getNPCInteractionState());
-        }
     }
 }

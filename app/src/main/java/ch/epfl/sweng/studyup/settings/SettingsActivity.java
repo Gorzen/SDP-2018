@@ -143,10 +143,6 @@ public class SettingsActivity extends RefreshContext {
     }
 
     public void onNPCInteractionStateChange(View view){
-        if(GlobalAccessVariables.NPCInteractionState == true) {
-            Utils.disableAllNPCsInteraction();
-        } else {
-            Utils.enableAllNPCsInteraction();
-        }
+        GlobalAccessVariables.NPCInteractionState = !GlobalAccessVariables.NPCInteractionState;
     }
 }
