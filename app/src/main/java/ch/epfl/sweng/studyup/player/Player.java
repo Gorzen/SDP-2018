@@ -292,17 +292,17 @@ public class Player implements SpecialQuestObservable {
      * @param courses The courses the player attends/teaches
      */
     public void setCourses(List<Course> courses) {
-        if(role == Role.student) {
+        if(isStudent()) {
             this.coursesEnrolled = new ArrayList<>(courses);
         } else {
             List<Course> oldCourses = getCoursesTeached();
             coursesTeached = new ArrayList<>(courses);
             oldCourses.removeAll(courses);
             for(Course c : courses) {
-                Firestore.get().addPlayerToTeachingStaff(c);
+                Firestore.get().addPlayerToTeachingStaff(c, sciperNum);
             }
             for(Course c : oldCourses) {
-                //Firestore.get().removePlayerFromTeachingStaff(c);
+                Firestore.get().removePlayerFromTeachingStaff(c, sciperNum);
             }
         }
 

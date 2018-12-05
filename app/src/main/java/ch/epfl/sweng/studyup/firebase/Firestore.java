@@ -256,7 +256,7 @@ public class Firestore {
         FirestoreSchedule.getCoursesSchedule(db, act, role);
     }
 
-    public void addPlayerToTeachingStaff(final Course c) {
+    public void addPlayerToTeachingStaff(final Course c, final String sciper) {
         final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
         courseRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -274,15 +274,15 @@ public class Firestore {
                                     return;
                                 }
 
-                                if (!teachers.contains(Player.get().getSciperNum())) {
+                                if (!teachers.contains(sciper)) {
                                     Map<String, Object> courseData = doc.getData();
-                                    teachers.add(Player.get().getSciperNum());
+                                    teachers.add(sciper);
                                     courseData.put(FB_TEACHING_STAFF, teachers);
                                     courseRef.set(courseData);
                                 }
                             } else {
                                 Map<String, Object> courseData = new HashMap<>();
-                                ArrayList<String> staff = new ArrayList<>(Arrays.asList(Player.get().getSciperNum()));
+                                ArrayList<String> staff = new ArrayList<>(Arrays.asList(sciper));
                                 courseData.put(FB_TEACHING_STAFF, staff);
                                 courseRef.set(courseData);
                             }
@@ -294,7 +294,7 @@ public class Firestore {
                 });
     }
 
-    public void removePlayerFromTeachingStaff(final Course c) {
+    public void removePlayerFromTeachingStaff(final Course c, final String sciper) {
         final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
         courseRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -309,7 +309,7 @@ public class Firestore {
                             } catch(ClassCastException e) { Log.d(TAG, "onComplete: The info for the teacher of "+c.name()+" is incorrect."); return; }
 
                             Map<String, Object> courseData = doc.getData();
-                            if(teachers.remove(Player.get().getSciperNum()) && teachers.isEmpty()) {
+                            if(teachers.remove(sciper) && teachers.isEmpty()) {
                                 deleteCourseInfos(c);
                             } else {
                                 courseData.put(FB_TEACHING_STAFF, teachers);
