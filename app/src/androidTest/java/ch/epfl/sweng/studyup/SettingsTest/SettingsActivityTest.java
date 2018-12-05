@@ -32,6 +32,8 @@ import ch.epfl.sweng.studyup.settings.CourseSelectionActivity;
 import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -47,6 +49,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.LANGUAGES;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -62,6 +65,7 @@ public class SettingsActivityTest {
         Player.get().resetPlayer();
         Player.get().setRole(Constants.Role.student);
         Intents.init();
+        Utils.enableAllNPCsInteraction();
     }
 
     @After
@@ -151,5 +155,11 @@ public class SettingsActivityTest {
         mActivityRule.getActivity().startActivity(mActivityRule.getActivity().getIntent());
 
         assertEquals("en", mActivityRule.getActivity().getResources().getConfiguration().locale.toString());
+    }
+
+    @Test
+    public void disableNPCInteractionTest() {
+        onView(withId(R.id.NPCInteractioncheckBox)).perform(click());
+        assertFalse(GlobalAccessVariables.NPCInteractionState);
     }
 }
