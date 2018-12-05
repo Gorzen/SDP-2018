@@ -11,10 +11,15 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(PowerMockRunner.class)
@@ -42,5 +47,23 @@ public class UtilsTest {
         assertEquals("test", Utils.getOrDefault(map, "Test2", 2));
         assertEquals(true, Utils.getOrDefault(map, "sdf", true));
 
+    }
+
+    @Test
+    public void disableAllNPCsInteractionTest() {
+        Utils.disableAllNPCsInteraction();
+        assertFalse(GlobalAccessVariables.NPCInteractionState);
+        for (NPC npc : Constants.allNPCs) {
+            assertFalse(npc.getNPCInteractionState());
+        }
+    }
+
+    @Test
+    public void enableAllNPCsInteractionTest() {
+        Utils.enableAllNPCsInteraction();
+        assertTrue(GlobalAccessVariables.NPCInteractionState);
+        for (NPC npc : Constants.allNPCs) {
+            assertTrue(npc.getNPCInteractionState());
+        }
     }
 }

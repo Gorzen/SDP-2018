@@ -71,4 +71,8 @@ public class NPC {
     public boolean disableNPCInteraction() {
         return NPCInteraction = false;
     }
+
+    public boolean getNPCInteractionState() {
+        return NPCInteraction;
+    }
 }

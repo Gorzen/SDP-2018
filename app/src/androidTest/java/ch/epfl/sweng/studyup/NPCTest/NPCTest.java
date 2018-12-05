@@ -19,6 +19,7 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -62,6 +63,12 @@ public class NPCTest {
 
     @Test
     public void disableInteractionTest() {
-        assertTrue(roberto.disableNPCInteraction());
+        assertFalse(roberto.disableNPCInteraction());
+    }
+
+    @Test
+    public void getNPCInteractionStateTest() {
+        roberto.enableNPCInteraction();
+        assertTrue(roberto.getNPCInteractionState());
     }
 }
