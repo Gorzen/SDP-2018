@@ -38,7 +38,6 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 
 public class SettingsActivity extends RefreshContext {
-    private final int PADDING_LEFT = 55;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,8 @@ public class SettingsActivity extends RefreshContext {
 
     private void setCheckBoxNPC() {
         CheckBox NPCCheckBox = findViewById(R.id.NPCInteractioncheckBox);
-        NPCCheckBox.setPadding(PADDING_LEFT,
+        final float shift = this.getResources().getDisplayMetrics().density; //Drawable of checkBox can change according to device
+        NPCCheckBox.setPadding(NPCCheckBox.getPaddingLeft() + (int)(19.0f * shift + 0.5f),
                 NPCCheckBox.getPaddingTop(),
                 NPCCheckBox.getPaddingRight(),
                 NPCCheckBox.getPaddingBottom());
