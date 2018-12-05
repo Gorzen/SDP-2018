@@ -12,6 +12,7 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,6 +27,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Utils;
+
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -67,14 +70,10 @@ public class CustomActivityTest {
     }
 
     @Test
-    public void A_changeUserName() throws Throwable {
-        mActivityRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((EditText) mActivityRule.getActivity().findViewById(R.id.edit_username)).setText("Wir Sind Helden Too Long Not Should Be Displayed");
-            }
-        });
-        waitAndTag(300, "Waiting for main thread to set the text.");
+    public void A_changeUserName() {
+        onView(ViewMatchers.withId(R.id.edit_username)).perform(clearText())
+                .perform(typeText("Wir Sind Helden Too Long Not Should Be Displayed")).perform(closeSoftKeyboard());
+        waitAndTag(300, "Waiting for main thread to type the text and close keyboard.");
         onView(withId(R.id.valid_btn)).perform(click());
     }
 
