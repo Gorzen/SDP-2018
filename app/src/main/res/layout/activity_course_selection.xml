@@ -6,27 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".settings.CourseSelectionActivity">
 
+    <!--TOP TOOL BAR-->
+
+    <android.support.constraint.ConstraintLayout
+
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/back_button"
+            android:layout_width="33dp"
+            android:layout_height="34dp"
+            android:background="@drawable/ic_arrow_back_white_24dp"
+            android:onClick="backToSettings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.024"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="?attr/colorPrimaryDark"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.constraint.ConstraintLayout>
+
     <TextView
         android:id="@+id/courseSelectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Select your Courses"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/select_courses_text"
+        android:textColor="@color/colorGreyBlack"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/courseFormContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <LinearLayout
         android:id="@+id/courseFormContainer"
-        android:layout_width="200dp"
-        android:layout_height="484dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="187dp"
+        android:layout_height="389dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseSelectionTitle"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/courseSelectionTitle" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/list_view_shape"
+        android:backgroundTint="@color/colorListItems"
+        android:onClick="updatePlayerCourses"
+        android:text="@string/save_value"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courseFormContainer" />
 
 </android.support.constraint.ConstraintLayout>

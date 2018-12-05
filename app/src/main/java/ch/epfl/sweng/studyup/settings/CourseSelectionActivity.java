@@ -19,14 +19,12 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class CourseSelectionActivity extends RefreshContext {
-
+    final List<CheckBox> courseSelections = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_selection);
-
-        final List<CheckBox> courseSelections = new ArrayList<>();
 
         LinearLayout formContainer = findViewById(R.id.courseFormContainer);
         for (Course course : Course.values()) {
@@ -47,23 +45,9 @@ public class CourseSelectionActivity extends RefreshContext {
 
             formContainer.addView(courseCheckbox, params);
         }
-
-        Button saveButton = new Button(this);
-        saveButton.setText(R.string.save_value);
-        saveButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View view) {
-                try {
-                    updatePlayerCourses(courseSelections);
-                }
-                catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.text_failed_update_courses), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        formContainer.addView(saveButton);
     }
 
-    protected void updatePlayerCourses(List<CheckBox> courseSelections) {
+    protected void updatePlayerCourses(View v) {
 
         List<Course> updateCourseList = new ArrayList<>();
 
@@ -76,6 +60,10 @@ public class CourseSelectionActivity extends RefreshContext {
         Player.get().setCourses(updateCourseList);
         Toast.makeText(getApplicationContext(), getString(R.string.text_courses_updated), Toast.LENGTH_SHORT).show();
 
+        finish();
+    }
+
+    public void backToSettings(View v) {
         finish();
     }
 }
