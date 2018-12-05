@@ -82,8 +82,15 @@ public class ScheduleActivityTeacherTest {
     @Test
     public void addEventAndRemoveEventTest() throws UiObjectNotFoundException {
         mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
 
-        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+        mActivityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().updateSchedule(new ArrayList<WeekViewEvent>());
+            }
+        });
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
 
         Display display = mActivityRule.getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -119,13 +126,13 @@ public class ScheduleActivityTeacherTest {
                 mActivityRule.getActivity().onSaveButtonClick(null);
             }
         });
-        waitAndTag(150, "Waiting for the main thread to click");
+        waitAndTag(1000, "Waiting for the main thread to click");
     }
 
     @Test
     public void updateScheduleTest() {
         mActivityRule.launchActivity(new Intent().putExtra(COURSE_NAME_INTENT_SCHEDULE, Constants.Course.FakeCourse.name()));
-        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+        waitAndTag(1000, "ScheduleActivityTeacherTest");
 
         final List<WeekViewEvent> events = new ArrayList<>();
 
