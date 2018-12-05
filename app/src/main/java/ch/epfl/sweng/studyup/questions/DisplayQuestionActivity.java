@@ -180,7 +180,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
         TextView time_left = findViewById(R.id.time_left); ImageView alarm = findViewById(R.id.alarmImage);
-        long now = System.currentTimeMillis(), clickedInstant = Player.get().getClickedInstants().get(questionId);
+        long now = System.currentTimeMillis();
 
         if (displayQuestion.getDuration() != 0 && !Player.get().getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
@@ -189,15 +189,19 @@ public class DisplayQuestionActivity extends RefreshContext {
         } else if (displayQuestion.getDuration() == 0) {
             //There is no time constraint
             alarm.setImageAlpha(0); time_left.setText("");
-        } else if (now > clickedInstant + displayQuestion.getDuration()) {
-            //too late, the player cannot answer anymore
-            tooLate = true; time_left.setText(getString(R.string.elapsed_time));
         } else {
-            //display remaining time
-            int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
-            String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
-            time_left.setText(displayedText);
-            if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
+            long clickedInstant = Player.get().getClickedInstants().get(questionId);
+            if (now > clickedInstant + displayQuestion.getDuration()) {
+                //too late, the player cannot answer anymore
+                tooLate = true;
+                time_left.setText(getString(R.string.elapsed_time));
+            } else {
+                //display remaining time
+                int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+                String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
+                time_left.setText(displayedText);
+                if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
+            }
         }
     }
 
