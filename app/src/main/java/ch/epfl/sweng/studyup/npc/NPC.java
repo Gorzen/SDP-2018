@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.google.android.gms.maps.model.LatLng;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -15,8 +16,8 @@ public class NPC {
     private String name;
     private LatLng npcLatLng;
     private int image;
-    private final double NPC_RANGE = 20.0;
-    private final int MAX_COUNTER = 1000;
+    private final int MAX_COUNTER = 100;
+    private boolean isFirstInteraction = true;
     private Activity currentActivity;
     private int counter = 0;
 
@@ -27,9 +28,11 @@ public class NPC {
     }
 
     public boolean isInRange(LatLng playerLatLng) {
-        if (counter % MAX_COUNTER == 0 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < NPC_RANGE) {
-            counter = 1;
-            currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+        currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+        if (!(currentActivity instanceof MapsActivity)
+                && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < Constants.NPC_RANGE
+                && (counter >= MAX_COUNTER || isFirstInteraction)) {
+            counter = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
             builder.setTitle(getName() + " " + currentActivity.getString(R.string.NPC_interaction))
                     .setPositiveButton(currentActivity.getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
@@ -41,6 +44,7 @@ public class NPC {
                     .setNegativeButton(currentActivity.getString(R.string.NPC_refuse), null);
             AlertDialog dialog = builder.create();
             dialog.show();
+            isFirstInteraction = false;
             return true;
         }
         ++counter;
