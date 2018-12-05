@@ -165,7 +165,7 @@ public class AuthenticationActivity extends RefreshContext {
     }
 
     public void onContinueToMain(View v) {
-        if(Player.get().getRole() == Role.student) {
+        if(Player.get().isStudent()) {
             startActivity(new Intent(this, HomeActivity.class));
         } else {
             startActivity(new Intent(this, QuestsActivityTeacher.class));

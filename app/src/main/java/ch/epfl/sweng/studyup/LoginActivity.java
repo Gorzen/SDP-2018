@@ -105,7 +105,7 @@ public class LoginActivity extends RefreshContext {
                 Direct user to home activity corresponding to their role.
                  */
 
-                HOME_ACTIVITY = Player.get().getRole().equals(Role.student) ?
+                HOME_ACTIVITY = Player.get().isStudent() ?
                         HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));

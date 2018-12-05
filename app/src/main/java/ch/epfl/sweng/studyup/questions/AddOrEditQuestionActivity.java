@@ -282,7 +282,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         AlertDialog.Builder courseChoiceBuilder = new AlertDialog.Builder(this);
         courseChoiceBuilder.setTitle(getString(R.string.course_for_this_quest));
 
-        final List<Course> courses = Player.get().getRole() == Constants.Role.teacher ?
+        final List<Course> courses = Player.get().isTeacher() ?
                 Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         ArrayList<String> stringList = getStringListFromCourseList(courses, true);
         final ArrayList<String> stringListName = getStringListFromCourseList(courses, false);

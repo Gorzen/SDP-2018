@@ -58,7 +58,7 @@ public class SettingsActivity extends RefreshContext {
 
     public void onChangeRoleClick(View v) {
         Intent i;
-        if(Player.get().getRole() == Constants.Role.teacher) {
+        if(Player.get().isTeacher()) {
             Player.get().setRole(Constants.Role.student);
             setRoleInCache(Constants.Role.student);
             i = new Intent(SettingsActivity.this, HomeActivity.class);
@@ -105,7 +105,7 @@ public class SettingsActivity extends RefreshContext {
                         .apply();
                 setLocale(lang, MOST_RECENT_ACTIVITY);
 
-                Class nextActivity = Player.get().getRole() == Constants.Role.teacher ?
+                Class nextActivity = Player.get().isTeacher() ?
                         QuestsActivityTeacher.class : HomeActivity.class;
                 startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
             }

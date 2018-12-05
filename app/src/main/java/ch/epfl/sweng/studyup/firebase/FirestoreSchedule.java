@@ -46,9 +46,8 @@ public abstract class FirestoreSchedule {
         final Player p = Player.get();
         final CollectionReference coursesRef = db.collection(FB_COURSES);
         final List<WeekViewEvent> schedule = new ArrayList<>();
-        final boolean isTeacher = p.getRole() == Constants.Role.teacher;
 
-        final List<Constants.Course> courses = isTeacher ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
+        final List<Constants.Course> courses = p.isTeacher() ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
         for(final Constants.Course c : courses) {
             coursesRef.document(c.name()).collection(FB_EVENTS).get()
