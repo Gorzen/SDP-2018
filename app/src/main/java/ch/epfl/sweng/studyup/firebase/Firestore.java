@@ -5,13 +5,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.Maps;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +65,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -251,25 +256,35 @@ public class Firestore {
         FirestoreSchedule.getCoursesSchedule(db, act, role);
     }
 
-    //TODO refactor again after merge with make-course-have-multiple-...
-    /**
-     * Used when a teacher select her/his courses, replace the old course if someone else was
-     * teaching it or don't do anything if the teacher where already teaching this course. The
-     * teacher is the current player.
-     *
-     * @param c The course
-     */
-    public void setCourseTeacher(final Course c) {
-
-        db.collection(FB_COURSES).document(c.name()).get()
+    public void addPlayerToTeachingStaff(final Course c) {
+        final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot doc = task.getResult();
+                            if(task.getResult().exists()) {
+                                DocumentSnapshot doc = task.getResult();
 
-                            if(!doc.exists() || !Player.get().getSciperNum().equals(doc.getData().get(FB_SCIPER).toString())) {
-                                changeCourseTeacher(c);
+                                List<String> teachers;
+                                try {
+                                    teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
+                                } catch (ClassCastException e) {
+                                    Log.d(TAG, "onComplete: The info for the teacher of " + c.name() + " is incorrect.");
+                                    return;
+                                }
+
+                                if (!teachers.contains(Player.get().getSciperNum())) {
+                                    Map<String, Object> courseData = doc.getData();
+                                    teachers.add(Player.get().getSciperNum());
+                                    courseData.put(FB_TEACHING_STAFF, teachers);
+                                    courseRef.set(courseData);
+                                }
+                            } else {
+                                Map<String, Object> courseData = new HashMap<>();
+                                ArrayList<String> staff = new ArrayList<>(Arrays.asList(Player.get().getSciperNum()));
+                                courseData.put(FB_TEACHING_STAFF, staff);
+                                courseRef.set(courseData);
                             }
 
                         } else {
@@ -278,20 +293,38 @@ public class Firestore {
                     }
                 });
     }
-    private void changeCourseTeacher(final Course c) {
-        // Setting new teacher
-        Map<String, Object> courseData = new HashMap<>();
-        courseData.put(FB_SCIPER, Player.get().getSciperNum());
-        db.collection(FB_COURSES).document(c.name()).set(courseData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+    public void removePlayerFromTeachingStaff(final Course c) {
+        final DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i(TAG, "Teacher successfully updated.");
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult().exists()) {
+                            DocumentSnapshot doc = task.getResult();
+
+                            List<String> teachers;
+                            try {
+                                teachers = (List<String>) doc.getData().get(FB_TEACHING_STAFF);
+                            } catch(ClassCastException e) { Log.d(TAG, "onComplete: The info for the teacher of "+c.name()+" is incorrect."); return; }
+
+                            Map<String, Object> courseData = doc.getData();
+                            if(teachers.remove(Player.get().getSciperNum()) && teachers.isEmpty()) {
+                                deleteCourseInfos(c);
+                            } else {
+                                courseData.put(FB_TEACHING_STAFF, teachers);
+                                courseRef.set(courseData);
+                            }
+                        } else {
+                            Log.w(TAG, "The schedule fail to load or no course are present.");
+                        }
                     }
                 });
+    }
 
-        // Deleting previous teacher schedule
-        db.collection(FB_COURSES).document(c.name()).collection(FB_EVENTS).get()
+    private void resetCourseSchedule(final Course c) {
+        DocumentReference courseRef = db.collection(FB_COURSES).document(c.name());
+        courseRef.collection(FB_EVENTS).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -300,7 +333,7 @@ public class Firestore {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            Log.i(TAG, "Failed during an old teacher period's deletion: \n"+q.toObject(WeekViewEvent.class));
+                                            Log.i(TAG, "Failed during the deletion of period: \n"+q.toObject(WeekViewEvent.class));
                                         }
                                     });
                         }
@@ -310,8 +343,9 @@ public class Firestore {
     public void setCourseEvents(final Course c, final List<WeekViewEvent> periodsToAdd) {
         FirestoreSchedule.setCourseEvents(db, c, periodsToAdd);
     }
-    public void deleteCourse(Course c) {
-        changeCourseTeacher(c); // To delete the periods on the server
+
+    public void deleteCourseInfos(Course c) {
+        resetCourseSchedule(c); // To delete the periods on the server
         waitAndTag(1000, TAG);
         db.collection(FB_COURSES).document(c.name()).delete();
     }

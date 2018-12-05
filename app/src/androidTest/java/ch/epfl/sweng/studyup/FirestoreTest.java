@@ -192,7 +192,7 @@ public class FirestoreTest {
         List<Course> fakeCourseList = new ArrayList<>();
         fakeCourseList.add(c);
 
-        Firestore.get().deleteCourse(c);
+        Firestore.get().deleteCourseInfos(c);
 
         // Verifying that course has been deleted
         Player.get().setRole(Role.student);
@@ -202,7 +202,7 @@ public class FirestoreTest {
         assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
 
         // Verifying that we can add a course
-        Firestore.get().setCourseTeacher(c);
+        Firestore.get().addPlayerToTeachingStaff(c);
         waitAndTag(500, "Waiting for the course to be added.");
         Firestore.get().setCourseEvents(c, periods);
         waitAndTag(500, "Waiting for the course's periods to be added.");
