@@ -137,12 +137,17 @@ public class SettingsActivity extends RefreshContext {
         startActivity(intent);
     }
 
-    public void onBackButton(View view) {
-        finish();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    public void onColorChoiceClick(View view) {
+        Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
+        startActivity(intent);
     }
 
     public void onNPCInteractionStateChange(View view){
         GlobalAccessVariables.NPCInteractionState = !GlobalAccessVariables.NPCInteractionState;
+    }
+
+        public void onBackButton(View view) {
+        finish();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }
