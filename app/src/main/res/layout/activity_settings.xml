@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGreyClair"
+    android:background="@color/colorWhite"
     tools:context="ch.epfl.sweng.studyup.settings.SettingsActivity">
 
     <RelativeLayout
@@ -253,6 +253,38 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/colorChoiceButton"
                 app:layout_constraintTop_toTopOf="@+id/colorChoiceButton" />
+
+            <ImageButton
+                android:id="@+id/aboutUsButton"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorWhite"
+                android:onClick="onAboutUsClick"
+                android:scaleType="fitStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/colorChoiceButton"
+                app:srcCompat="@drawable/ic_info_outline_black_24dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textAboutUs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:onClick="onAboutUsClick"
+                android:text="@string/about_us"
+                android:textColor="@color/colorGreyBlack"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/aboutUsButton"
+                app:layout_constraintEnd_toEndOf="@+id/aboutUsButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/aboutUsButton"
+                app:layout_constraintTop_toTopOf="@+id/aboutUsButton" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -185,11 +185,12 @@
     <string name="enroll_button_text">Enroll</string>
     <string name="time_out_title">Time out !</string>
     <string name="question_duration_selection">Select the time duration</string>
-    <string name="chosen_duration" >"Time: "</string>
+    <string name="chosen_duration">"Time: "</string>
     <string name="duration">Duration</string>
     <string name="time_constraint_text">No time constraint</string>
     <string name="remaining_time">Time left:</string>
     <string name="elapsed_time">Elapsed time</string>
     <string name="time_left_text">Time left</string>
     <string name="select_courses_text">Select your courses</string>
+    <string name="about_us">About us</string>
 </resources>

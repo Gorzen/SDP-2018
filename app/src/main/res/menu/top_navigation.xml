@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/top_navigation_infos"
-        android:title="@string/title_infos"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_info_outline_black_24dp"/>
-
-    <item
         android:id="@+id/top_navigation_settings"
         android:title="@string/title_settings"
         app:showAsAction="ifRoom"

@@ -130,4 +130,9 @@ public class SettingsActivity extends RefreshContext {
         Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
         startActivity(intent);
     }
+
+    public void onAboutUsClick(View view) {
+        Intent intent = new Intent(SettingsActivity.this, AboutUsActivity.class);
+        startActivity(intent);
+    }
 }
