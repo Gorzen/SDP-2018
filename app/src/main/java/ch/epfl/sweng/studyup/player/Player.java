@@ -129,6 +129,7 @@ public class Player implements SpecialQuestObservable {
         coursesEnrolled.add(Course.SWENG);
         coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
+        clickedInstants = new HashMap<>();
     }
 
     /**

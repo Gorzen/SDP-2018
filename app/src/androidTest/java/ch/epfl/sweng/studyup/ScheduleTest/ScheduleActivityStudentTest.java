@@ -69,8 +69,9 @@ public class ScheduleActivityStudentTest {
     public void studentScheduleTest(){
         Player.get().setRole(Constants.Role.student);
         mActivityRule.launchActivity(new Intent());
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
 
-        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+        int previousSize = mActivityRule.getActivity().getWeekViewEvents().size();
 
         Display display = mActivityRule.getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -80,13 +81,14 @@ public class ScheduleActivityStudentTest {
 
         onView(withId(R.id.weekView)).perform(clickXY(width - 8, height/2));
         Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
-        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+        assertEquals(previousSize, mActivityRule.getActivity().getWeekViewEvents().size());
     }
 
     @Test
     public void updateScheduleTest(){
+        Player.get().setRole(Constants.Role.student);
         mActivityRule.launchActivity(new Intent());
-        assertEquals(0, mActivityRule.getActivity().getWeekViewEvents().size());
+        Utils.waitAndTag(1000, "ScheduleActivityStudentTest");
 
         final List<WeekViewEvent> events = new ArrayList<>();
 

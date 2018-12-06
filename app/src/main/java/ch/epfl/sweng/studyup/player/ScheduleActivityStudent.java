@@ -117,8 +117,8 @@ public class ScheduleActivityStudent extends NavigationStudent {
     public void updateSchedule(List<WeekViewEvent> events){
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
         weekViewEvents.clear();
-        weekViewEvents.addAll(events);
-        id += events.size();
+        weekViewEvents = new ArrayList<>(events);
+        id = events.size();
         weekView.notifyDatasetChanged();
     }
 
