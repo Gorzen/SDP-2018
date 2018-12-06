@@ -14,6 +14,7 @@ import com.alamkanak.weekview.WeekViewEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -116,8 +117,8 @@ public class ScheduleActivityStudent extends NavigationStudent {
 
     public void updateSchedule(List<WeekViewEvent> events){
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) return;
-        weekViewEvents.clear();
-        weekViewEvents = new ArrayList<>(events);
+        List<WeekViewEvent> newEvents = new ArrayList<>(new HashSet<>(events));
+        weekViewEvents = newEvents;
         id = events.size();
         weekView.notifyDatasetChanged();
     }

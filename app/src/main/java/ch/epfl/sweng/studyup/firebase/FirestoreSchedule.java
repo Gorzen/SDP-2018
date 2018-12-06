@@ -33,6 +33,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 
 public abstract class FirestoreSchedule {
     private static final String TAG = FirestoreSchedule.class.getSimpleName();
+    private static List<WeekViewEvent> schedule;
+
     /**
      * Method that get the schedule of the current player, that he/she be teacher or student, and
      * will update the layout accordingly using the updateSchedule method in the activity given as
@@ -45,6 +47,7 @@ public abstract class FirestoreSchedule {
     public static void getCoursesSchedule(final FirebaseFirestore db, final Activity act, final Constants.Role role) throws NullPointerException {
         final Player p = Player.get();
         final CollectionReference coursesRef = db.collection(FB_COURSES);
+        schedule = new ArrayList<>();
 
         final List<Constants.Course> courses = p.isTeacher() ? Player.get().getCoursesTeached() : Player.get().getCoursesEnrolled();
         // Iteration over all events of all needed courses
@@ -55,14 +58,12 @@ public abstract class FirestoreSchedule {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()) {
                                 if(!task.getResult().isEmpty()) {
-                                    final List<WeekViewEvent> coursePeriods = new ArrayList<>();
-
                                     // Adding periods to the course
                                     for (QueryDocumentSnapshot q : task.getResult()) {
-                                        coursePeriods.add(queryDocumentSnapshotToWeekView(q));
+                                        schedule.add(queryDocumentSnapshotToWeekView(q));
                                     }
 
-                                    onCourseScheduleComplete(act, role, coursePeriods);
+                                    onCourseScheduleComplete(act, role);
                                 }
                             }
                         }
@@ -83,15 +84,13 @@ public abstract class FirestoreSchedule {
         return new WeekViewEvent(id, name, location, start, end);
     }
 
-    private static void onCourseScheduleComplete(final Activity act, final Constants.Role role, List<WeekViewEvent> schedule) {
+    private static void onCourseScheduleComplete(final Activity act, final Constants.Role role) {
 
         if(act instanceof ScheduleActivityStudent) {
             ScheduleActivityStudent actCasted = (ScheduleActivityStudent) act;
-            schedule.addAll(actCasted.getWeekViewEvents());
             actCasted.updateSchedule(schedule);
         } else if(act instanceof ScheduleActivityTeacher) {
             ScheduleActivityTeacher actCasted = (ScheduleActivityTeacher) act;
-            schedule.addAll(actCasted.getWeekViewEvents());
             actCasted.updateSchedule(schedule);
         }
 
