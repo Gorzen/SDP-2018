@@ -79,7 +79,6 @@ public class InventoryActivityTest {
 
     @Test
     public void testOptionNoException() {
-        onView(withId(R.id.top_navigation_infos)).perform(click());
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
 }
