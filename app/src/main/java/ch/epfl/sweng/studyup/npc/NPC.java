@@ -15,7 +15,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-public abstract class NPC {
+public class NPC {
     private String name;
     private LatLng npcLatLng;
     private int image;

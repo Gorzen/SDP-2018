@@ -54,6 +54,7 @@
             android:layout_below="@id/topBar">
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout_npc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -68,16 +69,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/white_view" />
-
+<!--
                 <TextView
                     android:id="@+id/message1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/message_from_npc"
                     android:text="@string/NPC_temp_description"
                     android:textColor="@color/colorGreyBlack"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/message2"
+                    app:layout_constraintEnd_toEndOf="@id/constraintLayout_npc"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/npc_image" />
 
@@ -86,12 +91,59 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/message_from_user"
                     android:text="@string/NPC_temp_description"
                     android:textColor="@color/colorGreyBlack"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/message3"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/message1" />
+
+                <TextView
+                    android:id="@+id/message3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/message_from_npc"
+                    android:text="@string/NPC_temp_description"
+                    android:textColor="@color/colorGreyBlack"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/message4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/message2" />
+
+                <TextView
+                    android:id="@+id/message4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/message_from_user"
+                    android:text="@string/NPC_temp_description"
+                    android:textColor="@color/colorGreyBlack"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@id/yes_no_button_npc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/message3" /> -->
+
+                <TextView
+                    android:id="@+id/yes_no_button_npc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Yes no button"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
