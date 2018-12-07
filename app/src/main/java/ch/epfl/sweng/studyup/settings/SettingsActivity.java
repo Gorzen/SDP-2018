@@ -20,7 +20,6 @@ import java.util.List;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
@@ -28,7 +27,6 @@ import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
@@ -38,11 +36,13 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 
 public class SettingsActivity extends RefreshContext {
+    private FileCacher<Boolean> enableNPCInteraction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        enableNPCInteraction = new FileCacher<>(SettingsActivity.this, "enableNPCInteraction.txt");
         setCheckBoxNPC();
     }
 
@@ -51,6 +51,16 @@ public class SettingsActivity extends RefreshContext {
         super.onResume();
         if(Player.get().isTeacher()) {
             ((TextView) findViewById(R.id.textCourseButton)).setText(R.string.course_choice_settings_button_teacher);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            enableNPCInteraction.writeCache(GlobalAccessVariables.NPCInteractionState);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

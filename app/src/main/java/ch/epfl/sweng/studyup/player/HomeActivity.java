@@ -41,6 +41,7 @@ import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -85,6 +86,17 @@ public class HomeActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupToolbar(this);
+
+        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(HomeActivity.this, "enableNPCInteraction.txt");
+        if(enableNPCInteraction.hasCache()) {
+            try {
+                GlobalAccessVariables.NPCInteractionState = enableNPCInteraction.readCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
 
         displayLoginSuccessMessage(getIntent());
 
