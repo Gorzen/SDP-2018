@@ -8,5 +8,5 @@
         android:right="5dp"
         android:bottom="5dp" />
     <corners android:radius="7dp" />
-    <solid android:color="@color/colorProgression2" />
+    <solid android:color="?attr/colorProgression2" />
 </shape>

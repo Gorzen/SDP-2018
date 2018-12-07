@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".npc.NPCActivity">
 
     <RelativeLayout
@@ -64,7 +63,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="164dp"
             android:textSize="30dp"
-            android:textColor="@color/colorGreyBlack"
+            android:textColor="?attr/colorContrasted"
             android:text="@string/NPC_temp_description" />
 
     </RelativeLayout>

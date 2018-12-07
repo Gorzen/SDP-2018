@@ -24,17 +24,23 @@
     <color name="colorProgressionBrown">#776B61</color>
     <color name="colorProgressionBrown2">#b26b35</color>
 
-    <color name="colorPrimaryMulti">#FF8000</color>
-    <color name="colorPrimaryDarkMulti">#663300</color>
-    <color name="colorAccentMulti">#FF007F</color>
-    <color name="colorProgressionMulti">#00CC66</color>
-    <color name="colorProgressionMulti2">#66FF66</color>
+    <color name="colorPrimaryDarkMode">#6A8CD6</color>
+    <color name="colorPrimaryDarkDarkMode">#1F2124</color>
+    <color name="colorAccentDarkMode">#384B74</color>
+    <color name="colorProgressionDarkMode">#484C52</color>
+    <color name="colorProgressionDarkMode2">#c3c3c3</color>
+
+    <color name="colorListItemsDark">#36393F</color>
+    <color name="colorBackgroundDark">#282b30</color>
+    <color name="colorBackground">#fff</color>
+    <color name="colorListItems">#ecf1f2</color>
 
     <color name="colorWhite">#fff</color>
-    <color name="colorListItems">#ecf1f2</color>
     <color name="colorGrey">#c3c3c3 </color>
     <color name="colorGreyBlack">#333333 </color>
     <color name="colorGreyClair">#dddddd </color>
     <color name="colorGreyDark">#555555 </color>
     <color name="transparent">#00000000 </color>
+    <color name="colorDarkkkk">#111111</color>
+
 </resources>

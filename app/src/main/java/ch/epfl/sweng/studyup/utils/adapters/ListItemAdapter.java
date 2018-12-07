@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.utils.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 
 public class ListItemAdapter extends BaseAdapter {
-    private Context cnx;
+    private Activity cnx;
+    private int idLayout;
     private ArrayList<Items> items;
     private boolean displayPriceAndCoin;
 
-    public ListItemAdapter(Context cnx, ArrayList<Items> items, boolean displayPriceAndCoin) {
+    public ListItemAdapter(Activity cnx, ArrayList<Items> items, int idLayout, boolean displayPriceAndCoin) {
         this.cnx=cnx;
+        this.idLayout=idLayout;
         ArrayList<Items> sortedItems = new ArrayList<>(items);
         Collections.sort(sortedItems, new Comparator<Items>() {
             @Override
@@ -50,7 +53,7 @@ public class ListItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView=View.inflate(cnx, R.layout.shop_list_item_model, null);
+            convertView=View.inflate(cnx, idLayout, null);
         }
         Items item = items.get(position);
         ImageView shopItemImage = convertView.findViewById(R.id.shop_item_image);

@@ -9,14 +9,13 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
@@ -57,8 +56,8 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     public void setColorMulti(View v) {
-        setupSettingsColor(SETTINGS_COLOR_MULTI);
-        setupColor(SETTINGS_COLOR_MULTI);
+        setupSettingsColor(SETTINGS_COLOR_DARK);
+        setupColor(SETTINGS_COLOR_DARK);
         backToApp();
         finish();
     }

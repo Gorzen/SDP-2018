@@ -27,11 +27,15 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
+import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
 
 public class SettingsActivity extends RefreshContext {
     @Override
@@ -86,7 +90,10 @@ public class SettingsActivity extends RefreshContext {
     }
 
     public void onLanguageChoiceClick(View view) {
-        AlertDialog.Builder languageChoiceBuilder = new AlertDialog.Builder(this);
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        AlertDialog.Builder languageChoiceBuilder = col.equals(SETTINGS_COLOR_DARK) ?
+                new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(this);
         languageChoiceBuilder.setTitle(R.string.language_title_alert_dialog);
         languageChoiceBuilder.setItems(Constants.LANGUAGES, new DialogInterface.OnClickListener() {
             @SuppressWarnings("HardCodedStringLiteral")

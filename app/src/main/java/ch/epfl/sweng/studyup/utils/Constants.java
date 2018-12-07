@@ -134,7 +134,7 @@ public abstract class Constants {
     public static final String SETTINGS_COLOR_GREEN = "green";
     public static final String SETTINGS_COLOR_BROWN = "brown";
     public static final String SETTINGS_COLOR_BLUE = "blue";
-    public static final String SETTINGS_COLOR_MULTI = "multi";
+    public static final String SETTINGS_COLOR_DARK = "dark";
 
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;

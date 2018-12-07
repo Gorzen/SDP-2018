@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
     style="@style/AppTheme"
     tools:context=".player.HomeActivity">
 
@@ -193,40 +192,64 @@
                 android:id="@+id/specialQuestsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:text="@string/special_quests_title"
-                android:textSize="24sp"
                 android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.438"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ListView
                 android:id="@+id/specialQuestsListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="422dp"
                 android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
 
-            <Button
-                android:id="@+id/availableSpecialQuestsButton"
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/relativeLayout3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/specialQuestsTitle"
+                app:layout_constraintStart_toEndOf="@id/specialQuestsTitle"
+                app:layout_constraintTop_toTopOf="@id/specialQuestsTitle"
+                android:onClick="onAvailableSpecialQuestsButtonClick">
+
+                <Button
+                    android:id="@+id/availableSpecialQuestsButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/round_button"
+                    android:gravity="bottom" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/imageViewPlus"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="top"
                 android:onClick="onAvailableSpecialQuestsButtonClick"
-                android:text="@string/available_special_quests"
-                android:textAllCaps="false"
-                android:textSize="22sp"
-                android:background="@drawable/list_view_shape"
-                android:backgroundTint="@color/colorListItems"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout3"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout3"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
+                app:srcCompat="@drawable/ic_add_black_24dp"
+                tools:ignore="ContentDescription" />
+
+
 
         </android.support.constraint.ConstraintLayout>
 

@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:text="@string/enroll_button_text"
+        android:textColor="?attr/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,6 +59,8 @@
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         android:visibility="invisible"
+        app:progressBackgroundColor="?attr/colorProgression"
+        app:progressColor="?attr/colorProgression2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/specialQuestDescription" />
@@ -66,6 +69,9 @@
         android:id="@+id/specialQuestEnrollButton"
         android:text="@string/enroll_button_text"
         android:textAllCaps="false"
+        android:backgroundTint="?attr/colorPrimary"
+        android:background="@drawable/list_view_shape"
+        android:textColor="@color/colorWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -85,6 +91,7 @@
         android:maxLines="10"
         android:text="Description"
         android:textAlignment="center"
+        android:textColor="?attr/colorContrasted"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -99,6 +106,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginTop="32dp"
+        android:textColor="?attr/colorContrasted"
         android:padding="16dp"
         android:maxLines="10"
         android:textAlignment="center"
@@ -107,6 +115,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/specialQuestProgress" />
+
     <TextView
         android:id="@+id/specialQuestReward"
         android:layout_width="wrap_content"
@@ -115,6 +124,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.sweng.studyup.teacher.CourseStatsActivity"
-    android:background="@color/colorWhite">
+    tools:context="ch.epfl.sweng.studyup.teacher.CourseStatsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,7 +49,7 @@
                 android:layout_marginTop="44dp"
                 android:dividerHeight="0dp"
                 android:divider="@android:color/transparent"
-                android:background="@android:color/transparent"
+                android:background="?attr/colorBackground"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="colorProgression" format="reference"></attr>
-    <attr name="colorProgression2" format="reference"></attr>
+    <!-- other values-->
+    <attr name="colorProgression" format="reference"/>
+    <attr name="colorProgression2" format="reference"/>
+    <attr name="colorContrasted" format="reference"/>
+    <attr name="colorListItems" format="reference"/>
+    <attr name="colorNavBars1" format="reference"/>
+    <attr name="colorNavBars2" format="reference"/>
+    <attr name="colorBackground" format="reference"/>
+
+
 
     <!-- WeekView -->
     <declare-styleable name="WeekView">

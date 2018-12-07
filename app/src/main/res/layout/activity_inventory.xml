@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".items.InventoryActivity">
 
     <RelativeLayout
@@ -44,23 +43,47 @@
             android:layout_above="@+id/bottomBar"
             android:layout_below="@+id/topBar">
 
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/available_items"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="spread_inside" />
+
             <ListView
                 android:id="@+id/listViewItems"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="455dp"
                 android:layout_marginBottom="8dp"
+                android:background="@android:color/transparent"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/go_to_shop_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/go_to_shop_button"
-                android:layout_width="0dp"
+                android:layout_width="269dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/go_to_shop_button"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/list_view_shape"
+                android:backgroundTint="?attr/colorPrimary"
                 android:onClick="goToShop"
+                android:text="@string/go_to_shop_button"
+                android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

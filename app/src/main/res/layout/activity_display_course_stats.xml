@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".teacher.DisplayCourseStatsActivity">
 
 
@@ -66,11 +65,11 @@
                 android:layout_marginEnd="8dp"
                 android:text="Course X"
                 android:textSize="24sp"
+                android:textColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText"
-                tools:textColor="@color/colorPrimary" />
+                tools:ignore="HardcodedText"/>
 
             <android.support.constraint.ConstraintLayout
 
@@ -91,7 +90,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Number of students playing:"
+                    android:text="@string/number_of_students_playing"
+                    android:textColor="?android:attr/textColorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.036"
                     app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/colorGrey"
+                android:background="?attr/colorNavBars2"
                 app:layout_constraintBottom_toTopOf="@+id/bottLV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +153,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Number of questions for this course:"
+                    android:text="@string/number_of_questions_for_this_course"
+                    android:textColor="?android:attr/textColorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.049"
                     app:layout_constraintStart_toStartOf="parent"
