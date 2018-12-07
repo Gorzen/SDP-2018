@@ -95,6 +95,7 @@ public abstract class Constants {
     public static final String TEQUILA_AUTH_URL = "https://tequila.epfl.ch/cgi-bin/OAuth2IdP/userinfo?access_token=";
 
     public static final String PERSIST_LOGIN_FILENAME = "persist_login.txt";
+    public static final String NPC_INTERACTION_FILENAME = "enableNPCInteraction.txt";
 
     // Timeout values
     public static final int TIME_TO_WAIT_FOR_LOGIN = 2000; //[ms]

@@ -65,7 +65,7 @@ public class LoginActivity extends RefreshContext {
 
         if(!MOCK_ENABLED) {
             try {
-                attemptLoginFromCache();
+                if(attemptLoginFromCache()) return;
             } catch (Exception e) {
                 Log.e(TAG, "Unable to load from cache: " + e.getMessage());
             }
@@ -79,7 +79,7 @@ public class LoginActivity extends RefreshContext {
     }
 
 
-    private void attemptLoginFromCache() throws Exception {
+    private boolean attemptLoginFromCache() throws Exception {
 
         FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 
@@ -95,7 +95,7 @@ public class LoginActivity extends RefreshContext {
                     Cannot auto-login, return to onCreate(), user must maunally log in.
                      */
                     Log.e(TAG, e.toString());
-                    return;
+                    return false;
                 }
 
                 AuthenticationActivity.syncPlayerData();
@@ -109,10 +109,15 @@ public class LoginActivity extends RefreshContext {
                         HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));
+                return true;
+            } else {
+                return false;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+
+            return false;
         }
     }
 

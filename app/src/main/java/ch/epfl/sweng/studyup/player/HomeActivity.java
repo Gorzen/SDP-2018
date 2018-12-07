@@ -46,6 +46,7 @@ import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
@@ -87,7 +88,7 @@ public class HomeActivity extends NavigationStudent {
         setContentView(R.layout.activity_home);
         setupToolbar(this);
 
-        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(HomeActivity.this, "enableNPCInteraction.txt");
+        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(HomeActivity.this, NPC_INTERACTION_FILENAME);
         if(enableNPCInteraction.hasCache()) {
             try {
                 GlobalAccessVariables.NPCInteractionState = enableNPCInteraction.readCache();
@@ -257,9 +258,6 @@ public class HomeActivity extends NavigationStudent {
             }});
     }
 
-    public void onAvailableSpecialQuestsButtonClick(View view) {
-        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
-    }
 
     public void updateCurrDisplay() {
         ((TextView) findViewById(R.id.currText)).setText(getString(R.string.text_money) + Player.get().getCurrency());
