@@ -192,6 +192,12 @@
     <string name="buy">Acheter</string>
     <string name="number_of_students_playing">Nombre d\'étudiants inscrits :</string>
     <string name="number_of_questions_for_this_course">Nombre de questions pour ce cours :</string>
+    <string name="development_team">Équipe de développement :</string>
+    <string name="context">Contexte :</string>
+    <string name="description">Cette application a été crée lors du projet du cours de Software Engineering (CS-305) - EPFL</string>
+    <string name="release_date">Date de sortie :</string>
+    <string name="description2">Si vous trouvez un bug lors de l\'utilisation de l\'application, n\'hésitez pas à nous contacter : study.up@epfl.ch</string>
+    <string name="send_mail">Envoyer un email aux devs de StudyUp</string>
 
 
 </resources>

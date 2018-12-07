@@ -8,8 +8,9 @@ import android.view.View;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
+import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
-public class AboutUsActivity extends AppCompatActivity {
+public class AboutUsActivity extends NavigationStudent {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,18 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     public void onBackSettings(View view) {
-        startActivity(new Intent(AboutUsActivity.this, InventoryActivity.class));
+        finish();
+    }
+
+    public void onSendMailClick(View view) {
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        // Add object and subject
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"study.up@epfl.ch"});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message about StudyUp app !");
+
+        // Start the activity and ask for a mail
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)));
     }
 }

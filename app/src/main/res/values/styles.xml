@@ -18,6 +18,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/colorDarkkkk</item>
         <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="colorBackground2">@color/colorBackGround2</item>
+
     </style>
 
     <style name="AppThemeBlue" parent="AppTheme">
@@ -36,6 +38,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/colorDarkkkk</item>
         <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="colorBackground2">@color/colorBackGroundBlue2</item>
+
     </style>
 
     <style name="AppThemeGreen" parent="AppTheme">
@@ -54,6 +58,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/colorDarkkkk</item>
         <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="colorBackground2">@color/colorBackGroundGreen2</item>
+
     </style>
 
     <style name="AppThemeBrown" parent="AppTheme">
@@ -72,6 +78,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/colorDarkkkk</item>
         <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="colorBackground2">@color/colorBackGroundBrown2</item>
     </style>
 
     <style name="AppThemeDark" parent="AppTheme">
@@ -90,6 +97,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@color/colorProgressionDarkMode2</item>
         <item name="android:textColorSecondary">@color/colorGreyDark</item>
+        <item name="colorBackground2">@color/colorBackgroundDark</item>
+
     </style>
 
     <style name="NoBar" parent="Theme.AppCompat.NoActionBar">
