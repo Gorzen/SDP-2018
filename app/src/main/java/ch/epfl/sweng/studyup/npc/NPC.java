@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -20,6 +23,7 @@ public abstract class NPC {
     private boolean isFirstInteraction = true;
     private Activity currentActivity;
     private int counter = 0;
+    private List<Integer> messages;
 
     public NPC(String name, LatLng latLng, int image) {
         this.name = name;
@@ -63,4 +67,7 @@ public abstract class NPC {
         return npcLatLng;
     }
 
+    public List<Integer> getMessages(){
+        return new ArrayList<>(messages);
+    }
 }

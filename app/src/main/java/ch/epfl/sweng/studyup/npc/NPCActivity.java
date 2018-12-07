@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.ShopActivity;
@@ -15,6 +17,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 public class NPCActivity extends RefreshContext {
+    private final NPC npc = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +32,9 @@ public class NPCActivity extends RefreshContext {
 
     public void onBackButtonNPC(View v) {
         finish();
+    }
+
+    public void setupMessages(){
+        List<Integer> messages = npc.getMessages();
     }
 }
