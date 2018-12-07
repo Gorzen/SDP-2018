@@ -198,7 +198,7 @@ public abstract class Constants {
     public static final int NPC_MARKER_WIDTH = 80;
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
-            new NPC("Charlie", new LatLng(46.518610, 6.563624), R.drawable.charlie),
+            new NPC("Charlie", new LatLng(46.519450, 6.564600), R.drawable.charlie),
             new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),

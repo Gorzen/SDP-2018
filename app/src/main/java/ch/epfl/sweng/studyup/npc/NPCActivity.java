@@ -1,9 +1,13 @@
 package ch.epfl.sweng.studyup.npc;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -19,8 +23,11 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 public class NPCActivity extends RefreshContext {
     private final NPC npc = null;
-    private final static int TIME_BETWEEN_MESSAGES = 1000;
-    private final List<Integer> messages = new ArrayList<Integer>(){
+
+    private final static int TIME_BETWEEN_MESSAGES = 1500;
+    private final static int TIME_BETWEEN_CHARACTERS = 10;
+
+    private final List<Integer> messages = new ArrayList<Integer>() {
         {
             add(R.string.NPC_interaction);
             add(R.string.NPC_interaction);
@@ -56,28 +63,31 @@ public class NPCActivity extends RefreshContext {
     }
 
 
-    public void displayMessages(){
+    public void displayMessages() {
         final Handler handler = new Handler();
-        handler.post(new Runnable(){
+        handler.post(new Runnable() {
             private int index = 0;
 
             @Override
             public void run() {
-                if(index == messages.size()){
+                if (index == messages.size()) {
                     TextView yesNo = findViewById(R.id.yes_no_button_npc);
                     yesNo.setVisibility(View.VISIBLE);
 
-                    final Handler scroll = new Handler();
-                    scroll.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ScrollView scrollNCP = findViewById(R.id.scrollView_npc);
-                            scrollNCP.scrollTo(0, scrollNCP.getBottom());
-                        }
-                    });
-                }else{
+                    scroll();
+                } else {
                     final TextView message = findViewById(index);
                     final CharSequence m = message.getText();
+
+                    if (index % 2 == 1) {
+                        Rect bounds = new Rect();
+                        Paint textPaint = message.getPaint();
+                        textPaint.getTextBounds(m.toString() + "M", 0, m.length() + 1, bounds);
+
+                        message.setWidth(bounds.width() >= message.getMaxWidth() ?
+                                message.getMaxWidth() : bounds.width());
+                    }
+
                     message.setText("");
                     message.setVisibility(View.VISIBLE);
 
@@ -89,31 +99,39 @@ public class NPCActivity extends RefreshContext {
                         public void run() {
                             message.setText(m.subSequence(0, i));
 
-                            if(i == 1) {
-                                ScrollView scrollNCP = findViewById(R.id.scrollView_npc);
-                                scrollNCP.scrollTo(0, scrollNCP.getBottom());
-                            }
+                            scroll();
 
                             i++;
-                            if(i <= m.length()){
-                                handlerText.postDelayed(this, (TIME_BETWEEN_MESSAGES/2)/m.length());
+                            if (i <= m.length()) {
+                                handlerText.postDelayed(this, TIME_BETWEEN_CHARACTERS);
                             }
                         }
                     });
                 }
 
                 index++;
-                if(index <= messages.size()) {
+                if (index <= messages.size()) {
                     handler.postDelayed(this, TIME_BETWEEN_MESSAGES);
                 }
             }
         });
     }
 
-    public void setupMessages(){
+    private void scroll(){
+        final Handler scroll = new Handler();
+        scroll.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ScrollView scrollNCP = findViewById(R.id.scrollView_npc);
+                scrollNCP.fullScroll(View.FOCUS_DOWN);
+            }
+        }, TIME_BETWEEN_CHARACTERS);
+    }
+
+    public void setupMessages() {
         //List<Integer> messages = npc.getMessages();
 
-        for(int i = 0; i < messages.size(); ++i){
+        for (int i = 0; i < messages.size(); ++i) {
             String message = getString(messages.get(i));
             addMessage(message, i, messages.size() - 1);
         }
@@ -121,7 +139,7 @@ public class NPCActivity extends RefreshContext {
         fixYesNoMessage(messages.size() - 1);
     }
 
-    private void addMessage(String m, int index, int maxIndex){
+    private void addMessage(String m, int index, int maxIndex) {
         ConstraintLayout.LayoutParams lparams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         lparams.setMargins(0, 8, 0, 8);
@@ -141,13 +159,20 @@ public class NPCActivity extends RefreshContext {
         message.setTextColor(getResources().getColor(R.color.colorGreyBlack));
         message.setTextSize(20);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        message.setMaxWidth((int) (width * 0.7));
+
         message.setVisibility(View.GONE);
 
         ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout_npc);
         constraintLayout.addView(message);
     }
 
-    private void fixYesNoMessage(int maxIndex){
+    private void fixYesNoMessage(int maxIndex) {
         ConstraintLayout.LayoutParams lparams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         lparams.setMargins(8, 8, 8, 8);
