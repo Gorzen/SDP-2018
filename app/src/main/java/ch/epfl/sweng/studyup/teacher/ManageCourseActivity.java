@@ -59,6 +59,7 @@ public class ManageCourseActivity extends NavigationTeacher{
     @Override
     protected void onResume() {
         super.onResume();
+        refreshTeachingCourse();
         getAllRequests();
     }
 
@@ -169,6 +170,21 @@ public class ManageCourseActivity extends NavigationTeacher{
                         }
                     }
                 });
+    }
+
+    protected static void refreshTeachingCourse() {
+        Firestore.get().getDb().collection(FB_USERS).document(Player.get().getSciperNum()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists() && documentSnapshot.getData() != null) {
+                    List<Course> courses = new ArrayList<>();
+                    for(String c : (List<String>) documentSnapshot.getData().get(FB_COURSES_TEACHED)) {
+                        courses.add(Course.valueOf(c));
+                    }
+                    Player.get().setCourses(courses);
+                }
+            }
+        });
     }
 
     private class requestListViewAdapter extends BaseAdapter {

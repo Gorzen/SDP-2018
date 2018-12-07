@@ -35,6 +35,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
+import static ch.epfl.sweng.studyup.teacher.ManageCourseActivity.refreshTeachingCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
@@ -64,6 +65,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                 setupListView(questions);
             }
         });
+        refreshTeachingCourse();
     }
 
     protected void setupListView(final List<Question> quests) {
