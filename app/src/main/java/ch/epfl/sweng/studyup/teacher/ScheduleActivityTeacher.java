@@ -32,6 +32,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.WEEK_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
@@ -76,6 +77,7 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
             Calendar eventStart = Calendar.getInstance();
             eventStart.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
             eventStart.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
+            eventStart.set(Calendar.WEEK_OF_MONTH, WEEK_OF_SCHEDULE);
             eventStart.set(Calendar.DAY_OF_MONTH, day);
             eventStart.set(Calendar.HOUR_OF_DAY, hour);
             eventStart.set(Calendar.MINUTE, 0);
