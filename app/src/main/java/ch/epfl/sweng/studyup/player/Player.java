@@ -324,9 +324,9 @@ public class Player implements SpecialQuestObservable {
         for(WeekViewEvent event : Player.get().getScheduleStudent()) {
             Log.d(TAG, "getCurrentCourseLocation: currently " + event.getLocation());
             if(playersCourses.contains(event.getName()) &&
-                    ROOMS_LOCATIONS.containsKey(event.getLocation()) &&
+                    ROOMS_LOCATIONS.containsKey(event.getLocation()) /*&&
                     currTime.after(event.getStartTime()) &&
-                    currTime.before(event.getEndTime())) {
+                    currTime.before(event.getEndTime())*/) {
                 Log.d(TAG, "getCurrentCourseLocation: " + event.getLocation());
                 return event.getLocation();
             }

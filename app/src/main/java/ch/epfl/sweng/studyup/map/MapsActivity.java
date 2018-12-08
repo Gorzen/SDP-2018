@@ -118,7 +118,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 }
             });
         }
-        findAndMarkRoom(Player.get().getCurrentCourseLocation());
+        findAndMarkRoom(/*Player.get().getCurrentCourseLocation()*/"CE_1_1");
     }
 
     @Override
