@@ -20,7 +20,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import static ch.epfl.sweng.studyup.utils.Constants.NPC_ACTIVITY_INTENT_NAME;
 
 public class NPCActivity extends RefreshContext {
-    private NPC npc = null;
+    private NPC npc;
 
     private final static int TIME_BETWEEN_MESSAGES = 1500;
     private final static int TIME_BETWEEN_CHARACTERS = 10;
@@ -30,7 +30,7 @@ public class NPCActivity extends RefreshContext {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_npc);
         String npcName = getIntent().getStringExtra(NPC_ACTIVITY_INTENT_NAME);
-        NPC npc = Utils.getNPCfromName(npcName);
+        npc = Utils.getNPCfromName(npcName);
         ImageView imageView = findViewById(R.id.npc_image);
         imageView.setImageResource(npc.getImage());
 
