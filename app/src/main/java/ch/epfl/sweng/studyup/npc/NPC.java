@@ -55,8 +55,8 @@ abstract class NPC implements Serializable {
         ++counter;
         return false;
     }
-    
-    abstract void onYesButton();
+
+    abstract void onYesButton(Activity activity);
 
     public String getName() {
         return name;

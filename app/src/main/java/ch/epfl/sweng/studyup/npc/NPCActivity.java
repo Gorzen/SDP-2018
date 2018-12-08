@@ -193,7 +193,7 @@ public class NPCActivity extends RefreshContext {
     }
 
     public void onYesButton(View view){
-        npc.onYesButton();
+        npc.onYesButton(this);
     }
 
     private void fixYesNoButtons(int maxIndex) {
