@@ -52,6 +52,8 @@ public class LoginActivity extends RefreshContext {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        
         Firestore.get().getCoursesSchedule(this, Role.student);
 
         // Language
@@ -72,8 +74,6 @@ public class LoginActivity extends RefreshContext {
             }
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         // TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
       
         loadInterface(lang);
