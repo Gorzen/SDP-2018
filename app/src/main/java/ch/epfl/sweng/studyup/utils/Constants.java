@@ -12,11 +12,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.npc.NPCItems;
+import ch.epfl.sweng.studyup.npc.NPCSpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -200,15 +204,16 @@ public abstract class Constants {
     public static final int NPC_MARKER_WIDTH = 80;
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
-            new NPCItems("Charlie", new LatLng(46.539873, 6.653961), R.drawable.charlie),
-            new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", new LatLng(46.539873, 6.653961), R.drawable.charlie),
+            new NPCItems(new ArrayList<Items>(),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death)
+
+            )));
+
+ /*new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
             new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
-            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor)
-    )));
-
-
+            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor)*/
     // Flags for triggering special quest listener
     public enum SpecialQuestUpdateFlag {
         ANSWERED_QUESTION,

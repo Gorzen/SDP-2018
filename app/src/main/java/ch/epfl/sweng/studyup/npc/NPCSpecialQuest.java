@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
@@ -15,7 +17,7 @@ public class NPCSpecialQuest extends NPC {
     SpecialQuest specialQuest;
 
     public NPCSpecialQuest(SpecialQuest specialQuest, String name, LatLng latLng, int image) {
-        super(name, latLng, image);
+        super(name, latLng, image, new ArrayList<Integer>());
         this.specialQuest = specialQuest;
     }
 
