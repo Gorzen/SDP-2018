@@ -12,7 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
@@ -34,9 +36,11 @@ public abstract class NPC {
         this.messages = Collections.unmodifiableList(messages);
     }
 
-    public boolean isInRange(LatLng playerLatLng) {
+    public boolean checkNPCInteraction(LatLng playerLatLng) {
         currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
-        if (GlobalAccessVariables.NPCInteractionState && !(currentActivity instanceof MapsActivity)
+        if (!Player.get().getKnownNPCs().contains(name)
+                && GlobalAccessVariables.NPCInteractionState
+                && !(currentActivity instanceof MapsActivity)
                 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < Constants.NPC_RANGE
                 && (counter >= MAX_COUNTER || isFirstInteraction)) {
             counter = 0;
@@ -52,6 +56,8 @@ public abstract class NPC {
             AlertDialog dialog = builder.create();
             dialog.show();
             isFirstInteraction = false;
+            Player.get().addKnownNPC(this);
+
             return true;
         }
         ++counter;

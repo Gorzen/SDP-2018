@@ -9,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.DocumentsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,8 +31,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.npc.NPC;
@@ -39,6 +50,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;

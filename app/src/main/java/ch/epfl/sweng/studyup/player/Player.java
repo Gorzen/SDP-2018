@@ -6,7 +6,10 @@ import android.util.Log;
 import android.widget.TabHost;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.base.Optional;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +21,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
@@ -31,11 +35,13 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWS_NPCS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
@@ -84,7 +90,7 @@ public class Player implements SpecialQuestObservable {
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
     private List<WeekViewEvent> scheduleStudent;
-
+    private List<String> knownNPCs;
     private List<SpecialQuest> specialQuests;
 
     private Player() {
@@ -105,6 +111,7 @@ public class Player implements SpecialQuestObservable {
         coursesEnrolled.add(Course.SWENG);
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
+        knownNPCs = new ArrayList<>();
     }
 
     public static Player get() {
@@ -171,6 +178,7 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
+        knownNPCs = (List<String>) getOrDefault(remotePlayerData, FB_KNOWS_NPCS, new ArrayList<String>());
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -186,6 +194,9 @@ public class Player implements SpecialQuestObservable {
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
     public int getCurrency() { return this.currency; }
+    public List<String> getKnownNPCs() {
+        return Collections.unmodifiableList(new ArrayList<>(knownNPCs));
+    }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
     }
@@ -195,6 +206,22 @@ public class Player implements SpecialQuestObservable {
             itemStringsList.add(currItem.name());
         }
         return itemStringsList;
+    }
+
+    public void addToKnownNPCs(NPC npc) {
+        knownNPCs.add(npc.getName());
+        final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
+
+                userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> userData = documentSnapshot.getData();
+                userData = userData == null ? new HashMap<String, Object>() : userData;
+                userData.put(FB_KNOWS_NPCS, knownNPCs);
+
+                userRef.set(userData);
+            }
+        });
     }
     public double getLevelProgress() {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
@@ -278,7 +305,10 @@ public class Player implements SpecialQuestObservable {
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
     }
-
+    public void addKnownNPC(NPC newNPC) {
+        String NPCName = newNPC.getName();
+        if(!knownNPCs.contains(NPCName)) knownNPCs.add(NPCName);
+    }
     public void consumeItem(Items item)  {
         items.remove(item);
         item.consume();

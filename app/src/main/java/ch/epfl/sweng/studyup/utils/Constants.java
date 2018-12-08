@@ -33,6 +33,7 @@ public abstract class Constants {
     public static final String FB_LASTNAME = "lastname";
     public static final String FB_SCIPER = "sciper";
     public static final String FB_ROLE = "role";
+    public static final String FB_KNOWS_NPCS = "npcs";
     public static final String FB_ROLE_S = "student";
     public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";

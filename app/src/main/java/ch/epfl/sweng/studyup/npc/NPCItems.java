@@ -28,6 +28,6 @@ public class NPCItems extends NPC {
             namesOfItems[i] = items.get(i).name();
         }
 
-        activity.startActivity(new Intent(activity, ShopActivity.class).putExtra("items", namesOfItems));
+        activity.startActivity(new Intent(activity, ShopActivity.class).putExtra(Items.class.getName(), namesOfItems));
     }
 }
