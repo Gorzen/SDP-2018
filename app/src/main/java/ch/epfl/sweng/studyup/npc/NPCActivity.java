@@ -192,6 +192,10 @@ public class NPCActivity extends RefreshContext {
         return lparams;
     }
 
+    public void onYesButton(View view){
+        npc.onYesButton();
+    }
+
     private void fixYesNoButtons(int maxIndex) {
         ConstraintLayout.LayoutParams lparamsYes = getConstraintYesNoButtons(maxIndex);
         lparamsYes.horizontalBias = 1f;

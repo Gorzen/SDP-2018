@@ -15,7 +15,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-public class NPC {
+abstract class NPC {
     private String name;
     private LatLng npcLatLng;
     private int image;
@@ -54,6 +54,8 @@ public class NPC {
         ++counter;
         return false;
     }
+
+    public abstract void onYesButton();
 
     public String getName() {
         return name;
