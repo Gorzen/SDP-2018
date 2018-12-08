@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -26,10 +27,11 @@ abstract class NPC implements Serializable {
     private int counter = 0;
     private List<Integer> messages;
 
-    public NPC(String name, LatLng latLng, int image) {
+    public NPC(String name, LatLng latLng, int image, List<Integer> messages) {
         this.name = name;
         npcLatLng = latLng;
         this.image = image;
+        this.messages = Collections.unmodifiableList(messages);
     }
 
     public boolean isInRange(LatLng playerLatLng) {

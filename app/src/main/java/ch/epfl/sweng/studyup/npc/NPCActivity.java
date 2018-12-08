@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup.npc;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -14,42 +13,22 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.NPC_ACTIVITY_INTENT_NAME;
 
 public class NPCActivity extends RefreshContext {
-    private final NPC npc = null;
+    private NPC npc = null;
 
     private final static int TIME_BETWEEN_MESSAGES = 1500;
     private final static int TIME_BETWEEN_CHARACTERS = 10;
-
-    private final List<Integer> messages = new ArrayList<Integer>() {
-        {
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_npc);
-        NPC npc = (NPC)getIntent().getSerializableExtra(NPC_ACTIVITY_INTENT_NAME);
+        npc = (NPC)getIntent().getSerializableExtra(NPC_ACTIVITY_INTENT_NAME);
         ImageView imageView = findViewById(R.id.npc_image);
         imageView.setImageResource(npc.getImage());
 
@@ -68,7 +47,7 @@ public class NPCActivity extends RefreshContext {
 
             @Override
             public void run() {
-                if (index == messages.size()) {
+                if (index == npc.getMessages().size()) {
                     Button yesButton = findViewById(R.id.yes_button_npc);
                     Button noButton = findViewById(R.id.no_button_npc);
 
@@ -81,7 +60,7 @@ public class NPCActivity extends RefreshContext {
                 }
 
                 index++;
-                if (index <= messages.size()) {
+                if (index <= npc.getMessages().size()) {
                     handler.postDelayed(this, TIME_BETWEEN_MESSAGES);
                 }
             }
@@ -134,12 +113,12 @@ public class NPCActivity extends RefreshContext {
     public void setupMessages() {
         //List<Integer> messages = npc.getMessages();
 
-        for (int i = 0; i < messages.size(); ++i) {
-            String message = getString(messages.get(i));
-            addMessage(message, i, messages.size() - 1);
+        for (int i = 0; i < npc.getMessages().size(); ++i) {
+            String message = getString(npc.getMessages().get(i));
+            addMessage(message, i, npc.getMessages().size() - 1);
         }
 
-        fixYesNoButtons(messages.size() - 1);
+        fixYesNoButtons(npc.getMessages().size() - 1);
     }
 
     private void addMessage(String m, int index, int maxIndex) {
