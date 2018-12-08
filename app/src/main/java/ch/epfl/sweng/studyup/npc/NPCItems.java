@@ -17,7 +17,7 @@ public class NPCItems extends NPC {
 
     public NPCItems(List<Items> items, String name, LatLng latLng, int image) {
         super(name, latLng, image, new ArrayList<Integer>());
-        items = Collections.unmodifiableList(new ArrayList<>(items));
+        this.items = Collections.unmodifiableList(new ArrayList<>(items));
     }
 
     @Override

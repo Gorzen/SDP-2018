@@ -196,4 +196,8 @@
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
     <string name="NPC_yes_button">Yes</string>
     <string name="NPC_no_button">No</string>
+    <string name="item_unstable_potion_name">Unstable potion</string>
+    <string name="item_unstable_potion_description">Unstable potion with unknown effect&#8230;</string>
+    <string name="item_tombola_name">Tombola</string>
+    <string name="item_tombola_description">Take your chance with this ticket!</string>
 </resources>
