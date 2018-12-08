@@ -9,25 +9,31 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 public class ShopActivity extends RefreshContext {
     private ListView itemsToBuy;
     private ListItemAdapter listItemAdapter;
+    private List<Items> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        Intent intent = getIntent();
+        items = Utils.getItemsFromString(Arrays.asList(intent.getStringArrayExtra("items")));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         
         itemsToBuy = findViewById(R.id.list_view_shop);
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(Arrays.asList(Items.values())), true);
+        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(items), true);
         itemsToBuy.setAdapter(listItemAdapter);
         itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
