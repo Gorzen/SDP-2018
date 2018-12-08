@@ -51,6 +51,7 @@ public class LoginActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Firestore.get().getCoursesSchedule(this, Role.student);
 
         // Language

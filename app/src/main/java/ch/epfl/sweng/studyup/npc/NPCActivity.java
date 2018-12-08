@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -29,8 +30,6 @@ public class NPCActivity extends RefreshContext {
 
     private final List<Integer> messages = new ArrayList<Integer>() {
         {
-            add(R.string.NPC_interaction);
-            add(R.string.NPC_interaction);
             add(R.string.NPC_interaction);
             add(R.string.NPC_interaction);
             add(R.string.NPC_interaction);
@@ -70,8 +69,11 @@ public class NPCActivity extends RefreshContext {
             @Override
             public void run() {
                 if (index == messages.size()) {
-                    TextView yesNo = findViewById(R.id.yes_no_button_npc);
-                    yesNo.setVisibility(View.VISIBLE);
+                    Button yesButton = findViewById(R.id.yes_button_npc);
+                    Button noButton = findViewById(R.id.no_button_npc);
+
+                    yesButton.setVisibility(View.VISIBLE);
+                    noButton.setVisibility(View.VISIBLE);
 
                     scroll();
                 } else {
@@ -137,7 +139,7 @@ public class NPCActivity extends RefreshContext {
             addMessage(message, i, messages.size() - 1);
         }
 
-        fixYesNoMessage(messages.size() - 1);
+        fixYesNoButtons(messages.size() - 1);
     }
 
     private void addMessage(String m, int index, int maxIndex) {
@@ -146,7 +148,7 @@ public class NPCActivity extends RefreshContext {
         lparams.setMargins(0, 8, 0, 8);
         lparams.horizontalBias = index % 2;
         // If index = max
-        lparams.bottomToTop = index == maxIndex ? R.id.yes_no_button_npc : index + 1;
+        lparams.bottomToTop = index == maxIndex ? R.id.no_button_npc : index + 1;
         lparams.endToEnd = R.id.constraintLayout_npc;
         lparams.startToStart = R.id.constraintLayout_npc;
         // If index = 0
@@ -173,7 +175,7 @@ public class NPCActivity extends RefreshContext {
         constraintLayout.addView(message);
     }
 
-    private void fixYesNoMessage(int maxIndex) {
+    private ConstraintLayout.LayoutParams getConstraintYesNoButtons(int maxIndex){
         ConstraintLayout.LayoutParams lparams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         lparams.setMargins(8, 8, 8, 8);
@@ -182,8 +184,27 @@ public class NPCActivity extends RefreshContext {
         lparams.startToStart = R.id.constraintLayout_npc;
         lparams.topToBottom = maxIndex;
 
-        TextView yesNo = findViewById(R.id.yes_no_button_npc);
-        yesNo.setLayoutParams(lparams);
-        yesNo.setVisibility(View.GONE);
+        final float scale = getResources().getDisplayMetrics().density;
+        int pixels = (int) (174 * scale + 0.5f);
+
+        lparams.width = pixels;
+
+        return lparams;
+    }
+
+    private void fixYesNoButtons(int maxIndex) {
+        ConstraintLayout.LayoutParams lparamsYes = getConstraintYesNoButtons(maxIndex);
+        lparamsYes.horizontalBias = 1f;
+
+        ConstraintLayout.LayoutParams lparamsNo = getConstraintYesNoButtons(maxIndex);
+        lparamsNo.horizontalBias = 0f;
+
+        Button yesButton = findViewById(R.id.yes_button_npc);
+        Button noButton = findViewById(R.id.no_button_npc);
+
+        yesButton.setLayoutParams(lparamsYes);
+        yesButton.setVisibility(View.GONE);
+        noButton.setLayoutParams(lparamsNo);
+        noButton.setVisibility(View.GONE);
     }
 }
