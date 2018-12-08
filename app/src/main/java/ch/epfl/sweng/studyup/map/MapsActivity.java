@@ -113,7 +113,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 public boolean onMarkerClick(Marker marker) {
                     if (marker.getTitle().equals(getString(R.string.NPC))) {
                         if(Rooms.distanceBetweenTwoLatLng(Utils.getNPCfromName(marker.getSnippet()).getPosition(), POSITION) < Constants.NPC_RANGE) {
-                            startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, Utils.getNPCfromName(marker.getSnippet())));
+                            startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getSnippet()));
                             return false;
                         } else {
                             Toast.makeText(MapsActivity.this, R.string.NPC_too_far_away, Toast.LENGTH_SHORT).show();

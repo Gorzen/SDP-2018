@@ -204,7 +204,7 @@ public abstract class Constants {
     public static final int NPC_MARKER_WIDTH = 80;
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
-            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", new LatLng(46.539873, 6.653961), R.drawable.charlie),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", new LatLng(46.539864, 6.653756), R.drawable.charlie),
             new NPCItems(new ArrayList<Items>(),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death)
 
             )));

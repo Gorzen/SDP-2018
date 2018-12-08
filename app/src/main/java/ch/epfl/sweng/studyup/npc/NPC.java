@@ -17,7 +17,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-public abstract class NPC implements Serializable {
+public abstract class NPC {
     private String name;
     private LatLng npcLatLng;
     private int image;
@@ -45,7 +45,7 @@ public abstract class NPC implements Serializable {
                     .setPositiveButton(currentActivity.getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            currentActivity.startActivity(new Intent(currentActivity, NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, NPC.this));
+                            currentActivity.startActivity(new Intent(currentActivity, NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, name));
                         }
                     })
                     .setNegativeButton(currentActivity.getString(R.string.NPC_refuse), null);

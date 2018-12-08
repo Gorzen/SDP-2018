@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.NPC_ACTIVITY_INTENT_NAME;
 
@@ -28,7 +29,8 @@ public class NPCActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_npc);
-        npc = (NPC)getIntent().getSerializableExtra(NPC_ACTIVITY_INTENT_NAME);
+        String npcName = getIntent().getStringExtra(NPC_ACTIVITY_INTENT_NAME);
+        NPC npc = Utils.getNPCfromName(npcName);
         ImageView imageView = findViewById(R.id.npc_image);
         imageView.setImageResource(npc.getImage());
 
