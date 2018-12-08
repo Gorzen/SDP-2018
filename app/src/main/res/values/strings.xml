@@ -194,4 +194,6 @@
     <string name="select_courses_text">Select your courses</string>
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
+    <string name="NPC_yes_button">Yes</string>
+    <string name="NPC_no_button">No</string>
 </resources>
