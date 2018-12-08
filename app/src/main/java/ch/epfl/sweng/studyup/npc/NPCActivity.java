@@ -55,15 +55,14 @@ public class NPCActivity extends RefreshContext {
         imageView.setImageResource(npc.getImage());
 
         setupMessages();
-        displayMessages();
+        displayMessagesOneByOne();
     }
 
     public void onBackButtonNPC(View v) {
         finish();
     }
 
-
-    public void displayMessages() {
+    public void displayMessagesOneByOne() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             private int index = 0;
@@ -76,42 +75,44 @@ public class NPCActivity extends RefreshContext {
 
                     scroll();
                 } else {
-                    final TextView message = findViewById(index);
-                    final CharSequence m = message.getText();
-
-                    if (index % 2 == 1) {
-                        Rect bounds = new Rect();
-                        Paint textPaint = message.getPaint();
-                        textPaint.getTextBounds(m.toString() + "M", 0, m.length() + 1, bounds);
-
-                        message.setWidth(bounds.width() >= message.getMaxWidth() ?
-                                message.getMaxWidth() : bounds.width());
-                    }
-
-                    message.setText("");
-                    message.setVisibility(View.VISIBLE);
-
-                    final Handler handlerText = new Handler();
-                    handlerText.post(new Runnable() {
-                        private int i = 1;
-
-                        @Override
-                        public void run() {
-                            message.setText(m.subSequence(0, i));
-
-                            scroll();
-
-                            i++;
-                            if (i <= m.length()) {
-                                handlerText.postDelayed(this, TIME_BETWEEN_CHARACTERS);
-                            }
-                        }
-                    });
+                    displayCharactersOneByOne(index);
                 }
 
                 index++;
                 if (index <= messages.size()) {
                     handler.postDelayed(this, TIME_BETWEEN_MESSAGES);
+                }
+            }
+        });
+    }
+
+    private void displayCharactersOneByOne(int indexOfMessage){
+        final TextView message = findViewById(indexOfMessage);
+        final CharSequence m = message.getText();
+
+        if (indexOfMessage % 2 == 1) {
+            Rect bounds = new Rect();
+            Paint textPaint = message.getPaint();
+            textPaint.getTextBounds(m.toString() + "M", 0, m.length() + 1, bounds);
+
+            message.setWidth(bounds.width() >= message.getMaxWidth() ?
+                    message.getMaxWidth() : bounds.width());
+        }
+        message.setText("");
+        message.setVisibility(View.VISIBLE);
+
+        final Handler handlerText = new Handler();
+        handlerText.post(new Runnable() {
+            private int i = 1;
+
+            @Override
+            public void run() {
+                message.setText(m.subSequence(0, i));
+                scroll();
+
+                i++;
+                if (i <= m.length()) {
+                    handlerText.postDelayed(this, TIME_BETWEEN_CHARACTERS);
                 }
             }
         });
