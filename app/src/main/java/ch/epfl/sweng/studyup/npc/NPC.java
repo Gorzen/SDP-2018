@@ -16,7 +16,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-abstract class NPC implements Serializable {
+public abstract class NPC implements Serializable {
     private String name;
     private LatLng npcLatLng;
     private int image;

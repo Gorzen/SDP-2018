@@ -16,6 +16,7 @@ import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.npc.NPCItems;
 
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class Constants {
@@ -199,7 +200,7 @@ public abstract class Constants {
     public static final int NPC_MARKER_WIDTH = 80;
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
-            new NPC("Charlie", new LatLng(46.539873, 6.653961), R.drawable.charlie),
+            new NPCItems("Charlie", new LatLng(46.539873, 6.653961), R.drawable.charlie),
             new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
