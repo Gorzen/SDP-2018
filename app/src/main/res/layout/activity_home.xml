@@ -186,46 +186,148 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/topBar">
+            android:layout_below="@id/topBar"
+            android:layout_above="@id/bottomBar">
 
-            <RelativeLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:minHeight="300dp">
+
                 <TextView
                     android:id="@+id/specialQuestsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
                     android:text="@string/special_quests_title"
-                    android:textSize="24sp"
                     android:textColor="?attr/colorPrimary"
-                    android:layout_centerHorizontal="true"/>
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.502"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/statsAndSpecialSeparator" />
 
                 <ch.epfl.sweng.studyup.utils.NonScrollableListView
                     android:id="@+id/specialQuestsListView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/specialQuestsTitle"
+                    android:layout_marginTop="8dp"
                     android:background="@android:color/transparent"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="0dp"
-                    android:layout_below="@id/specialQuestsTitle"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
 
                 <Button
                     android:id="@+id/availableSpecialQuestsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_below="@id/specialQuestsListView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="@color/colorListItems"
                     android:onClick="onAvailableSpecialQuestsButtonClick"
                     android:text="@string/available_special_quests"
                     android:textAllCaps="false"
                     android:textSize="22sp"
-                    android:background="@drawable/list_view_shape"
-                    android:backgroundTint="@color/colorListItems"
-                    android:layout_below="@id/specialQuestsListView"
-                    android:layout_centerHorizontal="true"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/RatioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="1000"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
+
+                <TextView
+                    android:id="@+id/ratioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/ratio_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/answered_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/statsAndSpecialSeparator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="50%"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintStart_toStartOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="2222"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView4"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/rank_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
 
 
         </ScrollView>

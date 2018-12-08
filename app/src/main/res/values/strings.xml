@@ -194,4 +194,7 @@
     <string name="select_courses_text">Select your courses</string>
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
+    <string name="ratio_text" translatable="false">Ratio:</string>
+    <string name="answered_text">Answered:</string>
+    <string name="rank_text">Rank:</string>
 </resources>

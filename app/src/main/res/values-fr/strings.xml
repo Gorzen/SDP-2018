@@ -188,4 +188,6 @@
     <string name="select_courses_text">Sélectionne tes cours</string>
     <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
     <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
+    <string name="answered_text">Répondu:</string>
+    <string name="rank_text">Rang:</string>
 </resources>
