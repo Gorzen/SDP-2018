@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-public class NPC {
+public class NPC implements Serializable {
     private String name;
     private LatLng npcLatLng;
     private int image;
@@ -42,7 +43,7 @@ public class NPC {
                     .setPositiveButton(currentActivity.getString(R.string.NPC_accept), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            currentActivity.startActivity(new Intent(currentActivity, NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, name));
+                            currentActivity.startActivity(new Intent(currentActivity, NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, NPC.this));
                         }
                     })
                     .setNegativeButton(currentActivity.getString(R.string.NPC_refuse), null);
