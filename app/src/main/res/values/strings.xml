@@ -185,7 +185,7 @@
     <string name="enroll_button_text">Enroll</string>
     <string name="time_out_title">Time out !</string>
     <string name="question_duration_selection">Select the time duration</string>
-    <string name="chosen_duration" >"Time: "</string>
+    <string name="chosen_duration">"Time: "</string>
     <string name="duration">Duration</string>
     <string name="time_constraint_text">No time constraint</string>
     <string name="remaining_time">Time left:</string>
@@ -199,4 +199,5 @@
     <string name="rank_text">Rank:</string>
     <string name="npc_discovered_text">NPC discovered:</string>
     <string name="favorite_course_text">Favorite course:</string>
+    <string name="leaderboard">Leader Board</string>
 </resources>

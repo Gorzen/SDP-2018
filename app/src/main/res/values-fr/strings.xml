@@ -192,4 +192,5 @@
     <string name="rank_text">Rang:</string>
     <string name="npc_discovered_text">PNJ découvert:</string>
     <string name="favorite_course_text">Cours préféré:</string>
+    <string name="leaderboard">Tableau des leaders</string>
 </resources>
