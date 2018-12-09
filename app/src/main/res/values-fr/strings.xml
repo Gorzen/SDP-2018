@@ -194,4 +194,6 @@
     <string name="item_unstable_potion_description">Potion instable ayant un effet inconnu&#8230;</string>
     <string name="item_tombola_name">Tombola</string>
     <string name="item_tombola_description">Tentez votre chance avec ce ticket!</string>
+    <string name="item_map_name">Carte du campus</string>
+    <string name="item_map_description">Découvre tout les PNJs du campus!</string>
 </resources>

@@ -200,4 +200,6 @@
     <string name="item_unstable_potion_description">Unstable potion with unknown effect&#8230;</string>
     <string name="item_tombola_name">Tombola</string>
     <string name="item_tombola_description">Take your chance with this ticket!</string>
+    <string name="item_map_name">Campus\' map</string>
+    <string name="item_map_description">Locate all NPCs at once!</string>
 </resources>
