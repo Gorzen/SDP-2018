@@ -137,6 +137,7 @@ public class Player implements SpecialQuestObservable {
         coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
+        knownNPCs = new ArrayList<>();
     }
 
     /**
