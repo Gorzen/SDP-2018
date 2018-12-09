@@ -190,4 +190,6 @@
     <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
     <string name="answered_text">Répondu:</string>
     <string name="rank_text">Rang:</string>
+    <string name="npc_discovered_text">PNJ découvert:</string>
+    <string name="favorite_course_text">Cours préféré:</string>
 </resources>

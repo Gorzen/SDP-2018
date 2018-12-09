@@ -197,4 +197,6 @@
     <string name="ratio_text" translatable="false">Ratio:</string>
     <string name="answered_text">Answered:</string>
     <string name="rank_text">Rank:</string>
+    <string name="npc_discovered_text">NPC discovered:</string>
+    <string name="favorite_course_text">Favorite course:</string>
 </resources>
