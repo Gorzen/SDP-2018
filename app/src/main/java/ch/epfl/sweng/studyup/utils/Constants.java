@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.utils;
 
+import android.content.ClipData;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -206,8 +207,8 @@ public abstract class Constants {
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.charlie),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)),"Muerte", new LatLng(46.539864, 6.653756), R.drawable.death)
-
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)),"Muerte", new LatLng(46.539864, 6.653756), R.drawable.death),
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto)
             )));
 
  /*new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
