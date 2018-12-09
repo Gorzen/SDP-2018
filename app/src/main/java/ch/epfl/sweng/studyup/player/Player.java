@@ -209,21 +209,6 @@ public class Player implements SpecialQuestObservable {
         return itemStringsList;
     }
 
-    public void addToKnownNPCs(NPC npc) {
-        knownNPCs.add(npc.getName());
-        final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
-
-                userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Map<String, Object> userData = documentSnapshot.getData();
-                userData = userData == null ? new HashMap<String, Object>() : userData;
-                userData.put(FB_KNOWS_NPCS, knownNPCs);
-
-                userRef.set(userData);
-            }
-        });
-    }
     public double getLevelProgress() {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
@@ -308,7 +293,21 @@ public class Player implements SpecialQuestObservable {
     }
     public void addKnownNPC(NPC newNPC) {
         String NPCName = newNPC.getName();
-        if(!knownNPCs.contains(NPCName)) knownNPCs.add(NPCName);
+        if(!knownNPCs.contains(NPCName)) {
+            knownNPCs.add(NPCName);
+            final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
+
+            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> userData = documentSnapshot.getData();
+                    userData = userData == null ? new HashMap<String, Object>() : userData;
+                    userData.put(FB_KNOWS_NPCS, knownNPCs);
+
+                    userRef.set(userData);
+                }
+            });
+        }
     }
     public void consumeItem(Items item)  {
         items.remove(item);
