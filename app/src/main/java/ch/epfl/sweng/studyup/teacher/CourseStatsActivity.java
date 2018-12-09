@@ -3,11 +3,14 @@ package ch.epfl.sweng.studyup.teacher;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -27,6 +30,7 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
@@ -72,7 +76,7 @@ public class CourseStatsActivity extends NavigationTeacher {
     @Override
     protected void onResume() {
         super.onResume();
-        loadAllQuestions(this);
+        loadAllQuestions(setQuestions);
         loadUsersForStats(this);
     }
 
@@ -84,6 +88,14 @@ public class CourseStatsActivity extends NavigationTeacher {
 
     //retrieve users from firebase
     public static void setUsers(List<UserData> userList) {allUsers = userList; }
+
+    public static Callback<List> setQuestions = new Callback<List>() {
+
+        public void call(List questionList) {
+            allQuestions = questionList;
+        }
+    };
+
     //retrieve questions from firebase
     public static void setQuestions(List<Question> qList) { allQuestions = qList;}
 
@@ -155,18 +167,12 @@ public class CourseStatsActivity extends NavigationTeacher {
     }
 
 
-    /**
-     *
-     * Load all questions in order to give statistics for each course, students, questions
-     *
-     * @param act activity in which this function can be used : CourseStatsActivity
-     * @throws NullPointerException  If the data received from the server is not of a valid format
-     */
-    public void loadAllQuestions(final Activity act) throws NullPointerException {
+    public void loadAllQuestions(final Callback callback) throws NullPointerException {
 
         final List<Question> questionList = new ArrayList<>();
 
         Firestore.get().getDb().collection(FB_QUESTIONS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -181,12 +187,10 @@ public class CourseStatsActivity extends NavigationTeacher {
 
                         Question question = new Question(questionId, questionTitle, questionTrueFalse, questionAnswer, questionCourseName, langQuestion);
 
-
                         questionList.add(question);
                     }
-                    if (act instanceof CourseStatsActivity) {
-                        CourseStatsActivity.setQuestions(questionList);
-                    }
+
+                    callback.call(questionList);
 
                 } else Log.e(this.getClass().getSimpleName(), "Error getting documents for courses: ", task.getException());
             }
