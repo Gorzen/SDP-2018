@@ -24,6 +24,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;

@@ -186,4 +186,5 @@
     <string name="NPC_too_far_away">Vous devez vous approcher du PNJ</string>
     <string name="time_left_text">Temps restant</string>
     <string name="select_courses_text">Sélectionne tes cours</string>
+    <string name="leaderboard">Tableau des leaders</string>
 </resources>
