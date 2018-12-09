@@ -26,8 +26,7 @@ public class ShopActivity extends RefreshContext {
         setContentView(R.layout.activity_shop);
 
         Intent intent = getIntent();
-        items = Utils.getItemsFromString(Arrays.asList(intent.getStringArrayExtra(Items.class.getName()
-        )));
+        items = Arrays.asList((Items[])intent.getSerializableExtra(Items.class.getName()));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

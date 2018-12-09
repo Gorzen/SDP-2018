@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
@@ -37,12 +38,13 @@ public class ShopActivityAndBuyItemActivityTest {
 
     @Rule
     public final ActivityTestRule<ShopActivity> mActivityRule =
-            new ActivityTestRule<>(ShopActivity.class);
+            new ActivityTestRule<>(ShopActivity.class, true, false);
 
     @Before
     public void init() {
+
+        mActivityRule.launchActivity(new Intent().putExtra(Items.class.getName(), Items.values()));
         list = mActivityRule.getActivity().findViewById(R.id.list_view_shop);
-        Intents.init();
         Player.get().resetPlayer();
     }
 
@@ -52,7 +54,7 @@ public class ShopActivityAndBuyItemActivityTest {
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
+                list.performItemClick(list.getAdapter().getView(0, null, null), 1, 0);
             }
         });
         for(int i = 0; i < 3; ++i) {
@@ -82,12 +84,10 @@ public class ShopActivityAndBuyItemActivityTest {
     @Test
     public void backButtonTest() {
         onView(withId(R.id.back_button)).perform(click());
-        intended(hasComponent(InventoryActivity.class.getName()));
     }
 
     @After
     public void resetPlayer() {
-        Intents.release();
         Player.get().resetPlayer();
     }
 
