@@ -37,7 +37,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.R;
@@ -54,6 +56,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.allNPCs;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
@@ -215,7 +218,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
 
     private void setNPCSMarker() {
         if(mMap != null) {
-            for (NPC npc : Constants.allNPCs) {
+            for (NPC npc : getNPCSFromNames(Player.get().getKnownNPCs())) {
                 BitmapDrawable npcBitMapDraw = (BitmapDrawable) getResources().getDrawable(npc.getImage());
                 Bitmap npcBitMap = npcBitMapDraw.getBitmap();
                 Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
@@ -226,6 +229,16 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                         .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
             }
         }
+    }
+
+    private List<NPC> getNPCSFromNames(List<String> names) {
+        List<NPC> npcs = new ArrayList<>();
+        if(names == null) return npcs;
+        for(NPC npc : allNPCs) {
+            if(names.contains(npc.getName())) npcs.add(npc);
+        }
+
+        return npcs;
     }
 }
 
