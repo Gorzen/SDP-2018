@@ -1,9 +1,11 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
+import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.adapters.StudentRankingAdapter;
 
@@ -62,7 +65,14 @@ public class LeaderboardActivity extends RefreshContext {
             List<UserData> studentsInCourse = getStudentsForCourse(allUsers, course);
             List<String> courseQuestionIds = getQuestionIdsForCourse(allQuestions, course);
 
-            List<Pair<String, Integer>> studentRankings = getStudentRankingsForCourse(course, studentsInCourse, courseQuestionIds);
+            //List<Pair<String, Integer>> studentRankings = getStudentRankingsForCourse(course, studentsInCourse, courseQuestionIds);
+            List<Pair<String, Integer>> studentRankings = new ArrayList<>();
+            studentRankings.add(new Pair<>("Bob Sheffield", 6));
+            studentRankings.add(new Pair<>("Marc Anthony", 3));
+            studentRankings.add(new Pair<>("Craig Williams", 3));
+            studentRankings.add(new Pair<>("Nick Mayer", 2));
+            studentRankings.add(new Pair<>("Richard Rich", 2));
+            studentRankings.add(new Pair<>("Thomas More", 1));
 
             if (studentRankings.size() > 0) {
                 displayTitleForCourse(course.name());
@@ -121,8 +131,9 @@ public class LeaderboardActivity extends RefreshContext {
 
         LinearLayout leaderboardContainer = findViewById(R.id.leaderboard_container);
 
-        ListView rankingListView = new ListView(this);
+        NonScrollableListView rankingListView = new NonScrollableListView(this);
         rankingListView.setPadding(0, 0, 0, 20);
+
         StudentRankingAdapter rankingAdapter =
                 new StudentRankingAdapter(this, R.layout.student_ranking_model, studentRankings);
         rankingListView.setAdapter(rankingAdapter);

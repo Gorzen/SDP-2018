@@ -5,11 +5,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -17,6 +19,7 @@ import ch.epfl.sweng.studyup.R;
 import static ch.epfl.sweng.studyup.utils.Constants.bronze;
 import static ch.epfl.sweng.studyup.utils.Constants.gold;
 import static ch.epfl.sweng.studyup.utils.Constants.silver;
+import static java.security.AccessController.getContext;
 
 public class StudentRankingAdapter extends BaseAdapter {
 
@@ -24,15 +27,10 @@ public class StudentRankingAdapter extends BaseAdapter {
     private List<Pair<String, Integer>> studentRankings;
     private int idLayout;
 
-    private int currRank;
-    private int currRankNumCorrect;
-
     public StudentRankingAdapter(Context context, int idLayout, List<Pair<String, Integer>> studentRankings) {
         this.context = context;
         this.idLayout = idLayout;
-        this.studentRankings = studentRankings;
-        currRank = 1;
-        currRankNumCorrect = 1;
+        this.studentRankings = new ArrayList<>(studentRankings);
     }
 
     @Override
@@ -55,16 +53,14 @@ public class StudentRankingAdapter extends BaseAdapter {
         TextView studentNumCorrectAnswers = convertView.findViewById(R.id.leaderboard_num_correct_answers);
 
         Pair<String, Integer> studentRankData = studentRankings.get(position);
-        if (studentRankData.second < currRankNumCorrect) {
-            currRank ++;
-            currRankNumCorrect = studentRankData.second;
-        }
-        studentRank.setText(String.valueOf(currRank));
+
+        int rank = position + 1;
+        studentRank.setText(String.valueOf(rank));
         studentName.setText(studentRankData.first);
         studentNumCorrectAnswers.setText(String.valueOf(studentRankData.second));
 
         // Set rank color to gold, silver, bronze for first, second, and third place, respectively
-        switch(currRank) {
+        switch(rank) {
             case 1:
                 studentRank.setTextColor(Color.parseColor(gold));
                 break;

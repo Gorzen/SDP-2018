@@ -6,8 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite">
 
-
-
     <LinearLayout
         android:id="@+id/ranking_model_container"
         android:layout_width="match_parent"
@@ -67,6 +65,7 @@
                 android:layout_marginEnd="16dp"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
