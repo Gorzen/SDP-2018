@@ -188,4 +188,7 @@
     <string name="select_courses_text">Sélectionne tes cours</string>
     <string name="leaderboard">Tableau des leaders</string>
     <string name="correct_answers_label">Réponses correctes</string>
+    <string name="xp_label">Lecteur xp</string>
+    <string name="by_correct_answers">Par des réponses correctes</string>
+    <string name="by_xp">Par XP</string>
 </resources>

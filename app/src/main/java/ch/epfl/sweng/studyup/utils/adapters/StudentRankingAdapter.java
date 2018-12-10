@@ -50,14 +50,14 @@ public class StudentRankingAdapter extends BaseAdapter {
         }
         TextView studentRank = convertView.findViewById(R.id.student_rank);
         TextView studentName = convertView.findViewById(R.id.leaderboard_student_name);
-        TextView studentNumCorrectAnswers = convertView.findViewById(R.id.leaderboard_num_correct_answers);
+        TextView leaderboardMetric = convertView.findViewById(R.id.leaderboard_metric);
 
         Pair<String, Integer> studentRankData = studentRankings.get(position);
 
         int rank = position + 1;
         studentRank.setText(String.valueOf(rank));
         studentName.setText(studentRankData.first);
-        studentNumCorrectAnswers.setText(String.valueOf(studentRankData.second));
+        leaderboardMetric.setText(String.valueOf(studentRankData.second));
 
         // Set rank color to gold, silver, bronze for first, second, and third place, respectively
         switch(rank) {

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,12 +32,18 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
+/**
+ * Shared functions for getting data used explicitely for statistics.
+ * These functions are used in the Player Stats activity, as well as the Leaderboard activity.
+ */
 public class StatsUtils {
 
     public static void loadAllQuestions(final Callback callback) throws NullPointerException {
@@ -84,12 +91,14 @@ public class StatsUtils {
                                 INITIAL_FIRSTNAME,
                                 INITIAL_LASTNAME,
                                 new HashMap<String, List<String>>(),
-                                new ArrayList<Constants.Course>());
+                                new ArrayList<Constants.Course>(),
+                                INITIAL_XP);
                         user.setSciperNum(getOrDefault(remotePlayerData, FB_SCIPER, INITIAL_SCIPER).toString());
                         user.setFirstName(getOrDefault(remotePlayerData, FB_FIRSTNAME, INITIAL_FIRSTNAME).toString());
                         user.setLastName(getOrDefault(remotePlayerData, FB_LASTNAME, INITIAL_LASTNAME).toString());
                         user.setAnsweredQuestions((HashMap<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<>()));
                         user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Constants.Course>())));
+                        user.setXp(Integer.valueOf(getOrDefault(remotePlayerData, FB_XP, INITIAL_XP).toString()));
 
                         userList.add(user);
                     }
@@ -120,5 +129,27 @@ public class StatsUtils {
             }
         }
         return questStrFromCourse;
+    }
+
+    public static List<Pair<String, Integer>> getStudentRankingsForCourse(Constants.Course course, List<UserData> studentsInCourse, final List<String> courseQuestionIds) {
+
+        List<Pair<String, Integer>> studentRankings = new ArrayList<>();
+
+        for (UserData student : studentsInCourse) {
+            int correctAnswers = 0;
+            HashMap<String, List<String>> studentAnsweredQuestionData = student.getAnsweredQuestions();
+            for (String questionId : studentAnsweredQuestionData.keySet()) {
+                if (courseQuestionIds.contains(questionId) &&
+                        Boolean.valueOf(studentAnsweredQuestionData.get(questionId).get(0)) == true) {
+                    correctAnswers++;
+                }
+            }
+            if (correctAnswers > 0) {
+                studentRankings.add(new Pair<>(student.getFirstName() + " " + student.getLastName(), correctAnswers));
+            }
+
+        }
+
+        return studentRankings;
     }
 }
