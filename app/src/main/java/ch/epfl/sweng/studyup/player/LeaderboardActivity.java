@@ -1,13 +1,12 @@
 package ch.epfl.sweng.studyup.player;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.api.Distribution;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +19,7 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.adapters.StudentRankingAdapter;
 
 import static ch.epfl.sweng.studyup.utils.StatsUtils.getQuestionIdsForCourse;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.getStudentsForCourse;
@@ -35,14 +35,6 @@ public class LeaderboardActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
-
-        LinearLayout leaderboardContainer = findViewById(R.id.leaderboard_container);
-        for (Course course : Player.get().getCoursesEnrolled()) {
-            TextView courseTitle = new TextView(this);
-            courseTitle.setTextSize(24);
-            courseTitle.setText(course.name());
-            leaderboardContainer.addView(courseTitle);
-        }
     }
 
     @Override
@@ -52,30 +44,34 @@ public class LeaderboardActivity extends RefreshContext {
         loadUsers(handleUsersData);
     }
 
-    public static Callback<List> handleQuestionsData = new Callback<List>() {
+    public Callback<List> handleQuestionsData = new Callback<List>() {
         public void call(List questionList) {
             allQuestions = questionList;
         }
     };
 
-    public static Callback<List> handleUsersData = new Callback<List>() {
+    public Callback<List> handleUsersData = new Callback<List>() {
         public void call(List userList) {
             allUsers = userList;
             displayRankings();
         }
     };
 
-    public static void displayRankings() {
+    public void displayRankings() {
         for (Course course : Player.get().getCoursesEnrolled()) {
             List<UserData> studentsInCourse = getStudentsForCourse(allUsers, course);
             List<String> courseQuestionIds = getQuestionIdsForCourse(allQuestions, course);
 
             List<Pair<String, Integer>> studentRankings = getStudentRankingsForCourse(course, studentsInCourse, courseQuestionIds);
-            displayRankingForCourse(studentRankings);
+
+            if (studentRankings.size() > 0) {
+                displayTitleForCourse(course.name());
+                displayRankingForCourse(studentRankings);
+            }
         }
     }
 
-    public static List<Pair<String, Integer>> getStudentRankingsForCourse(Course course, List<UserData> studentsInCourse, final List<String> courseQuestionIds) {
+    public List<Pair<String, Integer>> getStudentRankingsForCourse(Course course, List<UserData> studentsInCourse, final List<String> courseQuestionIds) {
 
         List<Pair<String, Integer>> studentRankings = new ArrayList<>();
 
@@ -88,9 +84,11 @@ public class LeaderboardActivity extends RefreshContext {
                     correctAnswers ++;
                 }
             }
-            studentRankings.add(new Pair<>(student.getFirstName() + " " + student.getLastName(), correctAnswers));
-        }
+            if (correctAnswers > 0) {
+                studentRankings.add(new Pair<>(student.getFirstName() + " " + student.getLastName(), correctAnswers));
+            }
 
+        }
         Collections.sort(studentRankings, new Comparator<Pair<String, Integer>>() {
                 @Override
                 public int compare(Pair<String, Integer> studentA, Pair<String, Integer> studentB) {
@@ -102,8 +100,34 @@ public class LeaderboardActivity extends RefreshContext {
         return studentRankings;
     }
 
-    public static void displayRankingForCourse(List<Pair<String, Integer>> studentRankings) {
-        // Do stuff with student rankings
+    public void displayTitleForCourse(String courseName) {
+
+        LinearLayout leaderboardContainer = findViewById(R.id.leaderboard_container);
+
+        TextView courseTitle = new TextView(this);
+        courseTitle.setTextSize(24);
+        courseTitle.setGravity(Gravity.CENTER);
+        courseTitle.setText(courseName);
+        leaderboardContainer.addView(courseTitle);
+
+        TextView correctAnswersLabel = new TextView(this);
+        correctAnswersLabel.setGravity(Gravity.RIGHT);
+        correctAnswersLabel.setPadding(0, 0, 20, 0);
+        correctAnswersLabel.setText(R.string.correct_answers_label);
+        leaderboardContainer.addView(correctAnswersLabel);
+    }
+
+    public void displayRankingForCourse(List<Pair<String, Integer>> studentRankings) {
+
+        LinearLayout leaderboardContainer = findViewById(R.id.leaderboard_container);
+
+        ListView rankingListView = new ListView(this);
+        rankingListView.setPadding(0, 0, 0, 20);
+        StudentRankingAdapter rankingAdapter =
+                new StudentRankingAdapter(this, R.layout.student_ranking_model, studentRankings);
+        rankingListView.setAdapter(rankingAdapter);
+
+        leaderboardContainer.addView(rankingListView);
     }
 
     public void onBackButtonLeaderboardActivity(View v) { finish(); }

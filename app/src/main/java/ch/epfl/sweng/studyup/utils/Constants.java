@@ -213,5 +213,10 @@ public abstract class Constants {
         SET_USERNAME,
         USER_LOGIN
     }
+
+    // Color strings
+    public static final String gold = "#e68a00";
+    public static final String silver = "#595959";
+    public static final String bronze = "#663300";
 }
 
