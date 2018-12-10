@@ -25,6 +25,8 @@ import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.adapters.StudentRankingAdapter;
 
+import static ch.epfl.sweng.studyup.utils.Constants.mockStudentRankings;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.getQuestionIdsForCourse;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.getStudentRankingsForCourse;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.getStudentsForCourse;
@@ -76,6 +78,7 @@ public class LeaderboardActivity extends RefreshContext {
     };
     public Callback<List> handleUsersData = new Callback<List>() {
         public void call(List userList) {
+
             allUsers = userList;
 
             displayRankingsByXP();
@@ -111,12 +114,15 @@ public class LeaderboardActivity extends RefreshContext {
     public void displayRankingsByXP() {
 
         // Compile a list of pairs of student names with their XP
-        List<Pair<String, Integer>> studentRankingsByXP = new ArrayList<>();
+        List<Pair<String, Integer>> studentRankings = new ArrayList<>();
         for (UserData studentData : allUsers) {
-            studentRankingsByXP.add(new Pair<>(studentData.getFirstName() + " " + studentData.getLastName(), studentData.getXP()));
+            studentRankings.add(new Pair<>(studentData.getFirstName() + " " + studentData.getLastName(), studentData.getXP()));
         }
 
-        displayRankingFromList(studentRankingsByXP, findViewById(R.id.leaderboard_by_xp_container), R.string.xp_label);
+        if (MOCK_ENABLED) {
+            studentRankings = mockStudentRankings;
+        }
+        displayRankingFromList(studentRankings, findViewById(R.id.leaderboard_by_xp_container), R.string.xp_label);
     }
 
     /*
@@ -127,7 +133,10 @@ public class LeaderboardActivity extends RefreshContext {
             List<UserData> studentsInCourse = getStudentsForCourse(allUsers, course);
             List<String> courseQuestionIds = getQuestionIdsForCourse(allQuestions, course);
 
-            List<Pair<String, Integer>> studentRankings = getStudentRankingsForCourse(course, studentsInCourse, courseQuestionIds);
+            List<Pair<String, Integer>> studentRankings = getStudentRankingsForCourse(studentsInCourse, courseQuestionIds);
+            if (MOCK_ENABLED) {
+                studentRankings = mockStudentRankings;
+            }
 
             if (studentRankings.size() > 0) {
                 displayTitleForCourse(course.name());

@@ -37,6 +37,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.mockStudentRankings;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 
@@ -131,7 +133,7 @@ public class StatsUtils {
         return questStrFromCourse;
     }
 
-    public static List<Pair<String, Integer>> getStudentRankingsForCourse(Constants.Course course, List<UserData> studentsInCourse, final List<String> courseQuestionIds) {
+    public static List<Pair<String, Integer>> getStudentRankingsForCourse(List<UserData> studentsInCourse, final List<String> courseQuestionIds) {
 
         List<Pair<String, Integer>> studentRankings = new ArrayList<>();
 
