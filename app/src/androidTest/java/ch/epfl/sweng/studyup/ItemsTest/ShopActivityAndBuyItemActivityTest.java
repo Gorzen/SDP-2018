@@ -28,6 +28,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.items.Items.COIN_SACK;
 import static org.junit.Assert.assertEquals;
 
 
@@ -42,8 +43,7 @@ public class ShopActivityAndBuyItemActivityTest {
 
     @Before
     public void init() {
-
-        mActivityRule.launchActivity(new Intent().putExtra(Items.class.getName(), Items.values()));
+        mActivityRule.launchActivity(new Intent().putExtra(Items.class.getName(), new Items[]{COIN_SACK}));
         list = mActivityRule.getActivity().findViewById(R.id.list_view_shop);
         Player.get().resetPlayer();
     }
@@ -54,7 +54,7 @@ public class ShopActivityAndBuyItemActivityTest {
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                list.performItemClick(list.getAdapter().getView(0, null, null), 1, 0);
+                list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
         for(int i = 0; i < 3; ++i) {
@@ -63,7 +63,7 @@ public class ShopActivityAndBuyItemActivityTest {
         onView(withId(R.id.minus_button)).perform(click());
         onView(withId(R.id.buy_button)).perform(click());
         assertEquals(0, Player.get().getCurrency());
-        assertEquals(Arrays.asList(Items.COIN_SACK, Items.COIN_SACK, Items.COIN_SACK), Player.get().getItems());
+        assertEquals(Arrays.asList(COIN_SACK, COIN_SACK, COIN_SACK), Player.get().getItems());
     }
 
     @Test
@@ -75,7 +75,6 @@ public class ShopActivityAndBuyItemActivityTest {
             }
         });
         Utils.waitAndTag(150, "Waiting for click on item");
-        onView(withId(R.id.plus_button)).perform(click());
         onView(withId(R.id.buy_button)).perform(click());
         onView(withId(R.id.back_button_display_item)).perform(click());
         assertEquals(0, Player.get().getItems().size());
