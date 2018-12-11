@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,10 +29,13 @@ import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.DEFAULT_INDEX_STUDENT;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 
@@ -79,7 +81,11 @@ public class CustomActivity extends NavigationStudent {
     }
 
     public void selectImage(View v) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(CustomActivity.this);
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        AlertDialog.Builder dialogBuilder = col.equals(SETTINGS_COLOR_DARK) ?
+                new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(this);
+
         dialogBuilder.setTitle(getString(R.string.text_addimage));
         final String[] items = {getString(R.string.gallery), getString(R.string.camera), getString(R.string.cancel)};
 
