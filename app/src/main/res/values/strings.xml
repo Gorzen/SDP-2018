@@ -200,4 +200,8 @@
     <string name="npc_discovered_text">NPC discovered:</string>
     <string name="favorite_course_text">Favorite course:</string>
     <string name="leaderboard">Leader Board</string>
+    <string name="correct_answers_label">Correct Answers</string>
+    <string name="xp_label">Player XP</string>
+    <string name="by_correct_answers">By Correct Answers</string>
+    <string name="by_xp">By XP</string>
 </resources>

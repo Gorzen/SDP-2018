@@ -43,6 +43,15 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ProgressBar
+        android:id="@+id/leaderboard_spinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp" />
+
     <ScrollView
         android:id="@+id/scrollView_leaderboard"
         android:layout_width="match_parent"
@@ -55,25 +64,49 @@
 
             <TextView
                 android:id="@+id/leaderboard_title"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
+                android:text="@string/leaderboard"
                 android:textAlignment="center"
-                android:textSize="30sp"
-                android:text="@string/leaderboard" />
+                android:textAllCaps="false"
+                android:textSize="30sp" />
+
+            <ToggleButton
+                android:id="@+id/toggle_rank_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/leaderboard_title"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="false"
+                android:textOn="@string/by_correct_answers"
+                android:textOff="@string/by_xp"
+                android:onClick="handleLeadboardModeVisibility"/>
 
             <LinearLayout
-                android:id="@+id/leaderboard_container"
+                android:id="@+id/leaderboard_by_xp_container"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/leaderboard_title"
+                android:layout_below="@id/toggle_rank_mode"
                 android:gravity="center"
                 android:orientation="vertical" />
 
+            <LinearLayout
+                android:id="@+id/leaderboard_by_correct_answers_container"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toggle_rank_mode"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible"/>
+
         </RelativeLayout>
+
     </ScrollView>
 
 </RelativeLayout>

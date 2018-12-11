@@ -8,13 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Locale;
-
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
-
-import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
 
 public class SpecialQuestListViewAdapter extends BaseAdapter {
 

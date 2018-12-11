@@ -240,12 +240,15 @@
                     app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
 
                 <TextView
-                    android:id="@+id/RatioTextView"
+                    android:id="@+id/rankNumberTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="1000"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:onClick="onLeaderboardButtonClick"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -266,7 +269,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/answeredTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -287,10 +290,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintTop_toBottomOf="@+id/favoriteCourseTextTextview" />
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/ratioPercentageTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -302,7 +305,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/answeredNumberTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -312,11 +315,11 @@
                     android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="@+id/answeredTextview"
                     app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/rankTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -329,7 +332,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/NPCDiscoveredTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -339,21 +342,21 @@
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/numberOfNpcDiscoveredTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="4"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    app:layout_constraintStart_toStartOf="@+id/textView6"
-                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                    app:layout_constraintStart_toStartOf="@+id/answeredNumberTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/favoriteCourseTextTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -363,17 +366,17 @@
                     android:textSize="22sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/NPCDiscoveredTextView" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/favoriteCourseTextview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Blacksmithing"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     app:layout_constraintStart_toEndOf="@+id/ratioTextView"
-                    app:layout_constraintTop_toTopOf="@+id/textView8" />
+                    app:layout_constraintTop_toTopOf="@+id/favoriteCourseTextTextview" />
 
             </android.support.constraint.ConstraintLayout>
 
