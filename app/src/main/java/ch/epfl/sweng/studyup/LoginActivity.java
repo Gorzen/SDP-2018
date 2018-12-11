@@ -51,8 +51,6 @@ public class LoginActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Firestore.get().getCoursesSchedule(this, Role.student);
-
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());
