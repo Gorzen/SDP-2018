@@ -129,6 +129,6 @@ public class PlayerTest {
     private void setCalendarToRightWeek(Calendar calendar) {
         calendar.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
         calendar.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
-        calendar.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
+        calendar.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_MONTH_SCHEDULE);
     }
 }
