@@ -36,7 +36,6 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
@@ -113,8 +112,14 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     if (marker.getTitle().equals(getString(R.string.NPC))) {
-                        if(!Utils.getNPCfromName(marker.getSnippet()).isInRange(POSITION)) { Toast.makeText(MapsActivity.this, R.string.NPC_too_far_away, Toast.LENGTH_SHORT).show();
-                        return false; } else { return true;} }
+                        if(Rooms.distanceBetweenTwoLatLng(Utils.getNPCfromName(marker.getSnippet()).getPosition(), POSITION) < Constants.NPC_RANGE) {
+                            startActivity(new Intent(getApplicationContext(), NPCActivity.class).putExtra(Constants.NPC_ACTIVITY_INTENT_NAME, marker.getSnippet()));
+                            return false;
+                        } else {
+                            Toast.makeText(MapsActivity.this, R.string.NPC_too_far_away, Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    }
                     return false;
                 }
             });
@@ -150,16 +155,12 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 if (location != null) {
                     location.remove();
                 }
-                /*location = mMap.addMarker(new MarkerOptions()
+                location = mMap.addMarker(new MarkerOptions()
                         .position(latLong)
-                        .title(getString(R.string.title_playerposition))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));*/
+                        .title(getString(R.string.title_playerposition)));
                 if(isFirstPosition) {
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLong, 18));
                     isFirstPosition = false;
-                }else{
-                    location = mMap.addMarker(new MarkerOptions().position(latLong).title(getString(R.string.title_playerposition)));
                 }
             }
             POSITION = new LatLng(latLong.latitude, latLong.longitude);

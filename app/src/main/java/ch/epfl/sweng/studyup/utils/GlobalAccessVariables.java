@@ -29,7 +29,7 @@ public abstract class GlobalAccessVariables {
     public static Boolean MOCK_ENABLED = false;
     public static Location MOC_LOC = null;
     public static WeakReference<Activity> currentActivity;
-
+    public static boolean NPCInteractionState = true;
     public static Map<String, Object> DB_STATIC_INFO = null;
 
     public static Class HOME_ACTIVITY = null;

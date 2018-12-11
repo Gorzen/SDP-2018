@@ -168,7 +168,7 @@
     <string name="gallery_android_text">Gallery</string>
     <string name="NPC_interaction"> wants to interact with you</string>
     <string name="NPC_accept">Accept</string>
-    <string name="NPC_refuse">Refuser</string>
+    <string name="NPC_refuse">Refuse</string>
     <string name="NPC">NPC  </string>
     <string name="NPC_temp_description">Hey there, wanna hang ?</string>
     <string name="NPC_too_far_away">You are out of range</string>
@@ -197,4 +197,6 @@
     <string name="xp_label">Player XP</string>
     <string name="by_correct_answers">By Correct Answers</string>
     <string name="by_xp">By XP</string>
+    <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
+    <string name="NPC_interaction_enable">Enable NPC interaction</string>
 </resources>

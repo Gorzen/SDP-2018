@@ -191,4 +191,6 @@
     <string name="xp_label">Lecteur xp</string>
     <string name="by_correct_answers">Par des réponses correctes</string>
     <string name="by_xp">Par XP</string>
+    <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
+    <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
 </resources>
