@@ -62,8 +62,6 @@ public class LeaderboardActivity extends RefreshContext {
         super.onResume();
         loadAllQuestions(handleQuestionsData);
         loadUsers(handleUsersData);
-
-        handleLeadboardModeVisibility(null);
     }
 
     /*
@@ -81,6 +79,7 @@ public class LeaderboardActivity extends RefreshContext {
 
             allUsers = userList;
 
+            handleLeadboardModeVisibility(null);
             displayRankingsByXP();
             displayRankingsByQuestionsAnswered();
         }
@@ -106,6 +105,8 @@ public class LeaderboardActivity extends RefreshContext {
             leaderboardByQuestionsAnsweredContainer.setVisibility(View.INVISIBLE);
             leaderboardByXPContainer.setVisibility(View.VISIBLE);
         }
+
+        findViewById(R.id.leaderboard_spinner).setVisibility(View.GONE);
     }
 
     /*
