@@ -53,8 +53,6 @@ public class LoginActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        
-        Firestore.get().getCoursesSchedule(this, Role.student);
 
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)

@@ -83,8 +83,8 @@
     <string name="text_photospermissions">Can\'t take photos without permission.</string>
     <string name="text_addimage">Add an image</string>
     <string name="items_quantity">x</string>
-    <string name="text_money">MONEY: </string>
-    <string name="text_level">LEVEL </string>
+    <string name="text_money">MONEY:</string>
+    <string name="text_level">LEVEL</string>
     <string name="text_itemprice">Price of item:</string>
     <string name="text_currencyyouhave">You have</string>
     <string name="text_itemalreadyhave">You already have this item</string>
