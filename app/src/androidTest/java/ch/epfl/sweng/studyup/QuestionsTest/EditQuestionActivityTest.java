@@ -8,6 +8,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.junit.After;
 import org.junit.Before;
@@ -65,19 +66,20 @@ public class EditQuestionActivityTest {
 
     private void editAndCheckQuestion(final int newAnswerId, final int newAnswerNumber, final boolean changeType) throws Throwable {
         mActivityRule.launchActivity(new Intent().putExtra(AddOrEditQuestionActivity.class.getSimpleName(), q));
-
-        // Change Type
         final boolean isTrueFalseBeforeEdition = q.isTrueFalse();
-        if(changeType && isTrueFalseBeforeEdition) {
-            onView(withId(R.id.mcq_radio)).perform(scrollTo()).perform(click());
-        } else if(changeType) {
-            onView(withId(R.id.true_false_radio)).perform(scrollTo()).perform(click());
-        }
 
-        // Change answer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // Change Type
+                RadioGroup typeGroup = mActivityRule.getActivity().findViewById(R.id.true_false_or_mcq_radio_group);
+                if(changeType && isTrueFalseBeforeEdition) {
+                    typeGroup.check(0);
+                } else if(changeType) {
+                    typeGroup.check(1);
+                }
+
+                // Change answer
                 unsetAnswerRadioButtons();
                 RadioButton newAnswerButton = mActivityRule.getActivity().findViewById(newAnswerId);
                 newAnswerButton.setChecked(true);
