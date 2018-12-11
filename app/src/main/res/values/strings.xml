@@ -185,13 +185,18 @@
     <string name="enroll_button_text">Enroll</string>
     <string name="time_out_title">Time out !</string>
     <string name="question_duration_selection">Select the time duration</string>
-    <string name="chosen_duration" >"Time: "</string>
+    <string name="chosen_duration">"Time: "</string>
     <string name="duration">Duration</string>
     <string name="time_constraint_text">No time constraint</string>
     <string name="remaining_time">Time left:</string>
     <string name="elapsed_time">Elapsed time</string>
     <string name="time_left_text">Time left</string>
     <string name="select_courses_text">Select your courses</string>
+    <string name="leaderboard">Leader Board</string>
+    <string name="correct_answers_label">Correct Answers</string>
+    <string name="xp_label">Player XP</string>
+    <string name="by_correct_answers">By Correct Answers</string>
+    <string name="by_xp">By XP</string>
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
 </resources>

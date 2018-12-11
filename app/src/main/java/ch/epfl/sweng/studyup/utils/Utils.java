@@ -1,7 +1,6 @@
 package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.v7.widget.Toolbar;
@@ -24,10 +23,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
-import ch.epfl.sweng.studyup.utils.navigation.Navigation;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUEST_TYPE;

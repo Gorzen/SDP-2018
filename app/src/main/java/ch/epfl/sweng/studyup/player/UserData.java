@@ -16,17 +16,20 @@ public class UserData {
     private String lastName;
     private HashMap<String, List<String>> answeredQuestions;
     private List<Course> courses;
+    private int xp;
 
     public  UserData(String sciperNum,
                      String firstName,
                      String lastName,
                      HashMap<String, List<String>> answeredQuestions,
-                     List<Course> courses) {
+                     List<Course> courses,
+                     int xp) {
         this.sciperNum=sciperNum;
         this.firstName=firstName;
         this.lastName=lastName;
         this.answeredQuestions=answeredQuestions;
         this.courses=courses;
+        this.xp = xp;
     }
 
     public void setSciperNum(String sciperNum) { this.sciperNum = sciperNum; }
@@ -40,6 +43,7 @@ public class UserData {
     public void setAnsweredQuestions(HashMap<String, List<String>> answeredQuestions) {
         this.answeredQuestions = answeredQuestions;
     }
+    public void setXp(int xp) { this.xp = xp; }
 
     public List<Course> getCourses() {
         return courses;
@@ -61,4 +65,6 @@ public class UserData {
     public String getSciperNum() {
         return sciperNum;
     }
+
+    public int getXP() { return xp; }
 }

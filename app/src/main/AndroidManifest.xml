@@ -78,7 +78,7 @@
         <activity android:name=".questions.DisplayQuestionActivity" />
         <activity android:name=".items.DisplayItemActivity" />
         <activity android:name=".utils.TestbedActivity" />
-        <activity android:name=".specialQuest.SpecialQuestDisplayActivity"/>
+        <activity android:name=".specialQuest.SpecialQuestDisplayActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".settings.CourseSelectionActivity" />
         <activity android:name=".player.ScheduleActivityStudent" />
@@ -86,10 +86,16 @@
         <activity android:name=".teacher.DisplayCourseStatsActivity" />
         <activity android:name=".teacher.ScheduleActivityTeacher" />
         <activity android:name=".teacher.CourseSelectionForScheduleActivity" />
+
         <receiver android:name=".questions.TimeOutNotificationPublisher" />
-        <activity android:name=".specialQuest.AvailableSpecialQuestsActivity"/>
+
+        <activity android:name=".specialQuest.AvailableSpecialQuestsActivity" />
         <activity android:name=".teacher.ManageCourseActivity" />
-        <activity android:name=".npc.NPCActivity"/>
+        <activity android:name=".npc.NPCActivity" />
+
         <receiver android:name=".questions.TimeOutNotificationPublisher" />
+
+        <activity android:name=".player.LeaderboardActivity"></activity>
     </application>
+
 </manifest>

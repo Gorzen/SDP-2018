@@ -189,18 +189,36 @@
             android:layout_above="@id/bottomBar"
             android:layout_below="@id/topBar">
 
-            <TextView
-                android:id="@+id/specialQuestsTitle"
+
+            <Button
+                android:id="@+id/leaderboardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/special_quests_title"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/list_view_shape"
+                android:backgroundTint="@color/colorListItems"
+                android:drawableLeft="@drawable/leaderboard_icon"
+                android:onClick="onLeaderboardButtonClick"
+                android:text="@string/leaderboard"
+                android:textAllCaps="false"
                 android:textSize="24sp"
-                android:textColor="?attr/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/specialQuestsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/special_quests_title"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/leaderboardButton" />
 
             <ListView
                 android:id="@+id/specialQuestsListView"
@@ -217,16 +235,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/list_view_shape"
+                android:backgroundTint="@color/colorListItems"
                 android:onClick="onAvailableSpecialQuestsButtonClick"
                 android:text="@string/available_special_quests"
                 android:textAllCaps="false"
                 android:textSize="22sp"
-                android:background="@drawable/list_view_shape"
-                android:backgroundTint="@color/colorListItems"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
+
 
         </android.support.constraint.ConstraintLayout>
 

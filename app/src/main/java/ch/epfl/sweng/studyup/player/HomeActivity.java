@@ -249,6 +249,10 @@ public class HomeActivity extends NavigationStudent {
         startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
 
+    public void onLeaderboardButtonClick(View view) {
+        startActivity(new Intent(HomeActivity.this, LeaderboardActivity.class));
+    }
+
     public void updateCurrDisplay() {
         ((TextView) findViewById(R.id.currText)).setText(getString(R.string.text_money) +" "+ Player.get().getCurrency());
     }
