@@ -157,15 +157,15 @@ public abstract class Constants {
     }
 
     public enum Course {
-        SWENG("SWENG"),
+        SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
         Blacksmithing("Blacksmithing"),
         Analyse("Analyse"),
         Physics("Physics"),
-        ToC("ToC"),
-        ProbaStat("ProbaStat"),
-        FunProg("FunProg "),
+        ToC("Theory of Computation"),
+        ProbaStat("Probability and Statistics"),
+        FunProg("Functional Programming"),
         FakeCourse("A fake course");
 
         private String name = "";
