@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import java.util.List;
 import ch.epfl.sweng.studyup.LoginActivity;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.ManageCourseActivity;
@@ -28,7 +26,6 @@ import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
@@ -39,7 +36,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
-import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
 
 public class SettingsActivity extends RefreshContext {
 
@@ -115,26 +111,30 @@ public class SettingsActivity extends RefreshContext {
             @SuppressWarnings("HardCodedStringLiteral")
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String lang = "en"; // Basis
-                if(which == 0) {
-                    lang = "en";
-                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
-                } else if(which == 1) {
-                    lang = "fr";
-                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
-                }
-                getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
-                        .putString(LANG_SETTINGS_KEYWORD, lang)
-                        .apply();
-                setLocale(lang, MOST_RECENT_ACTIVITY);
-
-                Class nextActivity = Player.get().isTeacher() ?
-                        QuestsActivityTeacher.class : HomeActivity.class;
-                startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
+                onClickAction(which);
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);
         languageChoiceBuilder.create().show();
+    }
+
+    private void onClickAction(int which) {
+        String lang = "en"; // Basis
+        if(which == 0) {
+            lang = "en";
+            Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
+        } else if(which == 1) {
+            lang = "fr";
+            Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
+        }
+        getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
+                .putString(LANG_SETTINGS_KEYWORD, lang)
+                .apply();
+        setLocale(lang, MOST_RECENT_ACTIVITY);
+
+        Class nextActivity = Player.get().isTeacher() ?
+                QuestsActivityTeacher.class : HomeActivity.class;
+        startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
     }
 
     public void onCourseChoiceClick(View view) {
