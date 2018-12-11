@@ -369,11 +369,13 @@ public class DisplayQuestionActivity extends RefreshContext {
         int chkBOT = answerGroupBOT.getCheckedRadioButtonId();
         if(Player.get().getAnsweredQuestion().containsKey(displayQuestion.getQuestionId())) {
             Toast.makeText(this, getString(R.string.text_cantanswertwice), Toast.LENGTH_SHORT).show();
+            return;
         }
         if(tooLate) {
             Toast.makeText(this, getString(R.string.elapsed_time), Toast.LENGTH_SHORT).show();
+            return;
         }
-        else if(chkBOT == -1 && chkTOP == -1) {
+        if(chkBOT == -1 && chkTOP == -1) {
             Toast.makeText(this, getString(R.string.text_makechoice), Toast.LENGTH_SHORT).show();
             return;
         }

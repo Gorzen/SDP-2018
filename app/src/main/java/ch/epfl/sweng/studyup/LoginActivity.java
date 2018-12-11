@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
@@ -51,8 +50,6 @@ public class LoginActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Firestore.get().getCoursesSchedule(this, Role.student);
-
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());

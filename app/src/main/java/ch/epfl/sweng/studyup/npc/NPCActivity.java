@@ -28,6 +28,6 @@ public class NPCActivity extends RefreshContext {
     }
 
     public void onBackButtonNPC(View v) {
-        startActivity(new Intent(NPCActivity.this, MapsActivity.class));
+        finish();
     }
 }

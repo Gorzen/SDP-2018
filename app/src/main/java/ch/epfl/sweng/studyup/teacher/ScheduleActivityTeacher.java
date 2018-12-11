@@ -32,6 +32,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
+import static ch.epfl.sweng.studyup.utils.Constants.WEEK_OF_MONTH_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.tooRecentAPI;
@@ -67,16 +68,18 @@ public class ScheduleActivityTeacher extends NavigationTeacher {
     private final WeekView.EmptyViewClickListener emptyViewClickListener = new WeekView.EmptyViewClickListener() {
         @Override
         public void onEmptyViewClicked(Calendar time) {
-            Log.d("ScheduleActivityTeacher", "time = " + time.toString());
-            Log.d("ScheduleActivityTeacher", "Day of month = " + time.get(Calendar.DAY_OF_MONTH));
-            Log.d("ScheduleActivityTeacher", "Hour = " + time.get(Calendar.HOUR_OF_DAY));
-            int day = time.get(Calendar.DAY_OF_MONTH);
+            Log.d("ScheduleTeacherLog", "Clicked empty event");
+            Log.d("ScheduleTeacherLog", "time = " + time.toString());
+            Log.d("ScheduleTeacherLog", "Day of week = " + time.get(Calendar.DAY_OF_WEEK));
+            Log.d("ScheduleTeacherLog", "Hour = " + time.get(Calendar.HOUR_OF_DAY));
+            int dayOfWeek = time.get(Calendar.DAY_OF_WEEK);
             int hour = time.get(Calendar.HOUR_OF_DAY);
 
             Calendar eventStart = Calendar.getInstance();
             eventStart.set(Calendar.YEAR, YEAR_OF_SCHEDULE);
             eventStart.set(Calendar.MONTH, MONTH_OF_SCHEDULE);
-            eventStart.set(Calendar.DAY_OF_MONTH, day);
+            eventStart.set(Calendar.WEEK_OF_MONTH, WEEK_OF_MONTH_SCHEDULE);
+            eventStart.set(Calendar.DAY_OF_WEEK, dayOfWeek);
             eventStart.set(Calendar.HOUR_OF_DAY, hour);
             eventStart.set(Calendar.MINUTE, 0);
 

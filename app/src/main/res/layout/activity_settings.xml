@@ -226,7 +226,7 @@
                 android:backgroundTint="?attr/colorBackground"
                 android:onClick="onColorChoiceClick"
                 android:scaleType="fitStart"
-                app:layout_constraintBottom_toTopOf="@+id/aboutUsButton"
+                app:layout_constraintBottom_toTopOf="@+id/NPCInteractioncheckBox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -249,6 +249,23 @@
                 app:layout_constraintStart_toStartOf="@+id/colorChoiceButton"
                 app:layout_constraintTop_toTopOf="@+id/colorChoiceButton" />
 
+
+            <CheckBox
+                android:id="@+id/NPCInteractioncheckBox"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:onClick="onNPCInteractionStateChange"
+                android:text="@string/NPC_interaction_enable"
+                android:textColor="?attr/colorContrasted"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/colorChoiceButton" />
+
+
             <ImageButton
                 android:id="@+id/aboutUsButton"
                 android:layout_width="match_parent"
@@ -262,7 +279,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/colorChoiceButton"
+                app:layout_constraintTop_toBottomOf="@+id/NPCInteractioncheckBox"
                 app:srcCompat="@drawable/ic_info_outline_black_24dp"
                 tools:ignore="ContentDescription" />
 
@@ -280,6 +297,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/aboutUsButton"
                 app:layout_constraintTop_toTopOf="@+id/aboutUsButton" />
+
 
         </android.support.constraint.ConstraintLayout>
 
