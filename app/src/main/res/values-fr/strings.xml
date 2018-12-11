@@ -74,13 +74,13 @@
     <string name="text_photospermissions">Impossible de prendre une photo sans autorisation.</string>
     <string name="text_addimage">Ajouter une image</string>
     <string name="items_quantity">x</string>
-    <string name="text_money">"ARGENT : "</string>
-    <string name="text_level">"NIVEAU "</string>
-    <string name="text_itemprice">"Prix de l'objet : "</string>
-    <string name="text_currencyyouhave">"Tu as "</string>
+    <string name="text_money">ARGENT:</string>
+    <string name="text_level">NIVEAU</string>
+    <string name="text_itemprice">Prix de l\'objet:</string>
+    <string name="text_currencyyouhave">Tu as</string>
     <string name="text_itemalreadyhave">Tu as déjà cet objet</string>
-    <string name="text_itemtimes">" fois"</string>
-    <string name="text_totalprice">"Prix total : "</string>
+    <string name="text_itemtimes">fois</string>
+    <string name="text_totalprice">Prix total :</string>
     <string name="text_notenoughmoney">Tu n\'as pas assez d\'argent !</string>
     <string name="title_questiondb">Base de questions</string>
     <string name="text_unabletouploadimage">Impossible de téléverser l\'image</string>
@@ -186,4 +186,6 @@
     <string name="NPC_too_far_away">Vous devez vous approcher du PNJ</string>
     <string name="time_left_text">Temps restant</string>
     <string name="select_courses_text">Sélectionne tes cours</string>
+    <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
+    <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
 </resources>

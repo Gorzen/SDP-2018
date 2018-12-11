@@ -14,6 +14,8 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
+import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
+
 public class ShopActivity extends RefreshContext {
     private ListView itemsToBuy;
     private ListItemAdapter listItemAdapter;
@@ -21,10 +23,7 @@ public class ShopActivity extends RefreshContext {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        setupToolbar(this);
         
         itemsToBuy = findViewById(R.id.list_view_shop);
         listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(Arrays.asList(Items.values())), true);

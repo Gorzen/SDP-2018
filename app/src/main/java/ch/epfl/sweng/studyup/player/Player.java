@@ -1,12 +1,9 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.widget.TabHost;
 
 import com.alamkanak.weekview.WeekViewEvent;
-import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +31,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
@@ -47,7 +43,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.SUPER_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static ch.epfl.sweng.studyup.utils.Rooms.ROOMS_LOCATIONS;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getItemsFromString;
@@ -171,6 +166,7 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
+        Firestore.get().getCoursesSchedule(null, Role.student);
 
         Log.d(TAG, "Loaded courses: \n");
         Log.d(TAG, "Enrolled: "+coursesEnrolled.toString()+"\n");
@@ -318,15 +314,18 @@ public class Player implements SpecialQuestObservable {
         Calendar currTime = Calendar.getInstance();
         currTime.set(Calendar.YEAR, Constants.YEAR_OF_SCHEDULE);
         currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
-        currTime.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_SCHEDULE);
+        currTime.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_MONTH_SCHEDULE);
+        Log.d(TAG, "getCurrentCourseLocation: " + currTime.toString());
         List<String> playersCourses = Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled());
 
         for(WeekViewEvent event : Player.get().getScheduleStudent()) {
             if(playersCourses.contains(event.getName()) &&
                     ROOMS_LOCATIONS.containsKey(event.getLocation()) &&
                     currTime.after(event.getStartTime()) &&
-                    currTime.before(event.getEndTime()))
+                    currTime.before(event.getEndTime())) {
+                Log.d(TAG, "getCurrentCourseLocation: " + event.getLocation());
                 return event.getLocation();
+            }
         }
         return null;
     }

@@ -230,5 +230,13 @@ public abstract class Utils {
     public static boolean tooRecentAPI() {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1;
     }
+
+    public static void disableAllNPCsInteraction() {
+        GlobalAccessVariables.NPCInteractionState = false;
+    }
+
+    public static void enableAllNPCsInteraction() {
+        GlobalAccessVariables.NPCInteractionState = true;
+    }
 }
 

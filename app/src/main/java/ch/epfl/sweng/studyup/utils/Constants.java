@@ -66,7 +66,7 @@ public abstract class Constants {
             FB_USERS, FB_FIRSTNAME, FB_LASTNAME, FB_SCIPER, FB_ROLE, FB_XP, FB_CURRENCY,
             FB_LEVEL, FB_SECTION, FB_YEAR, FB_TOKEN, FB_QUESTIONS, FB_QUESTS, FB_USERNAME, FB_ITEMS, FB_ANSWERED_QUESTIONS);
     public static final Set<String> SUPER_USERS = Sets.newHashSet(
-            "262413", "272432", "274999", "300137");
+            "262413", "272432", "274999", "300137", "245940");
 
 
     // Values associated with Firebase storage
@@ -139,7 +139,7 @@ public abstract class Constants {
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
-    public static final int WEEK_OF_SCHEDULE = 3;
+    public static final int WEEK_OF_MONTH_SCHEDULE = 4;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
@@ -164,7 +164,7 @@ public abstract class Constants {
         Analyse("Analyse"),
         Physics("Physics"),
         ToC("Theory of Computation"),
-        ProbaStat("Probability And Statistics"),
+        ProbaStat("Probability and Statistics"),
         FunProg("Functional Programming"),
         FakeCourse("A fake course");
 
@@ -196,13 +196,14 @@ public abstract class Constants {
     public static final String NPC_ACTIVITY_INTENT_NAME = "name";
     public static final int NPC_MARKER_HEIGHT = 140;
     public static final int NPC_MARKER_WIDTH = 80;
+    public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPC("Charlie", Rooms.ROOMS_LOCATIONS.get("INN_3_26").getLocation(), R.drawable.charlie),
             new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
             new NPC("Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil),
-            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("INR_0_11").getLocation(), R.drawable.eleanor)
+            new NPC("Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor)
     )));
 
 

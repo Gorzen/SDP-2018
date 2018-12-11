@@ -19,6 +19,7 @@ import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,4 +55,5 @@ public class NPCTest {
         assertEquals(Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation().latitude, roberto.getPosition().latitude, 0);
         assertEquals(Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation().longitude, roberto.getPosition().longitude, 0);
     }
+
 }
