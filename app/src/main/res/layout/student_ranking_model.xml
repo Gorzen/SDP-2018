@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorWhite">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/ranking_model_container"
@@ -15,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/list_view_shape"
-        android:backgroundTint="@color/colorListItems"
+        android:backgroundTint="?attr/colorListItems"
         android:orientation="vertical"
         android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,15 +46,16 @@
             <TextView
                 android:id="@+id/leaderboard_student_name"
                 android:layout_width="wrap_content"
-                android:maxWidth="250dp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
                 android:layout_marginStart="14dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:ellipsize="end"
+                android:maxWidth="250dp"
+                android:maxLines="1"
                 android:text="@string/student"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/student_rank"
                 app:layout_constraintTop_toTopOf="parent"

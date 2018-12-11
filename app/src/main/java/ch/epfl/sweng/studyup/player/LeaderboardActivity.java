@@ -1,20 +1,16 @@
 package ch.epfl.sweng.studyup.player;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -117,13 +113,20 @@ public class LeaderboardActivity extends RefreshContext {
         // Compile a list of pairs of student names with their XP
         List<Pair<String, Integer>> studentRankings = new ArrayList<>();
         for (UserData studentData : allUsers) {
-            studentRankings.add(new Pair<>(studentData.getFirstName() + " " + studentData.getLastName(), studentData.getXP()));
+            String fn = displayNiceName(studentData.getFirstName());
+            String ln = displayNiceName(studentData.getLastName());
+            studentRankings.add(new Pair<>(fn + " " + ln, studentData.getXP()));
         }
 
         if (MOCK_ENABLED) {
             studentRankings = mockStudentRankings;
         }
         displayRankingFromList(studentRankings, findViewById(R.id.leaderboard_by_xp_container), R.string.xp_label);
+    }
+
+    public String displayNiceName(String n) {
+        int index = n.indexOf(" ");
+        return index == -1 ? n : n.substring(0, index);
     }
 
     /*
@@ -176,10 +179,13 @@ public class LeaderboardActivity extends RefreshContext {
         correctAnswersLabel.setGravity(Gravity.RIGHT);
         correctAnswersLabel.setPadding(0, 0, 30, 0);
         correctAnswersLabel.setTextSize(18);
+        correctAnswersLabel.setTextColor(getResources().getColor(R.color.colorGrey));
         correctAnswersLabel.setText(metricLabel);
+
         leaderboardContainer.addView(correctAnswersLabel);
 
         NonScrollableListView rankingListView = new NonScrollableListView(this);
+        rankingListView.setDividerHeight(0);
         rankingListView.setPadding(0, 0, 0, 20);
 
         Collections.sort(studentRankings, studentRankComparator);
