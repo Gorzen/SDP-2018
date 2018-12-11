@@ -314,11 +314,9 @@ public class Player implements SpecialQuestObservable {
         currTime.set(Calendar.MONTH, Constants.MONTH_OF_SCHEDULE);
         currTime.set(Calendar.WEEK_OF_MONTH, Constants.WEEK_OF_MONTH_SCHEDULE);
         Log.d(TAG, "getCurrentCourseLocation: " + currTime.toString());
-        List<String> playersCourses = Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled()); // Correct
+        List<String> playersCourses = Constants.Course.getNamesFromCourses(Player.get().getCoursesEnrolled());
 
-        //Log.d(TAG, "getCurrentCourseLocation: Courseseee " + Player.get().getScheduleStudent());
         for(WeekViewEvent event : Player.get().getScheduleStudent()) {
-            //Log.d(TAG, "getCurrentCourseLocation: currently " + event.getLocation());
             if(playersCourses.contains(event.getName()) &&
                     ROOMS_LOCATIONS.containsKey(event.getLocation()) &&
                     currTime.after(event.getStartTime()) &&
