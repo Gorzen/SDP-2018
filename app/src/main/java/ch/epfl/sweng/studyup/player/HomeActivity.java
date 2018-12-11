@@ -17,6 +17,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -30,6 +31,7 @@ import com.kosalgeek.android.caching.FileCacher;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
@@ -41,15 +43,18 @@ import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
+import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.player.LeaderboardActivity.studentRankComparator;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.StatsUtils.loadUsers;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class HomeActivity extends NavigationStudent {
@@ -164,6 +169,7 @@ public class HomeActivity extends NavigationStudent {
         updateCurrDisplay();
         updateXpAndLvlDisplay();
         populateSpecialQuestsList();
+        updateStatDisplay();
     }
 
 
@@ -245,6 +251,27 @@ public class HomeActivity extends NavigationStudent {
             }});
     }
 
+    public Callback<List> displayRankOfStudent = new Callback<List>() {
+        public void call(List userList) {
+            List<Pair<String, Integer>> ranking = new ArrayList<>();
+            for (UserData studentData : (List<UserData>) userList) {
+                ranking.add(new Pair<>(studentData.getSciperNum(), studentData.getXP()));
+            }
+            Collections.sort(ranking, studentRankComparator);
+            for(Pair<String, Integer> studentRank : ranking) {
+                if(studentRank.first.equals(Player.get().getSciperNum())) {
+                    setRankTo(studentRank.second);
+                    return;
+                }
+            }
+        }
+    };
+    private void setRankTo(int rank) {
+       // ((TextView) findViewById(R.id.rankNumberTextview)).setText(rank);
+    }
+    private void updateStatDisplay() {
+        loadUsers(displayRankOfStudent);
+    }
     public void onAvailableSpecialQuestsButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
