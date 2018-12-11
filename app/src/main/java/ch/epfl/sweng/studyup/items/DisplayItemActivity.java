@@ -31,14 +31,6 @@ public class DisplayItemActivity extends RefreshContext {
         ImageView img = findViewById(R.id.item_image);
         img.setImageResource(item.getImageName());
 
-        Button backButton = findViewById(R.id.back_button_display_item);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         Button useButton = findViewById(R.id.use_button);
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,5 +39,10 @@ public class DisplayItemActivity extends RefreshContext {
                 startActivity(new Intent(getApplicationContext(), InventoryActivity.class));
             }
         });
+    }
+
+
+    public void onBackButton(View view) {
+        finish();
     }
 }

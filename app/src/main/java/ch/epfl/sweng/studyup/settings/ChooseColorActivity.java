@@ -55,7 +55,7 @@ public class ChooseColorActivity extends RefreshContext {
         finish();
     }
 
-    public void setColorMulti(View v) {
+    public void setColorDark(View v) {
         setupSettingsColor(SETTINGS_COLOR_DARK);
         setupColor(SETTINGS_COLOR_DARK);
         backToApp();

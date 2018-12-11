@@ -34,6 +34,7 @@
                 android:layout_width="33dp"
                 android:layout_height="34dp"
                 android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onBackButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/toolbar"
                 app:layout_constraintHorizontal_bias="0.024"

@@ -152,7 +152,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/list_view_shape"
         android:backgroundTint="@color/colorPrimaryDarkDarkMode"
-        android:onClick="setColorMulti"
+        android:onClick="setColorDark"
         android:text="@string/choose_darktheme"
         android:textAllCaps="false"
         android:textColor="@color/colorProgressionDarkMode"

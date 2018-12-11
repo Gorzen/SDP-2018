@@ -1,14 +1,13 @@
 package ch.epfl.sweng.studyup.settings;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.items.InventoryActivity;
-import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
+
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 public class AboutUsActivity extends NavigationStudent {
 
@@ -23,14 +22,20 @@ public class AboutUsActivity extends NavigationStudent {
     }
 
     public void onSendMailClick(View view) {
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-        // Add object and subject
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"study.up@epfl.ch"});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message about StudyUp app !");
 
-        // Start the activity and ask for a mail
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)));
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("plain/text");
+        //add the object of the email
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message about StudyUp app !");
+        //hold e-mail addresses that should be delivered to
+        String[] send_to = {"study.up@epfl.ch"};
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL, send_to);
+
+        //create an alert to choose how to send the email
+        if (!MOCK_ENABLED) {
+            startActivity(Intent.createChooser(intent, getString(R.string.send_mail)));
+        }
     }
 }
