@@ -204,6 +204,11 @@
     <string name="release_date">Release date :</string>
     <string name="description2">If you find a bug when using the app, do not hesitate to contact us : study.up@epfl.ch</string>
     <string name="send_mail">Send mail to StudyUp devs</string>
+    <string name="leaderboard">Leader Board</string>
+    <string name="correct_answers_label">Correct Answers</string>
+    <string name="xp_label">Player XP</string>
+    <string name="by_correct_answers">By Correct Answers</string>
+    <string name="by_xp">By XP</string>
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
 </resources>

@@ -198,6 +198,11 @@
     <string name="release_date">Date de sortie :</string>
     <string name="description2">Si vous trouvez un bug lors de l\'utilisation de l\'application, n\'hésitez pas à nous contacter : study.up@epfl.ch</string>
     <string name="send_mail">Envoyer un email aux devs de StudyUp</string>
+    <string name="leaderboard">Classement</string>
+    <string name="correct_answers_label">Réponses correctes</string>
+    <string name="xp_label">XP du joueur</string>
+    <string name="by_correct_answers">Par nombre de bonnes réponses</string>
+    <string name="by_xp">Par XP</string>
     <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
     <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
 </resources>
