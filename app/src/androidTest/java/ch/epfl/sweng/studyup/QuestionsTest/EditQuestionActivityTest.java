@@ -90,8 +90,14 @@ public class EditQuestionActivityTest {
         editAndCheckQuestionHelper(newAnswerNumber, changeType, isTrueFalseBeforeEdition);
     }
 
-    private void editAndCheckQuestionHelper(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
-        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
+    private void editAndCheckQuestionHelper(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) throws Throwable {
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().findViewById(R.id.addOrEditQuestionButton).callOnClick();
+            }
+        });
+        waitAndTag(500, "Waiting for onClick to be called.");
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
@@ -212,7 +218,13 @@ public class EditQuestionActivityTest {
         });
         waitAndTag(150, "Wait for radio to be set.");
 
-        onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
+        mActivityRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mActivityRule.getActivity().findViewById(R.id.addOrEditQuestionButton).callOnClick();
+            }
+        });
+        waitAndTag(500, "Waiting for onClick to be called.");
         waitAndTag(1000, this.getClass().getName());
         Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");
