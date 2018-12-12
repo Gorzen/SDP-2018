@@ -143,7 +143,7 @@ public class Firestore {
      * Version without callback of loadQuestions
      */
     public void loadQuestions(final Context context) throws NullPointerException {
-        loadQuestions(context);
+        loadQuestions(context, null);
     }
 
     /**
