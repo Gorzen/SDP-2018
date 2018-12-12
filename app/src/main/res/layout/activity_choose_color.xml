@@ -42,6 +42,69 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/lockRed"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeRed"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeRed"
+        app:layout_constraintStart_toStartOf="@+id/setThemeRed"
+        app:layout_constraintTop_toTopOf="@+id/setThemeRed"
+        app:srcCompat="@drawable/lock_icon" />
+
+    <ImageView
+        android:id="@+id/lockGreen"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeGreen"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeGreen"
+        app:layout_constraintStart_toStartOf="@+id/setThemeGreen"
+        app:layout_constraintTop_toTopOf="@+id/setThemeGreen"
+        app:srcCompat="@drawable/lock_icon" />
+
+    <ImageView
+        android:id="@+id/lockBlue"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeBlue"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeBlue"
+        app:layout_constraintStart_toStartOf="@+id/setThemeBlue"
+        app:layout_constraintTop_toTopOf="@+id/setThemeBlue"
+        app:srcCompat="@drawable/lock_icon" />
+
+    <ImageView
+        android:id="@+id/lockOrange"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeBrown"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeBrown"
+        app:layout_constraintStart_toStartOf="@+id/setThemeBrown"
+        app:layout_constraintTop_toTopOf="@+id/setThemeBrown"
+        app:srcCompat="@drawable/lock_icon" />
+
+    <ImageView
+        android:id="@+id/lockMulti"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeMulti"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeMulti"
+        app:layout_constraintStart_toStartOf="@+id/setThemeMulti"
+        app:layout_constraintTop_toTopOf="@+id/setThemeMulti"
+        app:srcCompat="@drawable/lock_icon" />
+
     <TextView
         android:id="@+id/chooseYourColorTextView"
         android:layout_width="0dp"
