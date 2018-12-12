@@ -15,6 +15,6 @@ public class ItemsTest {
     @Test
     public void getImageName() {
         assertEquals(R.drawable.item_potion, Items.XP_POTION.getImageName());
-        assertEquals(R.drawable.coin_sack, Items.COIN_SACK.getImageName());
+        assertEquals(R.drawable.item_bag, Items.COIN_SACK.getImageName());
     }
 }

@@ -231,6 +231,10 @@
     <string name ="jeykill_message2">Hey, je suis nouveau ici et je suis à la recherche d\'objets!</string>
     <string name ="jeykill_message3">Suivez-moi&#8320;</string>
 
+    <string name="luigi_message1">B-bonjour ! D-dis, est-ce q-que tu v-veux joueur avec m-moi ?</string>
+    <string name="luigi_message2">On joue à quoi ?</string>
+    <string name="luigi_message3">E-eh. Le b-but du j-jeu c\'est que t-tu me donnes t-ton âme et tu r-reçois un c-cadeau. B-bonne idée, non ?</string>
+    
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>
     <string name="orange_name">Thème orange</string>

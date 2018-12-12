@@ -237,6 +237,10 @@
     <string name ="jeykill_message2">Hey, I\'m new here and am looking for items</string>
     <string name ="jeykill_message3">Please, follow me&#8320;</string>
     
+    <string name="luigi_message1">H-hello! D-do you want t-to play with m-me?</string>
+    <string name="luigi_message2">Sure, what are we playing?</string>
+    <string name="luigi_message3">E-eh. If y-you land me y-your soul, I\'ll g-give you a g-gift. D-deal?</string>
+
     <string name="green_name">Green theme</string>
     <string name="blue_name">Blue theme</string>
     <string name="orange_name">Orange theme</string>
