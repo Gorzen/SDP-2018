@@ -1,12 +1,16 @@
 package ch.epfl.sweng.studyup.player;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,7 +79,7 @@ public class LeaderboardActivity extends RefreshContext {
 
             allUsers = userList;
 
-            handleLeadboardModeVisibility(null);
+            findViewById(R.id.leaderboard_spinner).setVisibility(View.GONE);
             displayRankingsByXP();
             displayRankingsByQuestionsAnswered();
         }
@@ -87,23 +91,38 @@ public class LeaderboardActivity extends RefreshContext {
     One container contains the ranking by correct answers, the other by XP.
      */
     public void handleLeadboardModeVisibility(View view) {
-        ToggleButton rankModeToggle = findViewById(R.id.toggle_rank_mode);
+
         LinearLayout leaderboardByQuestionsAnsweredContainer = findViewById(R.id.leaderboard_by_correct_answers_container);
         LinearLayout leaderboardByXPContainer = findViewById(R.id.leaderboard_by_xp_container);
 
-        if (rankModeToggle.isChecked()) {
+        Button rankModeXpButton = findViewById(R.id.toggle_rank_mode_xp);
+        Button rankModeCorrectAnswersButton = findViewById(R.id.toggle_rank_mode_correct_answers);
+
+        if (view.getId() == R.id.toggle_rank_mode_xp) {
             // Toggle has been set to "By XP"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.VISIBLE);
-            leaderboardByXPContainer.setVisibility(View.INVISIBLE);
+            setButtonsBackground(leaderboardByQuestionsAnsweredContainer, leaderboardByXPContainer, rankModeXpButton, rankModeCorrectAnswersButton, true);
         }
         else {
             // Toggle has been set to "By Correct Answers"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.INVISIBLE);
-            leaderboardByXPContainer.setVisibility(View.VISIBLE);
+            setButtonsBackground(leaderboardByQuestionsAnsweredContainer, leaderboardByXPContainer, rankModeXpButton, rankModeCorrectAnswersButton, false);
         }
-
-        findViewById(R.id.leaderboard_spinner).setVisibility(View.GONE);
     }
+
+    private void setButtonsBackground(LinearLayout leaderboardByQuestionsAnsweredContainer, LinearLayout leaderboardByXPContainer, Button rankModeXpButton, Button rankModeCorrectAnswersButton, boolean byXP) {
+        int visibility0 = byXP ? View.INVISIBLE : View.VISIBLE; //1 => bool = true
+        int visibility1 = byXP ? View.VISIBLE : View.INVISIBLE;
+        int color0 = byXP ? R.attr.colorProgression : R.attr.colorProgression2;
+        int color1 = byXP ? R.attr.colorProgression2 : R.attr.colorProgression;
+
+        leaderboardByQuestionsAnsweredContainer.setVisibility(visibility0);
+        leaderboardByXPContainer.setVisibility(visibility1);
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(color0, typedValue, true);
+        rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, typedValue.resourceId));
+        getTheme().resolveAttribute(color1, typedValue, true);
+        rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, typedValue.resourceId));
+    }
+
 
     /*
     Generates a single rank list from all players of the app, based on their XP.

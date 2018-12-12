@@ -75,36 +75,58 @@
                 android:textAllCaps="false"
                 android:textSize="24sp" />
 
-            <ToggleButton
-                android:id="@+id/toggle_rank_mode"
+            <LinearLayout
+                android:id="@+id/toggle_button_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/leaderboard_title"
-                android:layout_marginBottom="15dp"
                 android:layout_centerHorizontal="true"
-                android:textAllCaps="false"
-                android:textOn="@string/by_correct_answers"
-                android:textOff="@string/by_xp"
-                android:background="@drawable/list_view_shape"
-                android:backgroundTint="?attr/colorPrimary"
-                android:textColor="@color/colorWhite"
-                android:onClick="handleLeadboardModeVisibility"/>
+                android:layout_below="@+id/leaderboard_title"
+                android:layout_marginBottom="15dp">
+
+                <Button
+                    android:id="@+id/toggle_rank_mode_xp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/by_xp"
+                    android:onClick="handleLeadboardModeVisibility"
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="?attr/colorProgression"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"/>
+
+                <Button
+                    android:id="@+id/toggle_rank_mode_correct_answers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="@string/by_correct_answers"
+                    android:onClick="handleLeadboardModeVisibility"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="?attr/colorProgression2"
+                    android:textColor="@color/colorWhite"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/leaderboard_by_xp_container"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toggle_rank_mode"
+                android:layout_below="@+id/toggle_button_container"
                 android:gravity="center"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/leaderboard_by_correct_answers_container"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toggle_rank_mode"
+                android:layout_below="@+id/toggle_button_container"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible"/>
@@ -112,5 +134,4 @@
         </RelativeLayout>
 
     </ScrollView>
-
 </RelativeLayout>

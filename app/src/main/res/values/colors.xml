@@ -20,15 +20,15 @@
     <color name="colorPrimaryDarkGreen">#2B6728</color>
     <color name="colorAccentGreen">#0EB514</color>
     <color name="colorProgressionGreen">#00CC66</color>
-    <color name="colorProgressionGreen2">#66FF66</color>
+    <color name="colorProgressionGreen2">#66DC66</color>
     <color name="colorBackGroundGreen2">#c2ffe8</color>
 
 
     <color name="colorPrimaryBrown">#FD993A</color>
     <color name="colorPrimaryDarkBrown">#E25F1C</color>
     <color name="colorAccentBrown">#875D3C</color>
-    <color name="colorProgressionBrown">#776B61</color>
-    <color name="colorProgressionBrown2">#b26b35</color>
+    <color name="colorProgressionBrown2">#B36B31</color>
+    <color name="colorProgressionBrown">#926b35</color>
     <color name="colorBackGroundBrown2">#dfd9</color>
 
 
