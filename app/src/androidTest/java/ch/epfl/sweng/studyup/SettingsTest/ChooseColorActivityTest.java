@@ -37,14 +37,6 @@ public class ChooseColorActivityTest {
     public final ActivityTestRule<ChooseColorActivity> rule =
             new ActivityTestRule<>(ChooseColorActivity.class);
 
-    @BeforeClass
-    public static void addColors(){
-        Player.get().addTheme(SETTINGS_COLOR_GREEN);
-        Player.get().addTheme(SETTINGS_COLOR_BLUE);
-        Player.get().addTheme(SETTINGS_COLOR_ORANGE);
-        Player.get().addTheme(SETTINGS_COLOR_MULTI);
-    }
-
     @AfterClass
     public static void resetPlayer(){
         Player.get().resetPlayer();
@@ -53,6 +45,10 @@ public class ChooseColorActivityTest {
     @Before
     public void initIntent() {
         Intents.init();
+        Player.get().addTheme(SETTINGS_COLOR_GREEN);
+        Player.get().addTheme(SETTINGS_COLOR_BLUE);
+        Player.get().addTheme(SETTINGS_COLOR_ORANGE);
+        Player.get().addTheme(SETTINGS_COLOR_MULTI);
     }
 
     @After
