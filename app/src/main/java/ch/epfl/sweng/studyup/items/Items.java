@@ -11,22 +11,24 @@ import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.Constants.allNPCs;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
-@SuppressWarnings("HardCodedStringLiteral") // Pain in the ass to translate.
 public enum Items implements Serializable {
-    XP_POTION(Items.XP_POTION_NAME_ID, Items.XP_POTION_DESCRIPTION_ID, Items.XP_POTION_PRICE),
-    UNSTABLE_POTION(Items.UNSTABLE_POTION_NAME_ID, Items.UNSTABLE_POTION_DESCRIPTION_ID, Items.UNSTABLE_POTION_PRICE),
-    TOMBOLA(Items.TOMBOLA_NAME_ID, Items.TOMBOLA_DESCRIPTION_ID, Items.TOMBOLA_PRICE),
-    COIN_SACK(Items.COIN_SACK_NAME_ID, Items.COIN_SACK_DESCRIPTION_ID, Items.COIN_SACK_PRICE),
-    MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE),
-    GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE),
-    BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE),
-    BROWN_THEME(Items.BROWN_NAME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE),
-    MULTI_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE);
-
+    XP_POTION(Items.XP_POTION_NAME_ID, Items.XP_POTION_DESCRIPTION_ID, Items.XP_POTION_PRICE, Items.XP_POTION_IMAGE),
+    UNSTABLE_POTION(Items.UNSTABLE_POTION_NAME_ID, Items.UNSTABLE_POTION_DESCRIPTION_ID, Items.UNSTABLE_POTION_PRICE, Items.UNSTABLE_POTION_IMAGE),
+    TOMBOLA(Items.TOMBOLA_NAME_ID, Items.TOMBOLA_DESCRIPTION_ID, Items.TOMBOLA_PRICE, Items.TOMBOLA_IMAGE),
+    COIN_SACK(Items.COIN_SACK_NAME_ID, Items.COIN_SACK_DESCRIPTION_ID, Items.COIN_SACK_PRICE, Items.COIN_SACK_IMAGE),
+    MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE, Items.MAP_IMAGE),
+    GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE, Items.GREEN_IMAGE),
+    BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE, Items.BLUE_IMAGE),
+    BROWN_THEME(Items.BROWN_NAME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE, Items.BROWN_IMAGE),
+    MULTI_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE, Items.MULTI_IMAGE);
 
     //Names
     public static final int XP_POTION_NAME_ID = R.string.item_xp_potion_name;
@@ -38,7 +40,6 @@ public enum Items implements Serializable {
     public static final int BLUE_NAME_ID = R.string.blue_name;
     public static final int BROWN_NAME_ID = R.string.brown_name;
     public static final int MULTI_NAME_ID = R.string.multi_colour_name;
-
 
     //Descriptions
     public static final int XP_POTION_DESCRIPTION_ID = R.string.item_xp_potion_description;
@@ -62,14 +63,27 @@ public enum Items implements Serializable {
     public static final int BROWN_PRICE = 50;
     public static final int MULTI_PRICE = 50;
 
+    //Images
+    public static final int XP_POTION_IMAGE = R.drawable.potion;
+    public static final int UNSTABLE_POTION_IMAGE = R.drawable.unstable_potion;
+    public static final int TOMBOLA_IMAGE = R.drawable.tombola;
+    public static final int COIN_SACK_IMAGE = R.drawable.coin_sack;
+    public static final int MAP_IMAGE = R.drawable.map_item;
+    public static final int GREEN_IMAGE = R.drawable.coin_sack;
+    public static final int BLUE_IMAGE = R.drawable.coin_sack;
+    public static final int BROWN_IMAGE = R.drawable.coin_sack;
+    public static final int MULTI_IMAGE = R.drawable.coin_sack;
+
     private final int nameId;
     private final int descriptionId;
     private final int price;
+    private final int image;
 
-    Items(int nameId, int descriptionId, int price) {
+    Items(int nameId, int descriptionId, int price, int image) {
         this.nameId = nameId;
         this.descriptionId = descriptionId;
         this.price = price;
+        this.image = image;
     }
 
     public int getPrice(){
@@ -98,16 +112,16 @@ public enum Items implements Serializable {
                 }
                 break;
             case GREEN_THEME:
-                Player.get().addTheme(GREEN_THEME.getName());
+                Player.get().addTheme(SETTINGS_COLOR_GREEN);
                 break;
             case BROWN_THEME:
-                Player.get().addTheme(BROWN_THEME.getName());
+                Player.get().addTheme(SETTINGS_COLOR_BROWN);
                 break;
             case BLUE_THEME:
-                Player.get().addTheme(BLUE_THEME.getName());
+                Player.get().addTheme(SETTINGS_COLOR_BLUE);
                 break;
             case MULTI_THEME:
-                Player.get().addTheme(MULTI_THEME.getName());
+                Player.get().addTheme(SETTINGS_COLOR_MULTI);
                 break;
             default:
         }
@@ -122,19 +136,7 @@ public enum Items implements Serializable {
     }
 
     public int getImageName() {
-        switch (this) {
-            case XP_POTION:
-                return R.drawable.potion;
-            case UNSTABLE_POTION:
-                return R.drawable.unstable_potion;
-            case TOMBOLA:
-                return R.drawable.tombola;
-            case COIN_SACK:
-                return R.drawable.coin_sack;
-            case MAP:
-                return R.drawable.map_item;
-            default: throw new IllegalArgumentException("Unknown item");
-        }
+        return image;
     }
 
     public static Items getItemFromName(String name){

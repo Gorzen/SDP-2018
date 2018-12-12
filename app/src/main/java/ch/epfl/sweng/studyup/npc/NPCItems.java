@@ -22,12 +22,6 @@ public class NPCItems extends NPC {
 
     @Override
     void onYesButton(Activity activity) {
-        String[] namesOfItems = new String[items.size()];
-
-        for(int i = 0; i < items.size(); ++i){
-            namesOfItems[i] = items.get(i).name();
-        }
-
-        activity.startActivity(new Intent(activity, ShopActivity.class).putExtra(Items.class.getName(), namesOfItems));
+        activity.startActivity(new Intent(activity, ShopActivity.class).putExtra(Items.class.getName(), items.toArray(new Items[0])));
     }
 }

@@ -212,7 +212,7 @@ public abstract class Constants {
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.charlie, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)),"Muerte", new LatLng(46.520569, 6.570483), R.drawable.death, 3),
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME)),"Muerte", new LatLng(46.518518, 6.561829), R.drawable.death, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto, 3)
             )));
 
