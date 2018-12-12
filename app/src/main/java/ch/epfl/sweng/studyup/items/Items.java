@@ -12,7 +12,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
@@ -115,7 +115,7 @@ public enum Items implements Serializable {
                 Player.get().addTheme(SETTINGS_COLOR_GREEN);
                 break;
             case ORANGE_THEME:
-                Player.get().addTheme(SETTINGS_COLOR_BROWN);
+                Player.get().addTheme(SETTINGS_COLOR_ORANGE);
                 break;
             case BLUE_THEME:
                 Player.get().addTheme(SETTINGS_COLOR_BLUE);
