@@ -209,9 +209,9 @@
     <string name="charlie_message2">Bonjour2</string>
     <string name="charlie_message3">Bonjour3</string>
 
-    <string name="muerte_message1">Bonjour1</string>
-    <string name="muerte_message2">Bonjour2</string>
-    <string name="muerte_message3">Bonjour3</string>
+    <string name="muerte_message1">Bonjour, étranger. Es-tu prêt à rencontrer la mort?</string>
+    <string name="muerte_message2">Bonjour, mon ami. Tu ne me fais pas peur!</string>
+    <string name="muerte_message3">Ok, tu veux acheter des objets?</string>
 
     <string name="roberto_message1">Bonjour1</string>
     <string name="roberto_message2">Bonjour2</string>

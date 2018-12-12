@@ -215,9 +215,9 @@
     <string name="charlie_message2">Hello2</string>
     <string name="charlie_message3">Hello3</string>
 
-    <string name="muerte_message1">Hello1</string>
-    <string name="muerte_message2">Hello2</string>
-    <string name="muerte_message3">Hello3</string>
+    <string name="muerte_message1">Hello, stranger. Are you ready to meet death?</string>
+    <string name="muerte_message2">Hello, friend. You don\'t scare me!</string>
+    <string name="muerte_message3">Ok, do you want to buy items?</string>
 
     <string name="roberto_message1">Hello1</string>
     <string name="roberto_message2">Hello2</string>
