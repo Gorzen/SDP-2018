@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -69,39 +70,32 @@ public class NPCActivity extends RefreshContext {
         });
     }
 
-    private void displayCharactersOneByOne(int indexOfMessage){
+    private void displayCharactersOneByOne(final int indexOfMessage) {
         final TextView message = findViewById(indexOfMessage);
         final CharSequence m = message.getText();
 
-        if (indexOfMessage % 2 == 1) {
-            Rect bounds = new Rect();
-            Paint textPaint = message.getPaint();
-            textPaint.getTextBounds(m.toString() + "M", 0, m.length() + 1, bounds);
-
-            message.setWidth(bounds.width() >= message.getMaxWidth() ?
-                    message.getMaxWidth() : bounds.width());
-        }
         message.setText("");
         message.setVisibility(View.VISIBLE);
 
         final Handler handlerText = new Handler();
         handlerText.post(new Runnable() {
-            private int i = 1;
+            private int i = 0;
 
             @Override
             public void run() {
-                message.setText(m.subSequence(0, i));
+                message.append(m, i, i+1);
+
                 scroll();
 
                 i++;
-                if (i <= m.length()) {
+                if (i < m.length()) {
                     handlerText.postDelayed(this, TIME_BETWEEN_CHARACTERS);
                 }
             }
         });
     }
 
-    private void scroll(){
+    private void scroll() {
         final Handler scroll = new Handler();
         scroll.postDelayed(new Runnable() {
             @Override
@@ -149,6 +143,7 @@ public class NPCActivity extends RefreshContext {
         int width = size.x;
 
         message.setMaxWidth((int) (width * 0.7));
+        message.setWidth(message.getMaxWidth());
 
         message.setVisibility(View.GONE);
 
@@ -156,7 +151,7 @@ public class NPCActivity extends RefreshContext {
         constraintLayout.addView(message);
     }
 
-    private ConstraintLayout.LayoutParams getConstraintYesNoButtons(int maxIndex){
+    private ConstraintLayout.LayoutParams getConstraintYesNoButtons(int maxIndex) {
         ConstraintLayout.LayoutParams lparams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         lparams.setMargins(8, 8, 8, 8);
@@ -173,7 +168,7 @@ public class NPCActivity extends RefreshContext {
         return lparams;
     }
 
-    public void onYesButton(View view){
+    public void onYesButton(View view) {
         npc.onYesButton(this);
     }
 
