@@ -185,7 +185,7 @@
 
                     <TextView
                         android:id="@+id/counter"
-                        android:layout_width="106dp"
+                        android:layout_width="83dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="24dp"
@@ -201,7 +201,7 @@
 
                     <Button
                         android:id="@+id/minus_button"
-                        android:layout_width="106dp"
+                        android:layout_width="88dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="8dp"
@@ -219,16 +219,16 @@
 
                     <Button
                         android:id="@+id/plus_button"
-                        android:layout_width="106dp"
+                        android:layout_width="88dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="32dp"
+                        android:background="@drawable/list_view_shape"
+                        android:backgroundTint="?attr/colorProgression"
                         android:gravity="center"
                         android:onClick="onPlusButton"
                         android:text="+"
                         android:textColor="@color/colorWhite"
-                        android:background="@drawable/list_view_shape"
-                        android:backgroundTint="?attr/colorProgression"
                         android:textSize="25sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/counter"

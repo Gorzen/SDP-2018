@@ -54,12 +54,11 @@ public class ShopActivityAndBuyItemActivityTest {
                 list.performItemClick(list.getAdapter().getView(0, null, null), 0, 0);
             }
         });
-        onView(withId(R.id.plus_button)).perform(scrollTo());
         for(int i = 0; i < 3; ++i) {
-            onView(withId(R.id.plus_button)).perform(click());
+            onView(withId(R.id.plus_button)).perform(scrollTo(), click());
         }
-        onView(withId(R.id.minus_button)).perform(click());
-        onView(withId(R.id.buy_button)).perform(click());
+        onView(withId(R.id.minus_button)).perform(scrollTo(), click());
+        onView(withId(R.id.buy_button)).perform(scrollTo(), click());
         assertEquals(0, Player.get().getCurrency());
         assertEquals(Arrays.asList(Items.COIN_SACK, Items.COIN_SACK, Items.COIN_SACK), Player.get().getItems());
     }
@@ -74,7 +73,7 @@ public class ShopActivityAndBuyItemActivityTest {
         });
         Utils.waitAndTag(150, "Waiting for click on item");
         onView(withId(R.id.plus_button)).perform(scrollTo(), click());
-        onView(withId(R.id.buy_button)).perform(click());
+        onView(withId(R.id.buy_button)).perform(scrollTo(), click());
         onView(withId(R.id.back_button)).perform(click());
         assertEquals(0, Player.get().getItems().size());
     }
