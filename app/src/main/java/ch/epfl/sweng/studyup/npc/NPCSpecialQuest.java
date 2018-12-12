@@ -5,9 +5,6 @@ import android.content.Intent;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Arrays;
-
-import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 
