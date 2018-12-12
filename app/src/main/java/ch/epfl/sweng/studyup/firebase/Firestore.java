@@ -182,7 +182,7 @@ public class Firestore {
 
     private Question extractQuestionData(Player currPlayer, String id, Map<String, Object> questionData) {
         Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
-        List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesTeached();
+        List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesEnrolled();
         boolean questionCourseMatchesPlayer = playerCourse.contains(questionCourse);
 
         if (questionCourseMatchesPlayer) {

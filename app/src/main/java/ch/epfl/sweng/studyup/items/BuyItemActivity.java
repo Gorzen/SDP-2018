@@ -30,11 +30,11 @@ public class BuyItemActivity extends RefreshContext {
         img.setImageResource(item.getImageName());
 
         TextView unitPrice = findViewById(R.id.unit_price);
-        unitPrice.setText(getString(R.string.text_itemprice) + item.getPrice());
+        unitPrice.setText(getString(R.string.text_itemprice) +" "+ item.getPrice());
         TextView playerCurrency = findViewById(R.id.player_currency);
-        playerCurrency.setText(getString(R.string.text_currencyyouhave) + Player.get().getCurrency());
+        playerCurrency.setText(getString(R.string.text_currencyyouhave) +" "+ Player.get().getCurrency());
         TextView playerItemNum = findViewById(R.id.player_item_num);
-        playerItemNum.setText(getString(R.string.text_itemalreadyhave) + Items.countItem(item) + getString(R.string.text_itemtimes));
+        playerItemNum.setText(getString(R.string.text_itemalreadyhave) +" "+ Items.countItem(item) +" "+ getString(R.string.text_itemtimes));
 
         updateTextViewCounter();
     }
@@ -56,7 +56,7 @@ public class BuyItemActivity extends RefreshContext {
         TextView currCounter = findViewById(R.id.counter);
         currCounter.setText(Integer.toString(counter));
         TextView totalPrice = findViewById(R.id.total_price);
-        totalPrice.setText(getString(R.string.text_totalprice) + counter * item.getPrice());
+        totalPrice.setText(getString(R.string.text_totalprice) +" "+ counter * item.getPrice());
     }
 
     public void onBuyButton(View view) {

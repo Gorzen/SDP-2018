@@ -38,7 +38,7 @@ public class AAMainActivityTest {
         int currency = Player.get().getCurrency();
         final int currencyToAdd = 10;
 
-        onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) + Player.get().getCurrency())));
+        onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) +" "+ Player.get().getCurrency())));
 
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -49,7 +49,7 @@ public class AAMainActivityTest {
 
         Utils.waitAndTag(1000, "MainActivityTestCurrencyDisplayTest");
 
-        onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) + Player.get().getCurrency())));
+        onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) +" "+ Player.get().getCurrency())));
         assertEquals(currency + currencyToAdd, Player.get().getCurrency());
     }
 
@@ -59,7 +59,7 @@ public class AAMainActivityTest {
 
         final int numberOfPush = 5;
         assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-        onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) + Player.get().getLevel())));
+        onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
         for (int i = 0; i < numberOfPush; ++i) {
             mActivityRule.getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -69,7 +69,7 @@ public class AAMainActivityTest {
                 }
             });
             assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) + Player.get().getLevel())));
+            onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
         }
     }
 

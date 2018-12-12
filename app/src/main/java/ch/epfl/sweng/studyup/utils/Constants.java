@@ -140,7 +140,7 @@ public abstract class Constants {
     // Constants for schedule
     public static final int FIRST_DAY_SCHEDULE = 19;
     public static final int LAST_DAY_SCHEDULE = FIRST_DAY_SCHEDULE + 4;
-    public static final int WEEK_OF_SCHEDULE = 3;
+    public static final int WEEK_OF_MONTH_SCHEDULE = 4;
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
@@ -158,15 +158,15 @@ public abstract class Constants {
     }
 
     public enum Course {
-        SWENG("SWENG"),
+        SWENG("Software Engineering"),
         Algebra("Algebra"),
         Ecology("Ecology"),
         Blacksmithing("Blacksmithing"),
         Analyse("Analyse"),
         Physics("Physics"),
-        ToC("ToC"),
-        ProbaStat("ProbaStat"),
-        FunProg("FunProg "),
+        ToC("Theory of Computation"),
+        ProbaStat("Probability and Statistics"),
+        FunProg("Functional Programming"),
         FakeCourse("A fake course");
 
         private String name = "";

@@ -105,7 +105,6 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         mMap = googleMap;
         Log.d("GPS_MAP", "Map ready position = " + POSITION);
         onLocationUpdate(POSITION);
-        findAndMarkRoom(Player.get().getCurrentCourseLocation());
         setNPCSMarker();
         if(googleMap != null) {
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -124,6 +123,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                 }
             });
         }
+        findAndMarkRoom(Player.get().getCurrentCourseLocation());
     }
 
     @Override
