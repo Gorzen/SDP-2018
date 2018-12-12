@@ -43,23 +43,10 @@
     </android.support.constraint.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/lockRed"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:elevation="32dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/setThemeRed"
-        app:layout_constraintEnd_toEndOf="@+id/setThemeRed"
-        app:layout_constraintStart_toStartOf="@+id/setThemeRed"
-        app:layout_constraintTop_toTopOf="@+id/setThemeRed"
-        app:srcCompat="@drawable/lock_icon" />
-
-    <ImageView
         android:id="@+id/lockGreen"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:elevation="32dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeGreen"
         app:layout_constraintEnd_toEndOf="@+id/setThemeGreen"
         app:layout_constraintStart_toStartOf="@+id/setThemeGreen"
@@ -72,7 +59,6 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeBlue"
         app:layout_constraintEnd_toEndOf="@+id/setThemeBlue"
         app:layout_constraintStart_toStartOf="@+id/setThemeBlue"
@@ -85,11 +71,10 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/setThemeBrown"
-        app:layout_constraintEnd_toEndOf="@+id/setThemeBrown"
-        app:layout_constraintStart_toStartOf="@+id/setThemeBrown"
-        app:layout_constraintTop_toTopOf="@+id/setThemeBrown"
+        app:layout_constraintBottom_toBottomOf="@+id/setThemeOrange"
+        app:layout_constraintEnd_toEndOf="@+id/setThemeOrange"
+        app:layout_constraintStart_toStartOf="@+id/setThemeOrange"
+        app:layout_constraintTop_toTopOf="@+id/setThemeOrange"
         app:srcCompat="@drawable/lock_icon" />
 
     <ImageView
@@ -98,7 +83,6 @@
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeMulti"
         app:layout_constraintEnd_toEndOf="@+id/setThemeMulti"
         app:layout_constraintStart_toStartOf="@+id/setThemeMulti"
@@ -157,6 +141,7 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="24sp"
+        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/setThemeBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.50"
@@ -178,14 +163,15 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/setThemeBrown"
+        android:enabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/setThemeOrange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setThemeGreen" />
 
     <Button
-        android:id="@+id/setThemeBrown"
+        android:id="@+id/setThemeOrange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -199,6 +185,7 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="24sp"
+        android:enabled="false"
         app:layout_constraintBottom_toTopOf="@+id/setThemeMulti"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -220,9 +207,10 @@
         android:textColor="@color/colorProgressionMulti"
         android:textSize="24sp"
         android:typeface="normal"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setThemeBrown" />
+        app:layout_constraintTop_toBottomOf="@+id/setThemeOrange" />
 
 </android.support.constraint.ConstraintLayout>
