@@ -22,13 +22,14 @@ import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 
+import static ch.epfl.sweng.studyup.utils.StatsUtils.getQuestionIdsForCourse;
+import static ch.epfl.sweng.studyup.utils.StatsUtils.getStudentsForCourse;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 
 public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
     private Course course;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +44,13 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         name_course.setText(course.toString());
 
         TextView nb_students = findViewById(R.id.nb_students);
-        List<UserData> userList = getStudentsFromCourse(course);
+        List<UserData> userList = getStudentsForCourse(allUsers, course);
         nb_students.setText("Number of enrolled students: " + String.valueOf(userList.size()));
         setupListViewP(userList);
 
 
         TextView nb_quests = findViewById(R.id.nb_questions);
-        List<String> qList = getQuestsStringFromCourse(course);
+        List<String> qList = getQuestionIdsForCourse(allQuestions, course);
         nb_quests.setText("Number of questions for this course: " + String.valueOf(qList.size()));
         setupListViewQ(qList);
 
@@ -59,15 +60,13 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         finish();
     }
 
-
-
     protected void setupListViewP(final List<UserData> userList) {
         ListView listView = findViewById(R.id.listViewPlayer);
 
         ArrayList<Integer> rates = new ArrayList<>();
         ArrayList<Integer> nb_answer = new ArrayList<>();
 
-        List<String> quests_course = getQuestsStringFromCourse(course);
+        List<String> quests_course = getQuestionIdsForCourse(allQuestions, course);
         Set<String> s1 = new HashSet<>(quests_course);
 
         for (UserData user : userList) {
@@ -100,7 +99,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
         ArrayList<Integer> rates = new ArrayList<>();
         ArrayList<Integer> nb_answer = new ArrayList<>();
 
-        List<UserData> students_in_course = getStudentsFromCourse(course);
+        List<UserData> students_in_course = getStudentsForCourse(allUsers, course);
 
         for (String question_string : questions_course) {
             int a_user_ans = 0;
@@ -124,29 +123,6 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
     }
 
 
-
-
-
-    //get all students for one course
-    public List<UserData> getStudentsFromCourse(Course course){
-        List<UserData> usersEnrolledInCourse = new ArrayList<>();
-        for (UserData user: getAllUsers()) {
-            if(user.getCourses().contains(course)){
-                usersEnrolledInCourse.add(user);
-            }
-        }
-        return usersEnrolledInCourse;
-    }
-
-    public List<String> getQuestsStringFromCourse(Course course){
-        List<String> questStrFromCourse = new ArrayList<>();
-        for (Question q: getAllQuestions()) {
-            if(q.getCourseName().equals(course.name())){
-                questStrFromCourse.add(q.getQuestionId());
-            }
-        }
-        return questStrFromCourse;
-    }
 
     private class ListUserAdapter extends BaseAdapter {
 
@@ -259,7 +235,7 @@ public class DisplayCourseStatsActivity extends CourseStatsActivity {
 
             String Title = "";
             boolean isTF = false;
-            List<Question> allQ = getAllQuestions();
+            List<Question> allQ = allQuestions;
             for (Question q: allQ) {
                 if(q.getQuestionId().equals(questions.get(position))) {
                     Title = q.getTitle();

@@ -2,6 +2,7 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.content.ClipData;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
@@ -223,5 +224,17 @@ public abstract class Constants {
         SET_USERNAME,
         USER_LOGIN
     }
+
+    // Color strings
+    public static final String gold = "#d4af37";
+    public static final String silver = "#595959";
+    public static final String bronze = "#cd7f32";
+
+    // Test list for leaderboard testing
+    public static List<Pair<String, Integer>> mockStudentRankings = new ArrayList<>(Arrays.asList(
+            new Pair<String, Integer>("Giovanni Boccaccio", 3),
+            new Pair<String, Integer>("Dante Alighieri", 7),
+            new Pair<String, Integer>("Francesco Petrarca", 5)
+    ));
 }
 
