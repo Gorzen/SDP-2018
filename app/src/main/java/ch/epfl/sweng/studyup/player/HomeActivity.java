@@ -262,16 +262,19 @@ public class HomeActivity extends NavigationStudent {
                 ranking.add(new Pair<>(studentData.getSciperNum(), studentData.getXP()));
             }
             Collections.sort(ranking, studentRankComparator);
+            int counter = 0;
             for(Pair<String, Integer> studentRank : ranking) {
+                ++counter;
                 if(studentRank.first.equals(Player.get().getSciperNum())) {
-                    setRankTo(studentRank.second);
+                    setRankTo(counter);
                     return;
                 }
             }
         }
     };
     private void setRankTo(int rank) {
-       // ((TextView) findViewById(R.id.rankNumberTextview)).setText(rank);
+     TextView rankText = findViewById(R.id.rankNumberTextview);
+     rankText.setText(String.valueOf(rank));
     }
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
