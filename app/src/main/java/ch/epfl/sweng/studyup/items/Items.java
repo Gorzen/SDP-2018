@@ -64,15 +64,15 @@ public enum Items implements Serializable {
     public static final int MULTI_PRICE = 50;
 
     //Images
-    public static final int XP_POTION_IMAGE = R.drawable.potion;
-    public static final int UNSTABLE_POTION_IMAGE = R.drawable.unstable_potion;
-    public static final int TOMBOLA_IMAGE = R.drawable.tombola;
-    public static final int COIN_SACK_IMAGE = R.drawable.coin_sack;
-    public static final int MAP_IMAGE = R.drawable.map_item;
-    public static final int GREEN_IMAGE = R.drawable.coin_sack;
-    public static final int BLUE_IMAGE = R.drawable.coin_sack;
-    public static final int ORANGE_IMAGE = R.drawable.coin_sack;
-    public static final int MULTI_IMAGE = R.drawable.coin_sack;
+    public static final int XP_POTION_IMAGE = R.drawable.item_potion;
+    public static final int UNSTABLE_POTION_IMAGE = R.drawable.item_unstable;
+    public static final int TOMBOLA_IMAGE = R.drawable.item_tombola;
+    public static final int COIN_SACK_IMAGE = R.drawable.item_bag;
+    public static final int MAP_IMAGE = R.drawable.item_map;
+    public static final int GREEN_IMAGE = R.drawable.item_theme_green;
+    public static final int BLUE_IMAGE = R.drawable.item_theme_blue;
+    public static final int ORANGE_IMAGE = R.drawable.item_theme_orange;
+    public static final int MULTI_IMAGE = R.drawable.item_theme_d4rk;
 
     private final int nameId;
     private final int descriptionId;
