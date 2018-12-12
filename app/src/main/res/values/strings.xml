@@ -227,6 +227,14 @@
     <string name="luigi_message2">Sure, what are we playing?</string>
     <string name="luigi_message3">E-eh. If y-you land me y-your soul, I'll g-give you a g-gift. D-deal?</string>
 
+    <string name="eleanor_message1">HEY, YOU. WHO ARE YOU?</string>
+    <string name="eleanor_message2">Uh. Hello?</string>
+    <string name="eleanor_message3">ANSWER MY QUESTION! I WANT TO KNOW YOUR NAME, NOW.</string>
+    <string name="eleanor_message4">... My name is...</string>
+    <string name="eleanor_message5">UNORIGINAL. UGLY. WEAK. NASTY!</string>
+    <string name="eleanor_message6">...</string>
+    <string name="eleanor_message7">I WILL GIVE YOU A CHANCE TO BECOME SOMEONE BETTER. CHANGE YOUR IDENTITY. CHANGE YOUR LIFE. BE BETTER, AND FATE WILL REWARD YOU.</string>
+
     <string name="green_name">Green theme</string>
     <string name="blue_name">Blue theme</string>
     <string name="orange_name">Orange theme</string>
