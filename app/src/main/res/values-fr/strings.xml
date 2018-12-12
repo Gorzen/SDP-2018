@@ -219,6 +219,6 @@
     
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>
-    <string name="brown_name">Thème brun</string>
+    <string name="orange_name">Thème orange</string>
     <string name="multi_colour_name">Thème multi-couleurs</string>
 </resources>

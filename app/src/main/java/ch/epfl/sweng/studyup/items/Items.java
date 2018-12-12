@@ -27,7 +27,7 @@ public enum Items implements Serializable {
     MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE, Items.MAP_IMAGE),
     GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE, Items.GREEN_IMAGE),
     BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE, Items.BLUE_IMAGE),
-    BROWN_THEME(Items.BROWN_NAME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE, Items.BROWN_IMAGE),
+    ORANGE_THEME(Items.ORANGE_NAME_ID, Items.ORANGE_DESCRIPTION_ID, Items.ORANGE_PRICE, Items.ORANGE_IMAGE),
     MULTI_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE, Items.MULTI_IMAGE);
 
     //Names
@@ -38,7 +38,7 @@ public enum Items implements Serializable {
     public static final int MAP_NAME_ID = R.string.item_map_name;
     public static final int GREEN_NAME_ID = R.string.green_name;
     public static final int BLUE_NAME_ID = R.string.blue_name;
-    public static final int BROWN_NAME_ID = R.string.brown_name;
+    public static final int ORANGE_NAME_ID = R.string.orange_name;
     public static final int MULTI_NAME_ID = R.string.multi_colour_name;
 
     //Descriptions
@@ -49,7 +49,7 @@ public enum Items implements Serializable {
     public static final int MAP_DESCRIPTION_ID = R.string.item_map_description;
     public static final int GREEN_DESCRIPTION_ID = R.string.green_description;
     public static final int BLUE_DESCRIPTION_ID = R.string.blue_description;
-    public static final int BROWN_DESCRIPTION_ID = R.string.brown_description;
+    public static final int ORANGE_DESCRIPTION_ID = R.string.brown_description;
     public static final int MULTI_DESCRIPTION_ID = 0;
 
     //Prices
@@ -60,7 +60,7 @@ public enum Items implements Serializable {
     public static final int MAP_PRICE = 150;
     public static final int GREEN_PRICE = 50;
     public static final int BLUE_PRICE = 50;
-    public static final int BROWN_PRICE = 50;
+    public static final int ORANGE_PRICE = 50;
     public static final int MULTI_PRICE = 50;
 
     //Images
@@ -71,7 +71,7 @@ public enum Items implements Serializable {
     public static final int MAP_IMAGE = R.drawable.map_item;
     public static final int GREEN_IMAGE = R.drawable.coin_sack;
     public static final int BLUE_IMAGE = R.drawable.coin_sack;
-    public static final int BROWN_IMAGE = R.drawable.coin_sack;
+    public static final int ORANGE_IMAGE = R.drawable.coin_sack;
     public static final int MULTI_IMAGE = R.drawable.coin_sack;
 
     private final int nameId;
@@ -114,7 +114,7 @@ public enum Items implements Serializable {
             case GREEN_THEME:
                 Player.get().addTheme(SETTINGS_COLOR_GREEN);
                 break;
-            case BROWN_THEME:
+            case ORANGE_THEME:
                 Player.get().addTheme(SETTINGS_COLOR_BROWN);
                 break;
             case BLUE_THEME:
