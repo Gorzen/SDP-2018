@@ -128,6 +128,7 @@ public class HomeActivity extends NavigationStudent {
 
         loadInterface();
         populateSpecialQuestsList();
+        updateStatDisplay();
     }
 
     private void loadInterface() {
@@ -286,19 +287,21 @@ public class HomeActivity extends NavigationStudent {
         Set<String> keySet = answeredQuestions.keySet();
         double totalQuestions = keySet.size();
         int goodAnswers = 0;
+        int answered = 0;
         for (String questionID: keySet) {
             List<String> questionInfo = answeredQuestions.get(questionID);
             boolean trueFalse = Boolean.parseBoolean(questionInfo.get(0));
+            answered++;
             if (trueFalse)
                 goodAnswers++;
         }
-        double questionRatio = (double)goodAnswers/totalQuestions;
+        double questionRatio = ((double)goodAnswers)/totalQuestions;
 
         TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview);
         ratioPercentage.setText(String.valueOf(questionRatio) + "%");
 
         TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
-        answeredNumberView.setText(String.valueOf(goodAnswers));
+        answeredNumberView.setText(String.valueOf(answered));
     }
 
     public void onAvailableSpecialQuestsButtonClick(View view) {
