@@ -4,9 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
@@ -18,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.telecom.Call;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -31,8 +27,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,7 +59,6 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.loadUsers;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
