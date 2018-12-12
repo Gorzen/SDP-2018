@@ -13,8 +13,10 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
@@ -86,9 +88,9 @@ public class Player implements SpecialQuestObservable {
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
     private List<WeekViewEvent> scheduleStudent;
-    private List<String> knownNPCs;
+    private Set<String> knownNPCs;
     private List<SpecialQuest> specialQuests;
-    private List<String> unlockedThemes;
+    private Set<String> unlockedThemes;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -108,8 +110,8 @@ public class Player implements SpecialQuestObservable {
         coursesEnrolled.add(Course.SWENG);
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
-        knownNPCs = new ArrayList<>();
-        unlockedThemes = new ArrayList<>();
+        knownNPCs = new HashSet<>();
+        unlockedThemes = new HashSet<>();
     }
 
     public static Player get() {
@@ -135,7 +137,8 @@ public class Player implements SpecialQuestObservable {
         coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
-        knownNPCs = new ArrayList<>();
+        knownNPCs = new HashSet<>();
+        unlockedThemes = new HashSet<>();
     }
 
     /**
@@ -304,7 +307,7 @@ public class Player implements SpecialQuestObservable {
 
     public void addTheme(String name) {
         if(!unlockedThemes.contains(name)) {
-            unlockedThemes.add(firstName);
+            unlockedThemes.add(name);
             addItemOrThemeToFB(false);
         }
     }
