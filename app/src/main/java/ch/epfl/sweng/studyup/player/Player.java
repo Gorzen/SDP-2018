@@ -180,8 +180,8 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
-        knownNPCs = (Set<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<String>());
-        unlockedThemes = (Set<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>());
+        knownNPCs = new HashSet<>((List<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<>()));
+        unlockedThemes = new HashSet<>((List<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>()));
         Firestore.get().getCoursesSchedule(null, Role.student);
 
         Log.d(TAG, "Loaded courses: \n");
@@ -197,12 +197,12 @@ public class Player implements SpecialQuestObservable {
     public String getUserName() { return this.username; }
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
-    public List<String> getUnlockedThemes () {
-        return Collections.unmodifiableList(new ArrayList<>(unlockedThemes));
+    public Set<String> getUnlockedThemes () {
+        return Collections.unmodifiableSet(new HashSet<>(unlockedThemes));
     }
     public int getCurrency() { return this.currency; }
-    public List<String> getKnownNPCs() {
-        return Collections.unmodifiableList(new ArrayList<>(knownNPCs));
+    public Set<String> getKnownNPCs() {
+        return Collections.unmodifiableSet(new HashSet<>(knownNPCs));
     }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
@@ -317,9 +317,9 @@ public class Player implements SpecialQuestObservable {
                 Map<String, Object> userData = documentSnapshot.getData();
                 userData = userData == null ? new HashMap<String, Object>() : userData;
                 if(isNPCList) {
-                    userData.put(FB_KNOWN_NPCS, knownNPCs);
+                    userData.put(FB_KNOWN_NPCS, new ArrayList<>(knownNPCs));
                 } else {
-                    userData.put(FB_UNLOCKED_THEME, unlockedThemes);
+                    userData.put(FB_UNLOCKED_THEME, new ArrayList<>(unlockedThemes));
                 }
                 userRef.set(userData);
             }

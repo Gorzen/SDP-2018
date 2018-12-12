@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
@@ -37,7 +39,7 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     public void setupLocksAndClickable() {
-        List<String> unlockedThemes = Player.get().getUnlockedThemes();
+        Set<String> unlockedThemes = Player.get().getUnlockedThemes();
 
         for (String theme : unlockedThemes) {
             switch (theme) {

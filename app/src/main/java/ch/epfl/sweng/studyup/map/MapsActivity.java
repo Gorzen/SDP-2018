@@ -39,8 +39,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
@@ -231,8 +233,8 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
         }
     }
 
-    private List<NPC> getNPCSFromNames(List<String> names) {
-        List<NPC> npcs = new ArrayList<>();
+    private Set<NPC> getNPCSFromNames(Set<String> names) {
+        Set<NPC> npcs = new HashSet<>();
         if(names == null) return npcs;
         for(NPC npc : allNPCs) {
             if(names.contains(npc.getName())) npcs.add(npc);
