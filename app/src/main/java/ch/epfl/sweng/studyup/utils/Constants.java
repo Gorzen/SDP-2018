@@ -207,10 +207,11 @@ public abstract class Constants {
             new NPCItems(new ArrayList<>(Arrays.asList(Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", new LatLng(46.518518, 6.561829), R.drawable.death, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME)),"Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil, 3),
-            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME),"Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor, 7)
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME),"Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor, 7),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.LEVEL_UP_BONUS),"Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia, 7),
             )));
 
- /*new NPC("Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia),
+ /*
             new NPC("Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death),
             new NPC("Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto),
             */
