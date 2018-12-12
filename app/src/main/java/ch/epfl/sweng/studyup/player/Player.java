@@ -299,17 +299,14 @@ public class Player implements SpecialQuestObservable {
     }
     public void addKnownNPC(NPC newNPC) {
         String NPCName = newNPC.getName();
-        if(!knownNPCs.contains(NPCName)) {
-            knownNPCs.add(NPCName);
-            addItemOrThemeToFB(true);
-        }
+        knownNPCs.add(NPCName);
+        addItemOrThemeToFB(true);
+
     }
 
     public void addTheme(String name) {
-        if(!unlockedThemes.contains(name)) {
-            unlockedThemes.add(name);
-            addItemOrThemeToFB(false);
-        }
+        unlockedThemes.add(name);
+        addItemOrThemeToFB(false);
     }
 
     private void addItemOrThemeToFB(final boolean isNPCList) {
