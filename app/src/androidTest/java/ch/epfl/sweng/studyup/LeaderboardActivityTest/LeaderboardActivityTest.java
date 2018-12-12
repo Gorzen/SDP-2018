@@ -71,7 +71,7 @@ public class LeaderboardActivityTest {
 
     @Test
     public void testToggleLeaderboardMode() {
-        onView(withId(R.id.toggle_rank_mode)).perform(click());
+        onView(withId(R.id.toggle_rank_mode_correct_answers)).perform(click());
         waitAndTag(2000, LeaderboardActivityTest.class.getSimpleName());
 
         /*
@@ -84,7 +84,7 @@ public class LeaderboardActivityTest {
 
     @Test
     public void testMockPlayerDataAppearsInCorrectAnswersLeaderboard() {
-        onView(withId(R.id.toggle_rank_mode)).perform(click());
+        onView(withId(R.id.toggle_rank_mode_xp)).perform(click());
         waitAndTag(2000, LeaderboardActivityTest.class.getSimpleName());
         /*
         Check that Francesco Petrarca, another mock player, appears in the ranks of
