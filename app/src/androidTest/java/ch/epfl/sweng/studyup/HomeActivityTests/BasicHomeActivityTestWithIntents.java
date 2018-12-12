@@ -54,10 +54,4 @@ public class BasicHomeActivityTestWithIntents {
         onView(withId(R.id.pic_btn2)).perform(click());
         intended(hasComponent(CustomActivity.class.getName()));
     }
-
-    @Test
-    public void testToSpecialActivites() {
-        onView(withId(R.id.availableSpecialQuestsButton)).perform(click());
-        intended(hasComponent(AvailableSpecialQuestsActivity.class.getName()));
-    }
 }
