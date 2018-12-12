@@ -211,9 +211,9 @@
     <string name="blue_description">Have you ever wanted to traverse the ocean ? Then add this new fancy blue sea theme to your collection</string>
     <string name="brown_description">A new theme that makes you like wood</string>
 
-    <string name="charlie_message1">Hello1</string>
-    <string name="charlie_message2">Hello2</string>
-    <string name="charlie_message3">Hello3</string>
+    <string name="charlie_message1">Hello friend, wanna dab with me ?</string>
+    <string name="charlie_message2">Hi, hmmm, how about no ?</string>
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
 
     <string name="muerte_message1">Hello, stranger. Are you ready to meet death?</string>
     <string name="muerte_message2">Hello, friend. You don\'t scare me!</string>

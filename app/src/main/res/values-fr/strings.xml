@@ -205,9 +205,9 @@
     <string name="blue_description">Ajoutez ce thème blue à votre collection et devenez un vrai marin!</string>
     <string name="brown_description">Devenez un vrai bûcheron avec ce thème</string>
 
-    <string name="charlie_message1">Bonjour1</string>
-    <string name="charlie_message2">Bonjour2</string>
-    <string name="charlie_message3">Bonjour3</string>
+    <string name="charlie_message1">Salut l\'ami, est-ce que tu veux dab avec moi ?</string>
+    <string name="charlie_message2">Hmmm, non merci.</string>
+    <string name="charlie_message3">Ok &#8230; Peut être que vous seriez intéréssé par une quête?</string>
 
     <string name="muerte_message1">Bonjour, étranger. Es-tu prêt à rencontrer la mort?</string>
     <string name="muerte_message2">Bonjour, mon ami. Tu ne me fais pas peur!</string>
@@ -216,7 +216,11 @@
     <string name="roberto_message1">Bonjour voyageur, j\'ai érré dans ces contrées pendant de nombreuses années.</string>
     <string name="roberto_message2">Bonjour vieux sage, aurizez-vous des informations utiles?</string>
     <string name="roberto_message3">En effet, j\'ai quelque chose qui pourrait vous intéresser&#8230;</string>
-    
+
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
+
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>
     <string name="orange_name">Thème orange</string>
