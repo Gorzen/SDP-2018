@@ -180,8 +180,8 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
-        knownNPCs = (List<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<String>());
-        unlockedThemes = (List<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>());
+        knownNPCs = (Set<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<String>());
+        unlockedThemes = (Set<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>());
         Firestore.get().getCoursesSchedule(null, Role.student);
 
         Log.d(TAG, "Loaded courses: \n");
