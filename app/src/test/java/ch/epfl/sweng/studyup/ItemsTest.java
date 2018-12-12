@@ -17,4 +17,5 @@ public class ItemsTest {
         assertEquals(R.drawable.item_potion, Items.XP_POTION.getImageName());
         assertEquals(R.drawable.item_bag, Items.COIN_SACK.getImageName());
     }
+
 }
