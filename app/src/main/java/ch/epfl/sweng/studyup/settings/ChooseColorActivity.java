@@ -26,6 +26,12 @@ public class ChooseColorActivity extends RefreshContext {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_color);
+
+        setupLocksAndClickable();
+    }
+
+    public void setupLocksAndClickable(){
+        
     }
 
     public void setColorRed(View v) {
