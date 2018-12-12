@@ -31,6 +31,10 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 
+/**
+ * Helper class of Firestore.java
+ * 
+ */
 public abstract class FirestoreSchedule {
     private static final String TAG = FirestoreSchedule.class.getSimpleName();
     private static List<WeekViewEvent> schedule;
