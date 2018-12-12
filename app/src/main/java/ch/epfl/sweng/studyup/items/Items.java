@@ -12,7 +12,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
@@ -91,17 +91,16 @@ public enum Items implements Serializable {
     }
 
     public void consume() {
-        Random random = new Random();
 
         switch (this) {
             case XP_POTION:
                 Player.get().addExperience(XP_STEP, MOST_RECENT_ACTIVITY);
                 break;
             case UNSTABLE_POTION:
-                Player.get().addExperience(random.nextInt(Constants.XP_TO_LEVEL_UP * 2), MOST_RECENT_ACTIVITY);
+                Player.get().addExperience(randomIntWithoutZero(Constants.XP_TO_LEVEL_UP * 2), MOST_RECENT_ACTIVITY);
                 break;
             case TOMBOLA:
-                Player.get().addCurrency(random.nextInt(TOMBOLA_PRICE * 3), MOST_RECENT_ACTIVITY);
+                Player.get().addCurrency(randomIntWithoutZero(TOMBOLA_PRICE * 3), MOST_RECENT_ACTIVITY);
                 break;
             case COIN_SACK:
                 Player.get().addCurrency(CURRENCY_PER_LEVEL, MOST_RECENT_ACTIVITY);
@@ -115,7 +114,7 @@ public enum Items implements Serializable {
                 Player.get().addTheme(SETTINGS_COLOR_GREEN);
                 break;
             case ORANGE_THEME:
-                Player.get().addTheme(SETTINGS_COLOR_BROWN);
+                Player.get().addTheme(SETTINGS_COLOR_ORANGE);
                 break;
             case BLUE_THEME:
                 Player.get().addTheme(SETTINGS_COLOR_BLUE);
@@ -125,6 +124,14 @@ public enum Items implements Serializable {
                 break;
             default:
         }
+    }
+
+    //for tests purposes
+    private int randomIntWithoutZero(int bound) {
+        Random random = new Random();
+        int retValue;
+        while((retValue = random.nextInt(bound)) == 0);
+        return retValue;
     }
 
     public String getDescription() {

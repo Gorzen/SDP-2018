@@ -5,20 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BROWN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
@@ -46,7 +43,7 @@ public class ChooseColorActivity extends RefreshContext {
                 case SETTINGS_COLOR_GREEN:
                     removeLockAndEnableButton(R.id.setThemeGreen, R.id.lockGreen);
                     break;
-                case SETTINGS_COLOR_BROWN:
+                case SETTINGS_COLOR_ORANGE:
                     removeLockAndEnableButton(R.id.setThemeOrange, R.id.lockOrange);
                     break;
                 case SETTINGS_COLOR_BLUE:
@@ -87,8 +84,8 @@ public class ChooseColorActivity extends RefreshContext {
     }
 
     public void setColorBrown(View v) {
-        setupSettingsColor(SETTINGS_COLOR_BROWN);
-        setupColor(SETTINGS_COLOR_BROWN);
+        setupSettingsColor(SETTINGS_COLOR_ORANGE);
+        setupColor(SETTINGS_COLOR_ORANGE);
         backToApp();
         finish();
     }
