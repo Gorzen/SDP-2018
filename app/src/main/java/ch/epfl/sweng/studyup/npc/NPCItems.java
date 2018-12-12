@@ -15,8 +15,8 @@ import ch.epfl.sweng.studyup.items.ShopActivity;
 public class NPCItems extends NPC {
     private List<Items> items;
 
-    public NPCItems(List<Items> items, String name, LatLng latLng, int image) {
-        super(name, latLng, image, new ArrayList<Integer>());
+    public NPCItems(List<Items> items, String name, LatLng latLng, int image, int numberOfMessages) {
+        super(name, latLng, image, numberOfMessages);
         this.items = Collections.unmodifiableList(new ArrayList<>(items));
     }
 

@@ -183,7 +183,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     public void findAndMarkRoom(String room) {
-        if (mMap == null || room == null) return;
+        if (mMap == null || room == null || POSITION == null) return;
         Log.d("GPS_MAP", "New objective: " + room);
         roomObjective = mMap.addMarker(new MarkerOptions()
                 .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())

@@ -16,8 +16,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 public class NPCSpecialQuest extends NPC {
     private SpecialQuest specialQuest;
 
-    public NPCSpecialQuest(SpecialQuest specialQuest, String name, LatLng latLng, int image) {
-        super(name, latLng, image, Arrays.asList(R.string.add_question_text, R.string.add_question_text, R.string.add_question_text, R.string.add_question_text,R.string.add_question_text, R.string.add_question_text));
+    public NPCSpecialQuest(SpecialQuest specialQuest, String name, LatLng latLng, int image, int numberOfMessages) {
+        super(name, latLng, image, numberOfMessages);
         this.specialQuest = specialQuest;
     }
 

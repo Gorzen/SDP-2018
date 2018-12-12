@@ -12,6 +12,7 @@ import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -234,6 +235,21 @@ public abstract class Utils {
 
     public static void enableAllNPCsInteraction() {
         GlobalAccessVariables.NPCInteractionState = true;
+    }
+
+    public static List<Integer> getMessagesForNpc(String prefix, int numberOfMessages) {
+        try {
+            List<Integer> messages = new ArrayList<>();
+            for (int i = 1; i <= numberOfMessages; ++i) {
+                Field field = R.string.class.getField(prefix + i);
+                messages.add(field.getInt(field));
+            }
+            return messages;
+        }catch (Exception e){
+            Log.e("MessagesNpc", "Could not add messages for npc " + prefix + "\nError message:");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 }
 
