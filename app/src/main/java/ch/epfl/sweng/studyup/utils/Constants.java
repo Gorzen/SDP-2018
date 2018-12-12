@@ -202,15 +202,12 @@ public abstract class Constants {
     public static final int NPC_MARKER_HEIGHT = 140;
     public static final int NPC_MARKER_WIDTH = 80;
     public static final double NPC_RANGE = 30;
-    public static final LatLng SATELITTE = new LatLng(46.520614, 6.567683);
-    public static final LatLng ROLEX_CENTER = new LatLng(46.518274, 6.568702);
-    public static final LatLng METRO_M1 = new LatLng(46.522380, 6.565437);
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
-            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.charlie, 3),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CO_1_4").getLocation(), R.drawable.charlie, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.UNSTABLE_POTION)), "Jeykill", SATELITTE, R.drawable.jeykill, 3),
-            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CONSISTENT_USE), "Gilbert", ROLEX_CENTER, R.drawable.gilbert, 5),
-            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS), "Benedetto", METRO_M1, R.drawable.benedetto, 3),
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.UNSTABLE_POTION)), "Jeykill", Rooms.ROOMS_LOCATIONS.get("SATELITTE").getLocation(), R.drawable.jeykill, 3),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CONSISTENT_USE), "Gilbert", Rooms.ROOMS_LOCATIONS.get("ROLEX_CENTER").getLocation(), R.drawable.gilbert, 5),
+            new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS), "Benedetto", Rooms.ROOMS_LOCATIONS.get("METRO_M1").getLocation(), R.drawable.benedetto, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME)),"Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil, 3),
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME),"Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor, 7),
