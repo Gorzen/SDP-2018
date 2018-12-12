@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.items;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
-import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
