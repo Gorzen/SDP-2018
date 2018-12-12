@@ -234,7 +234,23 @@
     <string name="luigi_message1">B-bonjour ! D-dis, est-ce q-que tu v-veux joueur avec m-moi ?</string>
     <string name="luigi_message2">On joue à quoi ?</string>
     <string name="luigi_message3">E-eh. Le b-but du j-jeu c\'est que t-tu me donnes t-ton âme et tu r-reçois un c-cadeau. B-bonne idée, non ?</string>
-    
+
+    <string name="eleanor_message1">TOI LÀ. QUI ES-TU ?</string>
+    <string name="eleanor_message2">Euh. Bonjour ?</string>
+    <string name="eleanor_message3">RÉPONDS À MA QUESTION ! JE VEUX SAVOIR TON NOM, MAINTENANT.</string>
+    <string name="eleanor_message4">... Je m\'appelle...</string>
+    <string name="eleanor_message5">PAS ASSEZ ORIGINAL. C\'EST LAID. C'EST MOU. C'EST NUL !</string>
+    <string name="eleanor_message6">...</string>
+    <string name="eleanor_message7">JE VAIS TE LAISSER UNE CHANCE DE DEVENIR QUELQU\'UN DE MEILLEUR. CHANGE TON IDENTITÉ. CHANGE TA VIE. SOIS MEILLEUR, ET LE SORT TE RÉCOMPENSERA.</string>
+
+    <string name="cynthia_message1">Ciel ! Quelle créature ! Quand je mets à vos pieds un éternel hommage, voulez-vous qu\'un instant je change de visage ?</string>
+    <string name="cynthia_message2">Oulà. Me à l\'UNIL.</string>
+    <string name="cynthia_message3">Vous avez capturé les sentiments d\'un coeur que pour vous adorer forma le créateur. Par une fois je vous vis, par trois fois défaillis !</string>
+    <string name="cynthia_message4">Ah. D\'accord. Je ne suis pas sûr de comprendre ce que tu dis, mais je suis d'accord.</string>
+    <string name="cynthia_message5">Je vous chéris, amour, et ma plume en délire couche sur le papier ce que je n\'ose dire. Puissiez-vous seulement être un peu plus vieux, je vous léguerai un présent bienheureux...</string>
+    <string name="cynthia_message6">Je ne peux pas vraiment vieillir sur commande, en fait.</string>
+    <string name="cynthia_message7">Fi ! La valeur n’attend pas le nombre des années. Soyez fougueux et intéressé, dans vos études perséverez, et mon cadeau vous gagnerez...</string>
+
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>
     <string name="orange_name">Thème orange</string>
