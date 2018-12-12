@@ -204,4 +204,5 @@
     <string name="xp_label">Player XP</string>
     <string name="by_correct_answers">By Correct Answers</string>
     <string name="by_xp">By XP</string>
+    <string name="no_course_representation" translatable="false">"    \u2015    "</string>
 </resources>

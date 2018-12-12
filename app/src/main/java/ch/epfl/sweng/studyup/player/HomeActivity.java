@@ -309,7 +309,7 @@ public class HomeActivity extends NavigationStudent {
             }
 
             int max = -1;
-            String preferredCourse = "   -   ";
+            String preferredCourse = getString(R.string.no_course_representation);
             for (String c : nbrAnswerPerCourse.keySet()) {
                 int nbrAnswerForC = nbrAnswerPerCourse.get(c);
                 if (nbrAnswerForC > max) {
