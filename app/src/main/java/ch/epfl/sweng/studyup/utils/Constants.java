@@ -205,8 +205,6 @@ public abstract class Constants {
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.charlie, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME, Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", new LatLng(46.518518, 6.561829), R.drawable.roberto, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", new LatLng(46.518518, 6.561829), R.drawable.death, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME)),"Luigi", Rooms.ROOMS_LOCATIONS.get("BC_0_0").getLocation(), R.drawable.devil, 3),
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME),"Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor, 7),
