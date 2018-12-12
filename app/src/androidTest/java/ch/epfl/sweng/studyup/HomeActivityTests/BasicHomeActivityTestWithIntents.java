@@ -1,6 +1,7 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.HomeActivityTests;
 
 import android.support.test.espresso.intent.Intents;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
@@ -24,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class AAMainActivityTestWithIntents {
+public class BasicHomeActivityTestWithIntents {
 
     @Rule
     public final ActivityTestRule<HomeActivity> mActivityRule =
@@ -43,7 +45,7 @@ public class AAMainActivityTestWithIntents {
 
     @Test
     public void testToCustomActWithB1() {
-        onView(withId(R.id.pic_btn)).perform(click());
+        onView(ViewMatchers.withId(R.id.pic_btn)).perform(click());
         intended(hasComponent(CustomActivity.class.getName()));
     }
 

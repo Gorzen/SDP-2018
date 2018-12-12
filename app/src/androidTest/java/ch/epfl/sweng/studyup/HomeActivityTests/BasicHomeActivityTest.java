@@ -1,5 +1,6 @@
-package ch.epfl.sweng.studyup;
+package ch.epfl.sweng.studyup.HomeActivityTests;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -9,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
@@ -24,7 +26,7 @@ import static junit.framework.TestCase.assertEquals;
 @SuppressWarnings("HardCodedStringLiteral")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
-public class AAMainActivityTest {
+public class BasicHomeActivityTest {
 
     @Rule
     public final ActivityTestRule<HomeActivity> mActivityRule =
@@ -38,7 +40,7 @@ public class AAMainActivityTest {
         int currency = Player.get().getCurrency();
         final int currencyToAdd = 10;
 
-        onView(withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) +" "+ Player.get().getCurrency())));
+        onView(ViewMatchers.withId(R.id.currText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_money) +" "+ Player.get().getCurrency())));
 
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override

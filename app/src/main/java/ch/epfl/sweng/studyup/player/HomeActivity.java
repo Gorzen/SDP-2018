@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
@@ -38,10 +40,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
-=======
 import java.util.Set;
->>>>>>> 685d765b64d76c52416e5bf144d1a5d04cbfd6c0
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
@@ -341,17 +340,17 @@ public class HomeActivity extends NavigationStudent {
             }
 
             int max = -1;
-            String preferredCourse = getString(R.string.no_course_representation);
+            String favoriteCourse = getString(R.string.no_course_representation);
             for (String c : nbrAnswerPerCourse.keySet()) {
                 int nbrAnswerForC = nbrAnswerPerCourse.get(c);
                 if (nbrAnswerForC > max) {
                     max = nbrAnswerForC;
-                    preferredCourse = c;
+                    favoriteCourse = c;
                 }
             }
 
-            TextView preferredCourseView = findViewById(R.id.favoriteCourseTextview);
-            preferredCourseView.setText(preferredCourse);
+            TextView favoriteCourseView = findViewById(R.id.favoriteCourseTextview);
+            favoriteCourseView.setText(favoriteCourse);
         }
     }
     private void getQuestions() {
@@ -361,7 +360,16 @@ public class HomeActivity extends NavigationStudent {
                 updateFavoriteCourseDisplay(callbackParam);
             }
         };
-        Firestore.get().loadQuestions(this, onQuestionLoaded);
+        if(MOCK_ENABLED) {
+            QuestionParser.parseQuestionsLiveData(this).observe(this, new Observer<List<Question>>() {
+                @Override
+                public void onChanged(@Nullable List<Question> questions) {
+                    updateFavoriteCourseDisplay(questions);
+                }
+            });
+        } else {
+            Firestore.get().loadQuestions(this, onQuestionLoaded);
+        }
     }
 
     public void onAvailableSpecialQuestsButtonClick(View view) {
