@@ -222,6 +222,20 @@
     <string name="roberto_message1">Hi traveler, I\'ve been wandering around for years.</string>
     <string name="roberto_message2">Hello wise elder, do you have any useful information on this land?</string>
     <string name="roberto_message3">Indeed, I do have something that might interest you&#8230;</string>
+
+    <string name="benedetto_message1">Yyyyyyyeeeeelloooo big one, do you want to dance ?</string>
+    <string name="benedetto_message2">No thanks, I\'m looking for quests</string>
+    <string name="benedetto_message3">I do have one quest for you. Do you want to know what it is?</string>
+
+    <string name ="gilbert_message1">Get away from me, you people only want my money!</string>
+    <string name ="gilbert_message2">Hello, no I just want to talk</string>
+    <string name ="gilbert_message3">Huh, I don\'t believe you!</string>
+    <string name ="gilbert_message4">Please, I am just looking for quests. Do you need any help?</string>
+    <string name ="gilbert_message5">Now that you mention it, I might have something I could need help with&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! I finally discovered a new element!</string>
+    <string name ="jeykill_message2">Hey, I\'m new here and am looking for items</string>
+    <string name ="jeykill_message3">Please, follow me&#8320;</string>
     
     <string name="green_name">Green theme</string>
     <string name="blue_name">Blue theme</string>

@@ -214,12 +214,22 @@
     <string name="muerte_message3">Ok, tu veux acheter des objets?</string>
 
     <string name="roberto_message1">Bonjour voyageur, j\'ai érré dans ces contrées pendant de nombreuses années.</string>
-    <string name="roberto_message2">Bonjour vieux sage, aurizez-vous des informations utiles?</string>
+    <string name="roberto_message2">Bonjour vieux sage, auriez-vous des informations utiles?</string>
     <string name="roberto_message3">En effet, j\'ai quelque chose qui pourrait vous intéresser&#8230;</string>
 
-    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
-    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
-    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
+    <string name="benedetto_message1">Coucouuuuu mon grand, voudrais-tu danser avec moi?</string>
+    <string name="benedetto_message2">Non merci, je suis à la recherche de quêtes.</string>
+    <string name="benedetto_message3">Oh, j\'en ai une à te proposer. Voudrais-tu en savoir plus?</string>
+
+    <string name ="gilbert_message1">Allez-vous en, vous n\'en voulez qu\'à mon argent!</string>
+    <string name ="gilbert_message2">Bonjour, non je désire juste parler</string>
+    <string name ="gilbert_message3">Hmm, je ne vous crois pas!</string>
+    <string name ="gilbert_message4">S\'il-vous-plaît, je suis juste à la recherche de quêtes. Avez-vous besoin d\'aide?</string>
+    <string name ="gilbert_message5">Maintenant que vous le dites, j\'ai quelques chose que vous pourriez faire pour moi&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! J\'ai enfin découvert un nouvel élément!</string>
+    <string name ="jeykill_message2">Hey, je suis nouveau ici et je suis à la recherche d\'objets!</string>
+    <string name ="jeykill_message3">Suivez-moi&#8320;</string>
 
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>
