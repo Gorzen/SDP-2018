@@ -65,10 +65,9 @@ public class LoginActivity extends RefreshContext {
         String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
         setupColor(col);
-
+        enableNPCInteractionFromCache();
         if(!MOCK_ENABLED) {
             try {
-                enableNPCInteractionFromCache();
                 if(attemptLoginFromCache()) return;
             } catch (Exception e) {
                 Log.e(TAG, "Unable to load from cache: " + e.getMessage());
