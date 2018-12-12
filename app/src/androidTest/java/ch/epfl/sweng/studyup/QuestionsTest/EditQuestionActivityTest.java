@@ -24,7 +24,6 @@ import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -90,7 +89,7 @@ public class EditQuestionActivityTest {
 
     private void editAndCheckQuestionHelper(final int newAnswerNumber, final boolean changeType, final boolean isTrueFalseBeforeEdition) {
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
-        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Firestore.get().loadQuestions(mActivityRule.getActivity(), null);
         waitAndTag(1000, "Waiting for questions to load.");
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -212,7 +211,7 @@ public class EditQuestionActivityTest {
 
         onView(withId(R.id.addOrEditQuestionButton)).perform(scrollTo()).perform(click());
         waitAndTag(1000, this.getClass().getName());
-        Firestore.get().loadQuestions(mActivityRule.getActivity());
+        Firestore.get().loadQuestions(mActivityRule.getActivity(), null);
         waitAndTag(1000, "Waiting for questions to load.");
         checkQuestionIsTrueFalse();
     }

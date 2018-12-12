@@ -2,20 +2,21 @@ package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -32,14 +33,17 @@ import com.kosalgeek.android.caching.FileCacher;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.npc.NPCActivity;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
@@ -56,6 +60,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.StatsUtils.loadUsers;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 public class HomeActivity extends NavigationStudent {
     private final int MY_PERMISSION_REQUEST_FINE_LOCATION = 202;
@@ -94,7 +99,7 @@ public class HomeActivity extends NavigationStudent {
         displayLoginSuccessMessage(getIntent());
 
         if (!MOCK_ENABLED) {
-            Firestore.get().loadQuestions(this);
+            Firestore.get().loadQuestions(this, null);
         }
 
         pic_button = findViewById(R.id.pic_btn);
@@ -170,6 +175,7 @@ public class HomeActivity extends NavigationStudent {
         updateXpAndLvlDisplay();
         populateSpecialQuestsList();
         updateStatDisplay();
+        updateFavoriteCourseDisplay(null);
     }
 
 
@@ -275,6 +281,57 @@ public class HomeActivity extends NavigationStudent {
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
     }
+
+    /**
+     * Get the number of answers per course for the current player and put the course with the
+     * maximum number of answer as the favorite course.
+     * This count will not take into account the
+     * questions that have been deleted as we cannot retrieve the course of the answered questions
+     * anymore if it has been deleted.
+     *
+     * @param questions All the questions available to the player
+     */
+    private void updateFavoriteCourseDisplay(List<Question> questions) {
+        Map<String, Integer> nbrAnswerPerCourse= new HashMap<>();
+        Map<String, List<String>> answersInfoById = Player.get().getAnsweredQuestion();
+        if(questions == null) {
+            getQuestions();
+        } else {
+            for(Question q : questions) {
+                String course = q.getCourseName();
+                if(answersInfoById.containsKey(q.getQuestionId())) {
+                    if(nbrAnswerPerCourse.containsKey(course)) {
+                        nbrAnswerPerCourse.put(course, nbrAnswerPerCourse.get(course) + 1);
+                    } else {
+                        nbrAnswerPerCourse.put(course, 1);
+                    }
+                }
+            }
+
+            int max = -1;
+            String preferredCourse = "   -   ";
+            for (String c : nbrAnswerPerCourse.keySet()) {
+                int nbrAnswerForC = nbrAnswerPerCourse.get(c);
+                if (nbrAnswerForC > max) {
+                    max = nbrAnswerForC;
+                    preferredCourse = c;
+                }
+            }
+
+            TextView preferredCourseView = findViewById(R.id.favoriteCourseTextview);
+            preferredCourseView.setText(preferredCourse);
+        }
+    }
+    private void getQuestions() {
+        Callback<List<Question>> onQuestionLoaded = new Callback<List<Question>>() {
+            @Override
+            public void call(List<Question> callbackParam) {
+                updateFavoriteCourseDisplay(callbackParam);
+            }
+        };
+        Firestore.get().loadQuestions(this, onQuestionLoaded);
+    }
+
     public void onAvailableSpecialQuestsButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
