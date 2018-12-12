@@ -285,17 +285,17 @@ public class HomeActivity extends NavigationStudent {
         Map<String, List<String>> answeredQuestions = Player.get().getAnsweredQuestion();
         Set<String> keySet = answeredQuestions.keySet();
         double totalQuestions = keySet.size();
-        double goodAnswers = 0;
+        int goodAnswers = 0;
         for (String questionID: keySet) {
             List<String> questionInfo = answeredQuestions.get(questionID);
             boolean trueFalse = Boolean.parseBoolean(questionInfo.get(0));
             if (trueFalse)
                 goodAnswers++;
         }
-        double questionRatio = goodAnswers/totalQuestions;
+        double questionRatio = (double)goodAnswers/totalQuestions;
 
         TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview);
-        ratioPercentage.setText(String.valueOf(questionRatio));
+        ratioPercentage.setText(String.valueOf(questionRatio) + "%");
 
         TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
         answeredNumberView.setText(String.valueOf(goodAnswers));
