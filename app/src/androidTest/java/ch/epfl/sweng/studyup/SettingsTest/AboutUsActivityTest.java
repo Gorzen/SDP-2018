@@ -14,8 +14,6 @@ import ch.epfl.sweng.studyup.settings.AboutUsActivity;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
@@ -39,8 +37,9 @@ public class AboutUsActivityTest {
     @Test
     public void testSendMailPopup() {
         rule.launchActivity(new Intent());
-        onView(withId(R.id.sendMailButton)).check(matches(isDisplayed())).perform(scrollTo(), click());
-        //intended(not(hasAction(Intent.ACTION_CHOOSER)));
+        onView(withId(R.id.sendMailButton)).perform(scrollTo(), click());
+        //intended(hasAction(Intent.ACTION_CHOOSER));
     }
+
 
 }

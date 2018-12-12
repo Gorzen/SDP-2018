@@ -373,7 +373,7 @@
                         android:layout_width="279dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="24dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/description2"
                         android:textAlignment="center"
@@ -386,13 +386,15 @@
                         android:id="@+id/sendMailButton"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
-                        android:layout_marginEnd="36dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="52dp"
+                        android:layout_marginEnd="60dp"
                         android:background="@drawable/round_button"
                         android:onClick="onSendMailClick"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView16"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/textView16"
-                        app:layout_constraintVertical_bias="0.71000004"
+                        app:layout_constraintHorizontal_bias="0.058"
+                        app:layout_constraintStart_toEndOf="@+id/textView16"
+                        app:layout_constraintTop_toBottomOf="@+id/textView11"
                         app:srcCompat="@drawable/ic_send_black_24dp" />
 
                 </android.support.constraint.ConstraintLayout>
