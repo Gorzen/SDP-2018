@@ -97,7 +97,7 @@ public class EditQuestionActivityTest {
             }
         });
         waitAndTag(500, "Waiting for onClick to be called.");
-        Firestore.get().loadQuestions(mActivityRule.getActivity(), null);
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(mActivityRule.getActivity().getApplicationContext());
         assertNotNull(parsedList);
@@ -225,7 +225,7 @@ public class EditQuestionActivityTest {
         });
         waitAndTag(500, "Waiting for onClick to be called.");
         waitAndTag(1000, this.getClass().getName());
-        Firestore.get().loadQuestions(mActivityRule.getActivity(), null);
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
         waitAndTag(1000, "Waiting for questions to load.");
         checkQuestionIsTrueFalse();
     }

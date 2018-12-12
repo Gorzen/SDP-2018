@@ -140,12 +140,18 @@ public class Firestore {
     }
 
     /**
+     * Version without callback of loadQuestions
+     */
+    public void loadQuestions(final Context context) throws NullPointerException {
+        loadQuestions(context);
+    }
+
+    /**
      * Load all questions that have not been created by the current player if role is student.
      * Load all questions that have been created by the current player if the role is teacher.
      * In addition, only questions that correspond to the current player's courses should be loaded.
      *
      * @param context The context used to save the questions locally
-     * @param onQuestionsLoaded
      * @throws NullPointerException If the data received from the server is not of a valid format
      */
     public void loadQuestions(final Context context, final Callback onQuestionsLoaded) throws NullPointerException {

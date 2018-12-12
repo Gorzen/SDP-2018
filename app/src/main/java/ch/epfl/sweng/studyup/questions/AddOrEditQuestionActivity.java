@@ -78,7 +78,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         if (MOCK_ENABLED) {
             getPath = new mockImagePathGetter(this, READ_REQUEST_CODE);
         } else {
-            Firestore.get().loadQuestions(this, null);
+            Firestore.get().loadQuestions(this);
             getPath = new pathFromGalleryGetter(this, READ_REQUEST_CODE);
         }
 

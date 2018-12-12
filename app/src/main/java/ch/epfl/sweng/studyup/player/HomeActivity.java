@@ -97,7 +97,7 @@ public class HomeActivity extends NavigationStudent {
         displayLoginSuccessMessage(getIntent());
 
         if (!MOCK_ENABLED) {
-            Firestore.get().loadQuestions(this, null);
+            Firestore.get().loadQuestions(this);
         }
 
         pic_button = findViewById(R.id.pic_btn);

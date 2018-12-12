@@ -145,7 +145,7 @@ public class AddQuestionActivityTest {
 
         setAndAddQuestion();
         Player.get().setRole(Role.teacher);
-        Firestore.get().loadQuestions(mActivityRule.getActivity(), null);
+        Firestore.get().loadQuestions(mActivityRule.getActivity());
         Utils.waitAndTag(1000, TAG);
 
         verifyAddedQuestion();

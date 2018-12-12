@@ -128,7 +128,7 @@ public class QuestsActivityTeacherTest {
     public void canDeleteQuestionUsingButton() {
         deleteAllQuestsByUsingButton();
 
-        Firestore.get().loadQuestions(rule.getActivity(), null);
+        Firestore.get().loadQuestions(rule.getActivity());
         Utils.waitAndTag(2000, TAG);
         LiveData<List<Question>> parsedList = QuestionParser.parseQuestionsLiveData(rule.getActivity().getApplicationContext());
         assertNotNull(parsedList);

@@ -42,7 +42,7 @@ public class QuestsActivityStudent extends NavigationStudent {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.get().loadQuestions(this, null);
+        Firestore.get().loadQuestions(this);
         LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
         questions.observe(this, new Observer<List<Question>>() {
             @Override
