@@ -207,4 +207,8 @@
     <string name="item_tombola_description">Take your chance with this ticket!</string>
     <string name="item_map_name">Campus\' map</string>
     <string name="item_map_description">Locate all NPCs at once!</string>
+    <string name="red_description">Add a new bloody red theme to your collection and scare your friends!</string>
+    <string name="green_description">Add an environnmental-friendly theme to your collection</string>
+    <string name="blue_description">Have you ever wanted to traverse the ocean ? Then add this new fancy blue sea theme to your collection</string>
+    <string name="brown_description">A new theme that makes you like wood</string>
 </resources>

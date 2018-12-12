@@ -87,6 +87,7 @@ public class Player implements SpecialQuestObservable {
     private List<WeekViewEvent> scheduleStudent;
     private List<String> knownNPCs;
     private List<SpecialQuest> specialQuests;
+    private List<String> unlockedThemes;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -107,6 +108,7 @@ public class Player implements SpecialQuestObservable {
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
         knownNPCs = new ArrayList<>();
+        unlockedThemes = new ArrayList<>();
     }
 
     public static Player get() {
@@ -190,6 +192,9 @@ public class Player implements SpecialQuestObservable {
     public String getUserName() { return this.username; }
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
+    public List<String> getUnlockedThemes () {
+        return Collections.unmodifiableList(new ArrayList<>(unlockedThemes));
+    }
     public int getCurrency() { return this.currency; }
     public List<String> getKnownNPCs() {
         return Collections.unmodifiableList(new ArrayList<>(knownNPCs));

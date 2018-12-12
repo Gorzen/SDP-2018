@@ -21,7 +21,13 @@ public enum Items implements Serializable {
     UNSTABLE_POTION(Items.UNSTABLE_POTION_NAME_ID, Items.UNSTABLE_POTION_DESCRIPTION_ID, Items.UNSTABLE_POTION_PRICE),
     TOMBOLA(Items.TOMBOLA_NAME_ID, Items.TOMBOLA_DESCRIPTION_ID, Items.TOMBOLA_PRICE),
     COIN_SACK(Items.COIN_SACK_NAME_ID, Items.COIN_SACK_DESCRIPTION_ID, Items.COIN_SACK_PRICE),
-    MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE);
+    MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE),
+    RED_THEME(Items.RED_THEME_ID, Items.RED_DESCRIPTION_ID, Items.RED_PRICE),
+    GREEN_THEME(Items.GREEN_THEME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE),
+    BLUE_THEME(Items.BLUE_THEME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE),
+    BROWN_THEME(Items.BROWN_THEME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE),
+    MULTI_THEME(Items.MULTI_THEME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE);
+
 
     //Names
     public static final int XP_POTION_NAME_ID = R.string.item_xp_potion_name;
@@ -29,6 +35,12 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_NAME_ID = R.string.item_tombola_name;
     public static final int COIN_SACK_NAME_ID = R.string.item_coin_sack_name;
     public static final int MAP_NAME_ID = R.string.item_map_name;
+    public static final int RED_THEME_ID = 0;
+    public static final int GREEN_THEME_ID = 0;
+    public static final int BLUE_THEME_ID = 0;
+    public static final int BROWN_THEME_ID = 0;
+    public static final int MULTI_THEME_ID = 0;
+
 
     //Descriptions
     public static final int XP_POTION_DESCRIPTION_ID = R.string.item_xp_potion_description;
@@ -36,6 +48,11 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_DESCRIPTION_ID = R.string.item_tombola_description;
     public static final int COIN_SACK_DESCRIPTION_ID = R.string.item_coin_sack_description;
     public static final int MAP_DESCRIPTION_ID = R.string.item_map_description;
+    public static final int RED_DESCRIPTION_ID = R.string.red_description;
+    public static final int GREEN_DESCRIPTION_ID = R.string.green_description;
+    public static final int BLUE_DESCRIPTION_ID = R.string.blue_description;
+    public static final int BROWN_DESCRIPTION_ID = R.string.brown_description;
+    public static final int MULTI_DESCRIPTION_ID = 0;
 
     //Prices
     public static final int XP_POTION_PRICE = 10;
@@ -43,6 +60,11 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_PRICE = 200;
     public static final int COIN_SACK_PRICE = 10;
     public static final int MAP_PRICE = 150;
+    public static final int RED_PRICE = 50;
+    public static final int GREEN_PRICE = 50;
+    public static final int BLUE_PRICE = 50;
+    public static final int BROWN_PRICE = 50;
+    public static final int MULTI_PRICE = 50;
 
     private final int nameId;
     private final int descriptionId;
