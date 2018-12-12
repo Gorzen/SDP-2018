@@ -210,7 +210,7 @@ public abstract class Constants {
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CREATIVE_USERNAME),"Eleanor", Rooms.ROOMS_LOCATIONS.get("CE_1_6").getLocation(), R.drawable.eleanor, 7),
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.LEVEL_UP_BONUS),"Cynthia", Rooms.ROOMS_LOCATIONS.get("CO_1_1").getLocation(), R.drawable.cynthia, 7)
             )));
-    
+
     // Flags for triggering special quest listener
     public enum SpecialQuestUpdateFlag {
         ANSWERED_QUESTION,
