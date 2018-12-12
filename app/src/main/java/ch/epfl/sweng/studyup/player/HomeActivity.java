@@ -170,6 +170,7 @@ public class HomeActivity extends NavigationStudent {
         populateSpecialQuestsList();
         updateStatDisplay();
         updateFavoriteCourseDisplay(null);
+        updateNPCDiscoveredNumber();
     }
 
 
@@ -277,6 +278,11 @@ public class HomeActivity extends NavigationStudent {
         computeQuestionsPercentage();
     }
 
+    private void updateNPCDiscoveredNumber() {
+        TextView npcNumberView = findViewById(R.id.numberOfNpcDiscoveredTextView);
+        npcNumberView.setText("0");
+    }
+
     private void computeQuestionsPercentage() {
         Map<String, List<String>> answeredQuestions = Player.get().getAnsweredQuestion();
         Set<String> keySet = answeredQuestions.keySet();
@@ -312,31 +318,10 @@ public class HomeActivity extends NavigationStudent {
      * @param questions All the questions available to the player
      */
     private void updateFavoriteCourseDisplay(List<Question> questions) {
-        Map<String, Integer> nbrAnswerPerCourse= new HashMap<>();
-        Map<String, List<String>> answersInfoById = Player.get().getAnsweredQuestion();
         if(questions == null) {
             getQuestions();
         } else {
-            for(Question q : questions) {
-                String course = q.getCourseName();
-                if(answersInfoById.containsKey(q.getQuestionId())) {
-                    if(nbrAnswerPerCourse.containsKey(course)) {
-                        nbrAnswerPerCourse.put(course, nbrAnswerPerCourse.get(course) + 1);
-                    } else {
-                        nbrAnswerPerCourse.put(course, 1);
-                    }
-                }
-            }
-
-            int max = -1;
-            String favoriteCourse = getString(R.string.no_course_representation);
-            for (String c : nbrAnswerPerCourse.keySet()) {
-                int nbrAnswerForC = nbrAnswerPerCourse.get(c);
-                if (nbrAnswerForC > max) {
-                    max = nbrAnswerForC;
-                    favoriteCourse = c;
-                }
-            }
+            String favoriteCourse = getFavoriteCourse(getNbrAnswerPerCourse(questions));
 
             TextView favoriteCourseView = findViewById(R.id.favoriteCourseTextview);
             favoriteCourseView.setText(favoriteCourse);
@@ -359,6 +344,35 @@ public class HomeActivity extends NavigationStudent {
         } else {
             Firestore.get().loadQuestions(this, onQuestionLoaded);
         }
+    }
+    private Map<String, Integer> getNbrAnswerPerCourse(List<Question> questions) {
+        Map<String, List<String>> answersInfoById = Player.get().getAnsweredQuestion();
+        Map<String, Integer> nbrAnswerPerCourse = new HashMap<>();
+        for(Question q : questions) {
+            String course = q.getCourseName();
+            if(answersInfoById.containsKey(q.getQuestionId())) {
+                if(nbrAnswerPerCourse.containsKey(course)) {
+                    nbrAnswerPerCourse.put(course, nbrAnswerPerCourse.get(course) + 1);
+                } else {
+                    nbrAnswerPerCourse.put(course, 1);
+                }
+            }
+        }
+
+        return nbrAnswerPerCourse;
+    }
+    private String getFavoriteCourse(Map<String, Integer> nbrAnswerPerCourse) {
+        int max = -1;
+        String favoriteCourse = getString(R.string.no_course_representation);
+        for (String c : nbrAnswerPerCourse.keySet()) {
+            int nbrAnswerForC = nbrAnswerPerCourse.get(c);
+            if (nbrAnswerForC > max) {
+                max = nbrAnswerForC;
+                favoriteCourse = c;
+            }
+        }
+
+        return favoriteCourse;
     }
 
     public void onAvailableSpecialQuestsButtonClick(View view) {
