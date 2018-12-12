@@ -25,6 +25,7 @@ import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.adapters.ViewPagerAdapter;
@@ -32,6 +33,7 @@ import ch.epfl.sweng.studyup.utils.adapters.ViewPagerAdapter;
 import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
@@ -66,6 +68,7 @@ public class LoginActivity extends RefreshContext {
 
         if(!MOCK_ENABLED) {
             try {
+                enableNPCInteractionFromCache();
                 if(attemptLoginFromCache()) return;
             } catch (Exception e) {
                 Log.e(TAG, "Unable to load from cache: " + e.getMessage());
@@ -77,6 +80,18 @@ public class LoginActivity extends RefreshContext {
         loadInterface(lang);
     }
 
+    private void enableNPCInteractionFromCache() {
+        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(LoginActivity.this, NPC_INTERACTION_FILENAME);
+        if (enableNPCInteraction.hasCache()) {
+            try {
+                GlobalAccessVariables.NPCInteractionState = enableNPCInteraction.readCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private boolean attemptLoginFromCache() throws Exception {
 

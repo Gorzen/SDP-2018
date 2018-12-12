@@ -88,17 +88,6 @@ public class HomeActivity extends NavigationStudent {
         setContentView(R.layout.activity_home);
         setupToolbar(this);
 
-        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(HomeActivity.this, NPC_INTERACTION_FILENAME);
-        if(enableNPCInteraction.hasCache()) {
-            try {
-                GlobalAccessVariables.NPCInteractionState = enableNPCInteraction.readCache();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                e.printStackTrace();
-            }
-        }
-
         displayLoginSuccessMessage(getIntent());
 
         if (!MOCK_ENABLED) {
