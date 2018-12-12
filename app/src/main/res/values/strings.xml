@@ -222,7 +222,11 @@
     <string name="roberto_message1">Hi traveler, I\'ve been wandering around for years.</string>
     <string name="roberto_message2">Hello wise elder, do you have any useful information on this land?</string>
     <string name="roberto_message3">Indeed, I do have something that might interest you&#8230;</string>
-    
+
+    <string name="luigi_message1">H-hello! D-do you want t-to play with m-me?</string>
+    <string name="luigi_message2">Sure, what are we playing?</string>
+    <string name="luigi_message3">E-eh. If y-you land me y-your soul, I'll g-give you a g-gift. D-deal?</string>
+
     <string name="green_name">Green theme</string>
     <string name="blue_name">Blue theme</string>
     <string name="orange_name">Orange theme</string>
