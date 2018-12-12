@@ -96,10 +96,6 @@ public class HomeActivity extends NavigationStudent {
 
         displayLoginSuccessMessage(getIntent());
 
-        if (!MOCK_ENABLED) {
-            Firestore.get().loadQuestions(this);
-        }
-
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
 
@@ -110,11 +106,11 @@ public class HomeActivity extends NavigationStudent {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
 
-        MOST_RECENT_ACTIVITY = this;
         LOCATION_PROVIDER_CLIENT = new FusedLocationProviderClient(this);
 
         if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
+            Firestore.get().loadQuestions(this);
         }
 
         //bottom navigation bar
@@ -375,14 +371,5 @@ public class HomeActivity extends NavigationStudent {
 
     public void updateCurrDisplay() {
         ((TextView) findViewById(R.id.currText)).setText(getString(R.string.text_money) +" "+ Player.get().getCurrency());
-    }
-
-    public static void clearCacheToLogOut(Context context) {
-        FileCacher<String[]> persistLogin = new FileCacher<>(context, PERSIST_LOGIN_FILENAME);
-        try {
-            persistLogin.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
