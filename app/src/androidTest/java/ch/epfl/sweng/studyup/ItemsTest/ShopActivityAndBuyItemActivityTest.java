@@ -1,7 +1,5 @@
 package ch.epfl.sweng.studyup.ItemsTest;
 
-import android.content.Intent;
-import android.support.design.widget.BottomNavigationView;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -24,6 +22,7 @@ import ch.epfl.sweng.studyup.utils.Utils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -56,10 +55,10 @@ public class ShopActivityAndBuyItemActivityTest {
             }
         });
         for(int i = 0; i < 3; ++i) {
-            onView(withId(R.id.plus_button)).perform(click());
+            onView(withId(R.id.plus_button)).perform(scrollTo(), click());
         }
-        onView(withId(R.id.minus_button)).perform(click());
-        onView(withId(R.id.buy_button)).perform(click());
+        onView(withId(R.id.minus_button)).perform(scrollTo(), click());
+        onView(withId(R.id.buy_button)).perform(scrollTo(), click());
         assertEquals(0, Player.get().getCurrency());
         assertEquals(Arrays.asList(Items.COIN_SACK, Items.COIN_SACK, Items.COIN_SACK), Player.get().getItems());
     }
@@ -73,9 +72,9 @@ public class ShopActivityAndBuyItemActivityTest {
             }
         });
         Utils.waitAndTag(150, "Waiting for click on item");
-        onView(withId(R.id.plus_button)).perform(click());
-        onView(withId(R.id.buy_button)).perform(click());
-        onView(withId(R.id.back_button)).perform(click());
+        onView(withId(R.id.plus_button)).perform(scrollTo(), click());
+        onView(withId(R.id.buy_button)).perform(scrollTo(), click());
+        onView(withId(R.id.back_button)).perform(scrollTo(), click());
         assertEquals(0, Player.get().getItems().size());
     }
 
