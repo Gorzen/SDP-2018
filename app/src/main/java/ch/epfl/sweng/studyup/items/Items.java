@@ -22,11 +22,10 @@ public enum Items implements Serializable {
     TOMBOLA(Items.TOMBOLA_NAME_ID, Items.TOMBOLA_DESCRIPTION_ID, Items.TOMBOLA_PRICE),
     COIN_SACK(Items.COIN_SACK_NAME_ID, Items.COIN_SACK_DESCRIPTION_ID, Items.COIN_SACK_PRICE),
     MAP(Items.MAP_NAME_ID, Items.MAP_DESCRIPTION_ID, Items.MAP_PRICE),
-    RED_THEME(Items.RED_THEME_ID, Items.RED_DESCRIPTION_ID, Items.RED_PRICE),
-    GREEN_THEME(Items.GREEN_THEME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE),
-    BLUE_THEME(Items.BLUE_THEME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE),
-    BROWN_THEME(Items.BROWN_THEME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE),
-    MULTI_THEME(Items.MULTI_THEME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE);
+    GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE),
+    BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE),
+    BROWN_THEME(Items.BROWN_NAME_ID, Items.BROWN_DESCRIPTION_ID, Items.BROWN_PRICE),
+    MULTI_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE);
 
 
     //Names
@@ -35,11 +34,10 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_NAME_ID = R.string.item_tombola_name;
     public static final int COIN_SACK_NAME_ID = R.string.item_coin_sack_name;
     public static final int MAP_NAME_ID = R.string.item_map_name;
-    public static final int RED_THEME_ID = 0;
-    public static final int GREEN_THEME_ID = 0;
-    public static final int BLUE_THEME_ID = 0;
-    public static final int BROWN_THEME_ID = 0;
-    public static final int MULTI_THEME_ID = 0;
+    public static final int GREEN_NAME_ID = R.string.green_name;
+    public static final int BLUE_NAME_ID = R.string.blue_name;
+    public static final int BROWN_NAME_ID = R.string.brown_name;
+    public static final int MULTI_NAME_ID = R.string.multi_colour_name;
 
 
     //Descriptions
@@ -48,7 +46,6 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_DESCRIPTION_ID = R.string.item_tombola_description;
     public static final int COIN_SACK_DESCRIPTION_ID = R.string.item_coin_sack_description;
     public static final int MAP_DESCRIPTION_ID = R.string.item_map_description;
-    public static final int RED_DESCRIPTION_ID = R.string.red_description;
     public static final int GREEN_DESCRIPTION_ID = R.string.green_description;
     public static final int BLUE_DESCRIPTION_ID = R.string.blue_description;
     public static final int BROWN_DESCRIPTION_ID = R.string.brown_description;
@@ -60,7 +57,6 @@ public enum Items implements Serializable {
     public static final int TOMBOLA_PRICE = 200;
     public static final int COIN_SACK_PRICE = 10;
     public static final int MAP_PRICE = 150;
-    public static final int RED_PRICE = 50;
     public static final int GREEN_PRICE = 50;
     public static final int BLUE_PRICE = 50;
     public static final int BROWN_PRICE = 50;
@@ -100,6 +96,18 @@ public enum Items implements Serializable {
                 for(NPC npc : allNPCs) {
                     Player.get().addKnownNPC(npc);
                 }
+                break;
+            case GREEN_THEME:
+                Player.get().addTheme(GREEN_THEME.getName());
+                break;
+            case BROWN_THEME:
+                Player.get().addTheme(BROWN_THEME.getName());
+                break;
+            case BLUE_THEME:
+                Player.get().addTheme(BLUE_THEME.getName());
+                break;
+            case MULTI_THEME:
+                Player.get().addTheme(MULTI_THEME.getName());
                 break;
             default:
         }

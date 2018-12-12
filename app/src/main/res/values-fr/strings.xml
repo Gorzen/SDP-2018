@@ -201,8 +201,24 @@
     <string name="item_tombola_description">Tentez votre chance avec ce ticket!</string>
     <string name="item_map_name">Carte du campus</string>
     <string name="item_map_description">Découvre tout les PNJs du campus!</string>
-    <string name="red_description">Ajoutez un nouveau theme sanglant à votre collection et faites peur à vos amis!</string>
     <string name="green_description">Ajoutez un thème qui profite à l\'environnement à votre collection!</string>
     <string name="blue_description">Ajoutez ce thème blue à votre collection et devenez un vrai marin!</string>
     <string name="brown_description">Devenez un vrai bûcheron avec ce thème</string>
+
+    <string name="charlie_message1">Bonjour1</string>
+    <string name="charlie_message2">Bonjour2</string>
+    <string name="charlie_message3">Bonjour3</string>
+
+    <string name="muerte_message1">Bonjour1</string>
+    <string name="muerte_message2">Bonjour2</string>
+    <string name="muerte_message3">Bonjour3</string>
+
+    <string name="roberto_message1">Bonjour1</string>
+    <string name="roberto_message2">Bonjour2</string>
+    <string name="roberto_message3">Bonjour3</string>
+    
+    <string name="green_name">Thème vert</string>
+    <string name="blue_name">Thème bleu</string>
+    <string name="brown_name">Thème brun</string>
+    <string name="multi_colour_name">Thème multi-couleurs</string>
 </resources>

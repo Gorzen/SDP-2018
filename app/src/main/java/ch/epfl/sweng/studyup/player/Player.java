@@ -32,7 +32,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWS_NPCS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWN_NPCS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_UNLOCKED_THEME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
@@ -176,7 +177,8 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
-        knownNPCs = (List<String>) getOrDefault(remotePlayerData, FB_KNOWS_NPCS, new ArrayList<String>());
+        knownNPCs = (List<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<String>());
+        unlockedThemes = (List<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>());
         Firestore.get().getCoursesSchedule(null, Role.student);
 
         Log.d(TAG, "Loaded courses: \n");
@@ -296,20 +298,34 @@ public class Player implements SpecialQuestObservable {
         String NPCName = newNPC.getName();
         if(!knownNPCs.contains(NPCName)) {
             knownNPCs.add(NPCName);
-            final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
-
-            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Map<String, Object> userData = documentSnapshot.getData();
-                    userData = userData == null ? new HashMap<String, Object>() : userData;
-                    userData.put(FB_KNOWS_NPCS, knownNPCs);
-
-                    userRef.set(userData);
-                }
-            });
+            addItemOrThemeToFB(true);
         }
     }
+
+    public void addTheme(String name) {
+        if(!unlockedThemes.contains(name)) {
+            unlockedThemes.add(firstName);
+            addItemOrThemeToFB(false);
+        }
+    }
+
+    private void addItemOrThemeToFB(final boolean isNPCList) {
+        final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> userData = documentSnapshot.getData();
+                userData = userData == null ? new HashMap<String, Object>() : userData;
+                if(isNPCList) {
+                    userData.put(FB_KNOWN_NPCS, knownNPCs);
+                } else {
+                    userData.put(FB_UNLOCKED_THEME, unlockedThemes);
+                }
+                userRef.set(userData);
+            }
+        });
+    }
+
     public void consumeItem(Items item)  {
         items.remove(item);
         item.consume();

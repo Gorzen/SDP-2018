@@ -4,20 +4,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
+
+import static ch.epfl.sweng.studyup.utils.Utils.getMessagesForNpc;
 
 public abstract class NPC {
     private String name;
@@ -29,11 +29,11 @@ public abstract class NPC {
     private int counter = 0;
     private List<Integer> messages;
 
-    public NPC(String name, LatLng latLng, int image, List<Integer> messages) {
+    public NPC(String name, LatLng latLng, int image, int numberOfMessages) {
         this.name = name;
         npcLatLng = latLng;
         this.image = image;
-        this.messages = Collections.unmodifiableList(messages);
+        this.messages = getMessagesForNpc(name.toLowerCase() + "_message", numberOfMessages);
     }
 
     public boolean checkNPCInteraction(LatLng playerLatLng) {
