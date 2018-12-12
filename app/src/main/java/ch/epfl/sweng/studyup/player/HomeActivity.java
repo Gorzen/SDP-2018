@@ -30,12 +30,18 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
+=======
+import java.util.Set;
+>>>>>>> 685d765b64d76c52416e5bf144d1a5d04cbfd6c0
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
@@ -280,6 +286,32 @@ public class HomeActivity extends NavigationStudent {
     }
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
+        computeQuestionsPercentage();
+    }
+
+    private void computeQuestionsPercentage() {
+        Map<String, List<String>> answeredQuestions = Player.get().getAnsweredQuestion();
+        Set<String> keySet = answeredQuestions.keySet();
+        double totalQuestions = keySet.size();
+        int goodAnswers = 0;
+        int answered = 0;
+        for (String questionID: keySet) {
+            List<String> questionInfo = answeredQuestions.get(questionID);
+            boolean trueFalse = Boolean.parseBoolean(questionInfo.get(0));
+            answered++;
+            if (trueFalse)
+                goodAnswers++;
+        }
+        double questionRatio = 0.0;
+        if (totalQuestions > 0.0) {
+            questionRatio = goodAnswers / totalQuestions * 100;
+        }
+
+        TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview)   ;
+        ratioPercentage.setText(String.format("%.1f %%", questionRatio));
+
+        TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
+        answeredNumberView.setText(String.valueOf(answered));
     }
 
     /**
