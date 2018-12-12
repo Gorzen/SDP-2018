@@ -1,26 +1,18 @@
 package ch.epfl.sweng.studyup.utils;
 
-import android.content.ClipData;
-import android.util.Log;
 import android.util.Pair;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import ch.epfl.sweng.studyup.items.Items;
-import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.map.Room;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.npc.NPCItems;
 import ch.epfl.sweng.studyup.npc.NPCSpecialQuest;
@@ -212,7 +204,7 @@ public abstract class Constants {
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.charlie, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME)),"Muerte", new LatLng(46.518518, 6.561829), R.drawable.death, 3),
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.GREEN_THEME, Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", new LatLng(46.518518, 6.561829), R.drawable.death, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.MAP)), "Roberto", Rooms.ROOMS_LOCATIONS.get("CM_1_4").getLocation(), R.drawable.roberto, 3)
             )));
 
