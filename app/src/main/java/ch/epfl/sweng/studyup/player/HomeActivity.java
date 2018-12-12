@@ -29,10 +29,14 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.kosalgeek.android.caching.FileCacher;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
@@ -271,7 +275,29 @@ public class HomeActivity extends NavigationStudent {
     }
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
+        computeQuestionsPercentage();
     }
+
+    private void computeQuestionsPercentage() {
+        Map<String, List<String>> answeredQuestions = Player.get().getAnsweredQuestion();
+        Set<String> keySet = answeredQuestions.keySet();
+        double totalQuestions = keySet.size();
+        double goodAnswers = 0;
+        for (String questionID: keySet) {
+            List<String> questionInfo = answeredQuestions.get(questionID);
+            boolean trueFalse = Boolean.parseBoolean(questionInfo.get(0));
+            if (trueFalse)
+                goodAnswers++;
+        }
+        double questionRatio = goodAnswers/totalQuestions;
+
+        TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview);
+        ratioPercentage.setText(String.valueOf(questionRatio));
+
+        TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
+        answeredNumberView.setText(String.valueOf(goodAnswers));
+    }
+
     public void onAvailableSpecialQuestsButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
