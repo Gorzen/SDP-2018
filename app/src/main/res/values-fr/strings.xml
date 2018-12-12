@@ -205,17 +205,31 @@
     <string name="blue_description">Ajoutez ce thème blue à votre collection et devenez un vrai marin!</string>
     <string name="brown_description">Devenez un vrai bûcheron avec ce thème</string>
 
-    <string name="charlie_message1">Bonjour1</string>
-    <string name="charlie_message2">Bonjour2</string>
-    <string name="charlie_message3">Bonjour3</string>
+    <string name="charlie_message1">Salut l\'ami, est-ce que tu veux dab avec moi ?</string>
+    <string name="charlie_message2">Hmmm, non merci.</string>
+    <string name="charlie_message3">Ok &#8230; Peut être que vous seriez intéréssé par une quête?</string>
 
     <string name="muerte_message1">Bonjour, étranger. Es-tu prêt à rencontrer la mort?</string>
     <string name="muerte_message2">Bonjour, mon ami. Tu ne me fais pas peur!</string>
     <string name="muerte_message3">Ok, tu veux acheter des objets?</string>
 
     <string name="roberto_message1">Bonjour voyageur, j\'ai érré dans ces contrées pendant de nombreuses années.</string>
-    <string name="roberto_message2">Bonjour vieux sage, aurizez-vous des informations utiles?</string>
+    <string name="roberto_message2">Bonjour vieux sage, auriez-vous des informations utiles?</string>
     <string name="roberto_message3">En effet, j\'ai quelque chose qui pourrait vous intéresser&#8230;</string>
+
+    <string name="benedetto_message1">Coucouuuuu mon grand, voudrais-tu danser avec moi?</string>
+    <string name="benedetto_message2">Non merci, je suis à la recherche de quêtes.</string>
+    <string name="benedetto_message3">Oh, j\'en ai une à te proposer. Voudrais-tu en savoir plus?</string>
+
+    <string name ="gilbert_message1">Allez-vous en, vous n\'en voulez qu\'à mon argent!</string>
+    <string name ="gilbert_message2">Bonjour, non je désire juste parler</string>
+    <string name ="gilbert_message3">Hmm, je ne vous crois pas!</string>
+    <string name ="gilbert_message4">S\'il-vous-plaît, je suis juste à la recherche de quêtes. Avez-vous besoin d\'aide?</string>
+    <string name ="gilbert_message5">Maintenant que vous le dites, j\'ai quelques chose que vous pourriez faire pour moi&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! J\'ai enfin découvert un nouvel élément!</string>
+    <string name ="jeykill_message2">Hey, je suis nouveau ici et je suis à la recherche d\'objets!</string>
+    <string name ="jeykill_message3">Suivez-moi&#8320;</string>
 
     <string name="luigi_message1">B-bonjour ! D-dis, est-ce q-que tu v-veux joueur avec m-moi ?</string>
     <string name="luigi_message2">On joue à quoi ?</string>

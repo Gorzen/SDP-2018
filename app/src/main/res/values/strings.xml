@@ -211,9 +211,9 @@
     <string name="blue_description">Have you ever wanted to traverse the ocean ? Then add this new fancy blue sea theme to your collection</string>
     <string name="brown_description">A new theme that makes you like wood</string>
 
-    <string name="charlie_message1">Hello1</string>
-    <string name="charlie_message2">Hello2</string>
-    <string name="charlie_message3">Hello3</string>
+    <string name="charlie_message1">Hello friend, wanna dab with me ?</string>
+    <string name="charlie_message2">Hi, hmmm, how about no ?</string>
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
 
     <string name="muerte_message1">Hello, stranger. Are you ready to meet death?</string>
     <string name="muerte_message2">Hello, friend. You don\'t scare me!</string>
@@ -223,9 +223,23 @@
     <string name="roberto_message2">Hello wise elder, do you have any useful information on this land?</string>
     <string name="roberto_message3">Indeed, I do have something that might interest you&#8230;</string>
 
+    <string name="benedetto_message1">Yyyyyyyeeeeelloooo big one, do you want to dance ?</string>
+    <string name="benedetto_message2">No thanks, I\'m looking for quests</string>
+    <string name="benedetto_message3">I do have one quest for you. Do you want to know what it is?</string>
+
+    <string name ="gilbert_message1">Get away from me, you people only want my money!</string>
+    <string name ="gilbert_message2">Hello, no I just want to talk</string>
+    <string name ="gilbert_message3">Huh, I don\'t believe you!</string>
+    <string name ="gilbert_message4">Please, I am just looking for quests. Do you need any help?</string>
+    <string name ="gilbert_message5">Now that you mention it, I might have something I could need help with&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! I finally discovered a new element!</string>
+    <string name ="jeykill_message2">Hey, I\'m new here and am looking for items</string>
+    <string name ="jeykill_message3">Please, follow me&#8320;</string>
+    
     <string name="luigi_message1">H-hello! D-do you want t-to play with m-me?</string>
     <string name="luigi_message2">Sure, what are we playing?</string>
-    <string name="luigi_message3">E-eh. If y-you land me y-your soul, I'll g-give you a g-gift. D-deal?</string>
+    <string name="luigi_message3">E-eh. If y-you land me y-your soul, I\'ll g-give you a g-gift. D-deal?</string>
 
     <string name="eleanor_message1">HEY, YOU. WHO ARE YOU?</string>
     <string name="eleanor_message2">Uh. Hello?</string>
