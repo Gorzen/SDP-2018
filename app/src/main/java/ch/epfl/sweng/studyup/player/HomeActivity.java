@@ -128,7 +128,6 @@ public class HomeActivity extends NavigationStudent {
 
         loadInterface();
         populateSpecialQuestsList();
-        updateStatDisplay();
     }
 
     private void loadInterface() {
@@ -295,10 +294,13 @@ public class HomeActivity extends NavigationStudent {
             if (trueFalse)
                 goodAnswers++;
         }
-        double questionRatio = ((double)goodAnswers)/totalQuestions;
+        double questionRatio = 0.0;
+        if (totalQuestions > 0.0) {
+            questionRatio = goodAnswers / totalQuestions * 100;
+        }
 
-        TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview);
-        ratioPercentage.setText(String.valueOf(questionRatio) + "%");
+        TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview)   ;
+        ratioPercentage.setText(String.format("%.1f %%", questionRatio));
 
         TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
         answeredNumberView.setText(String.valueOf(answered));
