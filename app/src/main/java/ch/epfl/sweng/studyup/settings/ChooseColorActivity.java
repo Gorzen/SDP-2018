@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
@@ -30,8 +32,31 @@ public class ChooseColorActivity extends RefreshContext {
         setupLocksAndClickable();
     }
 
-    public void setupLocksAndClickable(){
-        
+    public void setupLocksAndClickable() {
+        List<String> unlockedThemes = Player.get().getUnlockedThemes();
+
+        for (String theme : unlockedThemes) {
+            switch (theme) {
+                case SETTINGS_COLOR_GREEN:
+                    removeLockAndEnableButton(R.id.setThemeGreen, R.id.lockGreen);
+                    break;
+                case SETTINGS_COLOR_BROWN:
+                    removeLockAndEnableButton(R.id.setThemeOrange, R.id.lockOrange);
+                    break;
+                case SETTINGS_COLOR_BLUE:
+                    removeLockAndEnableButton(R.id.setThemeBlue, R.id.lockBlue);
+                    break;
+                case SETTINGS_COLOR_MULTI:
+                    removeLockAndEnableButton(R.id.setThemeMulti, R.id.lockMulti);
+                    break;
+                default:break;
+            }
+        }
+    }
+
+    private void removeLockAndEnableButton(int idButton, int idLock) {
+        findViewById(idLock).setVisibility(View.GONE);
+        findViewById(idButton).setEnabled(true);
     }
 
     public void setColorRed(View v) {

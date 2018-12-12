@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
-import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -61,7 +60,7 @@ public class ChooseColorActivityTest {
 
     @Test
     public void canSelectThemeBrown() {
-        onView(withId(R.id.setThemeBrown)).perform(click());
+        onView(withId(R.id.setThemeOrange)).perform(click());
         intended(hasComponent(HomeActivity.class.getName()));
     }
 
