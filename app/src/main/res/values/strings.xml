@@ -9,7 +9,6 @@
     <string name="title_map">Map</string>
     <string name="title_inventory">Items</string>
     <string name="title_infos">Infos</string>
-    <string name="go_to_shop_button">Buy more items</string>
     <string name="save_value">Save</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
@@ -244,7 +243,7 @@
     <string name="eleanor_message1">HEY, YOU. WHO ARE YOU?</string>
     <string name="eleanor_message2">Uh. Hello?</string>
     <string name="eleanor_message3">ANSWER MY QUESTION! I WANT TO KNOW YOUR NAME, NOW.</string>
-    <string name="eleanor_message4">... My name is...</string>
+    <string name="eleanor_message4">&#8320; My name is&#8320;</string>
     <string name="eleanor_message5">UNORIGINAL. UGLY. WEAK. NASTY!</string>
     <string name="eleanor_message6">...</string>
     <string name="eleanor_message7">I WILL GIVE YOU A CHANCE TO BECOME SOMEONE BETTER. CHANGE YOUR IDENTITY. CHANGE YOUR LIFE. BE BETTER, AND FATE WILL REWARD YOU.</string>
@@ -253,7 +252,7 @@
     <string name="cynthia_message2">Wew. Okay, found the book-nerd.</string>
     <string name="cynthia_message3">The feelings of one\'s heart, with a smile torn apart. For now I only saw you once, already do I feel like a dunce!</string>
     <string name="cynthia_message4">Ah. Okay. I\'m not sure I understood everything but whatever.</string>
-    <string name="cynthia_message5">I cherish you, love; my delirious pen lies on paper what I dare not say - amen. May you only be a little wiser, I will bequeath you a blessed prizer...</string>
+    <string name="cynthia_message5">I cherish you, love; my delirious pen lies on paper what I dare not say - amen. May you only be a little wiser, I will bequeath you a blessed prizer&#8320;</string>
     <string name="cynthia_message6">I cannot really get older like that, you know?</string>
     <string name="cynthia_message7">Valour does not await the passing of years. Be wild! And passionate. Kind! Compassionate! In your studies shall you persevere, a gift to you will be granted - I swear!</string>
 
