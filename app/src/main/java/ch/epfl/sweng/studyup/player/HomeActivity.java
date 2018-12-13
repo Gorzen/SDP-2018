@@ -2,12 +2,10 @@ package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,16 +34,13 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.npc.NPCActivity;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
-import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
@@ -214,8 +208,6 @@ public class HomeActivity extends NavigationStudent {
     }
 
     public void populateSpecialQuestsList() {
-
-
         final List<SpecialQuest> specialQuestsList = Player.get().getSpecialQuests();
 
         List<Integer> iconList = new ArrayList<>();
@@ -247,6 +239,9 @@ public class HomeActivity extends NavigationStudent {
             }});
     }
 
+    public void onAvailableSpecialQuestsButtonClick(View view) {
+        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
+    }
 
     public void onLeaderboardButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, LeaderboardActivity.class));
