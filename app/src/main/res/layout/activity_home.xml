@@ -387,7 +387,6 @@
         </ScrollView>
 
 
-
         <!--BOTTOM NAV BAR-->
 
         <android.support.constraint.ConstraintLayout

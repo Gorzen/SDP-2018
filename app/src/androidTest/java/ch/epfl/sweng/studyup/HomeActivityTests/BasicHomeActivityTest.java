@@ -57,6 +57,8 @@ public class BasicHomeActivityTest {
 
     @Test
     public void checkPlayerProgressionDisplay() {
+        Utils.waitAndTag(1000, "Test Main Activity");
+
         Player.get().resetPlayer();
 
         final int numberOfPush = 5;

@@ -4,17 +4,23 @@ import android.app.Activity;
 import android.util.Log;
 
 import com.alamkanak.weekview.WeekViewEvent;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObservable;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestObserver;
@@ -28,10 +34,13 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWN_NPCS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_UNLOCKED_THEME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
@@ -79,8 +88,9 @@ public class Player implements SpecialQuestObservable {
     private List<Course> coursesEnrolled;
     private List<Course> coursesTeached;
     private List<WeekViewEvent> scheduleStudent;
-
+    private Set<String> knownNPCs;
     private List<SpecialQuest> specialQuests;
+    private Set<String> unlockedThemes;
 
     private Player() {
         sciperNum = INITIAL_SCIPER;
@@ -100,6 +110,8 @@ public class Player implements SpecialQuestObservable {
         coursesEnrolled.add(Course.SWENG);
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
+        knownNPCs = new HashSet<>();
+        unlockedThemes = new HashSet<>();
     }
 
     public static Player get() {
@@ -125,6 +137,8 @@ public class Player implements SpecialQuestObservable {
         coursesTeached = new ArrayList<>();
         scheduleStudent = new ArrayList<>();
         clickedInstants = new HashMap<>();
+        knownNPCs = new HashSet<>();
+        unlockedThemes = new HashSet<>();
     }
 
     /**
@@ -166,6 +180,8 @@ public class Player implements SpecialQuestObservable {
 
         answeredQuestions = (Map<String, List<String>>) getOrDefault(remotePlayerData, FB_ANSWERED_QUESTIONS, new HashMap<String, List<String>>());
         clickedInstants = (Map<String, Long>) getOrDefault(remotePlayerData, FB_QUESTION_CLICKEDINSTANT, new HashMap<String, Long>());
+        knownNPCs = new HashSet<>((List<String>) getOrDefault(remotePlayerData, FB_KNOWN_NPCS, new ArrayList<>()));
+        unlockedThemes = new HashSet<>((List<String>) getOrDefault(remotePlayerData, FB_UNLOCKED_THEME, new ArrayList<>()));
         Firestore.get().getCoursesSchedule(null, Role.student);
 
         Log.d(TAG, "Loaded courses: \n");
@@ -181,7 +197,13 @@ public class Player implements SpecialQuestObservable {
     public String getUserName() { return this.username; }
     public int getExperience() { return this.experience; }
     public int getLevel() { return this.level; }
+    public Set<String> getUnlockedThemes () {
+        return Collections.unmodifiableSet(new HashSet<>(unlockedThemes));
+    }
     public int getCurrency() { return this.currency; }
+    public Set<String> getKnownNPCs() {
+        return Collections.unmodifiableSet(new HashSet<>(knownNPCs));
+    }
     public List<Items> getItems() {
         return Collections.unmodifiableList(new ArrayList<>(items));
     }
@@ -192,6 +214,7 @@ public class Player implements SpecialQuestObservable {
         }
         return itemStringsList;
     }
+
     public double getLevelProgress() {
         return (experience % XP_TO_LEVEL_UP) * 1.0 / XP_TO_LEVEL_UP;
     }
@@ -273,6 +296,34 @@ public class Player implements SpecialQuestObservable {
         if (items.add(item)) {
             Firestore.get().updateRemotePlayerDataFromLocal();
         }
+    }
+    public void addKnownNPC(NPC newNPC) {
+        String NPCName = newNPC.getName();
+        knownNPCs.add(NPCName);
+        addItemOrThemeToFB(true);
+
+    }
+
+    public void addTheme(String name) {
+        unlockedThemes.add(name);
+        addItemOrThemeToFB(false);
+    }
+
+    private void addItemOrThemeToFB(final boolean isNPCList) {
+        final DocumentReference userRef = Firestore.get().getDb().document(FB_USERS + "/" + sciperNum);
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> userData = documentSnapshot.getData();
+                userData = userData == null ? new HashMap<String, Object>() : userData;
+                if(isNPCList) {
+                    userData.put(FB_KNOWN_NPCS, new ArrayList<>(knownNPCs));
+                } else {
+                    userData.put(FB_UNLOCKED_THEME, new ArrayList<>(unlockedThemes));
+                }
+                userRef.set(userData);
+            }
+        });
     }
 
     public void consumeItem(Items item)  {

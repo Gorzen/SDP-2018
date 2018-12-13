@@ -117,7 +117,6 @@
     <string name="special_quests_title">Quêtes Spéciales</string>
     <string name="title_schedule_teacher">Mes cours</string>
     <string name="title_schedule_student">Horaire</string>
-    <string name="go_to_shop_button">Acheter plus d\'objets</string>
     <string name="room_alert_title">Choisissez la salle</string>
     <string name="add_a_new_question_text">Ajouter une question</string>
     <string name="text_insert_title_for_question">Insérez un titre</string>
@@ -197,4 +196,67 @@
     <string name="xp_label">Lecteur xp</string>
     <string name="by_correct_answers">Par des réponses correctes</string>
     <string name="by_xp">Par XP</string>
+
+    <string name="NPC_yes_button">Oui</string>
+    <string name="NPC_no_button">Non</string>
+    <string name="item_unstable_potion_name">Potion instable</string>
+    <string name="item_unstable_potion_description">Potion instable ayant un effet inconnu&#8230;</string>
+    <string name="item_tombola_name">Tombola</string>
+    <string name="item_tombola_description">Tentez votre chance avec ce ticket!</string>
+    <string name="item_map_name">Carte du campus</string>
+    <string name="item_map_description">Découvre tout les PNJs du campus!</string>
+    <string name="green_description">Ajoutez un thème qui profite à l\'environnement à votre collection!</string>
+    <string name="blue_description">Ajoutez ce thème blue à votre collection et devenez un vrai marin!</string>
+    <string name="brown_description">Devenez un vrai bûcheron avec ce thème</string>
+
+    <string name="charlie_message1">Salut l\'ami, est-ce que tu veux dab avec moi ?</string>
+    <string name="charlie_message2">Hmmm, non merci.</string>
+    <string name="charlie_message3">Ok &#8230; Peut être que vous seriez intéréssé par une quête?</string>
+
+    <string name="muerte_message1">Bonjour, étranger. Es-tu prêt à rencontrer la mort?</string>
+    <string name="muerte_message2">Bonjour, mon ami. Tu ne me fais pas peur!</string>
+    <string name="muerte_message3">Ok, tu veux acheter des objets?</string>
+
+    <string name="roberto_message1">Bonjour voyageur, j\'ai érré dans ces contrées pendant de nombreuses années.</string>
+    <string name="roberto_message2">Bonjour vieux sage, auriez-vous des informations utiles?</string>
+    <string name="roberto_message3">En effet, j\'ai quelque chose qui pourrait vous intéresser&#8230;</string>
+
+    <string name="benedetto_message1">Coucouuuuu mon grand, voudrais-tu danser avec moi?</string>
+    <string name="benedetto_message2">Non merci, je suis à la recherche de quêtes.</string>
+    <string name="benedetto_message3">Oh, j\'en ai une à te proposer. Voudrais-tu en savoir plus?</string>
+
+    <string name ="gilbert_message1">Allez-vous en, vous n\'en voulez qu\'à mon argent!</string>
+    <string name ="gilbert_message2">Bonjour, non je désire juste parler</string>
+    <string name ="gilbert_message3">Hmm, je ne vous crois pas!</string>
+    <string name ="gilbert_message4">S\'il-vous-plaît, je suis juste à la recherche de quêtes. Avez-vous besoin d\'aide?</string>
+    <string name ="gilbert_message5">Maintenant que vous le dites, j\'ai quelques chose que vous pourriez faire pour moi&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! J\'ai enfin découvert un nouvel élément!</string>
+    <string name ="jeykill_message2">Hey, je suis nouveau ici et je suis à la recherche d\'objets!</string>
+    <string name ="jeykill_message3">Suivez-moi&#8320;</string>
+
+    <string name="luigi_message1">B-bonjour ! D-dis, est-ce q-que tu v-veux joueur avec m-moi ?</string>
+    <string name="luigi_message2">On joue à quoi ?</string>
+    <string name="luigi_message3">E-eh. Le b-but du j-jeu c\'est que t-tu me donnes t-ton âme et tu r-reçois un c-cadeau. B-bonne idée, non ?</string>
+
+    <string name="eleanor_message1">TOI LÀ. QUI ES-TU ?</string>
+    <string name="eleanor_message2">Euh. Bonjour ?</string>
+    <string name="eleanor_message3">RÉPONDS À MA QUESTION ! JE VEUX SAVOIR TON NOM, MAINTENANT.</string>
+    <string name="eleanor_message4">&#8320; Je m\'appelle&#8320;</string>
+    <string name="eleanor_message5">PAS ASSEZ ORIGINAL. C\'EST LAID. C'EST MOU. C'EST NUL !</string>
+    <string name="eleanor_message6">&#8320;</string>
+    <string name="eleanor_message7">JE VAIS TE LAISSER UNE CHANCE DE DEVENIR QUELQU\'UN DE MEILLEUR. CHANGE TON IDENTITÉ. CHANGE TA VIE. SOIS MEILLEUR, ET LE SORT TE RÉCOMPENSERA.</string>
+
+    <string name="cynthia_message1">Ciel ! Quelle créature ! Quand je mets à vos pieds un éternel hommage, voulez-vous qu\'un instant je change de visage ?</string>
+    <string name="cynthia_message2">Oulà. Me à l\'UNIL.</string>
+    <string name="cynthia_message3">Vous avez capturé les sentiments d\'un coeur que pour vous adorer forma le créateur. Par une fois je vous vis, par trois fois défaillis !</string>
+    <string name="cynthia_message4">Ah. D\'accord. Je ne suis pas sûr de comprendre ce que tu dis, mais je suis d\'accord.</string>
+    <string name="cynthia_message5">Je vous chéris, amour, et ma plume en délire couche sur le papier ce que je n\'ose dire. Puissiez-vous seulement être un peu plus vieux, je vous léguerai un présent bienheureux&#8320;</string>
+    <string name="cynthia_message6">Je ne peux pas vraiment vieillir sur commande, en fait.</string>
+    <string name="cynthia_message7">Fi ! La valeur n’attend pas le nombre des années. Soyez fougueux et intéressé, dans vos études perséverez, et mon cadeau vous gagnerez&#8320;</string>
+
+    <string name="green_name">Thème vert</string>
+    <string name="blue_name">Thème bleu</string>
+    <string name="orange_name">Thème orange</string>
+    <string name="multi_colour_name">Thème multi-couleurs</string>
 </resources>

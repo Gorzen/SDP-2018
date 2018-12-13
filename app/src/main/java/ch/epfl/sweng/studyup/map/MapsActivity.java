@@ -9,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.DocumentsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,8 +31,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.npc.NPC;
@@ -39,9 +54,11 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_FASTEST_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.LOCATION_REQ_INTERVAL;
 import static ch.epfl.sweng.studyup.utils.Constants.MAP_INDEX;
+import static ch.epfl.sweng.studyup.utils.Constants.allNPCs;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
@@ -168,7 +185,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
     }
 
     public void findAndMarkRoom(String room) {
-        if (mMap == null || room == null) return;
+        if (mMap == null || room == null || POSITION == null) return;
         Log.d("GPS_MAP", "New objective: " + room);
         roomObjective = mMap.addMarker(new MarkerOptions()
                 .position(Rooms.ROOMS_LOCATIONS.get(room).getLocation())
@@ -203,7 +220,7 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
 
     private void setNPCSMarker() {
         if(mMap != null) {
-            for (NPC npc : Constants.allNPCs) {
+            for (NPC npc : getNPCSFromNames(Player.get().getKnownNPCs())) {
                 BitmapDrawable npcBitMapDraw = (BitmapDrawable) getResources().getDrawable(npc.getImage());
                 Bitmap npcBitMap = npcBitMapDraw.getBitmap();
                 Bitmap scaledNpcBitMap = Bitmap.createScaledBitmap(npcBitMap, Constants.NPC_MARKER_WIDTH, Constants.NPC_MARKER_HEIGHT, false);
@@ -214,6 +231,16 @@ public class MapsActivity extends NavigationStudent implements OnMapReadyCallbac
                         .icon(BitmapDescriptorFactory.fromBitmap(scaledNpcBitMap)));
             }
         }
+    }
+
+    private Set<NPC> getNPCSFromNames(Set<String> names) {
+        Set<NPC> npcs = new HashSet<>();
+        if(names == null) return npcs;
+        for(NPC npc : allNPCs) {
+            if(names.contains(npc.getName())) npcs.add(npc);
+        }
+
+        return npcs;
     }
 }
 

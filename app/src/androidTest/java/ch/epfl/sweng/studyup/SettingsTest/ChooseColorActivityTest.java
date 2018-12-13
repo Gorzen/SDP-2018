@@ -8,21 +8,27 @@ import android.support.test.runner.AndroidJUnit4;
 import junit.framework.TestCase;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.settings.ChooseColorActivity;
-import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 
 @RunWith(AndroidJUnit4.class)
 public class ChooseColorActivityTest {
@@ -31,9 +37,18 @@ public class ChooseColorActivityTest {
     public final ActivityTestRule<ChooseColorActivity> rule =
             new ActivityTestRule<>(ChooseColorActivity.class);
 
+    @AfterClass
+    public static void resetPlayer(){
+        Player.get().resetPlayer();
+    }
+
     @Before
     public void initIntent() {
         Intents.init();
+        Player.get().addTheme(SETTINGS_COLOR_GREEN);
+        Player.get().addTheme(SETTINGS_COLOR_BLUE);
+        Player.get().addTheme(SETTINGS_COLOR_ORANGE);
+        Player.get().addTheme(SETTINGS_COLOR_MULTI);
     }
 
     @After
@@ -60,8 +75,8 @@ public class ChooseColorActivityTest {
     }
 
     @Test
-    public void canSelectThemeBrown() {
-        onView(withId(R.id.setThemeBrown)).perform(click());
+    public void canSelectThemeOrange() {
+        onView(withId(R.id.setThemeOrange)).perform(click());
         intended(hasComponent(HomeActivity.class.getName()));
     }
 

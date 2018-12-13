@@ -100,7 +100,7 @@ public class CustomActivityTest {
         mActivityRule.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Bitmap bitmap = BitmapFactory.decodeResource(mActivityRule.getActivity().getApplicationContext().getResources(), R.drawable.potion);
+                Bitmap bitmap = BitmapFactory.decodeResource(mActivityRule.getActivity().getApplicationContext().getResources(), R.drawable.roberto);
                 mActivityRule.getActivity().setImageCircularAndUpload(bitmap);
             }
         });

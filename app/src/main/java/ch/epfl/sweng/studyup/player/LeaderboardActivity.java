@@ -1,11 +1,14 @@
 package ch.epfl.sweng.studyup.player;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -79,7 +82,7 @@ public class LeaderboardActivity extends RefreshContext {
 
             allUsers = userList;
 
-            handleLeadboardModeVisibility(null);
+            findViewById(R.id.leaderboard_spinner).setVisibility(View.GONE);
             displayRankingsByXP();
             displayRankingsByQuestionsAnswered();
         }
@@ -91,22 +94,27 @@ public class LeaderboardActivity extends RefreshContext {
     One container contains the ranking by correct answers, the other by XP.
      */
     public void handleLeadboardModeVisibility(View view) {
-        ToggleButton rankModeToggle = findViewById(R.id.toggle_rank_mode);
+
         LinearLayout leaderboardByQuestionsAnsweredContainer = findViewById(R.id.leaderboard_by_correct_answers_container);
         LinearLayout leaderboardByXPContainer = findViewById(R.id.leaderboard_by_xp_container);
 
-        if (rankModeToggle.isChecked()) {
+        Button rankModeXpButton = findViewById(R.id.toggle_rank_mode_xp);
+        Button rankModeCorrectAnswersButton = findViewById(R.id.toggle_rank_mode_correct_answers);
+
+        if (view.getId() == R.id.toggle_rank_mode_xp) {
             // Toggle has been set to "By XP"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.VISIBLE);
-            leaderboardByXPContainer.setVisibility(View.INVISIBLE);
+            leaderboardByQuestionsAnsweredContainer.setVisibility(View.INVISIBLE);
+            leaderboardByXPContainer.setVisibility(View.VISIBLE);
+            rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGrey));
+            rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorListItems));
         }
         else {
             // Toggle has been set to "By Correct Answers"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.INVISIBLE);
-            leaderboardByXPContainer.setVisibility(View.VISIBLE);
+            leaderboardByQuestionsAnsweredContainer.setVisibility(View.VISIBLE);
+            leaderboardByXPContainer.setVisibility(View.INVISIBLE);
+            rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorListItems));
+            rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGrey));
         }
-
-        findViewById(R.id.leaderboard_spinner).setVisibility(View.GONE);
     }
 
     /*

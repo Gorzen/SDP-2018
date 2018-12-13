@@ -4,15 +4,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.map.MapsActivity;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.Rooms;
 
-public class NPC {
+import static ch.epfl.sweng.studyup.utils.Utils.getMessagesForNpc;
+
+public abstract class NPC {
     private String name;
     private LatLng npcLatLng;
     private int image;
@@ -20,16 +27,20 @@ public class NPC {
     private boolean isFirstInteraction = true;
     private Activity currentActivity;
     private int counter = 0;
+    private List<Integer> messages;
 
-    public NPC(String name, LatLng latLng, int image) {
+    public NPC(String name, LatLng latLng, int image, int numberOfMessages) {
         this.name = name;
         npcLatLng = latLng;
         this.image = image;
+        this.messages = getMessagesForNpc(name.toLowerCase() + "_message", numberOfMessages);
     }
 
-    public boolean isInRange(LatLng playerLatLng) {
+    public boolean checkNPCInteraction(LatLng playerLatLng) {
         currentActivity = GlobalAccessVariables.MOST_RECENT_ACTIVITY;
-        if (GlobalAccessVariables.NPCInteractionState && !(currentActivity instanceof MapsActivity)
+        if (!Player.get().getKnownNPCs().contains(name)
+                && GlobalAccessVariables.NPCInteractionState
+                && !(currentActivity instanceof MapsActivity)
                 && Rooms.distanceBetweenTwoLatLng(npcLatLng, playerLatLng) < Constants.NPC_RANGE
                 && (counter >= MAX_COUNTER || isFirstInteraction)) {
             counter = 0;
@@ -45,11 +56,15 @@ public class NPC {
             AlertDialog dialog = builder.create();
             dialog.show();
             isFirstInteraction = false;
+            Player.get().addKnownNPC(this);
+
             return true;
         }
         ++counter;
         return false;
     }
+
+    abstract void onYesButton(Activity activity);
 
     public String getName() {
         return name;
@@ -63,4 +78,7 @@ public class NPC {
         return npcLatLng;
     }
 
+    public List<Integer> getMessages(){
+        return new ArrayList<>(messages);
+    }
 }
