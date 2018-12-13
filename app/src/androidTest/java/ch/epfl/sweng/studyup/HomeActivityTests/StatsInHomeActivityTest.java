@@ -79,4 +79,15 @@ public class StatsInHomeActivityTest {
         waitAndTag(250, "Waiting for display to load.");
         onView(withId(R.id.favoriteCourseTextview)).check(matches(withText(Analyse.name())));
     }
+
+    @Test
+    public void testRatio() {
+        Player.get().addAnsweredQuestion("1", true, 1);
+        Player.get().addAnsweredQuestion("2", false, 1);
+        Player.get().addAnsweredQuestion("3", true, 1);
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.ratioPercentageTextview)).check(matches(withText("66.7 %")));
+        onView(withId(R.id.answeredNumberTextview)).check(matches(withText("3")));
+    }
 }
