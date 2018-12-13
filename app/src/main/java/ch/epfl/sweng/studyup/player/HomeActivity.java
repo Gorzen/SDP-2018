@@ -39,27 +39,17 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-<<<<<<< HEAD
-import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-=======
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.Callback;
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.player.LeaderboardActivity.studentRankComparator;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
-<<<<<<< HEAD
-import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
-=======
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
@@ -256,8 +246,6 @@ public class HomeActivity extends NavigationStudent {
             }});
     }
 
-<<<<<<< HEAD
-=======
     public Callback<List> displayRankOfStudent = new Callback<List>() {
         public void call(List userList) {
             List<Pair<String, Integer>> ranking = new ArrayList<>();
@@ -381,7 +369,6 @@ public class HomeActivity extends NavigationStudent {
         return favoriteCourse;
     }
 
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
     public void onAvailableSpecialQuestsButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }

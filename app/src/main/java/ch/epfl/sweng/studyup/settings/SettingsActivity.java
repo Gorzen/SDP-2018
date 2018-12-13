@@ -27,11 +27,7 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
-<<<<<<< HEAD
-import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
-=======
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
@@ -176,8 +172,6 @@ public class SettingsActivity extends RefreshContext {
         GlobalAccessVariables.NPCInteractionState = !GlobalAccessVariables.NPCInteractionState;
     }
 
-<<<<<<< HEAD
-=======
     public static void clearCacheToLogOut(Context context) {
         FileCacher<String[]> persistLogin = new FileCacher<>(context, PERSIST_LOGIN_FILENAME);
         try {
@@ -187,7 +181,6 @@ public class SettingsActivity extends RefreshContext {
         }
     }
 
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
     public void onBackButton(View view) {
         finish();
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

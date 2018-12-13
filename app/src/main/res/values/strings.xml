@@ -191,7 +191,6 @@
     <string name="elapsed_time">Elapsed time</string>
     <string name="time_left_text">Time left</string>
     <string name="select_courses_text">Select your courses</string>
-<<<<<<< HEAD
     <string name="about_us">About us</string>
     <string name="shop">Shop</string>
     <string name="available_items">Available Items</string>
@@ -204,13 +203,11 @@
     <string name="release_date">Release date :</string>
     <string name="description2">If you find a bug when using the app, do not hesitate to contact us : study.up@epfl.ch</string>
     <string name="send_mail">Send mail to StudyUp devs</string>
-=======
     <string name="ratio_text" translatable="false">Ratio:</string>
     <string name="answered_text">Answered:</string>
     <string name="rank_text">Rank:</string>
     <string name="npc_discovered_text">NPC discovered:</string>
     <string name="favorite_course_text">Favorite course:</string>
->>>>>>> 46ec92c35d37ba81a07b9972f1c32dbb7e88e84b
     <string name="leaderboard">Leader Board</string>
     <string name="correct_answers_label">Correct Answers</string>
     <string name="xp_label">Player XP</string>
