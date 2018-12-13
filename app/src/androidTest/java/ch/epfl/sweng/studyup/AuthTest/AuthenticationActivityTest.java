@@ -32,6 +32,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static junit.framework.TestCase.assertTrue;
 
 // Tests for the functionality of handling of responses can be found in AuthTest.
 // Tests in this class are to test that the authentication activity handles the
@@ -83,13 +85,13 @@ public class AuthenticationActivityTest {
     }
 
     @Test
-    public void testBasicRunAuthentication() throws Exception {
+    public void testBasicRunAuthentication() {
         Intent i = new Intent();
         Uri uriWithoutCode = Uri.parse("studyup://login?code=anyvalue");
         i.setData(uriWithoutCode);
 
         rule.launchActivity(i);
-        assert (Player.get().getFirstName() == INITIAL_FIRSTNAME);
+        assertTrue(Player.get().getFirstName().equals(INITIAL_FIRSTNAME));
     }
 
     @Test
@@ -112,8 +114,10 @@ public class AuthenticationActivityTest {
         intentWithoutCode.setData(uriWithoutCode);
 
         rule.launchActivity(intentWithoutCode);
+        waitAndTag(200, "Wait for Authenticate activity to be launched.");
         UiDevice phone = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         phone.pressBack();
         onView(withId(R.id.continueToMainButton)).perform(click());
+        waitAndTag(200, "Wait for main activity to be launched.");
     }
 }
