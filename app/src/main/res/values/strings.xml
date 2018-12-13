@@ -9,7 +9,6 @@
     <string name="title_map">Map</string>
     <string name="title_inventory">Items</string>
     <string name="title_infos">Infos</string>
-    <string name="go_to_shop_button">Buy more items</string>
     <string name="save_value">Save</string>
     <string name="truth_value">True</string>
     <string name="false_value">False</string>
@@ -199,4 +198,66 @@
     <string name="by_xp">By XP</string>
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
+    <string name="NPC_yes_button">Yes</string>
+    <string name="NPC_no_button">No</string>
+    <string name="item_unstable_potion_name">Unstable potion</string>
+    <string name="item_unstable_potion_description">Unstable potion with unknown effect&#8230;</string>
+    <string name="item_tombola_name">Tombola</string>
+    <string name="item_tombola_description">Take your chance with this ticket!</string>
+    <string name="item_map_name">Campus\' map</string>
+    <string name="item_map_description">Locate all NPCs at once!</string>
+    <string name="green_description">Add an environnmental-friendly theme to your collection</string>
+    <string name="blue_description">Have you ever wanted to traverse the ocean ? Then add this new fancy blue sea theme to your collection</string>
+    <string name="brown_description">A new theme that makes you like wood</string>
+
+    <string name="charlie_message1">Hello friend, wanna dab with me ?</string>
+    <string name="charlie_message2">Hi, hmmm, how about no ?</string>
+    <string name="charlie_message3">Ok&#8230; Any chance you\'re interested in a special quest?</string>
+
+    <string name="muerte_message1">Hello, stranger. Are you ready to meet death?</string>
+    <string name="muerte_message2">Hello, friend. You don\'t scare me!</string>
+    <string name="muerte_message3">Ok, do you want to buy items?</string>
+
+    <string name="roberto_message1">Hi traveler, I\'ve been wandering around for years.</string>
+    <string name="roberto_message2">Hello wise elder, do you have any useful information on this land?</string>
+    <string name="roberto_message3">Indeed, I do have something that might interest you&#8230;</string>
+
+    <string name="benedetto_message1">Yyyyyyyeeeeelloooo big one, do you want to dance ?</string>
+    <string name="benedetto_message2">No thanks, I\'m looking for quests</string>
+    <string name="benedetto_message3">I do have one quest for you. Do you want to know what it is?</string>
+
+    <string name ="gilbert_message1">Get away from me, you people only want my money!</string>
+    <string name ="gilbert_message2">Hello, no I just want to talk</string>
+    <string name ="gilbert_message3">Huh, I don\'t believe you!</string>
+    <string name ="gilbert_message4">Please, I am just looking for quests. Do you need any help?</string>
+    <string name ="gilbert_message5">Now that you mention it, I might have something I could need help with&#8320;</string>
+
+    <string name ="jeykill_message1">HAHAHA EUREKA! I finally discovered a new element!</string>
+    <string name ="jeykill_message2">Hey, I\'m new here and am looking for items</string>
+    <string name ="jeykill_message3">Please, follow me&#8320;</string>
+    
+    <string name="luigi_message1">H-hello! D-do you want t-to play with m-me?</string>
+    <string name="luigi_message2">Sure, what are we playing?</string>
+    <string name="luigi_message3">E-eh. If y-you land me y-your soul, I\'ll g-give you a g-gift. D-deal?</string>
+
+    <string name="eleanor_message1">HEY, YOU. WHO ARE YOU?</string>
+    <string name="eleanor_message2">Uh. Hello?</string>
+    <string name="eleanor_message3">ANSWER MY QUESTION! I WANT TO KNOW YOUR NAME, NOW.</string>
+    <string name="eleanor_message4">&#8320; My name is&#8320;</string>
+    <string name="eleanor_message5">UNORIGINAL. UGLY. WEAK. NASTY!</string>
+    <string name="eleanor_message6">...</string>
+    <string name="eleanor_message7">I WILL GIVE YOU A CHANCE TO BECOME SOMEONE BETTER. CHANGE YOUR IDENTITY. CHANGE YOUR LIFE. BE BETTER, AND FATE WILL REWARD YOU.</string>
+
+    <string name="cynthia_message1">Heaven! An apparition! A million stars up in the sky, one shines brighter - I can\'t deny!</string>
+    <string name="cynthia_message2">Wew. Okay, found the book-nerd.</string>
+    <string name="cynthia_message3">The feelings of one\'s heart, with a smile torn apart. For now I only saw you once, already do I feel like a dunce!</string>
+    <string name="cynthia_message4">Ah. Okay. I\'m not sure I understood everything but whatever.</string>
+    <string name="cynthia_message5">I cherish you, love; my delirious pen lies on paper what I dare not say - amen. May you only be a little wiser, I will bequeath you a blessed prizer&#8320;</string>
+    <string name="cynthia_message6">I cannot really get older like that, you know?</string>
+    <string name="cynthia_message7">Valour does not await the passing of years. Be wild! And passionate. Kind! Compassionate! In your studies shall you persevere, a gift to you will be granted - I swear!</string>
+
+    <string name="green_name">Green theme</string>
+    <string name="blue_name">Blue theme</string>
+    <string name="orange_name">Orange theme</string>
+    <string name="multi_colour_name">Multi-colour theme</string>
 </resources>

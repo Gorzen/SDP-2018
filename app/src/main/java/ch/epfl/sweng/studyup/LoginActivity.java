@@ -25,6 +25,7 @@ import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.adapters.ViewPagerAdapter;
@@ -32,6 +33,7 @@ import ch.epfl.sweng.studyup.utils.adapters.ViewPagerAdapter;
 import static ch.epfl.sweng.studyup.utils.Constants.AUTH_SERVER_URL;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
@@ -51,6 +53,9 @@ public class LoginActivity extends RefreshContext {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
         // Language
         String lang = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 .getString(LANG_SETTINGS_KEYWORD, Locale.getDefault().getLanguage());
@@ -60,24 +65,34 @@ public class LoginActivity extends RefreshContext {
         String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
         setupColor(col);
-
+        enableNPCInteractionFromCache();
         if(!MOCK_ENABLED) {
             try {
-                attemptLoginFromCache();
+                if(attemptLoginFromCache()) return;
             } catch (Exception e) {
                 Log.e(TAG, "Unable to load from cache: " + e.getMessage());
             }
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         // TestFairy.begin(this, "2d95d8f0a9d7e4244bbd87321bcc5a12b56ccb2c");
       
         loadInterface(lang);
     }
 
+    private void enableNPCInteractionFromCache() {
+        FileCacher<Boolean> enableNPCInteraction = new FileCacher<>(LoginActivity.this, NPC_INTERACTION_FILENAME);
+        if (enableNPCInteraction.hasCache()) {
+            try {
+                GlobalAccessVariables.NPCInteractionState = enableNPCInteraction.readCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-    private void attemptLoginFromCache() throws Exception {
+    private boolean attemptLoginFromCache() throws Exception {
 
         FileCacher<List<String>> loginPersistenceCache = new FileCacher<>(this, PERSIST_LOGIN_FILENAME);
 
@@ -93,7 +108,7 @@ public class LoginActivity extends RefreshContext {
                     Cannot auto-login, return to onCreate(), user must maunally log in.
                      */
                     Log.e(TAG, e.toString());
-                    return;
+                    return false;
                 }
 
                 AuthenticationActivity.syncPlayerData();
@@ -107,10 +122,15 @@ public class LoginActivity extends RefreshContext {
                         HomeActivity.class : QuestsActivityTeacher.class;
 
                 startActivity(new Intent(this, HOME_ACTIVITY));
+                return true;
+            } else {
+                return false;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+
+            return false;
         }
     }
 

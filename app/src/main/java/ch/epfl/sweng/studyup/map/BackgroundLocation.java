@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.map;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.pm.PackageManager;
@@ -71,7 +70,7 @@ public class BackgroundLocation extends JobService {
                         str += '\n' + "You are not in your room: ";
                     }
                     for (NPC npc : Constants.allNPCs) {
-                        npc.isInRange(POSITION);
+                        npc.checkNPCInteraction(POSITION);
                     }
                     //Toast.makeText(context.get(), str, Toast.LENGTH_SHORT).show();
                     Log.d("GPS_MAP", str);

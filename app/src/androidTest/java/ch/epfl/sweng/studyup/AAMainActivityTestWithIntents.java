@@ -53,9 +53,4 @@ public class AAMainActivityTestWithIntents {
         intended(hasComponent(CustomActivity.class.getName()));
     }
 
-    @Test
-    public void testToSpecialActivites() {
-        onView(withId(R.id.availableSpecialQuestsButton)).perform(click());
-        intended(hasComponent(AvailableSpecialQuestsActivity.class.getName()));
-    }
 }
