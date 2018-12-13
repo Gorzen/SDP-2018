@@ -49,7 +49,7 @@ public class ChooseColorActivity extends RefreshContext {
                 case SETTINGS_COLOR_BLUE:
                     removeLockAndEnableButton(R.id.setThemeBlue, R.id.lockBlue);
                     break;
-                case SETTINGS_COLOR_MULTI:
+                case SETTINGS_COLOR_DARK:
                     removeLockAndEnableButton(R.id.setThemeMulti, R.id.lockMulti);
                     break;
                 default:break;
