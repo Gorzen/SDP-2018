@@ -2,21 +2,21 @@ package ch.epfl.sweng.studyup.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -26,32 +26,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.kosalgeek.android.caching.FileCacher;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
-import ch.epfl.sweng.studyup.npc.NPCActivity;
+import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.questions.QuestionParser;
 import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
+import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.adapters.SpecialQuestListViewAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.player.LeaderboardActivity.studentRankComparator;
 import static ch.epfl.sweng.studyup.utils.Constants.MAIN_INDEX;
-import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
-import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
+import static ch.epfl.sweng.studyup.utils.StatsUtils.loadUsers;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class HomeActivity extends NavigationStudent {
@@ -90,10 +92,6 @@ public class HomeActivity extends NavigationStudent {
 
         displayLoginSuccessMessage(getIntent());
 
-        if (!MOCK_ENABLED) {
-            Firestore.get().loadQuestions(this);
-        }
-
         pic_button = findViewById(R.id.pic_btn);
         pic_button2 = findViewById(R.id.pic_btn2);
 
@@ -104,11 +102,11 @@ public class HomeActivity extends NavigationStudent {
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 MY_PERMISSION_REQUEST_FINE_LOCATION);
 
-        MOST_RECENT_ACTIVITY = this;
         LOCATION_PROVIDER_CLIENT = new FusedLocationProviderClient(this);
 
         if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
+            Firestore.get().loadQuestions(this);
         }
 
         //bottom navigation bar
@@ -166,6 +164,9 @@ public class HomeActivity extends NavigationStudent {
         updateCurrDisplay();
         updateXpAndLvlDisplay();
         populateSpecialQuestsList();
+        updateStatDisplay();
+        updateFavoriteCourseDisplay(null);
+        updateNPCDiscoveredNumber();
     }
 
 
@@ -247,6 +248,132 @@ public class HomeActivity extends NavigationStudent {
             }});
     }
 
+    public Callback<List> displayRankOfStudent = new Callback<List>() {
+        public void call(List userList) {
+            List<Pair<String, Integer>> ranking = new ArrayList<>();
+            for (UserData studentData : (List<UserData>) userList) {
+                ranking.add(new Pair<>(studentData.getSciperNum(), studentData.getXP()));
+            }
+            Collections.sort(ranking, studentRankComparator);
+            int counter = 0;
+            for(Pair<String, Integer> studentRank : ranking) {
+                ++counter;
+                if(studentRank.first.equals(Player.get().getSciperNum())) {
+                    setRankTo(counter);
+                    return;
+                }
+            }
+        }
+    };
+    private void setRankTo(int rank) {
+     TextView rankText = findViewById(R.id.rankNumberTextview);
+     rankText.setText(String.valueOf(rank));
+    }
+    private void updateStatDisplay() {
+        loadUsers(displayRankOfStudent);
+        computeQuestionsPercentage();
+    }
+
+    private void updateNPCDiscoveredNumber() {
+        TextView npcNumberView = findViewById(R.id.numberOfNpcDiscoveredTextView);
+        npcNumberView.setText("0");
+    }
+
+    private void computeQuestionsPercentage() {
+        Map<String, List<String>> answeredQuestions = Player.get().getAnsweredQuestion();
+        Set<String> keySet = answeredQuestions.keySet();
+        double totalQuestions = keySet.size();
+        int goodAnswers = 0;
+        int answered = 0;
+        for (String questionID: keySet) {
+            List<String> questionInfo = answeredQuestions.get(questionID);
+            boolean trueFalse = Boolean.parseBoolean(questionInfo.get(0));
+            answered++;
+            if (trueFalse)
+                goodAnswers++;
+        }
+        double questionRatio = 0.0;
+        if (totalQuestions > 0.0) {
+            questionRatio = goodAnswers / totalQuestions * 100;
+        }
+
+        TextView ratioPercentage = findViewById(R.id.ratioPercentageTextview)   ;
+        ratioPercentage.setText(String.format("%.1f %%", questionRatio));
+
+        TextView answeredNumberView = findViewById(R.id.answeredNumberTextview);
+        answeredNumberView.setText(String.valueOf(answered));
+    }
+
+    /**
+     * Get the number of answers per course for the current player and put the course with the
+     * maximum number of answer as the favorite course.
+     * This count will not take into account the
+     * questions that have been deleted as we cannot retrieve the course of the answered questions
+     * anymore if it has been deleted.
+     *
+     * @param questions All the questions available to the player
+     */
+    private void updateFavoriteCourseDisplay(List<Question> questions) {
+        if(questions == null) {
+            getQuestions();
+        } else {
+            String favoriteCourse = getFavoriteCourse(getNbrAnswerPerCourse(questions));
+
+            TextView favoriteCourseView = findViewById(R.id.favoriteCourseTextview);
+            favoriteCourseView.setText(favoriteCourse);
+        }
+    }
+    private void getQuestions() {
+        Callback<List<Question>> onQuestionLoaded = new Callback<List<Question>>() {
+            @Override
+            public void call(List<Question> callbackParam) {
+                updateFavoriteCourseDisplay(callbackParam);
+            }
+        };
+        if(MOCK_ENABLED) {
+            QuestionParser.parseQuestionsLiveData(this).observe(this, new Observer<List<Question>>() {
+                @Override
+                public void onChanged(@Nullable List<Question> questions) {
+                    updateFavoriteCourseDisplay(questions);
+                }
+            });
+        } else {
+            Firestore.get().loadQuestions(this, onQuestionLoaded);
+        }
+    }
+    private Map<String, Integer> getNbrAnswerPerCourse(List<Question> questions) {
+        Map<String, List<String>> answersInfoById = Player.get().getAnsweredQuestion();
+        Map<String, Integer> nbrAnswerPerCourse = new HashMap<>();
+        for(Question q : questions) {
+            String course = q.getCourseName();
+            if(answersInfoById.containsKey(q.getQuestionId())) {
+                if(nbrAnswerPerCourse.containsKey(course)) {
+                    nbrAnswerPerCourse.put(course, nbrAnswerPerCourse.get(course) + 1);
+                } else {
+                    nbrAnswerPerCourse.put(course, 1);
+                }
+            }
+        }
+
+        return nbrAnswerPerCourse;
+    }
+    private String getFavoriteCourse(Map<String, Integer> nbrAnswerPerCourse) {
+        int max = -1;
+        String favoriteCourse = getString(R.string.no_course_representation);
+        for (String c : nbrAnswerPerCourse.keySet()) {
+            int nbrAnswerForC = nbrAnswerPerCourse.get(c);
+            if (nbrAnswerForC > max) {
+                max = nbrAnswerForC;
+                favoriteCourse = c;
+            }
+        }
+
+        return favoriteCourse;
+    }
+
+    public void onAvailableSpecialQuestsButtonClick(View view) {
+        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
+    }
 
     public void onLeaderboardButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, LeaderboardActivity.class));
@@ -254,14 +381,5 @@ public class HomeActivity extends NavigationStudent {
 
     public void updateCurrDisplay() {
         ((TextView) findViewById(R.id.currText)).setText(getString(R.string.text_money) +" "+ Player.get().getCurrency());
-    }
-
-    public static void clearCacheToLogOut(Context context) {
-        FileCacher<String[]> persistLogin = new FileCacher<>(context, PERSIST_LOGIN_FILENAME);
-        try {
-            persistLogin.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -185,13 +185,18 @@
     <string name="NPC_too_far_away">Vous devez vous approcher du PNJ</string>
     <string name="time_left_text">Temps restant</string>
     <string name="select_courses_text">Sélectionne tes cours</string>
+    <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
+    <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
+    <string name="answered_text">Répondu:</string>
+    <string name="rank_text">Rang:</string>
+    <string name="npc_discovered_text">PNJ découvert:</string>
+    <string name="favorite_course_text">Cours préféré:</string>
     <string name="leaderboard">Tableau des leaders</string>
     <string name="correct_answers_label">Réponses correctes</string>
     <string name="xp_label">Lecteur xp</string>
     <string name="by_correct_answers">Par des réponses correctes</string>
     <string name="by_xp">Par XP</string>
-    <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
-    <string name="NPC_interaction_enable">Interactions avec les PNJ</string>
+
     <string name="NPC_yes_button">Oui</string>
     <string name="NPC_no_button">Non</string>
     <string name="item_unstable_potion_name">Potion instable</string>

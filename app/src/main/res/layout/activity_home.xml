@@ -183,53 +183,209 @@
 
         <!--MIDDLE SPACE-->
 
-        <android.support.constraint.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottomBar"
-            android:layout_below="@id/topBar">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topBar"
+            android:layout_above="@id/bottomBar">
 
-
-            <Button
-                android:id="@+id/leaderboardButton"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/list_view_shape"
-                android:backgroundTint="@color/colorListItems"
-                android:drawableLeft="@drawable/leaderboard_icon"
-                android:onClick="onLeaderboardButtonClick"
-                android:text="@string/leaderboard"
-                android:textAllCaps="false"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:minHeight="300dp">
 
-            <TextView
-                android:id="@+id/specialQuestsTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/special_quests_title"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/leaderboardButton" />
+                <TextView
+                    android:id="@+id/specialQuestsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/special_quests_title"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.502"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/statsAndSpecialSeparator" />
 
-            <ListView
-                android:id="@+id/specialQuestsListView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/transparent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
-        </android.support.constraint.ConstraintLayout>
+                <ch.epfl.sweng.studyup.utils.NonScrollableListView
+                    android:id="@+id/specialQuestsListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_below="@id/specialQuestsTitle"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/transparent"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
+
+                <Button
+                    android:id="@+id/availableSpecialQuestsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/specialQuestsListView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="@color/colorListItems"
+                    android:onClick="onAvailableSpecialQuestsButtonClick"
+                    android:text="@string/available_special_quests"
+                    android:textAllCaps="false"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
+
+                <TextView
+                    android:id="@+id/rankNumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onLeaderboardButtonClick"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/ratioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/ratio_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/answeredTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/answered_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/statsAndSpecialSeparator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/colorGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/favoriteCourseTextTextview" />
+
+                <TextView
+                    android:id="@+id/ratioPercentageTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintStart_toStartOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="50%" />
+
+                <TextView
+                    android:id="@+id/answeredNumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/answeredTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="222" />
+
+                <TextView
+                    android:id="@+id/rankTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/rank_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/NPCDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/npc_discovered_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview" />
+
+                <TextView
+                    android:id="@+id/numberOfNpcDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/answeredNumberTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview"
+                    tools:text="4" />
+
+                <TextView
+                    android:id="@+id/favoriteCourseTextTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/favorite_course_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/NPCDiscoveredTextView" />
+
+                <TextView
+                    android:id="@+id/favoriteCourseTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toTopOf="@+id/favoriteCourseTextTextview"
+                    tools:text="ToC" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </ScrollView>
 
 
         <!--BOTTOM NAV BAR-->

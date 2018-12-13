@@ -47,7 +47,7 @@ public class LeaderboardActivity extends RefreshContext {
     That is the Integer in the pair will either be the number of correct answers,
     or the XP of the player.
      */
-    Comparator studentRankComparator = new Comparator<Pair<String, Integer>>() {
+    public static Comparator studentRankComparator = new Comparator<Pair<String, Integer>>() {
         @Override
         public int compare(Pair<String, Integer> studentA, Pair<String, Integer> studentB) {
             return studentA.second.compareTo(studentB.second) > 0 ? -1 : 1;
