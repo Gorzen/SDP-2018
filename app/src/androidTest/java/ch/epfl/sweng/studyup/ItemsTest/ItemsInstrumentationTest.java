@@ -12,11 +12,13 @@ import java.util.Arrays;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.items.Items;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ItemsInstrumentationTest {
     private ListItemAdapter listItemAdapter;
@@ -34,6 +36,42 @@ public class ItemsInstrumentationTest {
         courses = new ArrayList<>(Arrays.asList(Constants.Course.SWENG, Constants.Course.Algebra, Constants.Course.Ecology));
         listItemAdapter = new ListItemAdapter(mActivityRule.getActivity(), items, R.id.list_view_shop, false);
         listCourseAdapter = new ListCourseAdapter(mActivityRule.getActivity(), courses, R.layout.course_item_model, true);
+    }
+
+    @Test
+    public void consumeGreenThemeUnlocksIt() {
+        Player.get().resetPlayer();
+        Items.GREEN_THEME.consume();
+        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_GREEN));
+        Items.BLUE_THEME.consume();
+        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_BLUE));
+        Items.ORANGE_THEME.consume();
+        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_ORANGE));
+        Items.MULTI_THEME.consume();
+        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_MULTI));
+    }
+
+    @Test
+    public void consumeMapUnlocksAllNPCs() {
+        Player.get().resetPlayer();
+        Items.MAP.consume();
+        assertEquals(Constants.allNPCs.size(), Player.get().getKnownNPCs().size());
+    }
+
+    @Test
+    public void consumeUnstablePotionGrantsXP() {
+        Player.get().resetPlayer();
+        int xp = Player.get().getExperience();
+        Items.UNSTABLE_POTION.consume();
+        assertTrue((xp != Player.get().getExperience()));
+    }
+
+    @Test
+    public void consumeTombolaTicketGivesMoney() {
+        Player.get().resetPlayer();
+        int currency = Player.get().getCurrency();
+        Items.TOMBOLA.consume();
+        assertTrue((currency != Player.get().getCurrency()));
     }
 
     @Test

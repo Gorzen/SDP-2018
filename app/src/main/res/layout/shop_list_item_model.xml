@@ -5,6 +5,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+<<<<<<< HEAD
 
 
     <LinearLayout
@@ -19,6 +20,13 @@
         android:backgroundTint="?attr/colorListItems"
         android:orientation="vertical"
         android:weightSum="1"
+=======
+    <ImageView
+        android:id="@+id/shop_item_image"
+        android:layout_width="81dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="10dp"
+>>>>>>> origin/master
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -26,11 +34,29 @@
         app:layout_constraintTop_toTopOf="parent"
 
         app:layout_constraintVertical_bias="0.0"
+<<<<<<< HEAD
         tools:ignore="MissingConstraints">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+=======
+        app:srcCompat="@drawable/item_unstable" />
+
+    <TextView
+        android:id="@+id/shop_item_name"
+        android:layout_width="125dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/colorGreyBlack"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/shop_item_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+>>>>>>> origin/master
 
             <ImageView
                 android:id="@+id/shop_item_image"

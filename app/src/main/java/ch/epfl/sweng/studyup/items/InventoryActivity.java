@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.items;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +27,6 @@ public class InventoryActivity extends NavigationStudent {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
         setupToolbar(this);
-
         navigationSwitcher(InventoryActivity.this, InventoryActivity.class, INVENTORY_INDEX);
     }
 
@@ -50,9 +48,5 @@ public class InventoryActivity extends NavigationStudent {
                 startActivity(new Intent(parent.getContext(), DisplayItemActivity.class).putExtra(DisplayItemActivity.class.getName(), item.getName()));
             }
         });
-    }
-
-    public void goToShop(View view){
-        startActivity(new Intent(this, ShopActivity.class));
     }
 }

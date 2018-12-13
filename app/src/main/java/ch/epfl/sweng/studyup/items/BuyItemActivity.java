@@ -65,7 +65,7 @@ public class BuyItemActivity extends RefreshContext {
                 Player.get().addCurrency(-item.getPrice(), this);
                 Player.get().addItem(item);
             }
-            startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+            finish();
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.text_notenoughmoney), Toast.LENGTH_SHORT).show();
         }

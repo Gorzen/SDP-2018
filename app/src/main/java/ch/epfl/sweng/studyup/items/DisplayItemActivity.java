@@ -36,7 +36,7 @@ public class DisplayItemActivity extends RefreshContext {
             @Override
             public void onClick(View v) {
                 Player.get().consumeItem(item);
-                startActivity(new Intent(getApplicationContext(), InventoryActivity.class));
+                finish();
             }
         });
     }

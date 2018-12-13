@@ -62,16 +62,21 @@
             <ListView
                 android:id="@+id/listViewItems"
                 android:layout_width="match_parent"
+<<<<<<< HEAD
                 android:layout_height="455dp"
                 android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/go_to_shop_button"
+=======
+                android:layout_height="0dp"
+>>>>>>> origin/master
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 app:layout_constraintVertical_bias="0.0" />
 
+<<<<<<< HEAD
             <Button
                 android:id="@+id/go_to_shop_button"
                 android:layout_width="269dp"
@@ -87,6 +92,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+=======
+>>>>>>> origin/master
         </android.support.constraint.ConstraintLayout>
 
 

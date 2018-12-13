@@ -30,6 +30,7 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 import static ch.epfl.sweng.studyup.player.HomeActivity.clearCacheToLogOut;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
@@ -38,11 +39,13 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTI
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
 
 public class SettingsActivity extends RefreshContext {
+    private FileCacher<Boolean> enableNPCInteraction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        enableNPCInteraction = new FileCacher<>(SettingsActivity.this, NPC_INTERACTION_FILENAME);
         setCheckBoxNPC();
     }
 
@@ -51,6 +54,16 @@ public class SettingsActivity extends RefreshContext {
         super.onResume();
         if(Player.get().isTeacher()) {
             ((TextView) findViewById(R.id.textCourseButton)).setText(R.string.course_choice_settings_button_teacher);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            enableNPCInteraction.writeCache(GlobalAccessVariables.NPCInteractionState);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

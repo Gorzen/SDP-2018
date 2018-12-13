@@ -46,6 +46,10 @@ public abstract class Rooms {
             put("INR_0_11", new Room(46.5184010, 6.5627920));
 
             put("BC_0_0", new Room(46.5185229, 6.5619692));
+
+            put("SATELITTE", new Room(46.520614, 6.567683));
+            put("ROLEX_CENTER", new Room(46.518274, 6.568702));
+            put("METRO_M1", new Room(46.522380, 6.565437));
         }
     });
 

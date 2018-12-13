@@ -3,18 +3,14 @@ package ch.epfl.sweng.studyup.NPCTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.InventoryActivity;
 import ch.epfl.sweng.studyup.npc.NPC;
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.utils.Rooms;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -35,7 +31,7 @@ public class NPCTest {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                roberto.isInRange(roberto.getPosition());
+                roberto.checkNPCInteraction(roberto.getPosition());
             }
         });
     }
