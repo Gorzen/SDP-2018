@@ -2,18 +2,14 @@ package ch.epfl.sweng.studyup.firebase;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.collect.Maps;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,20 +19,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.player.ScheduleActivityStudent;
-import ch.epfl.sweng.studyup.player.UserData;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.teacher.CourseStatsActivity;
-import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
-import ch.epfl.sweng.studyup.teacher.ScheduleActivityTeacher;
-import ch.epfl.sweng.studyup.utils.Constants;
+import ch.epfl.sweng.studyup.utils.Callback;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ANSWERED_QUESTIONS;
@@ -46,11 +36,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_ENROLLED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_END;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_ID;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_LOCATION;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_NAME;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS_START;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
@@ -69,17 +54,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
-import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
-import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
-import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
-import static ch.epfl.sweng.studyup.utils.Constants.MIN_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
-import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
-import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 
@@ -163,6 +140,13 @@ public class Firestore {
     }
 
     /**
+     * Version without callback of loadQuestions
+     */
+    public void loadQuestions(final Context context) throws NullPointerException {
+        loadQuestions(context, null);
+    }
+
+    /**
      * Load all questions that have not been created by the current player if role is student.
      * Load all questions that have been created by the current player if the role is teacher.
      * In addition, only questions that correspond to the current player's courses should be loaded.
@@ -170,7 +154,7 @@ public class Firestore {
      * @param context The context used to save the questions locally
      * @throws NullPointerException If the data received from the server is not of a valid format
      */
-    public void loadQuestions(final Context context) throws NullPointerException {
+    public void loadQuestions(final Context context, final Callback onQuestionsLoaded) throws NullPointerException {
 
         final Player currPlayer = Player.get();
 
@@ -190,6 +174,9 @@ public class Firestore {
                 }
 
                 QuestionParser.writeQuestions(questionList, context);
+                if(onQuestionsLoaded != null) {
+                    onQuestionsLoaded.call(questionList);
+                }
                 Log.d(TAG, "Question List: " + questionList.toString());
             } else {
                 Log.e(TAG, "Error getting documents: ", task.getException());

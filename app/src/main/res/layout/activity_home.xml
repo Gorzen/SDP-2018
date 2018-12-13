@@ -179,161 +179,160 @@
         </android.support.constraint.ConstraintLayout>
 
 
+
         <!--MIDDLE SPACE-->
 
-        <android.support.constraint.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/bottomBar"
-            android:layout_below="@id/topBar">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topBar"
+            android:layout_above="@id/bottomBar">
 
-
-            <Button
-                android:id="@+id/leaderboardTitle"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/transparent"
-                android:onClick="onLeaderboardButtonClick"
-                android:text="@string/leaderboard"
-                android:textAllCaps="false"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
-                app:layout_constraintStart_toStartOf="@+id/specialQuestsTitle"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:minHeight="300dp">
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/relativeLayout2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/leaderboardTitle"
-                app:layout_constraintStart_toEndOf="@id/leaderboardTitle"
-                app:layout_constraintTop_toTopOf="@id/leaderboardTitle"
-                android:onClick="onLeaderboardButtonClick">
+                <TextView
+                    android:id="@+id/rankNumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onLeaderboardButtonClick"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="1000" />
 
-                <Button
-                    android:id="@+id/leaderboardButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="bottom" />
+                <TextView
+                    android:id="@+id/ratioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/ratio_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/answeredTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/answered_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <View
+                    android:id="@+id/statsAndSpecialSeparator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@color/colorGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/favoriteCourseTextTextview" />
 
-            <ImageView
-                android:id="@+id/imageViewLB"
-                android:layout_width="27dp"
-                android:layout_height="33dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="top"
-                android:onClick="onLeaderboardButtonClick"
-                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
-                app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
-                app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
-                app:layout_constraintTop_toTopOf="@+id/relativeLayout2"
-                app:srcCompat="@drawable/ic_format_list_numbered_black_24dp"
-                tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/ratioPercentageTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintStart_toStartOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="50%" />
 
+                <TextView
+                    android:id="@+id/answeredNumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/answeredTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
+                    tools:text="222" />
 
-            <Button
-                android:id="@+id/specialQuestsTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:background="@color/transparent"
-                android:text="@string/special_quests_title"
-                android:textAllCaps="false"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.438"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/leaderboardTitle" />
+                <TextView
+                    android:id="@+id/rankTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/rank_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/NPCDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/npc_discovered_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview" />
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/relativeLayout3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/specialQuestsTitle"
-                app:layout_constraintStart_toEndOf="@id/specialQuestsTitle"
-                app:layout_constraintTop_toTopOf="@id/specialQuestsTitle"
-                android:onClick="onAvailableSpecialQuestsButtonClick">
+                <TextView
+                    android:id="@+id/numberOfNpcDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="@+id/answeredNumberTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview"
+                    tools:text="4" />
 
-                <Button
-                    android:id="@+id/availableSpecialQuestsButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="bottom" />
+                <TextView
+                    android:id="@+id/favoriteCourseTextTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/favorite_course_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/NPCDiscoveredTextView" />
 
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/favoriteCourseTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toTopOf="@+id/favoriteCourseTextTextview"
+                    tools:text="ToC" />
 
-
-            <ImageView
-                android:id="@+id/imageViewPlus"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="top"
-                android:onClick="onAvailableSpecialQuestsButtonClick"
-                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout3"
-                app:layout_constraintEnd_toEndOf="@+id/relativeLayout3"
-                app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
-                app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
-                app:srcCompat="@drawable/ic_add_black_24dp"
-                tools:ignore="ContentDescription" />
-
-
-
-            <ListView
-                android:id="@+id/specialQuestsListView"
-                android:layout_width="match_parent"
-                android:layout_height="422dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/transparent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
-        </android.support.constraint.ConstraintLayout>
-
-
-        <!--BOTTOM NAV BAR-->
-
-        <android.support.constraint.ConstraintLayout
-
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/bottomNavView_Bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_grey_border_top"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation_student"> <!--display both icons and text labels when there are more than 3 items.-->
-            </android.support.design.widget.BottomNavigationView>
-
-        </android.support.constraint.ConstraintLayout>
-
-    </RelativeLayout>
-
-
-    <!--OVERLAPPING THINGS-->
-
-
-</android.support.constraint.ConstraintLayout>
