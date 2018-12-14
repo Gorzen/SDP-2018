@@ -11,6 +11,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 
 import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_KEY;
 
@@ -87,15 +88,13 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
             @Override
             public void onClick(View v) {
                 Player.get().addSpecialQuest(specialQuest);
-                onBackButtonSpecialQuest(null);
+                Utils.restartHomeActivity(SpecialQuestDisplayActivity.this);
             }
         });
     }
 
     public void onBackButtonSpecialQuest(View v) {
-        Intent intent = new Intent(SpecialQuestDisplayActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        Utils.restartHomeActivity(SpecialQuestDisplayActivity.this);
     }
 
     public final class CustomProgressTextAdapter implements CircularProgressIndicator.ProgressTextAdapter {

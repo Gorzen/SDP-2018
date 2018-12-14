@@ -14,6 +14,7 @@ import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
@@ -47,8 +48,6 @@ public class ShopActivity extends RefreshContext {
     }
 
     public void onBackButtonShop(View v) {
-        Intent intent = new Intent(ShopActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        Utils.restartHomeActivity(ShopActivity.this);
     }
 }

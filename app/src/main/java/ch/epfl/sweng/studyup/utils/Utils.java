@@ -1,6 +1,7 @@
 package ch.epfl.sweng.studyup.utils;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,8 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.npc.NPC;
+import ch.epfl.sweng.studyup.player.CustomActivity;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;
@@ -250,6 +253,12 @@ public abstract class Utils {
             e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    public static void restartHomeActivity(Activity from){
+        Intent intent = new Intent(from, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        from.startActivity(intent);
     }
 }
 
