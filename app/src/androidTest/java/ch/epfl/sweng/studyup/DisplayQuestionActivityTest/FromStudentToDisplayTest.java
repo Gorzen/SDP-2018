@@ -21,8 +21,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.anything;
@@ -33,12 +31,13 @@ public class FromStudentToDisplayTest {
     private final String TAG = FromStudentToDisplayTest.class.getSimpleName();
     private Question q;
     @SuppressWarnings("HardCodedStringLiteral")
-    private  final String fakeTitle = "fake title from student to display";
+    private final String fakeUUID = "fake-UUID";
+    private final String fakeTitle = "fake title from student to display";
 
     @Before
     public void addQuestionThatWillBeDisplayed() {
         Player.get().resetPlayer();
-        q = new Question(MOCK_UUID, fakeTitle, false, 3, Constants.Course.SWENG.name(), "en");
+        q = new Question(fakeUUID , fakeTitle, false, 3, Constants.Course.SWENG.name(), "en");
         Firestore.get().addQuestion(q);
         waitAndTag(1000, TAG);
         Player.get().setRole(Constants.Role.teacher);

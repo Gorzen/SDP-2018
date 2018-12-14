@@ -51,8 +51,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.Course.SWENG;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.not;
@@ -211,7 +209,7 @@ public class AddQuestionActivityTest {
             public void onChanged(@Nullable List<Question> questions) {
                 if (!questions.isEmpty()) {
                     for (Question q : questions) {
-                        if (q.getQuestionId().equals(MOCK_UUID)) {
+                        if (q.getQuestionId().equals("fake-UUID")) {
                             assertTrue(q.getTitle().equals("A Title"));
                             assertTrue(q.getAnswer() == 0);
                             assertFalse(q.isTrueFalse());

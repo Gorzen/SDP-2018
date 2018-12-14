@@ -54,6 +54,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUIDS;
 import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
 import static ch.epfl.sweng.studyup.utils.Utils.getMapListFromSpecialQuestList;
@@ -187,6 +188,7 @@ public class Firestore {
 
 
     private Question extractQuestionData(Player currPlayer, String id, Map<String, Object> questionData) {
+        if(MOCK_UUIDS.contains(id)) return null;
         Course questionCourse = Course.valueOf(questionData.get(FB_COURSE).toString());
         List<Course> playerCourse = currPlayer.isTeacher() ? currPlayer.getCoursesTeached() : currPlayer.getCoursesEnrolled();
         boolean questionCourseMatchesPlayer = playerCourse.contains(questionCourse);
