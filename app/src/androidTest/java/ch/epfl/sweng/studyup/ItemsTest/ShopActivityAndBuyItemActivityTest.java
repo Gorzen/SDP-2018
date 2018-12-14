@@ -71,7 +71,7 @@ public class ShopActivityAndBuyItemActivityTest {
         });
         Utils.waitAndTag(150, "Waiting for click on item");
         onView(withId(R.id.buy_button)).perform(scrollTo(), click());
-        onView(withId(R.id.back_button_display_item)).perform(click());
+        onView(withId(R.id.back_button)).perform(click());
         assertEquals(0, Player.get().getItems().size());
     }
 
