@@ -203,4 +203,10 @@ public class CustomActivity extends RefreshContext {
     public void onBackButton(View v){
         Utils.restartHomeActivity(CustomActivity.this);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.restartHomeActivity(CustomActivity.this);
+    }
 }

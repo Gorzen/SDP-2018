@@ -50,4 +50,10 @@ public class ShopActivity extends RefreshContext {
     public void onBackButtonShop(View v) {
         Utils.restartHomeActivity(ShopActivity.this);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.restartHomeActivity(ShopActivity.this);
+    }
 }

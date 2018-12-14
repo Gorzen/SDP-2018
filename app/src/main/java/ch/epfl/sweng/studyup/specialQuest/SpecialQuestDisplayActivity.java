@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
@@ -103,5 +104,11 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         public String formatText(double currentProgress) {
             return String.valueOf((int) currentProgress) + " %";
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.restartHomeActivity(SpecialQuestDisplayActivity.this);
     }
 }
