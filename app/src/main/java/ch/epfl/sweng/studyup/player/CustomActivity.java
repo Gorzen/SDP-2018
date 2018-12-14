@@ -197,4 +197,8 @@ public class CustomActivity extends RefreshContext {
     public void makeValidBtnVisible(View v) {
         valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
     }
+
+    public void onBackButton(View v){
+        finish();
+    }
 }
