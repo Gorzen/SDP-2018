@@ -135,7 +135,7 @@ public abstract class Constants {
     public static final String COLOR_SETTINGS_KEYWORD = "color";
     public static final String SETTINGS_COLOR_RED = "red";
     public static final String SETTINGS_COLOR_GREEN = "green";
-    public static final String SETTINGS_COLOR_ORANGE = "brown";
+    public static final String SETTINGS_COLOR_ORANGE = "orange";
     public static final String SETTINGS_COLOR_BLUE = "blue";
     public static final String SETTINGS_COLOR_DARK = "dark";
 
