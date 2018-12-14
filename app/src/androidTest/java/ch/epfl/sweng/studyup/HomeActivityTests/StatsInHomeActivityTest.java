@@ -55,7 +55,7 @@ public class StatsInHomeActivityTest {
         waitAndTag(500, "Waiting for the server to be notificated.");
         mActivityRule.launchActivity(new Intent());
         waitAndTag(1000, "Waiting for the rank to be displayed.");
-        onView(withId(R.id.rankNumberTextview)).check(matches(withText("1")));
+        onView(withId(R.id.rankNumberTextview)).check(matches(withText("#1")));
     }
 
     @Test
