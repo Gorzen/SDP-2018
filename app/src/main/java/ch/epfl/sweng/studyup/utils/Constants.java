@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.utils;
 
 import android.util.Pair;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
@@ -204,7 +203,7 @@ public abstract class Constants {
     public static final double NPC_RANGE = 30;
     public static List<NPC> allNPCs = Collections.unmodifiableList(new ArrayList<>(Arrays.asList(
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.FIVE_QUESTIONS),"Charlie", Rooms.ROOMS_LOCATIONS.get("CO_1_4").getLocation(), R.drawable.charlie, 3),
-            new NPCItems(new ArrayList<>(Arrays.asList(Items.BLUE_THEME, Items.ORANGE_THEME, Items.MULTI_THEME)),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death, 3),
+            new NPCItems(new ArrayList<>(Arrays.asList(Items.BLUE_THEME, Items.ORANGE_THEME, Items.DARK_THEME)),"Muerte", Rooms.ROOMS_LOCATIONS.get("CE_1_1").getLocation(), R.drawable.death, 3),
             new NPCItems(new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.UNSTABLE_POTION)), "Jeykill", Rooms.ROOMS_LOCATIONS.get("SATELITTE").getLocation(), R.drawable.jeykill, 3),
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.CONSISTENT_USE), "Gilbert", Rooms.ROOMS_LOCATIONS.get("ROLEX_CENTER").getLocation(), R.drawable.gilbert, 5),
             new NPCSpecialQuest(new SpecialQuest(SpecialQuestType.THREE_QUESTIONS), "Benedetto", Rooms.ROOMS_LOCATIONS.get("METRO_M1").getLocation(), R.drawable.benedetto, 3),

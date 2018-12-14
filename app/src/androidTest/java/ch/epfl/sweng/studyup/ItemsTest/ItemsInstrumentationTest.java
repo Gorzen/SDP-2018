@@ -47,7 +47,7 @@ public class ItemsInstrumentationTest {
         assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_BLUE));
         Items.ORANGE_THEME.consume();
         assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_ORANGE));
-        Items.MULTI_THEME.consume();
+        Items.DARK_THEME.consume();
         assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_DARK));
     }
 
