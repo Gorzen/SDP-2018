@@ -352,7 +352,7 @@
                     android:id="@+id/statsAndSpecialSeparator"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:background="?attr/colorNavBars2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -360,58 +360,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/answeredTextview" />
 
 
-                <Button
+                <TextView
                     android:id="@+id/specialQuestsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:background="@color/transparent"
                     android:text="@string/special_quests_title"
-                    android:textAllCaps="false"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="24sp"
                     android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.44"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/statsAndSpecialSeparator" />
 
-
-                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/relativeLayout3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="@id/specialQuestsTitle"
-                    app:layout_constraintStart_toEndOf="@id/specialQuestsTitle"
-                    app:layout_constraintTop_toTopOf="@id/specialQuestsTitle"
-                    android:onClick="onAvailableSpecialQuestsButtonClick">
-
-                    <Button
-                        android:id="@+id/availableSpecialQuestsButton"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/round_button"
-                        android:gravity="bottom" />
-
-                </RelativeLayout>
-
-
-                <ImageView
-                    android:id="@+id/imageViewPlus"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="top"
-                    android:onClick="onAvailableSpecialQuestsButtonClick"
-                    app:layout_constraintBottom_toBottomOf="@+id/relativeLayout3"
-                    app:layout_constraintEnd_toEndOf="@+id/relativeLayout3"
-                    app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
-                    app:srcCompat="@drawable/ic_add_black_24dp"
-                    tools:ignore="ContentDescription" />
 
                 <ch.epfl.sweng.studyup.utils.NonScrollableListView
                     android:id="@+id/specialQuestsListView"

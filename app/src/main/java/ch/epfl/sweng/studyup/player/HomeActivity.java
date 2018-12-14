@@ -370,10 +370,6 @@ public class HomeActivity extends NavigationStudent {
         return favoriteCourse;
     }
 
-    public void onAvailableSpecialQuestsButtonClick(View view) {
-        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
-    }
-
     public void onLeaderboardButtonClick(View view) {
         startActivity(new Intent(HomeActivity.this, LeaderboardActivity.class));
     }
