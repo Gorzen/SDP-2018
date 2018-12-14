@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +32,6 @@ public abstract class Constants {
     public static final String FB_ROLE = "role";
     public static final String FB_KNOWN_NPCS = "npcs";
     public static final String FB_UNLOCKED_THEME = "themes";
-    public static final String FB_ROLE_S = "student";
-    public static final String FB_ROLE_T = "teacher";
     public static final String FB_XP = "xp";
     public static final String FB_COURSES_ENROLLED = "attending courses";
     public static final String FB_COURSES_TEACHED = "teaching courses";
@@ -154,6 +153,9 @@ public abstract class Constants {
     public static final List<String> durationChoice = Arrays.asList("0", "2mn", "1h", "5h", "24h");
     public static final List<Long> durationCorrespond = Arrays.asList(0l, 120000l, 3600000l, 18000000l, 86400000l);
 
+    // UUID used for testing
+    public static final String MOCK_UUID = "fake-UUID";
+    public static final Set<String> MOCK_UUIDS = Sets.newHashSet(MOCK_UUID, "Temporary fake uuid", "UUID-for-text-question");
     // Enums for Role, Course
     public enum Role {
         student,
