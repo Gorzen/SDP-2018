@@ -220,6 +220,7 @@
     <string name="blue_description">Ajoutez ce thème blue à votre collection et devenez un vrai marin!</string>
     <string name="orange_description">Devenez un vrai oranger avec ce thème</string>
     <string name="dark_description">Un thème pour les amateurs de la pleine lune</string>
+    <string name="already_enrolled">Quête en cours</string>
 
     <string name="charlie_message1">Salut l\'ami, est-ce que tu veux dab avec moi ?</string>
     <string name="charlie_message2">Hmmm, non merci.</string>

@@ -1,5 +1,6 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
@@ -52,8 +54,8 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         if (Player.get().getSpecialQuests().contains(specialQuest)) {
             // Player enrolled in special quest, display progress
             renderProgressBar(specialQuest.getProgress());
-        }
-        else {
+            renderAlreadyEnrolledButton();
+        } else {
             // Player not enrolled, do not display progress, display enrollment button
             renderEnrollmentButton(specialQuest);
         }
@@ -73,20 +75,27 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         progressBarView.setProgress(progress * 100, 100);
     }
 
+    private void renderAlreadyEnrolledButton(){
+        Button enrollmentButton = findViewById(R.id.specialQuestEnrollButton);
+        enrollmentButton.setText(R.string.already_enrolled);
+        enrollmentButton.setEnabled(false);
+    }
+
     private void renderEnrollmentButton(final SpecialQuest specialQuest) {
         Button enrollmentButton = findViewById(R.id.specialQuestEnrollButton);
-        enrollmentButton.setVisibility(View.VISIBLE);
         enrollmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Player.get().addSpecialQuest(specialQuest);
-                finish();
+                onBackButtonSpecialQuest(null);
             }
         });
     }
 
     public void onBackButtonSpecialQuest(View v) {
-        finish();
+        Intent intent = new Intent(SpecialQuestDisplayActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public final class CustomProgressTextAdapter implements CircularProgressIndicator.ProgressTextAdapter {
