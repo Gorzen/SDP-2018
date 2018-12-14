@@ -135,7 +135,7 @@ public abstract class Constants {
     public static final String COLOR_SETTINGS_KEYWORD = "color";
     public static final String SETTINGS_COLOR_RED = "red";
     public static final String SETTINGS_COLOR_GREEN = "green";
-    public static final String SETTINGS_COLOR_ORANGE = "brown";
+    public static final String SETTINGS_COLOR_ORANGE = "orange";
     public static final String SETTINGS_COLOR_BLUE = "blue";
     public static final String SETTINGS_COLOR_DARK = "dark";
 
@@ -158,7 +158,7 @@ public abstract class Constants {
     public static final Set<String> MOCK_UUIDS = Sets.newHashSet(MOCK_UUID, "Temporary fake uuid", "UUID-for-text-question");
     static final Set<Pair<String, String>> MOCK_NAMES = Sets.newHashSet(
             new Pair<>(INITIAL_FIRSTNAME, INITIAL_LASTNAME),
-            new Pair<>(INITIAL_FIRSTNAME, INITIAL_LASTNAME+"1"),
+            new Pair<>(INITIAL_FIRSTNAME+"1", INITIAL_LASTNAME+"1"),
             new Pair<>("John", "Doe")
     );
 

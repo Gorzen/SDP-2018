@@ -38,6 +38,18 @@
                 <!--replace background### with android:background="@drawable/white_grey_border_bottom" for a white toolbar-->
             </android.support.v7.widget.Toolbar>
 
+            <Button
+                android:id="@+id/back_button_display_item"
+                android:layout_width="33dp"
+                android:layout_height="34dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:onClick="onBackButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </android.support.constraint.ConstraintLayout>
 
 
@@ -106,27 +118,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
-        </android.support.constraint.ConstraintLayout>
-
-
-        <!--BOTTOM NAV BAR-->
-
-        <android.support.constraint.ConstraintLayout
-
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:id="@+id/bottomNavView_Bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/white_grey_border_top"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/navigation_student">
-
-            </android.support.design.widget.BottomNavigationView>
         </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>

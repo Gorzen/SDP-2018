@@ -29,6 +29,9 @@ import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
+import ch.epfl.sweng.studyup.items.ShopActivity;
+import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
@@ -44,7 +47,7 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
  *
  * Code used in the activity_custom to personnalize a Player.
  */
-public class CustomActivity extends NavigationStudent {
+public class CustomActivity extends RefreshContext {
     @SuppressWarnings("HardCodedStringLiteral")
     private static final String TAG = "CustomActivity";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 8826229;
@@ -56,10 +59,8 @@ public class CustomActivity extends NavigationStudent {
     @SuppressWarnings("HardCodedStringLiteral")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_custom);
         super.onCreate(savedInstanceState);
-
-        navigationSwitcher(CustomActivity.this, CustomActivity.class, DEFAULT_INDEX_STUDENT);
+        setContentView(R.layout.activity_custom);
 
         valid_button = findViewById(R.id.valid_btn);
         imageview = findViewById(R.id.pic_imageview);
@@ -197,5 +198,15 @@ public class CustomActivity extends NavigationStudent {
 
     public void makeValidBtnVisible(View v) {
         valid_button.setBackground(getResources().getDrawable(R.drawable.ic_check_done_24dp));
+    }
+
+    public void onBackButton(View v){
+        Utils.restartHomeActivity(CustomActivity.this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Utils.restartHomeActivity(CustomActivity.this);
     }
 }

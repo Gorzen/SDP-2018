@@ -28,7 +28,7 @@ public enum Items implements Serializable {
     GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE, Items.GREEN_IMAGE),
     BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE, Items.BLUE_IMAGE),
     ORANGE_THEME(Items.ORANGE_NAME_ID, Items.ORANGE_DESCRIPTION_ID, Items.ORANGE_PRICE, Items.ORANGE_IMAGE),
-    DARK_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE, Items.MULTI_IMAGE);
+    DARK_THEME(Items.DARK_NAME_ID, Items.DARK_DESCRIPTION_ID, Items.DARK_PRICE, Items.DARK_IMAGE);
 
     //Names
     public static final int XP_POTION_NAME_ID = R.string.item_xp_potion_name;
@@ -39,7 +39,7 @@ public enum Items implements Serializable {
     public static final int GREEN_NAME_ID = R.string.green_name;
     public static final int BLUE_NAME_ID = R.string.blue_name;
     public static final int ORANGE_NAME_ID = R.string.orange_name;
-    public static final int MULTI_NAME_ID = R.string.multi_colour_name;
+    public static final int DARK_NAME_ID = R.string.dark_name;
 
     //Descriptions
     public static final int XP_POTION_DESCRIPTION_ID = R.string.item_xp_potion_description;
@@ -49,8 +49,8 @@ public enum Items implements Serializable {
     public static final int MAP_DESCRIPTION_ID = R.string.item_map_description;
     public static final int GREEN_DESCRIPTION_ID = R.string.green_description;
     public static final int BLUE_DESCRIPTION_ID = R.string.blue_description;
-    public static final int ORANGE_DESCRIPTION_ID = R.string.brown_description;
-    public static final int MULTI_DESCRIPTION_ID = 0;
+    public static final int ORANGE_DESCRIPTION_ID = R.string.orange_description;
+    public static final int DARK_DESCRIPTION_ID = R.string.dark_description;
 
     //Prices
     public static final int XP_POTION_PRICE = 10;
@@ -61,7 +61,7 @@ public enum Items implements Serializable {
     public static final int GREEN_PRICE = 50;
     public static final int BLUE_PRICE = 50;
     public static final int ORANGE_PRICE = 50;
-    public static final int MULTI_PRICE = 50;
+    public static final int DARK_PRICE = 50;
 
     //Images
     public static final int XP_POTION_IMAGE = R.drawable.item_potion;
@@ -72,7 +72,7 @@ public enum Items implements Serializable {
     public static final int GREEN_IMAGE = R.drawable.item_theme_green;
     public static final int BLUE_IMAGE = R.drawable.item_theme_blue;
     public static final int ORANGE_IMAGE = R.drawable.item_theme_orange;
-    public static final int MULTI_IMAGE = R.drawable.item_theme_d4rk;
+    public static final int DARK_IMAGE = R.drawable.item_theme_d4rk;
 
     private final int nameId;
     private final int descriptionId;
