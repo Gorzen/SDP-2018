@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -28,9 +27,12 @@ import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.LANG_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.NPC_INTERACTION_FILENAME;
 import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 import static ch.epfl.sweng.studyup.utils.Utils.setLocale;
@@ -114,32 +116,39 @@ public class SettingsActivity extends RefreshContext {
     }
 
     public void onLanguageChoiceClick(View view) {
-        AlertDialog.Builder languageChoiceBuilder = new AlertDialog.Builder(this);
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        AlertDialog.Builder languageChoiceBuilder = col.equals(SETTINGS_COLOR_DARK) ?
+                new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(this);
         languageChoiceBuilder.setTitle(R.string.language_title_alert_dialog);
         languageChoiceBuilder.setItems(Constants.LANGUAGES, new DialogInterface.OnClickListener() {
             @SuppressWarnings("HardCodedStringLiteral")
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String lang = "en"; // Basis
-                if(which == 0) {
-                    lang = "en";
-                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
-                } else if(which == 1) {
-                    lang = "fr";
-                    Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
-                }
-                getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
-                        .putString(LANG_SETTINGS_KEYWORD, lang)
-                        .apply();
-                setLocale(lang, MOST_RECENT_ACTIVITY);
-
-                Class nextActivity = Player.get().isTeacher() ?
-                        QuestsActivityTeacher.class : HomeActivity.class;
-                startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
+                onClickAction(which);
             }
         });
         languageChoiceBuilder.setNegativeButton(R.string.cancel, null);
         languageChoiceBuilder.create().show();
+    }
+
+    private void onClickAction(int which) {
+        String lang = "en"; // Basis
+        if(which == 0) {
+            lang = "en";
+            Toast.makeText(SettingsActivity.this, getString(R.string.text_langen), Toast.LENGTH_SHORT).show();
+        } else if(which == 1) {
+            lang = "fr";
+            Toast.makeText(SettingsActivity.this, getString(R.string.text_langfr), Toast.LENGTH_SHORT).show();
+        }
+        getSharedPreferences(USER_PREFS, MODE_PRIVATE).edit()
+                .putString(LANG_SETTINGS_KEYWORD, lang)
+                .apply();
+        setLocale(lang, MOST_RECENT_ACTIVITY);
+
+        Class nextActivity = Player.get().isTeacher() ?
+                QuestsActivityTeacher.class : HomeActivity.class;
+        startActivity(new Intent(MOST_RECENT_ACTIVITY, nextActivity));
     }
 
     public void onCourseChoiceClick(View view) {
@@ -151,6 +160,11 @@ public class SettingsActivity extends RefreshContext {
 
     public void onColorChoiceClick(View view) {
         Intent intent = new Intent(SettingsActivity.this, ChooseColorActivity.class);
+        startActivity(intent);
+    }
+
+    public void onAboutUsClick(View view) {
+        Intent intent = new Intent(SettingsActivity.this, AboutUsActivity.class);
         startActivity(intent);
     }
 

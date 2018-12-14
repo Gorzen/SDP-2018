@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
-    style="@style/AppTheme"
     tools:context=".player.HomeActivity">
+
+
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -72,7 +72,6 @@
                 android:layout_height="110dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-
                 android:contentDescription="@string/user_photo"
                 android:paddingStart="2dp"
                 android:paddingEnd="0dp"
@@ -135,22 +134,24 @@
                 app:layout_constraintVertical_bias="0.636" />
 
             <LinearLayout
-                android:layout_width="116dp"
+                android:layout_width="76dp"
                 android:layout_height="140dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/usernameText"
                 app:layout_constraintEnd_toStartOf="@+id/level_progress"
+                app:layout_constraintHorizontal_bias="0.209"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.545">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <TextView
                     android:id="@+id/levelText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_marginTop="15dp"
                     android:text="@string/level_x"
                     android:textColor="?attr/colorProgression"
@@ -163,11 +164,11 @@
 
                 <TextView
                     android:id="@+id/currText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/money"
-                    android:textAlignment="center"
+                    android:textAlignment="textStart"
                     android:textColor="?attr/colorProgression"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -178,7 +179,65 @@
                     app:layout_constraintVertical_bias="0.17000002" />
             </LinearLayout>
 
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/relativeLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="-4dp"
+                android:onClick="onLeaderboardButtonClick"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.744"
+                app:layout_constraintStart_toEndOf="@id/level_progress"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
+                app:layout_constraintVertical_bias="0.69">
+
+                <Button
+                    android:id="@+id/leaderboardButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/round_button"
+                    android:backgroundTint="?attr/colorProgression"
+                    android:gravity="bottom" />
+
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/imageViewLB"
+                android:layout_width="27dp"
+                android:layout_height="33dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="top"
+                android:onClick="onLeaderboardButtonClick"
+                app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
+                app:layout_constraintHorizontal_bias="0.57"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout2"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@drawable/ic_format_list_numbered_black_24dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/rankNumberTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="onLeaderboardButtonClick"
+                android:textColor="?attr/colorProgression"
+                android:textSize="14sp"
+                android:text="#100"
+                app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+                tools:ignore="HardcodedText" />
+
         </android.support.constraint.ConstraintLayout>
+
 
 
         <!--MIDDLE SPACE-->
@@ -195,18 +254,126 @@
                 android:minHeight="300dp">
 
                 <TextView
+                    android:id="@+id/ratioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ratio_text"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/answeredTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/answered_text"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView" />
+
+                <TextView
+                    android:id="@+id/ratioPercentageTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/ratioTextView"
+                    app:layout_constraintTop_toTopOf="@+id/ratioTextView"
+                    tools:text="50%" />
+
+                <TextView
+                    android:id="@+id/answeredNumberTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/answeredTextview"
+                    app:layout_constraintTop_toTopOf="@+id/answeredTextview"
+                    tools:text="222" />
+
+                <TextView
+                    android:id="@+id/NPCDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/npc_discovered_text"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/favoriteCourseTextTextview"
+                    app:layout_constraintTop_toBottomOf="@+id/favoriteCourseTextTextview" />
+
+                <TextView
+                    android:id="@+id/numberOfNpcDiscoveredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/NPCDiscoveredTextView"
+                    app:layout_constraintTop_toTopOf="@+id/NPCDiscoveredTextView"
+                    tools:text="4" />
+
+                <TextView
+                    android:id="@+id/favoriteCourseTextTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/favorite_course_text"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/favoriteCourseTextview"
+                    app:layout_constraintTop_toTopOf="@+id/favoriteCourseTextview" />
+
+                <TextView
+                    android:id="@+id/favoriteCourseTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="?attr/colorContrasted"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="ToC" />
+
+                <View
+                    android:id="@+id/statsAndSpecialSeparator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="?attr/colorNavBars2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/answeredTextview" />
+
+
+                <TextView
                     android:id="@+id/specialQuestsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/transparent"
                     android:text="@string/special_quests_title"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="24sp"
+                    android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.502"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/statsAndSpecialSeparator" />
+
 
                 <ch.epfl.sweng.studyup.utils.NonScrollableListView
                     android:id="@+id/specialQuestsListView"
@@ -222,171 +389,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/specialQuestsTitle" />
 
-                <Button
-                    android:id="@+id/availableSpecialQuestsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/specialQuestsListView"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="32dp"
-                    android:background="@drawable/list_view_shape"
-                    android:backgroundTint="@color/colorListItems"
-                    android:onClick="onAvailableSpecialQuestsButtonClick"
-                    android:text="@string/available_special_quests"
-                    android:textAllCaps="false"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/specialQuestsListView" />
-
-                <TextView
-                    android:id="@+id/rankNumberTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onLeaderboardButtonClick"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
-                    tools:text="1000" />
-
-                <TextView
-                    android:id="@+id/ratioTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/ratio_text"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/answeredTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/answered_text"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/statsAndSpecialSeparator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="24dp"
-                    android:background="@color/colorGrey"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/favoriteCourseTextTextview" />
-
-                <TextView
-                    android:id="@+id/ratioPercentageTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="@+id/ratioTextView"
-                    app:layout_constraintStart_toStartOf="@+id/ratioTextView"
-                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
-                    tools:text="50%" />
-
-                <TextView
-                    android:id="@+id/answeredNumberTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/answeredTextview"
-                    app:layout_constraintTop_toBottomOf="@+id/ratioTextView"
-                    tools:text="222" />
-
-                <TextView
-                    android:id="@+id/rankTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/rank_text"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/NPCDiscoveredTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/npc_discovered_text"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview" />
-
-                <TextView
-                    android:id="@+id/numberOfNpcDiscoveredTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintStart_toStartOf="@+id/answeredNumberTextview"
-                    app:layout_constraintTop_toBottomOf="@+id/ratioPercentageTextview"
-                    tools:text="4" />
-
-                <TextView
-                    android:id="@+id/favoriteCourseTextTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/favorite_course_text"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/NPCDiscoveredTextView" />
-
-                <TextView
-                    android:id="@+id/favoriteCourseTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/ratioTextView"
-                    app:layout_constraintTop_toTopOf="@+id/favoriteCourseTextTextview"
-                    tools:text="ToC" />
 
             </android.support.constraint.ConstraintLayout>
-
-
         </ScrollView>
-
 
         <!--BOTTOM NAV BAR-->
 
@@ -408,10 +413,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
+
     </RelativeLayout>
-
-
-    <!--OVERLAPPING THINGS-->
-
-
 </android.support.constraint.ConstraintLayout>
+

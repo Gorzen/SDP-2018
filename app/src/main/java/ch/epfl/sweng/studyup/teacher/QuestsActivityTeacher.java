@@ -35,8 +35,12 @@ import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
 import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.teacher.ManageCourseActivity.refreshTeachingCourse;
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
 import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
@@ -138,8 +142,12 @@ public class QuestsActivityTeacher extends NavigationTeacher {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder alertDialogDelete = new AlertDialog.Builder(cnx)
-                            .setTitle(R.string.ask_confirmation_deletion_quest)
+                    String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                            .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+                    AlertDialog.Builder alertDialogDelete = col.equals(SETTINGS_COLOR_DARK) ?
+                            new AlertDialog.Builder(cnx, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(cnx);
+
+                    alertDialogDelete.setTitle(R.string.ask_confirmation_deletion_quest)
                             .setNegativeButton(R.string.no_upper, null)
                             .setPositiveButton(R.string.yes_upper, new DialogInterface.OnClickListener() {
                                 @Override

@@ -74,7 +74,7 @@
                     android:layout_marginTop="8dp"
                     android:textAlignment="center"
                     android:text="@string/select_courses_text"
-                    android:textColor="@color/colorGreyBlack"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="24sp"/>
 
                 <LinearLayout
@@ -98,7 +98,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/list_view_shape"
-                    android:backgroundTint="@color/colorListItems"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:textColor="@color/colorWhite"
                     android:onClick="updatePlayerCourses"
                     android:text="@string/save_value"
                     android:textSize="20sp"

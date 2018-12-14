@@ -12,9 +12,9 @@ import ch.epfl.sweng.studyup.utils.Constants;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.Constants.allNPCs;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
@@ -28,7 +28,7 @@ public enum Items implements Serializable {
     GREEN_THEME(Items.GREEN_NAME_ID, Items.GREEN_DESCRIPTION_ID, Items.GREEN_PRICE, Items.GREEN_IMAGE),
     BLUE_THEME(Items.BLUE_NAME_ID, Items.BLUE_DESCRIPTION_ID, Items.BLUE_PRICE, Items.BLUE_IMAGE),
     ORANGE_THEME(Items.ORANGE_NAME_ID, Items.ORANGE_DESCRIPTION_ID, Items.ORANGE_PRICE, Items.ORANGE_IMAGE),
-    MULTI_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE, Items.MULTI_IMAGE);
+    DARK_THEME(Items.MULTI_NAME_ID, Items.MULTI_DESCRIPTION_ID, Items.MULTI_PRICE, Items.MULTI_IMAGE);
 
     //Names
     public static final int XP_POTION_NAME_ID = R.string.item_xp_potion_name;
@@ -119,8 +119,8 @@ public enum Items implements Serializable {
             case BLUE_THEME:
                 Player.get().addTheme(SETTINGS_COLOR_BLUE);
                 break;
-            case MULTI_THEME:
-                Player.get().addTheme(SETTINGS_COLOR_MULTI);
+            case DARK_THEME:
+                Player.get().addTheme(SETTINGS_COLOR_DARK);
                 break;
             default:
         }

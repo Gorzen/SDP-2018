@@ -69,10 +69,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="?attr/colorPrimary"
                 android:text="@string/leaderboard"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textSize="30sp" />
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:id="@+id/toggle_button_container"
@@ -89,8 +90,11 @@
                     android:textAllCaps="false"
                     android:text="@string/by_xp"
                     android:onClick="handleLeadboardModeVisibility"
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="?attr/colorProgression"
+                    android:textColor="@color/colorWhite"
                     android:layout_marginLeft="5dp"
-                    android:backgroundTint="@color/colorGrey"/>
+                    android:layout_marginRight="5dp"/>
 
                 <Button
                     android:id="@+id/toggle_rank_mode_correct_answers"
@@ -99,8 +103,11 @@
                     android:textAllCaps="false"
                     android:text="@string/by_correct_answers"
                     android:onClick="handleLeadboardModeVisibility"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:backgroundTint="@color/colorListItems"/>
+                    android:background="@drawable/list_view_shape"
+                    android:backgroundTint="?attr/colorProgression2"
+                    android:textColor="@color/colorWhite"/>
 
             </LinearLayout>
 
@@ -127,5 +134,4 @@
         </RelativeLayout>
 
     </ScrollView>
-
 </RelativeLayout>

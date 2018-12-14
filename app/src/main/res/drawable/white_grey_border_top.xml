@@ -12,8 +12,8 @@
         <shape
             android:shape="rectangle">
             <stroke android:width="0.5dp"
-                android:color="@color/colorGrey"/>
-            <solid android:color="@color/colorWhite"/>
+                android:color="?attr/colorNavBars2"/>
+            <solid android:color="?attr/colorNavBars1"/>
         </shape>
 
     </item>

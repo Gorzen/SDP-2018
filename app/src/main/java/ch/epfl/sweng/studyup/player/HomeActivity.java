@@ -215,8 +215,6 @@ public class HomeActivity extends NavigationStudent {
     }
 
     public void populateSpecialQuestsList() {
-
-
         final List<SpecialQuest> specialQuestsList = Player.get().getSpecialQuests();
 
         List<Integer> iconList = new ArrayList<>();
@@ -267,7 +265,8 @@ public class HomeActivity extends NavigationStudent {
     };
     private void setRankTo(int rank) {
      TextView rankText = findViewById(R.id.rankNumberTextview);
-     rankText.setText(String.valueOf(rank));
+     String rankValue = "#"+String.valueOf(rank);
+     rankText.setText(rankValue);
     }
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
@@ -369,10 +368,6 @@ public class HomeActivity extends NavigationStudent {
         }
 
         return favoriteCourse;
-    }
-
-    public void onAvailableSpecialQuestsButtonClick(View view) {
-        startActivity(new Intent(HomeActivity.this, AvailableSpecialQuestsActivity.class));
     }
 
     public void onLeaderboardButtonClick(View view) {

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".npc.NPCActivity">
 
     <RelativeLayout
@@ -70,7 +69,10 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/white_view" />
 
-                <!--<TextView
+                <!--
+                    Decomment that to see a basic display of the messages
+
+                <TextView
                     android:id="@+id/message1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

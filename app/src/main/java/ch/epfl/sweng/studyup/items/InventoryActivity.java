@@ -39,7 +39,7 @@ public class InventoryActivity extends NavigationStudent {
     private void setupListView() {
         ListView ownedItems = findViewById(R.id.listViewItems);
         HashSet<Items> ownedItemsWithoutDuplicates = new HashSet<>(Player.get().getItems());
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(ownedItemsWithoutDuplicates), false);
+        listItemAdapter = new ListItemAdapter(this, new ArrayList<>(ownedItemsWithoutDuplicates),R.layout.shop_list_item_model, false);
         ownedItems.setAdapter(listItemAdapter);
         ownedItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

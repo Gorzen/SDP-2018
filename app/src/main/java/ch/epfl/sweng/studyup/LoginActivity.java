@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.studyup.auth.AuthenticationActivity;
-import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;

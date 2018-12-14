@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context="ch.epfl.sweng.studyup.teacher.ManageCourseActivity">
 
     <RelativeLayout
@@ -71,6 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/other_courses_text"
+                    android:textColor="?attr/colorContrasted"
                     android:textAlignment="center"
                     android:textSize="24sp" />
 
@@ -90,6 +90,7 @@
                     android:layout_below="@id/listViewOtherCourses"
                     android:layout_marginTop="16dp"
                     android:text="@string/pending_courses_text"
+                    android:textColor="?attr/colorContrasted"
                     android:textAlignment="center"
                     android:textSize="24sp" />
 
@@ -109,6 +110,7 @@
                     android:layout_below="@+id/listViewPendingCourses"
                     android:layout_marginTop="16dp"
                     android:text="@string/accepted_courses_text"
+                    android:textColor="?attr/colorContrasted"
                     android:textAlignment="center"
                     android:textSize="24sp" />
 

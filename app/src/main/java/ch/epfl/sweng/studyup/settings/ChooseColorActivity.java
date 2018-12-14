@@ -17,7 +17,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
@@ -49,7 +49,7 @@ public class ChooseColorActivity extends RefreshContext {
                 case SETTINGS_COLOR_BLUE:
                     removeLockAndEnableButton(R.id.setThemeBlue, R.id.lockBlue);
                     break;
-                case SETTINGS_COLOR_MULTI:
+                case SETTINGS_COLOR_DARK:
                     removeLockAndEnableButton(R.id.setThemeMulti, R.id.lockMulti);
                     break;
                 default:break;
@@ -90,9 +90,9 @@ public class ChooseColorActivity extends RefreshContext {
         finish();
     }
 
-    public void setColorMulti(View v) {
-        setupSettingsColor(SETTINGS_COLOR_MULTI);
-        setupColor(SETTINGS_COLOR_MULTI);
+    public void setColorDark(View v) {
+        setupSettingsColor(SETTINGS_COLOR_DARK);
+        setupColor(SETTINGS_COLOR_DARK);
         backToApp();
         finish();
     }

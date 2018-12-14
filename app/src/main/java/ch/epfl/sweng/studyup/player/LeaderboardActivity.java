@@ -1,23 +1,20 @@
 package ch.epfl.sweng.studyup.player;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
@@ -103,19 +100,29 @@ public class LeaderboardActivity extends RefreshContext {
 
         if (view.getId() == R.id.toggle_rank_mode_xp) {
             // Toggle has been set to "By XP"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.INVISIBLE);
-            leaderboardByXPContainer.setVisibility(View.VISIBLE);
-            rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGrey));
-            rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorListItems));
+            setButtonsBackground(leaderboardByQuestionsAnsweredContainer, leaderboardByXPContainer, rankModeXpButton, rankModeCorrectAnswersButton, true);
         }
         else {
             // Toggle has been set to "By Correct Answers"
-            leaderboardByQuestionsAnsweredContainer.setVisibility(View.VISIBLE);
-            leaderboardByXPContainer.setVisibility(View.INVISIBLE);
-            rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorListItems));
-            rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorGrey));
+            setButtonsBackground(leaderboardByQuestionsAnsweredContainer, leaderboardByXPContainer, rankModeXpButton, rankModeCorrectAnswersButton, false);
         }
     }
+
+    private void setButtonsBackground(LinearLayout leaderboardByQuestionsAnsweredContainer, LinearLayout leaderboardByXPContainer, Button rankModeXpButton, Button rankModeCorrectAnswersButton, boolean byXP) {
+        int visibility0 = byXP ? View.INVISIBLE : View.VISIBLE; //1 => bool = true
+        int visibility1 = byXP ? View.VISIBLE : View.INVISIBLE;
+        int color0 = byXP ? R.attr.colorProgression : R.attr.colorProgression2;
+        int color1 = byXP ? R.attr.colorProgression2 : R.attr.colorProgression;
+
+        leaderboardByQuestionsAnsweredContainer.setVisibility(visibility0);
+        leaderboardByXPContainer.setVisibility(visibility1);
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(color0, typedValue, true);
+        rankModeXpButton.setBackgroundTintList(ContextCompat.getColorStateList(this, typedValue.resourceId));
+        getTheme().resolveAttribute(color1, typedValue, true);
+        rankModeCorrectAnswersButton.setBackgroundTintList(ContextCompat.getColorStateList(this, typedValue.resourceId));
+    }
+
 
     /*
     Generates a single rank list from all players of the app, based on their XP.
@@ -125,13 +132,20 @@ public class LeaderboardActivity extends RefreshContext {
         // Compile a list of pairs of student names with their XP
         List<Pair<String, Integer>> studentRankings = new ArrayList<>();
         for (UserData studentData : allUsers) {
-            studentRankings.add(new Pair<>(studentData.getFirstName() + " " + studentData.getLastName(), studentData.getXP()));
+            String fn = displayNiceName(studentData.getFirstName());
+            String ln = displayNiceName(studentData.getLastName());
+            studentRankings.add(new Pair<>(fn + " " + ln, studentData.getXP()));
         }
 
         if (MOCK_ENABLED) {
             studentRankings = mockStudentRankings;
         }
         displayRankingFromList(studentRankings, findViewById(R.id.leaderboard_by_xp_container), R.string.xp_label);
+    }
+
+    public String displayNiceName(String n) {
+        int index = n.indexOf(" ");
+        return index == -1 ? n : n.substring(0, index);
     }
 
     /*
@@ -184,10 +198,13 @@ public class LeaderboardActivity extends RefreshContext {
         correctAnswersLabel.setGravity(Gravity.RIGHT);
         correctAnswersLabel.setPadding(0, 0, 30, 0);
         correctAnswersLabel.setTextSize(18);
+        correctAnswersLabel.setTextColor(getResources().getColor(R.color.colorGrey));
         correctAnswersLabel.setText(metricLabel);
+
         leaderboardContainer.addView(correctAnswersLabel);
 
         NonScrollableListView rankingListView = new NonScrollableListView(this);
+        rankingListView.setDividerHeight(0);
         rankingListView.setPadding(0, 0, 0, 20);
 
         Collections.sort(studentRankings, studentRankComparator);

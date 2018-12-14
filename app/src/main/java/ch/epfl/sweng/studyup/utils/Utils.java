@@ -36,7 +36,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.MONTH_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.YEAR_OF_SCHEDULE;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.WEEK_VIEW_LOADER;
@@ -176,8 +176,8 @@ public abstract class Utils {
             case SETTINGS_COLOR_BLUE:
                 GlobalAccessVariables.APP_THEME = R.style.AppThemeBlue;
                 return;
-            case SETTINGS_COLOR_MULTI:
-                GlobalAccessVariables.APP_THEME = R.style.AppThemeMulti;
+            case SETTINGS_COLOR_DARK:
+                GlobalAccessVariables.APP_THEME = R.style.AppThemeDark;
                 return;
             default:
                 GlobalAccessVariables.APP_THEME = R.style.AppTheme;

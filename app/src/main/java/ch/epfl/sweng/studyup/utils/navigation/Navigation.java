@@ -73,11 +73,6 @@ public abstract class Navigation extends RefreshContext implements ActivityCompa
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
-        if (item.getItemId() == R.id.top_navigation_infos) {
-            Toast.makeText(this,
-                    R.string.toast_text_infos_are_coming,
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 
     //Display the toolbar

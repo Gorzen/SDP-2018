@@ -82,13 +82,13 @@
     <string name="text_photospermissions">Can\'t take photos without permission.</string>
     <string name="text_addimage">Add an image</string>
     <string name="items_quantity">x</string>
-    <string name="text_money">MONEY:</string>
-    <string name="text_level">LEVEL</string>
-    <string name="text_itemprice">Price of item:</string>
-    <string name="text_currencyyouhave">You have</string>
-    <string name="text_itemalreadyhave">You already have this item</string>
-    <string name="text_itemtimes">times</string>
-    <string name="text_totalprice">Total price:</string>
+    <string name="text_money">MONEY: </string>
+    <string name="text_level">LEVEL </string>
+    <string name="text_itemprice">Price of item: </string>
+    <string name="text_currencyyouhave">You have </string>
+    <string name="text_itemalreadyhave">You already have this item </string>
+    <string name="text_itemtimes"> times</string>
+    <string name="text_totalprice">Total price: </string>
     <string name="text_notenoughmoney">You don\'t have enough money!</string>
     <string name="title_questiondb">Question Database</string>
     <string name="text_unabletouploadimage">Unable to upload image</string>
@@ -113,7 +113,7 @@
     <string name="choose_theme_green">Green</string>
     <string name="choose_theme_brown">Orange</string>
     <string name="choose_theme_blue">Blue</string>
-    <string name="choose_theme_multicolor">Multicolor</string>
+    <string name="choose_darktheme">Dark Theme</string>
     <string name="existing_questions_text">Your existing question(s) :</string>
     <string name="back_button_simple_text">Back</string>
     <string name="question_edited">Question successfully edited!</string>
@@ -162,7 +162,7 @@
     <string name="special_quest_three_questions_title">Three Questions</string>
     <string name="special_quest_three_questions_description">Answer three questions for a surprise item!</string>
     <string name="manage_course_resign_button">Resign</string>
-    <string name="choose_your_theme">Choose your theme :</string>
+    <string name="choose_your_theme">Choose your theme:</string>
     <string name="room_objective">Your objective: </string>
     <string name="gallery_android_text">Gallery</string>
     <string name="NPC_interaction"> wants to interact with you</string>
@@ -191,6 +191,18 @@
     <string name="elapsed_time">Elapsed time</string>
     <string name="time_left_text">Time left</string>
     <string name="select_courses_text">Select your courses</string>
+    <string name="about_us">About us</string>
+    <string name="shop">Shop</string>
+    <string name="available_items">Available Items</string>
+    <string name="buy">Buy</string>
+    <string name="number_of_students_playing">Number of students enrolled:</string>
+    <string name="number_of_questions_for_this_course">Number of questions for this course:</string>
+    <string name="development_team">Development Team : </string>
+    <string name="context">Context :</string>
+    <string name="description">This app has been created during project from the Software Engineering course (CS-305) - EPFL</string>
+    <string name="release_date">Release date :</string>
+    <string name="description2">If you find a bug when using the app, do not hesitate to contact us : study.up@epfl.ch</string>
+    <string name="send_mail">Send mail to StudyUp devs</string>
     <string name="ratio_text" translatable="false">Ratio:</string>
     <string name="answered_text">Answered:</string>
     <string name="rank_text">Rank:</string>

@@ -5,36 +5,50 @@
     <color name="colorAccent">#d81b60</color>
     <color name="colorProgression">#bb8799</color>
     <color name="colorProgression2">#edcccc</color>
+    <color name="colorBackGround2">#edcccc</color>
+
 
     <color name="colorPrimaryBlue">#6A8CD6</color>
     <color name="colorPrimaryDarkBlue">#384B74</color>
     <color name="colorAccentBlue">#1111ff</color>
     <color name="colorProgressionBlue">#637cd3</color>
     <color name="colorProgressionBlue2">#bfd8ff</color>
+    <color name="colorBackGroundBlue2">#c2e8ff</color>
+
 
     <color name="colorPrimaryGreen">#92DDAB</color>
     <color name="colorPrimaryDarkGreen">#2B6728</color>
     <color name="colorAccentGreen">#0EB514</color>
     <color name="colorProgressionGreen">#00CC66</color>
-    <color name="colorProgressionGreen2">#66FF66</color>
+    <color name="colorProgressionGreen2">#66DC66</color>
+    <color name="colorBackGroundGreen2">#c2ffe8</color>
+
 
     <color name="colorPrimaryBrown">#FD993A</color>
     <color name="colorPrimaryDarkBrown">#E25F1C</color>
     <color name="colorAccentBrown">#875D3C</color>
-    <color name="colorProgressionBrown">#776B61</color>
-    <color name="colorProgressionBrown2">#b26b35</color>
+    <color name="colorProgressionBrown2">#B36B31</color>
+    <color name="colorProgressionBrown">#926b35</color>
+    <color name="colorBackGroundBrown2">#dfd9</color>
 
-    <color name="colorPrimaryMulti">#FF8000</color>
-    <color name="colorPrimaryDarkMulti">#663300</color>
-    <color name="colorAccentMulti">#FF007F</color>
-    <color name="colorProgressionMulti">#00CC66</color>
-    <color name="colorProgressionMulti2">#66FF66</color>
+
+    <color name="colorPrimaryDarkMode">#6A8CD6</color>
+    <color name="colorPrimaryDarkDarkMode">#1F2124</color>
+    <color name="colorAccentDarkMode">#384B74</color>
+    <color name="colorProgressionDarkMode">#484C52</color>
+    <color name="colorProgressionDarkMode2">#c3c3c3</color>
+
+    <color name="colorListItemsDark">#36393F</color>
+    <color name="colorBackgroundDark">#282b30</color>
+    <color name="colorBackground">#fff</color>
+    <color name="colorListItems">#ecf1f2</color>
 
     <color name="colorWhite">#fff</color>
-    <color name="colorListItems">#ecf1f2</color>
     <color name="colorGrey">#c3c3c3 </color>
     <color name="colorGreyBlack">#333333 </color>
     <color name="colorGreyClair">#dddddd </color>
     <color name="colorGreyDark">#555555 </color>
     <color name="transparent">#00000000 </color>
+    <color name="colorDarkkkk">#111111</color>
+
 </resources>

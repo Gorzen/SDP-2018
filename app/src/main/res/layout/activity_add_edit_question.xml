@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
     tools:context=".questions.AddOrEditQuestionActivity">
 
     <RelativeLayout
@@ -90,6 +89,7 @@
                         android:gravity="top"
                         android:onClick="onClickCourseChoice"
                         android:text="@string/choose_course_for_question_text"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textAlignment="center"
                         android:textAllCaps="false"
                         android:textStyle="normal"
@@ -116,6 +116,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/chosen_course_for_question"
+                        android:textColor="?android:attr/textColorSecondary"
                         app:layout_constraintBottom_toBottomOf="@+id/choice_course_button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.498"
@@ -126,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="24dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -140,7 +141,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/choose_the_language_of_your_question"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toStartOf="@+id/lang_radio_group"
@@ -154,6 +155,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="?android:attr/textColorPrimary"
                         app:layout_constraintStart_toEndOf="@+id/textViewLang"
                         app:layout_constraintTop_toBottomOf="@+id/separator0">
 
@@ -161,6 +163,7 @@
                             android:id="@+id/radio_en"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:text="EN" />
 
@@ -168,6 +171,7 @@
                             android:id="@+id/radio_fr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:text="FR" />
                     </RadioGroup>
@@ -177,7 +181,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -190,7 +194,7 @@
                         android:layout_marginStart="-1dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/question_duration_selection"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         android:textAlignment="center"
@@ -218,6 +222,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/chosen_duration"
+                        android:textColor="?android:attr/textColorSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
@@ -228,7 +233,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -243,7 +248,7 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/add_question_title"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -260,6 +265,7 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:hint="@string/add_question_title"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:inputType="textPersonName"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -270,7 +276,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="16dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/questionTitle" />
@@ -284,7 +290,7 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/picture_text_question"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -309,6 +315,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:text="@string/image_radio_text" />
 
                         <RadioButton
@@ -316,6 +323,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:text="@string/text_radio" />
                     </RadioGroup>
 
@@ -324,7 +332,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="16dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/text_or_image_radio_group" />
@@ -338,7 +346,7 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/write_your_question"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -355,6 +363,9 @@
                         android:layout_marginEnd="8dp"
                         android:onClick="performFileSearch"
                         android:text="@string/select_image_text"
+                        android:background="@drawable/list_view_shape"
+                        android:textColor="@color/colorWhite"
+                        android:backgroundTint="?attr/colorProgression"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/writeQuest" />
@@ -369,6 +380,7 @@
                         android:contentDescription="Question description"
                         android:ems="10"
                         android:hint="@string/write_here_your_question_text"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:inputType="text|textMultiLine"
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -423,7 +435,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="48dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -438,7 +450,7 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/mcq_or_tf_question"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -460,6 +472,7 @@
                             android:id="@+id/mcq_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:text="@string/multiple_choice_question_text" />
 
@@ -467,6 +480,7 @@
                             android:id="@+id/true_false_radio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:text="@string/true_false_question_text" />
 
@@ -478,7 +492,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="16dp"
-                        android:background="@color/colorGrey"
+                        android:background="?attr/colorNavBars2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/true_false_or_mcq_radio_group" />
@@ -492,7 +506,7 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:text="@string/select_the_correct_answer"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:textSize="14sp"
                         android:textStyle="normal"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -515,6 +529,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:tag="1"
                             android:text="1" />
 
@@ -523,6 +538,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:tag="2"
                             android:text="2"
                             tools:text="2" />
@@ -531,6 +547,7 @@
                             android:id="@+id/radio_answer3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:tag="3"
                             android:text="3" />
@@ -539,6 +556,7 @@
                             android:id="@+id/radio_answer4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:layout_weight="1"
                             android:tag="4"
                             android:text="4"

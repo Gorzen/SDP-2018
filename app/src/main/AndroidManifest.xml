@@ -95,7 +95,8 @@
 
         <receiver android:name=".questions.TimeOutNotificationPublisher" />
 
-        <activity android:name=".player.LeaderboardActivity"></activity>
+        <activity android:name=".settings.AboutUsActivity"/>
+        <activity android:name=".player.LeaderboardActivity"/>
     </application>
 
 </manifest>

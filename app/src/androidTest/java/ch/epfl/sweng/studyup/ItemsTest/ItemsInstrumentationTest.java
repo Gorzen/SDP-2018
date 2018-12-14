@@ -34,7 +34,7 @@ public class ItemsInstrumentationTest {
     public void init() {
         items = new ArrayList<>(Arrays.asList(Items.XP_POTION, Items.COIN_SACK, Items.XP_POTION));
         courses = new ArrayList<>(Arrays.asList(Constants.Course.SWENG, Constants.Course.Algebra, Constants.Course.Ecology));
-        listItemAdapter = new ListItemAdapter(mActivityRule.getActivity(), items, false);
+        listItemAdapter = new ListItemAdapter(mActivityRule.getActivity(), items, R.id.list_view_shop, false);
         listCourseAdapter = new ListCourseAdapter(mActivityRule.getActivity(), courses, R.layout.course_item_model, true);
     }
 
@@ -47,8 +47,8 @@ public class ItemsInstrumentationTest {
         assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_BLUE));
         Items.ORANGE_THEME.consume();
         assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_ORANGE));
-        Items.MULTI_THEME.consume();
-        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_MULTI));
+        Items.DARK_THEME.consume();
+        assertTrue(Player.get().getUnlockedThemes().contains(Constants.SETTINGS_COLOR_DARK));
     }
 
     @Test

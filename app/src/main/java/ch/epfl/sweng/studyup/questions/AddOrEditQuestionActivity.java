@@ -39,6 +39,10 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.mockImagePathGetter;
 import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
@@ -269,7 +273,10 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
     }
 
     public void onClickCourseChoice(View view) {
-        AlertDialog.Builder courseChoiceBuilder = new AlertDialog.Builder(this);
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        AlertDialog.Builder courseChoiceBuilder = col.equals(SETTINGS_COLOR_DARK) ?
+                new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(this);
         courseChoiceBuilder.setTitle(getString(R.string.course_for_this_quest));
 
         final List<Course> courses = Player.get().isTeacher() ?
@@ -280,14 +287,6 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
         courseChoiceBuilder.setItems(coursesArray, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                /*
-                for (Course c : courses){
-                    if(which == c.ordinal()-1){
-                        chosenCourse = c;
-                        view_chosen_course.setText(getString(R.string.chosen_course_for_question)+c.toString());
-                    }
-                }*/
-
                 chosenCourse = Course.valueOf(stringListName.get(which));
                 ((TextView) findViewById(R.id.chosenCourseTextView)).setText(getString(R.string.chosen_course_for_question)+chosenCourse.toString());
             }
@@ -297,7 +296,10 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
     }
 
     public void onClickDurationChoice(View view) {
-        AlertDialog.Builder durationChoiceBuilder = new AlertDialog.Builder(this);
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        AlertDialog.Builder durationChoiceBuilder = col.equals(SETTINGS_COLOR_DARK) ?
+                new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK) : new AlertDialog.Builder(this);
         durationChoiceBuilder.setTitle(R.string.duration);
 
         ArrayList<String> durationChoice = new ArrayList<>(Constants.durationChoice);

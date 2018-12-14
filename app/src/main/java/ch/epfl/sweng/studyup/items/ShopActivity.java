@@ -12,6 +12,7 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
+import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.adapters.ListItemAdapter;
 
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
@@ -31,8 +32,9 @@ public class ShopActivity extends RefreshContext {
         setupToolbar(this);
         
         itemsToBuy = findViewById(R.id.list_view_shop);
-        listItemAdapter = new ListItemAdapter(getApplicationContext(), new ArrayList<>(items), true);
+        listItemAdapter = new ListItemAdapter(this, new ArrayList<>(items), R.layout.shop_list_item_model, true);
         itemsToBuy.setAdapter(listItemAdapter);
+
         itemsToBuy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -77,8 +77,6 @@ public class NavigationTest {
 
     @Ignore
     public void navigationTopTest() {
-        onView(withId(R.id.top_navigation_infos)).perform(click());
-        onView(withText("Infos are coming soon")).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         onView(withId(R.id.top_navigation_settings)).perform(click());
         intended(hasComponent(SettingsActivity.class.getName()));
     }

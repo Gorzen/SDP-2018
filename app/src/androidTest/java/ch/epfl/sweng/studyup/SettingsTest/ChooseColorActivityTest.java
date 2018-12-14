@@ -26,7 +26,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_MULTI;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 
@@ -48,7 +48,7 @@ public class ChooseColorActivityTest {
         Player.get().addTheme(SETTINGS_COLOR_GREEN);
         Player.get().addTheme(SETTINGS_COLOR_BLUE);
         Player.get().addTheme(SETTINGS_COLOR_ORANGE);
-        Player.get().addTheme(SETTINGS_COLOR_MULTI);
+        Player.get().addTheme(SETTINGS_COLOR_DARK);
     }
 
     @After

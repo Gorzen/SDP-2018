@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".questions.DisplayQuestionActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -65,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:textColor="?attr/colorPrimary"
                 android:layout_marginTop="16dp"
                 android:gravity="top|center"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,6 +101,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="18dp"
+                android:background="?attr/colorBackground"
                 android:adjustViewBounds="true"
                 android:gravity="top"
                 android:maxHeight="350dp"
@@ -122,17 +123,19 @@
 
             <TextView
                 android:id="@+id/question_text_display"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="533dp"
                 android:layout_alignTop="@+id/quest_title"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="77dp"
+                android:layout_marginTop="65dp"
+                android:background="?attr/colorBackground"
                 android:textAlignment="center"
                 android:textAllCaps="false"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:visibility="gone"
-                tools:text="Does it work ?" />
+                tools:text="Does it work ?"/>
 
 
         </RelativeLayout>
@@ -170,6 +173,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_quests_shape"
                     android:button="@android:color/transparent"
+                    android:textColor="?attr/colorContrasted"
                     android:checked="false"
                     android:tag="1"
                     android:text="@string/truth_value"
@@ -181,6 +185,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:textColor="?attr/colorContrasted"
                     android:background="@drawable/button_quests_shape"
                     android:button="@android:color/transparent"
                     android:tag="2"
@@ -212,6 +217,7 @@
                     android:background="@drawable/button_quests_shape"
                     android:button="@android:color/transparent"
                     android:checked="false"
+                    android:textColor="?attr/colorContrasted"
                     android:tag="3"
                     android:text="@string/text_answer_3"
                     android:textAlignment="center"
@@ -223,6 +229,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:textColor="?attr/colorContrasted"
                     android:background="@drawable/button_quests_shape"
                     android:button="@android:color/transparent"
                     android:tag="4"
@@ -240,6 +247,9 @@
                 android:layout_marginEnd="8dp"
                 android:onClick="answerQuestion"
                 android:text="@string/answer_question"
+                android:background="@drawable/list_view_shape"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
