@@ -265,7 +265,8 @@ public class HomeActivity extends NavigationStudent {
     };
     private void setRankTo(int rank) {
      TextView rankText = findViewById(R.id.rankNumberTextview);
-     rankText.setText(String.valueOf(rank));
+     String rankValue = "#"+String.valueOf(rank);
+     rankText.setText(rankValue);
     }
     private void updateStatDisplay() {
         loadUsers(displayRankOfStudent);
