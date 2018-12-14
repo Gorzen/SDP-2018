@@ -214,6 +214,7 @@
     <string name="by_correct_answers">By Correct Answers</string>
     <string name="by_xp">By XP</string>
     <string name="no_course_representation" translatable="false">"    \u2015    "</string>
+    <string name="cant_add_question_with_empty_text">You can\'t add an empty question</string>
 
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
