@@ -37,6 +37,8 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.MOCK_NAMES;
+import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUIDS;
 import static ch.epfl.sweng.studyup.utils.Constants.mockStudentRankings;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
@@ -60,6 +62,7 @@ public class StatsUtils {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> remoteQuestionData = document.getData();
                         String questionId = document.getId();
+                        if(MOCK_UUIDS.contains(questionId)) continue;
                         String questionTitle = (String) remoteQuestionData.get(FB_QUESTION_TITLE);
                         Boolean questionTrueFalse = (Boolean) remoteQuestionData.get(FB_QUESTION_TRUEFALSE);
                         int questionAnswer = Integer.parseInt((remoteQuestionData.get(FB_QUESTION_ANSWER)).toString());
@@ -102,6 +105,7 @@ public class StatsUtils {
                         user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Constants.Course>())));
                         user.setXp(Integer.valueOf(getOrDefault(remotePlayerData, FB_XP, INITIAL_XP).toString()));
 
+                        if(MOCK_NAMES.contains(new Pair<>(user.getFirstName(), user.getLastName()))) continue;
                         userList.add(user);
                     }
 

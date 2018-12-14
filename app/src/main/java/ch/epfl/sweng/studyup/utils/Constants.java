@@ -156,6 +156,12 @@ public abstract class Constants {
     // UUID used for testing
     public static final String MOCK_UUID = "fake-UUID";
     public static final Set<String> MOCK_UUIDS = Sets.newHashSet(MOCK_UUID, "Temporary fake uuid", "UUID-for-text-question");
+    static final Set<Pair<String, String>> MOCK_NAMES = Sets.newHashSet(
+            new Pair<>(INITIAL_FIRSTNAME, INITIAL_LASTNAME),
+            new Pair<>(INITIAL_FIRSTNAME, INITIAL_LASTNAME+"1"),
+            new Pair<>("John", "Doe")
+    );
+
     // Enums for Role, Course
     public enum Role {
         student,
