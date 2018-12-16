@@ -49,12 +49,6 @@ public class CourseStatsActivity extends NavigationTeacher {
         loadUsers(setUsers);
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        setupListView();
-    }
-
     public static Callback<List> setQuestions = new Callback<List>() {
 
         public void call(List questionList) {

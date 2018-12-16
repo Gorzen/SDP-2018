@@ -105,7 +105,7 @@ public class StatsUtils {
                         user.setCourses(getCourseListFromStringList((List<String>) getOrDefault(remotePlayerData, FB_COURSES_ENROLLED, new ArrayList<Constants.Course>())));
                         user.setXp(Integer.valueOf(getOrDefault(remotePlayerData, FB_XP, INITIAL_XP).toString()));
 
-                        if(MOCK_NAMES.contains(new Pair<>(user.getFirstName(), user.getLastName()))) continue;
+                        if(!MOCK_ENABLED && MOCK_NAMES.contains(new Pair<>(user.getFirstName(), user.getLastName()))) continue;
                         userList.add(user);
                     }
 
@@ -146,7 +146,7 @@ public class StatsUtils {
             HashMap<String, List<String>> studentAnsweredQuestionData = student.getAnsweredQuestions();
             for (String questionId : studentAnsweredQuestionData.keySet()) {
                 if (courseQuestionIds.contains(questionId) &&
-                        Boolean.valueOf(studentAnsweredQuestionData.get(questionId).get(0)) == true) {
+                        Boolean.valueOf(studentAnsweredQuestionData.get(questionId).get(0))) {
                     correctAnswers++;
                 }
             }

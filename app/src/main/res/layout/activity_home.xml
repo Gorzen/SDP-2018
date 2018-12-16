@@ -231,10 +231,10 @@
                 android:onClick="onLeaderboardButtonClick"
                 android:textColor="?attr/colorProgression"
                 android:textSize="14sp"
-                android:text="#100"
                 app:layout_constraintEnd_toEndOf="@+id/relativeLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                tools:text="#100" />
 
         </android.support.constraint.ConstraintLayout>
 
