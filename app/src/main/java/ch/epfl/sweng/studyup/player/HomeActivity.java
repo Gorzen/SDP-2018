@@ -106,7 +106,6 @@ public class HomeActivity extends NavigationStudent {
 
         if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
-            Firestore.get().loadQuestions(this);
         }
 
         //bottom navigation bar
@@ -275,7 +274,7 @@ public class HomeActivity extends NavigationStudent {
 
     private void updateNPCDiscoveredNumber() {
         TextView npcNumberView = findViewById(R.id.numberOfNpcDiscoveredTextView);
-        npcNumberView.setText("0");
+        npcNumberView.setText(String.valueOf(Player.get().getKnownNPCs().size()));
     }
 
     private void computeQuestionsPercentage() {

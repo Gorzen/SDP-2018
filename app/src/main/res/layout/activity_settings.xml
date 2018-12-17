@@ -291,7 +291,6 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="55dp"
                 android:layout_marginTop="8dp"
-                android:onClick="onAboutUsClick"
                 android:text="@string/NPC_interaction_enable"
                 android:textColor="?attr/colorContrasted"
                 android:elevation="40dp"
