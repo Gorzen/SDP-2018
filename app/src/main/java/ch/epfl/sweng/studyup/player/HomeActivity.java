@@ -274,7 +274,7 @@ public class HomeActivity extends NavigationStudent {
 
     private void updateNPCDiscoveredNumber() {
         TextView npcNumberView = findViewById(R.id.numberOfNpcDiscoveredTextView);
-        npcNumberView.setText(Player.get().getKnownNPCs().size());
+        npcNumberView.setText(String.valueOf(Player.get().getKnownNPCs().size()));
     }
 
     private void computeQuestionsPercentage() {
