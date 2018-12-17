@@ -73,7 +73,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
         List<Integer> listLang = new ArrayList<>();
 
         for (Question q : quests) {
-            switch (q.getLang()) {
+            switch (q.getLang().toLowerCase()) {
                 case "fr":
                     listLang.add(R.drawable.ic_fr_flag);
                     break;
