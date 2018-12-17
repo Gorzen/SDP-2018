@@ -54,7 +54,7 @@ public class StatsInHomeActivityTest {
         Player.get().addExperience((int) (Math.pow(2, 31) - 1), null);
         waitAndTag(500, "Waiting for the server to be notificated.");
         mActivityRule.launchActivity(new Intent());
-        waitAndTag(1000, "Waiting for the rank to be displayed.");
+        waitAndTag(1500, "Waiting for the rank to be displayed.");
         onView(withId(R.id.rankNumberTextview)).check(matches(withText("#1")));
     }
 
