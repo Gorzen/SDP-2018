@@ -55,7 +55,7 @@ public class QuestsActivityStudent extends NavigationStudent {
     public void setupListView(final List<Question> quests) {
         List<Integer> listImageID = new ArrayList<>();
         List<Integer> listLang = new ArrayList<>();
-        List<Integer> listProgressBar = new ArrayList<>();
+        List<Double> listProgressBar = new ArrayList<>();
 
         Map<String, List<String>> answeredQuestion = Player.get().getAnsweredQuestion();
         Set<String> answeredQuestionId = answeredQuestion == null ? null : answeredQuestion.keySet();
@@ -69,15 +69,15 @@ public class QuestsActivityStudent extends NavigationStudent {
         setupOnClickListenerListView(quests, listImageID, listLang, listProgressBar);
     }
 
-    private void setProgressBar(List<Integer> listProgressBar, Question q) {
+    private void setProgressBar(List<Double> listProgressBar, Question q) {
         Player player = Player.get();
         Map<String, Long> clickedInstants = player.getClickedInstants();
-        int timeProgress = -1;
+        double timeProgress = -1;
         if(clickedInstants != null && clickedInstants.containsKey(q.getQuestionId())) {
             long clickedInstant = player.getClickedInstants().get(q.getQuestionId());
             long now = System.currentTimeMillis();
-            //todo :timeProgress = (now -  clickedInstant)/(double)q.getDuration();
-            timeProgress = (int) ((q.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
+            long timeRemaining = q.getDuration() - (now -  clickedInstant);
+            timeProgress =  ((double) timeRemaining) / (q.getDuration());
         }
         listProgressBar.add(timeProgress);
     }
@@ -110,7 +110,7 @@ public class QuestsActivityStudent extends NavigationStudent {
         }
     }
 
-    private void setupOnClickListenerListView(final List<Question> questions, List<Integer> listImageID, List<Integer> listLang, List<Integer> listProgressBar) {
+    private void setupOnClickListenerListView(final List<Question> questions, List<Integer> listImageID, List<Integer> listLang, List<Double> listProgressBar) {
         ListView listView = findViewById(R.id.listViewQuests);
         QuestListViewAdapterStudent adapter = new QuestListViewAdapterStudent(this, R.layout.quest_student_model, questions, listImageID, listLang, listProgressBar);
         listView.setAdapter(adapter);
@@ -125,15 +125,19 @@ public class QuestsActivityStudent extends NavigationStudent {
     }
 
     private class QuestListViewAdapterStudent extends BaseAdapter {
+        private static final String greenColor = "#63B97F";
+        private static final String orangeColor = "#CB5814";
+        private static final String redColor = "#CB0814";
+
         private Context cnx;
         private List<Question> questions;
         private int idLayout;
         private List<Integer> ids;
         private List<Integer> lang;
-        private List<Integer> progressBars;
+        private List<Double> progressBars;
 
-        public QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids,
-                                           List<Integer> lang, List<Integer> progressBars) {
+        QuestListViewAdapterStudent(Context cnx, int idLayout, List<Question> questions, List<Integer> ids,
+                                           List<Integer> lang, List<Double> progressBars) {
             this.cnx = cnx;
             this.questions = questions;
             this.idLayout = idLayout;
@@ -175,22 +179,31 @@ public class QuestsActivityStudent extends NavigationStudent {
 
             if(q.isQuestionTimed() && !Player.get().getAnsweredQuestion().containsKey(q.getQuestionId())) {
                 TextView timeTextview = convertView.findViewById(R.id.testProgress);
-                setupTime(timeTextview, progressBars.get(position));
+                setupTime(timeTextview, progressBars.get(position), q.getDuration());
             }
 
             return convertView;
         }
 
-        private void setupTime(TextView timeTextview, int progress) {
-            String displayedText = getString(R.string.remaining_time)+" "+progress+"min";
-            if(progress != -1) {
-                timeTextview.setText(displayedText);
-                if(progress > 40) {timeTextview.setTextColor(Color.parseColor("#63B97F")); }
-                if(progress <= 40) {timeTextview.setTextColor(Color.parseColor("#CB5814")); }
-                if(progress < 0){
-                    timeTextview.setText(getString(R.string.elapsed_time));
-                    timeTextview.setTextColor(Color.parseColor("#CB0814"));
-                }
+        private void setupTime(TextView timeTextview, double progress, long questionDuration) {
+            long millisRemaining = (long) (progress * questionDuration);
+            long hourRemaining = millisRemaining / (3600 * 1000);
+            long minRemaining = (millisRemaining - hourRemaining * 3600 * 1000) / (1000 * 60);
+            String timeRemaining;
+            if (hourRemaining == 0) {
+                timeRemaining = minRemaining+" min";
+            } else {
+                timeRemaining = hourRemaining+"h"+minRemaining+"m";
+            }
+            String displayedText = getString(R.string.remaining_time)+" "+timeRemaining;
+            if(progress == -1) return;
+            timeTextview.setText(displayedText);
+            if(progress > 0.5) {timeTextview.setTextColor(Color.parseColor(greenColor)); }
+            else if(progress < 0){
+                timeTextview.setText(getString(R.string.elapsed_time));
+                timeTextview.setTextColor(Color.parseColor(redColor));
+            } else {
+                timeTextview.setTextColor(Color.parseColor(orangeColor));
             }
         }
     }
