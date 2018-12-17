@@ -30,6 +30,7 @@ import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
+import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
@@ -58,14 +59,13 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.get().loadQuestions(this);
-        LiveData<List<Question>> questions = parseQuestionsLiveData(this.getApplicationContext());
-        questions.observe(this, new Observer<List<Question>>() {
+        Callback<List<Question>> onQuestionLoaded = new Callback<List<Question>>() {
             @Override
-            public void onChanged(@Nullable List<Question> questions) {
+            public void call(List<Question> questions) {
                 setupListView(questions);
             }
-        });
+        };
+        Firestore.get().loadQuestions(this, onQuestionLoaded);
         refreshTeachingCourse();
     }
 
