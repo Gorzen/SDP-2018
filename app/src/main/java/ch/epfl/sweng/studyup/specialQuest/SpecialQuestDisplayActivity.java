@@ -56,13 +56,16 @@ public class SpecialQuestDisplayActivity extends RefreshContext {
         if (Player.get().getSpecialQuests().contains(specialQuest)) {
             // Player enrolled in special quest, display progress
             renderProgressBar(specialQuest.getProgress());
+
             renderAlreadyEnrolledButton();
         } else {
             // Player not enrolled, do not display progress, display enrollment button
             renderEnrollmentButton(specialQuest);
         }
 
-        if (specialQuest.getProgress() == 1.0) {
+        if (specialQuest.getProgress() >= 1.0) {
+            ((TextView)findViewById(R.id.specialQuestEnrollButton)).setText(R.string.quest_completed);
+
             TextView congratText = findViewById(R.id.specialQuestCongrat);
             congratText.setText(R.string.congrat_text_special_quest);
             TextView rewardItemText = findViewById(R.id.specialQuestReward);
