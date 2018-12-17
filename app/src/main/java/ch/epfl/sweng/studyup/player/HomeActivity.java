@@ -106,7 +106,6 @@ public class HomeActivity extends NavigationStudent {
 
         if (!MOCK_ENABLED) {
             scheduleBackgroundLocation();
-            Firestore.get().loadQuestions(this);
         }
 
         //bottom navigation bar
