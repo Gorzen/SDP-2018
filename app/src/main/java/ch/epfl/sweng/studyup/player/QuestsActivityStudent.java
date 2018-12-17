@@ -55,7 +55,6 @@ public class QuestsActivityStudent extends NavigationStudent {
     public void setupListView(final List<Question> quests) {
         List<Integer> listImageID = new ArrayList<>();
         List<Integer> listLang = new ArrayList<>();
-        //todo turn it into double if layout with CircularBar
         List<Integer> listProgressBar = new ArrayList<>();
 
         Map<String, List<String>> answeredQuestion = Player.get().getAnsweredQuestion();
@@ -163,46 +162,36 @@ public class QuestsActivityStudent extends NavigationStudent {
             if (convertView == null) {
                 convertView = View.inflate(cnx, idLayout, null);
             }
+
+            Question q = (Question) getItem(position);
             TextView text_view = convertView.findViewById(R.id.quest_title);
-            text_view.setText(questions.get(position).getTitle());
+            text_view.setText(q.getTitle());
             ImageView image_view = convertView.findViewById(R.id.is_quest_done);
             image_view.setImageResource(ids.get(position));
             ImageView lang_view = convertView.findViewById(R.id.lang_img);
             lang_view.setImageResource(lang.get(position));
             TextView course = convertView.findViewById(R.id.course_quest);
-            course.setText(questions.get(position).getCourseName());
+            course.setText(q.getCourseName());
 
-            //CircularProgressIndicator levelProgress = findViewById(R.id.time_progress);
-            TextView textProgress = convertView.findViewById(R.id.testProgress);
-            int progressBarQ = progressBars.get(position);
-            String displayedText = getString(R.string.remaining_time)+" "+progressBarQ+"min";
-            if(progressBarQ != -1) {
-                //levelProgress.setProgress(progressBarQ, 1);
-                textProgress.setText(displayedText);
-                if(progressBarQ > 40) {textProgress.setTextColor(Color.parseColor("#63B97F")); }
-                if(progressBarQ <= 40) {textProgress.setTextColor(Color.parseColor("#CB5814")); }
-                if(progressBarQ < 0){
-                    textProgress.setText(getString(R.string.elapsed_time));
-                    textProgress.setTextColor(Color.parseColor("#CB0814"));
-                }
+            if(q.isQuestionTimed() && !Player.get().getAnsweredQuestion().containsKey(q.getQuestionId())) {
+                TextView timeTextview = convertView.findViewById(R.id.testProgress);
+                setupTime(timeTextview, progressBars.get(position));
             }
-            /*
-            else {
-            TextView testProgress = convertView.findViewById(R.id.testProgress);
-            testProgress.setText(progressBars.get(position).toString());
-            CircularProgressIndicator levelProgress = findViewById(R.id.time_progress);
-            double progressBarQ = progressBars.get(position);
-            Log.e("blalalalaalalala", progressBars.toString());
-            if(progressBarQ >= 0) {
-                levelProgress.setProgress(progressBarQ, 1);
-            } else {
-                //levelProgress.setProgress(0, 1);
-                //levelProgress.setProgressBackgroundStrokeWidthDp(0);
-                //levelProgress.setProgressBackgroundColor(Color.parseColor("#ecf1f2"));
-                //levelProgress.setBackground(getResources().getDrawable(R.color.transparent));
-            }*/
 
             return convertView;
+        }
+
+        private void setupTime(TextView timeTextview, int progress) {
+            String displayedText = getString(R.string.remaining_time)+" "+progress+"min";
+            if(progress != -1) {
+                timeTextview.setText(displayedText);
+                if(progress > 40) {timeTextview.setTextColor(Color.parseColor("#63B97F")); }
+                if(progress <= 40) {timeTextview.setTextColor(Color.parseColor("#CB5814")); }
+                if(progress < 0){
+                    timeTextview.setText(getString(R.string.elapsed_time));
+                    timeTextview.setTextColor(Color.parseColor("#CB0814"));
+                }
+            }
         }
     }
 }

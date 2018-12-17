@@ -115,7 +115,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     private Question extractQuestion(Intent i) {
         return new Question(i.getStringExtra(DISPLAY_QUESTION_ID), i.getStringExtra(DISPLAY_QUESTION_TITLE),
                 Boolean.parseBoolean(i.getStringExtra(DISPLAY_QUESTION_TRUE_FALSE)), Integer.parseInt(i.getStringExtra(DISPLAY_QUESTION_ANSWER)),
-                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG), Long.parseLong(i.getStringExtra(DISPLAY_QUESTION_DURATION))); //TODO put basic course, consistent? (We don't need the course in this activity so no need to put it in intent)
+                Course.SWENG.name(), i.getStringExtra(DISPLAY_QUESTION_LANG), Long.parseLong(i.getStringExtra(DISPLAY_QUESTION_DURATION)));
     }
 
     /**
@@ -125,13 +125,9 @@ public class DisplayQuestionActivity extends RefreshContext {
      */
     private boolean checkIntent(Intent intent) {
 
-        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE) || !intent.hasExtra(DISPLAY_QUESTION_ID) || !intent.hasExtra(DISPLAY_QUESTION_ANSWER) || !intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE) || !intent.hasExtra(DISPLAY_QUESTION_LANG)) {
+        if (!intent.hasExtra(DISPLAY_QUESTION_TITLE) || !intent.hasExtra(DISPLAY_QUESTION_ID) || !intent.hasExtra(DISPLAY_QUESTION_ANSWER)
+                || !intent.hasExtra(DISPLAY_QUESTION_TRUE_FALSE) || !intent.hasExtra(DISPLAY_QUESTION_LANG) || !intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
             quit(); return false;
-        }
-
-        if (!intent.hasExtra(DISPLAY_QUESTION_DURATION)) {
-            quit();
-            return false;
         }
 
         return true;
@@ -180,29 +176,30 @@ public class DisplayQuestionActivity extends RefreshContext {
     private void handleTimedQuestion(Question displayQuestion) {
         String questionId = displayQuestion.getQuestionId();
         TextView time_left = findViewById(R.id.time_left); ImageView alarm = findViewById(R.id.alarmImage);
-        long now = System.currentTimeMillis();
+        long now = System.currentTimeMillis(); String displayedText;
+        long duration = displayQuestion.getDuration();
 
-        if (displayQuestion.getDuration() != 0 && !Player.get().getClickedInstants().containsKey(questionId)) {
+        if (duration != 0 && !Player.get().getClickedInstants().containsKey(questionId)) {
             //The question has not been clicked on yet
             Player.get().addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
+            displayedText = getString(R.string.remaining_time)+" "+duration+"min";
         } else if (displayQuestion.getDuration() == 0) {
             //There is no time constraint
-            alarm.setImageAlpha(0); time_left.setText("");
+            alarm.setImageAlpha(0); displayedText = "";
         } else {
             long clickedInstant = Player.get().getClickedInstants().get(questionId);
-            if (now > clickedInstant + displayQuestion.getDuration()) {
+            if (now > clickedInstant + duration) {
                 //too late, the player cannot answer anymore
                 tooLate = true;
-                time_left.setText(getString(R.string.elapsed_time));
+                displayedText = getString(R.string.elapsed_time);
             } else {
                 //display remaining time
-                int timeLeft = (int) ((displayQuestion.getDuration() - (now -  clickedInstant))/(double)(1000 * 60));
-                String displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
-                time_left.setText(displayedText);
-                if(timeLeft < 0){ time_left.setText(getString(R.string.elapsed_time)); }
+                int timeLeft = (int) ((duration - (now -  clickedInstant))/(double)(1000 * 60));
+                displayedText = getString(R.string.remaining_time)+" "+timeLeft+"min";
             }
         }
+        time_left.setText(displayedText);
     }
 
     private void setupNotificationManager() {
