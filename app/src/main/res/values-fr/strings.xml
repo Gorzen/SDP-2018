@@ -273,4 +273,5 @@
     <string name="blue_name">Thème bleu</string>
     <string name="orange_name">Thème orange</string>
     <string name="dark_name">Thème sombre</string>
+    <string name="quest_completed">Quête complétée</string>
 </resources>

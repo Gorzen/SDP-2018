@@ -39,31 +39,36 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/specialQuestTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="58dp"
         android:text="@string/enroll_button_text"
         android:textColor="?attr/colorPrimary"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true" />
 
     <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
         android:id="@+id/specialQuestProgress"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="32dp"
+        android:minHeight="150dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
+        android:layout_centerHorizontal="true"
         app:progressBackgroundColor="?attr/colorProgression"
         app:progressColor="?attr/colorProgression2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestDescription" />
+        android:layout_below="@id/specialQuestDescription"/>
 
     <Button
         android:id="@+id/specialQuestEnrollButton"
@@ -74,10 +79,9 @@
         android:textColor="@color/colorWhite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestProgress"/>
+        android:layout_marginTop="22dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/specialQuestProgress"/>
 
     <TextView
         android:id="@+id/specialQuestDescription"
@@ -85,17 +89,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:padding="16dp"
         android:maxLines="10"
         android:text="Description"
         android:textAlignment="center"
         android:textColor="?attr/colorContrasted"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestTitle"
+        android:textSize="22sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/specialQuestTitle"
         tools:text="Sample special quest description. Sample special quest description." />
 
     <TextView
@@ -104,16 +106,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:textColor="?attr/colorContrasted"
         android:padding="16dp"
         android:maxLines="10"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestProgress" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/specialQuestEnrollButton"/>
 
     <TextView
         android:id="@+id/specialQuestReward"
@@ -126,9 +126,11 @@
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestCongrat" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/specialQuestCongrat"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
