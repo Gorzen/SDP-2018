@@ -8,9 +8,9 @@
 
     <!--TOP TOOL BAR-->
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/topBar">
+        android:layout_height="50dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,8 +20,8 @@
             android:layout_centerHorizontal="true"
             android:background="?attr/colorPrimaryDark"
             android:minHeight="?attr/actionBarSize"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         </android.support.v7.widget.Toolbar>
 
@@ -39,97 +39,100 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/specialQuestTitle"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollViewSpecialQuest"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:text="@string/enroll_button_text"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
 
-    <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
-        android:id="@+id/specialQuestProgress"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="32dp"
-        android:visibility="invisible"
-        app:progressBackgroundColor="?attr/colorProgression"
-        app:progressColor="?attr/colorProgression2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestDescription" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/specialQuestEnrollButton"
-        android:text="@string/enroll_button_text"
-        android:textAllCaps="false"
-        android:backgroundTint="?attr/colorPrimary"
-        android:background="@drawable/list_view_shape"
-        android:textColor="@color/colorWhite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestDescription"/>
+            <TextView
+                android:id="@+id/specialQuestTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/enroll_button_text"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/specialQuestDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginTop="32dp"
-        android:padding="16dp"
-        android:maxLines="10"
-        android:text="Description"
-        android:textAlignment="center"
-        android:textColor="?attr/colorContrasted"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestTitle"
-        tools:text="Sample special quest description. Sample special quest description." />
+            <antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator
+                android:id="@+id/specialQuestProgress"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@id/specialQuestDescription"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:minHeight="150dp"
+                android:visibility="gone"
+                app:progressBackgroundColor="?attr/colorProgression"
+                app:progressColor="?attr/colorProgression2" />
 
-    <TextView
-        android:id="@+id/specialQuestCongrat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginTop="32dp"
-        android:textColor="?attr/colorContrasted"
-        android:padding="16dp"
-        android:maxLines="10"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestProgress" />
+            <Button
+                android:id="@+id/specialQuestEnrollButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/specialQuestProgress"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/list_view_shape"
+                android:backgroundTint="?attr/colorPrimary"
+                android:text="@string/enroll_button_text"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
 
-    <TextView
-        android:id="@+id/specialQuestReward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginTop="8dp"
-        android:textAlignment="center"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/specialQuestCongrat" />
+            <TextView
+                android:id="@+id/specialQuestDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/specialQuestTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:maxLines="10"
+                android:padding="16dp"
+                android:text="Description"
+                android:textAlignment="center"
+                android:textColor="?attr/colorContrasted"
+                android:textSize="22sp"
+                tools:text="Sample special quest description. Sample special quest description." />
+
+            <TextView
+                android:id="@+id/specialQuestCongrat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/specialQuestEnrollButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:maxLines="10"
+                android:padding="16dp"
+                android:textAlignment="center"
+                android:textColor="?attr/colorContrasted"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/specialQuestReward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/specialQuestCongrat"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="0dp"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

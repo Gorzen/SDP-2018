@@ -41,7 +41,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.QUESTS_INDEX_TEACHER;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
 public class QuestsActivityTeacher extends NavigationTeacher {
@@ -181,10 +180,6 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                if(questionId.equals(MOCK_UUID)) {
-                                    Log.i(TAG, "The question has been deleted from the database.");
-                                    return;
-                                }
                                 FileStorage.getProblemImageRef(Uri.parse(questionId + ".png")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

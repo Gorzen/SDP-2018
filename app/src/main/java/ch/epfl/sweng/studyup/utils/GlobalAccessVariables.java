@@ -20,7 +20,6 @@ import ch.epfl.sweng.studyup.map.Room;
 @SuppressWarnings("HardCodedStringLiteral")
 public abstract class GlobalAccessVariables {
 
-    public static final String MOCK_UUID = "fake-UUID";
     public static final String MOCK_TOKEN = "NON-NULL TOKEN VALUE";
     public static Activity MOST_RECENT_ACTIVITY = null;
     public static LatLng POSITION = null;

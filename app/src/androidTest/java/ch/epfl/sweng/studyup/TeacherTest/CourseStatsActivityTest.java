@@ -32,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 import static org.hamcrest.CoreMatchers.anything;
 
@@ -44,6 +45,7 @@ public class CourseStatsActivityTest {
 
     @BeforeClass
     public static void init() {
+        MOCK_ENABLED = true;
         Player.get().resetPlayer();
         Player.get().setRole(Constants.Role.teacher);
         Intents.init();
@@ -54,6 +56,7 @@ public class CourseStatsActivityTest {
         Player.get().resetPlayer();
         Player.get().setRole(Constants.Role.student);
         Intents.release();
+        MOCK_ENABLED = false;
     }
 
     @Test

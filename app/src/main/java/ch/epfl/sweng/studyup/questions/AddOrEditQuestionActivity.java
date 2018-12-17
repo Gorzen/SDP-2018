@@ -40,11 +40,11 @@ import ch.epfl.sweng.studyup.utils.imagePathGetter.pathFromGalleryGetter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
+import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_UUID;
 import static ch.epfl.sweng.studyup.utils.Utils.getStringListFromCourseList;
 import static ch.epfl.sweng.studyup.utils.Utils.setupToolbar;
 
@@ -190,6 +190,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             //If the edited question goes from image to text, we delete the image from firebase
             FileStorage.getProblemImageRef(Uri.parse(newQuestionID + ".png")).delete();
             questionFile = setupFileText(newQuestionID);
+            if(questionFile == null) return;
         }
 
         Log.e(TAG, "create the question");
@@ -241,7 +242,7 @@ public class AddOrEditQuestionActivity extends NavigationStudent {
             TextView questionTextView = findViewById(R.id.questionText);
             String questionData = questionTextView.getText().toString();
             if (questionData.isEmpty()) {
-                Toast.makeText(this.getApplicationContext(), getString(R.string.text_insert_title_for_question), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getApplicationContext(), getString(R.string.cant_add_question_with_empty_text), Toast.LENGTH_SHORT).show();
                 return null;
             }
             writer.write(questionData);

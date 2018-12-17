@@ -214,6 +214,7 @@
     <string name="by_correct_answers">By Correct Answers</string>
     <string name="by_xp">By XP</string>
     <string name="no_course_representation" translatable="false">"    \u2015    "</string>
+    <string name="cant_add_question_with_empty_text">You can\'t add an empty question</string>
 
     <string name="deactive_npc_dialog_text">Deactivate popup from NPC</string>
     <string name="NPC_interaction_enable">Enable NPC interaction</string>
@@ -227,7 +228,9 @@
     <string name="item_map_description">Locate all NPCs at once!</string>
     <string name="green_description">Add an environnmental-friendly theme to your collection</string>
     <string name="blue_description">Have you ever wanted to traverse the ocean ? Then add this new fancy blue sea theme to your collection</string>
-    <string name="brown_description">A new theme that makes you like wood</string>
+    <string name="orange_description">A new theme that makes you like an orange</string>
+    <string name="dark_description">A new theme for moon likers</string>
+    <string name="already_enrolled">Quest in progress</string>
 
     <string name="charlie_message1">Hello friend, wanna dab with me ?</string>
     <string name="charlie_message2">Hi, hmmm, how about no ?</string>
@@ -278,5 +281,6 @@
     <string name="green_name">Green theme</string>
     <string name="blue_name">Blue theme</string>
     <string name="orange_name">Orange theme</string>
-    <string name="multi_colour_name">Multi-colour theme</string>
+    <string name="dark_name">Dark theme</string>
+    <string name="quest_completed">Quest completed</string>
 </resources>
