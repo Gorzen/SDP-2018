@@ -146,10 +146,6 @@ public abstract class Constants {
     public static final int MONTH_OF_SCHEDULE = 10;
     public static final int YEAR_OF_SCHEDULE = 2018;
 
-    // Special quest completion alert messages
-    public static final String SPECIAL_QUEST_ALERT_ENGLISH = "Special quest completed!";
-    public static final String SPECIAL_QUEST_ALERT_FRENCH = "Quête spéciale terminée !";
-
     public static final List<String> durationChoice = Arrays.asList("0", "2mn", "1h", "5h", "24h");
     public static final List<Long> durationCorrespond = Arrays.asList(0l, 120000l, 3600000l, 18000000l, 86400000l);
 
