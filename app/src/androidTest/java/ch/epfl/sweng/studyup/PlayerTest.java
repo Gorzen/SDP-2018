@@ -75,15 +75,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void addTeachingCourseTest() {
-        Player.get().setRole(Role.teacher);
-        List<Course> testCourseList = new ArrayList<>();
-        testCourseList.add(Course.Blacksmithing);
-        Player.get().setCourses(testCourseList);
-        assertTrue(Player.get().getCoursesEnrolled().equals(testCourseList));
-    }
-
-    @Test
     public void addClickedInstantTest() {
         long instantTest = 12345;
         String keyTest = "SimpleKeyRTest";
