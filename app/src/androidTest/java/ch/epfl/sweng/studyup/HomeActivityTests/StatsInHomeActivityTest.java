@@ -50,15 +50,6 @@ public class StatsInHomeActivityTest {
     }
 
     @Test
-    public void testRankDisplay() {
-        Player.get().addExperience((int) (Math.pow(2, 31) - 1), null);
-        waitAndTag(2000, "Waiting for the server to be notificated.");
-        mActivityRule.launchActivity(new Intent());
-        waitAndTag(2000, "Waiting for the rank to be displayed.");
-        onView(withId(R.id.rankNumberTextview)).check(matches(withText("#1")));
-    }
-
-    @Test
     public void testFavoriteCourseDisplay() {
         Player.get().addAnsweredQuestion("1", true, 1);
         Player.get().addAnsweredQuestion("2", true, 1);
