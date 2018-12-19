@@ -199,8 +199,6 @@ public class QuestsActivityTeacher extends NavigationTeacher {
                             }
                         }
                     });
-            //TODO: for all users delete this question in their answered question field
-            //TODO: or retrieve all questions in the player class and initialize answeredQuestion with question that are still "alive"
         }
     }
 }
