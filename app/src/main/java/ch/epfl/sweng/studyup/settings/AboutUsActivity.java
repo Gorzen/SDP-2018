@@ -30,7 +30,7 @@ public class AboutUsActivity extends NavigationStudent {
         //add the object of the email
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Message about StudyUp app !");
         //hold e-mail addresses that should be delivered to
-        String[] send_to = {"study.up@epfl.ch"};
+        String[] send_to = {"studyup@groupes.epfl.ch"};
         intent.putExtra(android.content.Intent.EXTRA_EMAIL, send_to);
 
         //create an alert to choose how to send the email
