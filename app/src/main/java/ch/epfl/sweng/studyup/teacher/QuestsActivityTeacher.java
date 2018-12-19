@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +29,7 @@ import java.util.List;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
 import ch.epfl.sweng.studyup.firebase.Firestore;
+import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.utils.Callback;
@@ -98,7 +100,11 @@ public class QuestsActivityTeacher extends NavigationTeacher {
     }
 
     public void addNewQuestion(View view) {
-        startActivity(new Intent(this.getApplicationContext(), AddOrEditQuestionActivity.class));
+        if(Player.get().getCoursesTeached().isEmpty()) {
+            Toast.makeText(QuestsActivityTeacher.this, R.string.not_teaching_any_course, Toast.LENGTH_SHORT).show()
+        } else {
+            startActivity(new Intent(this.getApplicationContext(), AddOrEditQuestionActivity.class));
+        }
     }
 
 

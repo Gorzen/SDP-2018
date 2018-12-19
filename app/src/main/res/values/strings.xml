@@ -286,4 +286,5 @@
     <string name="special_quest_completed">Special quest completed!</string>
     <string name="student_to_teacher">You changed from Student to Teacher</string>
     <string name="teacher_to_student">You changed from Teacher to Student</string>
+    <string name="not_teaching_any_course">You don\'t teach any course. Please enroll first.</string>
 </resources>

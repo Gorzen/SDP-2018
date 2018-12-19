@@ -277,4 +277,5 @@
     <string name="special_quest_completed">Quête spéciale terminée !</string>
     <string name="student_to_teacher">Vous êtes passé d\'Etudiant.e. à Enseignant.e</string>
     <string name="teacher_to_student">Vous êtes passé.e d\'Enseignant.e à Etudiant.e</string>
+    <string name="not_teaching_any_course">Vous ne donnez aucun cours. Merci de vous enregistrer.</string>
 </resources>
