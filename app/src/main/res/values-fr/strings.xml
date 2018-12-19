@@ -41,7 +41,7 @@
     <string name="continueTo">Continuer</string>
     <string name="post_login_message_value">Connexion réussie</string>
     <string name="login_failed_value">Connexion échouée</string>
-    <string name="text_when_no_role_selected">Tu dois choisir ton rôle !</string>
+    <string name="text_when_no_role_selected">Vous devez choisir ton rôle !</string>
     <string name="initial_greeting_1">Bienvenue, Jean-Louis.</string>
     <string name="initial_greeting_2">Ton numéro de Sciper est 123456.</string>
     <string name="log_out">Se déconnecter</string>
@@ -67,8 +67,8 @@
     <string name="text_mcq">(QCM)</string>
     <string name="text_answernumber">et la réponse numéro</string>
     <string name="text_newposition">NOUVELLE POSITION:</string>
-    <string name="text_inyourroom">"Tu es dans ta salle : "</string>
-    <string name="text_notinyourroom">"Tu n'es pas dans ta salle : "</string>
+    <string name="text_inyourroom">"Vous êtes dans ta salle : "</string>
+    <string name="text_notinyourroom">"Vous n'êtes pas dans ta salle : "</string>
     <string name="text_saved">Enregistré !</string>
     <string name="text_failed">Echec !</string>
     <string name="text_photospermissions">Impossible de prendre une photo sans autorisation.</string>
@@ -77,11 +77,11 @@
     <string name="text_money">"ARGENT : "</string>
     <string name="text_level">"NIVEAU "</string>
     <string name="text_itemprice">"Prix de l'objet : "</string>
-    <string name="text_currencyyouhave">"Tu as "</string>
-    <string name="text_itemalreadyhave">Tu as déjà cet objet </string>
+    <string name="text_currencyyouhave">"Vous avez "</string>
+    <string name="text_itemalreadyhave">Vous avez déjà cet objet </string>
     <string name="text_itemtimes">" fois"</string>
     <string name="text_totalprice">"Prix total : "</string>
-    <string name="text_notenoughmoney">Tu n\'as pas assez d\'argent !</string>
+    <string name="text_notenoughmoney">Vous n\'avez pas assez d\'argent !</string>
     <string name="title_questiondb">Base de questions</string>
     <string name="text_unabletouploadimage">Impossible de téléverser l\'image</string>
     <string name="text_imageuploadsuccess">Image téléversée avec succès</string>
@@ -89,7 +89,7 @@
     <string name="text_questiondlerror">Une erreur est survenue en téléchargeant la question</string>
     <string name="text_questiondisplayerror">Une erreur est survenue en affichant la question</string>
     <string name="text_makechoice">Choisis la réponse !</string>
-    <string name="text_cantanswertwice">Tu ne peux répondre à une question deux fois !</string>
+    <string name="text_cantanswertwice">Vous ne pouvez répondre à une question deux fois !</string>
     <string name="text_wronganswer">Loupé… Une prochaine fois ?</string>
     <string name="text_correctanswer">Bonne réponse ! Bien joué !</string>
     <string name="save_value">Sauvegarder</string>
@@ -195,7 +195,7 @@
     <string name="context">Contexte :</string>
     <string name="description">Cette application a été crée lors du projet du cours de Software Engineering (CS-305) - EPFL</string>
     <string name="release_date">Date de sortie :</string>
-    <string name="description2">Si vous trouvez un bug lors de l\'utilisation de l\'application, n\'hésitez pas à nous contacter : study.up@epfl.ch</string>
+    <string name="description2">Si vous trouvez un bug lors de l\'utilisation de l\'application, n\'hésitez pas à nous contacter : studyup@groupes.epfl.ch</string>
     <string name="send_mail">Envoyer un email aux devs de StudyUp</string>
     <string name="leaderboard">Classement</string>
     <string name="deactive_npc_dialog_text">Désactiver les alertes des PNJs</string>
@@ -275,7 +275,7 @@
     <string name="dark_name">Thème sombre</string>
     <string name="quest_completed">Quête complétée</string>
     <string name="special_quest_completed">Quête spéciale terminée !</string>
-    <string name="student_to_teacher">Vous êtes passé d\'Etudiant.e. à Enseignant.e</string>
+    <string name="student_to_teacher">Vous êtes passé.e d\'Etudiant.e. à Enseignant.e</string>
     <string name="teacher_to_student">Vous êtes passé.e d\'Enseignant.e à Etudiant.e</string>
     <string name="not_teaching_any_course">Vous ne donnez aucun cours. Merci de vous enregistrer.</string>
 </resources>
