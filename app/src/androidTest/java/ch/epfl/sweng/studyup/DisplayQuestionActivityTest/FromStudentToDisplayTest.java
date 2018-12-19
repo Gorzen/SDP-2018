@@ -1,5 +1,6 @@
 
 package ch.epfl.sweng.studyup.DisplayQuestionActivityTest;
+
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.widget.ListView;
@@ -8,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
@@ -18,7 +20,6 @@ import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;

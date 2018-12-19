@@ -1,12 +1,9 @@
 package ch.epfl.sweng.studyup.npc;
 
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;

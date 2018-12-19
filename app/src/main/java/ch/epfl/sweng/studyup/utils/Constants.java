@@ -7,12 +7,11 @@ import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.npc.NPC;
 import ch.epfl.sweng.studyup.npc.NPCItems;
 import ch.epfl.sweng.studyup.npc.NPCSpecialQuest;

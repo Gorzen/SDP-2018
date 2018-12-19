@@ -21,9 +21,9 @@ import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
 
-import static org.junit.Assert.assertArrayEquals;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static org.junit.Assert.assertArrayEquals;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)

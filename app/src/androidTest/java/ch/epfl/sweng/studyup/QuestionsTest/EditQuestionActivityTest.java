@@ -34,10 +34,10 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)

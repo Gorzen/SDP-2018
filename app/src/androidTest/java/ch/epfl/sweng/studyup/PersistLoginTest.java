@@ -7,9 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.kosalgeek.android.caching.FileCacher;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.player.HomeActivity;
-import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.teacher.QuestsActivityTeacher;
 import ch.epfl.sweng.studyup.utils.Utils;
 
@@ -30,8 +27,12 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.release;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.PERSIST_LOGIN_FILENAME;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 
 @RunWith(AndroidJUnit4.class)
 public class PersistLoginTest {

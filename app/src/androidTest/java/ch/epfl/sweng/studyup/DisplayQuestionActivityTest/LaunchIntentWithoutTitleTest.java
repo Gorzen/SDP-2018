@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.questions.Question;
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.DISPLAY_QUESTION_TITLE;
 import static ch.epfl.sweng.studyup.questions.DisplayQuestionActivity.getIntentForDisplayQuestion;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static junit.framework.TestCase.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")

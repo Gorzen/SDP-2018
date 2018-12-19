@@ -76,7 +76,7 @@
     <string name="items_quantity">x</string>
     <string name="text_money">"ARGENT : "</string>
     <string name="text_level">"NIVEAU "</string>
-    <string name="text_itemprice">"Prix de l'objet : "</string>
+    <string name="text_itemprice">"Prix de l\'objet : "</string>
     <string name="text_currencyyouhave">"Tu as "</string>
     <string name="text_itemalreadyhave">Tu as déjà cet objet </string>
     <string name="text_itemtimes">" fois"</string>
@@ -145,7 +145,6 @@
     <string name="accepted_courses_text">Vos cours</string>
     <string name="camera">Appareil Photo</string>
     <string name="gallery">Galerie</string>
-    <string name="app_name" translatable="false">StudyUp</string>
     <string name="item_xp_potion_name">Potion d\'XP</string>
     <string name="item_coin_sack_name">Bourse d\'or</string>
     <string name="item_xp_potion_description">Une potion qui vous donne de l\'xp en la buvant</string>
@@ -267,7 +266,7 @@
     <string name="cynthia_message4">Ah. D\'accord. Je ne suis pas sûr de comprendre ce que tu dis, mais je suis d\'accord.</string>
     <string name="cynthia_message5">Je vous chéris, amour, et ma plume en délire couche sur le papier ce que je n\'ose dire. Puissiez-vous seulement être un peu plus vieux, je vous léguerai un présent bienheureux&#8320;</string>
     <string name="cynthia_message6">Je ne peux pas vraiment vieillir sur commande, en fait.</string>
-    <string name="cynthia_message7">Fi ! La valeur n’attend pas le nombre des années. Soyez fougueux et intéressé, dans vos études perséverez, et mon cadeau vous gagnerez&#8320;</string>
+    <string name="cynthia_message7">Fi ! La valeur n\’attend pas le nombre des années. Soyez fougueux et intéressé, dans vos études perséverez, et mon cadeau vous gagnerez&#8320;</string>
 
     <string name="green_name">Thème vert</string>
     <string name="blue_name">Thème bleu</string>

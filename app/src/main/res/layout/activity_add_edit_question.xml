@@ -60,7 +60,6 @@
             android:id="@+id/add_quest_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/bottomBar"
             android:layout_below="@+id/topBar">
 
             <ScrollView

@@ -40,14 +40,13 @@ import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUID;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
-import static org.hamcrest.core.AllOf.allOf;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)
@@ -136,7 +135,7 @@ public class QuestsActivityTeacherTest {
             @Override
             public void onChanged(@Nullable List<Question> questions) {
                 for(Question q : questions) {
-                    assertFalse(q.getTitle() == fakeTitle);
+                    assertFalse(q.getTitle().equals(fakeTitle));
                 }
             }
         });

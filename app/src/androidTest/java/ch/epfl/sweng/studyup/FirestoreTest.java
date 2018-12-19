@@ -5,7 +5,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,16 +24,39 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom; //Random int library
+import java.util.concurrent.ThreadLocalRandom;
 
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
-import static ch.epfl.sweng.studyup.utils.Constants.*;
-import static ch.epfl.sweng.studyup.utils.Utils.*;
 import static ch.epfl.sweng.studyup.auth.AuthenticationActivity.syncPlayerData;
+import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_ROLE;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_SECTION;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_YEAR;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_CURRENCY;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LEVEL;
+import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
+import static ch.epfl.sweng.studyup.utils.Constants.MAX_SCIPER;
+import static ch.epfl.sweng.studyup.utils.Constants.Role;
+import static ch.epfl.sweng.studyup.utils.Constants.TIME_TO_WAIT_FOR_LOGIN;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
+import static ch.epfl.sweng.studyup.utils.Constants.XP_TO_LEVEL_UP;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.DB_STATIC_INFO;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("HardCodedStringLiteral")
@@ -199,7 +221,7 @@ public class FirestoreTest {
         Player.get().setCourses(fakeCourseList);
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);
-        assert Player.get().getScheduleStudent().isEmpty() : "The schedule should be empty as the only enrolled course has just been removed.";
+        assertTrue(Player.get().getScheduleStudent().isEmpty());
 
         // Verifying that we can add a course
         Firestore.get().addPlayerToTeachingStaff(c, Player.get().getSciperNum());
@@ -208,7 +230,7 @@ public class FirestoreTest {
         waitAndTag(500, "Waiting for the course's periods to be added.");
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);
-        assert periods.equals(Player.get().getScheduleStudent());
+        assertTrue(periods.equals(Player.get().getScheduleStudent()));
 
         //Verifying that we can change course schedule
         periods.get(0).setLocation("CO_2");
@@ -217,7 +239,7 @@ public class FirestoreTest {
         waitAndTag(500, "Waiting for the course's periods to be updated.");
         Firestore.get().getCoursesSchedule(null, Role.student);
         waitAndTag(1000, TAG);
-        assert periods.equals(Player.get().getScheduleStudent());
+        assertTrue(periods.equals(Player.get().getScheduleStudent()));
     }
 
     private List<WeekViewEvent> getSimpleSchedule() {

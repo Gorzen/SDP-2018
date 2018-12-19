@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.CustomActivityTest;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Looper;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -11,8 +10,6 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,16 +23,14 @@ import org.junit.runners.MethodSorters;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.CustomActivity;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Utils;
-
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
 import static org.junit.Assert.assertTrue;
 

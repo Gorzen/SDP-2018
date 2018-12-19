@@ -1,16 +1,9 @@
 package ch.epfl.sweng.studyup.QuestionsTest;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
-import android.support.test.uiautomator.Until;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,16 +17,9 @@ import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
 import ch.epfl.sweng.studyup.questions.DisplayQuestionActivity;
-import ch.epfl.sweng.studyup.questions.Question;
-import ch.epfl.sweng.studyup.questions.TimeOutNotificationPublisher;
 import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static ch.epfl.sweng.studyup.utils.Utils.waitAndTag;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(JUnit4.class)

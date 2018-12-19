@@ -39,7 +39,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.MOCK_NAMES;
 import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUIDS;
-import static ch.epfl.sweng.studyup.utils.Constants.mockStudentRankings;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;

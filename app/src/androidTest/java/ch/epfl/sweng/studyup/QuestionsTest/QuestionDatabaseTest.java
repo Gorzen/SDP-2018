@@ -14,15 +14,14 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import ch.epfl.sweng.studyup.questions.AddOrEditQuestionActivity;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionDAO;
 import ch.epfl.sweng.studyup.questions.QuestionDatabase;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
+import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static ch.epfl.sweng.studyup.utils.Constants.Course;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)

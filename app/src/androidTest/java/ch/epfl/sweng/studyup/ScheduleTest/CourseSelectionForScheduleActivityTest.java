@@ -10,6 +10,7 @@ import java.util.List;
 
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.teacher.CourseSelectionForScheduleActivity;
+
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
 import static ch.epfl.sweng.studyup.utils.Constants.Course.FakeCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.Role.teacher;

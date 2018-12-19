@@ -9,8 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.auth.Authenticator;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static org.hamcrest.CoreMatchers.is;

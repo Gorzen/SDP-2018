@@ -1,11 +1,8 @@
 package ch.epfl.sweng.studyup.utils.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +16,6 @@ import ch.epfl.sweng.studyup.R;
 import static ch.epfl.sweng.studyup.utils.Constants.bronze;
 import static ch.epfl.sweng.studyup.utils.Constants.gold;
 import static ch.epfl.sweng.studyup.utils.Constants.silver;
-import static java.security.AccessController.getContext;
 
 public class StudentRankingAdapter extends BaseAdapter {
 

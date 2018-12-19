@@ -54,8 +54,6 @@ import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.AllOf.allOf;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 
 @SuppressWarnings("HardCodedStringLiteral")

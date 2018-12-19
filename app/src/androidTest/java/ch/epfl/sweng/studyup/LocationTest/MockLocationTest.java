@@ -21,8 +21,11 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.LOCATION_PROVIDER_CLIENT;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOC_LOC;
+import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;
 import static junit.framework.TestCase.assertEquals;
-import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.*;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @RunWith(AndroidJUnit4.class)

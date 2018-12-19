@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestType;

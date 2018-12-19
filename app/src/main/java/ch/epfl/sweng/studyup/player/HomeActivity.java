@@ -41,7 +41,6 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.questions.Question;
 import ch.epfl.sweng.studyup.questions.QuestionParser;
-import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuest;
 import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
 import ch.epfl.sweng.studyup.utils.Callback;

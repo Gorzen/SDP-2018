@@ -3,21 +3,15 @@ package ch.epfl.sweng.studyup.settings;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.Course;

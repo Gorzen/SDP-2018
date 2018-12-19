@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +26,8 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 
 @RunWith(AndroidJUnit4.class)
 public class ChooseColorActivityTest {

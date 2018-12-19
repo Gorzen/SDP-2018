@@ -29,13 +29,10 @@ import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
-import static ch.epfl.sweng.studyup.utils.Constants.DEFAULT_INDEX_STUDENT;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;

@@ -5,10 +5,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static junit.framework.TestCase.assertEquals;
-
 @RunWith(AndroidJUnit4.class)
 public class IncorrectAnswerGivesNoXpTest extends DisplayQuestionActivityTest {
     @Test

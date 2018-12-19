@@ -2,7 +2,6 @@ package ch.epfl.sweng.studyup.ItemsTest;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

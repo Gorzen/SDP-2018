@@ -19,14 +19,15 @@ import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.Constants.*;
+import ch.epfl.sweng.studyup.utils.Constants.Course;
+import ch.epfl.sweng.studyup.utils.Constants.Role;
 import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.CURRENCY_PER_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class PlayerTest {
@@ -70,7 +71,7 @@ public class PlayerTest {
         List<Course> testCourseList = new ArrayList<>();
         testCourseList.add(Course.Blacksmithing);
         Player.get().setCourses(testCourseList);
-        assert(Player.get().getCoursesEnrolled().equals(testCourseList));
+        assertTrue(Player.get().getCoursesEnrolled().equals(testCourseList));
     }
 
     @Test
@@ -79,7 +80,7 @@ public class PlayerTest {
         List<Course> testCourseList = new ArrayList<>();
         testCourseList.add(Course.Blacksmithing);
         Player.get().setCourses(testCourseList);
-        assert(Player.get().getCoursesEnrolled().equals(testCourseList));
+        assertTrue(Player.get().getCoursesEnrolled().equals(testCourseList));
     }
 
     @Test

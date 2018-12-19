@@ -15,9 +15,9 @@ import ch.epfl.sweng.studyup.utils.RefreshContext;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_BLUE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
-import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_GREEN;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_ORANGE;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Utils.setupColor;

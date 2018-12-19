@@ -1,14 +1,12 @@
 package ch.epfl.sweng.studyup.teacher;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,18 +27,17 @@ import java.util.Map;
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.settings.SettingsActivity;
 import ch.epfl.sweng.studyup.utils.Constants.Course;
 import ch.epfl.sweng.studyup.utils.NonScrollableListView;
 import ch.epfl.sweng.studyup.utils.adapters.ListCourseAdapter;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
+import static ch.epfl.sweng.studyup.utils.Constants.Course.FakeCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSE_REQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_REQUESTED_COURSES;
-import static ch.epfl.sweng.studyup.utils.Constants.Course.FakeCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_LASTNAME;

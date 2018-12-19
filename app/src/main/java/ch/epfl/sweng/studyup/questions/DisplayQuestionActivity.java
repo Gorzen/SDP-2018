@@ -320,7 +320,7 @@ public class DisplayQuestionActivity extends RefreshContext {
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(tempText.getAbsolutePath())));
                     StringBuilder sb = new StringBuilder();
-                    String line = null;
+                    String line;
                     while ((line = reader.readLine()) != null) {
                         sb.append(line).append("\n");
                     }
@@ -340,7 +340,7 @@ public class DisplayQuestionActivity extends RefreshContext {
     }
 
     private void quit() {
-        Toast.makeText(this, getString(R.string.text_questiondisplayerror), Toast.LENGTH_SHORT);
+        Toast.makeText(this, getString(R.string.text_questiondisplayerror), Toast.LENGTH_SHORT).show();
         Log.e(TAG, "Bad intent given in parameters");
         super.onBackPressed();
     }

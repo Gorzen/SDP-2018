@@ -35,10 +35,10 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_COURSES_TEACHED;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWN_NPCS;
-import static ch.epfl.sweng.studyup.utils.Constants.FB_UNLOCKED_THEME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_CLICKEDINSTANT;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_UNLOCKED_THEME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -275,7 +275,7 @@ public class Player implements SpecialQuestObservable {
         if (activity instanceof HomeActivity) {
             ((HomeActivity) activity).updateXpAndLvlDisplay();
             ((HomeActivity) activity).updateCurrDisplay();
-            Log.i("Check", "Activity is " + activity.toString() + " " + ((HomeActivity) activity).getLocalClassName());
+            Log.i("Check", "Activity is " + activity.toString() + " " + activity.getLocalClassName());
         }
 
         Firestore.get().updateRemotePlayerDataFromLocal();

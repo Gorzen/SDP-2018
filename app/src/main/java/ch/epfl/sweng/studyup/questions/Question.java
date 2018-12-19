@@ -10,7 +10,6 @@ import android.util.Log;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import ch.epfl.sweng.studyup.R;
 
@@ -123,6 +122,7 @@ public class Question implements Serializable {
         this.trueFalse = trueFalse;
     }
 
+    @NonNull
     public String getQuestionId() {
         return questionId;
     }
@@ -166,7 +166,7 @@ public class Question implements Serializable {
         else {
             s += MOST_RECENT_ACTIVITY.getString(R.string.text_mcq);
         }
-        s += s += MOST_RECENT_ACTIVITY.getString(R.string.text_answernumber + answer);
+        s += MOST_RECENT_ACTIVITY.getString(R.string.text_answernumber + answer);
         return s;
     }
 

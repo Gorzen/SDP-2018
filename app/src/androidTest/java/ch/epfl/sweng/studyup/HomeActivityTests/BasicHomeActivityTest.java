@@ -22,6 +22,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 @SuppressWarnings("HardCodedStringLiteral")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -62,7 +63,7 @@ public class BasicHomeActivityTest {
         Player.get().resetPlayer();
 
         final int numberOfPush = 5;
-        assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+        assertTrue(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
         onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
         for (int i = 0; i < numberOfPush; ++i) {
             mActivityRule.getActivity().runOnUiThread(new Runnable() {
@@ -72,7 +73,7 @@ public class BasicHomeActivityTest {
 
                 }
             });
-            assert (mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
+            assertTrue(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
             onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
         }
     }

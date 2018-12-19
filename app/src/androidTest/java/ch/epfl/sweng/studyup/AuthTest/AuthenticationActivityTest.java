@@ -27,7 +27,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.HOME_ACTIVITY;

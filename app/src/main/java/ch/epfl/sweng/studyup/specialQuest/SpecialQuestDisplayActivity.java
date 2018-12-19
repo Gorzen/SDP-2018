@@ -1,6 +1,5 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,8 +7,6 @@ import android.widget.TextView;
 
 import antonkozyriatskyi.circularprogressindicator.CircularProgressIndicator;
 import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.items.ShopActivity;
-import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;

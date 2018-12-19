@@ -12,8 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import ch.epfl.sweng.studyup.R;
+import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
+import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
+import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
+
 import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -21,11 +25,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.core.IsAnything.anything;
-
-import ch.epfl.sweng.studyup.R;
-import ch.epfl.sweng.studyup.specialQuest.AvailableSpecialQuestsActivity;
-import ch.epfl.sweng.studyup.specialQuest.SpecialQuestDisplayActivity;
-import ch.epfl.sweng.studyup.utils.GlobalAccessVariables;
 
 @RunWith(JUnit4.class)
 public class AvailableSpecialQuestsActivityTest {

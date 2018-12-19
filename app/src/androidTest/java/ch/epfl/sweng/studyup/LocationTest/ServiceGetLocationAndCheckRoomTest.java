@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import ch.epfl.sweng.studyup.utils.Constants;
-import ch.epfl.sweng.studyup.utils.TestbedActivity;
 import ch.epfl.sweng.studyup.map.BackgroundLocation;
 import ch.epfl.sweng.studyup.player.Player;
+import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.Rooms;
+import ch.epfl.sweng.studyup.utils.TestbedActivity;
 
 import static ch.epfl.sweng.studyup.utils.Constants.XP_STEP;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.POSITION;

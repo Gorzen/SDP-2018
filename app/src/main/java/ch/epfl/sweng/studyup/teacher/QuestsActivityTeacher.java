@@ -1,15 +1,12 @@
 package ch.epfl.sweng.studyup.teacher;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +33,6 @@ import ch.epfl.sweng.studyup.utils.Callback;
 import ch.epfl.sweng.studyup.utils.Utils;
 import ch.epfl.sweng.studyup.utils.navigation.NavigationTeacher;
 
-import static ch.epfl.sweng.studyup.questions.QuestionParser.parseQuestionsLiveData;
 import static ch.epfl.sweng.studyup.teacher.ManageCourseActivity.refreshTeachingCourse;
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;

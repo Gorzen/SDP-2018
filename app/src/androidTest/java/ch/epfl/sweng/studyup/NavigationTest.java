@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.studyup.items.InventoryActivity;
-import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.map.MapsActivity;
 import ch.epfl.sweng.studyup.player.HomeActivity;
 import ch.epfl.sweng.studyup.player.QuestsActivityStudent;
@@ -24,15 +23,10 @@ import ch.epfl.sweng.studyup.settings.SettingsActivity;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
-import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class NavigationTest {
