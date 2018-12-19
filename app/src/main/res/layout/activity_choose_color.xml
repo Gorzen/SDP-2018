@@ -44,50 +44,47 @@
 
     <ImageView
         android:id="@+id/lockGreen"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:elevation="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeGreen"
         app:layout_constraintEnd_toEndOf="@+id/setThemeGreen"
-        app:layout_constraintStart_toStartOf="@+id/setThemeGreen"
         app:layout_constraintTop_toTopOf="@+id/setThemeGreen"
-        app:srcCompat="@drawable/lock_icon" />
+        app:srcCompat="@drawable/ic_lock_outline_white_24dp" />
 
     <ImageView
         android:id="@+id/lockBlue"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeBlue"
         app:layout_constraintEnd_toEndOf="@+id/setThemeBlue"
-        app:layout_constraintStart_toStartOf="@+id/setThemeBlue"
         app:layout_constraintTop_toTopOf="@+id/setThemeBlue"
-        app:srcCompat="@drawable/lock_icon" />
+        app:srcCompat="@drawable/ic_lock_outline_white_24dp" />
 
     <ImageView
         android:id="@+id/lockOrange"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeOrange"
         app:layout_constraintEnd_toEndOf="@+id/setThemeOrange"
-        app:layout_constraintStart_toStartOf="@+id/setThemeOrange"
         app:layout_constraintTop_toTopOf="@+id/setThemeOrange"
-        app:srcCompat="@drawable/lock_icon" />
+        app:srcCompat="@drawable/ic_lock_outline_white_24dp" />
 
     <ImageView
         android:id="@+id/lockMulti"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:elevation="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/setThemeMulti"
         app:layout_constraintEnd_toEndOf="@+id/setThemeMulti"
-        app:layout_constraintStart_toStartOf="@+id/setThemeMulti"
         app:layout_constraintTop_toTopOf="@+id/setThemeMulti"
-        app:srcCompat="@drawable/lock_icon" />
+        app:srcCompat="@drawable/ic_lock_outline_white_24dp" />
 
     <TextView
         android:id="@+id/chooseYourColorTextView"
