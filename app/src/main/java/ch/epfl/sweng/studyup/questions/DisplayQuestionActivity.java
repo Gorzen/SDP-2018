@@ -183,7 +183,8 @@ public class DisplayQuestionActivity extends RefreshContext {
             //The question has not been clicked on yet
             Player.get().addClickedInstant(questionId, System.currentTimeMillis());
             setupNotificationManager();
-            displayedText = getString(R.string.remaining_time)+" "+duration+"min";
+            long durationInMin = duration / (1000 * 60);
+            displayedText = getString(R.string.remaining_time)+" "+durationInMin+"min";
         } else if (displayQuestion.getDuration() == 0) {
             //There is no time constraint
             alarm.setImageAlpha(0); displayedText = "";
