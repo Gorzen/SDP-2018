@@ -169,7 +169,6 @@ public class Player implements SpecialQuestObservable {
              */
             this.specialQuests = remoteSpecialQuests;
         }
-        //TODO: call the update method for quests
 
         List<String> defaultCourseListEnrolled = new ArrayList<>();
         defaultCourseListEnrolled.add(Course.SWENG.name());

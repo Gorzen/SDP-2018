@@ -38,6 +38,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_CURRENCY;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_EVENTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_FIRSTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_ITEMS;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_KNOWN_NPCS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LASTNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_LEVEL;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTIONS;
@@ -51,6 +52,7 @@ import static ch.epfl.sweng.studyup.utils.Constants.FB_QUESTION_TRUEFALSE;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_SPECIALQUESTS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_TEACHING_STAFF;
+import static ch.epfl.sweng.studyup.utils.Constants.FB_UNLOCKED_THEME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERNAME;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_USERS;
 import static ch.epfl.sweng.studyup.utils.Constants.FB_XP;
@@ -110,6 +112,8 @@ public class Firestore {
         localPlayerData.put(FB_COURSES_TEACHED, getStringListFromCourseList(currPlayer.getCoursesTeached(), false));
         localPlayerData.put(FB_ANSWERED_QUESTIONS, currPlayer.getAnsweredQuestion());
         localPlayerData.put(FB_QUESTION_CLICKEDINSTANT, currPlayer.getClickedInstants());
+        localPlayerData.put(FB_UNLOCKED_THEME, new ArrayList<>(currPlayer.getUnlockedThemes()));
+        localPlayerData.put(FB_KNOWN_NPCS, new ArrayList<>(currPlayer.getKnownNPCs()));
 
         db.document(FB_USERS + "/" + currPlayer.getSciperNum())
                 .set(localPlayerData)
