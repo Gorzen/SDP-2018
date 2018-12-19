@@ -57,28 +57,6 @@ public class BasicHomeActivityTest {
     }
 
     @Test
-    public void checkPlayerProgressionDisplay() {
-        Utils.waitAndTag(1000, "Test Main Activity");
-
-        Player.get().resetPlayer();
-
-        final int numberOfPush = 5;
-        assertTrue(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-        onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
-        for (int i = 0; i < numberOfPush; ++i) {
-            mActivityRule.getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Player.get().addExperience(Constants.XP_STEP, mActivityRule.getActivity());
-
-                }
-            });
-            assertTrue(mActivityRule.getActivity().levelProgress.getProgress() == Player.get().getLevelProgress());
-            onView(withId(R.id.levelText)).check(matches(withText(mActivityRule.getActivity().getResources().getString(R.string.text_level) +" "+ Player.get().getLevel())));
-        }
-    }
-
-    @Test
     public void testSettingsNoException() {
         onView(withId(R.id.top_navigation_settings)).perform(click());
     }
