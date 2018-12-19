@@ -101,7 +101,7 @@ public class QuestsActivityTeacher extends NavigationTeacher {
 
     public void addNewQuestion(View view) {
         if(Player.get().getCoursesTeached().isEmpty()) {
-            Toast.makeText(QuestsActivityTeacher.this, R.string.not_teaching_any_course, Toast.LENGTH_SHORT).show()
+            Toast.makeText(QuestsActivityTeacher.this, R.string.not_teaching_any_course, Toast.LENGTH_SHORT).show();
         } else {
             startActivity(new Intent(this.getApplicationContext(), AddOrEditQuestionActivity.class));
         }
