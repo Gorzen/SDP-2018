@@ -201,7 +201,7 @@
     <string name="context">Context :</string>
     <string name="description">This app has been created during project from the Software Engineering course (CS-305) - EPFL</string>
     <string name="release_date">Release date :</string>
-    <string name="description2">If you find a bug when using the app, do not hesitate to contact us : study.up@epfl.ch</string>
+    <string name="description2">If you find a bug when using the app, do not hesitate to contact us : studyup@groupes.epfl.ch</string>
     <string name="send_mail">Send mail to StudyUp devs</string>
     <string name="ratio_text" translatable="false">Ratio:</string>
     <string name="answered_text">Answered:</string>
