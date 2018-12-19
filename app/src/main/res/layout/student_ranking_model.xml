@@ -51,6 +51,7 @@
                 android:layout_gravity="top|start"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="60dp"
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:maxWidth="250dp"
@@ -58,9 +59,11 @@
                 android:text="@string/student"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/student_rank"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/leaderboard_metric"
