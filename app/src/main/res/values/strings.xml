@@ -284,4 +284,6 @@
     <string name="dark_name">Dark theme</string>
     <string name="quest_completed">Quest completed</string>
     <string name="special_quest_completed">Special quest completed!</string>
+    <string name="student_to_teacher">You changed from Student to Teacher</string>
+    <string name="teacher_to_student">You changed from Teacher to Student</string>
 </resources>

@@ -92,10 +92,12 @@ public class SettingsActivity extends RefreshContext {
             Player.get().setRole(Constants.Role.student);
             setRoleInCache(Constants.Role.student);
             i = new Intent(SettingsActivity.this, HomeActivity.class);
+            Toast.makeText(SettingsActivity.this, R.string.teacher_to_student, Toast.LENGTH_SHORT).show();
         } else {
             Player.get().setRole(Constants.Role.teacher);
             setRoleInCache(Constants.Role.teacher);
             i = new Intent(SettingsActivity.this, QuestsActivityTeacher.class);
+            Toast.makeText(SettingsActivity.this, R.string.student_to_teacher, Toast.LENGTH_SHORT).show();
         }
 
         startActivity(i);
