@@ -1,23 +1,16 @@
 package ch.epfl.sweng.studyup.specialQuest;
 
-import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.common.base.Optional;
-
 import java.io.Serializable;
-import java.util.Locale;
 import java.util.Random;
 
+import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.Firestore;
 import ch.epfl.sweng.studyup.items.Items;
 import ch.epfl.sweng.studyup.player.Player;
 import ch.epfl.sweng.studyup.utils.Constants.SpecialQuestUpdateFlag;
 
-import static ch.epfl.sweng.studyup.utils.Constants.ENGLISH;
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_ENGLISH;
-import static ch.epfl.sweng.studyup.utils.Constants.SPECIAL_QUEST_ALERT_FRENCH;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOST_RECENT_ACTIVITY;
 
 public class SpecialQuest implements SpecialQuestObserver, Serializable {
@@ -60,10 +53,7 @@ public class SpecialQuest implements SpecialQuestObserver, Serializable {
             // Reached goal, reward player with item, display congratulations
             Player.get().addItem(reward);
 
-            String alertMessage = Locale.getDefault().getDisplayLanguage().equals(ENGLISH) ?
-                    SPECIAL_QUEST_ALERT_ENGLISH : SPECIAL_QUEST_ALERT_FRENCH;
-
-            Toast.makeText(MOST_RECENT_ACTIVITY.getApplicationContext(), alertMessage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MOST_RECENT_ACTIVITY.getApplicationContext(), R.string.special_quest_completed, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -64,9 +64,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:textColor="?attr/colorPrimary"
                 android:layout_marginTop="16dp"
                 android:gravity="top|center"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="22sp"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
