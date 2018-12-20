@@ -278,4 +278,5 @@
     <string name="student_to_teacher">Tu es passé.e d\'Etudiant.e. à Enseignant.e</string>
     <string name="teacher_to_student">Tu es passé.e d\'Enseignant.e à Etudiant.e</string>
     <string name="not_teaching_any_course">Tu ne donnes aucun cours. Merci de t\'enregistrer dans les paramètres.</string>
+    <string name="unlocked_theme">Débloques ce thème avec les NPCs !</string>
 </resources>

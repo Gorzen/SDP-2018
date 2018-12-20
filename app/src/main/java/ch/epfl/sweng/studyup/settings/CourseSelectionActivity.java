@@ -3,24 +3,22 @@ package ch.epfl.sweng.studyup.settings;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.player.Player;
-import ch.epfl.sweng.studyup.utils.Constants;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 
+import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
 import static ch.epfl.sweng.studyup.utils.Constants.Course;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
+import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
+import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 
 public class CourseSelectionActivity extends RefreshContext {
     final List<CheckBox> courseSelections = new ArrayList<>();
@@ -36,6 +34,13 @@ public class CourseSelectionActivity extends RefreshContext {
 
             CheckBox courseCheckbox = new CheckBox(this);
             courseCheckbox.setText(course.name());
+
+            String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                    .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+            int textColor = col.equals(SETTINGS_COLOR_DARK) ?
+                    getResources().getColor(R.color.colorGreyClair) :
+                    getResources().getColor(R.color.colorDarkkkk);
+            courseCheckbox.setTextColor(textColor);
             Player p = Player.get();
             boolean courseSelected = p.getCoursesEnrolled().contains(course);
             if (courseSelected) {

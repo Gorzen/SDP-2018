@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Set;
 
@@ -23,6 +24,9 @@ import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
 import static ch.epfl.sweng.studyup.utils.Utils.setupColor;
 
 public class ChooseColorActivity extends RefreshContext {
+
+    private boolean green_usable, blue_usable, orange_usable, dark_usable = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,62 +43,57 @@ public class ChooseColorActivity extends RefreshContext {
         Set<String> unlockedThemes = Player.get().getUnlockedThemes();
 
         for (String theme : unlockedThemes) {
-            switch (theme) {
-                case SETTINGS_COLOR_GREEN:
-                    removeLockAndEnableButton(R.id.setThemeGreen, R.id.lockGreen);
-                    break;
-                case SETTINGS_COLOR_ORANGE:
-                    removeLockAndEnableButton(R.id.setThemeOrange, R.id.lockOrange);
-                    break;
-                case SETTINGS_COLOR_BLUE:
-                    removeLockAndEnableButton(R.id.setThemeBlue, R.id.lockBlue);
-                    break;
-                case SETTINGS_COLOR_DARK:
-                    removeLockAndEnableButton(R.id.setThemeMulti, R.id.lockMulti);
-                    break;
-                default:break;
+            if(theme.equals(SETTINGS_COLOR_GREEN))  {
+                removeLock(R.id.lockGreen);
+                green_usable = true;
+            }
+            else if(theme.equals(SETTINGS_COLOR_ORANGE)){
+                removeLock(R.id.lockOrange);
+                orange_usable = true;
+            }
+            else if(theme.equals(SETTINGS_COLOR_BLUE)){
+                removeLock(R.id.lockBlue);
+                blue_usable=true;
+            }
+            else if(theme.equals(SETTINGS_COLOR_DARK)){
+                removeLock(R.id.lockMulti);
+                dark_usable=true;
             }
         }
     }
 
-    private void removeLockAndEnableButton(int idButton, int idLock) {
+    private void removeLock(int idLock) {
         findViewById(idLock).setVisibility(View.GONE);
-        findViewById(idButton).setEnabled(true);
+    }
+
+    private void setColor(String settingsColorBlue, boolean usable) {
+        if (usable) {
+            setupSettingsColor(settingsColorBlue);
+            setupColor(settingsColorBlue);
+            backToApp();
+            finish();
+        } else
+            Toast.makeText(getApplicationContext(), getString(R.string.unlocked_theme), Toast.LENGTH_SHORT).show();
     }
 
     public void setColorRed(View v) {
-        setupSettingsColor(SETTINGS_COLOR_RED);
-        setupColor(SETTINGS_COLOR_RED);
-        backToApp();
-        finish();
+        setColor(SETTINGS_COLOR_RED, true);
     }
 
     public void setColorGreen(View v) {
-        setupSettingsColor(SETTINGS_COLOR_GREEN);
-        setupColor(SETTINGS_COLOR_GREEN);
-        backToApp();
-        finish();
+        setColor(SETTINGS_COLOR_GREEN, green_usable);
     }
 
     public void setColorBlue(View v) {
-        setupSettingsColor(SETTINGS_COLOR_BLUE);
-        setupColor(SETTINGS_COLOR_BLUE);
-        backToApp();
-        finish();
+        setColor(SETTINGS_COLOR_BLUE, blue_usable);
     }
 
-    public void setColorBrown(View v) {
-        setupSettingsColor(SETTINGS_COLOR_ORANGE);
-        setupColor(SETTINGS_COLOR_ORANGE);
-        backToApp();
-        finish();
+    public void setColorOrange(View v) {
+        setColor(SETTINGS_COLOR_ORANGE, orange_usable);
     }
 
     public void setColorDark(View v) {
-        setupSettingsColor(SETTINGS_COLOR_DARK);
-        setupColor(SETTINGS_COLOR_DARK);
-        backToApp();
-        finish();
+        setColor(SETTINGS_COLOR_DARK, dark_usable);
     }
 
     private void backToApp() {

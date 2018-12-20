@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_numbered_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_lock_outline_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,7 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_format_list_numbered_black_24dp" />
+                            <entry key="opacityPercent" value="94" />
+                            <entry key="outputName" value="ic_lock_outline_white_24dp" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

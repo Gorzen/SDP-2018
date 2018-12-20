@@ -29,13 +29,10 @@ import java.text.Normalizer;
 
 import ch.epfl.sweng.studyup.R;
 import ch.epfl.sweng.studyup.firebase.FileStorage;
-import ch.epfl.sweng.studyup.items.ShopActivity;
 import ch.epfl.sweng.studyup.utils.RefreshContext;
 import ch.epfl.sweng.studyup.utils.Utils;
-import ch.epfl.sweng.studyup.utils.navigation.NavigationStudent;
 
 import static ch.epfl.sweng.studyup.utils.Constants.COLOR_SETTINGS_KEYWORD;
-import static ch.epfl.sweng.studyup.utils.Constants.DEFAULT_INDEX_STUDENT;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_DARK;
 import static ch.epfl.sweng.studyup.utils.Constants.SETTINGS_COLOR_RED;
 import static ch.epfl.sweng.studyup.utils.Constants.USER_PREFS;
@@ -79,6 +76,12 @@ public class CustomActivity extends RefreshContext {
         String email_2 = Player.get().getLastName().split(" ")[0].toLowerCase();
         email_2 = Normalizer.normalize(email_2, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         user_email.setText(email_1+ "."+ email_2 +"@epfl.ch");
+        String col = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
+                .getString(COLOR_SETTINGS_KEYWORD, SETTINGS_COLOR_RED);
+        int textColor = col.equals(SETTINGS_COLOR_DARK) ?
+                getResources().getColor(R.color.colorGreyClair) :
+                getResources().getColor(R.color.colorDarkkkk);
+        user_email.setTextColor(textColor);
     }
 
     public void selectImage(View v) {

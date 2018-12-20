@@ -1,8 +1,6 @@
 package ch.epfl.sweng.studyup.player;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.util.TypedValue;

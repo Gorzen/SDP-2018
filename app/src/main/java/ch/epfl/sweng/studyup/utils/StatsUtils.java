@@ -39,7 +39,6 @@ import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_SCIPER;
 import static ch.epfl.sweng.studyup.utils.Constants.INITIAL_XP;
 import static ch.epfl.sweng.studyup.utils.Constants.MOCK_NAMES;
 import static ch.epfl.sweng.studyup.utils.Constants.MOCK_UUIDS;
-import static ch.epfl.sweng.studyup.utils.Constants.mockStudentRankings;
 import static ch.epfl.sweng.studyup.utils.GlobalAccessVariables.MOCK_ENABLED;
 import static ch.epfl.sweng.studyup.utils.Utils.getCourseListFromStringList;
 import static ch.epfl.sweng.studyup.utils.Utils.getOrDefault;
@@ -151,11 +150,17 @@ public class StatsUtils {
                 }
             }
             if (correctAnswers > 0) {
-                studentRankings.add(new Pair<>(student.getFirstName() + " " + student.getLastName(), correctAnswers));
+
+                studentRankings.add(new Pair<>(displayNiceName(student.getFirstName()) + " " + displayNiceName(student.getLastName()), correctAnswers));
             }
 
         }
 
         return studentRankings;
+    }
+
+    public static String displayNiceName(String n) {
+        int index = n.indexOf(" ");
+        return index == -1 ? n : n.substring(0, index);
     }
 }
