@@ -43,6 +43,8 @@ public abstract class Rooms {
 
             put("INN_3_26", new Room(46.5187270, 6.5625000));
 
+            put("INF_1", new Room(46.5185130, 6.5635690));
+
             put("INR_0_11", new Room(46.5184010, 6.5627920));
 
             put("BC_0_0", new Room(46.5185229, 6.5619692));
