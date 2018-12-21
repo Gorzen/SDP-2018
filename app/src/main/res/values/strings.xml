@@ -238,7 +238,9 @@
 
     <string name="muerte_message1">Hello, stranger. Are you ready to meet death?</string>
     <string name="muerte_message2">Hello, friend. You don\'t scare me!</string>
-    <string name="muerte_message3">Ok, do you want to buy items?</string>
+    <string name="muerte_message3">I\'m death itself, how can I not scare you?!</string>
+    <string name="muerte_message4">Wow, how edgy&#8230;</string>
+    <string name="muerte_message5">Ok&#8230; Do you want to buy items then?</string>
 
     <string name="roberto_message1">Hi traveler, I\'ve been wandering around for years.</string>
     <string name="roberto_message2">Hello wise elder, do you have any useful information on this land?</string>
@@ -252,11 +254,11 @@
     <string name ="gilbert_message2">Hello, no I just want to talk</string>
     <string name ="gilbert_message3">Huh, I don\'t believe you!</string>
     <string name ="gilbert_message4">Please, I am just looking for quests. Do you need any help?</string>
-    <string name ="gilbert_message5">Now that you mention it, I might have something I could need help with&#8320;</string>
+    <string name ="gilbert_message5">Now that you mention it, I might have something I could need help with&#8230;</string>
 
     <string name ="jeykill_message1">HAHAHA EUREKA! I finally discovered a new element!</string>
     <string name ="jeykill_message2">Hey, I\'m new here and am looking for items</string>
-    <string name ="jeykill_message3">Please, follow me&#8320;</string>
+    <string name ="jeykill_message3">Please, follow me&#8230;</string>
     
     <string name="luigi_message1">H-hello! D-do you want t-to play with m-me?</string>
     <string name="luigi_message2">Sure, what are we playing?</string>
@@ -265,16 +267,16 @@
     <string name="eleanor_message1">HEY, YOU. WHO ARE YOU?</string>
     <string name="eleanor_message2">Uh. Hello?</string>
     <string name="eleanor_message3">ANSWER MY QUESTION! I WANT TO KNOW YOUR NAME, NOW.</string>
-    <string name="eleanor_message4">&#8320; My name is&#8320;</string>
+    <string name="eleanor_message4">&#8230; My name is&#8230;</string>
     <string name="eleanor_message5">UNORIGINAL. UGLY. WEAK. NASTY!</string>
-    <string name="eleanor_message6">...</string>
+    <string name="eleanor_message6">&#8230;</string>
     <string name="eleanor_message7">I WILL GIVE YOU A CHANCE TO BECOME SOMEONE BETTER. CHANGE YOUR IDENTITY. CHANGE YOUR LIFE. BE BETTER, AND FATE WILL REWARD YOU.</string>
 
     <string name="cynthia_message1">Heaven! An apparition! A million stars up in the sky, one shines brighter - I can\'t deny!</string>
     <string name="cynthia_message2">Wew. Okay, found the book-nerd.</string>
     <string name="cynthia_message3">The feelings of one\'s heart, with a smile torn apart. For now I only saw you once, already do I feel like a dunce!</string>
     <string name="cynthia_message4">Ah. Okay. I\'m not sure I understood everything but whatever.</string>
-    <string name="cynthia_message5">I cherish you, love; my delirious pen lies on paper what I dare not say - amen. May you only be a little wiser, I will bequeath you a blessed prizer&#8320;</string>
+    <string name="cynthia_message5">I cherish you, love; my delirious pen lies on paper what I dare not say - amen. May you only be a little wiser, I will bequeath you a blessed prizer&#8230;</string>
     <string name="cynthia_message6">I cannot really get older like that, you know?</string>
     <string name="cynthia_message7">Valour does not await the passing of years. Be wild! And passionate. Kind! Compassionate! In your studies shall you persevere, a gift to you will be granted - I swear!</string>
 
